@@ -65,3 +65,6 @@ Streaming reduces time to first text; it cannot remove model startup, content-fi
 
 ## Reference-inspired match room
 The navy and lime interface uses a compact fixture bar, original illustrated AI personas, a room/narrative switch, role-specific contribution selection, a persistent reviewed-moment timeline, and clip-derived fact cards. Persona activity reflects actual generation status. Clean feed hides broadcast graphics without changing playback. The synthetic match lab shares the same visual theme. The three personas retain the existing three-call Azure pipeline; no additional models or paid services were added.
+
+## Match Centre, presenters and Truth Lab
+The latest navy-and-lime Watch Room remains the default. Match Centre uses the existing three authored 36-second scenarios for 22-player positions, player focus, completed-pass connections, shot locations, and binned event density. Its playhead is shared with Truth Lab and remains independent of the featured film. Truth Lab applies the existing defender tracking correction, withdraws the affected movement claim, and exports exact event/tracking references. Supported counts are deterministic checks, not AI accuracy or confidence. Presenter profiles show the same three illustrated personas and their latest public film contributions, without extra model calls.
