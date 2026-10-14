@@ -15,7 +15,7 @@ const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 function toast(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.remove('show'),3400);}
 function resize(){const r=canvas.getBoundingClientRect();width=r.width;height=r.height;dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw();}
 // A projected tactical pitch, generated entirely from the synthetic tracking coordinates.
-function project(x,y){const mobile=width<500;const top=height*(mobile?.32:.29),bottom=height*(mobile?.71:.80);const q=y/68;const left=width*(.19-.16*q),right=width*(.88+.16*q);return [left+(right-left)*x/105,top+(bottom-top)*q];}
+function project(x,y){const mobile=width<500;const top=height*(mobile?.32:.29),bottom=height*(mobile?.71:.80);const q=y/68;const left=width*(.19-.16*q),right=width*(.81+.16*q);return [left+(right-left)*x/105,top+(bottom-top)*q];}
 function line(points,color='#c0d7b64d',lw=1,dash=[]){ctx.beginPath();points.forEach(([x,y],i)=>{const p=project(x,y);i?ctx.lineTo(...p):ctx.moveTo(...p)});ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.setLineDash(dash);ctx.stroke();ctx.setLineDash([]);}
 function polygon(points,fill){ctx.beginPath();points.forEach(([x,y],i)=>{const p=project(x,y);i?ctx.lineTo(...p):ctx.moveTo(...p)});ctx.closePath();ctx.fillStyle=fill;ctx.fill();}
 function ellipse(cx,cy,rx,ry,color,lw=1){const a=[];for(let i=0;i<=80;i++){const ang=i/80*Math.PI*2;a.push([cx+Math.cos(ang)*rx,cy+Math.sin(ang)*ry])}line(a,color,lw);}
@@ -73,8 +73,8 @@ function localizeControls(){
  document.querySelector('.footnote-sub').textContent=isFeatured()?txt('AI-generated footage · reviewed observations','Vídeo IA · observaciones revisadas'):txt('Synthetic evidence. No invented certainty.','Evidencia sintética. Sin certezas inventadas.');
  $('show-evidence').textContent=txt('Show me why ↗','Muéstrame por qué ↗');
  $('export').textContent=txt('↓ Export timed overlay JSON','↓ Exportar superposición JSON');
- $('download-film').textContent='↓';$('download-film').title=txt('Download current clip','Descargar este vídeo');
- document.querySelector('.sequence-heading').innerHTML=`<span>${txt('MORE WAYS TO SEE THE GAME','OTRAS FORMAS DE VER EL PARTIDO')}<span class="heading-dot">.</span></span><span>${txt('One featured film. Three independent tactical stories.','Un vídeo destacado. Tres historias tácticas independientes.')}</span>`;
+ $('download-film').innerHTML=txt('<span>Save clip</span> ↓','<span>Guardar</span> ↓');$('download-film').title=txt('Download current clip','Descargar este vídeo');
+ document.querySelector('.sequence-heading').innerHTML=`<span>${txt('EVERY PLAY. A NEW PERSPECTIVE','CADA JUGADA. OTRA PERSPECTIVA')}<span class="heading-dot">.</span></span><span>${txt('One film. Three tactical stories. Find your way into the game.','Un vídeo. Tres historias tácticas. Encuentra tu perspectiva.')}</span>`;
 }
 function updateFeatured(){
  const n=clipStory(state.t,state.mode,state.lang),es=state.lang==='es';
