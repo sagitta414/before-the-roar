@@ -1,0 +1,75 @@
+// Synthetic, seeded scenario packs. No real match or player data.
+export const PLAYERS=[
+ {id:1,name:'Eli Ward',role:'Goalkeeper',team:'harbor',base:[7,34]},
+ {id:2,name:'Noah Ellis',role:'Right back',team:'harbor',base:[34,55]},
+ {id:3,name:'Leo Martin',role:'Left back',team:'harbor',base:[35,13]},
+ {id:4,name:'Oscar Reed',role:'Centre back',team:'harbor',base:[29,26]},
+ {id:5,name:'Finn Clarke',role:'Centre back',team:'harbor',base:[28,43]},
+ {id:6,name:'Amir Cole',role:'Holding midfielder',team:'harbor',base:[45,37]},
+ {id:7,name:'Luca Moreau',role:'Left winger',team:'harbor',base:[63,22]},
+ {id:8,name:'Mateo Silva',role:'Central midfielder',team:'harbor',base:[57,35]},
+ {id:9,name:'Theo Brooks',role:'Striker',team:'harbor',base:[77,35]},
+ {id:10,name:'Rafael Costa',role:'Attacking midfielder',team:'harbor',base:[67,40]},
+ {id:11,name:'Isaac Hart',role:'Right winger',team:'harbor',base:[70,54]},
+ ...[[1,100,34],[2,78,26],[3,79,53],[4,83,34],[5,82,43],[6,64,30],[7,48,16],[8,62,46],[9,42,35],[10,54,39],[11,49,56]].map(([n,x,y])=>({id:100+n,number:n,name:['','Max Berg','Jules Laurent','Ben Shaw','Alex Ross','Milan Voss','Samir Ali','Hugo Bell','Arlo King','Adam Price','Nico Stone','Tom Avery'][n],team:'north',base:[x,y]}))
+];
+export const SCENARIOS=[
+ {id:'wide',minute:67,duration:36,title:'The unseen run',subtitle:'A winger. A defender. A gap.',esTitle:'La carrera invisible',focus:7,kind:'Wide overload',
+ tracks:{7:[[0,63,22],[8,66,20],[16,77,10],[26,84,8],[36,89,12]],102:[[0,78,26],[8,78,24],[16,81,13],[26,86,12],[36,91,21]],8:[[0,57,35],[12,60,33],[22,70,29],[36,78,30]],10:[[0,67,40],[12,69,32],[24,79,28],[36,84,32]],9:[[0,77,35],[18,78,34],[27,90,31],[33,94,33],[36,94,33]],104:[[0,83,34],[18,82,34],[27,89,36],[36,96,35]]},
+ actions:[{t:2,end:5,type:'pass',from:6,to:8},{t:10,end:13,type:'pass',from:8,to:10},{t:23,end:26,type:'pass',from:10,to:9},{t:30,end:31,type:'shot',from:9,target:[105,34],outcome:'goal'}],
+ observations:[{t:8,type:'run',player:7},{t:16,type:'space',player:7},{t:26,type:'chance',player:9},{t:31,type:'goal',player:9}]},
+ {id:'press',minute:72,duration:36,title:'Pressure with a purpose',subtitle:'The regain before the chance.',esTitle:'Presión con propósito',focus:8,kind:'Coordinated press',
+ tracks:{8:[[0,57,35],[5,64,31],[8,65,30],[14,66,29],[24,77,28],[36,84,32]],106:[[0,64,30],[6,66,29],[10,65,33],[36,73,38]],6:[[0,45,37],[7,53,35],[11,58,33],[20,62,31],[36,69,35]],10:[[0,67,40],[12,67,39],[22,76,35],[36,82,36]],9:[[0,77,35],[20,80,35],[27,91,34],[36,95,33]],7:[[0,63,22],[12,68,17],[25,82,16],[36,89,15]]},
+ actions:[{t:2,end:5,type:'pass',from:108,to:106,team:'north'},{t:7,end:10,type:'pass',from:106,to:110,team:'north',outcome:'intercepted',interceptor:6},{t:12,end:15,type:'pass',from:6,to:8},{t:20,end:23,type:'pass',from:8,to:9},{t:28,end:29,type:'shot',from:9,target:[105,34],outcome:'goal'}],
+ observations:[{t:6,type:'pressure',player:8},{t:10,type:'recovery',player:6},{t:23,type:'chance',player:9},{t:29,type:'goal',player:9}]},
+ {id:'counter',minute:78,duration:36,title:'From calm to chaos',subtitle:'One recovery changes the rhythm.',esTitle:'De la calma al caos',focus:9,kind:'Quick transition',
+ tracks:{6:[[0,45,37],[7,42,36],[12,47,35],[25,61,35],[36,69,34]],8:[[0,57,35],[8,51,30],[15,64,28],[24,75,30],[36,80,33]],9:[[0,61,37],[7,61,37],[15,77,34],[24,90,32],[30,96,33],[36,91,36]],7:[[0,55,22],[8,57,19],[20,75,13],[30,85,15],[36,87,16]],10:[[0,57,44],[8,57,44],[20,72,41],[36,85,36]],109:[[0,42,35],[7,42,36],[15,43,38],[36,60,40]],104:[[0,77,34],[7,76,33],[20,83,33],[28,94,31],[36,96,34]],101:[[0,100,34],[24,100,34],[29,102,34],[36,102,34]]},
+ actions:[{t:1,end:4,type:'pass',from:110,to:109,team:'north'},{t:7,end:7,type:'tackle',from:6,to:109},{t:9,end:12,type:'pass',from:6,to:8},{t:19,end:22,type:'pass',from:8,to:9},{t:27,end:28,type:'shot',from:9,target:[102,34],outcome:'saved'}],
+ observations:[{t:7,type:'recovery',player:6},{t:12,type:'transition',player:8},{t:22,type:'chance',player:9},{t:28,type:'save',player:101}]}
+];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+export function position(s,id,t,corrected=false,alternative=false){
+ const p=PLAYERS.find(p=>p.id===id);if(!p)throw Error('Unknown player');
+ let frames=s.tracks[id];
+ if(s.id==='wide'&&id===102&&(corrected||alternative))return [78,26];
+ if(s.id==='wide'&&id===7&&alternative)return [63,22];
+ if(!frames)return [clamp(p.base[0]+Math.sin(t/9+id)*1.3,1,104),clamp(p.base[1]+Math.cos(t/11+id)*.8,1,67)];
+ const next=frames.findIndex(f=>f[0]>t);if(next===0)return frames[0].slice(1);if(next<0)return frames.at(-1).slice(1);
+ const a=frames[next-1],b=frames[next],u=clamp((t-a[0])/(b[0]-a[0]),0,1);return [a[1]+(b[1]-a[1])*u,a[2]+(b[2]-a[2])*u];
+}
+export const distance=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+export function events(s){return s.actions.map((a,i)=>{const start=position(s,a.from,a.t);const end=a.target||position(s,a.interceptor||a.to,a.end);const d=distance(start,end);return {...a,id:`${s.id}-evt-${String(i+1).padStart(3,'0')}`,team:a.team||'harbor',start,endPosition:end,distance:d,speed:a.end>a.t?d/(a.end-a.t)*3.6:null,outcome:a.outcome||'complete'};});}
+export function ball(s,t){let holder=s.actions[0].from;for(const e of events(s)){if(t<e.t)return position(s,holder,t);if(t<=e.end&&e.end>e.t){const u=(t-e.t)/(e.end-e.t);return [e.start[0]+(e.endPosition[0]-e.start[0])*u,e.start[1]+(e.endPosition[1]-e.start[1])*u];}holder=e.interceptor||(e.type==='tackle'?e.from:e.to);if(e.type==='shot'&&t>e.end)return e.endPosition;}return holder?position(s,holder,t):[50,34];}
+export function metrics(s,t,corrected=false){const seen=events(s).filter(e=>e.end<=t);const passes=seen.filter(e=>e.type==='pass'&&e.team==='harbor');const completed=passes.filter(e=>e.outcome==='complete');const last=passes.at(-1);const lateral=Math.abs(position(s,102,t,corrected)[1]-position(s,102,0,corrected)[1]);return {passes:passes.length,completed:completed.length,completion:passes.length?Math.round(completed.length/passes.length*100):null,speed:last?.speed??null,lastDistance:last?.distance??null,lateral,seen,goals:seen.filter(e=>e.outcome==='goal').length,regains:seen.filter(e=>e.type==='tackle'||e.outcome==='intercepted').length};}
+export function clock(s,t){const seconds=s.minute*60+Math.floor(t);return `${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;}
+export function story(s,t,mode='casual',lang='en',corrected=false,focus=7){
+ const es=lang==='es',m=metrics(s,t,corrected),threshold=s.id==='wide'?16:s.id==='press'?10:12;
+ const resolved=s.observations.at(-1).t<=t,emerging=t>=threshold;
+ let title,body,short,kicker;
+ const number=v=>v.toFixed(1);
+ if(s.id==='wide'){
+  if(corrected&&t>=16){title=es?'Una historia cambia.':'The evidence changed.';body=es?'La corrección mantiene al defensor en su posición. La carrera de Moreau sigue registrada, pero retiramos la afirmación de que desplazó al defensor.':'The corrected tracking keeps the defender in position. Moreau’s run remains recorded, but the claim that he moved the defender has been withdrawn.';short=es?'Afirmación retirada: no se observa desplazamiento lateral.':'Claim withdrawn: no lateral defender movement in corrected tracking.';kicker=es?'EXPLICACIÓN ACTUALIZADA':'EXPLANATION UPDATED';}
+  else if(!emerging){title=es?'Mira más allá del balón.':'Watch beyond the ball.';body=es?'Harbor mueve el balón por el centro. Seguimos la carrera de Moreau por la izquierda; aún no hay evidencia suficiente para afirmar que abrió espacio.':'Harbor are moving the ball through midfield. We’re watching Moreau’s run on the left; there isn’t enough evidence yet to say it opened space.';short=es?'Moreau comienza a abrirse por la izquierda.':'Watch Moreau begin to move wide on the left.';kicker=es?'OBSERVANDO LA JUGADA':'WATCH THE BUILD-UP';}
+  else{title=es?'No tocó el balón. Cambió la jugada.':'No touch. All the difference.';body=es?`Moreau se abre por la izquierda mientras Laurent se desplaza ${number(m.lateral)} m hacia esa banda. El espacio entre los defensores se amplía. ${resolved?'Brooks termina la secuencia con un gol.':'Una oportunidad empieza a tomar forma.'}`:`Moreau runs wide as Laurent shifts ${number(m.lateral)} metres toward the same flank. The gap between the defenders grows. ${resolved?'Brooks finishes the sequence with a goal.':'An opening is taking shape.'}`;short=es?'La carrera sin balón abre una historia que las estadísticas no cuentan.':'Watch the run, not the ball. Moreau is pulling the shape apart.';kicker=es?'EL CREADOR DE ESPACIO':'THE SPACE MAKER';}
+ }else if(s.id==='press'){
+  title=es?(emerging?'La ocasión empezó con presión.':'La presión se acerca.'):(emerging?'The chance began with pressure.':'Closing down the options.');
+  body=es?(emerging?'Silva se acerca al poseedor antes de un pase interceptado por Cole. Harbor recupera el balón y puede atacar desde una posición avanzada.':'Silva reduce la distancia al poseedor. Seguimos la presión, sin asumir todavía que provocará una recuperación.'):(emerging?'Silva closes on the ball carrier before Cole intercepts the next pass. Harbor regain possession in midfield with an opportunity to attack.':'Silva is closing the distance to the ball carrier. We’re tracking the pressure without assuming it will produce a recovery.');
+  short=es?(emerging?'La presión precede a la recuperación. Cole cambia la posesión.':'Silva reduce el espacio para decidir.'):(emerging?'Pressure, then a regain. Cole turns the next pass into an attack.':'Silva is taking away time on the ball.');kicker=es?'LA PRESIÓN ANTES DEL PASE':'THE PRESS BEFORE THE PASS';
+ }else{
+  title=es?(resolved?'La parada no borra la transición.':'El ritmo acaba de cambiar.'):(resolved?'Saved. Still a story.':'The rhythm just changed.');
+  body=es?(resolved?'Berg detiene el disparo de Brooks. La recuperación y los dos pases anteriores muestran cómo Harbor convirtió defensa en ataque; una buena secuencia no garantiza un gol.':emerging?'Cole recupera y encuentra a Silva. Brooks corre hacia delante mientras Northbridge reorganiza su defensa.':'Northbridge tiene el balón. Observamos la forma defensiva de Harbor y esperamos evidencia de un cambio.'):(resolved?'Berg saves Brooks’ shot. The recovery and two earlier passes show how Harbor turned defence into attack; a promising sequence does not guarantee a goal.':emerging?'Cole recovers and finds Silva. Brooks accelerates forward while Northbridge reorganise behind the ball.':'Northbridge have the ball. We’re watching Harbor’s defensive shape and waiting for evidence of a change.');
+  short=es?(resolved?'Berg realiza la parada. La transición sigue siendo significativa.':emerging?'Recuperación, pase hacia delante, carrera de Brooks.':'Northbridge conserva la posesión.'):(resolved?'Berg makes the save. The transition still matters.':emerging?'A recovery. A forward pass. Brooks is already on his way.':'Northbridge circulate. Harbor hold their shape.');kicker=es?'CAMBIO DE RITMO':'FROM CALM TO CHAOS';
+ }
+ if(mode==='analyst'&&!(corrected&&s.id==='wide'&&t>=16))body+=es?` ${m.completed}/${m.passes} pases de Harbor completados.${m.lastDistance!==null?` Último pase: ${number(m.lastDistance)} m; velocidad media del balón ${number(m.speed)} km/h.`:''} Las relaciones tácticas son interpretaciones, no causalidad demostrada.`:` Harbor passes: ${m.completed}/${m.passes} completed.${m.lastDistance!==null?` Latest pass: ${number(m.lastDistance)} m; average ball speed ${number(m.speed)} km/h.`:''} Tactical relationships are interpretations, not proven causation.`;
+ if(mode==='player'){
+  const p=PLAYERS.find(p=>p.id===Number(focus));const travelled=distance(position(s,p.id,0),position(s,p.id,t));const touches=m.seen.filter(e=>e.from===p.id||e.to===p.id).length;
+  title=es?`${p.name}, de cerca.`:`Stay with ${p.name.split(' ')[0]}.`;body=es?`${p.name} se ha desplazado ${number(travelled)} m desde su posición inicial (distancia en línea recta), con participación en ${touches} eventos completados. ${body}`:`${p.name} is ${number(travelled)} m from his starting position (straight-line displacement), involved in ${touches} completed events. ${body}`;short=es?`Sigue al ${p.id}: ${p.name}. ${touches} eventos completados.`:`Follow number ${p.id}: ${p.name}. ${touches} completed event involvements.`;
+ }
+ const observed=events(s).filter(e=>e.end<=t);
+ const evidence=observed.map(e=>({id:e.id,time:clock(s,e.end),title:es?(e.type==='pass'?'Pase':e.type==='shot'?'Disparo':'Recuperación'):(e.type==='pass'?'Pass':e.type==='shot'?'Shot':'Recovery'),detail:`${PLAYERS.find(p=>p.id===e.from).name}${e.to?' → '+PLAYERS.find(p=>p.id===e.to).name:''} · ${e.distance.toFixed(1)} m · ${e.outcome}`,status:'calculated'}));
+ if(s.id==='wide'&&t>=16)evidence.push({id:`wide-track-102-${Math.floor(t*25)}${corrected?'-r2':''}`,time:clock(s,t),title:es?'Movimiento del defensor':'Defender movement',detail:es?`${number(m.lateral)} m de desplazamiento lateral desde el inicio. ${corrected?'Datos corregidos.':'Coincide con la carrera de Moreau; no prueba intención.'}`:`${number(m.lateral)} m lateral displacement from sequence start. ${corrected?'Corrected tracking.':'Coincides with Moreau’s run; does not prove intent.'}`,status:corrected?'corrected':'observed'});
+ if(s.id==='press'&&t>=6){const gap=distance(position(s,8,6),position(s,106,6));evidence.push({id:'press-track-8-150',time:clock(s,6),title:es?'Distancia al poseedor':'Distance to ball carrier',detail:es?`Silva está a ${number(gap)} m de Ali en la muestra de presión. No demuestra que causara la pérdida.`:`Silva is ${number(gap)} m from Ali at the pressure sample. This does not prove he caused the turnover.`,status:'observed'});}
+ if(s.id==='counter'&&t>=12){const forward=position(s,9,t)[0]-position(s,9,7)[0];evidence.push({id:`counter-track-9-${Math.floor(t*25)}`,time:clock(s,t),title:es?'Carrera hacia delante':'Forward run',detail:es?`Brooks avanza ${number(forward)} m longitudinales desde la recuperación.`:`Brooks has moved ${number(forward)} m toward goal since the recovery (longitudinal displacement).`,status:'observed'});}
+ return {title,body,short,kicker,evidence,state:corrected&&s.id==='wide'&&t>=16?'corrected':resolved?'resolved':emerging?'emerging':'watching',metrics:m};
+}
+export function overlayPacket(s,t,mode,lang,corrected,focus){const n=story(s,t,mode,lang,corrected,focus);return {schema_version:'1.0',match_id:'synthetic-harbor-northbridge-01',synthetic:true,narrative_engine:'deterministic-rules-and-authored-localization',scenario_id:s.id,revision:corrected?2:1,match_time_ms:(s.minute*60+t)*1000,sequence_time_ms:t*1000,valid_until_match_time_ms:(s.minute*60+t+6)*1000,audience:{mode,language:lang,player_id:mode==='player'?focus:null},overlay:{title:n.kicker,text:n.short,placement:'lower-left',state:n.state},evidence_ids:n.evidence.map(e=>e.id),claims:n.evidence,metrics:{pass_completion:n.metrics.completion,average_last_pass_speed_kmh:n.metrics.speed},limitations:['Synthetic authored scenarios, not real match data.','No live language model is connected.','Tactical interpretation does not establish causation.']};}
