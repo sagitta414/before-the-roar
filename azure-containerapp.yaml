@@ -19,7 +19,7 @@ properties:
   template:
     containers:
       - name: studio
-        image: patchhorizonacr805813.azurecr.io/before-the-roar:v11-broadcast-party
+        image: patchhorizonacr805813.azurecr.io/before-the-roar:v26-pitchside
         resources:
           cpu: 0.25
           memory: 0.5Gi

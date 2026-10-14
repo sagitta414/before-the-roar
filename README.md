@@ -1,19 +1,23 @@
 # Before the Roar
 
-A football storytelling prototype built around one shared synthetic match sequence: watch the play, follow the public editorial discussion, inspect the math, and challenge a claim without losing the clock or evidence revision.
+A football storytelling prototype with a photorealistic AI film and an evidence-led synthetic match replay: watch the play, follow the public editorial discussion, inspect the math, and challenge a claim.
 
 ## Run and verify
 
 - `npm run studio`: backend and site at http://127.0.0.1:4397. Without Azure configuration, clearly labeled match notes replace unavailable AI.
 - `npm run dev`: static authoring preview at http://127.0.0.1:4396.
-- `npm test`: 66 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, role adherence and API boundaries. Empty event windows return match notes without model calls.
+- `npm test`: 70 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, role adherence and API boundaries. Empty event windows return notes without model calls.
 - `node scripts/cohesive-smoke.mjs <Azure origin> false` and `true`: exercise original/corrected discussions against the live model. These consume up to three model requests each unless cached.
 
 ## The main experience
 
 Watch, Match Centre, Presenters, Truth Lab and Inside BTR share the charcoal-and-red broadcast design. A single session carries the scenario, clock, tracking revision, language, viewing mode, club and selected player. Preferences persist locally; playback and corrections reset on a fresh visit. Each of the three authored sequences lasts 36 seconds.
 
-The main MP4 films were rendered from synthetic player and ball ground coordinates on a 105 x 68 m pitch. Gait, ball loft, body poses and cameras are illustrative choreography. Corrected tracking opens a synchronized tactical replay; the original film is never relabeled as corrected. No real Premier League match data is included.
+Watch opens with **Pitchside / Veo Quality**, an eight-second close-up generated in Google Flow from a frame of the creator's original film. The 1080p deliverable is upscaled from 720p, at 24 fps. Four approximate, manually reviewed markers follow the duel, touches, run and loss of the ball from the camera frame. No pass, shot, keeper action, score, calibrated speed or player identity is established by this clip. The original generator watermark is preserved. This release reuses the completed asset; it generates no additional video.
+
+`/api/clip-desk` streams three model contributions using only this film's annotations through the playhead. Vector calculates time intervals; Check states the source limits. The film's clock, citations, discussion cache and exports are isolated from the synthetic match. The default automatic discussion begins after the final frame; viewers can ask about an earlier cutoff. Preferences are shared, while navigating to Match Centre or Truth Lab selects the synthetic data study. The Watch source selector returns to the film.
+
+The three **Synthetic match / data replay** MP4s were rendered from synthetic player and ball ground coordinates on a 105 x 68 m pitch. Gait, ball loft, body poses and cameras are illustrative choreography. Corrected tracking opens a synchronized tactical replay; the original film is never relabeled as corrected. No real Premier League match data is included.
 
 The creator's original photorealistic eight-second Google Flow film remains available at `original.html`. Its five manually reviewed observations do not supply calibrated speed, tracking, score or shot outcome. The seeded full-match generator is available as an optional study inside Inside BTR. These additional studies identify their own data scope.
 
