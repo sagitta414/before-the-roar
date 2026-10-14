@@ -44,12 +44,25 @@ export function fallback(packet,reason='model_unavailable'){
  const a={headline,explanation:es?'Las estadísticas y el registro de eventos siguen disponibles. No hay un análisis generado por IA para este momento.':pt?'As estatísticas e o registro de eventos continuam disponíveis. Não há análise gerada por IA para este momento.':'The statistics and event ledger remain available. An AI explanation is not available for this moment.',interpretation:es?'Consulta los eventos antes de sacar conclusiones tácticas.':pt?'Consulte os eventos antes de tirar conclusões táticas.':'Inspect the events before drawing a tactical conclusion.',caution:es?'Simulación sintética. Respaldo determinista.':pt?'Simulação sintética. Resposta determinística.':'Synthetic simulation. Deterministic fallback.',evidence_ids:['score','shots']};
  return {audiences:{fan:a,analyst:a,player:a},engine:'deterministic_fallback',reason,model:null,usage:null,latency_ms:0,cached:false};
 }
+export function presentNarrative(value,packet){
+ if(value.engine!=='azure_openai')return value;
+ const s=packet.stats,es=packet.language==='es',pt=packet.language==='pt';
+ const phase=packet.phase==='fulltime'?(es?'Resultado final':pt?'Resultado final':'Full time'):(es?'En este momento':pt?'Neste momento':'At this checkpoint');
+ const observations={
+  fan:`${phase}: Harbor FC ${s.score.home} – ${s.score.away} Northbridge. ${es?'Tiros':pt?'Finalizações':'Shots'}: ${s.shots.home} / ${s.shots.away}. ${es?'Posesión calculada':pt?'Posse calculada':'Calculated possession'}: ${s.possession.home}% / ${s.possession.away}%.`,
+  analyst:es?`Harbor completó ${s.completed.home} de ${s.passes.home} pases (${s.completion.home}%); Northbridge, ${s.completed.away} de ${s.passes.away} (${s.completion.away}%). Eventos de presión: ${s.pressures.home} / ${s.pressures.away}. Recuperaciones en los últimos cinco minutos: ${s.recentRecoveries}.`:pt?`Harbor completou ${s.completed.home} de ${s.passes.home} passes (${s.completion.home}%); Northbridge, ${s.completed.away} de ${s.passes.away} (${s.completion.away}%). Eventos de pressão: ${s.pressures.home} / ${s.pressures.away}. Recuperações nos últimos cinco minutos: ${s.recentRecoveries}.`:`Harbor completed ${s.completed.home} of ${s.passes.home} passes (${s.completion.home}%); Northbridge completed ${s.completed.away} of ${s.passes.away} (${s.completion.away}%). Pressure events: ${s.pressures.home} / ${s.pressures.away}. Recoveries in the last five minutes: ${s.recentRecoveries}.`,
+  player:es?`Mateo Silva: ${s.focus.completed} de ${s.focus.passes} pases completados, ${s.focus.shots} tiros y ${s.focus.pressures} eventos de presión. No hay datos sobre sus movimientos sin balón.`:pt?`Mateo Silva: ${s.focus.completed} de ${s.focus.passes} passes completos, ${s.focus.shots} finalizações e ${s.focus.pressures} eventos de pressão. Não há dados sobre seus movimentos sem a bola.`:`Mateo Silva: ${s.focus.completed} of ${s.focus.passes} passes completed, ${s.focus.shots} shots and ${s.focus.pressures} pressure events. Off-ball movement is not measured.`
+ };
+ const required={fan:['score','shots','possession'],analyst:['passes','completion','pressure','rhythm'],player:['focus']};
+ const audiences=Object.fromEntries(['fan','analyst','player'].map(mode=>[mode,{...value.audiences[mode],explanation:observations[mode],evidence_ids:[...new Set([...required[mode],...value.audiences[mode].evidence_ids])],observation_source:'calculated',interpretation_source:'azure_openai'}]));
+ return {...value,audiences,checks:['model_schema','bounded_model_citations','calculated_observations']};
+}
 export class Narrator{
  constructor(store=new ResultStore()){this.store=store;this.pending=new Map();this.busy=0;this.calls=0;this.cacheHits=0;this.failures=0;}
  async explain(packet){
   const key=createHash('sha256').update(JSON.stringify({version:'btr-v2',model:process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini',packet})).digest('hex');
-  if(this.pending.has(key))return this.pending.get(key);
-  const p=this.generate(key,packet);this.pending.set(key,p);try{return await p;}finally{this.pending.delete(key);}
+  if(this.pending.has(key))return presentNarrative(await this.pending.get(key),packet);
+  const p=this.generate(key,packet);this.pending.set(key,p);try{return presentNarrative(await p,packet);}finally{this.pending.delete(key);}
  }
  async generate(key,packet){
   const started=performance.now();

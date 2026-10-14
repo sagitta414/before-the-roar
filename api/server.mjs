@@ -57,7 +57,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now()}={}){
     const run=runs.get(found[1]);if(!run)return send(res,404,{error:'This match session expired. Start a new match.'});
     const provided=(req.headers.authorization||'').replace(/^Bearer /,'');if(!/^[a-f0-9]{48}$/.test(provided)||!timingSafeEqual(Buffer.from(provided),Buffer.from(run.token)))return send(res,403,{error:'Session authorization required'});
     if(found[2]==='stop'&&req.method==='POST'){run.stopped=true;emit(run,'stopped',{});for(const c of run.clients)c.end();run.clients.clear();return send(res,200,{stopped:true});}
-    if(found[2]==='export'&&req.method==='GET')return send(res,200,{schema:'btr.match-export.v1',synthetic:true,provenance:run.match.provenance,match_id:run.match.id,seed:run.match.seed,language:run.language,cutoff:run.current,complete:!!run.completed,events:run.state.events,stats:snapshot(run.state,run.current),insights:run.insights,overlay:run.insights.at(-1)?{schema:'btr.overlay.v1',start_match_second:run.insights.at(-1).cutoff,expires_match_second:Math.min(5400,run.insights.at(-1).cutoff+900),audiences:run.insights.at(-1).audiences}:null});
+    if(found[2]==='export'&&req.method==='GET')return send(res,200,{schema:'btr.match-export.v1',synthetic:true,provenance:run.match.provenance,match_id:run.match.id,seed:run.match.seed,language:run.language,cutoff:run.current,complete:!!run.completed,events:run.state.events,stats:snapshot(run.state,run.current),insights:run.insights,overlay:run.insights.at(-1)?{schema:'btr.overlay.v1',start_match_second:run.insights.at(-1).cutoff,expires_match_second:run.insights.at(-1).recap?null:Math.min(5400,run.insights.at(-1).cutoff+900),display_duration_ms:12000,audiences:run.insights.at(-1).audiences}:null});
     if(found[2]==='stream'&&req.method==='GET'){
      res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','Connection':'keep-alive','X-Accel-Buffering':'no'});res.write(`event: connected\ndata: ${JSON.stringify({match_id:run.match.id,language:run.language,speed:run.speed})}\n\n`);
      for(const item of run.history)res.write(`id: ${item.id}\nevent: ${item.type}\ndata: ${JSON.stringify(item.data)}\n\n`);
@@ -78,3 +78,4 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now()}={}){
  return {server,runs,tick};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){const {server}=createApp();server.listen(Number(process.env.PORT||4397),'0.0.0.0',()=>console.log(`BTR intelligence listening on ${process.env.PORT||4397}`));}
+
