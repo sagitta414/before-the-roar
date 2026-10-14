@@ -8,7 +8,7 @@ An interactive football storytelling prototype: synthetic match replay, evidence
 
 ## Scope
 
-Three independent 36-second synthetic scenarios, each beginning at 0–0. Player positions are interpolated from authored keyframes on a 105×68 m pitch, sampleable at 25 Hz. Metrics use only completed events before the playback cursor. The narrative engine is deterministic, with authored English/Spanish variants. **No live AI model, real video, external data feed, or broadcast rendering integration is connected.**
+Three independent 36-second synthetic scenarios, each beginning at 0–0. Player positions are interpolated from authored keyframes on a 105×68 m pitch, sampleable at 25 Hz. Metrics use only completed events before the playback cursor. The narrative engine is deterministic, with authored English/Spanish variants. **No live AI model, real match footage, external data feed, or broadcast rendering integration is connected.**
 
 The alternative freezes winger/defender positions to compare geometry; it does not recalculate player decisions or outcomes. Corrections withdraw unsupported defender-displacement claims. Recaps include the explored portions of independent scenes, not a full-match outcome. Exports carry synthetic provenance, times, expiry, audience, revision, and evidence IDs.
 
@@ -18,6 +18,8 @@ Replace narrative templates with a server-side structured-generation adapter rec
 
 ## Cinematic visual edition
 
-The default Cinematic view uses three original built-in ImageGen images with playback-synchronized pan and zoom. These are illustrative stills, not generated video and not visual evidence of the underlying synthetic tracking. The Tactical button opens the data-driven moving replay. Analyst/player modes and correction/alternative actions automatically open Tactical. Quiet view suppresses the camera motion. Original image assets are in `dist/assets/`; prompt and provenance records are in `image-prompts.json`.
+The default Match film view plays three real H.264 MP4 files rendered locally with Three.js. Each is 36 seconds at 1280×720 and follows the same synthetic player and ball ground coordinates as the tactical view. Body gait, goalkeeper poses, ball loft and camera are illustrative choreography. No paid generation API is used. Video time drives the story cursor and buffering pauses story progression. Tactical exposes the data geometry; analyst/player modes and correction/alternative actions open it automatically. The original film cannot be selected while corrected tracking is active. Quiet view pauses playback. Original ImageGen assets remain as portrait art and historical visual references; provenance is in `image-prompts.json`.
+
+To reproduce films: `npm install`, set `RENDER_FILMS=1`, run `node server.mjs`, open `/__studio`, and click **Render all clips**. The loopback-only authoring server saves WebM files under ignored `tmp/films/`. Run `scripts/encode-films.ps1` with FFmpeg on PATH to create production MP4s and poster frames. The static deployment exposes no recording endpoint and requires no Three.js runtime on visitors' devices.
 
 Visual direction draws on Crave Frame's dark image-led composition and the contrasting controls of the MajorKey guided workshop, adapted to a forest-green and lime football broadcast style.

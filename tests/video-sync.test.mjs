@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {syncFilm} from '../dist/video-sync.js';
+function fakeVideo(){return {src:'assets/wide-film.mp4',readyState:4,currentTime:18,duration:36,paused:true,playbackRate:1,getAttribute(){return this.src},pause(){this.paused=true},play(){this.paused=false;return Promise.resolve()},load(){this.readyState=0}}}
+const scene={id:'wide',duration:36};
+test('seeking and rate changes follow the shared match cursor',()=>{const v=fakeVideo();syncFilm(v,{t:25,speed:2,view:'cinematic',playing:true},scene);assert.equal(v.currentTime,25);assert.equal(v.playbackRate,2);assert.equal(v.paused,false)});
+test('tactical view pauses film without losing cursor',()=>{const v=fakeVideo();v.paused=false;syncFilm(v,{t:12,speed:1,view:'tactical',playing:true},scene);assert.equal(v.currentTime,12);assert.equal(v.paused,true)});
+test('chapter switch loads matching film and cannot retain old playback',()=>{const v=fakeVideo();v.paused=false;syncFilm(v,{t:0,speed:1,view:'cinematic',playing:true},{id:'counter',duration:36});assert.equal(v.src,'assets/counter-film.mp4');assert.equal(v.poster,'assets/counter-poster.jpg');assert.equal(v.paused,true);assert.equal(v.readyState,0)});
+test('metadata must be ready before a seek or play',()=>{const v=fakeVideo();v.readyState=0;syncFilm(v,{t:32,speed:1,view:'cinematic',playing:true},scene);assert.equal(v.currentTime,18);assert.equal(v.paused,true)});
