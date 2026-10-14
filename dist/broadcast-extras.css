@@ -1,0 +1,23 @@
+/* The original BTR broadcast shell, with a compact, interactive AI desk. */
+.masthead nav{gap:24px;margin-left:16px}.masthead .header-end .ai-badge{display:block;font-size:7px;letter-spacing:1px}
+.room-tabs{display:flex;border-bottom:1px solid var(--line);padding:0 17px;gap:22px}
+.room-tabs button{background:transparent;color:var(--muted);border-bottom:2px solid transparent;padding:12px 0;font-size:10px;font-weight:700}
+.room-tabs button[aria-selected=true]{color:white;border-bottom-color:var(--red)}
+.crew{gap:7px;padding:12px 13px;align-items:stretch}.crew-member{background:none;color:var(--text);padding:5px 3px;border-radius:4px;flex:1;text-align:left;min-width:0;border:1px solid transparent}
+.crew-member:hover{background:#202632}.crew-member[aria-pressed=true]{background:#27212c;border-color:#b64b64}.crew-member.active{border-color:var(--red)}
+.crew-member .portrait{display:none}.crew-copy{display:block}.crew-member small{font-size:7px;letter-spacing:0}.crew-member b{font-size:8px}.crew-member .agent-state{display:none}.crew-member.active .agent-state{display:block;color:#ff9eae;font-size:6px;margin-top:3px}
+.room-key:has(button:not([hidden])){padding:8px 17px;border-bottom:1px solid var(--line)}.room-key button{background:none;color:#f2a8b5;font-size:10px;padding:3px 0}
+.narrative-heading{padding:14px 17px;margin:0;color:#c4ccd8;font-size:11px;line-height:1.6;border-bottom:1px solid var(--line)}
+.timeline-heading{display:flex;justify-content:space-between;gap:10px;font-size:7px;color:#8591a5;letter-spacing:.8px;padding:15px 0 10px}
+.player.clean-feed .scorebug,.player.clean-feed .corner-brand,.player.clean-feed .broadcast-caption{display:none}
+.connection{display:block;font-size:9px;color:var(--muted);margin:20px 0 12px;letter-spacing:1px}.connection i{display:inline-block;background:#78b891;width:5px;height:5px;border-radius:50%;margin-right:7px}
+.clean-feed-button{background:#252d3b;color:#e7ebf2;border:1px solid #414b5c;border-radius:3px;padding:10px 14px;font-size:12px}.clean-feed-button[aria-pressed=true]{border-color:var(--red)}
+/* Small shared assets used by the retained Match Centre and presenter pages. */
+.club-crest{width:35px;height:42px;display:grid;place-items:center;clip-path:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%);font-weight:800;background:var(--lime);color:#172319}.blue-crest{background:var(--blue);color:#142941}
+.micro{font-size:8px;font-weight:700;letter-spacing:1.2px}.portrait{display:block;border-radius:50%;border:2px solid #738092;overflow:hidden}.portrait svg{width:100%;height:100%;display:block;border-radius:50%}
+.extension-heading .eyebrow,.presenter-body .eyebrow,.truth-explanation>span,.editorial-flow b{color:var(--red)}.extension-heading>p{border-left-color:var(--red)}.presenter-body blockquote{border-left-color:var(--red)}
+.scenario-play,.truth-banner button{background:var(--red);color:white}.analysis-scrub input{accent-color:var(--red)}
+@media(max-width:1250px){.masthead .header-end .ai-badge{display:none}.masthead nav{gap:22px}.brand-name{display:block}}
+@media(max-width:1100px){.masthead .brand-name{display:none}.masthead nav{gap:22px}}
+@media(max-width:880px){.masthead nav{gap:20px;overflow-x:auto;scrollbar-width:none;min-width:0;margin-left:0}.masthead .nav{flex-shrink:0}.masthead .header-end{flex-shrink:0}.crew{justify-content:space-between;gap:12px;padding:12px 17px}.crew-member{flex:1}.crew-member b{font-size:10px}.crew-member small{font-size:8px}.party{height:650px}}
+@media(max-width:500px){.masthead{gap:16px}.masthead .nav{font-size:10px}.masthead nav{gap:18px}.crew{gap:4px;padding-inline:12px}.crew-member{gap:6px}.crew-member b{font-size:9px}.crew-member small{font-size:7px}.room-tabs button{min-height:40px}.voice-button{min-height:30px}.viewing-actions button{min-height:30px}.party-header{padding-block:16px}.party-header h2{font-size:27px}.timeline-heading{font-size:6px}}
