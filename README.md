@@ -88,3 +88,7 @@ Guide has a curated English/Spanish/Portuguese glossary linked to the reviewed c
 Version 3.1.2 uses the five-role v2 cache schema, rejects legacy three-role cached results, and preserves the existing shared 120-request daily limit. A fresh conversation uses up to five model calls; a cache hit uses none. The same existing Azure model and services are reused.
 
 Task-adherence guards require Guide to include a definition, Vector to address timing and measurement, and Check to name a preceding specialist. These conservative checks do not prove factual correctness; failed checks produce labeled reviewed notes and are not cached.
+
+## Agent readability
+
+The Presenters tab keeps all five faces in a visible selector and shows one detailed profile at a time. Larger, higher-contrast text and expandable evidence details reduce scrolling. The watch room uses larger portrait controls, photo-led message headers, readable contribution text and larger replay targets. No model, prompt, budget or generation behavior changes in this presentation update.
