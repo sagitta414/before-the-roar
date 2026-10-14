@@ -1,4 +1,6 @@
 import {createHash} from 'node:crypto';
+import {MODES,learningObservation} from '../dist/learning.js';
+import {readCompletion,draftInterpretations} from './streaming.mjs';
 const tokenCache=new Map();
 export async function accessToken(resource){
  if(process.env.AZURE_ACCESS_TOKEN&&resource.includes('cognitiveservices'))return process.env.AZURE_ACCESS_TOKEN;
@@ -27,14 +29,14 @@ export class ResultStore{
   }throw Error('Budget contention');
  }
 }
-const angle={type:'object',additionalProperties:false,properties:{headline:{type:'string'},explanation:{type:'string'},interpretation:{type:'string'},caution:{type:'string'},evidence_ids:{type:'array',items:{type:'string'}}},required:['headline','explanation','interpretation','caution','evidence_ids']};
-const schema={type:'object',additionalProperties:false,properties:{fan:angle,analyst:angle,player:angle},required:['fan','analyst','player']};
-export function narrativeSchema(packet){const bounded=structuredClone(schema);for(const mode of ['fan','analyst','player'])bounded.properties[mode].properties.evidence_ids.items.enum=packet.facts.map(f=>f.id);return bounded;}
+const angle={type:'object',additionalProperties:false,properties:{interpretation:{type:'string'},headline:{type:'string'},caution:{type:'string'},evidence_ids:{type:'array',items:{type:'string'}}},required:['interpretation','headline','caution','evidence_ids']};
+export function narrativeSchema(packet){const order=[packet.priority||'fan',...MODES.filter(m=>m!==(packet.priority||'fan'))],ids=packet.facts.map(f=>f.id);const bounded={type:'object',additionalProperties:false,properties:{},required:order};for(const mode of order){bounded.properties[mode]=structuredClone(angle);bounded.properties[mode].properties.evidence_ids={type:'object',additionalProperties:false,properties:{primary:{type:'string',enum:ids},secondary:{type:['string','null'],enum:[...ids,null]}},required:['primary','secondary']};}return bounded;}
+export function normalizeCitations(value){return Object.fromEntries(MODES.map(mode=>{const a=value[mode];return [mode,{...a,evidence_ids:[a?.evidence_ids?.primary,a?.evidence_ids?.secondary].filter(x=>x!==null&&x!==undefined)}];}));}
 export function validateNarrative(value,packet){
  const ids=new Set(packet.facts.map(f=>f.id));
- for(const mode of ['fan','analyst','player']){
+ for(const mode of MODES){
   const a=value?.[mode];if(!a)throw Error('Missing audience');
-  for(const field of ['headline','explanation','interpretation','caution'])if(typeof a[field]!=='string'||!a[field].trim()||a[field].length>900||/\d/.test(a[field]))throw Error('Invalid narrative text');
+  for(const field of ['headline','interpretation','caution'])if(typeof a[field]!=='string'||!a[field].trim()||a[field].length>900||/\d/.test(a[field]))throw Error('Invalid narrative text');
   if(!Array.isArray(a.evidence_ids)||!a.evidence_ids.length||a.evidence_ids.length>6||a.evidence_ids.some(id=>!ids.has(id)))throw Error('Unsupported citation');
  }return value;
 }
@@ -42,7 +44,7 @@ export function fallback(packet,reason='model_unavailable'){
  const es=packet.language==='es',pt=packet.language==='pt';
  const headline=packet.phase==='fulltime'?(es?'El partido, en datos':pt?'O jogo em dados':'The match, in evidence'):(es?'La evidencia sigue llegando':pt?'A evidência continua chegando':'The evidence keeps coming');
  const a={headline,explanation:es?'Las estadísticas y el registro de eventos siguen disponibles. No hay un análisis generado por IA para este momento.':pt?'As estatísticas e o registro de eventos continuam disponíveis. Não há análise gerada por IA para este momento.':'The statistics and event ledger remain available. An AI explanation is not available for this moment.',interpretation:es?'Consulta los eventos antes de sacar conclusiones tácticas.':pt?'Consulte os eventos antes de tirar conclusões táticas.':'Inspect the events before drawing a tactical conclusion.',caution:es?'Simulación sintética. Respaldo determinista.':pt?'Simulação sintética. Resposta determinística.':'Synthetic simulation. Deterministic fallback.',evidence_ids:['score','shots']};
- return {audiences:{fan:a,analyst:a,player:a},engine:'deterministic_fallback',reason,model:null,usage:null,latency_ms:0,cached:false};
+ return {audiences:Object.fromEntries(MODES.map(mode=>[mode,{...a,explanation:['beginner','math'].includes(mode)?learningObservation(mode,packet.stats,packet.language):a.explanation}])),engine:'deterministic_fallback',reason,model:null,usage:null,latency_ms:0,cached:false};
 }
 export function presentNarrative(value,packet){
  if(value.engine!=='azure_openai')return value;
@@ -53,18 +55,21 @@ export function presentNarrative(value,packet){
   analyst:es?`Harbor completó ${s.completed.home} de ${s.passes.home} pases (${s.completion.home}%); Northbridge, ${s.completed.away} de ${s.passes.away} (${s.completion.away}%). Eventos de presión: ${s.pressures.home} / ${s.pressures.away}. Recuperaciones en los últimos cinco minutos: ${s.recentRecoveries}.`:pt?`Harbor completou ${s.completed.home} de ${s.passes.home} passes (${s.completion.home}%); Northbridge, ${s.completed.away} de ${s.passes.away} (${s.completion.away}%). Eventos de pressão: ${s.pressures.home} / ${s.pressures.away}. Recuperações nos últimos cinco minutos: ${s.recentRecoveries}.`:`Harbor completed ${s.completed.home} of ${s.passes.home} passes (${s.completion.home}%); Northbridge completed ${s.completed.away} of ${s.passes.away} (${s.completion.away}%). Pressure events: ${s.pressures.home} / ${s.pressures.away}. Recoveries in the last five minutes: ${s.recentRecoveries}.`,
   player:es?`Mateo Silva: ${s.focus.completed} de ${s.focus.passes} pases completados, ${s.focus.shots} tiros y ${s.focus.pressures} eventos de presión. No hay datos sobre sus movimientos sin balón.`:pt?`Mateo Silva: ${s.focus.completed} de ${s.focus.passes} passes completos, ${s.focus.shots} finalizações e ${s.focus.pressures} eventos de pressão. Não há dados sobre seus movimentos sem a bola.`:`Mateo Silva: ${s.focus.completed} of ${s.focus.passes} passes completed, ${s.focus.shots} shots and ${s.focus.pressures} pressure events. Off-ball movement is not measured.`
  };
- const required={fan:['score','shots','possession'],analyst:['passes','completion','pressure','rhythm'],player:['focus']};
- const audiences=Object.fromEntries(['fan','analyst','player'].map(mode=>[mode,{...value.audiences[mode],explanation:observations[mode],evidence_ids:[...new Set([...required[mode],...value.audiences[mode].evidence_ids])],observation_source:'calculated',interpretation_source:'azure_openai'}]));
+ observations.beginner=learningObservation('beginner',s,packet.language);observations.math=learningObservation('math',s,packet.language);
+ const required={fan:['score','shots','possession'],analyst:['passes','completion','pressure','rhythm'],player:['focus'],beginner:['score'],math:['passes','completion']};
+ const audiences=Object.fromEntries(MODES.map(mode=>[mode,{...value.audiences[mode],explanation:observations[mode],evidence_ids:[...new Set([...required[mode],...value.audiences[mode].evidence_ids])],observation_source:'calculated',interpretation_source:'azure_openai'}]));
  return {...value,audiences,checks:['model_schema','bounded_model_citations','calculated_observations']};
 }
 export class Narrator{
  constructor(store=new ResultStore()){this.store=store;this.pending=new Map();this.busy=0;this.calls=0;this.cacheHits=0;this.failures=0;}
- async explain(packet){
-  const key=createHash('sha256').update(JSON.stringify({version:'btr-v2',model:process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini',packet})).digest('hex');
-  if(this.pending.has(key))return presentNarrative(await this.pending.get(key),packet);
-  const p=this.generate(key,packet);this.pending.set(key,p);try{return presentNarrative(await p,packet);}finally{this.pending.delete(key);}
+ async explain(packet,onDraft=()=>{}){
+  const key=createHash('sha256').update(JSON.stringify({version:'btr-stream-v1',model:process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini',packet})).digest('hex');
+  if(this.pending.has(key)){const job=this.pending.get(key);job.listeners.add(onDraft);for(const draft of job.latest.values())onDraft(draft);try{return presentNarrative(await job.promise,packet);}finally{job.listeners.delete(onDraft);}}
+  const job={listeners:new Set([onDraft]),latest:new Map()};this.pending.set(key,job);
+  job.promise=this.generate(key,packet,draft=>{job.latest.set(draft.mode,draft);for(const listener of job.listeners){try{listener(draft);}catch{}}});
+  try{return presentNarrative(await job.promise,packet);}finally{this.pending.delete(key);}
  }
- async generate(key,packet){
+ async generate(key,packet,onDraft){
   const started=performance.now();
   try{
    const cached=await this.store.read(key);if(cached){validateNarrative(cached.audiences,packet);this.cacheHits++;return {...cached,cached:true,latency_ms:Math.round(performance.now()-started)};}
@@ -77,12 +82,13 @@ export class Narrator{
     const deployment=process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini';
     const url=new URL(`openai/deployments/${encodeURIComponent(deployment)}/chat/completions?api-version=2024-10-21`,process.env.AZURE_OPENAI_ENDPOINT);
     const language={en:'English',es:'Spanish',pt:'Brazilian Portuguese'}[packet.language];
-    const system=`You are BTR's football broadcast analyst. Produce three DISTINCT perspectives in ${language}: fan (plain language, why it matters), analyst (compare supplied team statistics, offer a competing explanation), player (Mateo Silva only, cite the focus fact and distinguish recorded contributions from unknown off-ball activity). Use ONLY the supplied synthetic evidence at the cutoff. ${packet.phase==='fulltime'?'Produce a full-match recap including the confirmed result and supplied goal events.':'Explain the latest phase; do not predict the result.'} Each perspective needs a short headline, explanation (maximum two sentences), interpretation (one explicitly tentative hypothesis beginning with a term like May or Could), caution (specific evidence limit), and one to four supporting evidence_ids. Cite score when describing the result, focus when describing Silva totals. Every factual sentence must be supported by the cited facts. Pressure events have no success field: never call them successful or say pressure caused a turnover. Do not infer physicality, effort, determination, fans feelings, a formation, assigned roles, a trend or playing under pressure. Do not invent player actions, expected goals, emotions, speeds or measurements. Use player names only when supplied in facts, except the named focus player. NO DIGITS anywhere in prose: exact numbers are rendered separately from deterministic statistics. Do not spell out fabricated numbers either. Keep all perspectives concise. Return only the required JSON.`;
+    const system=`You are BTR's football explainer. Write five DISTINCT perspectives in ${language}, in schema order. Start with ${packet.priority||'fan'}. fan: why this phase matters. beginner: explain it to someone who has never watched football, define any term you use, use a simple everyday analogy, no unexplained jargon. math: explain what a pass-success percentage measures, its denominator and why accuracy alone does not prove attacking quality; do not calculate, the app renders exact formulas. analyst: one tentative tactical mechanism and competing explanation. player: Mateo Silva only, recorded contributions versus unknown off-ball activity. Use ONLY supplied evidence at the cutoff. ${packet.phase==='fulltime'?'This is the full-time recap.':'This phase is still in play; do not predict the result.'} For each mode, output interpretation FIRST (one or two short sentences, at most fifty words), then a short headline, one specific caution, and evidence_ids with a required primary fact ID and a secondary fact ID or null. For math cite passes or completion; for beginner cite score or a concrete event. Never omit the primary fact. Hypotheses must use may/could or their translation. Facts and math are calculated separately; do not repeat numerical statistics. Pressure has no success field. Never infer feelings, assigned roles, formations, physicality, off-ball movement or future results. NO DIGITS anywhere in prose. Do not spell out numerical statistics. Return the required JSON only.`;
     this.calls++;
-    const r=await fetch(url,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'system',content:system},{role:'user',content:JSON.stringify(packet)}],temperature:.25,max_tokens:1200,response_format:{type:'json_schema',json_schema:{name:'match_intelligence',strict:true,schema:narrativeSchema(packet)}}}),signal:AbortSignal.timeout(20000)});
-    if(!r.ok)throw Error(`Model HTTP ${r.status}`);const result=await r.json();if(result.choices?.[0]?.finish_reason!=='stop')throw Error('Incomplete model result');
-    const audiences=validateNarrative(JSON.parse(result.choices[0].message.content),packet);
-    const value={audiences,engine:'azure_openai',model:deployment,usage:result.usage,latency_ms:Math.round(performance.now()-started),cached:false,checks:['schema','bounded_citations','no_numeric_prose'],generated_at:new Date().toISOString()};
+    const r=await fetch(url,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'system',content:system},{role:'user',content:JSON.stringify(packet)}],temperature:.25,max_tokens:1800,stream:true,stream_options:{include_usage:true},response_format:{type:'json_schema',json_schema:{name:'match_intelligence',strict:true,schema:narrativeSchema(packet)}}}),signal:AbortSignal.timeout(30000)});
+    if(!r.ok)throw Error(`Model HTTP ${r.status}`);let firstText=null;const emitted=new Map();
+    const result=await readCompletion(r.body,content=>{for(const [mode,text] of Object.entries(draftInterpretations(content,MODES))){if(text&&text!==emitted.get(mode)){firstText??=Math.round(performance.now()-started);emitted.set(mode,text);onDraft({mode,text,draft:true,first_text_ms:firstText});}}});
+    const audiences=validateNarrative(normalizeCitations(JSON.parse(result.content)),packet);
+    const value={audiences,engine:'azure_openai',model:deployment,usage:result.usage,first_text_ms:firstText,latency_ms:Math.round(performance.now()-started),cached:false,checks:['schema','bounded_citations','no_numeric_prose'],generated_at:new Date().toISOString()};
     try{await this.store.write(key,value);}catch(error){console.warn(JSON.stringify({event:'cache_write_failed',message:error.message}));}
     return value;
    }finally{this.busy--;}
