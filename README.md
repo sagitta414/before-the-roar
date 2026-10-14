@@ -1,5 +1,16 @@
 # Before the Roar
 
+## Cohesive match session (current)
+
+Watch now plays the coordinate-rendered film for the selected synthetic sequence. One session carries its clock, tracking revision, language, audience, favorite team and player through Match Centre, Truth Lab, the discussion, recap and exports. Corrected tracking opens a synchronized tactical replay rather than presenting the original film as corrected. The original photorealistic AI film remains available at `original.html`; the full-match generator is an optional study inside Inside BTR. Each main scenario currently contains 36 seconds of authored action.
+
+`/api/match-desk` streams Scout and Guide concurrently, publishes deterministic Vector calculations and Check’s explicit scenario-claim verdict, then gives those contributions to Host. A fresh discussion uses three model calls, with the same shared allowance, two-call capacity, in-flight deduplication and persistent cache. Two meaningful play checkpoints trigger discussion automatically; instant localized explanations follow every event. Real first-text and completion timings are displayed, and failed generations are replaced with labeled match notes. Check is a rule-based scenario-claim check, not an independent semantic validator.
+
+Shared preferences cover English, Spanish and Portuguese narrative content, five viewing modes, both clubs and all 22 fictional players. Truth Lab narrative, chapters and exports follow the language preference. A partial or completed sequence recap and machine-readable evidence package use the same cutoff and revision. Exports include earlier discussion evidence without leaking future events.
+
+`overlay.html` is a transparent browser output with six-second expiry. It follows the open app through BroadcastChannel in the same browser/storage partition; a renderer in another process receives only the initial URL snapshot. This is a working browser overlay, not a connected broadcast-partner integration. No automatic video event detection, calibrated difficulty model or Fabric service is added. Historical implementation notes follow.
+
+
 ## Current studio edition
 
 The original charcoal-and-red Watch page is preserved. Match Centre, The presenters, Truth Lab and Inside BTR share that broadcast identity. The presenter portraits are photorealistic fictional AI characters, generated with the built-in ImageGen tool and delivered as approximately 84–91 KB WebP assets. Original images and prompts are retained in `artwork/` and `image-prompts-studio.json`.

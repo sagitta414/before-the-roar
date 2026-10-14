@@ -1,11 +1,13 @@
 import {createTruthLab} from './truth-lab.js?v=23';
+import {matchSession} from './match-session.js';
+import {matchStory} from './match-story.js';
 import {createMatchPitch} from './match-pitch.js?v=22';
 import {SCENARIOS,PLAYERS,position,clock,story} from './engine.js';
 import {matchCenterSnapshot} from './analysis-model.js';
 import {PRESENTER_PROFILES as profiles} from './presenter-profiles.js';
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const svg=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));return n;};
-let scenario=SCENARIOS[0],time=18,selectedPlayer=7,corrected=false,playing=false,lastFrame=0,lastDraw=0,section='watch';
+let scenario=SCENARIOS.find(s=>s.id===matchSession.get().scenario),time=matchSession.get().time,selectedPlayer=matchSession.get().focus,corrected=false,playing=false,lastFrame=0,lastDraw=0,section='watch';
 const emit=(name,detail)=>document.dispatchEvent(new CustomEvent(name,{detail}));
 function stop(){playing=false;for(const b of document.querySelectorAll('.scenario-play'))b.textContent='▶ Play sequence';}
 function navigate(name){for(const node of document.querySelectorAll('.extension-view'))node.hidden=node.id!==name;for(const node of document.querySelectorAll('.masthead .nav')){const active=node.dataset.section===name;node.classList.toggle('selected',active);node.setAttribute('aria-pressed',String(active));}emit('btr-section',name);if(name==='presenters')emit('btr-request-contributions');}
@@ -32,15 +34,18 @@ function renderCenter(state){
  photo.style.backgroundPosition=(slot%2*100)+'% '+(Math.floor(slot/2)*100)+'%';photo.setAttribute('aria-hidden','true');identity.append(el('span','micro','PLAYER FOCUS · '+(p.team==='harbor'?'HARBOR FC':'NORTHBRIDGE')),el('h3','',p.name),el('span','focus-role','#'+number+' · '+(p.role||(number===1?'Goalkeeper':'Outfield'))));
  const stats=el('div','player-stats');for(const [value,label]of [[p.completed+'/'+p.passes,'PASSES COMPLETE'],[p.involvements,'INVOLVEMENTS'],[p.displacement.toFixed(1)+' m','DISPLACEMENT']]){const item=el('div');item.append(el('strong','',String(value)),el('span','',label));stats.append(item);}
  detail.replaceChildren(photo,identity,stats);
- $('pitch-moment-title').textContent=story(scenario,time,'casual','en',corrected,selectedPlayer).title;
- $('pitch-moment-copy').textContent=story(scenario,time,'casual','en',corrected,selectedPlayer).short;
+ const sharedStory=matchStory({...matchSession.get(),scenario:scenario.id,time,corrected,focus:selectedPlayer});
+ $('pitch-moment-title').textContent=sharedStory.title;
+ $('pitch-moment-copy').textContent=sharedStory.body;
  const network=$('network-pitch').querySelector('.pitch-data'),team=$('network-team').value;network.replaceChildren();const passes=state.seen.filter(e=>e.type==='pass'&&e.team===team&&e.outcome==='complete');for(const e of passes){network.append(svg('line',{x1:e.start[0],y1:e.start[1],x2:e.endPosition[0],y2:e.endPosition[1],stroke:team==='harbor'?'#c8ed48':'#77b3ff','stroke-width':.7,opacity:.8}));dot(network,...e.start,'#d7ecff',1);dot(network,...e.endPosition,team==='harbor'?'#c8ed48':'#77b3ff',1.5);}$('network-note').textContent=`${passes.length} completed passes shown. Links use each pass’s recorded origin and destination; unfinished events stay out.`;
  const shots=$('shots-pitch').querySelector('.pitch-data');shots.replaceChildren();const attempts=state.seen.filter(e=>e.type==='shot');for(const e of attempts){dot(shots,...e.start,e.outcome==='goal'?'#c8ed48':'#ffa888',2.4);shots.append(svg('line',{x1:e.start[0],y1:e.start[1],x2:e.endPosition[0],y2:e.endPosition[1],stroke:'#fff8','stroke-width':.4,'stroke-dasharray':'1 1'}));}$('shots-note').textContent=attempts.length?attempts.map(e=>`${e.outcome==='goal'?'Goal':e.outcome==='saved'?'Saved':'Shot'} · ${clock(scenario,e.end)}`).join(' · '):'No completed shot at this point in the sequence. No xG estimate is assigned.';
  const heat=$('density-pitch').querySelector('.pitch-data');heat.replaceChildren();const bins=new Map();for(const e of state.seen){for(const loc of [e.start,...(e.type==='pass'?[e.endPosition]:[])]){const x=Math.min(90,Math.floor(loc[0]/15)*15),y=Math.min(51,Math.floor(loc[1]/17)*17),key=x+','+y;bins.set(key,(bins.get(key)||0)+1);}}const max=Math.max(1,...bins.values());for(const [key,count]of bins){const [x,y]=key.split(',').map(Number);heat.append(svg('rect',{x,y,width:15,height:17,fill:'#d5ed57',opacity:.15+.6*count/max}));}
 }
 const truthLab=createTruthLab({pause:stop,seek:(second,revision)=>{stop();time=second;corrected=revision;render();},toggleCorrection:()=>{stop();corrected=!corrected;render();}});
-function renderTruth(){truthLab.render(scenario,time,corrected);}
-function render(){const state=matchCenterSnapshot(scenario,time,corrected);for(const s of document.querySelectorAll('.scenario-select'))s.value=scenario.id;for(const s of document.querySelectorAll('.scenario-time'))s.value=time;for(const c of document.querySelectorAll('.scenario-clock'))c.textContent=clock(scenario,time);if(section==='centre')renderCenter(state);if(section==='truth')renderTruth();emit('btr-analysis-state',{scenario:scenario.id,time,corrected,focus:selectedPlayer,section});}
+function renderTruth(){truthLab.render(scenario,time,corrected,matchSession.get().language,matchSession.get().mode);}
+function render(){matchSession.set({scenario:scenario.id,time,corrected,focus:selectedPlayer,section},'analysis');renderLocal();}
+function renderLocal(){const state=matchCenterSnapshot(scenario,time,corrected);for(const s of document.querySelectorAll('.scenario-select'))s.value=scenario.id;for(const s of document.querySelectorAll('.scenario-time'))s.value=time;for(const c of document.querySelectorAll('.scenario-clock'))c.textContent=clock(scenario,time);if(section==='centre')renderCenter(state);if(section==='truth')renderTruth();emit('btr-analysis-state',{scenario:scenario.id,time,corrected,focus:selectedPlayer,section,...{language:matchSession.get().language,mode:matchSession.get().mode}});}
+matchSession.subscribe((next,source)=>{if(source==='analysis')return;scenario=SCENARIOS.find(s=>s.id===next.scenario);time=next.time;corrected=next.corrected;selectedPlayer=next.focus;section=next.section;if(source!=='film')stop();renderLocal();});
 $('network-team').addEventListener('change',render);
 const profileLines=new Map(),profileCards=new Map(),profileButtons=new Map();
 const roleLabels={analyst:'Tactics & replay',guide:'New to football',math:'Explain the math',reviewer:'Check the evidence',presenter:'Bring it together'};

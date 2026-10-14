@@ -1,12 +1,13 @@
 import {clock,position} from './engine.js';
 import {truthReport} from './analysis-model.js';
+import {translateTruth} from './truth-language.js';
 
 const contexts={
  wide:{number:'01',subject:102,subjectName:'Jules Laurent',partner:7,partnerName:'Luca Moreau',ready:16,end:31,question:'Did the run really move the defender?',chapters:[['Observe',8,false],['The claim',18,false],['Challenge',18,true],['The outcome',31,true]]},
  press:{number:'02',subject:8,subjectName:'Mateo Silva',partner:106,partnerName:'Samir Ali',ready:10,end:29,question:'Did pressure cause the recovery?',chapters:[['Observe',6,false],['The recovery',10,false],['The outcome',29,false]]},
  counter:{number:'03',subject:9,subjectName:'Theo Brooks',partner:104,partnerName:'Alex Ross',ready:12,end:28,question:'Does a good attack guarantee a goal?',chapters:[['Observe',4,false],['The transition',12,false],['The outcome',28,false]]}
 };
-export function truthStory(s,time,corrected=false,audience='fan'){
+export function truthStory(s,time,corrected=false,audience='fan',language='en'){
  const audit=truthReport(s,time,corrected),t=audit.reading.time,context=contexts[s.id],ready=t>=context.ready,resolved=t>=context.end,revised=audit.revealed,changed=revised&&ready&&s.id==='wide',m=audit.reading.metrics;
  const analyst=audience==='analyst';
  let headline,observation,interpretation,review,originalLine,currentLine;
@@ -37,11 +38,11 @@ export function truthStory(s,time,corrected=false,audience='fan'){
  const phase=changed?'Revised':resolved?'Outcome checked':ready?'Claim under review':'Gathering evidence';
  const chapters=context.chapters.map(([label,second,revision],index)=>({label,second,corrected:revision,index,clock:clock(s,second)}));
  const chapterIndex=s.id==='wide'?(changed?(resolved?3:2):ready?1:0):(resolved?2:ready?1:0);
- return {audit,context,time:t,clock:clock(s,t),revision:revised?2:1,changed,ready,resolved,phase,headline,observation,interpretation,review,originalLine,currentLine,outcome,factLine,chapters,chapterIndex,audience:analyst?'analyst':'fan'};
+ return translateTruth({audit,context,time:t,clock:clock(s,t),revision:revised?2:1,changed,ready,resolved,phase,headline,observation,interpretation,review,originalLine,currentLine,outcome,factLine,chapters,chapterIndex,audience:analyst?'analyst':'fan'},s,language);
 }
 
-export function truthStoryPacket(s,time,corrected=false,audience='fan'){
- const n=truthStory(s,time,corrected,audience),windowId=`${s.id}-window-${n.time.toFixed(1)}`;
+export function truthStoryPacket(s,time,corrected=false,audience='fan',language='en'){
+ const n=truthStory(s,time,corrected,audience,language),windowId=`${s.id}-window-${n.time.toFixed(1)}`;
  const evidence=n.audit.reading.seen.map(e=>({record_type:'event',...e}));
  evidence.push({record_type:'coverage',id:windowId,from_second:0,through_second:n.time,event_ids:n.audit.reading.seen.map(e=>e.id),source:'Complete authored scenario event window'});
  const claimRows=n.audit.rows.map(row=>({...row,source:row.source.length?[...row.source]:[windowId],current_source:row.source.length?[...row.source]:[windowId]}));

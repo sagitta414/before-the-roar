@@ -1,0 +1,18 @@
+// One session for Watch, Match Centre, Truth Lab and the output desk.
+export const DEFAULT_SESSION={scenario:'wide',time:0,corrected:false,language:'en',mode:'fan',focus:7,team:'harbor',section:'watch'};
+export function reduceSession(state,patch){
+ const next={...state,...patch};
+ if(!['wide','press','counter'].includes(next.scenario))next.scenario='wide';
+ if(next.scenario!==state.scenario){next.time=0;next.corrected=false;}
+ next.time=Math.max(0,Math.min(36,Number(next.time)||0));next.corrected=!!next.corrected&&next.scenario==='wide';
+ if(!['en','es','pt'].includes(next.language))next.language='en';
+ if(!['fan','beginner','math','analyst','player'].includes(next.mode))next.mode='fan';
+ if(![...Array.from({length:11},(_,i)=>i+1),...Array.from({length:11},(_,i)=>i+101)].includes(Number(next.focus)))next.focus=7;else next.focus=Number(next.focus);
+ if(!['harbor','north','neutral'].includes(next.team))next.team='neutral';
+ return Object.fromEntries(Object.keys(DEFAULT_SESSION).map(k=>[k,next[k]]));
+}
+export function createSession(initial={}){
+ let value=reduceSession(DEFAULT_SESSION,{...DEFAULT_SESSION,...initial});const listeners=new Set();
+ return {get:()=>({...value}),set(patch,source='control'){const next=reduceSession(value,patch);if(JSON.stringify(next)===JSON.stringify(value))return;value=next;for(const fn of listeners)fn({...value},source);},subscribe(fn){listeners.add(fn);return()=>listeners.delete(fn);}};
+}
+export const matchSession=createSession();

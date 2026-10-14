@@ -1,3 +1,4 @@
+import {matchSession} from './match-session.js';
 import {position} from './engine.js';
 import {truthStory,truthStoryPacket} from './truth-story-model.js';
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
@@ -6,21 +7,21 @@ function text(id,value){if($(id).textContent!==value)$(id).textContent=value;}
 function save(name,data){const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 
 export function createTruthLab({seek,toggleCorrection,pause}){
- let scenario,time=0,corrected=false,audience='fan',narrative,signature='',speaking=false,spokenKey='',selectedClaim='movement';
+ let scenario,time=0,corrected=false,language='en',audience='fan',narrative,signature='',speaking=false,spokenKey='',selectedClaim='movement';
  const canSpeak=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined',claimNodes=new Map();
  function silence(){if(speaking&&canSpeak)speechSynthesis.cancel();speaking=false;text('truth-listen','Listen to the story');$('truth-listen').setAttribute('aria-pressed','false');}
  $('truth-listen').disabled=!canSpeak;
  if(!canSpeak)text('truth-voice-note','Read-aloud is unavailable in this browser.');
  $('truth-listen').addEventListener('click',()=>{
   if(speaking){silence();return;}if(!narrative)return;pause();
-  const utterance=new SpeechSynthesisUtterance(`${narrative.headline} ${narrative.observation} ${narrative.outcome} ${narrative.review}`);utterance.lang='en-US';utterance.rate=1;
+  const utterance=new SpeechSynthesisUtterance(`${narrative.headline} ${narrative.observation} ${narrative.outcome} ${narrative.review}`);utterance.lang={en:'en-US',es:'es-ES',pt:'pt-BR'}[language];utterance.rate=1;
   utterance.onend=utterance.onerror=silence;speaking=true;spokenKey=signature;text('truth-listen','Stop narration');$('truth-listen').setAttribute('aria-pressed','true');speechSynthesis.speak(utterance);
  });
  document.addEventListener('btr-section',e=>{if(e.detail!=='truth')silence();});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)silence();});
- $('truth-audience').addEventListener('change',()=>{audience=$('truth-audience').value;render(scenario,time,corrected);});
+ $('truth-audience').addEventListener('change',()=>{audience=$('truth-audience').value;matchSession.set({mode:audience});render(scenario,time,corrected,language,audience);});
  $('reveal-truth').addEventListener('click',()=>{silence();toggleCorrection();});
- $('export-audit').addEventListener('click',()=>save(`btr-truth-${scenario.id}-r${narrative.revision}.json`,truthStoryPacket(scenario,time,corrected,audience)));
+ $('export-audit').addEventListener('click',()=>save(`btr-truth-${scenario.id}-r${narrative.revision}.json`,truthStoryPacket(scenario,time,corrected,audience,language)));
  $('truth-open-centre').addEventListener('click',()=>$('centre-nav').click());
 
  function drawLens(root,s,n,revision){
@@ -58,8 +59,9 @@ export function createTruthLab({seek,toggleCorrection,pause}){
   }
   for(const b of document.querySelectorAll('[data-truth-claim]'))b.setAttribute('aria-pressed',String(b.dataset.truthClaim===row.id));
  }
- function render(s,t,reveal){
-  scenario=s;time=t;corrected=reveal;narrative=truthStory(s,t,reveal,audience);const n=narrative,packet=truthStoryPacket(s,t,reveal,audience),key=[s.id,n.time.toFixed(1),n.revision,audience].join(':');
+ function render(s,t,reveal,lang=language,mode=audience){
+  language=lang;audience=['analyst','math'].includes(mode)?'analyst':'fan';$('truth-audience').value=audience;
+  scenario=s;time=t;corrected=reveal;narrative=truthStory(s,t,reveal,audience,language);const n=narrative,packet=truthStoryPacket(s,t,reveal,audience,language),key=[s.id,n.time.toFixed(1),n.revision,audience,language].join(':');
   if(speaking&&spokenKey!==key)silence();signature=key;
   $('truth').dataset.revised=String(n.changed);
   text('truth-case-number','CASE '+n.context.number);text('truth-case-title',s.title);text('truth-question',n.context.question);text('truth-phase',n.phase);text('truth-version','R'+n.revision+' · '+n.clock);
@@ -69,7 +71,7 @@ export function createTruthLab({seek,toggleCorrection,pause}){
   const button=$('reveal-truth');button.disabled=!n.audit.correctionAvailable;button.setAttribute('aria-pressed',String(n.audit.revealed));button.textContent=!n.audit.correctionAvailable?'No alternate record in this case':n.audit.revealed?'Restore the original record ↺':'Challenge the tracking ↗';
   text('truth-change-note',n.audit.correctionAvailable?'Hold Laurent at his starting position. All recorded passes and shots stay intact.':'Use the chapter buttons to explore what the evidence can—and cannot—support.');
   const chapters=$('truth-chapters');
-  if(chapters.dataset.scenario!==s.id){chapters.dataset.scenario=s.id;chapters.replaceChildren();for(const chapter of n.chapters){const b=el('button','truth-chapter');b.append(el('span','chapter-index',String(chapter.index+1).padStart(2,'0')),el('strong','',chapter.label),el('small','',chapter.clock));b.dataset.chapter=chapter.index;b.addEventListener('click',()=>{silence();seek(chapter.second,chapter.corrected);});chapters.append(b);}}
+  if(chapters.dataset.scenario!==s.id+language){chapters.dataset.scenario=s.id+language;chapters.replaceChildren();for(const chapter of n.chapters){const b=el('button','truth-chapter');b.append(el('span','chapter-index',String(chapter.index+1).padStart(2,'0')),el('strong','',chapter.label),el('small','',chapter.clock));b.dataset.chapter=chapter.index;b.addEventListener('click',()=>{silence();seek(chapter.second,chapter.corrected);});chapters.append(b);}}
   for(const b of chapters.children){b.setAttribute('aria-pressed',String(Number(b.dataset.chapter)===n.chapterIndex));}
   drawLens($('truth-original-pitch'),s,n,1);drawLens($('truth-current-pitch'),s,n,n.revision);drawTrace(s,n);
   const origin=position(s,n.context.subject,0),value=Math.abs(position(s,n.context.subject,n.time)[1]-origin[1]),current=Math.abs(position(s,n.context.subject,n.time,n.revision===2)[1]-origin[1]);
@@ -77,7 +79,7 @@ export function createTruthLab({seek,toggleCorrection,pause}){
   text('truth-node-source',n.changed?'TRACKING REVISED':'CURRENT RECORD');text('truth-node-claim',n.changed?'MOVEMENT CLAIM WITHDRAWN':n.ready?'CLAIM CHECKED':'CLAIM PENDING');text('truth-node-story',n.changed?'NARRATIVE REWRITTEN':'NARRATIVE BOUNDED');
   text('truth-fact-line',n.factLine);text('truth-supported',n.audit.supported+'/'+n.audit.checked);text('truth-withdrawn',String(n.audit.withdrawn));text('truth-cutoff',n.time.toFixed(1)+'s');
   text('truth-trace-title',n.context.subjectName+' · lateral movement');
-  const rows=$('claim-rows');for(const row of packet.checks){let nodes=claimNodes.get(row.id);if(!nodes){const tr=el('tr'),action=el('button','claim-source-button','Inspect ↗'),before=el('td'),after=el('td'),status=el('td');action.dataset.truthClaim=row.id;action.setAttribute('aria-label','Inspect sources for '+row.claim);action.addEventListener('click',()=>{selectedClaim=row.id;inspect(truthStoryPacket(scenario,time,corrected,audience));});const td=el('td');td.append(action);const heading=el('th','',row.claim);heading.scope='row';tr.append(heading,before,after,status,td);rows.append(tr);nodes={before,after,status};claimNodes.set(row.id,nodes);}nodes.before.textContent=row.reading;nodes.after.textContent=row.reference;nodes.status.textContent=row.status==='supported'?'Supported':row.status==='withdrawn'?'Withdrawn':'Pending';nodes.status.className='audit-'+row.status;}inspect(packet);
+  const rows=$('claim-rows');for(const row of packet.checks){let nodes=claimNodes.get(row.id);if(!nodes){const tr=el('tr'),action=el('button','claim-source-button','Inspect ↗'),before=el('td'),after=el('td'),status=el('td');action.dataset.truthClaim=row.id;action.setAttribute('aria-label','Inspect sources for '+row.claim);action.addEventListener('click',()=>{selectedClaim=row.id;inspect(truthStoryPacket(scenario,time,corrected,audience,language));});const td=el('td');td.append(action);const heading=el('th','',row.claim);heading.scope='row';tr.append(heading,before,after,status,td);rows.append(tr);nodes={before,after,status};claimNodes.set(row.id,nodes);}nodes.before.textContent=row.reading;nodes.after.textContent=row.reference;nodes.status.textContent=row.status==='supported'?'Supported':row.status==='withdrawn'?'Withdrawn':'Pending';nodes.status.className='audit-'+row.status;}inspect(packet);
  }
  return {render};
 }
