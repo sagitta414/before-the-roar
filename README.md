@@ -1,5 +1,17 @@
 # Before the Roar
 
+## Unified AI matchroom (current homepage)
+
+The homepage now puts the creator-provided Google Flow film, timed explanations, five audience modes, English/Spanish/Portuguese story content, evidence replay and a three-role Azure AI discussion in one studio. `/live.html` redirects to this homepage. The full-match generator is available through the in-page Full-match lab; it remains a separate fixture and its statistics are never attributed to the film. The earlier film library remains at `/films.html`.
+
+On play, `/api/desk` prepares three sequential, streaming Azure OpenAI calls: a tactical analyst, an evidence reviewer who sees the analyst's published statement, and a presenter who sees both preceding contributions. These are application roles on the same deployment, not independent model providers or a display of private chain-of-thought. Their public editorial messages cite the five manually reviewed clip observations. They do not analyze pixels. The discussion is revealed at the clip's end; after that it remains explicitly a full-clip discussion while evidence links seek to earlier frames. The timed lesson always follows the current video cursor.
+
+Each fresh audience/language discussion uses at most three model requests and shares the existing 120/day reservation store and two-call capacity with the match narrator. Identical concurrent requests share work; fully successful discussions are persisted in the existing private cache. Invalid output, unavailable AI or an exhausted allowance replaces drafts with explicitly labeled reviewed notes. Browser-local reuse avoids another request on replay. Server restarts can interrupt an active discussion; the viewer can retry. New audiences are requested explicitly after selection to avoid spending credits on every tab click.
+
+Film math shows playback fraction and intervals between approximate annotations; it explicitly withholds speed, xG, pass accuracy and match score because the film has no calibrated tracking. These examples are separate from the actual synthetic-distance calculations in the full-match lab. No paid video generation or speech service was added.
+
+Verification: `npm test`; `node scripts/desk-smoke.mjs <Azure origin> en fan` exercises the real sequential model calls, evidence references and streaming. A cached verification returns posts immediately and correctly emits no artificial token stream.
+
 An Azure-powered football storytelling prototype with a live synthetic match stream, evidence-linked AI explanations, five audience perspectives, English/Spanish/Portuguese narratives, automatic full-time recaps and timed overlay exports. Original match films and tactical replay labs remain available separately.
 
 ## Azure live studio

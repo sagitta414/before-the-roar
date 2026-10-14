@@ -19,7 +19,7 @@ properties:
   template:
     containers:
       - name: studio
-        image: patchhorizonacr805813.azurecr.io/before-the-roar:v8-streaming-final
+        image: patchhorizonacr805813.azurecr.io/before-the-roar:v10-matchroom-final
         resources:
           cpu: 0.25
           memory: 0.5Gi

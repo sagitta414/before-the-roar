@@ -1,6 +1,8 @@
 import {lesson} from './learning.js';
 import {DialogueState} from './dialogue.js';
 const $=id=>document.getElementById(id),text=(id,value)=>$(id).textContent=value;
+if(new URLSearchParams(location.search).has('embedded'))document.documentElement.classList.add('embedded');
+addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.type==='btr-pause-lab'&&active)$('stop').click();});
 const dialogue=new DialogueState();let liveStats=null,lastEvent=null,lastPass=null;
 let base='',session=null,controller=null,mode='fan',current=null,active=false,lastId=0;
 const clubs={home:'Harbor',away:'Northbridge'},names={home:['Eli Ward','Noah Ellis','Leo Martin','Oscar Reed','Finn Clarke','Amir Cole','Luca Moreau','Mateo Silva','Theo Brooks','Rafael Costa','Isaac Hart'],away:['Max Berg','Jules Laurent','Ben Shaw','Alex Ross','Milan Voss','Samir Ali','Hugo Bell','Arlo King','Adam Price','Nico Stone','Tom Avery']};

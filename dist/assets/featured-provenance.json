@@ -7,7 +7,7 @@
   "web_resolution": "1280x720",
   "frame_rate": 24,
   "annotation_method": "Manual visual review; approximate timestamps",
-  "narrative_method": "Authored English and Spanish audience variants",
+  "narrative_method": "Timed authored audience explanations plus an Azure AI public discussion based on reviewed annotations in the unified matchroom",
   "tracking_coordinates": null,
   "match_clock": null,
   "score": null,
