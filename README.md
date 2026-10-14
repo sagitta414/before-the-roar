@@ -1,12 +1,24 @@
 # Before the Roar
 
-An interactive football storytelling prototype: synthetic match replay, evidence-linked explanations, audience modes, English/Spanish narratives, player focus, tracking correction, geometric alternative, and recap/overlay export.
+An Azure-powered football storytelling prototype with a live synthetic match stream, evidence-linked AI explanations, three audience perspectives, English/Spanish/Portuguese narratives, automatic full-time recaps and timed overlay exports. Original match films and tactical replay labs remain available separately.
+
+## Azure live studio
+
+Open `/live.html`. Start a seeded fictional fixture to stream a ninety-minute match in sixty seconds (or three minutes). Events arrive incrementally; the server computes the score, shots, completed passes, event-possession share and a simple recent-recovery rhythm heuristic. Every fifteen match minutes, an evidence packet is frozen at that cutoff and sent to the existing Azure OpenAI `gpt-4o-mini` deployment. One structured response provides fan, analyst and Mateo Silva perspectives. Full time triggers an automatic recap. Language is selected before kickoff; audience changes reuse the same response.
+
+The backend (`api/server.mjs`) runs on Azure Container Apps, uses managed identity for Azure OpenAI and private Blob Storage, and exposes no API key. A private persistent response cache reuses identical seed/language/checkpoint results. An ETag-protected budget blob limits new model requests to 120 per UTC day, across restarts. Hosting scales from zero to one replica; at most six sessions and two concurrent AI requests are allowed. Saturation, unavailable AI, invalid outputs or exhausted allowance produce explicitly labeled deterministic fallbacks. Existing AI, registry and Consumption infrastructure are reused. This is a usage safeguard, not a spending cap or a guarantee of available subscription credits.
+
+Metrics are computed in code. Generated prose cannot contain digits; evidence identifiers must exist at the exact temporal cutoff. These checks do not prove semantic truth, so tactical interpretations and evidence limits remain visible. The generator has twelve reproducible fixtures; tests cover bounded coordinates, chronology and plausible shot totals. This is a simulation prototype, not a calibrated football model. No video event detection, player tracking inference, xG, calibrated pass difficulty, external match feed or broadcast partner integration is claimed. The featured film is separate from this generated event stream.
+
+`npm run studio` starts the backend at http://127.0.0.1:4397. Without Azure configuration it runs with clear fallback narratives. `dist/api-config.json` selects the cloud API for the public static Site; an empty base URL uses the same-origin backend. `scripts/provision-azure.ps1` and `scripts/deploy-azure.ps1` document the verified subscription deployment. Environment variables: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT`, `AZURE_STORAGE_URL`, `AI_DAILY_LIMIT`, `ALLOWED_ORIGINS`, `PORT`. Never put credentials in the frontend.
+
+Session tokens protect stream/export/stop routes and are kept in browser memory. Exports contain only ingested events, exact metrics, model provenance, evidence citations and the latest timed overlay contract. Sessions expire after fifteen minutes and stop after a minute without a viewer. An interrupted stream requires a new match in this prototype. Cold starts and model latency add time beyond the sixty-second event simulation; the UI reports the actual analysis cutoff.
 
 ## Run
 
 `npm run dev` serves http://127.0.0.1:4396. `npm test` checks the engine. No installation or credentials required. Static site lives in `dist/`.
 
-## Scope
+## Replay scope (separate from the live studio)
 
 The default featured experience is the creator's 8-second Google Flow football clip, optimized from 1080p (25.5 MB) to 720p (6.4 MB), with original audio and five manually reviewed approximate timestamps. Its own annotation module drives English/Spanish casual, analyst and No. 8 perspectives, evidence seeking, recap and timed JSON export. Match clock, score, tracking metrics and shot outcome are intentionally unassigned. Its annotations are independent of the synthetic data lab below. No automated video analysis or live narrative model is connected. Provenance: `dist/assets/featured-provenance.json`.
 
@@ -14,9 +26,9 @@ Three independent 36-second synthetic scenarios, each beginning at 0–0. Player
 
 The alternative freezes winger/defender positions to compare geometry; it does not recalculate player decisions or outcomes. Corrections withdraw unsupported defender-displacement claims. Recaps include the explored portions of independent scenes, not a full-match outcome. Exports carry synthetic provenance, times, expiry, audience, revision, and evidence IDs.
 
-## Next integration
+## Remaining integrations
 
-Replace narrative templates with a server-side structured-generation adapter receiving the bounded evidence packet; validate every emitted player, number, timestamp and evidence reference. Preserve deterministic metrics, temporal cutoffs, revision handling and fallback templates. Add scenario variation and evaluation data before claiming football generalization.
+The live studio implements bounded structured AI generation; replay narratives remain authored. Next steps include a verified video-eventing adapter, calibrated football models, a broadcast rendering partner, broader semantic evaluation and durable session recovery. Do not present these as implemented.
 
 ## Cinematic visual edition
 

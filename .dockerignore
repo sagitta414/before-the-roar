@@ -1,0 +1,6 @@
+*
+!api/
+!api/**
+!dist/
+!dist/**
+!Dockerfile

@@ -1,0 +1,48 @@
+location: eastus2
+identity:
+  type: UserAssigned
+  userAssignedIdentities:
+    /subscriptions/3226d5fa-52e1-40c0-9c74-67e984356692/resourcegroups/rg-before-the-roar/providers/Microsoft.ManagedIdentity/userAssignedIdentities/btr-runtime-jl107: {}
+properties:
+  managedEnvironmentId: /subscriptions/3226d5fa-52e1-40c0-9c74-67e984356692/resourceGroups/rg-lsds-demo/providers/Microsoft.App/managedEnvironments/patchhorizon-env
+  workloadProfileName: Consumption
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      external: true
+      targetPort: 8080
+      transport: auto
+      allowInsecure: false
+    registries:
+      - server: patchhorizonacr805813.azurecr.io
+        identity: /subscriptions/3226d5fa-52e1-40c0-9c74-67e984356692/resourcegroups/rg-before-the-roar/providers/Microsoft.ManagedIdentity/userAssignedIdentities/btr-runtime-jl107
+  template:
+    containers:
+      - name: studio
+        image: patchhorizonacr805813.azurecr.io/before-the-roar:v4
+        resources:
+          cpu: 0.25
+          memory: 0.5Gi
+        env:
+          - name: PORT
+            value: '8080'
+          - name: AZURE_CLIENT_ID
+            value: '47363797-ef80-46a1-ad7f-9c48ace224c4'
+          - name: AZURE_OPENAI_ENDPOINT
+            value: 'https://automation-jl107.openai.azure.com/'
+          - name: AZURE_OPENAI_DEPLOYMENT
+            value: 'gpt-4o-mini'
+          - name: AZURE_STORAGE_URL
+            value: 'https://btrjeff107live.blob.core.windows.net/intelligence/'
+          - name: AI_DAILY_LIMIT
+            value: '120'
+          - name: ALLOWED_ORIGINS
+            value: 'https://before-the-roar.sagitta107.chatgpt.site,http://127.0.0.1:4397'
+    scale:
+      minReplicas: 0
+      maxReplicas: 1
+      rules:
+        - name: http
+          http:
+            metadata:
+              concurrentRequests: '10'

@@ -1,0 +1,78 @@
+import {createHash} from 'node:crypto';
+const tokenCache=new Map();
+export async function accessToken(resource){
+ if(process.env.AZURE_ACCESS_TOKEN&&resource.includes('cognitiveservices'))return process.env.AZURE_ACCESS_TOKEN;
+ const saved=tokenCache.get(resource);if(saved&&saved.expires>Date.now()+120000)return saved.value;
+ if(!process.env.IDENTITY_ENDPOINT)throw Error('Managed identity unavailable');
+ const url=new URL(process.env.IDENTITY_ENDPOINT);url.searchParams.set('api-version','2019-08-01');url.searchParams.set('resource',resource);if(process.env.AZURE_CLIENT_ID)url.searchParams.set('client_id',process.env.AZURE_CLIENT_ID);
+ const res=await fetch(url,{headers:{'X-IDENTITY-HEADER':process.env.IDENTITY_HEADER},signal:AbortSignal.timeout(8000)});
+ if(!res.ok)throw Error(`Identity HTTP ${res.status}`);const t=await res.json();tokenCache.set(resource,{value:t.access_token,expires:Number(t.expires_on)*1000});return t.access_token;
+}
+export class ResultStore{
+ constructor(){this.memory=new Map();this.base=process.env.AZURE_STORAGE_URL;this.used=0;this.day='';}
+ async blob(path,options={}){return fetch(this.base+path,{...options,headers:{Authorization:`Bearer ${await accessToken('https://storage.azure.com/')}`,'x-ms-version':'2023-11-03',...options.headers},signal:AbortSignal.timeout(8000)});}
+ async read(key){if(this.memory.has(key))return this.memory.get(key);if(!this.base)return null;const r=await this.blob(`cache/${key}.json`);if(r.status===404)return null;if(!r.ok)throw Error(`Cache HTTP ${r.status}`);const data=await r.json();this.remember(key,data);return data;}
+ remember(key,value){if(this.memory.size>=512)this.memory.delete(this.memory.keys().next().value);this.memory.set(key,value);}
+ async write(key,value){if(this.base){const r=await this.blob(`cache/${key}.json`,{method:'PUT',headers:{'x-ms-blob-type':'BlockBlob','Content-Type':'application/json'},body:JSON.stringify(value)});if(!r.ok)throw Error(`Cache write HTTP ${r.status}`);}this.remember(key,value);}
+ async reserve(){
+  const limit=Number(process.env.AI_DAILY_LIMIT||120),day=new Date().toISOString().slice(0,10);
+  if(!this.base){if(this.day!==day){this.day=day;this.used=0;}return this.used++<limit;}
+  // ETag compare-and-swap persists the request allowance across replicas/restarts.
+  const path=`budget/${day}.json`;
+  for(let retry=0;retry<5;retry++){
+   const r=await this.blob(path);if(r.status!==404&&!r.ok)throw Error(`Budget read HTTP ${r.status}`);
+   const old=r.ok?await r.json():{calls:0};if(old.calls>=limit)return false;
+   const headers={'x-ms-blob-type':'BlockBlob','Content-Type':'application/json',...(r.ok?{'If-Match':r.headers.get('etag')}:{'If-None-Match':'*'})};
+   const w=await this.blob(path,{method:'PUT',headers,body:JSON.stringify({day,calls:old.calls+1,limit})});if(w.ok)return true;if(w.status!==412)throw Error(`Budget write HTTP ${w.status}`);
+  }throw Error('Budget contention');
+ }
+}
+const angle={type:'object',additionalProperties:false,properties:{headline:{type:'string'},explanation:{type:'string'},interpretation:{type:'string'},caution:{type:'string'},evidence_ids:{type:'array',items:{type:'string'}}},required:['headline','explanation','interpretation','caution','evidence_ids']};
+const schema={type:'object',additionalProperties:false,properties:{fan:angle,analyst:angle,player:angle},required:['fan','analyst','player']};
+export function narrativeSchema(packet){const bounded=structuredClone(schema);for(const mode of ['fan','analyst','player'])bounded.properties[mode].properties.evidence_ids.items.enum=packet.facts.map(f=>f.id);return bounded;}
+export function validateNarrative(value,packet){
+ const ids=new Set(packet.facts.map(f=>f.id));
+ for(const mode of ['fan','analyst','player']){
+  const a=value?.[mode];if(!a)throw Error('Missing audience');
+  for(const field of ['headline','explanation','interpretation','caution'])if(typeof a[field]!=='string'||!a[field].trim()||a[field].length>900||/\d/.test(a[field]))throw Error('Invalid narrative text');
+  if(!Array.isArray(a.evidence_ids)||!a.evidence_ids.length||a.evidence_ids.length>6||a.evidence_ids.some(id=>!ids.has(id)))throw Error('Unsupported citation');
+ }return value;
+}
+export function fallback(packet,reason='model_unavailable'){
+ const es=packet.language==='es',pt=packet.language==='pt';
+ const headline=packet.phase==='fulltime'?(es?'El partido, en datos':pt?'O jogo em dados':'The match, in evidence'):(es?'La evidencia sigue llegando':pt?'A evidência continua chegando':'The evidence keeps coming');
+ const a={headline,explanation:es?'Las estadísticas y el registro de eventos siguen disponibles. No hay un análisis generado por IA para este momento.':pt?'As estatísticas e o registro de eventos continuam disponíveis. Não há análise gerada por IA para este momento.':'The statistics and event ledger remain available. An AI explanation is not available for this moment.',interpretation:es?'Consulta los eventos antes de sacar conclusiones tácticas.':pt?'Consulte os eventos antes de tirar conclusões táticas.':'Inspect the events before drawing a tactical conclusion.',caution:es?'Simulación sintética. Respaldo determinista.':pt?'Simulação sintética. Resposta determinística.':'Synthetic simulation. Deterministic fallback.',evidence_ids:['score','shots']};
+ return {audiences:{fan:a,analyst:a,player:a},engine:'deterministic_fallback',reason,model:null,usage:null,latency_ms:0,cached:false};
+}
+export class Narrator{
+ constructor(store=new ResultStore()){this.store=store;this.pending=new Map();this.busy=0;this.calls=0;this.cacheHits=0;this.failures=0;}
+ async explain(packet){
+  const key=createHash('sha256').update(JSON.stringify({version:'btr-v2',model:process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini',packet})).digest('hex');
+  if(this.pending.has(key))return this.pending.get(key);
+  const p=this.generate(key,packet);this.pending.set(key,p);try{return await p;}finally{this.pending.delete(key);}
+ }
+ async generate(key,packet){
+  const started=performance.now();
+  try{
+   const cached=await this.store.read(key);if(cached){validateNarrative(cached.audiences,packet);this.cacheHits++;return {...cached,cached:true,latency_ms:Math.round(performance.now()-started)};}
+   if(!process.env.AZURE_OPENAI_ENDPOINT)return fallback(packet,'not_configured');
+   if(this.busy>=2)return fallback(packet,'capacity');
+   this.busy++;
+   try{
+    if(!await this.store.reserve())return fallback(packet,'daily_allowance');
+    const token=await accessToken('https://cognitiveservices.azure.com/');
+    const deployment=process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini';
+    const url=new URL(`openai/deployments/${encodeURIComponent(deployment)}/chat/completions?api-version=2024-10-21`,process.env.AZURE_OPENAI_ENDPOINT);
+    const language={en:'English',es:'Spanish',pt:'Brazilian Portuguese'}[packet.language];
+    const system=`You are BTR's football broadcast analyst. Produce three DISTINCT perspectives in ${language}: fan (plain language, why it matters), analyst (compare supplied team statistics, offer a competing explanation), player (Mateo Silva only, cite the focus fact and distinguish recorded contributions from unknown off-ball activity). Use ONLY the supplied synthetic evidence at the cutoff. ${packet.phase==='fulltime'?'Produce a full-match recap including the confirmed result and supplied goal events.':'Explain the latest phase; do not predict the result.'} Each perspective needs a short headline, explanation (maximum two sentences), interpretation (one explicitly tentative hypothesis beginning with a term like May or Could), caution (specific evidence limit), and one to four supporting evidence_ids. Cite score when describing the result, focus when describing Silva totals. Every factual sentence must be supported by the cited facts. Pressure events have no success field: never call them successful or say pressure caused a turnover. Do not infer physicality, effort, determination, fans feelings, a formation, assigned roles, a trend or playing under pressure. Do not invent player actions, expected goals, emotions, speeds or measurements. Use player names only when supplied in facts, except the named focus player. NO DIGITS anywhere in prose: exact numbers are rendered separately from deterministic statistics. Do not spell out fabricated numbers either. Keep all perspectives concise. Return only the required JSON.`;
+    this.calls++;
+    const r=await fetch(url,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'system',content:system},{role:'user',content:JSON.stringify(packet)}],temperature:.25,max_tokens:1200,response_format:{type:'json_schema',json_schema:{name:'match_intelligence',strict:true,schema:narrativeSchema(packet)}}}),signal:AbortSignal.timeout(20000)});
+    if(!r.ok)throw Error(`Model HTTP ${r.status}`);const result=await r.json();if(result.choices?.[0]?.finish_reason!=='stop')throw Error('Incomplete model result');
+    const audiences=validateNarrative(JSON.parse(result.choices[0].message.content),packet);
+    const value={audiences,engine:'azure_openai',model:deployment,usage:result.usage,latency_ms:Math.round(performance.now()-started),cached:false,checks:['schema','bounded_citations','no_numeric_prose'],generated_at:new Date().toISOString()};
+    try{await this.store.write(key,value);}catch(error){console.warn(JSON.stringify({event:'cache_write_failed',message:error.message}));}
+    return value;
+   }finally{this.busy--;}
+  }catch(error){this.failures++;console.warn(JSON.stringify({event:'narrative_fallback',message:error.message}));return fallback(packet,'generation_failed');}
+ }
+}
