@@ -85,6 +85,6 @@ The Presenters tab shares role definitions with the actual Azure prompts in `dis
 
 Guide has a curated English/Spanish/Portuguese glossary linked to the reviewed carry, shot and goalkeeper observations. Vector receives deterministic calculations from `api/desk-tools.mjs`: carry-to-shot annotation gap 1.30 s and shot-to-keeper annotation gap 1.20 s. These are approximate annotation intervals, not ball travel, goalkeeper reaction time or shot speed. Calculations are attached by the server after model output validation and rendered with units and source links; the model cannot alter the tool payload. Check receives all three specialists; Host receives all four prior contributions.
 
-Version 3.1.1 uses the five-role v2 cache schema, rejects legacy three-role cached results, and preserves the existing shared 120-request daily limit. A fresh conversation uses up to five model calls; a cache hit uses none. The same existing Azure model and services are reused.
+Version 3.1.2 uses the five-role v2 cache schema, rejects legacy three-role cached results, and preserves the existing shared 120-request daily limit. A fresh conversation uses up to five model calls; a cache hit uses none. The same existing Azure model and services are reused.
 
 Task-adherence guards require Guide to include a definition, Vector to address timing and measurement, and Check to name a preceding specialist. These conservative checks do not prove factual correctness; failed checks produce labeled reviewed notes and are not cached.
