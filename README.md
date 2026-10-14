@@ -1,5 +1,15 @@
 # Before the Roar
 
+## Current studio edition
+
+The original charcoal-and-red Watch page is preserved. Match Centre, The presenters, Truth Lab and Inside BTR share that broadcast identity. The presenter portraits are photorealistic fictional AI characters, generated with the built-in ImageGen tool and delivered as approximately 84–91 KB WebP assets. Original images and prompts are retained in `artwork/` and `image-prompts-studio.json`.
+
+Match Centre now includes a sequence scoreboard, calculated pass/shot metrics, replayable completed-event cards, and side-by-side beginner, math and tactical explanations in English, Spanish and Portuguese. Those instant sequence explanations use authored localization and calculations; they do not claim to be new AI calls. The existing Azure discussion and full-match narrative services remain the AI components.
+
+Inside BTR demonstrates Ingest → Interpret → Explain → Render → Personalize. A production preview changes language and audience using the same evidence. JSON screen cues include clock, cutoff, expiry, revision and evidence references. JSONL exports contain fictional player metadata, completed events, authored observations, 1 Hz tracking and any additional exact tracking samples needed to resolve the cue's citations. No event or sample beyond the playhead is exported. A downloadable project brief explains the problem, implementation, demo route, Azure services and remaining integrations. `#presenters`, `#centre`, `#truth` and `#inside` open the corresponding sections directly.
+
+Verification: 44 tests cover the existing Azure/data pipeline and the new export citation integrity, temporal cutoffs, localized outcomes, correction handling and denominator math. Browser checks cover desktop and phone layouts, live sequence controls, public role navigation, language/audience controls, evidence correction and downloads. The additional pages add no paid services or model calls. Automatic video event detection, inferred player tagging, calibrated pass difficulty, Fabric and a broadcast rendering partner remain unimplemented.
+
 ## Broadcast + AI watch party (current homepage)
 
 The dark broadcast room puts the film first, with compact timed lower thirds and Scout, Check and Host beside it. Viewers can ask a clip-specific question after the final frame, replay cited moments, open a newcomer or math explanation, hide the party for a larger picture, and optionally hear completed contributions through available browser voices. Text streams as drafts; no paid speech service is added. `broadcast-room.js` and `broadcast-room.css` implement this homepage.
@@ -63,8 +73,8 @@ Azure Chat Completions streams structured JSON over SSE. Only the selected inter
 
 Streaming reduces time to first text; it cannot remove model startup, content-filter buffering, network delay or hosting cold starts. AI still runs at fifteen-minute checkpoints to respect the existing request allowance. Instant learning guides update between checkpoints.
 
-## Reference-inspired match room
+## Previous reference-inspired match room
 The navy and lime interface uses a compact fixture bar, original illustrated AI personas, a room/narrative switch, role-specific contribution selection, a persistent reviewed-moment timeline, and clip-derived fact cards. Persona activity reflects actual generation status. Clean feed hides broadcast graphics without changing playback. The synthetic match lab shares the same visual theme. The three personas retain the existing three-call Azure pipeline; no additional models or paid services were added.
 
 ## Match Centre, presenters and Truth Lab
-The latest navy-and-lime Watch Room remains the default. Match Centre uses the existing three authored 36-second scenarios for 22-player positions, player focus, completed-pass connections, shot locations, and binned event density. Its playhead is shared with Truth Lab and remains independent of the featured film. Truth Lab applies the existing defender tracking correction, withdraws the affected movement claim, and exports exact event/tracking references. Supported counts are deterministic checks, not AI accuracy or confidence. Presenter profiles show the same three illustrated personas and their latest public film contributions, without extra model calls.
+Match Centre uses three authored 36-second scenarios for 22-player positions, player focus, completed-pass connections, shot locations, and binned event density. Its playhead is shared with Truth Lab and Inside BTR and remains independent of the featured film. Truth Lab applies the defender tracking correction, withdraws the affected movement claim, and exports exact event/tracking references. Supported counts are deterministic checks, not AI accuracy or confidence. Presenter profiles show the three fictional AI personas and their latest public film contributions, without extra model calls.

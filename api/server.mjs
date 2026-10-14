@@ -9,7 +9,7 @@ import {Narrator,fallback} from './azure.mjs';
 import {MODES} from '../dist/learning.js';
 import {DiscussionDesk} from './desk.mjs';
 import {normalizeQuestion} from '../dist/party-state.js';
-const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml'};
 export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new DiscussionDesk(narrator)}={}){
  const root=resolve('dist'),runs=new Map(),rates=new Map();let created=0;
  let deskStreams=0;

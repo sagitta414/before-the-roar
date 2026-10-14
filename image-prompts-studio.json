@@ -1,0 +1,24 @@
+{
+  "tool": "Built-in image_gen",
+  "purpose": "Fictional photorealistic AI presenters for the BTR studio. These are not real people or live human presenters.",
+  "assets": [
+    {
+      "id": "scout",
+      "prompt": "Use case: photorealistic-natural. Asset type: premium football broadcast analyst portrait for a charcoal and red sports network web app. A believable entirely fictional adult male football pundit photographed waist-up in an expensive night-time stadium broadcast studio, direct editorial gaze, authentic skin pores and fine detail, cinematic soft key light, subtle crimson rim light, defocused stadium floodlights and charcoal glass behind him. Portrait 4:5 composition, head fully in frame with generous top margin, torso fills lower area. Dark understated tailored clothes. Professional documentary photography, not illustration, not 3D. No text, logos, watermarks, real team badges, famous faces or graphic overlays. Subject: a charismatic South Asian man in his late 30s, short textured black hair and neat stubble, dark charcoal open-collar shirt and jacket, alert intelligent expression, hands out of frame. Tactical analyst.",
+      "path": "dist/assets/scout-portrait.webp",
+      "original_path": "artwork/scout-portrait.png"
+    },
+    {
+      "id": "check",
+      "prompt": "Use case: photorealistic-natural. Asset type: premium football broadcast analyst portrait for a charcoal and red sports network web app. A believable entirely fictional adult male football pundit photographed waist-up in an expensive night-time stadium broadcast studio, direct editorial gaze, authentic skin pores and fine detail, cinematic soft key light, subtle crimson rim light, defocused stadium floodlights and charcoal glass behind him. Portrait 4:5 composition, head fully in frame with generous top margin, torso fills lower area. Dark understated tailored clothes. Professional documentary photography, not illustration, not 3D. No text, logos, watermarks, real team badges, famous faces or graphic overlays. Subject: an experienced white European man in his late 50s, natural swept-back silver hair, light salt-and-pepper beard, thin rectangular dark glasses, black crew-neck and tailored jacket, thoughtful calm expression. Evidence editor.",
+      "path": "dist/assets/check-portrait.webp",
+      "original_path": "artwork/check-portrait.png"
+    },
+    {
+      "id": "host",
+      "prompt": "Use case: photorealistic-natural. Asset type: premium football broadcast analyst portrait for a charcoal and red sports network web app. A believable entirely fictional adult male football pundit photographed waist-up in an expensive night-time stadium broadcast studio, direct editorial gaze, authentic skin pores and fine detail, cinematic soft key light, subtle crimson rim light, defocused stadium floodlights and charcoal glass behind him. Portrait 4:5 composition, head fully in frame with generous top margin, torso fills lower area. Dark understated tailored clothes. Professional documentary photography, not illustration, not 3D. No text, logos, watermarks, real team badges, famous faces or graphic overlays. Subject: an engaging Black British man in his early 40s, closely cropped hair, neatly groomed short beard, dark fitted suit and open-collar black shirt, confident relaxed half smile. Lead studio presenter.",
+      "path": "dist/assets/host-portrait.webp",
+      "original_path": "artwork/host-portrait.png"
+    }
+  ]
+}
