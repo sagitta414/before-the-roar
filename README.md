@@ -92,3 +92,7 @@ Task-adherence guards require Guide to include a definition, Vector to address t
 ## Agent readability
 
 The Presenters tab keeps all five faces in a visible selector and shows one detailed profile at a time. Larger, higher-contrast text and expandable evidence details reduce scrolling. The watch room uses larger portrait controls, photo-led message headers, readable contribution text and larger replay targets. No model, prompt, budget or generation behavior changes in this presentation update.
+
+## Stadium Match Centre
+
+The Match Centre uses generated turf and a four-figure fictional footballer atlas, with regulation pitch geometry, a moving ball, the selected player's last eight seconds of tracking and the latest completed pass. Stadium and Tactical views share the same ground coordinates. Player selection works from the lineup, pitch and keyboard. The cutouts are reused illustrations, not individual likenesses or automatic video tracking; their display size is enlarged for visibility. Statistics, evidence correction and exports retain the existing synthetic scenario model. Asset prompts and provenance are saved in `image-prompts-match-centre.json`.

@@ -1,0 +1,21 @@
+{
+  "tool": "Built-in image_gen",
+  "purpose": "Decorative fictional footballer atlas and turf for the Match Centre. Reused figures are not individual player likenesses; coordinates remain generated scenario data.",
+  "assets": [
+    {
+      "id": "players",
+      "path": "dist/assets/match-players.png",
+      "prompt": "Create a production sprite atlas, exactly 2 columns by 2 rows of four photorealistic adult male professional footballers, each isolated entirely on a transparent background with generous transparent margins. All four figures stand at identical scale and position within their equal-sized quadrants, full body head to boots, no cropping. Camera is a stadium broadcast camera high above the touchline looking down at about 40 degrees, three-quarter frontal view. TOP LEFT: athletic Black man in bright acid-yellow shirt, black shorts, acid-yellow socks and black boots. TOP RIGHT: athletic light-skinned man in light sky-blue shirt, navy shorts, sky-blue socks and white boots. BOTTOM LEFT: athletic medium-brown-skinned goalkeeper in orange shirt, orange shorts, orange socks, gloves. BOTTOM RIGHT: athletic light-skinned goalkeeper in plum-purple shirt, shorts and socks, gloves. Natural ready-to-play stance with slightly bent legs and arms relaxed slightly out. Real cloth texture, real human anatomy, short hair, convincing sports photograph under bright neutral floodlights. Exactly one person centered in each quadrant, no overlap, no text, no numbers, no logos, no equipment except keeper gloves, no balls, no ground plane, no stadium, no colored backdrop, no grid lines. Transparent alpha around and between all four people. Used as small realistic figures in a tactical replay."
+    },
+    {
+      "id": "turf",
+      "path": "dist/assets/match-turf.png",
+      "prompt": "Create a photorealistic texture asset of immaculate professional football stadium turf seen perfectly vertically from directly overhead. Landscape 3:2 ratio, edge-to-edge grass only. Fine realistic short-cut grass blades, subtle foot wear and tiny organic color variation, alternating broad vertical mowing stripes in natural muted emerald green. Even floodlit illumination, slight darker corners, no strong directional shadows. Precisely flat overhead orthographic perspective. NO field markings, no white lines, no people, no objects, no stadium, no text, no logos. This is a realistic clean grass material that will sit beneath mathematically precise vector pitch lines in a professional sports broadcast UI. Restrained natural color, not neon, crisp photographic texture."
+    }
+  ],
+  "limits": [
+    "No new computer vision or real match data.",
+    "Figures are enlarged and reused to make tracked positions recognizable.",
+    "The pitch geometry, trails and ball position are rendered from the existing scenario."
+  ]
+}
