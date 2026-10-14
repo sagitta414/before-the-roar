@@ -8,6 +8,7 @@ import {generateMatch,initialState,ingest,snapshot,evidencePacket} from './match
 import {Narrator,fallback} from './azure.mjs';
 import {MODES} from '../dist/learning.js';
 import {DiscussionDesk} from './desk.mjs';
+import {normalizeQuestion} from '../dist/party-state.js';
 const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml'};
 export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new DiscussionDesk(narrator)}={}){
  const root=resolve('dist'),runs=new Map(),rates=new Map();let created=0;
@@ -40,7 +41,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
   if(req.method==='OPTIONS'){res.writeHead(origin&&!allowed.has(origin)?403:204).end();return;}
   let route;try{route=new URL(req.url,'http://local').pathname;}catch{return send(res,400,{error:'Invalid URL'});}
   try{
-   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'2.0.1',streaming:true,video_discussion:true,perspectives:MODES});
+   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.0.0',streaming:true,video_discussion:true,perspectives:MODES});
    if(route==='/api/desk'&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     if(deskStreams>=6)return send(res,429,{error:'The AI desk is busy. Try again shortly.'});
@@ -49,11 +50,12 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
     let body='';for await(const c of req){body+=c;if(body.length>2048)return send(res,413,{error:'Request too large'});}
     let input;try{input=JSON.parse(body);}catch{return send(res,400,{error:'Invalid JSON'});}
     const {language='en',mode='fan'}=input;if(!['en','es','pt'].includes(language)||!MODES.includes(mode))return send(res,400,{error:'Choose a supported audience and language.'});
+    let question;try{question=normalizeQuestion(input.question);}catch(error){return send(res,400,{error:error.message});}
     rate.n++;rates.set(ip,rate);deskStreams++;
     res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','X-Accel-Buffering':'no'});
     const emit=(type,data)=>{if(res.destroyed)return;if(res.writableLength>256000){res.destroy();return;}res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);};
     emit('connected',{source:'reviewed-ai-video',discussion_scope:'full-clip',visible_after_seconds:8,language,mode});
-    try{await desk.discuss({language,mode},emit);}catch{emit('error',{message:'The discussion could not finish. Please retry.'});}finally{deskStreams--;res.end();}return;
+    try{await desk.discuss({language,mode,question},emit);}catch{emit('error',{message:'The discussion could not finish. Please retry.'});}finally{deskStreams--;res.end();}return;
    }
    if(route==='/api/runs'&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
@@ -95,6 +97,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
  return {server,runs,tick};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){const {server}=createApp();server.listen(Number(process.env.PORT||4397),'0.0.0.0',()=>console.log(`BTR intelligence listening on ${process.env.PORT||4397}`));}
+
 
 
 
