@@ -15,3 +15,9 @@ The alternative freezes winger/defender positions to compare geometry; it does n
 ## Next integration
 
 Replace narrative templates with a server-side structured-generation adapter receiving the bounded evidence packet; validate every emitted player, number, timestamp and evidence reference. Preserve deterministic metrics, temporal cutoffs, revision handling and fallback templates. Add scenario variation and evaluation data before claiming football generalization.
+
+## Cinematic visual edition
+
+The default Cinematic view uses three original built-in ImageGen images with playback-synchronized pan and zoom. These are illustrative stills, not generated video and not visual evidence of the underlying synthetic tracking. The Tactical button opens the data-driven moving replay. Analyst/player modes and correction/alternative actions automatically open Tactical. Quiet view suppresses the camera motion. Original image assets are in `dist/assets/`; prompt and provenance records are in `image-prompts.json`.
+
+Visual direction draws on Crave Frame's dark image-led composition and the contrasting controls of the MajorKey guided workshop, adapted to a forest-green and lime football broadcast style.

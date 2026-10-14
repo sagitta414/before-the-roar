@@ -1,0 +1,23 @@
+{
+  "mode": "built-in image_gen",
+  "synthetic": true,
+  "purpose": "Illustrative cinematic stills, not source footage or tracking evidence",
+  "assets": [
+    {
+      "file": "dist/assets/wide-cinema.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: cinematic widescreen hero background for a fictional football broadcast prototype. Generate a high-end photorealistic sports photograph, landscape 16:9, of an intense professional association football match at night in a packed English-style stadium. Harbor FC wear solid pale electric lime shirts, dark forest green shorts and socks; opponents Northbridge wear muted ice-blue shirts and navy shorts. Main subject: athletic adult male winger number 7 seen from behind/right three-quarter, sprinting without the ball along the left channel toward the goal in the distance; a blue defender tracking him several metres away; other players and a ball carrier further inside. Wide pitch-level 50mm telephoto sports camera, main winger in middle-right of frame, plenty of dark stadium and pitch negative space on the left for a UI overlay. Authentic anatomy, realistic football proportions, damp richly textured emerald grass, turf fragments, floodlights reflecting in light rain, atmospheric stands and white net behind. Crisp athlete, slight directional motion blur on distant crowd only. Premium documentary sports cinematography, cinematic deep green blacks, natural skin, restrained warm stadium lights, sharp luminous pale lime jersey, physically realistic not game graphics. No club logos, no sponsors, no watermarks, no text, no captions, no UI, no recognizable real people, no Premier League insignia. Fictional game. Single continuous photograph."
+    },
+    {
+      "file": "dist/assets/press-cinema.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: widescreen cinematic football match scene and chapter thumbnail for a fictional broadcast app. Generate a photorealistic editorial action sports photograph, 16:9 landscape: an adult athletic midfielder number 8 in pale electric lime jersey, forest green shorts and socks closes down a player in muted ice-blue shirt and navy shorts who controls the football. Two additional players are farther back. Packed English-style stadium at night, damp emerald pitch with natural texture, dramatic but believable stadium floodlights and fine rain, deep green-black shadows, realistic physique and faces, professional 85mm lens sports photography, foreground ball and two players in middle-right, left side has usable pitch negative space for UI text. Camera about waist-height by the touchline, intense movement, natural anatomy, documentary realism, restrained film grain, premium broadcast aesthetic. Same fictional Harbor FC lime vs Northbridge blue color identity. No logos, sponsors, readable text besides shirt number 8, watermarks, UI, real clubs or recognizable people. One uninterrupted photo."
+    },
+    {
+      "file": "dist/assets/counter-cinema.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: widescreen cinematic football match scene and chapter thumbnail for a fictional broadcast app. A high-end realistic sports photograph 16:9 landscape of a football counterattack: adult athletic striker number 9 in pale electric lime jersey, forest-green shorts and socks accelerating with the football toward goal, an ice-blue-shirted defender chasing, orange-clad goalkeeper bracing in distant goal. Rightward attacking movement. Stadium floodlights at night with fine rain, lush wet emerald grass, packed stands fading into deep green-black atmosphere. Shoot from touchline low telephoto 70mm, action concentrated middle-right with generous pitch and stadium negative space on left. Sharp authentic athlete and football with slight grass spray, natural skin and anatomy, cinematic documentary texture, rich contrast but clean readable exposure. Fictional Harbor FC against Northbridge, consistent lime and ice-blue kits. No sponsors, logos, watermarks, overlay graphics, scoreboards, readable text except number 9, real club markings or recognizable individuals. Single photoreal photograph, not a video game render."
+    }
+  ],
+  "edits": [
+    "Press: remove all sportswear logos and crests; keep main number 8; change background duplicate number 8 to 6.",
+    "Counter: change foreground defender shorts from white to navy; remove logos, crests and ad text."
+  ]
+}
