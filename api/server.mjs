@@ -7,7 +7,7 @@ import {randomBytes,timingSafeEqual} from 'node:crypto';
 import {generateMatch,initialState,ingest,snapshot,evidencePacket} from './match.mjs';
 import {Narrator,fallback} from './azure.mjs';
 import {MODES} from '../dist/learning.js';
-import {DiscussionDesk} from './desk.mjs';
+import {DiscussionDesk,DESK_ROLES} from './desk.mjs';
 import {normalizeQuestion} from '../dist/party-state.js';
 const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml'};
 export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new DiscussionDesk(narrator)}={}){
@@ -41,7 +41,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
   if(req.method==='OPTIONS'){res.writeHead(origin&&!allowed.has(origin)?403:204).end();return;}
   let route;try{route=new URL(req.url,'http://local').pathname;}catch{return send(res,400,{error:'Invalid URL'});}
   try{
-   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.0.0',streaming:true,video_discussion:true,perspectives:MODES});
+   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.1.1',streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
    if(route==='/api/desk'&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     if(deskStreams>=6)return send(res,429,{error:'The AI desk is busy. Try again shortly.'});

@@ -19,6 +19,18 @@
       "prompt": "Use case: photorealistic-natural. Asset type: premium football broadcast analyst portrait for a charcoal and red sports network web app. A believable entirely fictional adult male football pundit photographed waist-up in an expensive night-time stadium broadcast studio, direct editorial gaze, authentic skin pores and fine detail, cinematic soft key light, subtle crimson rim light, defocused stadium floodlights and charcoal glass behind him. Portrait 4:5 composition, head fully in frame with generous top margin, torso fills lower area. Dark understated tailored clothes. Professional documentary photography, not illustration, not 3D. No text, logos, watermarks, real team badges, famous faces or graphic overlays. Subject: an engaging Black British man in his early 40s, closely cropped hair, neatly groomed short beard, dark fitted suit and open-collar black shirt, confident relaxed half smile. Lead studio presenter.",
       "path": "dist/assets/host-portrait.webp",
       "original_path": "artwork/host-portrait.png"
+    },
+    {
+      "id": "guide",
+      "prompt": "Photorealistic premium football broadcast studio portrait, waist-up, portrait 4:5 framing with full head and generous top margin. Entirely fictional adult male presenter, realistic natural skin detail and documentary camera quality. Dark tailored clothes, black and charcoal glass studio overlooking a defocused football stadium at night, white floodlights and a subtle red vertical light. Soft key light and faint crimson rim light. Eye contact, professional and approachable. Match a sophisticated red and charcoal sports network. No words, logos, badges, watermarks, famous faces, charts or graphics. Not an illustration or render. Subject: a friendly Latino man around 35, short dark curly hair, neat stubble, dark open-collar casual shirt under a charcoal jacket, genuine warm slight smile. He explains football clearly to people new to sport.",
+      "path": "dist/assets/guide-portrait.webp",
+      "original_path": "artwork/guide-portrait.png"
+    },
+    {
+      "id": "vector",
+      "prompt": "Photorealistic premium football broadcast studio portrait, waist-up, portrait 4:5 framing with full head and generous top margin. Entirely fictional adult male presenter, realistic natural skin detail and documentary camera quality. Dark tailored clothes, black and charcoal glass studio overlooking a defocused football stadium at night, white floodlights and a subtle red vertical light. Soft key light and faint crimson rim light. Eye contact, professional and approachable. Match a sophisticated red and charcoal sports network. No words, logos, badges, watermarks, famous faces, charts or graphics. Not an illustration or render. Subject: a thoughtful East Asian man around 42, short neatly styled black hair, subtle rectangular glasses, black crew-neck under a tailored dark jacket, calm intelligent expression and slight smile. He is a quantitative football explanation specialist.",
+      "path": "dist/assets/vector-portrait.webp",
+      "original_path": "artwork/vector-portrait.png"
     }
   ]
 }
