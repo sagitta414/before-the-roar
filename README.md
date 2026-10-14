@@ -24,4 +24,6 @@ The data lab's Match film view plays three real H.264 MP4 files rendered locally
 
 To reproduce films: `npm install`, set `RENDER_FILMS=1`, run `node server.mjs`, open `/__studio`, and click **Render all clips**. The loopback-only authoring server saves WebM files under ignored `tmp/films/`. Run `scripts/encode-films.ps1` with FFmpeg on PATH to create production MP4s and poster frames. The static deployment exposes no recording endpoint and requires no Three.js runtime on visitors' devices.
 
-Visual direction draws on Crave Frame's dark image-led composition and the contrasting controls of the MajorKey guided workshop, adapted to a forest-green and lime football broadcast style.
+## Network studio experience
+
+The interface uses an original BTR broadcast identity with charcoal surfaces, off-white analysis panels, lime accents and condensed editorial typography. Match room, Explore and Your recap connect the video, evidence desk and story library. Library scenarios open directly in the tactical view; their photographic covers are illustrative. The mobile layout places the analysis desk immediately after the player and keeps the full event sequence expandable. All active styling is in `dist/network.css`.

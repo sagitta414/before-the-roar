@@ -1,5 +1,5 @@
 // Human-reviewed annotations of user-provided AI footage. No optical tracking or inferred measurements.
-export const FEATURED_CLIP={id:'featured',kind:'AI-generated highlight',title:'Eight seconds. A whole story.',esTitle:'Ocho segundos. Toda una historia.',duration:8,focus:8,source:'reviewed-video',minute:null};
+export const FEATURED_CLIP={id:'featured',kind:'AI-generated highlight',title:'The duel. The shot. The reaction.',esTitle:'El duelo. El disparo. La reacción.',duration:8,focus:8,source:'reviewed-video',minute:null};
 export const CLIP_BEATS=[
  {at:.25,id:'featured-duel',title:['The one-on-one','El uno contra uno'],observation:['A lime-shirted attacker faces a pale-blue defender with the ball at his feet.','Un atacante de verde lima encara a un defensor de azul claro con el balón a sus pies.'],
  casual:['One defender. One decision.','Un defensor. Una decisión.','Watch the defender in front of the ball. The attacker has to find a route around him before looking toward goal.','Mira al defensor frente al balón. El atacante necesita encontrar una salida antes de buscar la portería.'],
@@ -26,7 +26,7 @@ export const clipTime=t=>`00:${Math.floor(t).toString().padStart(2,'0')}`;
 export function clipStory(time,mode='casual',lang='en'){
  const t=Math.max(0,Math.min(FEATURED_CLIP.duration,Number(time)||0)),es=lang==='es',i=es?1:0;
  const seen=CLIP_BEATS.filter(b=>b.at<=t),beat=seen.at(-1),copy=beat?.[mode]||beat?.casual;
- const title=copy?copy[i]:['Eight seconds. Look closer.','Ocho segundos. Mira de cerca.'][i];
+ const title=copy?copy[i]:['Every touch has a story.','Cada toque tiene una historia.'][i];
  const body=copy?copy[i+2]:['Play the clip to follow a fictional attacker through a short goalmouth sequence. Each explanation appears as the action unfolds.','Reproduce el vídeo y sigue a un atacante ficticio en una breve jugada ante la portería. Cada explicación aparece a medida que avanza la acción.'][i];
  return {title,body,short:title,kicker:['THE REVIEWED HIGHLIGHT','LA JUGADA REVISADA'][i],state:t>=6.25?'resolved':t>=2?'emerging':'watching',activeId:beat?.id??null,time:t,
  evidence:seen.map(b=>({id:b.id,time:clipTime(b.at),sequence_time_ms:Math.round(b.at*1000),title:b.title[i],detail:b.observation[i],status:'manually-reviewed'})),outcome:'unconfirmed',metrics:null};
