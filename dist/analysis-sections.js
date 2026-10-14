@@ -63,7 +63,7 @@ for(const p of profiles){
  const button=el('button','join-presenter','Join '+p.name+' in the room ↗');button.addEventListener('click',()=>emit('btr-profile-role',p.id));actions.append(example,button);body.append(overview,actions);card.append(art,body);$('presenter-grid').append(card);profileLines.set(p.id,latest);profileCards.set(p.id,card);
 }
 selectProfile('analyst');
-document.addEventListener('btr-contributions',e=>{for(const p of profiles){const post=e.detail.posts.find(x=>x.role===p.id);profileLines.get(p.id).textContent=post?`${post.engine==='azure_openai'?'AI':'Reviewed fallback'} · ${post.summary}`:'Watch the film to see this role’s latest public contribution.';}});
+document.addEventListener('btr-contributions',e=>{for(const p of profiles){const post=e.detail.posts.find(x=>x.role===p.id);profileLines.get(p.id).textContent=post?`${({azure_openai:'Azure AI',calculated:'Calculated',evidence_rules:'Evidence check',instant_notes:'Match notes',reviewed_fallback:'Reviewed fallback'})[post.engine]||'Match notes'} · ${post.summary}`:'Watch the film to see this role’s latest public contribution.';}});
 $('return-room').addEventListener('click',()=>emit('btr-profile-role',null));
 
 document.addEventListener("btr-analysis-request",()=>render());

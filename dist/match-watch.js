@@ -19,7 +19,8 @@ async function play(){try{if(state.time>=36)seek(0);started=true;$('opening').hi
 function loadVideo(){if(loaded===state.scenario)return;loaded=state.scenario;film.pause();pendingSeek=state.time;film.src=`assets/${state.scenario}-film.mp4`;film.poster=`assets/${state.scenario}-poster.jpg`;film.load();started=false;$('opening').hidden=false;}
 film.addEventListener('loadedmetadata',()=>{film.currentTime=pendingSeek;});
 film.addEventListener('error',()=>toast('The match film could not load. Match Centre still provides the synchronized tactical replay.'));
-film.addEventListener('timeupdate',()=>{if(state.section==='watch'&&film.readyState>=1)matchSession.set({time:Math.min(36,film.currentTime)},'film');});
+// Paused metadata/seek events must not overwrite a newer evidence-page playhead.
+film.addEventListener('timeupdate',()=>{if(state.section==='watch'&&film.readyState>=1&&!film.seeking&&(!film.paused||film.ended))matchSession.set({time:Math.min(36,film.currentTime)},'film');});
 for(const event of ['play','pause','ended'])film.addEventListener(event,()=>{put('play',film.paused?'▶':'Ⅱ');$('play').setAttribute('aria-label',film.paused?'Play film':'Pause film');$('end-replay').hidden=!film.ended;if(film.ended)render();});
 film.muted=true;
 function render(){
@@ -42,7 +43,7 @@ function render(){
  if(started&&state.section==='watch'){const threshold={wide:16,press:10,counter:12}[s.id],end=s.actions.find(e=>e.type==='shot').end,cutoff=state.time>=end?end:state.time>=threshold?threshold:null;if(cutoff!==null)requestPanel('',cutoff,false);}
 }
 function renderPanel(){
- const thread=activeThread(),fallback=localPanel(current),list=thread?[...thread.posts.values()]:fallback;
+ const thread=activeThread(),fallback=localPanel(current),list=thread?[...thread.posts.values()]:fallback,discussionEvidence=thread?matchStory({...state,time:thread.cutoff}).evidence:current.evidence;
  const signature=[thread?.key,thread?.serial,state.language,selected,narrativeOnly,thread?0:Math.floor(state.time),state.corrected].join('|');if($('conversation').dataset.signature===signature)return;$('conversation').dataset.signature=signature;
  const box=$('conversation'),nearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<80;box.replaceChildren();
  if(thread)box.append(el('p','discussion-cutoff',`${current.words.at} ${clock(SCENARIOS.find(s=>s.id===state.scenario),thread.cutoff)} · R${current.revision}`));
@@ -51,11 +52,11 @@ function renderPanel(){
   const row=el('article',`message ${profile.image}`),meta=el('div','message-meta'),face=el('span','message-face'),identity=el('div','message-identity');face.style.backgroundImage=`url(assets/${profile.image}-portrait.webp)`;identity.append(el('b','message-name',profile.name),el('span','message-specialty',profile.role));meta.append(face,identity,el('span','message-badge',draft&&!post?'DRAFT':post.engine==='azure_openai'?'AZURE AI':post.engine==='calculated'?'CALCULATED':post.engine==='evidence_rules'?'EVIDENCE CHECK':'MATCH NOTES'));row.append(meta);
   if(post?.decision){const decision=post.decision;row.append(el('strong','verdict verdict-'+decision,current.words[decision]||'HOLD'),el('blockquote','reviewed-claim',post.target_claim));if(post.reviewed_contribution){const detail=el('details');detail.append(el('summary','','Scout’s contribution under review'),el('p','',post.reviewed_contribution));row.append(detail);}}
   row.append(el('p','',post?.summary||draft.summary));if(post?.working)row.append(el('code','working',post.working));
-  if(post){const links=el('div','citations');for(const id of post.evidence_ids.slice(-3)){const e=current.evidence.find(e=>e.id===id);if(!e)continue;const b=el('button','',`${clock(SCENARIOS.find(s=>s.id===state.scenario),e.end??e.second??thread?.cutoff??state.time)} ↗`);b.title=id;b.setAttribute('aria-label','Replay evidence '+id);b.onclick=()=>seek(e.end??e.second??thread?.cutoff??state.time);links.append(b);}row.append(links);if(post.caution){const d=el('details');d.append(el('summary','','Evidence limit'),el('p','',post.caution));row.append(d);}}
+  if(post){const links=el('div','citations');for(const id of post.evidence_ids.slice(-3)){const e=discussionEvidence.find(e=>e.id===id);if(!e)continue;const b=el('button','',`${clock(SCENARIOS.find(s=>s.id===state.scenario),e.end??e.second??thread?.cutoff??state.time)} ↗`);b.title=id;b.setAttribute('aria-label','Replay evidence '+id);b.onclick=()=>seek(e.end??e.second??thread?.cutoff??state.time);links.append(b);}row.append(links);if(post.caution){const d=el('details');d.append(el('summary','','Evidence limit'),el('p','',post.caution));row.append(d);}}
   box.append(row);
  }
  for(const b of document.querySelectorAll('[data-agent]')){b.setAttribute('aria-pressed',String(selected===b.dataset.agent));b.classList.toggle('active',!!thread?.pending&&!thread.posts.has(b.dataset.agent));b.querySelector('.agent-state').textContent=thread?.posts.has(b.dataset.agent)?'READY':thread?.pending?'WRITING':'INSTANT';}
- put('party-status',thread?.error||(!thread?'Instant match notes · AI joins at key moments':thread.pending?'AI discussion streaming · exact cutoff shown above':thread.fallback?'Match notes · AI unavailable for this turn':`AI discussion ready${thread.cached?' · cached':''}`));
+ put('party-status',thread?.error||(!thread?'Instant match notes · AI joins at key moments':thread.pending?'AI discussion streaming · exact cutoff shown above':!list.some(p=>p.engine==='azure_openai')&&!current.brief.state.seen.length?'Match notes · waiting for the first completed event':thread.fallback?'Match notes · AI unavailable for this turn':`AI discussion ready${thread.cached?' · cached':''}`));
  put('response-timing',thread?.first!=null?`First AI text ${(thread.first/1000).toFixed(1)}s${thread.total!=null?' · panel '+(thread.total/1000).toFixed(1)+'s':''}`:thread?.cached?'Cached discussion · no new model calls':'Instant facts · measured AI response times');
  $('all-agents').hidden=!selected;$('question').disabled=!!thread?.pending;$('send-question').disabled=!!thread?.pending;$('export').disabled=false;
  document.dispatchEvent(new CustomEvent('btr-contributions',{detail:{posts:list,language:state.language,mode:state.mode}}));if(nearBottom)box.scrollTop=box.scrollHeight;

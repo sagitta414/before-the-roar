@@ -6,7 +6,7 @@ A football storytelling prototype built around one shared synthetic match sequen
 
 - `npm run studio`: backend and site at http://127.0.0.1:4397. Without Azure configuration, clearly labeled match notes replace unavailable AI.
 - `npm run dev`: static authoring preview at http://127.0.0.1:4396.
-- `npm test`: 65 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, role adherence and API boundaries.
+- `npm test`: 66 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, role adherence and API boundaries. Empty event windows return match notes without model calls.
 - `node scripts/cohesive-smoke.mjs <Azure origin> false` and `true`: exercise original/corrected discussions against the live model. These consume up to three model requests each unless cached.
 
 ## The main experience

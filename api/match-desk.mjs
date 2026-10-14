@@ -22,6 +22,7 @@ export class MatchDesk{
  }
  async generate(key,input,emit){
   const packet=matchStory(input),notes=localPanel(packet),posts=new Map(),start=performance.now();
+  if(!packet.brief.state.seen.length){for(const post of notes)emit('post',post);emit('complete',{cached:false,elapsed_ms:Math.round(performance.now()-start),model_calls:0,no_events:true});return notes;}
   try{const cached=await this.store.read(key);if(cached?.schema==='btr.match-desk.v1'){for(const p of cached.posts)emit('post',{...p,cached:true});emit('complete',{cached:true,elapsed_ms:Math.round(performance.now()-start)});return cached.posts;}}catch{}
   const publish=p=>{posts.set(p.role,p);emit('post',p);};publish(notes.find(p=>p.role==='math'));
   const complete=async(role,previous=[])=>{
