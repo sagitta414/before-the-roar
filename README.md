@@ -96,3 +96,9 @@ The Presenters tab keeps all five faces in a visible selector and shows one deta
 ## Stadium Match Centre
 
 The Match Centre uses generated turf and a four-figure fictional footballer atlas, with regulation pitch geometry, a moving ball, the selected player's last eight seconds of tracking and the latest completed pass. Stadium and Tactical views share the same ground coordinates. Player selection works from the lineup, pitch and keyboard. The cutouts are reused illustrations, not individual likenesses or automatic video tracking; their display size is enlarged for visibility. Statistics, evidence correction and exports retain the existing synthetic scenario model. Asset prompts and provenance are saved in `image-prompts-match-centre.json`.
+
+## Truth Lab: the story under review
+
+Three guided cases connect observations, claims and outcomes to the shared synthetic playhead. The unseen-run case adds an explicit tracking challenge: compare original and corrected positions, see the affected sentence replaced, and retain unaffected pass and goal facts. A compact Check editorial note explains the limit of each claim. Clear and detailed perspectives share the same evidence; optional narration uses the browser's device voice and stops when the evidence changes.
+
+The claim ledger opens exact event and tracking records. The `btr.truth-story.v2` export includes the narrative, revisions, checks and all referenced evidence at or before the cutoff, including coverage records for empty windows. The story and review are deterministic, not new model calls or AI confidence scores. This experience remains separate from the Azure AI watch room and incurs no additional AI usage.
