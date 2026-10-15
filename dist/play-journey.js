@@ -1,7 +1,7 @@
 import {matchSession} from './match-session.js';
 import {SCENARIOS,clock} from './engine.js';
 import {analyzePlay} from './play-analysis.js';
-import {FILM_SCENES} from './film-math.js';
+import {sceneStudy} from './film-math.js';
 const el=(tag,cls,text)=>{const n=document.createElement(tag);n.className=cls||'';if(text!==undefined)n.textContent=text;return n;};
 const copy={en:{title:'Follow one complete play',sub:'Pressure. Regain. Chance. A continuous synthetic replay, with the data behind every step.',open:'Follow the play ↗',back:'Back to the film ↗',replay:'Replay this stage',proof:'Show the calculation',source:'SYNTHETIC MATCH / ONE CONNECTED SEQUENCE',scene:'One uncut scene at a time',sceneNote:'The same players and action until the cut. Choose the next study when you are ready.',next:'Next scene →',again:'Replay scene ↺',recap:'THE ATTACK, EXPLAINED',map:'Replay map · choose a stage',download:'Save recap + evidence ↓'},es:{title:'Sigue una jugada completa',sub:'Presión. Recuperación. Ocasión. Una secuencia sintética continua con datos para cada paso.',open:'Seguir la jugada ↗',back:'Volver al vídeo ↗',replay:'Repetir esta etapa',proof:'Ver el cálculo',source:'PARTIDO SINTÉTICO / UNA SECUENCIA CONECTADA',scene:'Una escena sin cortes cada vez',sceneNote:'Los mismos jugadores y la misma acción hasta el corte. Elige el siguiente estudio cuando quieras.',next:'Siguiente escena →',again:'Repetir escena ↺',recap:'EL ATAQUE EXPLICADO',map:'Mapa de repetición · elige una etapa',download:'Guardar resumen y evidencia ↓'},pt:{title:'Siga uma jogada completa',sub:'Pressão. Recuperação. Chance. Uma sequência sintética contínua com dados em cada etapa.',open:'Seguir a jogada ↗',back:'Voltar ao vídeo ↗',replay:'Rever esta etapa',proof:'Ver o cálculo',source:'PARTIDA SINTÉTICA / UMA SEQUÊNCIA CONECTADA',scene:'Uma cena sem cortes por vez',sceneNote:'Os mesmos jogadores e a mesma ação até o corte. Escolha o próximo estudo quando quiser.',next:'Próxima cena →',again:'Rever cena ↺',recap:'O ATAQUE EXPLICADO',map:'Mapa da jogada · escolha uma etapa',download:'Salvar resumo e evidência ↓'}};
 function startStory(){document.getElementById('film').pause();matchSession.set({source:'match',scenario:'press',corrected:false,focus:8,team:'harbor'});matchSession.set({time:6});document.getElementById('watch-nav').click();}
@@ -23,11 +23,11 @@ function board(node,a,s,compact){
  const back=el('button','journey-back',c.back);back.onclick=()=>matchSession.set({source:'pitchside'});if(compact)node.append(back);
 }
 let last='';function render(s){
- const key=[s.source,s.scenario,Math.floor(s.time*2),Math.floor(s.clipTime*2),s.studyScene,s.language,s.section].join(':');if(key===last)return;last=key;const c=copy[s.language];
+ const study=sceneStudy(s.clipTime,s.studyScene),key=[s.source,s.scenario,Math.floor(s.time*2),Math.floor(s.clipTime*2),study.complete,s.studyScene,s.language,s.section].join(':');if(key===last)return;last=key;const c=copy[s.language];
  for(const node of launchers)launch(node,c);
  if(s.source==='pitchside'){
-  watch.replaceChildren();const scene=FILM_SCENES.findLast(x=>x.start<=s.clipTime),done=s.studyScene&&s.clipTime>=scene.end-.05;
-  if(done){const doneBox=el('div','scene-finished');doneBox.append(el('strong','',c.scene),el('p','',c.sceneNote));for(const [label,time]of [[c.again,scene.start],[c.next,scene.end>=60?0:scene.end]]){const button=el('button','outline-button',label);button.onclick=()=>{matchSession.set({clipTime:time});document.getElementById('play').click();};doneBox.append(button);}watch.append(doneBox);}
+  watch.replaceChildren();
+  if(study.complete){const doneBox=el('div','scene-finished');doneBox.append(el('strong','',c.scene),el('p','',c.sceneNote));for(const [label,time]of [[c.again,study.replayAt],[c.next,study.nextAt]]){const button=el('button','outline-button',label);button.onclick=()=>{matchSession.set({clipTime:time});document.getElementById('play').click();};doneBox.append(button);}watch.append(doneBox);}
   const banner=el('div','connected-play');launch(banner,c);watch.append(banner);return;
  }
  const scenario=SCENARIOS.find(x=>x.id===s.scenario),analysis=analyzePlay(scenario,s.time,s.language);board(watch,analysis,s,true);board(centre,analysis,s,false);

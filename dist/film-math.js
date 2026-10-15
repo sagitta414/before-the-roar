@@ -15,6 +15,10 @@ export const FILM_SCENES=[
  {start:32,end:40,id:'04-line'}, {start:40,end:48,id:'05-keeper'},
  {start:48,end:52,id:'06-talk'}, {start:52,end:60,id:'07-blue'}
 ];
+export function sceneStudy(time,enabled){
+ const scene=FILM_SCENES.findLast(s=>s.start<=Math.max(0,Math.min(60,time)))||FILM_SCENES[0];
+ return {scene,complete:!!enabled&&time>=scene.end-.05,replayAt:scene.start,nextAt:scene.end>=60?0:scene.end};
+}
 export function scenePlayback(previous,next,study){
  const scene=FILM_SCENES.findLast(s=>s.start<=Math.max(0,Math.min(60,previous)))||FILM_SCENES[0];
  return study&&next>=scene.end?{time:scene.end-1/24,stop:true}:{time:next,stop:false};

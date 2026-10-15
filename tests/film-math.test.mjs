@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {filmMath,scenePlayback} from '../dist/film-math.js';
+import {filmMath,scenePlayback,sceneStudy} from '../dist/film-math.js';
 import {pitchsideStory,pitchsidePanel,PITCHSIDE_BEATS,pitchsideExport} from '../dist/pitchside-story.js';
 const math=(time,language='en')=>filmMath({time,language,evidence:pitchsideStory({time,language}).evidence});
 test('local football numbers use reviewed roles and never carry an overload across a cut',()=>{
@@ -28,4 +28,10 @@ test('one-scene playback stops before a cut and normal reel playback remains con
  assert.deepEqual(scenePlayback(7.9,8.1,true),{time:8-1/24,stop:true});
  assert.deepEqual(scenePlayback(22,22.5,true),{time:22.5,stop:false});
  assert.equal(scenePlayback(59.9,60,true).time,60-1/24);
+});
+test('scene completion gets its own render state inside the final half-second',()=>{
+ const before=sceneStudy(23.6,true),after=sceneStudy(scenePlayback(23.8,24.1,true).time,true);
+ assert.equal(before.complete,false);assert.equal(after.complete,true);
+ assert.equal(after.replayAt,16);assert.equal(after.nextAt,24);
+ assert.equal(sceneStudy(60-1/24,true).nextAt,0);assert.equal(sceneStudy(60-1/24,false).complete,false);
 });

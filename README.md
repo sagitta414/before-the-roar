@@ -6,7 +6,7 @@ A football storytelling prototype with a photorealistic AI film and an evidence-
 
 - `npm run studio`: backend and site at http://127.0.0.1:4397. Without Azure configuration, clearly labeled match notes replace unavailable AI.
 - `npm run dev`: static authoring preview at http://127.0.0.1:4396.
-- `npm test`: 97 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
+- `npm test`: 98 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
 - `node scripts/cohesive-smoke.mjs <Azure origin> false` and `true`: exercise original/corrected discussions against the live model. These consume up to three model requests each unless cached.
 
 ## The main experience
@@ -82,3 +82,4 @@ A prominent Follow one complete play action opens the pressure sequence at its f
 Each film scene has a specific claim challenge, a newcomer question and a football takeaway. Live model prompts receive a role-specific brief and the subjects reserved for other roles. Generic Host conclusions are rejected in favor of labeled reviewed notes; this is a targeted guard, not a guarantee of semantic novelty. Existing three-call discussions, streaming, caching and daily budget remain. No new paid services or video generation were added.
 
 New completed synthetic events retire older discussions so earlier pressure math cannot remain on screen after a forward pass. Source changes conceal the prior video frame until the new media has loaded and finished seeking. Technique claims unsupported by coordinate endpoints and generic question-like Host conclusions are rejected to reviewed notes.
+
