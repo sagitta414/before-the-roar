@@ -5,9 +5,15 @@ import {matchStory,localPanel,matchExport,editorialKey,WORDS} from './match-stor
 import {PRESENTER_PROFILES as profiles} from './presenter-profiles.js';
 import {createMatchPitch} from './match-pitch.js';
 import {matchCenterSnapshot} from './analysis-model.js';
+import {arrangeReadingRoom} from './reading-room.js';
+import {ROLE_LABELS} from './editorial-roles.js';
+arrangeReadingRoom();
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},put=(id,t)=>{if($(id).textContent!==String(t))$(id).textContent=t;};
 const film=$('film'),threads=new Map();let state=matchSession.get(),current=matchStory(state),base='',loaded='',pendingSeek=0,started=false,selected=null,narrativeOnly=false,voices=false,speechKey='',lastRender=0;
 let watchSource='pitchside',clipTime=0;
+const chapterLabels={en:['The duel','The outlet','Close control','The defender','The sideline','The keeper','The gesture','The pass'],es:['El duelo','La salida','El control','El defensor','La banda','El portero','El gesto','El pase'],pt:['O duelo','A saída','O controle','O defensor','A lateral','O goleiro','O gesto','O passe']};
+const chapterStarts=[0,8,16,24,32,40,48,52],chapterNav=el('nav','film-chapters'),chapterLabel=el('div','film-chapter-label');chapterNav.setAttribute('aria-label','Film chapters');$('player').before(chapterLabel);document.querySelector('.transport').after(chapterNav);
+for(const [i,t]of chapterStarts.entries()){const button=el('button');button.append(el('span','',clipClock(t)),el('b','',chapterLabels.en[i]));button.onclick=()=>{started=true;seek(t);};chapterNav.append(button);}
 const isClip=()=>watchSource==='pitchside',viewTime=()=>isClip()?clipTime:state.time,viewInput=()=>isClip()?{time:clipTime,language:state.language,mode:state.mode,clip_id:PITCHSIDE.id}:state,viewStory=input=>isClip()?pitchsideStory(input):matchStory(input),viewPanel=packet=>isClip()?pitchsidePanel(packet):localPanel(packet),displayTime=t=>isClip()?clipClock(t):clock(SCENARIOS.find(s=>s.id===state.scenario),t);
 const overlayChannel='BroadcastChannel'in window?new BroadcastChannel('btr-match-cue-v1'):null;
 const config=fetch('api-config.json').then(r=>r.json()).then(c=>base=['localhost','127.0.0.1'].includes(location.hostname)?'':c.baseUrl||'').catch(()=>{});
@@ -49,21 +55,28 @@ function render(){
 function renderPanel(){
  const thread=activeThread(),fallback=viewPanel(current),list=thread?[...thread.posts.values()]:fallback,discussionEvidence=thread?viewStory({...viewInput(),time:thread.cutoff}).evidence:current.evidence;
  const signature=[scopeKey(state),thread?.key,thread?.serial,state.language,selected,narrativeOnly,thread?0:Math.floor(viewTime()*4),state.corrected].join('|');if($('conversation').dataset.signature===signature)return;$('conversation').dataset.signature=signature;
- const box=$('conversation'),nearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<80;box.replaceChildren();
+ const box=$('conversation'),readingKey=[thread?.key||scopeKey(state),selected,narrativeOnly,state.mode].join('|'),sameThread=box.dataset.thread===readingKey,scrollTop=box.scrollTop,opened=new Set([...box.querySelectorAll('.message-evidence[open]')].map(n=>n.dataset.role));box.dataset.thread=readingKey;box.replaceChildren();
  if(thread)box.append(el('p','discussion-cutoff',`${current.words.at} ${displayTime(thread.cutoff)} · ${isClip()?'REVIEWED FILM':'R'+current.revision}`));
  if(thread?.question)box.append(el('p','viewer-message',thread.question));
- for(const profile of profiles){const role=profile.id;if(narrativeOnly&&role!=='presenter'||!narrativeOnly&&selected&&role!==selected)continue;const post=list.find(p=>p.role===role),draft=$('stream-live').checked?thread?.drafts.get(role):null;if(!post&&!draft)continue;
-  const row=el('article',`message ${profile.image}`),meta=el('div','message-meta'),face=el('span','message-face'),identity=el('div','message-identity');face.style.backgroundImage=`url(assets/${profile.image}-portrait.webp)`;identity.append(el('b','message-name',profile.name),el('span','message-specialty',profile.role));meta.append(face,identity,el('span','message-badge',draft&&!post?'DRAFT':post.engine==='azure_openai'?'AZURE AI':post.engine==='calculated'?'CALCULATED':post.engine==='evidence_rules'?'EVIDENCE CHECK':'MATCH NOTES'));row.append(meta);
-  if(post?.decision){const decision=post.decision;row.append(el('strong','verdict verdict-'+decision,current.words[decision]||'HOLD'),el('blockquote','reviewed-claim',post.target_claim));if(post.reviewed_contribution){const detail=el('details');detail.append(el('summary','','Scout’s contribution under review'),el('p','',post.reviewed_contribution));row.append(detail);}}
-  row.append(el('p','',post?.summary||draft.summary));if(post?.working)row.append(el('code','working',post.working));
-  if(post){const links=el('div','citations');for(const id of post.evidence_ids.slice(-3)){const e=discussionEvidence.find(e=>e.id===id);if(!e)continue;const b=el('button','',`${displayTime(e.end??e.second??thread?.cutoff??viewTime())} ↗`);b.title=id;b.setAttribute('aria-label','Replay evidence '+id);b.onclick=()=>seek(e.end??e.second??thread?.cutoff??viewTime());links.append(b);}row.append(links);if(post.caution){const d=el('details');d.append(el('summary','','Evidence limit'),el('p','',post.caution));row.append(d);}}
+ const waiting=!current.brief.state.seen.length&&!thread&&!selected;
+ if(waiting){const welcome=el('div','welcome');welcome.append(el('span','eyebrow','FIVE PERSPECTIVES. ONE CONVERSATION.'),el('h3','',{en:'START WITH THE PLAY.',es:'EMPIEZA CON LA JUGADA.',pt:'COMECE PELA JOGADA.'}[state.language]),el('p','',{en:'Press play. The crew will pick out the detail, explain the football, check the numbers and give you a reason to replay.',es:'Pulsa reproducir. El equipo observará el detalle, explicará el fútbol, comprobará los números y te dará una razón para repetir.',pt:'Aperte play. A equipe observará o detalhe, explicará o futebol, verificará os números e dará um motivo para rever.'}[state.language]));const agenda=el('div','crew-agenda');for(const p of profiles)agenda.append(el('span','',p.name),el('strong','',ROLE_LABELS[state.language][p.id]));welcome.append(agenda);box.append(welcome);}
+ for(const profile of waiting?[]:profiles){const role=profile.id;if(narrativeOnly&&role!=='presenter'||!narrativeOnly&&selected&&role!==selected)continue;const post=list.find(p=>p.role===role),draft=$('stream-live').checked?thread?.drafts.get(role):null;if(!post&&!draft)continue;
+  const row=el('article',`message ${profile.image}`),meta=el('div','message-meta'),face=el('span','message-face'),identity=el('div','message-identity');face.style.backgroundImage=`url(assets/${profile.image}-portrait.webp)`;identity.append(el('b','message-name',profile.name),el('span','message-specialty',ROLE_LABELS[state.language][role]));meta.append(face,identity,el('span','message-badge',draft&&!post?'DRAFT':post.engine==='azure_openai'?'AI':post.engine==='calculated'?'MATH':post.engine==='evidence_rules'?'CHECK':'NOTES'));row.append(meta);
+  if(post?.decision)row.append(el('strong','verdict verdict-'+post.decision,current.words[post.decision]||'HOLD'));
+  row.append(el('p','',post?.summary||draft.summary));
+  if(post){const detail=el('details','message-evidence'),label=role==='math'?{en:'Calculation & evidence',es:'Cálculo y evidencia',pt:'Cálculo e evidência'}[state.language]:{en:'Sources & limits',es:'Fuentes y límites',pt:'Fontes e limites'}[state.language];detail.dataset.role=role;detail.open=sameThread?opened.has(role):state.mode==='math'&&role==='math';detail.append(el('summary','',label));
+   if(post.working)detail.append(el('code','working',post.working));
+   if(post.target_claim)detail.append(el('blockquote','reviewed-claim',post.target_claim));
+   if(post.reviewed_contribution)detail.append(el('p','',`Scout: ${post.reviewed_contribution}`));
+   const links=el('div','citations');for(const id of post.evidence_ids.slice(-3)){const e=discussionEvidence.find(e=>e.id===id);if(!e)continue;const b=el('button','',`${displayTime(e.end??e.second??thread?.cutoff??viewTime())} ↗`);b.title=id;b.setAttribute('aria-label','Replay evidence '+id);b.onclick=()=>seek(e.end??e.second??thread?.cutoff??viewTime());links.append(b);}detail.append(links);if(post.caution)detail.append(el('p','',post.caution));row.append(detail);
+  }
   box.append(row);
  }
  for(const b of document.querySelectorAll('[data-agent]')){b.setAttribute('aria-pressed',String(selected===b.dataset.agent));b.classList.toggle('active',!!thread?.pending&&!thread.posts.has(b.dataset.agent));b.querySelector('.agent-state').textContent=thread?.posts.has(b.dataset.agent)?'READY':thread?.pending?'WRITING':'INSTANT';}
  put('party-status',thread?.error||(!thread?(isClip()?current.copy.ready:'Instant match notes · AI joins at key moments'):thread.pending?'AI discussion streaming · exact cutoff shown above':!list.some(p=>p.engine==='azure_openai')&&!current.brief.state.seen.length?'Match notes · waiting for the first completed event':thread.fallback?(isClip()?current.copy.noAI:'Match notes · AI unavailable for this turn'):`AI discussion ready${thread.cached?' · cached':''}`));
  put('response-timing',thread?.first!=null?`First AI text ${(thread.first/1000).toFixed(1)}s${thread.total!=null?' · panel '+(thread.total/1000).toFixed(1)+'s':''}`:thread?.cached?'Cached discussion · no new model calls':'Instant facts · measured AI response times');
  $('all-agents').hidden=!selected;$('question').disabled=!!thread?.pending;$('send-question').disabled=!!thread?.pending;$('export').disabled=false;
- document.dispatchEvent(new CustomEvent('btr-contributions',{detail:{posts:list,language:state.language,mode:state.mode}}));if(nearBottom)box.scrollTop=box.scrollHeight;
+ document.dispatchEvent(new CustomEvent('btr-contributions',{detail:{posts:list,language:state.language,mode:state.mode}}));box.scrollTop=sameThread?scrollTop:0;
  if(voices&&thread?.complete&&speechKey!==thread.key){speechKey=thread.key;const host=thread.posts.get('presenter');if(host){const utterance=new SpeechSynthesisUtterance(host.summary);utterance.lang={en:'en-US',es:'es-ES',pt:'pt-BR'}[state.language];speechSynthesis.speak(utterance);}}
 }
 async function requestPanel(question='',cutoff=viewTime(),manual=true){
@@ -104,6 +117,8 @@ $('overlay-export').onclick=()=>{const url=new URL('overlay.html',location.href)
 function setSource(value){film.pause();silence();watchSource=value==='match'?'match':'pitchside';loaded='';$('conversation').dataset.signature='';loadVideo();render();}
 function renderSource(){
  const clip=isClip(),onWatch=state.section==='watch';document.body.classList.toggle('watching-clip',clip&&onWatch);
+ chapterNav.hidden=chapterLabel.hidden=!clip;
+ if(clip){const index=chapterStarts.findLastIndex(t=>clipTime>=t),labels=chapterLabels[state.language];chapterLabel.replaceChildren(el('strong','',`${String(index+1).padStart(2,'0')} / 08 · ${labels[index]}`),el('small','',{en:'Separate generated scenes',es:'Escenas generadas por separado',pt:'Cenas geradas separadamente'}[state.language]));for(const [i,b]of [...chapterNav.children].entries()){b.setAttribute('aria-current',String(i===index));b.querySelector('b').textContent=labels[i];}}
  put('composer-note',clip?'This film · citations follow the video playhead.':'Same match · evidence cutoff shown on every discussion.');
  const prompts=document.querySelectorAll('[data-question]');prompts[0].textContent=clip?'What matters here?':'Did he score?';prompts[0].dataset.question=clip?'What matters in the latest shot, and what remains unverified?':'Did he score?';prompts[2].dataset.question=clip?'Can we measure the player’s speed from this clip?':'Can we tell how fast the shot was?';
  $('watch-source').value=watchSource;$('scrub').max=clip?PITCHSIDE.duration:36;put('duration',clip?clipClock(PITCHSIDE.duration):'00:36');

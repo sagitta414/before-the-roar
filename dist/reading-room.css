@@ -1,0 +1,168 @@
+/* Broadcast reading pass: retain BTR's identity, prioritize the action and words. */
+.masthead{height:58px}
+.match-session-bar{padding:8px 3%;gap:20px;min-height:52px}
+.match-session-bar>label{display:flex;align-items:center;gap:10px}
+.match-session-bar select{margin-top:0;padding:7px 10px;min-height:34px}
+.session-preferences summary{padding:8px 11px;min-height:34px}
+.watch-source-bar{padding:9px 0;min-height:53px;gap:14px;border:0}
+.watch-source-bar>label{display:flex;gap:12px;align-items:center}
+.watch-source-bar select{margin:0;font-size:12px;padding:8px 10px}
+.source-details{position:relative;margin-left:auto;font-size:12px;color:#b6c4d8;max-width:490px}
+.source-details summary{cursor:pointer;padding:10px;min-height:36px}
+.source-details[open]{position:absolute;right:3%;top:120px;z-index:12;background:#152030;border:1px solid #53627a;border-radius:4px;padding:12px 16px;box-shadow:0 12px 30px #0008}
+.source-details p{font-size:13px;line-height:1.6;margin:12px 0}
+.source-details a{display:inline-block;font-size:12px;margin:8px 0}
+.room-heading{display:none}
+.broadcast-room{grid-template-columns:minmax(0,1fr) clamp(360px,34vw,470px);gap:18px}
+.party{height:clamp(500px,calc(100dvh - 174px),900px);min-height:0;position:sticky;top:14px}
+.party-header{padding:12px 16px;min-height:50px;flex-shrink:0}
+.party-header .eyebrow{display:none}
+.party-header h2{font-size:25px;line-height:1}
+#settings{background:transparent;border:1px solid #44516a;border-radius:4px;color:#cad7e9;width:34px;height:32px;font-size:17px}
+.room-tabs{padding:0 16px;gap:22px;flex-shrink:0}
+.room-tabs button{min-height:38px;padding:8px 0;font-size:13px}
+.five-specialists.crew{padding:7px 12px;gap:5px;min-height:62px;justify-content:space-between}
+.five-specialists .crew-member{padding:4px;gap:5px;min-width:0;flex:1;min-height:48px}
+.five-specialists .crew-member .crew-avatar{width:32px;height:32px;border-width:1px}
+.five-specialists .crew-member b{font-size:10px;letter-spacing:.2px}
+.five-specialists .crew-member .agent-state{display:none}
+.room-key:has(button[hidden]){display:none}
+.room-key button{min-height:30px;font-size:12px;padding:4px 12px}
+.party-status{padding:7px 16px;min-height:29px;font-size:11px;line-height:1.4;color:#b9c9df;flex-shrink:0;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.conversation{flex:1;min-height:230px;padding:0 16px 14px;scroll-padding-top:12px}
+.welcome{padding:20px 0}.welcome h3{font-size:29px;margin-top:12px}.welcome>p{font-size:14px;line-height:1.6}.welcome .eyebrow{font-size:9px;letter-spacing:.7px}
+.crew-agenda{display:grid;grid-template-columns:auto 1fr;gap:9px 18px;padding-top:13px;border-top:1px solid #344156;font-size:12px}.crew-agenda span{color:#9eb3cd}.crew-agenda strong{color:#dbe5f4;font-weight:500}
+.discussion-cutoff{font-size:10px;padding:7px 0;background:#121720;line-height:1.3;margin:0;position:static}
+.message{padding:14px 0;border-bottom:1px solid #303d50;animation:none}
+.message-meta{gap:9px}
+.message-face{width:35px;height:35px;border:1px solid #63748d;background-size:170%;background-position:50% 18%}
+.message-name{font-size:15px;letter-spacing:0}
+.message-identity{gap:3px}
+.message-specialty{font-size:11px;letter-spacing:0;color:#bacbe0}
+.message-badge{font-size:9px;letter-spacing:.3px;color:#aebfd6}
+.message>p{font-size:15px;line-height:1.65;margin:10px 0 9px;color:#e5ebf5}
+.message.host{border-left:2px solid #fa4564;padding-left:12px;background:linear-gradient(90deg,#fa274808,transparent)}
+.message details.message-evidence{margin:5px 0 0}
+.message details.message-evidence>summary{min-height:28px;padding:5px 0;font-size:11px;color:#a9c2e4;line-height:1.5}
+.message details.message-evidence[open]{background:#0e1723;padding:4px 10px 10px;border:1px solid #34445b;border-radius:4px}
+.message .citations{margin-top:7px;gap:6px}
+.message .citations button{font-size:11px;min-height:30px;padding:5px 8px}
+.message details p{font-size:12px;line-height:1.6;margin:8px 0;color:#bacbe1}
+.message .working{margin:10px 0;font-size:12px;overflow-wrap:anywhere}
+.message .verdict{font-size:9px;padding:4px 6px;margin-top:10px}
+.composer{padding:9px 12px 12px;flex-shrink:0}
+.suggestions{margin-bottom:7px;gap:6px}
+.suggestions button{min-height:30px;padding:5px 8px;font-size:11px}
+.suggestions #request-panel{background:#303044;border-color:#705468;color:#ffe1e8}
+.composer input{font-size:14px;padding:7px 0}
+.composer form button{width:34px;height:34px}
+.composer>p{display:none}
+.room-options{display:flex;gap:16px;align-items:end;margin:22px 0}
+.room-options label{font-size:12px;color:#c1cde1;flex:1}
+.room-options select{display:block;width:100%;margin-top:8px;background:#1b293c;color:white;border:1px solid #536881;padding:10px;border-radius:4px}
+.room-options .voice-button{min-height:40px}
+.response-details{margin-top:15px}
+.response-details #connection-status,.response-details #response-timing{display:block;font-size:12px;line-height:1.6;margin:12px 0;color:#b7cbe4}
+.narrative-heading{font-size:12px;margin:10px 16px;line-height:1.5}
+.shared-match-facts{padding:9px 12px;gap:12px}
+.shared-match-facts strong,.shared-match-facts>span{font-size:12px}
+.viewing-bar{padding:9px 12px}
+.film-chapters{display:flex;gap:3px;overflow:auto;margin:0 0 8px;scrollbar-width:thin}
+.film-chapters button{flex:1;min-width:68px;padding:8px 7px;background:#141b27;border-bottom:2px solid #354257;color:#bac8dc;font-size:11px;white-space:nowrap;text-align:left}
+.film-chapters button span{font-size:9px;color:#859ab5;display:block;margin-bottom:3px}
+.film-chapters button[aria-current=true]{border-color:#fa3557;color:white;background:#29202d}
+.film-chapter-label{display:flex;gap:10px;align-items:center;padding:6px 0 9px;font-size:12px;color:#d3deed}
+.film-chapter-label small{margin-left:auto;color:#9babbe;font-size:10px}
+/* One compact page title. The fixture and scenario live in the shared bar. */
+.extension-view>.extension-heading,#centre>.extension-heading,#truth>.extension-heading,#presenters>.extension-heading,#inside>.extension-heading{padding:14px 0 12px;min-height:0;margin:0 0 10px;background:none;align-items:center;border-bottom:1px solid #303b49}
+.extension-view>.extension-heading h1,#centre>.extension-heading h1,#truth>.extension-heading h1,#presenters>.extension-heading h1,#inside>.extension-heading h1{font-size:32px;line-height:1.05;letter-spacing:-.3px;margin:0}
+.extension-view>.extension-heading .eyebrow{display:none}
+#centre>.extension-heading:after{display:none}
+.extension-view>.extension-heading>p,#truth>.extension-heading>p{font-size:12px;line-height:1.5;margin:0;max-width:350px}
+.extension-view .analysis-controls,#centre .analysis-controls,#truth .analysis-controls{padding:8px 12px;min-height:46px;gap:14px;margin:0 0 12px}
+.extension-view .analysis-controls>label:first-child,.extension-view .scope-badge{display:none}
+.extension-view .analysis-scrub{flex:1;flex-basis:auto!important}
+.extension-view .scenario-play{min-height:32px;padding:8px 12px;font-size:12px}
+#centre .formation-layout{grid-template-columns:170px minmax(0,1fr) 170px;gap:12px}
+#centre .pitch-header{min-height:46px;padding:7px 12px}
+.pitch-header .micro{display:none}
+#centre .pitch-header h2{font-size:18px;margin:0}
+#centre .formation-panel .stadium-svg{height:clamp(300px,calc(100dvh - 310px),420px);max-height:420px}
+.pitch-view-switch button{min-height:28px;padding:5px 9px;font-size:11px}
+#centre .roster>header{padding:10px;gap:8px}
+#centre .roster h2{font-size:17px}
+#centre .lineup-row{min-height:40px;padding:7px 8px;gap:6px}
+#centre .lineup-role{font-size:9px}
+#centre .lineup-name{font-size:11px}
+#centre .pitch-moment{padding:10px 13px}
+.pitch-moment strong{font-size:20px}
+.pitch-moment p{margin-top:4px}
+#centre .sequence-metrics{margin:12px 0 0;border:1px solid #384356;border-radius:4px}
+#centre .sequence-metrics article{padding:10px 14px}
+#centre .sequence-metrics strong{font-size:26px;margin:6px 0}
+.truth-intro{padding:2px 0 10px;gap:16px}
+.truth-intro .eyebrow{display:none}
+.truth-intro h2{font-size:25px;margin:0}
+.truth-intro label{display:flex;align-items:center;gap:8px;font-size:9px}
+.truth-intro select{min-height:32px;margin:0;padding:6px 10px;font-size:12px}
+.truth-chapters{margin-bottom:12px;gap:6px}
+.truth-chapter{padding:7px 12px;grid-template-columns:22px 1fr;gap:2px 6px}
+.truth-chapter .chapter-index{font-size:20px}.truth-chapter strong{font-size:16px}.truth-chapter small{font-size:10px}
+.truth-story-grid{gap:14px}
+.truth-narrative,.truth-lens{padding:17px}
+.truth-narrative h2{font-size:32px;margin:15px 0 13px}
+.truth-narrative>p{font-size:15px;line-height:1.6;margin-bottom:12px}
+.truth-lens-heading{margin-bottom:12px}.truth-lens h3{font-size:22px}
+.truth-lens-caption{font-size:11px;margin:8px 0 10px}
+.truth-measure{padding:10px 0}.truth-challenge{margin-top:12px;min-height:40px;padding:10px 14px}
+#presenters .desk-ribbon{padding:5px 0 9px;margin-bottom:10px}
+#presenters .presenter-roster{margin-bottom:12px}
+#presenters .presenter-pick{padding:9px 12px}
+.section-title{padding:22px 0 14px}
+.section-title h2{font-size:29px;margin-top:6px}
+@media(max-width:1100px){
+ .broadcast-room{grid-template-columns:minmax(0,1fr) 360px;gap:14px}
+ #centre .formation-layout{grid-template-columns:145px minmax(0,1fr) 145px}
+ #centre .lineup-row{grid-template-columns:21px minmax(0,1fr) 22px}
+ .extension-view>.extension-heading>p{font-size:11px}
+}
+@media(max-width:880px){
+ .broadcast-room{grid-template-columns:1fr}.party{position:static;height:680px}
+ .masthead{height:56px}.match-session-bar{gap:10px;flex-wrap:wrap}
+ .match-session-bar>label{margin:0;font-size:0;flex:1}.match-session-bar select{font-size:12px;width:100%;max-width:none}
+ .session-preferences{margin-left:auto}.session-fixture b{font-size:13px}.session-fixture strong{font-size:19px}
+ .extension-view>.extension-heading>p{display:none}
+ #centre .formation-layout{grid-template-columns:1fr 1fr}.formation-panel{grid-column:1/-1;grid-row:1}
+ #centre .formation-panel .stadium-svg{height:clamp(220px,65vw,400px);max-height:400px}
+ .truth-story-grid{grid-template-columns:1fr}.truth-intro{flex-wrap:wrap}
+ .source-details[open]{top:140px;left:3%;max-width:none}
+}
+@media(max-width:540px){
+ .masthead{gap:12px}.masthead nav{gap:15px;margin:0}.masthead .nav{font-size:11px}
+ .brand{font-size:30px}.header-end{display:none}
+ .match-session-bar{padding:7px 3%;gap:8px}.session-fixture{width:auto;flex:1;gap:8px}
+ .session-fixture>span:last-child,.session-dot{display:none}
+ .session-fixture b{font-size:12px}.session-fixture strong{font-size:16px}.session-fixture time{font-size:12px}
+ .match-session-bar>label{order:3;flex-basis:100%}
+ .session-preferences summary{font-size:11px;padding:7px}.session-preferences summary span{margin-left:4px}
+ .clip-session-label{gap:6px}.clip-session-label>span:not(.session-dot){display:none}.clip-session-label strong{font-size:15px}.clip-session-label small{font-size:8px;padding-left:8px}
+ .watch-source-bar{gap:5px;padding:7px 0;flex-wrap:nowrap}.watch-source-bar>label{font-size:0;flex:1}.watch-source-bar select{font-size:11px;max-width:100%;width:100%}
+ .source-details{flex-shrink:0}.source-details summary{font-size:10px;padding:7px 3px}
+ .source-details[open]{top:110px}.source-details[open] p{font-size:13px}
+ .room-heading{display:none}.film-chapters{gap:3px}.film-chapters button{min-width:68px;font-size:11px;min-height:42px}
+ .film-chapter-label{font-size:11px}.film-chapter-label small{font-size:9px}
+ .party{height:650px}.party-header{padding:12px 14px}.party-header h2{font-size:24px}
+ .five-specialists.crew{padding:6px 10px}.five-specialists .crew-member .crew-avatar{width:32px;height:32px}.five-specialists .crew-member b{font-size:10px}
+ .conversation{padding:0 14px 12px}.message>p{font-size:15px}.composer input{font-size:16px}
+ .suggestions button{font-size:11px}.composer>p{display:none}
+ .extension-view>.extension-heading h1,#centre>.extension-heading h1,#truth>.extension-heading h1,#presenters>.extension-heading h1,#inside>.extension-heading h1{font-size:28px}
+ .extension-view .analysis-controls,#centre .analysis-controls,#truth .analysis-controls{flex-wrap:nowrap;gap:10px;padding:8px;margin-bottom:10px}
+ .analysis-scrub .scenario-clock{font-size:12px}.analysis-scrub{min-width:0}.analysis-scrub input{min-width:20px}
+ .analysis-scrub>span:last-child{display:none}
+ #centre .formation-layout{gap:8px}#centre .pitch-header{padding:7px 10px}#centre .pitch-header h2{font-size:17px}
+ #centre .sequence-metrics{grid-template-columns:1fr 1fr}#centre .sequence-metrics article{padding:10px}#centre .sequence-metrics strong{font-size:24px}
+ .truth-intro h2{font-size:24px}.truth-intro label{margin:0}.truth-intro select{flex:0}
+ .truth-chapters{display:flex;gap:4px;overflow:auto}.truth-chapter{display:flex;flex-direction:column;align-items:start;min-width:70px;gap:4px;padding:8px}.truth-chapter .chapter-index{display:none}.truth-chapter strong{font-size:15px}
+ .truth-narrative h2{font-size:29px}.truth-story-top{flex-direction:row}
+ #presenters .desk-ribbon>span{display:none}
+}

@@ -1,5 +1,6 @@
 import {WORDS} from './match-story.js';
 import {MINUTE_BEATS} from './pitchside-minute.js';
+import {clipClosing} from './editorial-roles.js';
 
 export const PITCHSIDE={id:'pitchside-minute-veo-quality-v1',duration:60,revision:2,title:'A minute inside the game.',asset:'https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/pitchside-minute.mp4',poster:'assets/pitchside-minute-poster.jpg',model:'Google Flow',resolution:'1280 × 720, 24 fps',source:'manually-reviewed-ai-video',editing:'Eight separately generated shots, edited together. Cuts do not establish continuous play or player identity.',editorialCheckpoints:[8,24,44,60],recapIds:['pitchside-run','pitchside-reception','pitchside-carry','pitchside-catch','pitchside-gesture','pitchside-blue-receive']};
 // Approximate editorial markers reviewed against this exact film, not detected events.
@@ -33,7 +34,7 @@ export function pitchsidePanel(packet){
   {role:'guide',summary:packet.guideDefinition+' '+story('beginner').body,engine:'instant_notes'},
   {role:'math',summary:copy.mathBody,working:equation,engine:'calculated'},
   {role:'reviewer',summary:evidence.length?copy.check:copy.intro,engine:'evidence_rules'},
-  {role:'presenter',summary:packet.body,engine:'instant_notes'}
+  {role:'presenter',summary:clipClosing(packet),engine:'instant_notes'}
  ].map(p=>({...p,title:packet.title,evidence_ids:ids,caution:copy.limit,cutoff,revision:PITCHSIDE.revision}));
 }
 export function pitchsideKey(input){return JSON.stringify([PITCHSIDE.id,PITCHSIDE.revision,Math.floor(Number(input.time)*10)/10,input.language,input.mode,(input.question||'').trim().replace(/\s+/g,' ')]);}

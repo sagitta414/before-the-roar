@@ -4,7 +4,17 @@ import {readCompletion,draftInterpretations} from './streaming.mjs';
 import {matchStory,localPanel,editorialKey} from '../dist/match-story.js';
 import {PLAYERS} from '../dist/engine.js';
 import {PITCHSIDE,pitchsideStory,pitchsidePanel,pitchsideKey} from '../dist/pitchside-story.js';
-const roleTasks={analyst:'Scout: identify one tactical observation supported by these records. Keep any causal explanation explicitly tentative. If tracking is corrected, withdraw the earlier movement reading.',guide:'Guide: define one football term relevant to the most recent completed event, then explain its consequence in plain language. Do not repeat the tactical analyst.',presenter:'Host: synthesize the earlier public contributions into one concise audience-specific takeaway. Respect the evidence editor verdict. Never repeat a withdrawn claim as fact. Answer the viewer question when supplied.'};
+export const roleTasks={
+ analyst:'Scout: OBSERVE. Pick one concrete change between the supplied records: a touch, an adjustment, an available outlet or a change of position. Explain its local significance tentatively. Anchor it to visible or recorded detail. Avoid generic claims like maintaining possession, building play or creating opportunities unless the records actually show the claimed change. Do not define a term, recite calculations or deliver the closing takeaway. If tracking is corrected, withdraw the affected movement reading.',
+ guide:'Guide: EXPLAIN. Begin with the supplied verified definition. Then give a newcomer one concrete thing to look for in this event, such as the receiving touch or the defender’s feet. Use everyday language. Do not repeat a tactical theory, broad team strategy or generic benefits of passing.',
+ presenter:'Host: SYNTHESIZE. Read all four public contributions. Write at most two short sentences: one audience-specific takeaway that incorporates the evidence boundary, then one concrete replay cue. Add editorial value rather than paraphrasing Scout or repeating Guide’s definition. Do not list the speakers, repeat calculations or claim a new event. If nothing beyond the observation is supported, make that uncertainty the takeaway and identify the detail worth replaying. Respect Check’s verdict and never repeat a withdrawn claim as fact. Answer the viewer question when supplied.'
+};
+// Catch obvious repeated copy without an extra model call or claiming semantic verification.
+export function repeatsContribution(summary,previous=[]){
+ const words=s=>(s.toLocaleLowerCase().match(/[\p{L}\p{N}]+/gu)||[]);
+ const tokens=words(summary),grams=t=>new Set(t.slice(0,-3).map((_,i)=>t.slice(i,i+4).join(' ')));
+ return previous.some(p=>{const other=words(p.summary||'');if(tokens.join(' ')===other.join(' '))return true;const a=grams(tokens),b=grams(other);return a.size>=5&&[...a].filter(g=>b.has(g)).length/a.size>.7;});
+}
 export function validateMatchPost(raw,packet,role){
  const p=raw?.post,ids=new Set(packet.evidence.map(e=>e.id));
  for(const k of ['interpretation','headline','caution'])if(typeof p?.[k]!=='string'||!p[k].trim()||p[k].length>850||/\d/.test(p[k]))throw Error('Invalid editorial text');
@@ -16,7 +26,7 @@ export function validateMatchPost(raw,packet,role){
 export class MatchDesk{
  constructor(narrator,{clip=false}={}){this.narrator=narrator;this.store=narrator.store;this.pending=new Map();this.clip=clip;}
  async discuss(input,emit){
-  const key=createHash('sha256').update(this.clip?'pitchside-desk-v2:'+pitchsideKey(input):'cohesive-desk-v2:'+editorialKey(input)).digest('hex');
+  const key=createHash('sha256').update(this.clip?'pitchside-desk-v3:'+pitchsideKey(input):'cohesive-desk-v3:'+editorialKey(input)).digest('hex');
   if(this.pending.has(key)){const task=this.pending.get(key);for(const [type,item]of task.history)emit(type,item);task.listeners.add(emit);try{return await task.promise;}finally{task.listeners.delete(emit);}}
   const task={history:[],listeners:new Set([emit])};this.pending.set(key,task);const publish=(type,item)=>{task.history.push([type,item]);for(const fn of task.listeners)fn(type,item);};
   task.promise=this.generate(key,input,publish);try{return await task.promise;}finally{this.pending.delete(key);}
@@ -44,7 +54,9 @@ export class MatchDesk{
     const res=await fetch(url,{method:'POST',headers:{Authorization:`Bearer ${await accessToken('https://cognitiveservices.azure.com/')}`,'Content-Type':'application/json'},signal:AbortSignal.timeout(30000),body:JSON.stringify({messages:[{role:'system',content:prompt},{role:'user',content:JSON.stringify({question:input.question||null,clock:packet.clock,revision:packet.revision,calculated:packet.stats,evidence,review:packet.review,previous_public_contributions:previous})}],temperature:.2,max_tokens:450,stream:true,response_format:{type:'json_schema',json_schema:{name:'match_editor',strict:true,schema}}})});
     if(!res.ok)throw Error('Model unavailable');let prior='',first=null;
     const result=await readCompletion(res.body,content=>{const draft=draftInterpretations(content,['post']).post;if(draft&&draft!==prior){prior=draft;first??=Math.round(performance.now()-start);emit('draft',{role,summary:draft,cutoff:packet.cutoff,revision:packet.revision,first_text_ms:first});}});
-    const post={...validateMatchPost(JSON.parse(result.content),packet,role),role,engine:'azure_openai',cutoff:packet.cutoff,revision:packet.revision,latency_ms:Math.round(performance.now()-began),first_text_ms:first};publish(post);return post;
+    const validated=validateMatchPost(JSON.parse(result.content),packet,role);
+    if(role==='presenter'&&repeatsContribution(validated.summary,previous))throw Error('Repeated contribution; using the reviewed closing cue');
+    const post={...validated,role,engine:'azure_openai',cutoff:packet.cutoff,revision:packet.revision,latency_ms:Math.round(performance.now()-began),first_text_ms:first};publish(post);return post;
    }catch(error){console.warn(JSON.stringify({event:'match_editor_fallback',role,message:error.message}));const p={...notes.find(p=>p.role===role),engine:'reviewed_fallback',caution:input.question?(this.clip?packet.copy.fallback:({en:'AI could not answer this question. Showing the recorded match briefing.',es:'La IA no pudo responder. Se muestra el resumen registrado.',pt:'A IA não pôde responder. Exibindo o resumo registrado.'}[packet.language])):undefined};publish(p);return p;}finally{if(acquired)this.narrator.busy--;}
   };
   const [scout,guide]=await Promise.all([complete('analyst'),complete('guide')]);
