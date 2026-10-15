@@ -6,6 +6,8 @@ import {sceneGuide} from '../dist/scene-guide.js';
 import {pitchsideStory,pitchsidePanel} from '../dist/pitchside-story.js';
 import {matchStory} from '../dist/match-story.js';
 import {validateMatchPost} from '../api/match-desk.mjs';
+import {createSession} from '../dist/match-session.js';
+import {FILM_SCENES,scenePlayback,sceneStudy} from '../dist/film-math.js';
 
 class Video extends EventTarget{
  constructor(){super();this.readyState=0;this.currentTime=0;this.paused=true;this.seeking=false;this.loads=0;this.plays=0;}
@@ -15,20 +17,20 @@ class Video extends EventTarget{
 }
 test('scene-local files preserve the global evidence clock at every cut and in full-reel mode',()=>{
  for(const time of [0,.25,7.958333,8,16,23.958333,24,32,40,48,51.958333,52,59.958333,60]){
-  const p=mediaPlan({clipTime:time});assert.equal(globalMediaTime(p,localMediaTime(p,time)),time);
+  const p=mediaPlan({clipTime:time,studyScene:true});assert.equal(globalMediaTime(p,localMediaTime(p,time)),time);
   assert.ok(p.src.startsWith('assets/pitchside-scene-'));assert.ok(fs.existsSync('dist/'+p.src));assert.ok(fs.existsSync('dist/'+p.poster));
   const reel=mediaPlan({clipTime:time,studyScene:false});assert.equal(reel.offset,0);assert.equal(reel.duration,60);assert.equal(reel.src,'assets/pitchside-stream.mp4');
  }
  const p=mediaPlan({source:'match',scenario:'press',time:29});assert.equal(p.src,'assets/press-film.mp4');assert.equal(localMediaTime(p,29),29);
 });
-test('the first playable file is small and has metadata before media bytes',()=>{
- const p=mediaPlan(),b=fs.readFileSync('dist/'+p.src);assert.ok(b.length<2500000);
+test('the optional scene-study file is small and has metadata before media bytes',()=>{
+ const p=mediaPlan({studyScene:true}),b=fs.readFileSync('dist/'+p.src);assert.ok(b.length<2500000);
  const boxes=[];for(let i=0;i+8<b.length;){const size=b.readUInt32BE(i);if(size<8)break;boxes.push(b.toString('ascii',i+4,i+8));i+=size;}
  assert.ok(boxes.indexOf('moov')<boxes.indexOf('mdat'));
 });
 test('lazy playback seeks on metadata and cancels pending play when a scene changes',async()=>{
  const v=new Video(),states=[],m=bindMedia(v,s=>states.push(s));assert.equal(v.loads,0);
- m.sync(mediaPlan({clipTime:22}));const pending=m.play();m.sync(mediaPlan({clipTime:34}));v.ready();
+ m.sync(mediaPlan({clipTime:22,studyScene:true}));const pending=m.play();m.sync(mediaPlan({clipTime:34,studyScene:true}));v.ready();
  assert.equal(await pending,false);assert.equal(v.plays,0);assert.equal(v.currentTime,2);assert.equal(m.globalTime(),34);
  assert.equal(await m.play(),true);assert.equal(v.plays,1);assert.ok(states.includes('ready'));
 });
@@ -36,7 +38,17 @@ test('unloading a hidden player cancels loading and does not resurrect playback'
  const v=new Video(),m=bindMedia(v);m.sync(mediaPlan());const pending=m.play();m.unload();v.ready();assert.equal(await pending,false);assert.equal(v.src,undefined);assert.equal(v.plays,0);
 });
 test('a seek can become playable through canplay without a second loadeddata event',async()=>{
- const v=new Video(),m=bindMedia(v);m.sync(mediaPlan({clipTime:46}));v.readyState=1;v.dispatchEvent(new Event('loadedmetadata'));const pending=m.play();v.readyState=4;v.dispatchEvent(new Event('seeked'));v.dispatchEvent(new Event('canplay'));assert.equal(await pending,true);assert.equal(v.currentTime,6);assert.equal(v.plays,1);
+ const v=new Video(),m=bindMedia(v);m.sync(mediaPlan({clipTime:46,studyScene:true}));v.readyState=1;v.dispatchEvent(new Event('loadedmetadata'));const pending=m.play();v.readyState=4;v.dispatchEvent(new Event('seeked'));v.dispatchEvent(new Event('canplay'));assert.equal(await pending,true);assert.equal(v.currentTime,6);assert.equal(v.plays,1);
+});
+
+test('a fresh session plays the full minute across every cut and reaches the complete recap',()=>{
+ const session=createSession(),initial=mediaPlan(session.get());assert.equal(initial.src,'assets/pitchside-stream.mp4');assert.equal(initial.duration,60);
+ for(const scene of FILM_SCENES){
+  const state=session.get(),next=scenePlayback(scene.end-.1,Math.min(60,scene.end+.1),state.studyScene);
+  assert.equal(next.stop,false);session.set({clipTime:next.time},'film');
+  const plan=mediaPlan(session.get());assert.equal(plan.src,initial.src);assert.equal(plan.offset,0);assert.equal(sceneStudy(next.time,state.studyScene).complete,false);
+ }
+ const story=pitchsideStory({time:session.get().clipTime});assert.equal(story.complete,true);assert.ok(story.recap.includes('sideline'));assert.ok(story.recap.includes('goalkeeper'));assert.ok(story.evidence.some(e=>e.id==='pitchside-blue-receive'));
 });
 test('seeking while a play request is waiting invalidates the old request',async()=>{
  const v=new Video(),m=bindMedia(v);m.sync(mediaPlan({clipTime:2}));const pending=m.play();m.sync(mediaPlan({clipTime:6}));v.ready();assert.equal(await pending,false);assert.equal(v.plays,0);assert.equal(m.globalTime(),6);
