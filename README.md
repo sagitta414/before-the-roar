@@ -6,7 +6,7 @@ A football storytelling prototype with a photorealistic AI film and an evidence-
 
 - `npm run studio`: backend and site at http://127.0.0.1:4397. Without Azure configuration, clearly labeled match notes replace unavailable AI.
 - `npm run dev`: static authoring preview at http://127.0.0.1:4396.
-- `npm test`: 89 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
+- `npm test`: 97 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
 - `node scripts/cohesive-smoke.mjs <Azure origin> false` and `true`: exercise original/corrected discussions against the live model. These consume up to three model requests each unless cached.
 
 ## The main experience
@@ -72,3 +72,13 @@ Discussion visibility is scoped to the current film scene: crossing a cut immedi
 
 ## Focused studio layout (v32)
 The Watch room fits four complete reviewed contributions at 1280 × 720 in the checked scene, with full text and expandable evidence. Match Centre leads with reviewed local player balance and a compact replay. Truth Lab leads with the claim challenge and actual-frame Azure check; its full replay is expandable. 'Study one scene' pauses immediately before a cut and leaves the full reel available. The generated footage itself is unchanged; this mode does not make it continuous football.
+
+## Connected play and editorial depth (v33)
+
+Watch preserves the photorealistic film and defaults to one uncut scene at a time. Scene completion offers replay and next-scene controls. The complete 60-second reel remains selectable. This changes playback, not the underlying footage; no new continuous photorealistic minute has been created.
+
+A prominent Follow one complete play action opens the pressure sequence at its first pressure sample. Watch and Match Centre share a replay map, calculations and the same playhead. Derived analysis includes pressure gap across the actual possession window (5–7s), net longitudinal passing gain from completed passes (excluding carries), and completed regain to shot release (18s in the pressure sequence, not 19s to goal arrival). Coordinate samples and arithmetic remain expandable. The final recap and its exported package include these calculations. Future outcomes remain withheld.
+
+Each film scene has a specific claim challenge, a newcomer question and a football takeaway. Live model prompts receive a role-specific brief and the subjects reserved for other roles. Generic Host conclusions are rejected in favor of labeled reviewed notes; this is a targeted guard, not a guarantee of semantic novelty. Existing three-call discussions, streaming, caching and daily budget remain. No new paid services or video generation were added.
+
+New completed synthetic events retire older discussions so earlier pressure math cannot remain on screen after a forward pass. Source changes conceal the prior video frame until the new media has loaded and finished seeking. Technique claims unsupported by coordinate endpoints and generic question-like Host conclusions are rejected to reviewed notes.

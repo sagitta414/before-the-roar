@@ -10,7 +10,7 @@ const svg=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000
 let scenario=SCENARIOS.find(s=>s.id===matchSession.get().scenario),time=matchSession.get().time,selectedPlayer=matchSession.get().focus,corrected=false,playing=false,lastFrame=0,lastDraw=0,section='watch';
 const emit=(name,detail)=>document.dispatchEvent(new CustomEvent(name,{detail}));
 function stop(){playing=false;for(const b of document.querySelectorAll('.scenario-play'))b.textContent='▶ Play sequence';}
-function navigate(name){for(const node of document.querySelectorAll('.extension-view'))node.hidden=node.id!==name;for(const node of document.querySelectorAll('.masthead .nav')){const active=node.dataset.section===name;node.classList.toggle('selected',active);node.setAttribute('aria-pressed',String(active));}emit('btr-section',name);if(name==='presenters')emit('btr-request-contributions');}
+function navigate(name){window.scrollTo({top:0,behavior:'instant'});for(const node of document.querySelectorAll('.extension-view'))node.hidden=node.id!==name;for(const node of document.querySelectorAll('.masthead .nav')){const active=node.dataset.section===name;node.classList.toggle('selected',active);node.setAttribute('aria-pressed',String(active));}emit('btr-section',name);if(name==='presenters')emit('btr-request-contributions');}
 for(const button of document.querySelectorAll('[data-section]'))button.addEventListener('click',()=>navigate(button.dataset.section));
 document.addEventListener('btr-section',e=>{section=e.detail;if(!['centre','truth','inside'].includes(section))stop();render();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
