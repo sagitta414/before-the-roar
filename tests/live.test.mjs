@@ -13,6 +13,17 @@ test('passes always have distinct players and full-time evidence retains every g
 test('displayed factual summaries cannot inherit a wrong comparison from generated prose',()=>{for(const language of ['en','es','pt']){const m=generateMatch(7),s=initialState();for(const e of m.events)ingest(s,e);const p=evidencePacket(m,s,5400,language),v=fallback(p);v.engine='azure_openai';v.audiences.analyst.explanation='Invented comparison';const result=presentNarrative(v,p);assert.ok(!result.audiences.analyst.explanation.includes('Invented'));assert.ok(result.audiences.fan.explanation.includes('1 – 1'));assert.equal(result.audiences.player.observation_source,'calculated');assert.ok(result.audiences.fan.evidence_ids.includes('score'));}});
 test('unavailable storage fails closed to a clearly labeled fallback',async()=>{const store={read:async()=>{throw Error('Storage offline')}};const n=new Narrator(store);const r=await n.explain(evidencePacket(generateMatch(1),initialState(),0));assert.equal(r.engine,'deterministic_fallback');assert.equal(n.calls,0);});
 test('persistent daily allowance retries a conflicting reservation and stops at the limit',async()=>{const original=process.env.AI_DAILY_LIMIT;process.env.AI_DAILY_LIMIT='2';try{const s=new ResultStore();s.base='fake';let calls=0,conflict=true;s.blob=async(path,options={})=>{if(options.method==='PUT'){if(conflict){conflict=false;calls=1;return new Response('',{status:412});}calls=JSON.parse(options.body).calls;return new Response('',{status:201});}return new Response(JSON.stringify({calls}),{headers:{etag:'revision'}});};assert.equal(await s.reserve(),true);assert.equal(calls,2);assert.equal(await s.reserve(),false);}finally{if(original===undefined)delete process.env.AI_DAILY_LIMIT;else process.env.AI_DAILY_LIMIT=original;}});
+test('the first two agents of a new day preserve both reservations after a blob creation conflict',async()=>{
+ const original=process.env.AI_DAILY_LIMIT;process.env.AI_DAILY_LIMIT='2';
+ try{const s=new ResultStore();s.base='fake';let calls=0,writes=0;
+ s.blob=async(path,options={})=>{
+  if(options.method!=='PUT')return calls?new Response(JSON.stringify({calls}),{headers:{etag:'created-by-other-agent'}}):new Response('',{status:404});
+  writes++;if(writes===1){assert.equal(options.headers['If-None-Match'],'*');calls=1;return new Response('',{status:409});}
+  assert.equal(options.headers['If-Match'],'created-by-other-agent');assert.equal(JSON.parse(options.body).calls,2);calls=2;return new Response('',{status:201});
+ };
+ assert.equal(await s.reserve(),true);assert.equal(calls,2);assert.equal(writes,2);assert.equal(await s.reserve(),false);
+ }finally{if(original===undefined)delete process.env.AI_DAILY_LIMIT;else process.env.AI_DAILY_LIMIT=original;}
+});
 test('HTTP sessions enforce authorization, stream all checkpoints and generate a full-time recap',async()=>{
  let now=100000;const packets=[];const app=createApp({clock:()=>now,narrator:{explain:async p=>{packets.push(p);return fallback(p);}}});await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${app.server.address().port}`;
  const ac=new AbortController();try{

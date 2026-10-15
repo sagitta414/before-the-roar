@@ -6,7 +6,7 @@ A football storytelling prototype with a photorealistic AI film and an evidence-
 
 - `npm run studio`: backend and site at http://127.0.0.1:4397. Without Azure configuration, clearly labeled match notes replace unavailable AI.
 - `npm run dev`: static authoring preview at http://127.0.0.1:4396.
-- `npm test`: 71 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, role adherence and API boundaries. Empty event windows return notes without model calls.
+- `npm test`: 72 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
 - `node scripts/cohesive-smoke.mjs <Azure origin> false` and `true`: exercise original/corrected discussions against the live model. These consume up to three model requests each unless cached.
 
 ## The main experience

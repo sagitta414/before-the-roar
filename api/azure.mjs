@@ -25,7 +25,10 @@ export class ResultStore{
    const r=await this.blob(path);if(r.status!==404&&!r.ok)throw Error(`Budget read HTTP ${r.status}`);
    const old=r.ok?await r.json():{calls:0};if(old.calls>=limit)return false;
    const headers={'x-ms-blob-type':'BlockBlob','Content-Type':'application/json',...(r.ok?{'If-Match':r.headers.get('etag')}:{'If-None-Match':'*'})};
-   const w=await this.blob(path,{method:'PUT',headers,body:JSON.stringify({day,calls:old.calls+1,limit})});if(w.ok)return true;if(w.status!==412)throw Error(`Budget write HTTP ${w.status}`);
+   const w=await this.blob(path,{method:'PUT',headers,body:JSON.stringify({day,calls:old.calls+1,limit})});if(w.ok)return true;
+   // Concurrent creation of the new day's blob can return 409 instead of 412.
+   // Re-read its counter and ETag; never overwrite or reset another reservation.
+   if(w.status!==412&&!(w.status===409&&r.status===404))throw Error(`Budget write HTTP ${w.status}`);
   }throw Error('Budget contention');
  }
 }
