@@ -10,6 +10,7 @@ import {MODES} from '../dist/learning.js';
 import {DiscussionDesk,DESK_ROLES} from './desk.mjs';
 import {normalizeQuestion} from '../dist/party-state.js';
 import {MatchDesk} from './match-desk.mjs';
+import {PITCHSIDE} from '../dist/pitchside-story.js';
 const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml'};
 export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new DiscussionDesk(narrator)}={}){
  const root=resolve('dist'),runs=new Map(),rates=new Map(),matchDesk=new MatchDesk(narrator),clipDesk=new MatchDesk(narrator,{clip:true});let created=0;
@@ -42,7 +43,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
   if(req.method==='OPTIONS'){res.writeHead(origin&&!allowed.has(origin)?403:204).end();return;}
   let route;try{route=new URL(req.url,'http://local').pathname;}catch{return send(res,400,{error:'Invalid URL'});}
   try{
-   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.2.0',pitchside_video:true,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
+   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.2.0',pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
    if(['/api/desk','/api/match-desk','/api/clip-desk'].includes(route)&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     if(deskStreams>=6)return send(res,429,{error:'The AI desk is busy. Try again shortly.'});
@@ -53,7 +54,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
     const {language='en',mode='fan'}=input;if(!['en','es','pt'].includes(language)||!MODES.includes(mode))return send(res,400,{error:'Choose a supported audience and language.'});
     let question;try{question=normalizeQuestion(input.question);}catch(error){return send(res,400,{error:error.message});}
     if(route==='/api/match-desk'&&(!['wide','press','counter'].includes(input.scenario)||!Number.isFinite(input.time)||input.time<0||input.time>36||!Number.isInteger(input.focus)||!['harbor','north','neutral'].includes(input.team)||typeof input.corrected!=='boolean'))return send(res,400,{error:'Invalid match session.'});
-    if(route==='/api/clip-desk'&&(input.clip_id!=='pitchside-veo-quality-v1'||!Number.isFinite(input.time)||input.time<0||input.time>8))return send(res,400,{error:'Invalid clip or evidence cutoff.'});
+    if(route==='/api/clip-desk'&&(input.clip_id!==PITCHSIDE.id||!Number.isFinite(input.time)||input.time<0||input.time>PITCHSIDE.duration))return send(res,400,{error:'Invalid clip or evidence cutoff.'});
     rate.n++;rates.set(ip,rate);deskStreams++;
     res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','X-Accel-Buffering':'no'});
     const emit=(type,data)=>{if(res.destroyed)return;if(res.writableLength>256000){res.destroy();return;}res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);};
