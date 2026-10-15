@@ -2,8 +2,9 @@ import {guideCue} from './guide-cues.js';
 import {WORDS} from './match-story.js';
 import {MINUTE_BEATS} from './pitchside-minute.js';
 import {clipClosing} from './editorial-roles.js';
+import {filmMath,LOCAL_PLAYERS} from './film-math.js';
 
-export const PITCHSIDE={id:'pitchside-minute-veo-quality-v1',duration:60,revision:2,title:'A minute inside the game.',asset:'https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/pitchside-minute.mp4',poster:'assets/pitchside-minute-poster.jpg',model:'Google Flow',resolution:'1280 × 720, 24 fps',source:'manually-reviewed-ai-video',editing:'Eight separately generated shots, edited together. Cuts do not establish continuous play or player identity.',editorialCheckpoints:[6,22,46,60],recapIds:['pitchside-run','pitchside-reception','pitchside-carry','pitchside-catch','pitchside-gesture','pitchside-blue-receive']};
+export const PITCHSIDE={id:'pitchside-minute-veo-quality-v1',duration:60,revision:3,title:'A minute inside the game.',asset:'https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/pitchside-minute.mp4',poster:'assets/pitchside-minute-poster.jpg',model:'Google Flow',resolution:'1280 × 720, 24 fps',source:'manually-reviewed-ai-video',editing:'Eight separately generated shots, edited together. Cuts do not establish continuous play or player identity.',editorialCheckpoints:[6,22,46,60],recapIds:['pitchside-run','pitchside-reception','pitchside-carry','pitchside-catch','pitchside-gesture','pitchside-blue-receive']};
 // Approximate editorial markers reviewed against this exact film, not detected events.
 export const PITCHSIDE_BEATS=[
  {id:'pitchside-duel',second:.25,titles:['The close duel','El duelo cercano','O duelo próximo'],observations:['A lime-shirted attacker has the ball at his feet beside a blue-shirted defender.','Un atacante de verde lima tiene el balón en los pies junto a un defensor de azul.','Um atacante de verde-lima está com a bola nos pés ao lado de um defensor de azul.']},
@@ -19,25 +20,24 @@ const localized={
 export const clipClock=t=>[Math.floor(Math.max(0,t)/60),Math.floor(Math.max(0,t)%60)].map(n=>String(n).padStart(2,'0')).join(':');
 export function pitchsideStory(input={}){
  const language=['en','es','pt'].includes(input.language)?input.language:'en',mode=['fan','beginner','math','analyst','player'].includes(input.mode)?input.mode:'fan',time=Math.max(0,Math.min(PITCHSIDE.duration,Number(input.time)||0)),l=['en','es','pt'].indexOf(language),copy=localized[language];
- const evidence=PITCHSIDE_BEATS.filter(b=>b.second<=time).map(b=>({id:b.id,second:b.second,title:b.titles[l],observation:b.observations[l],record_type:'reviewed_frame',...(b.shot?{shot_id:b.shot}:{})})),i=evidence.length-1,latest=evidence.at(-1),beat=PITCHSIDE_BEATS[i];
+ const evidence=PITCHSIDE_BEATS.filter(b=>b.second<=time).map(b=>({id:b.id,second:b.second,title:b.titles[l],observation:b.observations[l],record_type:'reviewed_frame',...(b.shot?{shot_id:b.shot}:{}),...(LOCAL_PLAYERS[b.id]?{local_players:LOCAL_PLAYERS[b.id]}:{})})),math=filmMath({time,language,evidence}),i=evidence.length-1,latest=math.records.at(-1),beat=PITCHSIDE_BEATS.find(b=>b.id===latest?.id);
  let title=latest?.title||copy.waiting,body=latest?.observation||copy.intro;
  if(latest&&['beginner','analyst','player'].includes(mode))body=beat?.[mode]?.[l]||copy[mode][i]||body;
- if(mode==='math'){title=copy.mathTitle;body=copy.mathBody;}
- const f=n=>new Intl.NumberFormat(language,{maximumFractionDigits:2}).format(n);
- const interval=evidence.length>1?`${copy.gap}: ${f(latest.second)} − ${f(evidence.at(-2).second)} = ${f(latest.second-evidence.at(-2).second)} s. ${copy.gapNote}`:'';
- const equation=`${copy.progress}: ${f(time)} ÷ ${PITCHSIDE.duration} × 100 ≈ ${Math.round(time/PITCHSIDE.duration*100)}%. ${interval} ${copy.speed}`;
+ if(!latest){title=math.title;body=math.summary;}
+ if(mode==='math'){title=math.title;body=math.summary;}
+ const equation=math.equation;
  if(input.clipChallenge){title=['The observation survives the challenge.','La observación supera la revisión.','A observação resiste à revisão.'][l];body=(latest?.observation||copy.intro)+' '+copy.mathBody;}
- return {title,body,time,cutoff:time,clock:clipClock(time),language,mode,team:'neutral',revision:PITCHSIDE.revision+(input.clipChallenge?1:0),clipChallenge:!!input.clipChallenge,complete:time>=PITCHSIDE.duration-.05,resolved:!!latest,evidence,guideDefinition:beat?.definitions?.[l]||copy.definition,copy,words:WORDS[language],equation,stats:`${evidence.length} / ${PITCHSIDE_BEATS.length} · ${copy.stats}`,brief:{state:{seen:evidence},evidenceIds:evidence.map(e=>e.id)},review:{decision:input.clipChallenge?'withdraw':'qualify',claim:['Player speed can be measured from this film.','La velocidad del jugador se puede medir con este vídeo.','A velocidade do jogador pode ser medida neste vídeo.'][l],scope:'manually-reviewed-ai-video',limit:copy.limit,editing:PITCHSIDE.editing||'single-shot'},recap:evidence.filter(e=>!PITCHSIDE.recapIds||PITCHSIDE.recapIds.includes(e.id)).map(e=>e.observation).join(' ')};
+ return {title,body,time,cutoff:time,clock:clipClock(time),language,mode,team:'neutral',revision:PITCHSIDE.revision+(input.clipChallenge?1:0),clipChallenge:!!input.clipChallenge,complete:time>=PITCHSIDE.duration-.05,resolved:!!latest,evidence,guideDefinition:beat?.definitions?.[l]||copy.definition,copy,words:WORDS[language],equation,stats:`${evidence.length} / ${PITCHSIDE_BEATS.length} · ${copy.stats}`,brief:{state:{seen:math.records},evidenceIds:evidence.map(e=>e.id)},review:{decision:input.clipChallenge?'withdraw':'qualify',claim:['Player speed can be measured from this film.','La velocidad del jugador se puede medir con este vídeo.','A velocidade do jogador pode ser medida neste vídeo.'][l],scope:'manually-reviewed-ai-video',limit:copy.limit,editing:PITCHSIDE.editing||'single-shot'},recap:evidence.filter(e=>!PITCHSIDE.recapIds||PITCHSIDE.recapIds.includes(e.id)).map(e=>e.observation).join(' ')};
 }
 export function pitchsidePanel(packet){
- const {language,cutoff,copy,evidence,equation}=packet,ids=evidence.slice(-2).map(e=>e.id),story=mode=>pitchsideStory({time:cutoff,language,mode});
+ const {language,cutoff,copy,evidence,equation}=packet,math=filmMath({time:cutoff,language,evidence}),ids=math.records.slice(-2).map(e=>e.id),story=mode=>pitchsideStory({time:cutoff,language,mode});
  return [
   {role:'analyst',summary:story('analyst').body,engine:'instant_notes'},
-  {role:'guide',summary:guideCue(packet),engine:'instant_notes'},
-  {role:'math',summary:[`At ${clipClock(cutoff)}, ${Math.round(cutoff/PITCHSIDE.duration*100)}% of the film has played. These timestamps describe the footage, not metres travelled.`,`En ${clipClock(cutoff)} se ha reproducido el ${Math.round(cutoff/PITCHSIDE.duration*100)}% del vídeo. Las marcas describen el vídeo, no metros recorridos.`,`Em ${clipClock(cutoff)}, ${Math.round(cutoff/PITCHSIDE.duration*100)}% do vídeo foi reproduzido. As marcas descrevem o vídeo, não metros percorridos.`][['en','es','pt'].indexOf(language)],working:equation,engine:'calculated'},
+  {role:'guide',summary:math.records.length?guideCue({...packet,evidence:math.records}):math.summary,engine:'instant_notes'},
+  {role:'math',summary:math.summary,working:equation,metric_value:math.value,metric_title:math.title,evidence_ids:math.evidence_ids,engine:'calculated'},
   {role:'reviewer',summary:packet.clipChallenge?['Withhold the speed claim: the record supplies no calibrated distance. Keep the visible action; do not attach a physical measurement.','Retira la velocidad: el registro no aporta distancia calibrada. Conserva la acción visible sin añadir una medición física.','Retire a velocidade: o registro não fornece distância calibrada. Mantenha a ação visível sem adicionar uma medição física.'][['en','es','pt'].indexOf(language)]:evidence.length?copy.check:copy.intro,decision:packet.clipChallenge?'withdraw':'qualify',target_claim:packet.review.claim,engine:'evidence_rules'},
-  {role:'presenter',summary:clipClosing(packet),engine:'instant_notes'}
- ].map(p=>({...p,title:packet.title,evidence_ids:ids,caution:copy.limit,cutoff,revision:packet.revision}));
+  {role:'presenter',summary:clipClosing({...packet,evidence:math.records}),engine:'instant_notes'}
+ ].map(p=>({...p,title:packet.title,evidence_ids:p.evidence_ids||ids,caution:copy.limit,cutoff,revision:packet.revision}));
 }
 export function pitchsideKey(input){return JSON.stringify([PITCHSIDE.id,PITCHSIDE.revision,!!input.clipChallenge,Math.floor(Number(input.time)*10)/10,input.language,input.mode,(input.question||'').trim().replace(/\s+/g,' ')]);}
 export function pitchsideExport(input,posts=[]){const p=pitchsideStory(input);return {schema:'btr.reviewed-video.v1',clip:PITCHSIDE,cutoff:p.cutoff,language:p.language,mode:p.mode,revision:p.revision,review:p.review,story:{title:p.title,body:p.body},evidence:p.evidence,calculations:p.equation,limits:p.copy.limit,public_contributions:posts.filter(post=>post.cutoff<=p.cutoff&&post.revision===p.revision),overlay:{start_seconds:p.cutoff,end_seconds:Math.min(PITCHSIDE.duration,p.cutoff+6),title:p.title,body:p.body,evidence_ids:p.evidence.map(e=>e.id)}};}

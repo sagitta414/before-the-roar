@@ -1,10 +1,11 @@
 // One session for Watch, Match Centre, Truth Lab and the output desk.
-export const DEFAULT_SESSION={source:'pitchside',clipTime:0,clipChallenge:false,scenario:'wide',time:0,corrected:false,language:'en',mode:'fan',focus:7,team:'harbor',section:'watch'};
+export const DEFAULT_SESSION={source:'pitchside',clipTime:0,clipChallenge:false,studyScene:false,scenario:'wide',time:0,corrected:false,language:'en',mode:'fan',focus:7,team:'harbor',section:'watch'};
 export function reduceSession(state,patch){
  const next={...state,...patch};
  next.source=next.source==='match'?'match':'pitchside';
  next.clipTime=Math.max(0,Math.min(60,Number(next.clipTime)||0));
  next.clipChallenge=!!next.clipChallenge;
+ next.studyScene=!!next.studyScene;
  if(!['wide','press','counter'].includes(next.scenario))next.scenario='wide';
  if(next.scenario!==state.scenario){next.time=0;next.corrected=false;}
  next.time=Math.max(0,Math.min(36,Number(next.time)||0));next.corrected=!!next.corrected&&next.scenario==='wide';

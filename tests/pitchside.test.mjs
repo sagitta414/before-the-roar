@@ -54,7 +54,7 @@ test('clip API rejects wrong assets and cutoffs before spending, accepts an empt
 
 test('film clocks roll over and replaying never carries future evidence backwards',()=>{
  assert.equal(clipClock(59.9),'00:59');assert.equal(clipClock(60),'01:00');assert.equal(clipClock(61),'01:01');
- const end=pitchsideStory({time:PITCHSIDE.duration+10});assert.equal(end.time,PITCHSIDE.duration);assert.equal(end.evidence.length,PITCHSIDE_BEATS.length);assert.ok(end.equation.includes('100%'));
+ const end=pitchsideStory({time:PITCHSIDE.duration+10});assert.equal(end.time,PITCHSIDE.duration);assert.equal(end.evidence.length,PITCHSIDE_BEATS.length);assert.ok(end.equation.includes('Completed receptions in this scene = 1'));assert.ok(!end.equation.includes('100%'));
  const replay=pitchsideStory({time:2});assert.ok(replay.evidence.every(e=>e.second<=2));assert.equal(replay.complete,false);assert.ok(end.evidence.length>replay.evidence.length);
  for(const beat of PITCHSIDE_BEATS){assert.equal(beat.titles.length,3);assert.equal(beat.observations.length,3);assert.ok(beat.second<PITCHSIDE.duration);}
 });
