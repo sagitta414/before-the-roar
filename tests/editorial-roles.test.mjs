@@ -26,6 +26,7 @@ test('Host must supply a localized replay instruction without inventing an actor
   const packet=pitchsideStory({time:60,language}),post={interpretation:'The outcome remains open.',headline:'Watch the touch',caution:'The wider play is unknown.',evidence_ids:{primary:'pitchside-blue-receive',secondary:null}};
   assert.throws(()=>validateMatchPost({post},packet,'presenter'),/replay cue/);
   assert.equal(validateMatchPost({post:{...post,replay_cue:cue}},packet,'presenter').replay_cue,cue);
+  assert.throws(()=>validateMatchPost({post:{...post,interpretation:'This improves team dynamics.',replay_cue:cue}},packet,'analyst'),/Generic editorial claim/);
   assert.throws(()=>validateMatchPost({post:{...post,replay_cue:'Replay Moreau running.'}},packet,'presenter'),/Player attribution/);
   assert.throws(()=>validateMatchPost({post:{...post,replay_cue:'Replay the 95 km/h pass.'}},packet,'presenter'),/replay cue/);
  }

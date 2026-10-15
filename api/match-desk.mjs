@@ -5,9 +5,9 @@ import {matchStory,localPanel,editorialKey} from '../dist/match-story.js';
 import {PLAYERS} from '../dist/engine.js';
 import {PITCHSIDE,pitchsideStory,pitchsidePanel,pitchsideKey} from '../dist/pitchside-story.js';
 export const roleTasks={
- analyst:'Scout: OBSERVE. Pick one concrete change between the supplied records: a touch, an adjustment, an available outlet or a change of position. Explain its local significance tentatively. Anchor it to visible or recorded detail. Avoid generic claims like maintaining possession, building play or creating opportunities unless the records actually show the claimed change. Do not define a term, recite calculations or deliver the closing takeaway. If tracking is corrected, withdraw the affected movement reading.',
+ analyst:'Scout: OBSERVE. Describe one concrete change between the supplied records: a touch, an adjustment, an available outlet or a change of position. Use observable verbs and name the physical detail that changed. Do not append abstract benefits such as team dynamics, coordination, play focus, maintaining possession, building play or creating opportunities. Do not define a term, recite calculations or deliver the closing takeaway. If tracking is corrected, withdraw the affected movement reading.',
  guide:'Guide: EXPLAIN. Begin with the supplied verified definition. Then give a newcomer one concrete thing to look for in this event, such as the receiving touch or the defender’s feet. Use everyday language. Do not repeat a tactical theory, broad team strategy or generic benefits of passing.',
- presenter:'Host: SYNTHESIZE. Read all four public contributions. Write at most two short sentences: one audience-specific takeaway that incorporates the evidence boundary, then one concrete replay cue. Add editorial value rather than paraphrasing Scout or repeating Guide’s definition. Do not list the speakers, repeat calculations or claim a new event. If nothing beyond the observation is supported, make that uncertainty the takeaway and identify the detail worth replaying. Respect Check’s verdict and never repeat a withdrawn claim as fact. Answer the viewer question when supplied.'
+ presenter:'Host: SYNTHESIZE. Read all four public contributions. Your conclusion must answer what this evidence lets the viewer decide, or what specific question it leaves unanswered. Do not describe the action again: Scout already did that. For example, a receiving touch alone cannot tell whether the next route forward is open; a gesture alone cannot tell us what was said. Use only the uncertainty relevant to the actual evidence. Never use abstract praise about team dynamics, coordination or play focus. Give a concrete replay cue separately. Do not list speakers, repeat calculations or claim a new event. Respect Check’s verdict and never repeat a withdrawn claim as fact. Answer the viewer question when supplied.'
 };
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary,previous=[]){
@@ -20,6 +20,7 @@ export function validateMatchPost(raw,packet,role){
  for(const k of ['interpretation','headline','caution'])if(typeof p?.[k]!=='string'||!p[k].trim()||p[k].length>850||/\d/.test(p[k]))throw Error('Invalid editorial text');
  const evidence_ids=[p.evidence_ids?.primary,p.evidence_ids?.secondary].filter(Boolean);if(!evidence_ids.length||evidence_ids.some(id=>!ids.has(id)))throw Error('Citation outside the evidence cutoff');
  const prose=[p.interpretation,p.headline,p.caution,p.replay_cue].join(' ');if(PLAYERS.some(player=>new RegExp('\\b'+player.name.split(' ').at(-1)+'\\b','i').test(prose)))throw Error('Player attribution belongs in the calculated facts');
+ if(/team dynamics|team coordination|shift in play focus|dinámica del equipo|dinâmica da equipe/i.test(p.interpretation))throw Error('Generic editorial claim; use the recorded physical detail');
  if(role==='guide'&&!p.interpretation.startsWith(packet.guideDefinition))throw Error('Guide omitted the verified definition');
  if(role==='presenter'){
   const start={en:'Replay ',es:'Repite ',pt:'Reveja '}[packet.language];
@@ -30,7 +31,7 @@ export function validateMatchPost(raw,packet,role){
 export class MatchDesk{
  constructor(narrator,{clip=false}={}){this.narrator=narrator;this.store=narrator.store;this.pending=new Map();this.clip=clip;}
  async discuss(input,emit){
-  const key=createHash('sha256').update(this.clip?'pitchside-desk-v4:'+pitchsideKey(input):'cohesive-desk-v4:'+editorialKey(input)).digest('hex');
+  const key=createHash('sha256').update(this.clip?'pitchside-desk-v5:'+pitchsideKey(input):'cohesive-desk-v5:'+editorialKey(input)).digest('hex');
   if(this.pending.has(key)){const task=this.pending.get(key);for(const [type,item]of task.history)emit(type,item);task.listeners.add(emit);try{return await task.promise;}finally{task.listeners.delete(emit);}}
   const task={history:[],listeners:new Set([emit])};this.pending.set(key,task);const publish=(type,item)=>{task.history.push([type,item]);for(const fn of task.listeners)fn(type,item);};
   task.promise=this.generate(key,input,publish);try{return await task.promise;}finally{this.pending.delete(key);}
