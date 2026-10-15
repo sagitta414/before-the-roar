@@ -6,7 +6,7 @@ A football storytelling prototype with a photorealistic AI film and an evidence-
 
 - `npm run studio`: backend and site at http://127.0.0.1:4397. Without Azure configuration, clearly labeled match notes replace unavailable AI.
 - `npm run dev`: static authoring preview at http://127.0.0.1:4396.
-- `npm test`: 74 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
+- `npm test`: 75 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
 - `node scripts/cohesive-smoke.mjs <Azure origin> false` and `true`: exercise original/corrected discussions against the live model. These consume up to three model requests each unless cached.
 
 ## The main experience
@@ -25,7 +25,7 @@ The creator's original photorealistic eight-second Google Flow film remains avai
 
 The reading layout gives the conversation a compact crew toolbar, expandable evidence and calculation sections, and settings for language, voice and response diagnostics. Streaming preserves the reader's scroll position; a new discussion starts at the top. Supporting pages use a compact title and the shared fixture bar, with the pitch above secondary metrics. The film has eight explicit chapter cues; its underlying shots and generated kit markings have not been replaced.
 
-Scout supplies an observation, Guide a definition and visual cue, Vector the calculation, Check the challenge, and Host a short synthesis with a replay cue. Reviewed closing notes have separate copy in each language. An exact/near-copy check replaces obviously repeated Host output with labeled reviewed notes without an additional model call. This is a lexical safeguard, not a semantic novelty guarantee. Versioned discussion cache keys prevent old contributions from being reused under the new prompts.
+Scout supplies an observation, Guide a definition and visual cue, Vector the calculation, Check the challenge, and Host a short synthesis with a required, validated replay-cue field. Reviewed closing notes have separate copy in each language. An exact/near-copy check replaces obviously repeated Host output with labeled reviewed notes without an additional model call. This is a lexical safeguard, not a semantic novelty guarantee. Versioned discussion cache keys prevent old contributions from being reused under the new prompts.
 
 `/api/match-desk` streams Scout and Guide concurrently, publishes Vector's calculations and Check's explicit scenario-claim verdict, then passes all four contributions to Host. A fresh main-sequence discussion uses three model calls. Two meaningful checkpoints per sequence trigger discussions automatically; instantaneous localized explanations update between them. Actual first-text and completion timings are visible. Streaming reduces waiting but cannot eliminate model startup, network latency or cold starts.
 

@@ -64,6 +64,7 @@ function renderPanel(){
   const row=el('article',`message ${profile.image}`),meta=el('div','message-meta'),face=el('span','message-face'),identity=el('div','message-identity');face.style.backgroundImage=`url(assets/${profile.image}-portrait.webp)`;identity.append(el('b','message-name',profile.name),el('span','message-specialty',ROLE_LABELS[state.language][role]));meta.append(face,identity,el('span','message-badge',draft&&!post?'DRAFT':post.engine==='azure_openai'?'AI':post.engine==='calculated'?'MATH':post.engine==='evidence_rules'?'CHECK':'NOTES'));row.append(meta);
   if(post?.decision)row.append(el('strong','verdict verdict-'+post.decision,current.words[post.decision]||'HOLD'));
   row.append(el('p','',post?.summary||draft.summary));
+  if(post?.replay_cue)row.append(el('p','replay-cue',post.replay_cue));
   if(post){const detail=el('details','message-evidence'),label=role==='math'?{en:'Calculation & evidence',es:'Cálculo y evidencia',pt:'Cálculo e evidência'}[state.language]:{en:'Sources & limits',es:'Fuentes y límites',pt:'Fontes e limites'}[state.language];detail.dataset.role=role;detail.open=sameThread?opened.has(role):state.mode==='math'&&role==='math';detail.append(el('summary','',label));
    if(post.working)detail.append(el('code','working',post.working));
    if(post.target_claim)detail.append(el('blockquote','reviewed-claim',post.target_claim));

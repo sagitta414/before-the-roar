@@ -42,6 +42,8 @@
 .message-badge{font-size:9px;letter-spacing:.3px;color:#aebfd6}
 .message>p{font-size:15px;line-height:1.65;margin:10px 0 9px;color:#e5ebf5}
 .message.host{border-left:2px solid #fa4564;padding-left:12px;background:linear-gradient(90deg,#fa274808,transparent)}
+.message>p.replay-cue{font-size:13px;color:#fdc3cf;border-left:2px solid #d25b76;padding-left:10px}
+.pitch-player{transition:none}
 .message details.message-evidence{margin:5px 0 0}
 .message details.message-evidence>summary{min-height:28px;padding:5px 0;font-size:11px;color:#a9c2e4;line-height:1.5}
 .message details.message-evidence[open]{background:#0e1723;padding:4px 10px 10px;border:1px solid #34445b;border-radius:4px}

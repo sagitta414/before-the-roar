@@ -46,7 +46,7 @@ export function createMatchPitch(container,onSelect){
  stage.append(node('text',{x:0,y:73,fill:'#b8c6c8','font-size':1,'letter-spacing':'.12'},'GENERATED PLAYER ART · SYNTHETIC TRACKING'));
  container.replaceChildren(stage);
  return {update(s,state,focusId,corrected=false){
-  for(const p of state.players){const {actor,focus,hit}=actors.get(p.id);actor.style.transform=`translate(${p.position[0]}px,${p.position[1]}px)`;hit.setAttribute('aria-pressed',String(p.id===focusId));focus.style.display=p.id===focusId?'':'none';}
+  for(const p of state.players){const {actor,focus,hit}=actors.get(p.id);actor.setAttribute('transform',`translate(${p.position[0]} ${p.position[1]})`);hit.setAttribute('aria-pressed',String(p.id===focusId));focus.style.display=p.id===focusId?'':'none';}
   const selected=state.players.find(p=>p.id===focusId);if(!selected)return;
   const points=[];for(let t=Math.max(0,state.time-8);t<state.time;t+=.5)points.push(position(s,focusId,t,corrected));points.push(selected.position);trail.setAttribute('points',points.map(p=>p.join(',')).join(' '));trail.setAttribute('stroke',palette[selected.team]);
   const last=state.seen.filter(e=>e.type==='pass').at(-1);passLine.style.display=last?'':'none';if(last){for(const [k,v]of Object.entries({x1:last.start[0],y1:last.start[1],x2:last.endPosition[0],y2:last.endPosition[1]}))passLine.setAttribute(k,v);}

@@ -12,6 +12,6 @@ await mkdir('tmp',{recursive:true});await writeFile('tmp/pitchside-smoke.json',J
 assert.ok(complete);assert.equal(posts.length,5);assert.equal(posts.filter(p=>p.engine==='azure_openai').length,3);
 assert.equal(posts.find(p=>p.role==='math').engine,'calculated');assert.equal(posts.find(p=>p.role==='reviewer').engine,'evidence_rules');
 assert.ok(posts.every(p=>p.cutoff===PITCHSIDE.duration&&p.evidence_ids.every(id=>id.startsWith('pitchside-'))));
-for(const p of posts.filter(p=>p.engine==='azure_openai'))validateMatchPost({post:{interpretation:p.summary,headline:p.title,caution:p.caution,evidence_ids:{primary:p.evidence_ids[0],secondary:p.evidence_ids[1]||null}}},packet,p.role);
+for(const p of posts.filter(p=>p.engine==='azure_openai'))validateMatchPost({post:{interpretation:p.summary,replay_cue:p.replay_cue,headline:p.title,caution:p.caution,evidence_ids:{primary:p.evidence_ids[0],secondary:p.evidence_ids[1]||null}}},packet,p.role);
 if(!complete.cached)assert.ok(drafts>0);
 console.log(JSON.stringify({passed:true,version:health.version,cached:complete.cached,drafts,elapsed_ms:Math.round(performance.now()-start),roles:posts.map(p=>({role:p.role,engine:p.engine,summary:p.summary}))}));
