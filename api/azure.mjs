@@ -10,19 +10,24 @@ export async function accessToken(resource){
  const res=await fetch(url,{headers:{'X-IDENTITY-HEADER':process.env.IDENTITY_HEADER},signal:AbortSignal.timeout(8000)});
  if(!res.ok)throw Error(`Identity HTTP ${res.status}`);const t=await res.json();tokenCache.set(resource,{value:t.access_token,expires:Number(t.expires_on)*1000});return t.access_token;
 }
+// A date-bound ceiling expires at the UTC reset without a scheduled job or counter edits.
+export function dailyRequestLimit(day=new Date().toISOString().slice(0,10),env=process.env){
+ const normal=Number(env.AI_DAILY_LIMIT||120),temporary=Number(env.AI_DAILY_LIMIT_OVERRIDE);
+ return env.AI_DAILY_LIMIT_OVERRIDE_DATE===day&&Number.isSafeInteger(temporary)&&temporary>=normal?temporary:normal;
+}
 export class ResultStore{
- constructor(){this.memory=new Map();this.base=process.env.AZURE_STORAGE_URL;this.used=0;this.day='';}
+ constructor({clock=()=>Date.now()}={}){this.clock=clock;this.memory=new Map();this.base=process.env.AZURE_STORAGE_URL;this.used=0;this.day='';}
  async blob(path,options={}){return fetch(this.base+path,{...options,headers:{Authorization:`Bearer ${await accessToken('https://storage.azure.com/')}`,'x-ms-version':'2023-11-03',...options.headers},signal:AbortSignal.timeout(8000)});}
  async read(key){if(this.memory.has(key))return this.memory.get(key);if(!this.base)return null;const r=await this.blob(`cache/${key}.json`);if(r.status===404)return null;if(!r.ok)throw Error(`Cache HTTP ${r.status}`);const data=await r.json();this.remember(key,data);return data;}
  remember(key,value){if(this.memory.size>=512)this.memory.delete(this.memory.keys().next().value);this.memory.set(key,value);}
  async write(key,value){if(this.base){const r=await this.blob(`cache/${key}.json`,{method:'PUT',headers:{'x-ms-blob-type':'BlockBlob','Content-Type':'application/json'},body:JSON.stringify(value)});if(!r.ok)throw Error(`Cache write HTTP ${r.status}`);}this.remember(key,value);}
  async allowance(){
-  const day=new Date().toISOString().slice(0,10),limit=Number(process.env.AI_DAILY_LIMIT||120);
+  const day=new Date(this.clock()).toISOString().slice(0,10),limit=dailyRequestLimit(day);
   if(!this.base)return {day,limit,used:this.day===day?this.used:0};
   const response=await this.blob(`budget/${day}.json`);if(response.status===404)return {day,limit,used:0};if(!response.ok)throw Error('Allowance unavailable');return {day,limit,used:Number((await response.json()).calls)||0};
  }
  async reserve(){
-  const limit=Number(process.env.AI_DAILY_LIMIT||120),day=new Date().toISOString().slice(0,10);
+  const day=new Date(this.clock()).toISOString().slice(0,10),limit=dailyRequestLimit(day);
   if(!this.base){if(this.day!==day){this.day=day;this.used=0;}if(this.used>=limit)return false;this.used++;return true;}
   // ETag compare-and-swap persists the request allowance across replicas/restarts.
   const path=`budget/${day}.json`;

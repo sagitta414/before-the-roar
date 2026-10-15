@@ -6,7 +6,7 @@ import {resolve,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {randomBytes,timingSafeEqual} from 'node:crypto';
 import {generateMatch,initialState,ingest,snapshot,evidencePacket} from './match.mjs';
-import {Narrator,fallback} from './azure.mjs';
+import {Narrator,fallback,dailyRequestLimit} from './azure.mjs';
 import {MODES} from '../dist/learning.js';
 import {DiscussionDesk,DESK_ROLES} from './desk.mjs';
 import {normalizeQuestion} from '../dist/party-state.js';
@@ -94,7 +94,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
     if(action==='stop'){broadcasts.stop(room);return send(res,200,{stopped:true});}
     try{return send(res,200,broadcasts.update(room,await readInput()));}catch(error){return send(res,400,{error:error.message});}
    }
-   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.7.0',usage:await narrator.store?.allowance?.().catch(()=>null)??null,agent_tools:true,durable_checkpoints:true,production_proof:true,dataset_version:2,external_broadcast:true,pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
+   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:dailyRequestLimit(),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.7.1',usage:await narrator.store?.allowance?.().catch(()=>null)??null,agent_tools:true,durable_checkpoints:true,production_proof:true,dataset_version:2,external_broadcast:true,pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
    if(['/api/desk','/api/match-desk','/api/clip-desk'].includes(route)&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     if(deskStreams>=6)return send(res,429,{error:'The AI desk is busy. Try again shortly.'});

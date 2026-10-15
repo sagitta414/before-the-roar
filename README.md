@@ -67,3 +67,5 @@ Configuration: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYM
 To regenerate coordinate films, set `RENDER_FILMS=1`, run `node server.mjs`, open `/__studio`, and use `scripts/encode-films.ps1`. Player cutouts, gait and camera choreography are illustrative. Asset prompts and provenance remain in the repository.
 
 Continuous eventing, inferred player identity, calibrated video speed, xG, broad semantic evaluation, production-scale resilience and partner rendering remain outside the implemented prototype. The participant still needs the final under-two-minute demo recording, rights review and submission. See the judge guide for the recording plan.
+
+One-day request top-ups: set `AI_DAILY_LIMIT_OVERRIDE_DATE` to a UTC date (YYYY-MM-DD) and `AI_DAILY_LIMIT_OVERRIDE` to the approved total ceiling for that date. Health and request reservations use the same ceiling. The override expires automatically at midnight UTC; `AI_DAILY_LIMIT` remains the normal daily ceiling. Existing usage counters are never reset.
