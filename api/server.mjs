@@ -49,7 +49,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
   try{
    if(route==='/api/dataset'&&req.method==='GET'){
     const seed=Number(new URL(req.url,'http://local').searchParams.get('seed')||7);if(!Number.isInteger(seed)||seed<1||seed>1000000)return send(res,400,{error:'Choose a seed from 1 to 1000000'});
-    const match=generateMatch(seed);return send(res,200,{schema:'btr.synthetic-dataset.v2',...match,validation:validateSyntheticMatch(match)});
+    const match=generateMatch(seed);return send(res,200,{schema:'btr.synthetic-dataset.v2',...match,coverage:{kind:'event-only',duration_seconds:5400,tracking_samples:false,coordinates:'Event start and end coordinates; not continuous player tracking'},validation:validateSyntheticMatch(match)});
    }
    if(route.startsWith('/api/production')){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
@@ -94,7 +94,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
     if(action==='stop'){broadcasts.stop(room);return send(res,200,{stopped:true});}
     try{return send(res,200,broadcasts.update(room,await readInput()));}catch(error){return send(res,400,{error:error.message});}
    }
-   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.6.1',usage:await narrator.store?.allowance?.().catch(()=>null)??null,agent_tools:true,durable_checkpoints:true,production_proof:true,dataset_version:2,external_broadcast:true,pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
+   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.7.0',usage:await narrator.store?.allowance?.().catch(()=>null)??null,agent_tools:true,durable_checkpoints:true,production_proof:true,dataset_version:2,external_broadcast:true,pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
    if(['/api/desk','/api/match-desk','/api/clip-desk'].includes(route)&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     if(deskStreams>=6)return send(res,429,{error:'The AI desk is busy. Try again shortly.'});

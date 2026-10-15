@@ -1,0 +1,56 @@
+{
+  "schema": "btr.verification-observations.v1",
+  "date": "2026-10-15",
+  "service": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io",
+  "version": "3.6.1",
+  "evidence_method": "Assertions executed against the deployed API and independent browser observations. This is a summarized verification record, not a raw model trace export.",
+  "original_discussion": {
+    "status": "complete",
+    "model_requests_before_interruption": 4,
+    "total_model_requests_after_resume": 6,
+    "reused_roles": ["analyst", "guide"],
+    "saved_posts_unchanged_on_resume": true,
+    "storage": "Azure Blob Storage"
+  },
+  "corrected_discussion": {
+    "status": "degraded",
+    "reviewer_decision": "withdraw",
+    "fallbacks_observed": [
+      {"role": "analyst", "reason": "Invalid editorial text"},
+      {"role": "presenter", "reason": "Host must state the football implication, not praise its importance"}
+    ],
+    "behavior": "Rejected AI prose was replaced with explicitly labeled reviewed notes. No claim that every corrected contribution passed AI validation."
+  },
+  "external_output": {
+    "verified_in_separate_browser": true,
+    "revision": 2,
+    "caption": "The corrected record keeps Laurent in place. The defender-movement claim is withdrawn; the recorded passes and shot remain unchanged.",
+    "persisted_across_azure_revision_change": true,
+    "reader_cannot_export_producer_state": true,
+    "producer_key_not_accepted_as_reader_key": true
+  },
+  "allowance": {
+    "user_approved_extra_requests": 12,
+    "counter_before": 120,
+    "verification_ceiling": 132,
+    "restored_daily_setting": 120
+  },
+  "browser_follow_up": {
+    "additional_model_calls": 0,
+    "spanish_beginner_caption": "Un pase completado llega a un compañero. Conservar el balón permite seguir construyendo el ataque.",
+    "spanish_external_output_confirmed": true,
+    "english_math_caption": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+    "dataset_seed": 107,
+    "dataset_valid": true,
+    "dataset_events": 759,
+    "dataset_passes": 486,
+    "dataset_completion_pct": 87.4,
+    "dataset_shots": 15,
+    "dataset_pressure_events": 72
+  },
+  "limitations": [
+    "The strict smoke harness stopped on the degraded corrected response before writing a raw trace artifact; this summary records the checks completed before that assertion.",
+    "No live latency or token totals are fabricated here. Future successful smoke runs export those measurements.",
+    "The interrupted live harness did not reach its language step. Subsequent browser checks confirmed Spanish beginner and English math captions without model calls."
+  ]
+}

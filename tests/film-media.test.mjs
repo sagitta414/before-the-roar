@@ -15,6 +15,15 @@ class Video extends EventTarget{
  removeAttribute(name){delete this[name];}
  ready(){this.readyState=4;this.dispatchEvent(new Event('loadedmetadata'));this.dispatchEvent(new Event('loadeddata'));}
 }
+test('a stalled playing film offers recovery and retry restores its evidence time',async()=>{
+ const video=new Video(),states=[];let timeout=null;const m=bindMedia(video,s=>states.push(s),{set:fn=>{timeout=fn;return 1;},clear:()=>{timeout=null;}});
+ m.sync(mediaPlan({clipTime:22}));video.ready();await m.play();video.dispatchEvent(new Event('waiting'));assert.equal(states.at(-1),'buffering');assert.ok(timeout);timeout();assert.equal(states.at(-1),'slow');
+ const retry=m.retry();video.ready();assert.equal(await retry,true);assert.equal(m.globalTime(),22);assert.equal(video.loads,2);assert.equal(states.at(-1),'ready');
+ video.dispatchEvent(new Event('stalled'));assert.ok(timeout);m.unload();assert.equal(timeout,null);assert.equal(states.at(-1),'idle');
+});
+test('a media error resolves pending play and can recover without resetting the playhead',async()=>{
+ const video=new Video(),states=[],m=bindMedia(video,s=>states.push(s));m.sync(mediaPlan({clipTime:46,studyScene:true}));const waiting=m.play();video.dispatchEvent(new Event('error'));assert.equal(await waiting,false);assert.equal(states.at(-1),'error');const retry=m.retry();video.ready();assert.equal(await retry,true);assert.equal(m.globalTime(),46);
+});
 test('scene-local files preserve the global evidence clock at every cut and in full-reel mode',()=>{
  for(const time of [0,.25,7.958333,8,16,23.958333,24,32,40,48,51.958333,52,59.958333,60]){
   const p=mediaPlan({clipTime:time,studyScene:true});assert.equal(globalMediaTime(p,localMediaTime(p,time)),time);

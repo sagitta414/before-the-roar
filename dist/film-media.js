@@ -10,15 +10,16 @@ export function mediaPlan({source='pitchside',scenario='wide',clipTime=0,time=0,
 export const localMediaTime=(plan,time)=>Math.max(0,Math.min(plan.duration,time-plan.offset));
 export const globalMediaTime=(plan,time)=>plan.offset+Math.max(0,Math.min(plan.duration,time));
 
-export function bindMedia(video,onStatus=()=>{}){
- let plan=null,pending=0,generation=0,cancelWait=null;
+export function bindMedia(video,onStatus=()=>{},timers={set:setTimeout,clear:clearTimeout}){
+ let plan=null,pending=0,generation=0,cancelWait=null,stallTimer=null;
  const status=(value)=>onStatus(value);
- const cancel=()=>{generation++;cancelWait?.();cancelWait=null;};
- const ready=()=>{if(plan&&video.readyState>=2&&!video.seeking)status('ready');};
+ const clearStall=()=>{if(stallTimer!==null)timers.clear(stallTimer);stallTimer=null;};
+ const cancel=()=>{generation++;cancelWait?.();cancelWait=null;clearStall();};
+ const ready=()=>{if(plan&&video.readyState>=2&&!video.seeking){clearStall();status('ready');}};
  video.addEventListener('loadedmetadata',()=>{if(plan)video.currentTime=localMediaTime(plan,pending);});
  for(const event of ['loadeddata','canplay','seeked','playing'])video.addEventListener(event,ready);
- video.addEventListener('waiting',()=>{if(plan)status('buffering');});
- video.addEventListener('error',()=>{if(plan)status('error');});
+ for(const event of ['waiting','stalled'])video.addEventListener(event,()=>{if(!plan)return;status('buffering');if(stallTimer===null)stallTimer=timers.set(()=>{stallTimer=null;if(plan)status('slow');},12000);});
+ video.addEventListener('error',()=>{clearStall();if(plan)status('error');});
  function sync(next,time=next.time){
   const moved=Math.abs(pending-time)>.15;pending=time;
   if(plan?.src!==next.src){cancel();video.pause();plan=next;video.preload='auto';video.poster=next.poster;status('loading');video.src=next.src;video.load();return;}

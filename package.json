@@ -1,13 +1,13 @@
 {
   "name": "before-the-roar",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "node server.mjs",
     "studio": "node api/server.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/live.js && node --check api/server.mjs && node --check api/azure.mjs && node --check api/production.mjs && node --check api/agent-state.mjs && node --check api/agent-tools.mjs && node --check api/match-desk.mjs && node --check dist/production-desk.js && node --check dist/overlay.js",
+    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/live.js && node --check api/server.mjs && node --check api/azure.mjs && node --check api/production.mjs && node --check api/agent-state.mjs && node --check api/agent-tools.mjs && node --check api/match-desk.mjs && node --check dist/production-desk.js && node --check dist/overlay.js && node --check dist/reliability.js && node --check dist/navigation.js && node --check dist/ai-availability.js && node --check dist/film-captions.js",
     "validate:data": "node scripts/validate-synthetic.mjs"
   },
   "dependencies": {

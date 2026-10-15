@@ -1,0 +1,34 @@
+{
+  "schema": "btr.footage-register.v1",
+  "updated": "2026-10-15",
+  "recommended_recording_source": "Authored synthetic match / coordinate-rendered fictional teams",
+  "assets": [
+    {
+      "source": "90-minute synthetic dataset",
+      "provenance": "api/match.mjs seeded simulator",
+      "content": "Fictional events; no imported Premier League event feed",
+      "tracking": "No continuous player samples"
+    },
+    {
+      "source": "36-second authored scenarios",
+      "provenance": "dist/engine.js and generated coordinate films",
+      "content": "Fictional Harbor and Northbridge players and synthetic coordinates",
+      "tracking": "1 Hz synthetic samples in the scenario JSONL export"
+    },
+    {
+      "source": "60-second photorealistic edit",
+      "provenance": "assets/pitchside-minute-provenance.json",
+      "generator": "Google Flow / Veo; final retry exact model unconfirmed",
+      "status": "Rights review unresolved",
+      "open_items": [
+        "Account-specific usage permission has not been verified in this pass",
+        "Generated kit markings and likenesses are not rights clearance",
+        "Audio clearance has not been established"
+      ],
+      "recording_recommendation": "Use the synthetic match route until these items are resolved",
+      "disclosure": "Eight independent generated shots; no continuous observed match identity"
+    }
+  ],
+  "verification_summary": "assets/btr-verification-summary.json",
+  "legal_clearance": false
+}

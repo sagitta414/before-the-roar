@@ -6,11 +6,11 @@ Public application: https://before-the-roar.sagitta107.chatgpt.site
 
 ## Recording plan — 110 seconds
 
-Prepare an original proof run and its OBS browser output before recording. This avoids spending the submission video waiting for a cold Azure instance. Show saved receipts as saved receipts; do not present them as live generation. Keep the final recording below two minutes.
+Use [the recording script](RECORDING-SCRIPT.txt) and the downloadable kit in Inside BTR. The default recording route now uses the authored synthetic match while generated-footage usage permissions and markings remain unresolved. Preserve provenance. Prepare an original proof run and its OBS browser output before recording. Check the visible daily allowance first. Show saved receipts as saved receipts; do not present them as live generation. Keep the final recording below two minutes.
 
 | Time | Show | Say |
 | --- | --- | --- |
-| 0–20s | Watch, full-minute playback; an evidence citation | “A football story should help you see the play differently. This generated film has reviewed observations; the synthetic match supplies measured statistics.” |
+| 0–20s | Watch, synthetic replay; an evidence citation | “BTR turns synthetic football events into explanations you can question. The source and clock stay attached to every claim.” |
 | 20–40s | Match Centre: beginner, math, Spanish | “The same evidence becomes a plain-language explanation, a calculation with units, or a tactical reading. Personalization changes the explanation, not the facts.” |
 | 40–65s | Inside BTR: Correct the tracking; the separate OBS output | “A revised tracking record withdraws the movement claim. Passes remain intact. The source revision reaches the on-screen caption.” |
 | 65–90s | Test recovery, Resume saved work; public receipts and model requests | “An actual worker exception interrupts this run. The next worker reloads the specialists from Blob Storage and finishes the handoff. Playback is independent.” |
@@ -21,7 +21,7 @@ Prepare an original proof run and its OBS browser output before recording. This 
 1. **Tool-backed specialists:** Watch → Discuss this moment → Inside the AI desk. The log records model-selected tools and source IDs. Scout and Guide run concurrently; Host receives their actual public contributions, Vector's calculation and Check's verdict. This is a custom Node workflow with Azure OpenAI function calls, not Microsoft Agent Framework or a Foundry Agent Service deployment.
 2. **Correction propagation:** Inside BTR → Run the desk → Correct the tracking. The persistent ledger retains the earlier reading. The new revision changes the caption immediately; Run the revised desk regenerates AI commentary using only that revision. Old work is retained in the exported proof, not treated as current.
 3. **Recovery:** Test recovery throws after saving the specialists. Resume creates a fresh worker. A successful test makes four requests before interruption and two afterwards, instead of repeating the first four. Degraded agents are retried; completed contributions and tools are reused. Browser reload restores the current proof session for its remaining lifetime.
-4. **Data innovation:** Generate a seed from 1–1,000,000. The ninety-minute fixture includes passes, pressure, recoveries, carries, shots, restarts and halftime. Validation checks continuity, bounds, units and restart rules. The pass-difficulty index is an explicitly uncalibrated heuristic, not a probability of success. Download includes provenance and results.
+4. **Data innovation:** Generate a seed from 1–1,000,000. The ninety-minute fixture includes passes, pressure, recoveries, carries, shots, restarts and halftime. This is an event-only export with event coordinates; it does not contain continuous player tracking. The separate authored 36-second sequence exports 1 Hz synthetic player samples. Validation checks continuity, bounds, units and restart rules. The pass-difficulty index is an explicitly uncalibrated heuristic, not a probability of success. Download includes provenance and results.
 5. **Broadcast and judging evidence:** Open read-only OBS output, change language and perspective, export proof. The output uses deterministic evidence-bound captions and polls the persisted authority every second. It is independent of the producer's tab after creation, expires after thirty minutes, and clears stale cues after six seconds. The existing Watch output uses SSE.
 
 ## What the proof does and does not establish

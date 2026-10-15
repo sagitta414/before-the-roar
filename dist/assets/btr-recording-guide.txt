@@ -1,0 +1,42 @@
+BEFORE THE ROAR — 110-SECOND RECORDING SCRIPT
+
+Record the fictional synthetic sequence. Keep source labels and fallback status visible.
+Do not describe saved verification as a live run. Do not record a zero-request recovery as proof that AI work was reused.
+
+BEFORE RECORDING
+Open Inside BTR and inspect the AI allowance. A successful fresh original discussion/recovery uses up to six requests. A corrected discussion may use another six. This guide does not authorize a higher daily limit.
+Prepare a successful recovery session within its 30-minute lifetime and export its actual proof. Keep its independent OBS output open. The checked-in summary is a factual verification record, not the complete raw trace.
+If AI is unavailable, postpone the live-AI part of the recording. Playback, mathematical explanations and dataset validation remain available.
+
+0–20 SECONDS — SOURCE AND PLAY
+Open Watch, select Match story / synthetic replay, and The unseen run. Play to 67:16.
+Say: “BTR turns synthetic football events into explanations you can question. The source and clock stay attached to every claim.”
+
+20–40 SECONDS — TWO AUDIENCES
+Open Match Centre. Compare New to football and Show the math, then switch the explanation to Spanish.
+Say: “The same passes become a beginner explanation or a calculation: two completed passes advance the ball 23.7 metres toward goal. Personalization changes the explanation, not the evidence.”
+
+40–65 SECONDS — CORRECTION
+Use the production proof desk to correct the tracking. Show its separate OBS output.
+Say: “Correcting the defender's position withdraws the movement claim. The recorded passes remain intact, and the revised caption reaches the output.”
+
+65–90 SECONDS — RECOVERY
+Show actual saved specialist receipts and the interrupted/resumed run. If using a prepared run, label it SAVED RUN with its time.
+Say: “This worker saved Scout and Guide before it stopped. Its replacement reused their contributions and finished the host's handoff. This verified run used four model requests before interruption and six in total.”
+Only say the numbers if that run's actual receipts agree. The existing verification summary records those numbers but is not a raw live trace.
+
+90–110 SECONDS — DATASET AND CLOSE
+Generate seed 107 and export the validation report and events.
+Say: “A reproducible ninety-minute fixture includes passes, pressure, carries, shots and restarts. We check internal consistency and expose the evidence. Different fans get different explanations they can inspect.”
+
+SOURCE BOUNDARIES
+The ninety-minute generator exports events with start/end coordinates. It does not export continuous player tracking.
+The authored thirty-six-second scenarios export events plus 1 Hz synthetic player positions, through the selected playhead.
+The sixty-second generated film is eight independent shots. Its reviewed visual descriptions are not a speech transcript or automated event detection.
+
+FOOTAGE AND RIGHTS
+Keep the Google Flow provenance and generated-film disclosures available. Do not remove labels to imply rights clearance. Generated kit markings, likenesses, audio and account-specific usage permissions remain unresolved; the repository does not contain permission records that clear them for the submission.
+The recommended route uses authored synthetic events and the BTR coordinate-rendered fictional teams. Review all final captured assets and the final recording before publication; this guide is not a legal clearance.
+
+REMAINING SUBMISSION WORK
+Record and publish the final video under two minutes. Verify public GitHub access, ownership and eligibility, and final footage permissions. Nothing in this package submits the entry or accepts the rules.

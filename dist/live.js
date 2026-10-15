@@ -1,8 +1,10 @@
+import {aiAvailability,availabilityText} from './ai-availability.js';
 import {lesson} from './learning.js';
 import {DialogueState} from './dialogue.js';
 const $=id=>document.getElementById(id),text=(id,value)=>$(id).textContent=value;
 if(new URLSearchParams(location.search).has('embedded'))document.documentElement.classList.add('embedded');
 addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.type==='btr-pause-lab'&&active)$('stop').click();});
+const allowance=document.createElement('aside');allowance.className='ai-availability';allowance.setAttribute('aria-label','AI availability and daily allowance');document.querySelector('.controls').before(allowance);aiAvailability.subscribe(s=>{allowance.dataset.state=s.state;allowance.textContent=s.title+'. '+availabilityText(s)+' The event simulation remains available.';});aiAvailability.check();
 const dialogue=new DialogueState();let liveStats=null,lastEvent=null,lastPass=null;
 let base='',session=null,controller=null,mode='fan',current=null,active=false,lastId=0;
 const clubs={home:'Harbor',away:'Northbridge'},names={home:['Eli Ward','Noah Ellis','Leo Martin','Oscar Reed','Finn Clarke','Amir Cole','Luca Moreau','Mateo Silva','Theo Brooks','Rafael Costa','Isaac Hart'],away:['Max Berg','Jules Laurent','Ben Shaw','Alex Ross','Milan Voss','Samir Ali','Hugo Bell','Arlo King','Adam Price','Nico Stone','Tom Avery']};
@@ -22,7 +24,7 @@ $('stop').addEventListener('click',async()=>{try{await request(`/api/runs/${sess
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>{mode=button.dataset.mode;for(const b of document.querySelectorAll('[data-mode]')){b.classList.toggle('selected',b===button);b.setAttribute('aria-pressed',String(b===button));}text('perspective',{fan:'Fan perspective',analyst:'Tactical analyst',player:'Mateo Silva · #8',beginner:'New to football',math:'Math explained'}[mode]);renderInsight();renderLesson();renderDialogue();});
 $('download').addEventListener('click',async()=>{try{const r=await request(`/api/runs/${session.id}/export`),data=await r.json(),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`${data.match_id}-${Math.floor(data.cutoff)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(e){text('status',e.message);}});
 addEventListener('pagehide',()=>{if(active&&session)fetch(`${base}/api/runs/${session.id}/stop`,{method:'POST',headers:{Authorization:`Bearer ${session.token}`},keepalive:true}).catch(()=>{});});
-try{const config=await fetch('api-config.json').then(r=>r.ok?r.json():{});base=config.baseUrl||'';const health=await request('/api/health').then(r=>r.json());text('connection',health.ai_configured?'AZURE STUDIO · READY':'LOCAL STUDIO · AI NOT CONFIGURED');}catch{text('connection','STUDIO CONNECTION PENDING');text('status','The Azure studio may be waking up. Start a match to try connecting.');}
+try{const config=await fetch('api-config.json').then(r=>r.ok?r.json():{});base=['localhost','127.0.0.1'].includes(location.hostname)?'':config.baseUrl||'';const health=await request('/api/health').then(r=>r.json());text('connection',health.ai_configured?'STUDIO CONNECTED · SEE AI ALLOWANCE':'STUDIO CONNECTED · AI UNAVAILABLE');}catch{text('connection','STUDIO CONNECTION PENDING');text('status','The Azure studio may be waking up. Start a match to try connecting.');}
 
 
 $('stream-toggle').addEventListener('change',renderDialogue);
