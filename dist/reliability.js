@@ -1,4 +1,4 @@
-import {installNavigation} from './navigation.js';
+import {installNavigation} from './navigation.js?v=39';
 import {aiAvailability,availabilityText} from './ai-availability.js';
 const el=(tag,cls,text)=>{const n=document.createElement(tag);n.className=cls;if(text)n.textContent=text;return n;};
 installNavigation();

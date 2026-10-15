@@ -1,0 +1,36 @@
+{
+  "version": "39",
+  "checked_at": "2026-10-15T18:20:26.464Z",
+  "checks": {
+    "syntax": "passed",
+    "automated_tests": 123,
+    "full_match": {
+      "environment": "local, Azure model disabled",
+      "clock": "90:00",
+      "events": 727,
+      "checkpoints": 6,
+      "export": "btr-synthetic-v2-7-5400.json",
+      "complete": true
+    },
+    "navigation": {
+      "order": [
+        "Watch",
+        "Match Centre",
+        "Match Lab",
+        "Truth Lab",
+        "Presenters",
+        "Inside BTR"
+      ],
+      "desktop_routes": "passed",
+      "back_forward": "passed",
+      "direct_lab_link": "passed",
+      "labels_aligned": true
+    },
+    "mobile": {
+      "viewport_width": 375,
+      "layout": "visually inspected",
+      "menu_interaction": "Browser automation could not target controls inside the phone-preview iframe; not verified in that harness"
+    },
+    "allowance": "No live model requests used for verification"
+  }
+}
