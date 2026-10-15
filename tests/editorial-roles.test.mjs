@@ -38,5 +38,7 @@ test('Host must supply a localized replay instruction without inventing an actor
   assert.throws(()=>validateMatchPost({post:{...post,interpretation:'This improves team dynamics.',replay_cue:cue}},packet,'analyst'),/Generic editorial claim/);
   assert.throws(()=>validateMatchPost({post:{...post,replay_cue:'Replay Moreau running.'}},packet,'presenter'),/Player attribution/);
   assert.throws(()=>validateMatchPost({post:{...post,replay_cue:'Replay the 95 km/h pass.'}},packet,'presenter'),/replay cue/);
+  assert.throws(()=>validateMatchPost({post:{...post,takeaway:'The ball is passed to a teammate.',replay_cue:cue}},packet,'presenter'),/repeated the observation/);
+  assert.equal(validateMatchPost({post:{...post,takeaway:'Judge the reception on its own.',replay_cue:cue}},packet,'presenter').summary,'Judge the reception on its own.');
  }
 });
