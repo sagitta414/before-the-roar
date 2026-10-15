@@ -1,5 +1,5 @@
 import {createBroadcastOutput} from './broadcast-output.js';
-import {PITCHSIDE,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipClock} from './pitchside-story.js';
+import {PITCHSIDE,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipClock,clipDiscussionMatches,clipEditorialCutoff} from './pitchside-story.js';
 import {SCENARIOS,PLAYERS,clock} from './engine.js';
 import {matchSession} from './match-session.js';
 import {matchStory,localPanel,matchExport,editorialKey,WORDS} from './match-story.js';
@@ -19,7 +19,7 @@ const isClip=()=>watchSource==='pitchside',viewTime=()=>isClip()?clipTime:state.
 const overlayChannel='BroadcastChannel'in window?new BroadcastChannel('btr-match-cue-v1'):null;
 const config=fetch('api-config.json').then(r=>r.json()).then(c=>base=['localhost','127.0.0.1'].includes(location.hostname)?'':c.baseUrl||'').catch(()=>{});
 const correctedPitch=createMatchPitch($('corrected-replay'),id=>matchSession.set({focus:id,mode:'player'}));correctedPitch.setView('stadium');
-const locale=()=>state.language,scopeKey=s=>isClip()?[PITCHSIDE.id,s.language,s.mode,s.clipChallenge].join(':'):['match',s.scenario,s.language,s.mode,s.focus,s.team,s.corrected].join(':'),currentThreads=()=>[...threads.values()].filter(t=>t.scope===scopeKey(state)&&t.cutoff<=viewTime()),activeThread=()=>currentThreads().sort((a,b)=>b.cutoff-a.cutoff||b.created-a.created)[0];
+const locale=()=>state.language,scopeKey=s=>isClip()?[PITCHSIDE.id,s.language,s.mode,s.clipChallenge].join(':'):['match',s.scenario,s.language,s.mode,s.focus,s.team,s.corrected].join(':'),currentThreads=()=>[...threads.values()].filter(t=>t.scope===scopeKey(state)&&t.cutoff<=viewTime()&&(!isClip()||clipDiscussionMatches(clipTime,t.cutoff))),activeThread=()=>currentThreads().sort((a,b)=>b.cutoff-a.cutoff||b.created-a.created)[0];
 function toast(t){put('toast',t);$('toast').hidden=false;setTimeout(()=>$('toast').hidden=true,5000);}
 function silence(){if('speechSynthesis'in window)speechSynthesis.cancel();}
 function save(name,data){const u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=el('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
@@ -146,7 +146,7 @@ function renderClip(){
  put('lesson-mode',w[state.mode]);put('lesson-time',clipClock(clipTime));put('lesson-title',current.title);put('lesson-body',current.body);$('math-card').hidden=state.mode!=='math';put('math-card',current.equation);
  const signature=['pitchside',state.language,current.evidence.length].join(':');
  if($('beats').dataset.signature!==signature){$('beats').dataset.signature=signature;$('beats').replaceChildren();$('evidence-list').replaceChildren();for(const e of current.evidence){const b=el('button','beat');b.append(el('b','',clipClock(e.second)),el('strong','',e.title),el('small','','Reviewed observation'));b.onclick=()=>seek(e.second);$('beats').append(b);const row=el('div','evidence-item'),link=el('button','',clipClock(e.second)+' · '+e.id+' ↗');link.onclick=()=>{$('learn-dialog').close();seek(e.second);};row.append(link,el('p','',e.observation));$('evidence-list').append(row);}if(!current.evidence.length)$('evidence-list').append(el('p','',current.copy.intro));}
- renderPanel();if(started&&state.section==='watch'){const cutoff=(PITCHSIDE.editorialCheckpoints||[PITCHSIDE.duration]).filter(t=>clipTime>=t).at(-1);if(cutoff!==undefined)requestPanel('',cutoff,false);}
+ renderPanel();if(started&&state.section==='watch'){const cutoff=clipEditorialCutoff(clipTime);if(cutoff!==undefined)requestPanel('',cutoff,false);}
 }
 $('watch-source').onchange=()=>setSource($('watch-source').value);
 state=matchSession.get();loadVideo();render();$('hero-play').disabled=false;$('play').disabled=false;put('loading-note',isClip()?`${PITCHSIDE.duration} seconds · eight shots · five perspectives`:'36 seconds of play · one shared story');put('connection-status','MATCH NOTES READY');config.then(()=>fetch(base+'/api/health')).then(r=>r.json()).then(h=>put('connection-status',h.ai_configured?'AZURE AI READY':'INSTANT MATCH NOTES')).catch(()=>{});

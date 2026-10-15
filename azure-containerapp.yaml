@@ -19,7 +19,7 @@ properties:
   template:
     containers:
       - name: studio
-        image: patchhorizonacr805813.azurecr.io/before-the-roar:v30-unified-studio-r3
+        image: patchhorizonacr805813.azurecr.io/before-the-roar:v31-scene-coherence
         resources:
           cpu: 0.25
           memory: 0.5Gi

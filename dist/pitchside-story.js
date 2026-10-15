@@ -3,7 +3,7 @@ import {WORDS} from './match-story.js';
 import {MINUTE_BEATS} from './pitchside-minute.js';
 import {clipClosing} from './editorial-roles.js';
 
-export const PITCHSIDE={id:'pitchside-minute-veo-quality-v1',duration:60,revision:2,title:'A minute inside the game.',asset:'https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/pitchside-minute.mp4',poster:'assets/pitchside-minute-poster.jpg',model:'Google Flow',resolution:'1280 × 720, 24 fps',source:'manually-reviewed-ai-video',editing:'Eight separately generated shots, edited together. Cuts do not establish continuous play or player identity.',editorialCheckpoints:[8,24,44,60],recapIds:['pitchside-run','pitchside-reception','pitchside-carry','pitchside-catch','pitchside-gesture','pitchside-blue-receive']};
+export const PITCHSIDE={id:'pitchside-minute-veo-quality-v1',duration:60,revision:2,title:'A minute inside the game.',asset:'https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/pitchside-minute.mp4',poster:'assets/pitchside-minute-poster.jpg',model:'Google Flow',resolution:'1280 × 720, 24 fps',source:'manually-reviewed-ai-video',editing:'Eight separately generated shots, edited together. Cuts do not establish continuous play or player identity.',editorialCheckpoints:[6,22,46,60],recapIds:['pitchside-run','pitchside-reception','pitchside-carry','pitchside-catch','pitchside-gesture','pitchside-blue-receive']};
 // Approximate editorial markers reviewed against this exact film, not detected events.
 export const PITCHSIDE_BEATS=[
  {id:'pitchside-duel',second:.25,titles:['The close duel','El duelo cercano','O duelo próximo'],observations:['A lime-shirted attacker has the ball at his feet beside a blue-shirted defender.','Un atacante de verde lima tiene el balón en los pies junto a un defensor de azul.','Um atacante de verde-lima está com a bola nos pés ao lado de um defensor de azul.']},
@@ -41,3 +41,7 @@ export function pitchsidePanel(packet){
 }
 export function pitchsideKey(input){return JSON.stringify([PITCHSIDE.id,PITCHSIDE.revision,!!input.clipChallenge,Math.floor(Number(input.time)*10)/10,input.language,input.mode,(input.question||'').trim().replace(/\s+/g,' ')]);}
 export function pitchsideExport(input,posts=[]){const p=pitchsideStory(input);return {schema:'btr.reviewed-video.v1',clip:PITCHSIDE,cutoff:p.cutoff,language:p.language,mode:p.mode,revision:p.revision,review:p.review,story:{title:p.title,body:p.body},evidence:p.evidence,calculations:p.equation,limits:p.copy.limit,public_contributions:posts.filter(post=>post.cutoff<=p.cutoff&&post.revision===p.revision),overlay:{start_seconds:p.cutoff,end_seconds:Math.min(PITCHSIDE.duration,p.cutoff+6),title:p.title,body:p.body,evidence_ids:p.evidence.map(e=>e.id)}};}
+
+export const clipSceneStart=time=>[0,8,16,24,32,40,48,52].findLast(t=>t<=Math.max(0,Math.min(60,time)));
+export const clipDiscussionMatches=(time,cutoff)=>cutoff<=time&&clipSceneStart(time)===clipSceneStart(cutoff);
+export const clipEditorialCutoff=time=>PITCHSIDE.editorialCheckpoints.filter(t=>clipDiscussionMatches(time,t)).at(-1);

@@ -1,8 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {PITCHSIDE,PITCHSIDE_BEATS,clipClock,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport} from '../dist/pitchside-story.js';
+import {PITCHSIDE,PITCHSIDE_BEATS,clipClock,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipDiscussionMatches,clipEditorialCutoff} from '../dist/pitchside-story.js';
 import {MatchDesk,validateMatchPost} from '../api/match-desk.mjs';
 import {createApp} from '../api/server.mjs';
+
+test('crossing a film cut cannot retain an earlier discussion or future reply',()=>{
+ assert.equal(clipDiscussionMatches(21,8),false);assert.equal(clipDiscussionMatches(23,22),true);assert.equal(clipDiscussionMatches(24,22),false);assert.equal(clipDiscussionMatches(21,22),false);assert.equal(clipDiscussionMatches(59,60),false);assert.equal(clipDiscussionMatches(60,60),true);
+});
+test('automatic commentary checkpoints stay inside the visible scene without increasing calls',()=>{
+ assert.equal(PITCHSIDE.editorialCheckpoints.length,4);assert.equal(clipEditorialCutoff(7),6);assert.equal(clipEditorialCutoff(21),undefined);assert.equal(clipEditorialCutoff(23),22);assert.equal(clipEditorialCutoff(24),undefined);assert.equal(clipEditorialCutoff(60),60);
+});
 
 test('pitchside annotations, explanations and exports respect each clip cutoff',()=>{
  const cutoffs=[0,...PITCHSIDE_BEATS.flatMap(b=>[Math.max(0,b.second-.01),b.second]),PITCHSIDE.duration];
