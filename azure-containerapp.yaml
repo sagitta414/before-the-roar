@@ -19,7 +19,7 @@ properties:
   template:
     containers:
       - name: studio
-        image: patchhorizonacr805813.azurecr.io/before-the-roar:v35-full-minute
+        image: patchhorizonacr805813.azurecr.io/before-the-roar:v36a-agent-proof
         resources:
           cpu: 0.25
           memory: 0.5Gi

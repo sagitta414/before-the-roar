@@ -13,10 +13,12 @@ import {normalizeQuestion} from '../dist/party-state.js';
 import {MatchDesk} from './match-desk.mjs';
 import {PITCHSIDE} from '../dist/pitchside-story.js';
 import {BroadcastRooms} from './broadcast.mjs';
+import {ProductionDesk} from './production.mjs';
+import {validateSyntheticMatch} from './synthetic-validation.mjs';
 const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml'};
 export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new DiscussionDesk(narrator)}={}){
  const root=resolve('dist'),runs=new Map(),rates=new Map(),matchDesk=new MatchDesk(narrator),clipDesk=new MatchDesk(narrator,{clip:true});let created=0;
- let deskStreams=0;const broadcasts=new BroadcastRooms({clock}),vision=new VisionDesk(narrator);
+ let deskStreams=0;const broadcasts=new BroadcastRooms({clock}),vision=new VisionDesk(narrator),production=new ProductionDesk(narrator,{clock});
  function emit(run,type,data){const item={id:++run.serial,type,data};run.history.push(item);if(run.history.length>80)run.history.shift();for(const client of run.clients){if(client.writableLength>256000){client.destroy();run.clients.delete(client);}else client.write(`id: ${item.id}\nevent: ${type}\ndata: ${JSON.stringify(data)}\n\n`);}}
  function explain(run,second){const packet={...evidencePacket(run.match,run.state,second,run.language),priority:run.audience};emit(run,'thinking',{cutoff:second,recap:second===5400});
   narrator.explain(packet,draft=>{if(runs.has(run.id)&&!run.stopped&&!run.completed)emit(run,'dialogue',{...draft,cutoff:second});}).catch(()=>fallback(packet)).then(result=>{if(!runs.has(run.id)||run.stopped||run.completed)return;const item={...result,cutoff:second,recap:second===5400,evidence:packet.facts,stats:packet.stats,match_id:run.match.id};run.insights.push(item);emit(run,second===5400?'recap':'insight',item);if(second===5400){run.completed=true;emit(run,'complete',{duration:5400,events:run.state.count,score:run.state.score});for(const c of run.clients)c.end();run.clients.clear();}});
@@ -45,6 +47,29 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
   if(req.method==='OPTIONS'){res.writeHead(origin&&!allowed.has(origin)?403:204).end();return;}
   let route;try{route=new URL(req.url,'http://local').pathname;}catch{return send(res,400,{error:'Invalid URL'});}
   try{
+   if(route==='/api/dataset'&&req.method==='GET'){
+    const seed=Number(new URL(req.url,'http://local').searchParams.get('seed')||7);if(!Number.isInteger(seed)||seed<1||seed>1000000)return send(res,400,{error:'Choose a seed from 1 to 1000000'});
+    const match=generateMatch(seed);return send(res,200,{schema:'btr.synthetic-dataset.v2',...match,validation:validateSyntheticMatch(match)});
+   }
+   if(route.startsWith('/api/production')){
+    if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
+    const readInput=async()=>{let body='';for await(const c of req){body+=c;if(body.length>2048)throw Error('Request too large');}return JSON.parse(body||'{}');};
+    const ip='production:'+(req.headers['x-forwarded-for']?.split(',')[0]||req.socket.remoteAddress),rate=rates.get(ip)||{n:0,until:clock()+600000};if(rate.until<clock()){rate.n=0;rate.until=clock()+600000;}
+    if(req.method==='POST'){if(rate.n>=12)return send(res,429,{error:'Please wait before starting more proof actions'});rate.n++;rates.set(ip,rate);}
+    if(route==='/api/production'&&req.method==='POST'){try{return send(res,201,await production.create(await readInput()));}catch(e){return send(res,400,{error:e.message});}}
+    const found=route.match(/^\/api\/production\/([a-f0-9]{24})\/(state|run|revise|cue)$/);if(!found)return send(res,404,{error:'Production run not found'});
+    let record;try{record=await production.authorized(found[1],(req.headers.authorization||'').replace(/^Bearer /,''),found[2]==='cue');}catch(e){return send(res,403,{error:e.message});}
+    if(req.method==='GET'&&found[2]==='state')return send(res,200,await production.export(record));
+    if(req.method==='GET'&&found[2]==='cue')return send(res,200,production.cue(record));
+    if(req.method==='POST'&&found[2]==='revise'){try{return send(res,200,await production.export(await production.revise(record,await readInput())));}catch(e){return send(res,409,{error:e.message});}}
+    if(req.method==='POST'&&found[2]==='run'){
+     if(deskStreams>=6||production.active.has(found[1]))return send(res,429,{error:'This desk is busy. Reconnect shortly.'});deskStreams++;
+     res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','X-Accel-Buffering':'no'});
+     const emit=(type,data)=>{if(res.destroyed)return;if(res.writableLength>256000){res.destroy();return;}res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);};
+     emit('connected',{generation:record.value.generation});try{await production.run(record,emit);}catch(e){emit('error',{message:e.message});}finally{deskStreams--;res.end();}return;
+    }
+    return send(res,405,{error:'Method not allowed'});
+   }
    if(route==='/api/vision-check'&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     const ip='vision:'+(req.headers['x-forwarded-for']?.split(',')[0]||req.socket.remoteAddress),rate=rates.get(ip)||{n:0,until:clock()+600000};if(rate.until<clock()){rate.n=0;rate.until=clock()+600000;}if(rate.n>=6)return send(res,429,{error:'Please wait before checking more frames.'});
@@ -69,7 +94,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
     if(action==='stop'){broadcasts.stop(room);return send(res,200,{stopped:true});}
     try{return send(res,200,broadcasts.update(room,await readInput()));}catch(error){return send(res,400,{error:error.message});}
    }
-   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.4.0',external_broadcast:true,pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
+   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.6.1',usage:await narrator.store?.allowance?.().catch(()=>null)??null,agent_tools:true,durable_checkpoints:true,production_proof:true,dataset_version:2,external_broadcast:true,pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
    if(['/api/desk','/api/match-desk','/api/clip-desk'].includes(route)&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     if(deskStreams>=6)return send(res,429,{error:'The AI desk is busy. Try again shortly.'});
@@ -95,7 +120,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
     if(rates.size>1000)for(const [k,v] of rates)if(v.until<clock())rates.delete(k);
     let body='';for await(const c of req){body+=c;if(body.length>2048)return send(res,413,{error:'Request too large'});}
     let input;try{input=JSON.parse(body);}catch{return send(res,400,{error:'Invalid JSON'});}
-    const {seed=7,language='en',speed=90,audience='fan'}=input;if(!Number.isInteger(seed)||seed<1||seed>12||!['en','es','pt'].includes(language)||![30,90].includes(speed)||!MODES.includes(audience))return send(res,400,{error:'Choose a supported seed, language, perspective and replay speed.'});
+    const {seed=7,language='en',speed=90,audience='fan'}=input;if(!Number.isInteger(seed)||seed<1||seed>1000000||!['en','es','pt'].includes(language)||![30,90].includes(speed)||!MODES.includes(audience))return send(res,400,{error:'Choose a supported seed, language, perspective and replay speed.'});
     rate.n++;rates.set(ip,rate);created++;
     const id=randomBytes(12).toString('hex'),token=randomBytes(24).toString('hex'),match=generateMatch(seed);
     const run={id,token,match,language,speed,audience,state:initialState(),cursor:0,serial:0,history:[],clients:new Set(),insights:[],created:clock(),started:null,nextCheckpoint:900,current:0};runs.set(id,run);

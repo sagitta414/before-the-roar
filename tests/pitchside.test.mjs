@@ -1,3 +1,4 @@
+import {testState,toolResponse} from './agent-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PITCHSIDE,PITCHSIDE_BEATS,clipClock,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipDiscussionMatches,clipEditorialCutoff} from '../dist/pitchside-story.js';
@@ -30,18 +31,18 @@ test('clip cache keys vary with cutoff, language, mode and question',()=>{
  const input={time:8,language:'en',mode:'fan',question:''};const variants=[input,...Object.entries({time:4,language:'es',mode:'math',question:'What happened?'}).map(([k,v])=>({...input,[k]:v}))];assert.equal(new Set(variants.map(pitchsideKey)).size,variants.length);
 });
 
-test('clip desk uses only this film, streams three model calls and reuses cached contributions',async()=>{
+test('clip desk uses only this film, streams tool-backed model calls and reuses cached contributions',async()=>{
  const savedFetch=global.fetch,endpoint=process.env.AZURE_OPENAI_ENDPOINT,token=process.env.AZURE_ACCESS_TOKEN;process.env.AZURE_OPENAI_ENDPOINT='https://example.test/';process.env.AZURE_ACCESS_TOKEN='test';
- const cache=new Map();let calls=0,reserved=0;const narrator={busy:0,store:{read:async k=>cache.get(k),write:async(k,v)=>cache.set(k,v),reserve:async()=>{reserved++;return true;}}},desk=new MatchDesk(narrator,{clip:true}),frames=[];
+ const cache=new Map();let calls=0,reserved=0;const narrator={busy:0,store:{read:async k=>cache.get(k),write:async(k,v)=>cache.set(k,v),reserve:async()=>{reserved++;return true;}}},desk=new MatchDesk(narrator,{clip:true,state:testState(narrator.store)}),frames=[];
  try{
-  global.fetch=async(url,options)=>{calls++;const body=JSON.parse(options.body),prompt=body.messages[0].content,data=JSON.parse(body.messages[1].content);assert.ok(prompt.includes('manually reviewed annotations'));assert.ok(prompt.includes('NOT continuous match play'));assert.ok(data.evidence.every(e=>e.id.startsWith('pitchside-')&&e.second<=2));
+  global.fetch=async(url,options)=>{calls++;const body=JSON.parse(options.body);if(body.tools)return toolResponse(body);const prompt=body.messages[0].content,data=JSON.parse(body.messages[1].content);assert.ok(prompt.includes('manually reviewed annotations'));assert.ok(prompt.includes('NOT continuous match play'));assert.ok(data.evidence.every(e=>e.id.startsWith('pitchside-')&&e.second<=2));
    if(prompt.includes('Host:'))assert.equal(data.previous_public_contributions.length,4);
    const post={interpretation:prompt.includes('Guide:')?pitchsideStory().guideDefinition+' Where is the defender looking?':prompt.includes('Host:')?'Access to the next touch matters more than who appears ahead of the duel.':'Watch the defender adjust beside the touch.',replay_cue:'Replay the attacker touching the ball beside the defender.',headline:'A close duel',caution:'Speed cannot be measured.',evidence_ids:{primary:'pitchside-touch',secondary:null}};
    const dataText=JSON.stringify({post}),chunks=[];for(let i=0;i<dataText.length;i+=16)chunks.push('data: '+JSON.stringify({choices:[{delta:{content:dataText.slice(i,i+16)}}]})+'\n\n');chunks.push('data: '+JSON.stringify({choices:[{delta:{},finish_reason:'stop'}]})+'\n\ndata: [DONE]\n\n');return new Response(chunks.join(''));
   };
-  const input={time:2,language:'en',mode:'fan'},a=await desk.discuss(input,(type,data)=>frames.push({type,data}));assert.equal(calls,3);assert.equal(reserved,3);assert.equal(a.length,5);assert.equal(a.filter(p=>p.engine==='azure_openai').length,3);assert.ok(frames.some(f=>f.type==='draft'));assert.equal(narrator.busy,0);
-  await desk.discuss(input,()=>{});assert.equal(calls,3);
-  await desk.discuss({...input,time:0},()=>{});assert.equal(calls,3);
+  const input={time:2,language:'en',mode:'fan'},a=await desk.discuss(input,(type,data)=>frames.push({type,data}));assert.equal(calls,6);assert.equal(reserved,6);assert.equal(a.length,5);assert.equal(a.filter(p=>p.engine==='azure_openai').length,3);assert.ok(frames.some(f=>f.type==='draft'));assert.equal(narrator.busy,0);
+  await desk.discuss(input,()=>{});assert.equal(calls,6);
+  await desk.discuss({...input,time:0},()=>{});assert.equal(calls,6);
  }finally{global.fetch=savedFetch;for(const [key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
 });
 

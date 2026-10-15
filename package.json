@@ -1,1 +1,16 @@
-{"name":"before-the-roar","version":"0.2.0","private":true,"type":"module","scripts":{"dev":"node server.mjs","studio":"node api/server.mjs","test":"node --test tests/*.test.mjs","check":"node --check dist/app.js && node --check dist/engine.js && node --check dist/live.js && node --check api/server.mjs && node --check api/azure.mjs"},"dependencies":{"three":"0.180.0"}}
+{
+  "name": "before-the-roar",
+  "version": "0.3.6",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "studio": "node api/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/live.js && node --check api/server.mjs && node --check api/azure.mjs && node --check api/production.mjs && node --check api/agent-state.mjs && node --check api/agent-tools.mjs && node --check api/match-desk.mjs && node --check dist/production-desk.js && node --check dist/overlay.js",
+    "validate:data": "node scripts/validate-synthetic.mjs"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  }
+}

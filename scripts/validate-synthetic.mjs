@@ -1,0 +1,6 @@
+import {writeFile,mkdir} from 'node:fs/promises';
+import {generateMatch} from '../api/match.mjs';
+import {validateSyntheticMatch} from '../api/synthetic-validation.mjs';
+const seeds=Array.from({length:100},(_,i)=>1001+i),rows=seeds.map(seed=>({seed,...validateSyntheticMatch(generateMatch(seed))}));
+const report={schema:'btr.validation-benchmark.v1',generated_at:new Date().toISOString(),simulator:'v2',fixtures:rows.length,seeds:{first:1001,last:1100},valid:rows.every(r=>r.valid),failures:rows.flatMap(r=>r.failures.map(f=>({seed:r.seed,...f}))),warnings:rows.flatMap(r=>r.warnings.map(w=>({seed:r.seed,message:w}))),observed:{events:[Math.min(...rows.map(r=>r.summary.events)),Math.max(...rows.map(r=>r.summary.events))],shots:[Math.min(...rows.map(r=>r.summary.shots)),Math.max(...rows.map(r=>r.summary.shots))],pass_completion_pct:[Math.min(...rows.map(r=>r.summary.completion_pct)),Math.max(...rows.map(r=>r.summary.completion_pct))]},limits:'Held-out deterministic seeds test internal consistency, not realism calibrated against league matches.'};
+await mkdir('docs/proof',{recursive:true});await writeFile('docs/proof/synthetic-validation.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));if(!report.valid)process.exitCode=1;

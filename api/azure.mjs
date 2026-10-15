@@ -16,9 +16,14 @@ export class ResultStore{
  async read(key){if(this.memory.has(key))return this.memory.get(key);if(!this.base)return null;const r=await this.blob(`cache/${key}.json`);if(r.status===404)return null;if(!r.ok)throw Error(`Cache HTTP ${r.status}`);const data=await r.json();this.remember(key,data);return data;}
  remember(key,value){if(this.memory.size>=512)this.memory.delete(this.memory.keys().next().value);this.memory.set(key,value);}
  async write(key,value){if(this.base){const r=await this.blob(`cache/${key}.json`,{method:'PUT',headers:{'x-ms-blob-type':'BlockBlob','Content-Type':'application/json'},body:JSON.stringify(value)});if(!r.ok)throw Error(`Cache write HTTP ${r.status}`);}this.remember(key,value);}
+ async allowance(){
+  const day=new Date().toISOString().slice(0,10),limit=Number(process.env.AI_DAILY_LIMIT||120);
+  if(!this.base)return {day,limit,used:this.day===day?this.used:0};
+  const response=await this.blob(`budget/${day}.json`);if(response.status===404)return {day,limit,used:0};if(!response.ok)throw Error('Allowance unavailable');return {day,limit,used:Number((await response.json()).calls)||0};
+ }
  async reserve(){
   const limit=Number(process.env.AI_DAILY_LIMIT||120),day=new Date().toISOString().slice(0,10);
-  if(!this.base){if(this.day!==day){this.day=day;this.used=0;}return this.used++<limit;}
+  if(!this.base){if(this.day!==day){this.day=day;this.used=0;}if(this.used>=limit)return false;this.used++;return true;}
   // ETag compare-and-swap persists the request allowance across replicas/restarts.
   const path=`budget/${day}.json`;
   for(let retry=0;retry<5;retry++){

@@ -1,5 +1,7 @@
 import {createHash} from 'node:crypto';
 import {accessToken} from './azure.mjs';
+import {AgentState,DeskInterrupted} from './agent-state.mjs';
+import {TOOL_DEFINITIONS,executeAgentTool,claimRecord} from './agent-tools.mjs';
 import {readCompletion,draftInterpretations} from './streaming.mjs';
 import {matchStory,localPanel,editorialKey} from '../dist/match-story.js';
 import {PLAYERS} from '../dist/engine.js';
@@ -37,25 +39,33 @@ export function validateMatchPost(raw,packet,role){
  return {summary:role==='guide'?packet.guideDefinition+' '+guideQuestion:p.interpretation,title:p.headline,caution:p.caution,evidence_ids,...(role==='presenter'?{replay_cue:p.replay_cue}:{})};
 }
 export class MatchDesk{
- constructor(narrator,{clip=false}={}){this.narrator=narrator;this.store=narrator.store;this.pending=new Map();this.clip=clip;}
- async discuss(input,emit){
-  const key=createHash('sha256').update(this.clip?'pitchside-desk-v13:'+pitchsideKey(input):'cohesive-desk-v12:'+editorialKey(input)).digest('hex');
+ constructor(narrator,{clip=false,state=new AgentState(narrator.store)}={}){this.narrator=narrator;this.store=narrator.store;this.state=state;this.pending=new Map();this.clip=clip;}
+ async discuss(input,emit,options={}){
+  const key=options.key||createHash('sha256').update(this.clip?'pitchside-tools-v1:'+pitchsideKey(input):'cohesive-tools-v1:'+editorialKey(input)).digest('hex');
   if(this.pending.has(key)){const task=this.pending.get(key);for(const [type,item]of task.history)emit(type,item);task.listeners.add(emit);try{return await task.promise;}finally{task.listeners.delete(emit);}}
   const task={history:[],listeners:new Set([emit])};this.pending.set(key,task);const publish=(type,item)=>{task.history.push([type,item]);for(const fn of task.listeners)fn(type,item);};
-  task.promise=this.generate(key,input,publish);try{return await task.promise;}finally{this.pending.delete(key);}
+  task.promise=this.generate(key,input,publish,options);try{return await task.promise;}finally{this.pending.delete(key);}
  }
- async generate(key,input,emit){
+ async generate(key,input,emit,options={}){
   const packet=this.clip?pitchsideStory(input):matchStory(input),notes=this.clip?pitchsidePanel(packet):localPanel(packet),posts=new Map(),start=performance.now();
   if(!packet.brief.state.seen.length){for(const post of notes)emit('post',post);emit('complete',{cached:false,elapsed_ms:Math.round(performance.now()-start),model_calls:0,no_events:true});return notes;}
-  try{const cached=await this.store.read(key);if(cached?.schema==='btr.match-desk.v1'){for(const p of cached.posts)emit('post',{...p,cached:true});emit('complete',{cached:true,elapsed_ms:Math.round(performance.now()-start)});return cached.posts;}}catch{}
-  const publish=p=>{posts.set(p.role,p);emit('post',p);};publish(notes.find(p=>p.role==='math'));
+  const journal=await this.state.open(key,{schema:'btr.agent-run.v1',created_at:Date.now(),input,source:this.clip?'pitchside':'match',status:'running',posts:{},trace:[],metrics:{model_calls:0,prompt_tokens:0,completion_tokens:0,usage_missing:0},claim:claimRecord(packet,notes)});
+  const trace=async(role,action,detail={})=>{let item;await journal.change(v=>{item={seq:v.trace.length+1,at:Date.now(),role,action,...detail};v.trace.push(item);v.trace=v.trace.slice(-100);});emit('trace',item);};
+  for(const item of journal.value.trace)emit('trace',{...item,replayed:true});
+  if(journal.value.status==='complete'){for(const p of Object.values(journal.value.posts))emit('post',{...p,cached:true});emit('complete',{cached:true,elapsed_ms:Math.round(performance.now()-start),model_calls:0,saved_metrics:journal.value.metrics,claim:journal.value.claim});return Object.values(journal.value.posts);}
+  await trace('director',journal.value.trace.length?'checkpoint_resumed':'run_started',{cutoff:packet.cutoff,revision:packet.revision,storage:this.store.base?'azure_blob':'local_file'});
+  const publish=async p=>{await journal.change(v=>{v.posts[p.role]=p;});posts.set(p.role,p);emit('post',p);};
+  await publish(notes.find(p=>p.role==='math'));await trace('math','calculation_saved',{evidence_ids:notes.find(p=>p.role==='math').evidence_ids});
+  const usage=async data=>journal.change(v=>{if(data){v.metrics.prompt_tokens+=data.prompt_tokens||0;v.metrics.completion_tokens+=data.completion_tokens||0;}else v.metrics.usage_missing++;});
+  const reserve=async()=>{if(!await this.store.reserve())throw Error('Daily allowance reached');await journal.change(v=>v.metrics.model_calls++);};
   const complete=async(role,previous=[])=>{
    const began=performance.now();let acquired=false;
+   const saved=journal.value.posts[role];if(saved&&saved.engine==='azure_openai'){posts.set(role,saved);emit('post',{...saved,resumed:true});await trace(role,'saved_contribution_reused');return saved;}
    try{
     if(!process.env.AZURE_OPENAI_ENDPOINT)throw Error('AI unavailable');
     // Share the existing two-request capacity with the other app services.
     while(this.narrator.busy>=2){if(performance.now()-began>20000)throw Error('Capacity wait exceeded');await new Promise(r=>setTimeout(r,100));}
-    this.narrator.busy++;acquired=true;if(!await this.store.reserve())throw Error('Daily allowance reached');
+    this.narrator.busy++;acquired=true;
     emit('speaker',{role});
     let evidence=packet.evidence.filter(e=>e.record_type!=='tracking'||packet.brief.evidenceIds.includes(e.id));
     // Automatic discussions stay with the latest shot. Questions can use all
@@ -71,19 +81,31 @@ export class MatchDesk{
      editorialPrompt+=` Put a declarative football conclusion in takeaway, guided by editorial_closing_reference. State what makes this moment useful to understand. NEVER tell the viewer to evaluate, assess, judge, consider, watch or look: those instructions belong ONLY in replay_cue. Do not ask a question or close with generic uncertainty. Prefer the concrete grounded conclusion in role_brief over a new vague sentence. Do not repeat Scout's observation or begin with The ball, The player, or The evidence shows. Do not mention unknown identity unless asked. Put the viewing instruction in replay_cue, starting exactly with "${{en:'Replay ',es:'Repite ',pt:'Reveja '}[packet.language]}". Name a visible detail in the cited evidence, not an unseen outcome. Never omit this field.`;
     }
     const url=new URL(`openai/deployments/${encodeURIComponent(process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini')}/chat/completions?api-version=2024-10-21`,process.env.AZURE_OPENAI_ENDPOINT);
-    const res=await fetch(url,{method:'POST',headers:{Authorization:`Bearer ${await accessToken('https://cognitiveservices.azure.com/')}`,'Content-Type':'application/json'},signal:AbortSignal.timeout(30000),body:JSON.stringify({messages:[{role:'system',content:editorialPrompt},{role:'user',content:JSON.stringify({question:input.question||null,clock:packet.clock,revision:packet.revision,calculated:packet.stats,local_calculation:notes.find(p=>p.role==='math'),role_brief:notes.find(p=>p.role===role),reserved_contributions:notes.filter(p=>p.role!==role).map(p=>({role:p.role,subject:p.summary})),evidence,review:packet.review,previous_public_contributions:previous,...(role==='presenter'?{editorial_closing_reference:notes.find(p=>p.role==='presenter').summary}:{})})}],temperature:.2,max_tokens:450,stream:true,response_format:{type:'json_schema',json_schema:{name:'match_editor',strict:true,schema}}})});
+    const toolContext={packet,notes,evidence,previous},headers={Authorization:`Bearer ${await accessToken('https://cognitiveservices.azure.com/')}`,'Content-Type':'application/json'};
+    const toolMessages=[{role:'system',content:`${roleTasks[role]} Select the most useful evidence tool before writing. No outside facts. The next step will receive the tool result. These are public editorial operations, not private reasoning.`},{role:'user',content:JSON.stringify({cutoff:packet.cutoff,revision:packet.revision,source:this.clip?'reviewed film annotations':'synthetic events',available_previous_roles:previous.map(p=>p.role),question:input.question||null})}];
+    let toolReceipt=journal.value.tools?.[role];
+    if(!toolReceipt){
+     await reserve();const response=await fetch(url,{method:'POST',headers,signal:AbortSignal.timeout(20000),body:JSON.stringify({messages:toolMessages,tools:TOOL_DEFINITIONS,tool_choice:'required',parallel_tool_calls:false,max_tokens:160,temperature:0})});
+     if(!response.ok)throw Error('Evidence tool selection unavailable');const selection=await response.json();await usage(selection.usage);const calls=selection.choices?.[0]?.message?.tool_calls;if(calls?.length!==1)throw Error('Exactly one bounded tool is required');const call=calls[0],output=executeAgentTool(call.function.name,JSON.parse(call.function.arguments),toolContext);toolReceipt={call,output};
+     await journal.change(v=>{v.tools??={};v.tools[role]=toolReceipt;});await trace(role,'tool_completed',{tool:call.function.name,evidence_ids:output.records?.map(e=>e.id)||output.calculation?.evidence_ids||output.review?.evidence_ids||[],duration_ms:Math.round(performance.now()-began)});
+    }else await trace(role,'saved_tool_reused',{tool:toolReceipt.call.function.name});
+    await reserve();
+    const res=await fetch(url,{method:'POST',headers,signal:AbortSignal.timeout(30000),body:JSON.stringify({messages:[{role:'system',content:editorialPrompt},{role:'user',content:JSON.stringify({question:input.question||null,clock:packet.clock,revision:packet.revision,calculated:packet.stats,local_calculation:notes.find(p=>p.role==='math'),role_brief:notes.find(p=>p.role===role),reserved_contributions:notes.filter(p=>p.role!==role).map(p=>({role:p.role,subject:p.summary})),evidence,review:packet.review,previous_public_contributions:previous,...(role==='presenter'?{editorial_closing_reference:notes.find(p=>p.role==='presenter').summary}:{})})},{role:'assistant',content:null,tool_calls:[toolReceipt.call]},{role:'tool',tool_call_id:toolReceipt.call.id,content:JSON.stringify(toolReceipt.output)}],temperature:.2,max_tokens:450,stream:true,stream_options:{include_usage:true},response_format:{type:'json_schema',json_schema:{name:'match_editor',strict:true,schema}}})});
     if(!res.ok)throw Error('Model unavailable');let prior='',first=null;
     const result=await readCompletion(res.body,content=>{const fragment=draftInterpretations(content,['post'],role==='guide'?'viewing_question':role==='presenter'?'takeaway':'interpretation').post,draft=fragment?(role==='guide'?packet.guideDefinition+' '+fragment:fragment):null;if(draft&&draft!==prior){prior=draft;first??=Math.round(performance.now()-start);emit('draft',{role,summary:draft,cutoff:packet.cutoff,revision:packet.revision,first_text_ms:first});}});
+    await usage(result.usage);
     const validated=validateMatchPost(JSON.parse(result.content),packet,role);
     if(role==='presenter'&&repeatsContribution(validated.summary,previous))throw Error('Repeated contribution; using the reviewed closing cue');
-    const post={...validated,role,engine:'azure_openai',cutoff:packet.cutoff,revision:packet.revision,latency_ms:Math.round(performance.now()-began),first_text_ms:first};publish(post);return post;
-   }catch(error){console.warn(JSON.stringify({event:'match_editor_fallback',role,message:error.message}));const p={...notes.find(p=>p.role===role),engine:'reviewed_fallback',caution:input.question?(this.clip?packet.copy.fallback:({en:'AI could not answer this question. Showing the recorded match briefing.',es:'La IA no pudo responder. Se muestra el resumen registrado.',pt:'A IA não pôde responder. Exibindo o resumo registrado.'}[packet.language])):undefined};publish(p);return p;}finally{if(acquired)this.narrator.busy--;}
+    const post={...validated,role,engine:'azure_openai',cutoff:packet.cutoff,revision:packet.revision,latency_ms:Math.round(performance.now()-began),first_text_ms:first};await publish(post);await trace(role,'contribution_saved',{evidence_ids:post.evidence_ids,latency_ms:post.latency_ms,first_text_ms:first});return post;
+   }catch(error){console.warn(JSON.stringify({event:'match_editor_fallback',role,message:error.message}));const p={...notes.find(p=>p.role===role),engine:'reviewed_fallback',caution:input.question?(this.clip?packet.copy.fallback:({en:'AI could not answer this question. Showing the recorded match briefing.',es:'La IA no pudo responder. Se muestra el resumen registrado.',pt:'A IA não pôde responder. Exibindo o resumo registrado.'}[packet.language])):undefined};await publish(p);await trace(role,'fallback_published',{reason:error.message});return p;}finally{if(acquired)this.narrator.busy--;}
   };
   const [scout,guide]=await Promise.all([complete('analyst'),complete('guide')]);
-  const check={...notes.find(p=>p.role==='reviewer'),target_role:'analyst',reviewed_contribution:scout.summary};publish(check);
+  if(options.interruptAfterSpecialists&&!journal.value.fault_injected){await journal.change(v=>{v.fault_injected=true;v.status='interrupted';});await trace('director','worker_interrupted',{saved_roles:Object.keys(journal.value.posts)});throw new DeskInterrupted();}
+  const check={...notes.find(p=>p.role==='reviewer'),target_role:'analyst',reviewed_contribution:scout.summary};await publish(check);await trace('reviewer','claim_checked',{claim:journal.value.claim});
   await complete('presenter',[scout,guide,posts.get('math'),check]);
   const ordered=['analyst','guide','math','reviewer','presenter'].map(id=>posts.get(id));
-  if(ordered.filter(p=>['analyst','guide','presenter'].includes(p.role)).every(p=>p.engine==='azure_openai'))try{await this.store.write(key,{schema:'btr.match-desk.v1',posts:ordered});}catch{}
-  emit('complete',{cached:false,elapsed_ms:Math.round(performance.now()-start),model_calls:3});return ordered;
+  const allAI=ordered.filter(p=>['analyst','guide','presenter'].includes(p.role)).every(p=>p.engine==='azure_openai');
+  await journal.change(v=>{v.status=allAI?'complete':'degraded';v.metrics.elapsed_ms=Math.round(performance.now()-start);});await trace('director',allAI?'broadcast_ready':'reviewed_notes_ready',{revision:packet.revision});
+  emit('complete',{cached:false,...journal.value.metrics,claim:journal.value.claim,status:journal.value.status});return ordered;
  }
 }
