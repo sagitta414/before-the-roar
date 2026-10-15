@@ -19,7 +19,7 @@ properties:
   template:
     containers:
       - name: studio
-        image: patchhorizonacr805813.azurecr.io/before-the-roar:v29-reading-room-r4
+        image: patchhorizonacr805813.azurecr.io/before-the-roar:v30-unified-studio-r2
         resources:
           cpu: 0.25
           memory: 0.5Gi

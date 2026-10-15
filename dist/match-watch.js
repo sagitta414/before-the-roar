@@ -1,3 +1,4 @@
+import {createBroadcastOutput} from './broadcast-output.js';
 import {PITCHSIDE,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipClock} from './pitchside-story.js';
 import {SCENARIOS,PLAYERS,clock} from './engine.js';
 import {matchSession} from './match-session.js';
@@ -10,26 +11,26 @@ import {ROLE_LABELS} from './editorial-roles.js';
 arrangeReadingRoom();
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},put=(id,t)=>{if($(id).textContent!==String(t))$(id).textContent=t;};
 const film=$('film'),threads=new Map();let state=matchSession.get(),current=matchStory(state),base='',loaded='',pendingSeek=0,started=false,selected=null,narrativeOnly=false,voices=false,speechKey='',lastRender=0;
-let watchSource='pitchside',clipTime=0;
+let watchSource=state.source,clipTime=state.clipTime;
 const chapterLabels={en:['The duel','The outlet','Close control','The defender','The sideline','The keeper','The gesture','The pass'],es:['El duelo','La salida','El control','El defensor','La banda','El portero','El gesto','El pase'],pt:['O duelo','A saída','O controle','O defensor','A lateral','O goleiro','O gesto','O passe']};
 const chapterStarts=[0,8,16,24,32,40,48,52],chapterNav=el('nav','film-chapters'),chapterLabel=el('div','film-chapter-label');chapterNav.setAttribute('aria-label','Film chapters');$('player').before(chapterLabel);document.querySelector('.transport').after(chapterNav);
 for(const [i,t]of chapterStarts.entries()){const button=el('button');button.append(el('span','',clipClock(t)),el('b','',chapterLabels.en[i]));button.onclick=()=>{started=true;seek(t);};chapterNav.append(button);}
-const isClip=()=>watchSource==='pitchside',viewTime=()=>isClip()?clipTime:state.time,viewInput=()=>isClip()?{time:clipTime,language:state.language,mode:state.mode,clip_id:PITCHSIDE.id}:state,viewStory=input=>isClip()?pitchsideStory(input):matchStory(input),viewPanel=packet=>isClip()?pitchsidePanel(packet):localPanel(packet),displayTime=t=>isClip()?clipClock(t):clock(SCENARIOS.find(s=>s.id===state.scenario),t);
+const isClip=()=>watchSource==='pitchside',viewTime=()=>isClip()?clipTime:state.time,viewInput=()=>isClip()?{time:clipTime,language:state.language,mode:state.mode,clip_id:PITCHSIDE.id,clipChallenge:state.clipChallenge}:state,viewStory=input=>isClip()?pitchsideStory(input):matchStory(input),viewPanel=packet=>isClip()?pitchsidePanel(packet):localPanel(packet),displayTime=t=>isClip()?clipClock(t):clock(SCENARIOS.find(s=>s.id===state.scenario),t);
 const overlayChannel='BroadcastChannel'in window?new BroadcastChannel('btr-match-cue-v1'):null;
 const config=fetch('api-config.json').then(r=>r.json()).then(c=>base=['localhost','127.0.0.1'].includes(location.hostname)?'':c.baseUrl||'').catch(()=>{});
 const correctedPitch=createMatchPitch($('corrected-replay'),id=>matchSession.set({focus:id,mode:'player'}));correctedPitch.setView('stadium');
-const locale=()=>state.language,scopeKey=s=>isClip()?[PITCHSIDE.id,s.language,s.mode].join(':'):['match',s.scenario,s.language,s.mode,s.focus,s.team,s.corrected].join(':'),currentThreads=()=>[...threads.values()].filter(t=>t.scope===scopeKey(state)&&t.cutoff<=viewTime()),activeThread=()=>currentThreads().sort((a,b)=>b.cutoff-a.cutoff||b.created-a.created)[0];
+const locale=()=>state.language,scopeKey=s=>isClip()?[PITCHSIDE.id,s.language,s.mode,s.clipChallenge].join(':'):['match',s.scenario,s.language,s.mode,s.focus,s.team,s.corrected].join(':'),currentThreads=()=>[...threads.values()].filter(t=>t.scope===scopeKey(state)&&t.cutoff<=viewTime()),activeThread=()=>currentThreads().sort((a,b)=>b.cutoff-a.cutoff||b.created-a.created)[0];
 function toast(t){put('toast',t);$('toast').hidden=false;setTimeout(()=>$('toast').hidden=true,5000);}
 function silence(){if('speechSynthesis'in window)speechSynthesis.cancel();}
 function save(name,data){const u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=el('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
 function navigate(name){film.pause();silence();document.querySelectorAll('.extension-view').forEach(n=>n.hidden=n.id!==name);$('watch').hidden=name!=='watch';$('lab').hidden=name!=='lab';for(const b of document.querySelectorAll('.masthead .nav')){const active=b.id===name+'-nav';b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active));}document.dispatchEvent(new CustomEvent('btr-section',{detail:name}));if(name==='lab'&&!$('simulation').src)$('simulation').src='simulation.html?embedded=1';if(name!=='lab')$('simulation').contentWindow?.postMessage({type:'btr-pause-lab'},location.origin);history.replaceState(null,'','#'+name);}
-function seek(t){film.pause();if(isClip()){clipTime=Math.max(0,Math.min(PITCHSIDE.duration,Number(t)||0));pendingSeek=clipTime;if(film.readyState>=1)film.currentTime=clipTime;render();}else matchSession.set({time:t},'seek');}
+function seek(t){film.pause();if(isClip()){clipTime=Math.max(0,Math.min(PITCHSIDE.duration,Number(t)||0));pendingSeek=clipTime;if(film.readyState>=1)film.currentTime=clipTime;matchSession.set({clipTime},'seek');render();}else matchSession.set({time:t},'seek');}
 async function play(){try{if(viewTime()>=(isClip()?PITCHSIDE.duration:36)-.05)seek(0);started=true;$('opening').hidden=true;if(film.readyState<1){await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Loading')),8000);film.addEventListener('loadedmetadata',()=>{clearTimeout(timer);resolve();},{once:true});});}await film.play();}catch{toast('The match film is still loading. Please try play again.');}}
 function loadVideo(){const id=isClip()?'pitchside':state.scenario;if(loaded===id)return;loaded=id;film.pause();pendingSeek=viewTime();film.src=isClip()?PITCHSIDE.asset:`assets/${state.scenario}-film.mp4`;film.poster=isClip()?PITCHSIDE.poster:`assets/${state.scenario}-poster.jpg`;film.setAttribute('aria-label',isClip()?'One-minute AI-generated football film with reviewed observations':'Synthetic match film synchronized with event data');film.load();started=false;$('opening').hidden=false;}
 film.addEventListener('loadedmetadata',()=>{film.currentTime=pendingSeek;});
 film.addEventListener('error',()=>toast('The match film could not load. Match Centre still provides the synchronized tactical replay.'));
 // Paused metadata/seek events must not overwrite a newer evidence-page playhead.
-film.addEventListener('timeupdate',()=>{if(state.section==='watch'&&film.readyState>=1&&!film.seeking&&(!film.paused||film.ended)){if(isClip()){clipTime=Math.min(PITCHSIDE.duration,film.currentTime);if(performance.now()-lastRender>120||film.ended){lastRender=performance.now();render();}}else matchSession.set({time:Math.min(36,film.currentTime)},'film');}});
+film.addEventListener('timeupdate',()=>{if(state.section==='watch'&&film.readyState>=1&&!film.seeking&&(!film.paused||film.ended)){if(isClip()){clipTime=Math.min(PITCHSIDE.duration,film.currentTime);if(performance.now()-lastRender>120||film.ended){lastRender=performance.now();matchSession.set({clipTime},'film');render();}}else matchSession.set({time:Math.min(36,film.currentTime)},'film');}});
 for(const event of ['play','pause','ended'])film.addEventListener(event,()=>{put('play',film.paused?'▶':'Ⅱ');$('play').setAttribute('aria-label',film.paused?'Play film':'Pause film');$('end-replay').hidden=!film.ended;if(film.ended)render();});
 film.muted=true;
 function render(){
@@ -78,7 +79,7 @@ function renderPanel(){
  put('response-timing',thread?.first!=null?`First AI text ${(thread.first/1000).toFixed(1)}s${thread.total!=null?' · panel '+(thread.total/1000).toFixed(1)+'s':''}`:thread?.cached?'Cached discussion · no new model calls':'Instant facts · measured AI response times');
  $('all-agents').hidden=!selected;$('question').disabled=!!thread?.pending;$('send-question').disabled=!!thread?.pending;$('export').disabled=false;
  document.dispatchEvent(new CustomEvent('btr-contributions',{detail:{posts:list,language:state.language,mode:state.mode}}));box.scrollTop=sameThread?scrollTop:0;
- if(voices&&thread?.complete&&speechKey!==thread.key){speechKey=thread.key;const host=thread.posts.get('presenter');if(host){const utterance=new SpeechSynthesisUtterance(host.summary);utterance.lang={en:'en-US',es:'es-ES',pt:'pt-BR'}[state.language];speechSynthesis.speak(utterance);}}
+ if(voices&&thread?.complete&&speechKey!==thread.key){speechKey=thread.key;const host=thread.posts.get('presenter');if(host){const utterance=new SpeechSynthesisUtterance([host.summary,host.replay_cue].filter(Boolean).join(' '));utterance.lang={en:'en-US',es:'es-ES',pt:'pt-BR'}[state.language];speechSynthesis.speak(utterance);}}
 }
 async function requestPanel(question='',cutoff=viewTime(),manual=true){
  const clipRequest=isClip(),input={...viewInput(),time:Math.floor(cutoff*10)/10,question},key=clipRequest?pitchsideKey(input):editorialKey(input),existing=threads.get(key);if(existing){if(manual&&!existing.pending&&(existing.error||existing.fallback))threads.delete(key);else return;}
@@ -92,8 +93,8 @@ for(const p of PLAYERS){const o=el('option','',p.name);o.value=p.id;$('session-p
 for(const [id,key]of [['session-scenario','scenario'],['session-language','language'],['session-mode','mode'],['session-player','focus'],['session-team','team'],['story-language','language'],['perspective','mode']])$(id).addEventListener('change',()=>{silence();matchSession.set({[key]:$(id).value});if(key==='language'||key==='mode'||key==='team'||key==='focus')try{localStorage.setItem('btr-preferences-v1',JSON.stringify({language:state.language,mode:state.mode,team:state.team,focus:state.focus}));}catch{}});
 // Preferences only; playback and corrections are never restored implicitly.
 try{const saved=JSON.parse(localStorage.getItem('btr-preferences-v1')||'null');if(saved)matchSession.set({language:saved.language,mode:saved.mode,team:saved.team,focus:saved.focus});}catch{}
-matchSession.subscribe((next,source)=>{const previous=state;state=next;if(scopeKey(previous)!==scopeKey(state))silence();loadVideo();if(!isClip()&&source!=='film'&&Math.abs((film.currentTime||0)-state.time)>.15){pendingSeek=state.time;if(film.readyState>=1)film.currentTime=state.time;}if(state.section!=='watch')film.pause();if(source!=='film'||performance.now()-lastRender>120){lastRender=performance.now();render();}});
-document.addEventListener('btr-section',e=>{if(['centre','truth','inside','lab'].includes(e.detail)){watchSource='match';}matchSession.set({section:e.detail});if(e.detail!=='watch'){$('watch').hidden=true;$('lab').hidden=e.detail!=='lab';film.pause();silence();}});
+matchSession.subscribe((next,source)=>{const previous=state;state=next;watchSource=state.source;clipTime=state.clipTime;if(scopeKey(previous)!==scopeKey(state))silence();loadVideo();if(source!=='film'&&Math.abs((film.currentTime||0)-viewTime())>.15){pendingSeek=viewTime();if(film.readyState>=1)film.currentTime=viewTime();}if(state.section!=='watch')film.pause();if(source!=='film'||performance.now()-lastRender>120){lastRender=performance.now();render();}});
+document.addEventListener('btr-section',e=>{matchSession.set({section:e.detail});if(e.detail!=='watch'){$('watch').hidden=true;$('lab').hidden=e.detail!=='lab';film.pause();silence();}});
 document.addEventListener('btr-request-contributions',()=>{ $('conversation').dataset.signature='';renderPanel();});
 document.addEventListener('btr-profile-role',e=>{navigate('watch');selected=profiles.some(p=>p.id===e.detail)?e.detail:null;narrativeOnly=false;renderPanel();});
 document.addEventListener('btr-agent-question',e=>{navigate('watch');selected=e.detail.role;$('question').value=e.detail.question;renderPanel();});
@@ -113,26 +114,25 @@ for(const name of ['learn','settings','about']){$(name).onclick=()=>{film.pause(
 $('party-toggle').onclick=()=>{const hidden=document.body.classList.toggle('party-closed');$('party-toggle').setAttribute('aria-pressed',String(!hidden));};$('replays').onclick=()=>{$('beats').hidden=!$('beats').hidden;document.querySelector('.timeline-heading').hidden=$('beats').hidden;$('replays').setAttribute('aria-expanded',String(!$('beats').hidden));};
 $('stream-live').onchange=()=>{$('conversation').dataset.signature='';renderPanel();};$('clean-feed').onclick=()=>{$('player').classList.toggle('clean-feed');};
 for(const id of ['export','recap-export'])$(id).onclick=()=>save(isClip()?'btr-pitchside-story.json':'btr-match-story.json',(isClip()?pitchsideExport:matchExport)(viewInput(),[...(activeThread()?.posts.values()||[])]));
-const overlayDialog=el('dialog','sheet overlay-dialog'),overlayClose=el('button','close-sheet','×'),overlayLink=el('a','overlay-link','Open transparent output ↗'),overlayFrame=el('iframe','overlay-frame');overlayDialog.setAttribute('aria-label','Broadcast overlay preview');overlayClose.setAttribute('aria-label','Close broadcast overlay');overlayClose.onclick=()=>overlayDialog.close();overlayFrame.title='Transparent broadcast cue';overlayLink.target='_blank';overlayLink.rel='noopener';overlayDialog.append(overlayClose,el('span','eyebrow','BTR / BROADCAST OUTPUT'),el('h2','','Ready for the screen.'),el('p','','This transparent cue follows the open match in the same browser. Another renderer can open the URL snapshot; it expires after six seconds. A broadcast partner is not connected.'),overlayLink,overlayFrame);document.body.append(overlayDialog);
-$('overlay-export').onclick=()=>{const url=new URL('overlay.html',location.href);for(const [k,v]of Object.entries({...viewInput(),source:isClip()?'pitchside':'match'}))if(k!=='section')url.searchParams.set(k,String(v));url.searchParams.set('clean','1');overlayLink.href=url.href;overlayFrame.src=url.href;overlayDialog.showModal();};
-function setSource(value){film.pause();silence();watchSource=value==='match'?'match':'pitchside';loaded='';$('conversation').dataset.signature='';loadVideo();render();}
+$('overlay-export').onclick=createBroadcastOutput();
+function setSource(value){film.pause();silence();$('conversation').dataset.signature='';matchSession.set({source:value});}
 function renderSource(){
- const clip=isClip(),onWatch=state.section==='watch';document.body.classList.toggle('watching-clip',clip&&onWatch);
+ const clip=isClip(),onWatch=state.section==='watch';document.body.classList.toggle('watching-clip',clip);
  chapterNav.hidden=chapterLabel.hidden=!clip;
  if(clip){const index=chapterStarts.findLastIndex(t=>clipTime>=t),labels=chapterLabels[state.language];chapterLabel.replaceChildren(el('strong','',`${String(index+1).padStart(2,'0')} / 08 · ${labels[index]}`),el('small','',{en:'Separate generated scenes',es:'Escenas generadas por separado',pt:'Cenas geradas separadamente'}[state.language]));for(const [i,b]of [...chapterNav.children].entries()){b.setAttribute('aria-current',String(i===index));b.querySelector('b').textContent=labels[i];}}
  put('composer-note',clip?'This film · citations follow the video playhead.':'Same match · evidence cutoff shown on every discussion.');
  const prompts=document.querySelectorAll('[data-question]');prompts[0].textContent=clip?'What matters here?':'Did he score?';prompts[0].dataset.question=clip?'What matters in the latest shot, and what remains unverified?':'Did he score?';prompts[2].dataset.question=clip?'Can we measure the player’s speed from this clip?':'Can we tell how fast the shot was?';
  $('watch-source').value=watchSource;$('scrub').max=clip?PITCHSIDE.duration:36;put('duration',clip?clipClock(PITCHSIDE.duration):'00:36');
- $('clip-session-label').hidden=!(clip&&onWatch);$('session-scenario').closest('label').hidden=clip&&onWatch;
- document.querySelector('.session-fixture').hidden=clip&&onWatch;
- for(const id of ['session-team','session-player'])$(id).closest('label').hidden=clip&&onWatch;
+ $('clip-session-label').hidden=!(clip);$('session-scenario').closest('label').hidden=clip;
+ document.querySelector('.session-fixture').hidden=clip;
+ for(const id of ['session-team','session-player'])$(id).closest('label').hidden=clip;
  document.querySelector('.scorebug .lime').textContent=clip?'LIME':'HARBOR';document.querySelector('.scorebug .blue').textContent=clip?'BLUE':'NORTHBRIDGE';
- put('open-centre',clip?'Explore synthetic match data ↗':'Explore this play ↗');put('open-truth',clip?'Open the evidence lab ↗':'Challenge its evidence ↗');
+ put('open-centre',clip?'Explore this film ↗':'Explore this play ↗');put('open-truth',clip?'Open the evidence lab ↗':'Challenge its evidence ↗');
  put('loading-note',clip?`${PITCHSIDE.duration} seconds · eight shots · five perspectives`:'36 seconds of play · one shared story');
  document.querySelector('.quiet-footer').innerHTML=clip?'<span>AI FILM. REVIEWED MOMENTS. YOUR PERSPECTIVE.</span><span>Google Flow · 720p · AI-generated footage</span>':'<span>THE FILM. THE DATA. THE SAME PLAY.</span><span>Synthetic coordinates · illustrative choreography</span>';
  document.querySelector('.lesson-meta>span:last-child').textContent=clip?'REVIEWED VIDEO EVIDENCE':'SHARED MATCH EVIDENCE';
  document.querySelector('#learn-dialog .sheet-note').textContent=clip?'The approximate markers were manually reviewed against this exact clip. No automated tracking or calibrated measurements are claimed.':'Measurements come from synthetic coordinates and event intervals. Tactical explanations remain interpretations, not proof of causation.';
- $('watch-source-note').textContent=clip?'60 seconds. Eight generated shots. Your AI crew follows every reviewed moment. Match Centre and Truth Lab explore a separate synthetic match.':'One authored sequence links this film, Match Centre, Truth Lab and the AI discussion.';
+ $('watch-source-note').textContent=clip?'60 seconds. Eight generated shots. Your AI crew follows every reviewed moment. Match Centre and Truth Lab follow this film and this playhead.':'One authored sequence links this film, Match Centre, Truth Lab and the AI discussion.';
 }
 function renderClip(){
  current=pitchsideStory(viewInput());const w=current.words;

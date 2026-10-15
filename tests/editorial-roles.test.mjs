@@ -3,6 +3,15 @@ import assert from 'node:assert/strict';
 import {repeatsContribution,validateMatchPost} from '../api/match-desk.mjs';
 import {localPanel,matchStory} from '../dist/match-story.js';
 import {pitchsidePanel,pitchsideStory} from '../dist/pitchside-story.js';
+import {draftInterpretations} from '../api/streaming.mjs';
+
+test('Guide streams its distinct question and receives the verified definition from code',()=>{
+ const packet=pitchsideStory({time:60,language:'en'}),post={viewing_question:'Which foot cushions the arriving ball?',headline:'Watch the reception',caution:'Only this shot is visible.',evidence_ids:{primary:'pitchside-blue-receive',secondary:null}};
+ const result=validateMatchPost({post},packet,'guide');assert.equal(result.summary,packet.guideDefinition+' '+post.viewing_question);
+ const draft=draftInterpretations('{"post":{"interpretation":"Do not stream this","viewing_question":"Which foot', ['post'],'viewing_question');assert.equal(draft.post,'Which foot');
+ assert.throws(()=>validateMatchPost({post:{...post,viewing_question:'Moreau did it?'}},packet,'guide'),/Player attribution/);
+ assert.throws(()=>validateMatchPost({post:{...post,viewing_question:'The pass keeps possession.'}},packet,'guide'),/viewing question/);
+});
 test('obvious copied Host contributions are rejected while a distinct replay takeaway is retained',()=>{
  const summary='The receiving touch lets the nearby defender adjust before the ball moves away.';
  assert.equal(repeatsContribution(summary,[{summary}]),true);

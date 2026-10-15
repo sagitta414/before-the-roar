@@ -1,3 +1,4 @@
+import {guideCue} from './guide-cues.js';
 import {SCENARIOS,PLAYERS,clock,position,distance} from './engine.js';
 import {sequenceBrief,datasetRows,productionPacket} from './studio-lab-model.js';
 import {truthStoryPacket} from './truth-story-model.js';
@@ -26,7 +27,7 @@ export function matchStory(input){
 export function editorialKey(input){return JSON.stringify([input.scenario,Math.floor(input.time*10)/10,!!input.corrected,input.language,input.mode,Number(input.focus),input.team,input.question||'']);}
 export function localPanel(story){const w=story.words,c=Object.fromEntries(story.brief.cards.map(c=>[c.id,c])),ids=story.brief.evidenceIds.length?story.brief.evidenceIds:[story.evidence.at(-1).id];return [
  {role:'analyst',summary:c.analyst.text},
- {role:'guide',summary:c.beginner.text},
+ {role:'guide',summary:guideCue(story)},
  {role:'math',summary:c.math.text,engine:'calculated',working:story.equation},
  {role:'reviewer',summary:story.review.reason,decision:story.review.decision,target_claim:story.review.claim,engine:'evidence_rules'},
  {role:'presenter',summary:matchClosing(story)}

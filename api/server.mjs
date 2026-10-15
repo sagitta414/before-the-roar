@@ -1,3 +1,4 @@
+import {VisionDesk} from './vision.mjs';
 import http from 'node:http';
 import {readFile,stat} from 'node:fs/promises';
 import {createReadStream} from 'node:fs';
@@ -11,10 +12,11 @@ import {DiscussionDesk,DESK_ROLES} from './desk.mjs';
 import {normalizeQuestion} from '../dist/party-state.js';
 import {MatchDesk} from './match-desk.mjs';
 import {PITCHSIDE} from '../dist/pitchside-story.js';
+import {BroadcastRooms} from './broadcast.mjs';
 const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml'};
 export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new DiscussionDesk(narrator)}={}){
  const root=resolve('dist'),runs=new Map(),rates=new Map(),matchDesk=new MatchDesk(narrator),clipDesk=new MatchDesk(narrator,{clip:true});let created=0;
- let deskStreams=0;
+ let deskStreams=0;const broadcasts=new BroadcastRooms({clock}),vision=new VisionDesk(narrator);
  function emit(run,type,data){const item={id:++run.serial,type,data};run.history.push(item);if(run.history.length>80)run.history.shift();for(const client of run.clients){if(client.writableLength>256000){client.destroy();run.clients.delete(client);}else client.write(`id: ${item.id}\nevent: ${type}\ndata: ${JSON.stringify(data)}\n\n`);}}
  function explain(run,second){const packet={...evidencePacket(run.match,run.state,second,run.language),priority:run.audience};emit(run,'thinking',{cutoff:second,recap:second===5400});
   narrator.explain(packet,draft=>{if(runs.has(run.id)&&!run.stopped&&!run.completed)emit(run,'dialogue',{...draft,cutoff:second});}).catch(()=>fallback(packet)).then(result=>{if(!runs.has(run.id)||run.stopped||run.completed)return;const item={...result,cutoff:second,recap:second===5400,evidence:packet.facts,stats:packet.stats,match_id:run.match.id};run.insights.push(item);emit(run,second===5400?'recap':'insight',item);if(second===5400){run.completed=true;emit(run,'complete',{duration:5400,events:run.state.count,score:run.state.score});for(const c of run.clients)c.end();run.clients.clear();}});
@@ -34,7 +36,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
    if(target>=5400)run.fulltime=true;
   }
  }
- const timer=setInterval(()=>{for(const r of runs.values())r.tickStart=performance.now();tick();},500);timer.unref();
+ const timer=setInterval(()=>{for(const r of runs.values())r.tickStart=performance.now();tick();broadcasts.prune();},500);timer.unref();
  const send=(res,status,value)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(JSON.stringify(value));};
  const server=http.createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -43,7 +45,31 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
   if(req.method==='OPTIONS'){res.writeHead(origin&&!allowed.has(origin)?403:204).end();return;}
   let route;try{route=new URL(req.url,'http://local').pathname;}catch{return send(res,400,{error:'Invalid URL'});}
   try{
-   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.3.0',pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
+   if(route==='/api/vision-check'&&req.method==='POST'){
+    if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
+    const ip='vision:'+(req.headers['x-forwarded-for']?.split(',')[0]||req.socket.remoteAddress),rate=rates.get(ip)||{n:0,until:clock()+600000};if(rate.until<clock()){rate.n=0;rate.until=clock()+600000;}if(rate.n>=6)return send(res,429,{error:'Please wait before checking more frames.'});
+    let body='';for await(const c of req){body+=c;if(body.length>1024)return send(res,413,{error:'Request too large'});}let input;try{input=JSON.parse(body);}catch{return send(res,400,{error:'Invalid JSON'});}rate.n++;rates.set(ip,rate);
+    try{return send(res,200,await vision.inspect(input));}catch(error){return send(res,400,{error:error.message});}
+   }
+   if(route.startsWith('/api/broadcast')){
+    if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
+    const found=route.match(/^\/api\/broadcast\/([a-f0-9]{24})\/(stream|update|stop)$/);
+    const readInput=async()=>{let body='';for await(const c of req){body+=c;if(body.length>2048)throw Error('Request too large');}return JSON.parse(body);};
+    if(route==='/api/broadcast'&&req.method==='POST'){
+     const ip='broadcast:'+(req.headers['x-forwarded-for']?.split(',')[0]||req.socket.remoteAddress),rate=rates.get(ip)||{n:0,until:clock()+600000};
+     if(rate.until<clock()){rate.n=0;rate.until=clock()+600000;}if(rate.n>=6)return send(res,429,{error:'Please wait before creating another broadcast.'});
+     try{const result=broadcasts.create(await readInput());rate.n++;rates.set(ip,rate);return send(res,201,result);}catch(error){return send(res,400,{error:error.message});}
+    }
+    if(!found)return send(res,404,{error:'Broadcast not found'});
+    const room=broadcasts.get(found[1]);if(!room)return send(res,410,{error:'This broadcast expired. Create a new output link.'});
+    const action=found[2],write=action!=='stream',key=(req.headers.authorization||'').replace(/^Bearer /,'');
+    if(!broadcasts.authorized(room,key,write))return send(res,403,{error:'Broadcast authorization required'});
+    if(action==='stream'&&req.method==='GET'){if(!broadcasts.subscribe(room,res))send(res,429,{error:'Too many connected renderers'});return;}
+    if(req.method!=='POST')return send(res,405,{error:'Method not allowed'});
+    if(action==='stop'){broadcasts.stop(room);return send(res,200,{stopped:true});}
+    try{return send(res,200,broadcasts.update(room,await readInput()));}catch(error){return send(res,400,{error:error.message});}
+   }
+   if(route==='/api/health')return send(res,200,{ok:true,service:'Before the Roar · Azure Intelligence',model:process.env.AZURE_OPENAI_DEPLOYMENT||null,ai_configured:!!process.env.AZURE_OPENAI_ENDPOINT,persistent_cache:!!process.env.AZURE_STORAGE_URL,allowance:Number(process.env.AI_DAILY_LIMIT||120),active_runs:[...runs.values()].filter(r=>!r.completed&&!r.stopped).length,version:'3.4.0',external_broadcast:true,pitchside_video:true,film_duration:PITCHSIDE.duration,streaming:true,video_discussion:true,video_discussion_roles:DESK_ROLES.map(r=>r.id),perspectives:MODES});
    if(['/api/desk','/api/match-desk','/api/clip-desk'].includes(route)&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
     if(deskStreams>=6)return send(res,429,{error:'The AI desk is busy. Try again shortly.'});
@@ -59,7 +85,7 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
     res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','X-Accel-Buffering':'no'});
     const emit=(type,data)=>{if(res.destroyed)return;if(res.writableLength>256000){res.destroy();return;}res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);};
     emit('connected',{source:route==='/api/match-desk'?'shared-match-session':'reviewed-ai-video',discussion_scope:route==='/api/desk'?'full-clip':'evidence-cutoff',...(route==='/api/clip-desk'?{clip_id:input.clip_id,cutoff:input.time}:{}),language,mode});
-    try{if(route==='/api/clip-desk')await clipDesk.discuss({time:input.time,language,mode,question},emit);else if(route==='/api/match-desk')await matchDesk.discuss({...input,language,mode,question},emit);else await desk.discuss({language,mode,question},emit);}catch{emit('error',{message:'The discussion could not finish. Please retry.'});}finally{deskStreams--;res.end();}return;
+    try{if(route==='/api/clip-desk')await clipDesk.discuss({time:input.time,clipChallenge:input.clipChallenge===true,language,mode,question},emit);else if(route==='/api/match-desk')await matchDesk.discuss({...input,language,mode,question},emit);else await desk.discuss({language,mode,question},emit);}catch{emit('error',{message:'The discussion could not finish. Please retry.'});}finally{deskStreams--;res.end();}return;
    }
    if(route==='/api/runs'&&req.method==='POST'){
     if(origin&&!allowed.has(origin)&&origin!==`https://${req.headers.host}`&&origin!==`http://${req.headers.host}`)return send(res,403,{error:'Origin not allowed'});
@@ -97,8 +123,8 @@ export function createApp({narrator=new Narrator(),clock=()=>Date.now(),desk=new
    res.writeHead(status,{...headers,'Content-Length':end-start+1});if(req.method==='HEAD')res.end();else createReadStream(path,{start,end}).on('error',()=>res.destroy()).pipe(res);
   }catch(error){if(error.code==='ENOENT')return send(res,404,{error:'Not found'});console.warn(JSON.stringify({event:'request_error',message:error.message}));if(!res.headersSent)send(res,500,{error:'The service could not complete this request.'});else res.end();}
  });
- server.on('close',()=>{clearInterval(timer);for(const run of runs.values())for(const c of run.clients)c.end();});
- return {server,runs,tick};
+ server.on('close',()=>{clearInterval(timer);broadcasts.close();for(const run of runs.values())for(const c of run.clients)c.end();});
+ return {server,runs,tick,broadcasts};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){const {server}=createApp();server.listen(Number(process.env.PORT||4397),'0.0.0.0',()=>console.log(`BTR intelligence listening on ${process.env.PORT||4397}`));}
 

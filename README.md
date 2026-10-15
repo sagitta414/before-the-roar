@@ -6,7 +6,7 @@ A football storytelling prototype with a photorealistic AI film and an evidence-
 
 - `npm run studio`: backend and site at http://127.0.0.1:4397. Without Azure configuration, clearly labeled match notes replace unavailable AI.
 - `npm run dev`: static authoring preview at http://127.0.0.1:4396.
-- `npm test`: 75 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
+- `npm test`: 83 tests covering temporal cutoffs, corrections, localization, source integrity, streaming, caching, concurrent daily-budget creation, role adherence and API boundaries. Empty event windows return notes without model calls.
 - `node scripts/cohesive-smoke.mjs <Azure origin> false` and `true`: exercise original/corrected discussions against the live model. These consume up to three model requests each unless cached.
 
 ## The main experience
@@ -15,7 +15,7 @@ Watch, Match Centre, Presenters, Truth Lab and Inside BTR share the charcoal-and
 
 Watch opens with **Pitchside / 60-second film**, a broadcast-style edit of eight independently generated Google Flow shots (seven Veo 3.1 Quality sources; the final retry model is unconfirmed). Seven new eight-second sources join the existing eight-second duel; the player-gesture shot is trimmed to four seconds. The web film is 1280 × 720 at 24 fps with normalized crowd audio. The public player streams it from the existing Azure origin, whose HTTP 206 byte-range responses support seeking; the Sites asset host returned HTTP 200 for ranged requests. Eighteen approximate, manually reviewed markers cover duels, passes, a carry, defending, a goalkeeper catch and a gesture. Cuts do not establish continuous play, player identity or causality. Match score and calibrated physical speed remain unverified. Generated branding is not evidence of club affiliation. Source and edit provenance are in `dist/assets/pitchside-minute-provenance.json`.
 
-`/api/clip-desk` streams three model contributions using only this film's annotations through the playhead. Vector calculates time intervals; Check states the source limits. The film's clock, citations, discussion cache and exports are isolated from the synthetic match. Automatic discussions begin at 8, 24, 44 and 60 seconds; viewers can ask about an earlier cutoff. A full uncached viewing uses at most twelve model requests; shared cache hits use none. Preferences are shared, while navigating to Match Centre or Truth Lab selects the synthetic data study. The Watch source selector returns to the film.
+`/api/clip-desk` streams three model contributions using only this film's annotations through the playhead. Vector calculates time intervals; Check states the source limits. The film's clock, citations, discussion cache and exports are isolated from the synthetic match. Automatic discussions begin at 8, 24, 44 and 60 seconds; viewers can ask about an earlier cutoff. A full uncached viewing uses at most twelve model requests; shared cache hits use none. The source selector is global. Navigation preserves the selected source, both playheads, language and review revision. Film-specific Match Centre and Truth Lab views replay the same footage and observations. The coordinate-based study requires an explicit source change.
 
 The three **Synthetic match / data replay** MP4s were rendered from synthetic player and ball ground coordinates on a 105 x 68 m pitch. Gait, ball loft, body poses and cameras are illustrative choreography. Corrected tracking opens a synchronized tactical replay; the original film is never relabeled as corrected. No real Premier League match data is included.
 
@@ -25,7 +25,7 @@ The creator's original photorealistic eight-second Google Flow film remains avai
 
 The reading layout gives the conversation a compact crew toolbar, expandable evidence and calculation sections, and settings for language, voice and response diagnostics. Streaming preserves the reader's scroll position; a new discussion starts at the top. Supporting pages use a compact title and the shared fixture bar, with the pitch above secondary metrics. The film has eight explicit chapter cues; its underlying shots and generated kit markings have not been replaced.
 
-Scout supplies an observation, Guide a definition and visual cue, Vector the calculation, Check the challenge, and Host a short synthesis with a required, validated replay-cue field. Reviewed closing notes have separate copy in each language. An exact/near-copy check replaces obviously repeated Host output with labeled reviewed notes without an additional model call. This is a lexical safeguard, not a semantic novelty guarantee. Versioned discussion cache keys prevent old contributions from being reused under the new prompts.
+Scout supplies an observation, Guide a definition and a viewing question, Vector the calculation, Check the challenge, and Host a short synthesis with a required, validated replay-cue field. Reviewed closing notes have separate copy in each language. An exact/near-copy check replaces obviously repeated Host output with labeled reviewed notes without an additional model call. This is a lexical safeguard, not a semantic novelty guarantee. Versioned discussion cache keys prevent old contributions from being reused under the new prompts.
 
 `/api/match-desk` streams Scout and Guide concurrently, publishes Vector's calculations and Check's explicit scenario-claim verdict, then passes all four contributions to Host. A fresh main-sequence discussion uses three model calls. Two meaningful checkpoints per sequence trigger discussions automatically; instantaneous localized explanations update between them. Actual first-text and completion timings are visible. Streaming reduces waiting but cannot eliminate model startup, network latency or cold starts.
 
@@ -39,9 +39,13 @@ Five modes cover fans, newcomers, math, tactical analysis and player focus. Narr
 
 Recaps and JSON evidence packages use the current cutoff. Earlier discussion citations remain resolvable, while future events and incompatible revisions are excluded. Inside BTR demonstrates Ingest -> Interpret -> Explain -> Render -> Personalize, provides a project brief, and exports synthetic JSONL datasets and timed screen cues.
 
-`overlay.html` supplies a transparent lower third with six-second expiry and a live preview. BroadcastChannel synchronizes it within the same browser and storage partition. A separate renderer process receives the URL's initial snapshot only; a broadcast partner is not connected.
+`overlay.html` supplies a transparent lower third with six-second expiry and a live preview. Azure SSE synchronizes independent browsers and OBS browser sources. A 30-minute room has separate read-only renderer and publisher keys, input validation, source/revision updates, reconnect snapshots, six-second stale-cue expiry, stop, bounded clients and an IP creation limit. Links carry only the read key in the URL fragment. Keep the producer open; server restarts end ephemeral rooms. A commercial rendering partner is not connected.
 
 Match Centre uses generated turf and a four-figure fictional player atlas. The reused cutouts are illustrative and enlarged for visibility, not individual likenesses or inferred video tracking. Asset prompts and provenance are retained in `image-prompts*.json` and `dist/assets/featured-provenance.json`.
+
+## Independent vision review
+
+Truth Lab sends up to four actual JPEG frames from the selected shot to Azure OpenAI vision. Samples are at 1 Hz, never beyond the cutoff and never across an editorial cut. The model does not receive manual observations or generation prompts. Its bounded, cited candidate remains unverified and separate from match statistics. Candidate exports include the sampled frames and provenance. Calls share the existing two-request capacity, persistent cache, deduplication and daily budget; UI requests are explicit. This is sampled-frame review, not calibrated tracking or reliable automatic event detection.
 
 ## Azure and usage controls
 
@@ -53,8 +57,12 @@ The optional full-match generator streams a seeded ninety-minute fixture in sixt
 
 ## Scope still to build
 
-Automatic video event detection, inferred player identification, calibrated pass difficulty, xG, an external match feed, Fabric integration, durable session recovery, broad semantic evaluation and production broadcast integration remain unimplemented. Pass speed is a straight-line average from synthetic coordinates, not a calibrated peak measurement. This is a tested prototype, not a validated football inference model.
+Continuous automatic video eventing, inferred player identification, calibrated pass difficulty, xG, an external match feed, Fabric integration, durable session recovery, broad semantic evaluation and production broadcast integration remain unimplemented. Pass speed is a straight-line average from synthetic coordinates, not a calibrated peak measurement. This is a tested prototype, not a validated football inference model.
 
 ## Reproduce the synthetic films
 
 Install dependencies, set `RENDER_FILMS=1`, run `node server.mjs`, open `/__studio`, and choose Render all clips. The loopback-only authoring endpoint writes WebM files under ignored `tmp/films/`. `scripts/encode-films.ps1` uses FFmpeg to create the production 1280 x 720 MP4s and poster frames. Visitors do not need a Three.js runtime or paid video-generation service.
+
+## Continuity replacement status
+
+A new 8-second Veo 3.1 Quality opening was generated on October 14, 2026 using 100 existing Flow credits (338 → 238). Three extension attempts failed in Flow with “Prompt must be provided”; none consumed additional credits. The reviewed minute remains the published film. The candidate is saved in the Flow project “BTR · One continuous play” and locally under ignored tmp/continuous-opening-candidate.mp4. It has plausible short passing, but is not a completed minute and does not replace the source evidence.

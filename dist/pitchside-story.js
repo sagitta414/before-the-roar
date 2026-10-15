@@ -1,3 +1,4 @@
+import {guideCue} from './guide-cues.js';
 import {WORDS} from './match-story.js';
 import {MINUTE_BEATS} from './pitchside-minute.js';
 import {clipClosing} from './editorial-roles.js';
@@ -25,17 +26,18 @@ export function pitchsideStory(input={}){
  const f=n=>new Intl.NumberFormat(language,{maximumFractionDigits:2}).format(n);
  const interval=evidence.length>1?`${copy.gap}: ${f(latest.second)} − ${f(evidence.at(-2).second)} = ${f(latest.second-evidence.at(-2).second)} s. ${copy.gapNote}`:'';
  const equation=`${copy.progress}: ${f(time)} ÷ ${PITCHSIDE.duration} × 100 ≈ ${Math.round(time/PITCHSIDE.duration*100)}%. ${interval} ${copy.speed}`;
- return {title,body,time,cutoff:time,clock:clipClock(time),language,mode,team:'neutral',revision:PITCHSIDE.revision,complete:time>=PITCHSIDE.duration-.05,resolved:!!latest,evidence,guideDefinition:beat?.definitions?.[l]||copy.definition,copy,words:WORDS[language],equation,stats:`${evidence.length} / ${PITCHSIDE_BEATS.length} · ${copy.stats}`,brief:{state:{seen:evidence},evidenceIds:evidence.map(e=>e.id)},review:{scope:'manually-reviewed-ai-video',limit:copy.limit,editing:PITCHSIDE.editing||'single-shot'},recap:evidence.filter(e=>!PITCHSIDE.recapIds||PITCHSIDE.recapIds.includes(e.id)).map(e=>e.observation).join(' ')};
+ if(input.clipChallenge){title=['The observation survives the challenge.','La observación supera la revisión.','A observação resiste à revisão.'][l];body=(latest?.observation||copy.intro)+' '+copy.mathBody;}
+ return {title,body,time,cutoff:time,clock:clipClock(time),language,mode,team:'neutral',revision:PITCHSIDE.revision+(input.clipChallenge?1:0),clipChallenge:!!input.clipChallenge,complete:time>=PITCHSIDE.duration-.05,resolved:!!latest,evidence,guideDefinition:beat?.definitions?.[l]||copy.definition,copy,words:WORDS[language],equation,stats:`${evidence.length} / ${PITCHSIDE_BEATS.length} · ${copy.stats}`,brief:{state:{seen:evidence},evidenceIds:evidence.map(e=>e.id)},review:{decision:input.clipChallenge?'withdraw':'qualify',claim:['Player speed can be measured from this film.','La velocidad del jugador se puede medir con este vídeo.','A velocidade do jogador pode ser medida neste vídeo.'][l],scope:'manually-reviewed-ai-video',limit:copy.limit,editing:PITCHSIDE.editing||'single-shot'},recap:evidence.filter(e=>!PITCHSIDE.recapIds||PITCHSIDE.recapIds.includes(e.id)).map(e=>e.observation).join(' ')};
 }
 export function pitchsidePanel(packet){
  const {language,cutoff,copy,evidence,equation}=packet,ids=evidence.slice(-2).map(e=>e.id),story=mode=>pitchsideStory({time:cutoff,language,mode});
  return [
   {role:'analyst',summary:story('analyst').body,engine:'instant_notes'},
-  {role:'guide',summary:packet.guideDefinition+' '+story('beginner').body,engine:'instant_notes'},
-  {role:'math',summary:copy.mathBody,working:equation,engine:'calculated'},
-  {role:'reviewer',summary:evidence.length?copy.check:copy.intro,engine:'evidence_rules'},
+  {role:'guide',summary:guideCue(packet),engine:'instant_notes'},
+  {role:'math',summary:[`At ${clipClock(cutoff)}, ${Math.round(cutoff/PITCHSIDE.duration*100)}% of the film has played. These timestamps describe the footage, not metres travelled.`,`En ${clipClock(cutoff)} se ha reproducido el ${Math.round(cutoff/PITCHSIDE.duration*100)}% del vídeo. Las marcas describen el vídeo, no metros recorridos.`,`Em ${clipClock(cutoff)}, ${Math.round(cutoff/PITCHSIDE.duration*100)}% do vídeo foi reproduzido. As marcas descrevem o vídeo, não metros percorridos.`][['en','es','pt'].indexOf(language)],working:equation,engine:'calculated'},
+  {role:'reviewer',summary:packet.clipChallenge?['Withhold the speed claim: the record supplies no calibrated distance. Keep the visible action; do not attach a physical measurement.','Retira la velocidad: el registro no aporta distancia calibrada. Conserva la acción visible sin añadir una medición física.','Retire a velocidade: o registro não fornece distância calibrada. Mantenha a ação visível sem adicionar uma medição física.'][['en','es','pt'].indexOf(language)]:evidence.length?copy.check:copy.intro,decision:packet.clipChallenge?'withdraw':'qualify',target_claim:packet.review.claim,engine:'evidence_rules'},
   {role:'presenter',summary:clipClosing(packet),engine:'instant_notes'}
- ].map(p=>({...p,title:packet.title,evidence_ids:ids,caution:copy.limit,cutoff,revision:PITCHSIDE.revision}));
+ ].map(p=>({...p,title:packet.title,evidence_ids:ids,caution:copy.limit,cutoff,revision:packet.revision}));
 }
-export function pitchsideKey(input){return JSON.stringify([PITCHSIDE.id,PITCHSIDE.revision,Math.floor(Number(input.time)*10)/10,input.language,input.mode,(input.question||'').trim().replace(/\s+/g,' ')]);}
-export function pitchsideExport(input,posts=[]){const p=pitchsideStory(input);return {schema:'btr.reviewed-video.v1',clip:PITCHSIDE,cutoff:p.cutoff,language:p.language,mode:p.mode,story:{title:p.title,body:p.body},evidence:p.evidence,calculations:p.equation,limits:p.copy.limit,public_contributions:posts,overlay:{start_seconds:p.cutoff,end_seconds:Math.min(PITCHSIDE.duration,p.cutoff+6),title:p.title,body:p.body,evidence_ids:p.evidence.map(e=>e.id)}};}
+export function pitchsideKey(input){return JSON.stringify([PITCHSIDE.id,PITCHSIDE.revision,!!input.clipChallenge,Math.floor(Number(input.time)*10)/10,input.language,input.mode,(input.question||'').trim().replace(/\s+/g,' ')]);}
+export function pitchsideExport(input,posts=[]){const p=pitchsideStory(input);return {schema:'btr.reviewed-video.v1',clip:PITCHSIDE,cutoff:p.cutoff,language:p.language,mode:p.mode,revision:p.revision,review:p.review,story:{title:p.title,body:p.body},evidence:p.evidence,calculations:p.equation,limits:p.copy.limit,public_contributions:posts.filter(post=>post.cutoff<=p.cutoff&&post.revision===p.revision),overlay:{start_seconds:p.cutoff,end_seconds:Math.min(PITCHSIDE.duration,p.cutoff+6),title:p.title,body:p.body,evidence_ids:p.evidence.map(e=>e.id)}};}
