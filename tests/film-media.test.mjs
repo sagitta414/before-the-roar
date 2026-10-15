@@ -1,3 +1,4 @@
+import {optionalMedia} from './media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -27,12 +28,12 @@ test('a media error resolves pending play and can recover without resetting the 
 test('scene-local files preserve the global evidence clock at every cut and in full-reel mode',()=>{
  for(const time of [0,.25,7.958333,8,16,23.958333,24,32,40,48,51.958333,52,59.958333,60]){
   const p=mediaPlan({clipTime:time,studyScene:true});assert.equal(globalMediaTime(p,localMediaTime(p,time)),time);
-  assert.ok(p.src.startsWith('assets/pitchside-scene-'));assert.ok(fs.existsSync('dist/'+p.src));assert.ok(fs.existsSync('dist/'+p.poster));
+  assert.ok(p.src.startsWith('assets/pitchside-scene-'));if(optionalMedia){assert.ok(fs.existsSync('dist/'+p.src));assert.ok(fs.existsSync('dist/'+p.poster));}
   const reel=mediaPlan({clipTime:time,studyScene:false});assert.equal(reel.offset,0);assert.equal(reel.duration,60);assert.equal(reel.src,'assets/pitchside-stream.mp4');
  }
  const p=mediaPlan({source:'match',scenario:'press',time:29});assert.equal(p.src,'assets/press-film.mp4');assert.equal(localMediaTime(p,29),29);
 });
-test('the optional scene-study file is small and has metadata before media bytes',()=>{
+test('the optional scene-study file is small and has metadata before media bytes',{skip:!optionalMedia},()=>{
  const p=mediaPlan({studyScene:true}),b=fs.readFileSync('dist/'+p.src);assert.ok(b.length<2500000);
  const boxes=[];for(let i=0;i+8<b.length;){const size=b.readUInt32BE(i);if(size<8)break;boxes.push(b.toString('ascii',i+4,i+8));i+=size;}
  assert.ok(boxes.indexOf('moov')<boxes.indexOf('mdat'));

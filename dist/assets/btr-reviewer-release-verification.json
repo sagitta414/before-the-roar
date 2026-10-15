@@ -1,0 +1,43 @@
+{
+  "version": 40,
+  "checked_at": "2026-10-15T21:11:01.6182142Z",
+  "automated_tests": {
+    "failed": 0,
+    "passed": 130
+  },
+  "public_source_tests": {
+    "passed": 128,
+    "skipped": 2,
+    "reason": "Optional cinematic media and extracted frames intentionally excluded",
+    "failed": 0
+  },
+  "synthetic_validation": {
+    "valid": true,
+    "fixtures": 100
+  },
+  "guided_demo": {
+    "correction_and_personalization": "passed DOM integration checks",
+    "model_requests": 0,
+    "routes_verified": 6,
+    "steps": 5
+  },
+  "evaluation": {
+    "baseline_accepted": "5/9",
+    "subsequent_guards": "Covered by regression tests; no fresh live pass-rate claim",
+    "team_accepted": "7/9",
+    "complete": false,
+    "limitation": "Baseline raw output and timings lost during CLI export; team checkpoints recovered",
+    "requests": 21
+  },
+  "walkthrough": {
+    "audio": false,
+    "bytes": 1434546,
+    "generated_cinematic_footage": false,
+    "kind": "Illustrated walkthrough, not a browser recording",
+    "seconds": 105
+  },
+  "browser_visual_qa": {
+    "reason": "Browser execution tool unavailable; DOM checks are not visual certification",
+    "verified": false
+  }
+}

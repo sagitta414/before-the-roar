@@ -16,6 +16,8 @@ import {mediaPlan,bindMedia,localMediaTime} from './film-media.js';
 arrangeReadingRoom();
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},put=(id,t)=>{if($(id).textContent!==String(t))$(id).textContent=t;};
 const film=$('film'),threads=new Map();let state=matchSession.get(),current=matchStory(state),base='',started=false,selected=null,narrativeOnly=false,voices=false,speechKey='',lastRender=0;
+let guidedActive=false;
+document.addEventListener('btr-guided-activity',e=>{guidedActive=!!e.detail;if(guidedActive){started=false;film.pause();}});
 let watchSource=state.source,clipTime=state.clipTime;
 const chapterLabels={en:['The duel','The outlet','Close control','The defender','The sideline','The keeper','The gesture','The pass'],es:['El duelo','La salida','El control','El defensor','La banda','El portero','El gesto','El pase'],pt:['O duelo','A saída','O controle','O defensor','A lateral','O goleiro','O gesto','O passe']};
 const chapterStarts=[0,8,16,24,32,40,48,52],chapterNav=el('nav','film-chapters'),chapterLabel=el('div','film-chapter-label');chapterNav.setAttribute('aria-label','Film chapters');$('player').before(chapterLabel);document.querySelector('.transport').after(chapterNav);
@@ -90,6 +92,7 @@ function renderPanel(){
  if(voices&&thread?.complete&&speechKey!==thread.key){speechKey=thread.key;const host=thread.posts.get('presenter');if(host){const utterance=new SpeechSynthesisUtterance([host.summary,host.replay_cue].filter(Boolean).join(' '));utterance.lang={en:'en-US',es:'es-ES',pt:'pt-BR'}[state.language];speechSynthesis.speak(utterance);}}
 }
 async function requestPanel(question='',cutoff=viewTime(),manual=true,askedQuestion=question){
+ if(guidedActive&&!manual)return;
  const clipRequest=isClip(),input={...viewInput(),time:Math.floor(cutoff*10)/10,question},key=clipRequest?pitchsideKey(input):editorialKey(input),existing=threads.get(key);if(existing){if(manual&&!existing.pending&&(existing.error||existing.fallback))threads.delete(key);else{if(manual){existing.question=askedQuestion;existing.intent=askedQuestion===question?'':question;existing.serial++;renderPanel();}return;}}
  if(manual)media.pause();const thread={key,scope:scopeKey(input),cutoff:input.time,question:askedQuestion,intent:askedQuestion===question?'':question,posts:new Map(),drafts:new Map(),pending:true,serial:0,created:Date.now()};threads.set(key,thread);if(threads.size>30)threads.delete(threads.keys().next().value);renderPanel();
  try{await config;const availability=await aiAvailability.check();if(!manual&&['offline','exhausted'].includes(availability.state))throw Error('AI unavailable · reviewed notes shown');const response=await fetch(base+(clipRequest?'/api/clip-desk':'/api/match-desk'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});if(!response.ok)throw Error((await response.json()).error||'AI unavailable');const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='';

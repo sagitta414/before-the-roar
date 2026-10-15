@@ -4,6 +4,10 @@ An explainable football studio: watch the play, follow a public editorial discus
 
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
+**Start the guided match:** https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
+
+**Reviewer improvements and measured limits:** [docs/REVIEWER-RELEASE.md](docs/REVIEWER-RELEASE.md)
+
 **Judge demonstration and scope:** [docs/JUDGE-DEMO.md](docs/JUDGE-DEMO.md)
 
 ## Run and verify
@@ -24,7 +28,7 @@ Watch, Match Centre, Presenters, Truth Lab and Inside BTR preserve the broadcast
 
 Version 37 adds a visible shared AI allowance and local reset time, a Watch fallback notice above the conversation, an accessible mobile navigation menu including Match lab, direct routes and browser history restoration. Reviewed visual descriptions in three languages can be enabled in the film transport; they follow the global or scene-local clock and are not a speech transcript. Playback stalls expose retry without resetting the evidence time. Inside BTR includes a recording script, the earlier verification summary, and an explicit footage provenance/rights register.
 
-- **Pitchside:** Default full-minute playback of eight independently generated shots, with optional scene study. Reviewed annotations, local-player balance and reception counts describe only visible actions. Cuts do not establish continuous play, identity, score or causality. Physical speed and team pass accuracy remain unknown. Provenance: `dist/assets/pitchside-minute-provenance.json`.
+- **Pitchside:** Optional full-minute playback of eight independently generated shots, with optional scene study. Reviewed annotations, local-player balance and reception counts describe only visible actions. Cuts do not establish continuous play, identity, score or causality. Physical speed and team pass accuracy remain unknown. Provenance: `dist/assets/pitchside-minute-provenance.json`.
 - **Synthetic replay:** Three authored 36-second sequences rendered from ground coordinates. Pass math, pressure gap, passing gain and regain-to-shot-release time come from the records. Corrected tracking opens a tactical replay, never a falsely relabeled film.
 - **Full-match generator:** Ninety-minute fixtures, seeds 1–1,000,000, live events, checkpoint narratives and full-time recaps. Version 2 preserves ball origins between restarts, includes two periods and bounded carries, and restarts goals at centre. Its pass-difficulty index is a declared illustrative heuristic, not a calibrated probability.
 
@@ -71,3 +75,6 @@ Continuous eventing, inferred player identity, calibrated video speed, xG, broad
 One-day request top-ups: set `AI_DAILY_LIMIT_OVERRIDE_DATE` to a UTC date (YYYY-MM-DD) and `AI_DAILY_LIMIT_OVERRIDE` to the approved total ceiling for that date. Health and request reservations use the same ceiling. The override expires automatically at midnight UTC; `AI_DAILY_LIMIT` remains the normal daily ceiling. Existing usage counters are never reset.
 
 Match Lab and navigation (v39): Watch → Match Centre → Match Lab → Truth Lab → Presenters → Inside BTR. The embedded full-match studio uses one source label and allowance bar, an automatically sized frame, a compact scoreboard, six-checkpoint progress and event-level player/distance/speed labels. Starting and stopping uses cancellation-safe run ownership so a late connection cannot revive a match after leaving the page. See `docs/proof/match-lab-verification.json` for checks and verification limits.
+
+
+Version 40 opens a complete guided synthetic match without paid AI requests. Measured evaluation results and real archived tool receipts are visible in Inside BTR. See the reviewer release notes for the partial benchmark, current editorial safeguards, optional-media distribution, illustrated walkthrough and remaining human verification.

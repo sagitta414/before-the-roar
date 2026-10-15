@@ -7,10 +7,13 @@
     "dev": "node server.mjs",
     "studio": "node api/server.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/live.js && node --check api/server.mjs && node --check api/azure.mjs && node --check api/production.mjs && node --check api/agent-state.mjs && node --check api/agent-tools.mjs && node --check api/match-desk.mjs && node --check dist/production-desk.js && node --check dist/overlay.js && node --check dist/reliability.js && node --check dist/navigation.js && node --check dist/ai-availability.js && node --check dist/film-captions.js",
+    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/live.js && node --check api/server.mjs && node --check api/azure.mjs && node --check api/production.mjs && node --check api/agent-state.mjs && node --check api/agent-tools.mjs && node --check api/match-desk.mjs && node --check dist/production-desk.js && node --check dist/overlay.js && node --check dist/reliability.js && node --check dist/navigation.js && node --check dist/ai-availability.js && node --check dist/film-captions.js && node --check dist/guided-tour.js && node --check dist/guided-model.js && node --check dist/editorial-quality.js && node --check api/editorial-policy.mjs && node --check api/agent-evaluation.mjs && node --check scripts/evaluate-agents.mjs",
     "validate:data": "node scripts/validate-synthetic.mjs"
   },
   "dependencies": {
     "three": "0.180.0"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.3"
   }
 }
