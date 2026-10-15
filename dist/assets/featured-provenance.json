@@ -1,0 +1,16 @@
+{
+  "clip_id": "featured",
+  "source": "User-provided AI-generated football video from Google Flow",
+  "synthetic": true,
+  "original_duration_seconds": 8,
+  "original_resolution": "1920x1080",
+  "web_resolution": "1280x720",
+  "frame_rate": 24,
+  "annotation_method": "Manual visual review; approximate timestamps",
+  "narrative_method": "Timed authored audience explanations plus an Azure AI public discussion based on reviewed annotations in the unified matchroom",
+  "tracking_coordinates": null,
+  "match_clock": null,
+  "score": null,
+  "shot_outcome": "unconfirmed",
+  "notes": "Independent of all data lab scenarios. No computer vision analysis, speed calibration or player identity recognition has been performed."
+}

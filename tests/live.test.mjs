@@ -1,0 +1,37 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {generateMatch,initialState,ingest,snapshot,evidencePacket} from '../api/match.mjs';
+import {validateNarrative,fallback,Narrator,ResultStore,narrativeSchema,presentNarrative} from '../api/azure.mjs';
+import {createApp} from '../api/server.mjs';
+test('twelve reproducible fixtures have bounded geometry, monotonic events and plausible shot totals',()=>{
+ for(let seed=1;seed<=12;seed++){const match=generateMatch(seed);assert.deepEqual(match,generateMatch(seed));let previous=-1;const s=initialState();for(const e of match.events){assert.ok(e.second>=previous);previous=e.second;for(const p of [e.from,e.to].filter(Boolean)){assert.ok(p[0]>=0&&p[0]<=105);assert.ok(p[1]>=0&&p[1]<=68);}ingest(s,e);}const shots=s.shots.home+s.shots.away;assert.ok(shots>=5&&shots<=30);assert.equal(s.score.home+s.score.away,match.events.filter(e=>e.outcome==='goal').length);assert.equal(snapshot(s).possession.home+snapshot(s).possession.away,100);}
+});
+test('incremental ingestion is idempotent and checkpoint evidence excludes the future',()=>{const m=generateMatch(7),s=initialState();for(const e of m.events.filter(e=>e.second<=900))ingest(s,e);const count=s.count;assert.equal(ingest(s,m.events[0]),false);assert.equal(s.count,count);const p=evidencePacket(m,s,900);assert.ok(p.facts.filter(f=>f.second).every(f=>f.second<=900));assert.equal(p.stats.events,count);assert.throws(()=>evidencePacket(m,s,100));assert.throws(()=>ingest(s,{...m.events[0],id:'out-of-order'}));});
+test('narrative validation rejects invented evidence references and numeric prose',()=>{const m=generateMatch(1),p=evidencePacket(m,initialState(),0),v=fallback(p).audiences;assert.doesNotThrow(()=>validateNarrative(v,p));const bad=structuredClone(v);bad.fan.evidence_ids=['invented'];assert.throws(()=>validateNarrative(bad,p));bad.fan.evidence_ids=['score'];bad.fan.interpretation='They scored 4 goals';assert.throws(()=>validateNarrative(bad,p));});
+test('model output schema restricts every audience citation to the exact checkpoint evidence',()=>{const p=evidencePacket(generateMatch(1),initialState(),0),schema=narrativeSchema(p);for(const mode of ['fan','analyst','player'])assert.deepEqual(schema.properties[mode].properties.evidence_ids.properties.primary.enum,p.facts.map(f=>f.id));});
+test('passes always have distinct players and full-time evidence retains every goal',()=>{for(let seed=1;seed<=12;seed++){const m=generateMatch(seed),s=initialState();for(const e of m.events){if(e.type==='pass')assert.notEqual(e.player,e.recipient);ingest(s,e);}const p=evidencePacket(m,s,5400);assert.deepEqual(p.facts.filter(f=>f.outcome==='goal').map(f=>f.id),m.events.filter(e=>e.outcome==='goal').map(e=>e.id));}});
+test('displayed factual summaries cannot inherit a wrong comparison from generated prose',()=>{for(const language of ['en','es','pt']){const m=generateMatch(7),s=initialState();for(const e of m.events)ingest(s,e);const p=evidencePacket(m,s,5400,language),v=fallback(p);v.engine='azure_openai';v.audiences.analyst.explanation='Invented comparison';const result=presentNarrative(v,p);assert.ok(!result.audiences.analyst.explanation.includes('Invented'));assert.ok(result.audiences.fan.explanation.includes(`${s.score.home} – ${s.score.away}`));assert.equal(result.audiences.player.observation_source,'calculated');assert.ok(result.audiences.fan.evidence_ids.includes('score'));}});
+test('unavailable storage fails closed to a clearly labeled fallback',async()=>{const store={read:async()=>{throw Error('Storage offline')}};const n=new Narrator(store);const r=await n.explain(evidencePacket(generateMatch(1),initialState(),0));assert.equal(r.engine,'deterministic_fallback');assert.equal(n.calls,0);});
+test('persistent daily allowance retries a conflicting reservation and stops at the limit',async()=>{const original=process.env.AI_DAILY_LIMIT;process.env.AI_DAILY_LIMIT='2';try{const s=new ResultStore();s.base='fake';let calls=0,conflict=true;s.blob=async(path,options={})=>{if(options.method==='PUT'){if(conflict){conflict=false;calls=1;return new Response('',{status:412});}calls=JSON.parse(options.body).calls;return new Response('',{status:201});}return new Response(JSON.stringify({calls}),{headers:{etag:'revision'}});};assert.equal(await s.reserve(),true);assert.equal(calls,2);assert.equal(await s.reserve(),false);}finally{if(original===undefined)delete process.env.AI_DAILY_LIMIT;else process.env.AI_DAILY_LIMIT=original;}});
+test('the first two agents of a new day preserve both reservations after a blob creation conflict',async()=>{
+ const original=process.env.AI_DAILY_LIMIT;process.env.AI_DAILY_LIMIT='2';
+ try{const s=new ResultStore();s.base='fake';let calls=0,writes=0;
+ s.blob=async(path,options={})=>{
+  if(options.method!=='PUT')return calls?new Response(JSON.stringify({calls}),{headers:{etag:'created-by-other-agent'}}):new Response('',{status:404});
+  writes++;if(writes===1){assert.equal(options.headers['If-None-Match'],'*');calls=1;return new Response('',{status:409});}
+  assert.equal(options.headers['If-Match'],'created-by-other-agent');assert.equal(JSON.parse(options.body).calls,2);calls=2;return new Response('',{status:201});
+ };
+ assert.equal(await s.reserve(),true);assert.equal(calls,2);assert.equal(writes,2);assert.equal(await s.reserve(),false);
+ }finally{if(original===undefined)delete process.env.AI_DAILY_LIMIT;else process.env.AI_DAILY_LIMIT=original;}
+});
+test('HTTP sessions enforce authorization, stream all checkpoints and generate a full-time recap',async()=>{
+ let now=100000;const packets=[];const app=createApp({clock:()=>now,narrator:{explain:async p=>{packets.push(p);return fallback(p);}}});await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${app.server.address().port}`;
+ const ac=new AbortController();try{
+ assert.equal((await fetch(url+'/api/runs',{method:'POST',body:JSON.stringify({seed:1000001})})).status,400);
+ const run=await fetch(url+'/api/runs',{method:'POST',body:'{}'}).then(r=>r.json());const path=`${url}/api/runs/${run.id}`;
+ assert.equal((await fetch(path+'/export')).status,403);assert.equal((await fetch(path+'/export',{headers:{Authorization:'Bearer '+'é'.repeat(48)}})).status,403);
+ const response=await fetch(path+'/stream',{headers:{Authorization:`Bearer ${run.token}`},signal:ac.signal});const output=response.text();app.tick();for(let i=0;i<6;i++){now+=10000;app.tick();await new Promise(r=>setImmediate(r));}
+ const body=await output;assert.match(body,/event: recap/);assert.match(body,/event: complete/);assert.equal(packets.length,6);assert.deepEqual(packets.map(p=>p.cutoff),[900,1800,2700,3600,4500,5400]);for(const p of packets)assert.ok(p.facts.filter(f=>f.second).every(f=>f.second<=p.cutoff));
+ const data=await fetch(path+'/export',{headers:{Authorization:`Bearer ${run.token}`}}).then(r=>r.json());assert.equal(data.complete,true);assert.equal(data.events.at(-1).type,'fulltime');assert.equal(data.overlay.schema,'btr.overlay.v1');
+ }finally{ac.abort();app.server.closeAllConnections();await new Promise(r=>app.server.close(r));}
+});

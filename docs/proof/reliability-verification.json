@@ -1,0 +1,22 @@
+{
+  "schema": "btr.reliability-verification.v1",
+  "date": "2026-10-15",
+  "version": "3.7.0",
+  "automated_tests": {"passed": 118, "failed": 0},
+  "browser_checks": {
+    "direct_match_lab_route": true,
+    "back_and_forward_restore_section": true,
+    "phone_viewport_width": 375,
+    "phone_document_width": 360,
+    "phone_sections_reached": ["watch", "centre", "presenters", "truth", "inside", "lab"],
+    "full_minute_playback": {"duration_seconds": 60, "ended_at_seconds": 60, "ended": true, "description_tracks": 1},
+    "question_preserved": "How fast was that?",
+    "interpretation_shown_separately": "Can we measure the player’s speed from this clip?",
+    "media_recovery": {"method": "Local HTTP test harness deliberately returns one 404 for the film; the real bindMedia controller retries the same URL", "initial_status": "error", "after_retry_status": "ready", "after_retry_time_seconds": 22.089094, "after_retry_paused": false},
+    "caption_position_reviewed": "Reviewed descriptions moved above the broadcast insight"
+  },
+  "additional_live_model_requests": 0,
+  "daily_limit_changed": false,
+  "scope": "Browser checks used the local application and a separate local media failure harness. They establish observed behavior in this browser, not universal device compatibility.",
+  "recording": {"script_seconds": 110, "recommended_source": "Authored synthetic match", "final_submission_video_recorded": false, "generated_footage_rights_cleared": false}
+}

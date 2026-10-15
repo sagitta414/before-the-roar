@@ -1,0 +1,25 @@
+BEFORE THE ROAR — 105-SECOND GUIDED DEMONSTRATION
+
+Open https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
+Choose Play the 105-second tour. It advances the actual application controls without model requests. Keep the source, saved-AI/reviewed-note labels and revision visible. Record this browser session for the final submission if desired.
+
+0–18 SECONDS / WATCH
+“BTR turns synthetic football events into explanations you can question. Follow the winger and defender. The replay, clock and evidence belong to the same authored match.”
+
+18–36 SECONDS / DISCUSS
+“Each presenter has a different job: observation, explanation, calculation, challenge and synthesis. Saved AI is labeled. Calculations and source checks run in code; reviewed notes keep the experience available.”
+
+36–52 SECONDS / MEASURE
+“The completed passes gain 23.7 metres toward goal. The equation and event references show where that number comes from. It excludes carries and does not claim to measure chance quality.”
+
+52–72 SECONDS / CHALLENGE
+“Change the defender’s tracking record. The movement claim is withdrawn. The passes stay intact, and the same revision changes the caption. Correcting a fact does not require another model call.”
+
+72–105 SECONDS / PERSONALIZE
+“A newcomer gets an explanation of the pass. A curious fan gets the calculation. Switching to Spanish changes the explanation without changing the evidence. Inside BTR exposes real tool receipts, the known evaluation failures and reusable work. Match Lab generates a separate full fixture.”
+
+The downloadable btr-guided-walkthrough.mp4 is a 105-second illustrated companion rendered from the same source and explanation functions. It is labeled as an illustration, not a browser recording or a fresh live model run. It has no audio or cinematic footage. Do not remove those labels or describe it as captured live AI.
+
+The earlier live recovery summary and fixed-case evaluation are downloadable in Inside BTR. The comparison is partial: team checkpoints and baseline progress counts survived; raw baseline responses and timings did not. Do not claim broad superiority, semantic accuracy, or an audience study.
+
+The photorealistic film remains an edit of separate generated shots. Account-specific usage permission, kit markings, likenesses and audio remain unresolved. Use the fictional synthetic route for the demonstration. Final footage, eligibility, ownership and submission require the participant’s review. This package does not accept rules or submit to Devpost.

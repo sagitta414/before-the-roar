@@ -1,0 +1,8 @@
+*
+!api/
+!api/**
+!dist/
+!dist/**
+!Dockerfile
+!scripts/
+!scripts/evaluate-agents.mjs

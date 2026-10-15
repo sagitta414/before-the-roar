@@ -1,0 +1,28 @@
+{
+  "schema": "btr.validation-benchmark.v1",
+  "generated_at": "2026-10-15T20:41:08.425Z",
+  "simulator": "v2",
+  "fixtures": 100,
+  "seeds": {
+    "first": 1001,
+    "last": 1100
+  },
+  "valid": true,
+  "failures": [],
+  "warnings": [],
+  "observed": {
+    "events": [
+      713,
+      770
+    ],
+    "shots": [
+      7,
+      24
+    ],
+    "pass_completion_pct": [
+      84.6,
+      92.4
+    ]
+  },
+  "limits": "Held-out deterministic seeds test internal consistency, not realism calibrated against league matches."
+}

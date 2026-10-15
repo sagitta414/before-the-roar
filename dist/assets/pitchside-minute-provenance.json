@@ -1,0 +1,149 @@
+{
+  "schema": "btr.reviewed-film-production.v1",
+  "created": "2026-10-14",
+  "duration_seconds": 60,
+  "source": "AI-generated video; no real match event feed",
+  "editing": "Eight separately generated shots with straight cuts. No loops or speed changes. Audio loudness normalized, with brief fades at cuts.",
+  "web": {
+    "file": "pitchside-minute.mp4",
+    "width": 1280,
+    "height": 720,
+    "fps": 24,
+    "bytes": 21243251,
+    "sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25"
+  },
+  "shots": [
+    {
+      "id": "00-duel",
+      "start_seconds": 0,
+      "duration_seconds": 8,
+      "source_in_seconds": 0,
+      "model": "Veo 3.1 Quality",
+      "source_sha256": "f34e0ca831eed5df625b2184d8bf5d80e338a3ef4741266ca9044da5a23c6ad2"
+    },
+    {
+      "id": "01-pass",
+      "start_seconds": 8,
+      "duration_seconds": 8,
+      "source_in_seconds": 0,
+      "model": "Veo 3.1 Quality",
+      "source_sha256": "e689c2e57c97ab59d805fa3784e73f557c6b62aac6d8911921abc7048a03ad3c"
+    },
+    {
+      "id": "02-turn",
+      "start_seconds": 16,
+      "duration_seconds": 8,
+      "source_in_seconds": 0,
+      "model": "Veo 3.1 Quality",
+      "source_sha256": "cb643e6b881a5621f3c8d4a3f89e054c1df14715e5e664aadea1a561cac45d0a"
+    },
+    {
+      "id": "03-defend",
+      "start_seconds": 24,
+      "duration_seconds": 8,
+      "source_in_seconds": 0,
+      "model": "Veo 3.1 Quality",
+      "source_sha256": "ae4cc2f23882bd0ee9e0487573fe2299ede5ff083ad0e7c1175e6743553bca0a"
+    },
+    {
+      "id": "04-line",
+      "start_seconds": 32,
+      "duration_seconds": 8,
+      "source_in_seconds": 0,
+      "model": "Veo 3.1 Quality",
+      "source_sha256": "55eda7aee3d8a18babf7b4f900afaa6283945cf927e53b366143c30c9a310961"
+    },
+    {
+      "id": "05-keeper",
+      "start_seconds": 40,
+      "duration_seconds": 8,
+      "source_in_seconds": 0,
+      "model": "Veo 3.1 Quality",
+      "source_sha256": "adb9b5e1801667e4cb0ca69da76c4db8c6bfb7ec5445ad689f917254975588a2"
+    },
+    {
+      "id": "06-talk",
+      "start_seconds": 48,
+      "duration_seconds": 4,
+      "source_in_seconds": 0,
+      "model": "Veo 3.1 Quality",
+      "source_sha256": "dd9029f50a91b9eb4fd2175e86237853531673eea08750beafaa61112f8e5c44"
+    },
+    {
+      "id": "07-blue",
+      "start_seconds": 52,
+      "duration_seconds": 8,
+      "source_in_seconds": 0,
+      "model": "Google Flow retry; exact model unconfirmed",
+      "source_sha256": "b8ca2c0cb64cd780589338934078af87a0343bc41366ff3007abb637591a889b"
+    }
+  ],
+  "review": {
+    "method": "Manual review of each source at half-second intervals and final edit contact sheet",
+    "annotation_count": 18,
+    "limitations": [
+      "No calibrated tracking, player identity, physical speed or match score.",
+      "Cuts do not establish continuous play or causality.",
+      "AI kit details, generated marks and player likenesses do not establish real club affiliation.",
+      "Final blue-pass retry cost 12 credits; exact retry model was not independently confirmed."
+    ]
+  },
+  "credits": {
+    "opening_balance": 910,
+    "closing_balance": 288,
+    "net_used": 622,
+    "new_footage": 612,
+    "discarded_lite_test": 10,
+    "new_cash_purchase": false,
+    "failed_audio_refunded": 100
+  },
+  "delivery": {
+    "version": 34,
+    "master": "pitchside-minute.mp4",
+    "reel": "pitchside-stream.mp4",
+    "scenes": [
+      {
+        "asset": "pitchside-scene-0.mp4",
+        "start": 0,
+        "end": 8
+      },
+      {
+        "asset": "pitchside-scene-1.mp4",
+        "start": 8,
+        "end": 16
+      },
+      {
+        "asset": "pitchside-scene-2.mp4",
+        "start": 16,
+        "end": 24
+      },
+      {
+        "asset": "pitchside-scene-3.mp4",
+        "start": 24,
+        "end": 32
+      },
+      {
+        "asset": "pitchside-scene-4.mp4",
+        "start": 32,
+        "end": 40
+      },
+      {
+        "asset": "pitchside-scene-5.mp4",
+        "start": 40,
+        "end": 48
+      },
+      {
+        "asset": "pitchside-scene-6.mp4",
+        "start": 48,
+        "end": 52
+      },
+      {
+        "asset": "pitchside-scene-7.mp4",
+        "start": 52,
+        "end": 60
+      }
+    ],
+    "transform": "Re-encoded from the existing reviewed master to H.264/AAC, 1280x720 at 24fps, with front-loaded metadata. No new generated action or changed edit order.",
+    "clock": "Scene-local video time is mapped to the original global evidence clock."
+  }
+}
