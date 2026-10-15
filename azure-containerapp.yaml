@@ -19,7 +19,7 @@ properties:
   template:
     containers:
       - name: studio
-        image: patchhorizonacr805813.azurecr.io/before-the-roar:v33-connected-play-final
+        image: patchhorizonacr805813.azurecr.io/before-the-roar:v34-scene-studio-r3
         resources:
           cpu: 0.25
           memory: 0.5Gi

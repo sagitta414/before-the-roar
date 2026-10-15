@@ -32,13 +32,13 @@ test('reviewed closing notes are distinct and preserve corrections and early cut
 });
 test('Host must supply a localized replay instruction without inventing an actor or metric',()=>{
  for(const [language,cue]of [['en','Replay the receiving touch.'],['es','Repite el toque al recibir.'],['pt','Reveja o toque ao receber.']]){
-  const packet=pitchsideStory({time:60,language}),post={interpretation:'The outcome remains open.',headline:'Watch the touch',caution:'The wider play is unknown.',evidence_ids:{primary:'pitchside-blue-receive',secondary:null}};
+  const packet=pitchsideStory({time:60,language}),post={interpretation:'A completed reception establishes a connection, not a breakthrough of the whole defence.',headline:'Watch the touch',caution:'The wider play is unknown.',evidence_ids:{primary:'pitchside-blue-receive',secondary:null}};
   assert.throws(()=>validateMatchPost({post},packet,'presenter'),/replay cue/);
   assert.equal(validateMatchPost({post:{...post,replay_cue:cue}},packet,'presenter').replay_cue,cue);
   assert.throws(()=>validateMatchPost({post:{...post,interpretation:'This improves team dynamics.',replay_cue:cue}},packet,'analyst'),/Generic editorial claim/);
   assert.throws(()=>validateMatchPost({post:{...post,replay_cue:'Replay Moreau running.'}},packet,'presenter'),/Player attribution/);
   assert.throws(()=>validateMatchPost({post:{...post,replay_cue:'Replay the 95 km/h pass.'}},packet,'presenter'),/replay cue/);
   assert.throws(()=>validateMatchPost({post:{...post,takeaway:'The ball is passed to a teammate.',replay_cue:cue}},packet,'presenter'),/repeated the observation/);
-  assert.equal(validateMatchPost({post:{...post,takeaway:'Judge the reception on its own.',replay_cue:cue}},packet,'presenter').summary,'Judge the reception on its own.');
+  assert.equal(validateMatchPost({post:{...post,takeaway:'The reception confirms this connection, while the wider defensive line stays outside this shot.',replay_cue:cue}},packet,'presenter').summary,'The reception confirms this connection, while the wider defensive line stays outside this shot.');
  }
 });

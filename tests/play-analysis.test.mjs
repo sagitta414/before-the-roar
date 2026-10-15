@@ -47,7 +47,7 @@ test('film editorial challenges are specific to the scene and never announce a f
 test('generic Host conclusions cannot replace a football-specific takeaway',()=>{
  const packet=pitchsideStory({time:22}),post={takeaway:'The evidence allows viewers to judge how the defender reacts.',headline:'Watch closely',caution:'Only this scene.',replay_cue:'Replay the next touch.',evidence_ids:{primary:'pitchside-carry',secondary:null}};
  assert.throws(()=>validateMatchPost({post},packet,'presenter'),/specific judgment/);
- assert.ok(validateMatchPost({post:{...post,takeaway:'Judge control by access to the next touch, rather than who appears ahead.'}},packet,'presenter'));
+ assert.ok(validateMatchPost({post:{...post,takeaway:'Access to the next touch is the useful sign of control, rather than position alone.'}},packet,'presenter'));
  assert.throws(()=>validateMatchPost({post:{...post,takeaway:'Assess if the next receiver is positioned to advance play.'}},packet,'presenter'),/viewing question/);
 });
 test('a newly completed event retires the old discussion rather than keeping stale math',()=>{

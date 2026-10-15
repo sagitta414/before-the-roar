@@ -4,7 +4,7 @@ const scenes={
   ['Can you keep the ball in view while following the attacker?','¿Puedes seguir al atacante sin perder de vista el balón?','Você consegue seguir o atacante sem perder a bola de vista?'],
   ['Running ahead proves the duel was won.','Correr por delante demuestra que ganó el duelo.','Correr à frente prova que venceu o duelo.'],
   ['Position alone does not settle possession. Check the next visible touch before awarding a won duel.','La posición no determina la posesión. Revisa el siguiente toque visible antes de declarar ganado el duelo.','A posição não determina a posse. Confira o próximo toque visível antes de declarar o duelo vencido.'],
-  ['Judge control by access to the next touch, not by who appears ahead.','Evalúa el control por el acceso al siguiente toque, no por quién parece ir delante.','Julgue o controle pelo acesso ao próximo toque, não por quem parece estar à frente.'],
+  ['Access to the next touch is the useful sign of control. A lead in the camera frame alone does not settle the duel.','El acceso al siguiente toque indica control. Ir delante en el encuadre no resuelve el duelo.','O acesso ao próximo toque indica controle. Estar à frente no quadro não resolve o duelo.'],
   ['Replay the ball beside the attacker’s feet.','Repite el balón junto a los pies del atacante.','Reveja a bola junto aos pés do atacante.']
  ],
  '01-pass':[

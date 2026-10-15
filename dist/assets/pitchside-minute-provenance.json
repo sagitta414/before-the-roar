@@ -96,5 +96,54 @@
     "discarded_lite_test": 10,
     "new_cash_purchase": false,
     "failed_audio_refunded": 100
+  },
+  "delivery": {
+    "version": 34,
+    "master": "pitchside-minute.mp4",
+    "reel": "pitchside-stream.mp4",
+    "scenes": [
+      {
+        "asset": "pitchside-scene-0.mp4",
+        "start": 0,
+        "end": 8
+      },
+      {
+        "asset": "pitchside-scene-1.mp4",
+        "start": 8,
+        "end": 16
+      },
+      {
+        "asset": "pitchside-scene-2.mp4",
+        "start": 16,
+        "end": 24
+      },
+      {
+        "asset": "pitchside-scene-3.mp4",
+        "start": 24,
+        "end": 32
+      },
+      {
+        "asset": "pitchside-scene-4.mp4",
+        "start": 32,
+        "end": 40
+      },
+      {
+        "asset": "pitchside-scene-5.mp4",
+        "start": 40,
+        "end": 48
+      },
+      {
+        "asset": "pitchside-scene-6.mp4",
+        "start": 48,
+        "end": 52
+      },
+      {
+        "asset": "pitchside-scene-7.mp4",
+        "start": 52,
+        "end": 60
+      }
+    ],
+    "transform": "Re-encoded from the existing reviewed master to H.264/AAC, 1280x720 at 24fps, with front-loaded metadata. No new generated action or changed edit order.",
+    "clock": "Scene-local video time is mapped to the original global evidence clock."
   }
 }
