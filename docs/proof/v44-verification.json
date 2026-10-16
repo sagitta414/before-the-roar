@@ -1,0 +1,18 @@
+{
+  "schema": "btr.release-verification.v1",
+  "release": "v44 / API 3.10.0",
+  "recorded_at": "2026-10-16",
+  "functional_tests": {"passed": 151, "failed": 0},
+  "syntax_checks": "passed",
+  "api_formatting": "passed",
+  "synthetic_fixtures": {"held_out": 100, "valid": true, "calibrated_to_real_matches": false},
+  "personalization": {"corrected_cards_distinct": true, "languages_tested": ["en", "es", "pt"], "pass_measurements_preserved": true},
+  "availability": {"attempt_timeout_ms": 8000, "maximum_attempts": 2, "retry_delay_ms": 1500, "hung_config_tested": true, "stale_allowance_discarded": true, "manual_recovery_tested": true},
+  "browser": {"target": "Azure public deployment", "startup_resolved_without_navigation": true, "corrected_beginner_tactical_and_math_captions_checked": true, "spanish_math_caption_checked": true, "live_handoff_question_and_source_checked": true, "handoff_triggered_generation": false, "presenter_dependency_copy_checked": true, "phone_width": 390, "phone_horizontal_overflow": false, "viewport_restored": true},
+  "deployment": {"azure_ready_revision": "before-the-roar--0000059", "image": "before-the-roar:v44-evidence", "digest": "sha256:4f344c84f74eab0b1d353cf582596c70f5bb444df855ed5ddcfcb52b9a3e410a", "api_health_version": "3.10.0"},
+  "allowance": {"day": "2026-10-16", "daily_limit": 120, "used_before": 114, "used_after_read_only_verification": 114, "raised": false},
+  "comparison": {"plan": "v44-evaluation-plan.json", "opening_pairs": 11, "follow_up_pairs": 1, "maximum_model_requests": 60, "executed": false, "last_measured_policy": "v42.2", "crew_superiority_established": false, "human_ratings": 0},
+  "demo": {"live_handoff_implemented": true, "fresh_two_round_recording_completed": false, "older_recording_explicitly_labeled": true},
+  "pending": ["Approval for sixty additional requests today to run the paired comparison and verify a fresh exchange.", "Fresh demonstration capture using actual current-policy outputs and the viewer challenge.", "Blind human review and voluntary viewer study responses."],
+  "limits": ["Controlled functional tests do not establish live model quality.", "The only published comparative model measurements remain v42.2.", "No human outcome improvement is claimed.", "The generated film remains eight separately generated shots."]
+}

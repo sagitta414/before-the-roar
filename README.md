@@ -2,13 +2,13 @@
 
 An explainable football studio: watch the play, follow a public editorial discussion, inspect the calculation, and challenge the evidence. A newcomer, an analyst and a numbers-focused fan get different explanations of the same source.
 
-Version 43 turns the room into a continuing exchange: Guide responds to Scout, Host synthesizes the room, and explicit follow-ups retain earlier rounds. A fresh round uses up to four model requests. Source corrections and audience boundaries still apply. The paired viewer study is at `/study.html`; the demo presentation is at `/?tour=1&demo=1#watch`. See [v43 release notes](docs/V43-RELEASE.md).
+Version 44 gives corrected beginner, tactical and math views distinct explanations, recovers stalled AI availability checks, and connects the guided match to a two-round live discussion. A fresh round uses up to four model requests. The new paired comparison is preregistered but awaits execution; the older v42.2 results do not establish crew superiority. The paired viewer study is at `/study.html`; the guided presentation is at `/?tour=1&demo=1#watch`. See [v44 release notes and remaining verification](docs/V44-RELEASE.md).
 
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
 **Start the guided match:** https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
 
-**Current changes and measured limits:** [CHANGELOG.md](CHANGELOG.md) · [verification record](docs/proof/v42-verification.json)
+**Current changes and measured limits:** [CHANGELOG.md](CHANGELOG.md) · [verification record](docs/proof/v44-verification.json)
 
 **Earlier reviewer fixes:** [docs/SCAN-3-FIXES.md](docs/SCAN-3-FIXES.md)
 

@@ -607,7 +607,8 @@ function renderPanel() {
   } else if (thread?.complete && !thread.noEvents && thread.conversationId && (thread.round || 1) < 3) {
     const follow=el('div','conversation-followups');
     const texts={en:[['Go deeper','What useful distinction have we not covered yet?'],['Challenge it','What evidence would change this explanation?'],['Make it simple','Explain the key difference in everyday language.']],es:[['Más detalle','¿Qué distinción útil falta por explicar?'],['Cuestiónalo','¿Qué evidencia cambiaría esta explicación?'],['Más sencillo','Explica la diferencia principal con palabras sencillas.']],pt:[['Aprofundar','Que distinção útil ainda falta explicar?'],['Questionar','Que evidência mudaria esta explicação?'],['Simplificar','Explique a diferença principal com palavras simples.']]}[state.language];
-    for(const [label,q] of texts){const b=el('button','',label+' ↗');b.onclick=()=>requestPanel(q,thread.cutoff,true,label);follow.append(b);}
+    if(!isClip()&&state.scenario==='wide'&&!state.corrected)texts[1]=({en:['Did the run cause it?','Does this prove the wide run opened the central pass? What would you need to check?'],es:['¿La carrera lo causó?','¿Esto demuestra que la carrera abierta permitió el pase central? ¿Qué habría que comprobar?'],pt:['A corrida causou isso?','Isso prova que a corrida aberta permitiu o passe central? O que seria preciso verificar?']})[state.language];
+    for(const [label,q] of texts){const b=el('button','',label+' ↗');b.onclick=()=>requestPanel(q,thread.cutoff,true,q);follow.append(b);}
     follow.append(el('small','','Continue this conversation · up to 4 AI requests'));box.append(follow);
   } else if (thread?.complete && thread.round >= 3) box.append(el('p','conversation-progress','Three rounds complete. Choose another moment or start a fresh discussion.'));
   for (const b of document.querySelectorAll("[data-agent]")) {
@@ -872,6 +873,16 @@ document.addEventListener("btr-agent-question", (e) => {
   selected = e.detail.role;
   $("question").value = e.detail.question;
   renderPanel();
+});
+document.addEventListener('btr-open-live-discussion',()=>{
+  navigate('watch');
+  selected=null;
+  $('room-tab').click();
+  $('question').value='What does the wide run show, and what does the ball’s route tell us separately?';
+  renderPanel();
+  $('question').focus({preventScroll:true});
+  $('composer-note').textContent='Send the opening question, then choose “Did the run cause it?” below the replies. Up to 4 requests per fresh round.';
+  document.querySelector('.broadcast-room').scrollIntoView({block:'start',behavior:'smooth'});
 });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {

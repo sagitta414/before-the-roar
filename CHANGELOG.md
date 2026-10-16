@@ -1,3 +1,11 @@
+## v44 — different audience explanations and bounded startup recovery
+
+- Corrected beginner, tactical and math narratives stay distinct in all three languages while retaining the same evidence and valid calculations.
+- Availability checks time out, retry once and expose manual recovery; stale allowance figures are discarded after failure.
+- Presenter copy matches the Scout → Guide dependency. The guided match links to a real two-round discussion with a specific causal challenge; entering that view makes no AI request.
+- A twelve-pair comparison plan includes a fair paired follow-up and a sixty-request ceiling. Reports persist after each arm; blind review retains rejected raw proposals. Execution and a fresh demo recording remain pending approval for sufficient daily allowance. No new superiority claim.
+- The older comparison and 105-second video are labeled as older evidence. 151 functional tests pass.
+
 ## v43 — a continuing studio conversation
 
 - Guide reads Scout's contribution; Host receives the whole exchange. Distinct voice instructions encourage concrete, conversational responses.
