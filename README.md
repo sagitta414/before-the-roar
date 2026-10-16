@@ -2,7 +2,7 @@
 
 An explainable football studio: watch the play, follow a public editorial discussion, inspect the calculation, and challenge the evidence. A newcomer, an analyst and a numbers-focused fan get different explanations of the same source.
 
-Version 42 adds concrete football context, reduces a fresh discussion to four model requests, preserves corrections in every audience mode, and brings the pitch and evidence higher on screen. Current evaluation results and raw outputs are published with historical comparisons retained. See [CHANGELOG](CHANGELOG.md).
+Version 43 turns the room into a continuing exchange: Guide responds to Scout, Host synthesizes the room, and explicit follow-ups retain earlier rounds. A fresh round uses up to four model requests. Source corrections and audience boundaries still apply. The paired viewer study is at `/study.html`; the demo presentation is at `/?tour=1&demo=1#watch`. See [v43 release notes](docs/V43-RELEASE.md).
 
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
@@ -40,7 +40,7 @@ The original creator film remains at `original.html`. No real Premier League mat
 
 ## Tool-backed editorial workflow
 
-Scout and Guide run concurrently. Scout selects a bounded function tool: retrieve evidence, retrieve a deterministic calculation, or review earlier public claims. Tools cannot request arbitrary URLs or source selectors. Guide receives the same bounded evidence with a verified glossary; Host receives the other four public contributions. Those supplied contexts are labeled as such, not fabricated model tool calls. Vector calculates immediately; Check applies source rules to the explicit scenario claim.
+Scout selects a bounded function tool: retrieve evidence, retrieve a deterministic calculation, or review earlier public claims. Tools cannot request arbitrary URLs or source selectors. Guide receives Scout's actual contribution, bounded evidence and the verified glossary; Host receives the other four public contributions. Those supplied contexts are labeled as such, not fabricated model tool calls. Vector calculates immediately; Check applies source rules to the explicit scenario claim. Follow-ups retrieve server-side public contributions, preserve earlier rounds in the interface, and are limited to three rounds per chain. They cannot reuse history from a different source, revision, language, perspective or incompatible film scene.
 
 Three roles use Azure OpenAI; two specialist components are deterministic. This is custom Node orchestration with Azure OpenAI function calls. Microsoft Agent Framework, Foundry Agent Service, MCP, A2A and Fabric integration are not claimed. Public receipts are operations and contributions, not private chain-of-thought.
 

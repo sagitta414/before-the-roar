@@ -14,6 +14,7 @@ import {
 } from "../dist/pitchside-story.js";
 import { editorialIssues } from "../dist/editorial-quality.js";
 import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
+import { conversationContext } from "./conversation.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary, previous = []) {
@@ -186,8 +187,8 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v6:" + pitchsideKey(input)
-            : "cohesive-tools-v6:" + editorialKey(input),
+            ? "pitchside-tools-v7:" + pitchsideKey(input) + ":" + (input.parentKey || "")
+            : "cohesive-tools-v7:" + editorialKey(input) + ":" + (input.parentKey || ""),
         )
         .digest("hex");
     if (this.pending.has(key)) {
@@ -218,6 +219,30 @@ export class MatchDesk {
       notes = this.clip ? pitchsidePanel(packet) : localPanel(packet),
       posts = new Map(),
       start = performance.now();
+    const conversation = await conversationContext(this.state, input, this.clip);
+    if (conversation.round > 1 && packet.analysis?.calculations?.length > 1) {
+      const previousMath = conversation.previous.find((p) => p.role === "math");
+      const metric = packet.analysis.calculations.find(
+        (c) => c.text !== previousMath?.summary,
+      );
+      if (metric)
+        Object.assign(
+          notes.find((p) => p.role === "math"),
+          {
+            summary: metric.text,
+            metric_value: metric.value,
+            metric_title: metric.label,
+            working: metric.equation,
+            evidence_ids: metric.evidence_ids,
+          },
+        );
+    }
+    emit("conversation", {
+      id: key,
+      round: conversation.round,
+      parent: conversation.parent,
+      max_rounds: 3,
+    });
     if (!packet.brief.state.seen.length) {
       for (const post of notes) emit("post", post);
       emit("complete", {
@@ -234,6 +259,7 @@ export class MatchDesk {
       input,
       source: this.clip ? "pitchside" : "match",
       status: "running",
+      conversation,
       posts: {},
       trace: [],
       metrics: {
@@ -281,7 +307,17 @@ export class MatchDesk {
         storage: this.store.base ? "azure_blob" : "local_file",
       },
     );
+    let sequence = 0;
     const publish = async (p) => {
+      p = {
+        ...p,
+        turn_id: key + ":" + p.role,
+        round: conversation.round,
+        sequence: ++sequence,
+        reply_to:
+          { guide: "analyst", reviewer: "analyst", presenter: "reviewer" }[p.role] ||
+          null,
+      };
       await journal.change((v) => {
         v.posts[p.role] = p;
       });
@@ -507,6 +543,8 @@ export class MatchDesk {
                   evidence,
                   review: packet.review,
                   previous_public_contributions: previous,
+                  conversation: { round: conversation.round, max_rounds: 3 },
+                  prior_round: conversation.previous,
                   ...(role === "presenter"
                     ? {
                         editorial_closing_reference: notes.find(
@@ -531,7 +569,7 @@ export class MatchDesk {
                   ]
                 : []),
             ],
-            temperature: 0.2,
+            temperature: 0.45,
             max_tokens: 450,
             stream: true,
             stream_options: { include_usage: true },
@@ -578,6 +616,16 @@ export class MatchDesk {
           v.raw_outputs[role] = raw;
         });
         const validated = validateMatchPost(raw, packet, role);
+        if (
+          conversation.round > 1 &&
+          repeatsContribution(
+            validated.summary,
+            conversation.previous.filter((p) => p.role === role),
+          )
+        )
+          throw Error("Follow-up repeats the previous contribution");
+        if (role === "guide" && conversation.round > 1)
+          validated.summary = raw.post.viewing_question;
         if (
           role === "presenter" &&
           (repeatsContribution(validated.summary, previous) ||
@@ -628,7 +676,8 @@ export class MatchDesk {
         if (acquired) this.narrator.busy--;
       }
     };
-    const [scout, guide] = await Promise.all([complete("analyst"), complete("guide")]);
+    const scout = await complete("analyst", conversation.previous);
+    const guide = await complete("guide", [scout, posts.get("math")]);
     if (options.interruptAfterSpecialists && !journal.value.fault_injected) {
       await journal.change((v) => {
         v.fault_injected = true;

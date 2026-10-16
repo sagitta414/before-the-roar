@@ -1,0 +1,14 @@
+{
+  "schema": "btr.release-verification.v1",
+  "release": "v43 / API 3.9.0",
+  "recorded_at": "2026-10-16",
+  "functional_tests": {"passed":147,"failed":0},
+  "synthetic_fixtures": {"held_out":100,"valid":true,"calibrated_to_real_matches":false},
+  "conversation": {"maximum_rounds":3,"maximum_requests_per_round":4,"guide_reads_scout":true,"server_side_history":true,"untrusted_client_history_ignored":true,"changed_source_revision_language_and_audience_rejected":true,"streaming_and_cache_tested":true,"live_v43_quality_comparison_completed":false},
+  "browser": {"local_study_both_tasks_checked":true,"study_phone_width":390,"study_horizontal_overflow":false,"local_follow_up_history_checked":true,"local_follow_up_engine":"reviewed_fallback","human_participants":0},
+  "demo": {"file":"dist/assets/btr-app-demo-v43.mp4","duration_seconds":105,"bytes":1611485,"kind":"edited-application-screen-capture","continuous_recording":false,"fresh_ai":false,"audio":false},
+  "deployment": {"azure_ready_revision":"before-the-roar--0000058","image":"before-the-roar:v43-conversation","digest":"sha256:1d6b0a418203d973380eed82da735370a03f53c3c094d04e1c967b9ce6c7db0e","api_health_version":"3.9.0"},
+  "allowance": {"daily_limit":120,"used":114,"raised":false},
+  "pending": ["Approval for the 64-request balanced live comparison and follow-up test; six requests remain.","Actual volunteer study responses and human blind review.","Public hosting of the demo on a hackathon-accepted video service and final submission."],
+  "limits": ["Tests use controlled model responses; they do not prove live editorial quality.","The previous measured comparison remains v42.2 and does not establish a team advantage.","Browser checks are software QA, not human study results.","The generated film remains eight separate shots."]
+}

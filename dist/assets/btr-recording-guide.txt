@@ -1,25 +1,23 @@
-BEFORE THE ROAR — 105-SECOND GUIDED DEMONSTRATION
+BEFORE THE ROAR — 105-SECOND PRODUCT DEMO
+Open /?tour=1&demo=1#watch and select Play the 105-second tour.
+This is an actual application walkthrough. Saved model contributions and reviewed explanations are labeled; do not call them a fresh AI run.
 
-Open https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
-Choose Play the 105-second tour. It advances the actual application controls without model requests. Keep the source, saved-AI/reviewed-note labels and revision visible. Record this browser session for the final submission if desired.
+0–18 seconds — WATCH
+Football can be hard to read before the shot. Before the Roar makes the same play understandable to a newcomer, an analyst and a numbers-focused fan. This replay uses fictional players and synthetic coordinates.
 
-0–18 SECONDS / WATCH
-“BTR turns synthetic football events into explanations you can question. Follow the winger and defender. The replay, clock and evidence belong to the same authored match.”
+18–36 seconds — DISCUSS
+The crew has different jobs. Scout spots the movement. Guide makes it understandable. Vector calculates. Check challenges the claim. Host connects the pieces. The live room now streams each contribution, lets Guide respond to Scout, and supports follow-up rounds with saved context.
 
-18–36 SECONDS / DISCUSS
-“Each presenter has a different job: observation, explanation, calculation, challenge and synthesis. Saved AI is labeled. Calculations and source checks run in code; reviewed notes keep the experience available.”
+36–52 seconds — MEASURE
+These completed passes gain twenty-three point seven metres toward goal. Open the calculation: every number points back to its event. This is progress through passing, not a chance-of-scoring claim.
 
-36–52 SECONDS / MEASURE
-“The completed passes gain 23.7 metres toward goal. The equation and event references show where that number comes from. It excludes carries and does not claim to measure chance quality.”
+52–72 seconds — CHALLENGE
+Now change the defender's tracking record. The movement claim is withdrawn. The completed passes remain. The caption and explanation follow the corrected evidence. Trust comes from being able to change the story when the source changes.
 
-52–72 SECONDS / CHALLENGE
-“Change the defender’s tracking record. The movement claim is withdrawn. The passes stay intact, and the same revision changes the caption. Correcting a fact does not require another model call.”
+72–95 seconds — PERSONALIZE
+A beginner gets an explanation of what to watch. A numbers-focused viewer gets the calculation and its limits. The same facts are available in English, Spanish and Portuguese.
 
-72–105 SECONDS / PERSONALIZE
-“A newcomer gets an explanation of the pass. A curious fan gets the calculation. Switching to Spanish changes the explanation without changing the evidence. Inside BTR exposes real tool receipts, the known evaluation failures and reusable work. Match Lab generates a separate full fixture.”
+95–105 seconds — CLOSE
+Azure hosts the intelligence and saves the editorial work. The public source, measured evaluation and viewer study are available. Before the Roar: one play, different perspectives, a story you can question.
 
-The downloadable btr-guided-walkthrough.mp4 is a 105-second illustrated companion rendered from the same source and explanation functions. It is labeled as an illustration, not a browser recording or a fresh live model run. It has no audio or cinematic footage. Do not remove those labels or describe it as captured live AI.
-
-The earlier live recovery summary and fixed-case evaluation are downloadable in Inside BTR. The comparison is partial: team checkpoints and baseline progress counts survived; raw baseline responses and timings did not. Do not claim broad superiority, semantic accuracy, or an audience study.
-
-The photorealistic film remains an edit of separate generated shots. The creator confirmed permission to retain the film publicly on October 15, 2026. This confirmation does not grant redistribution rights to other repository users. Use the fictional synthetic route for the demonstration. Final footage, eligibility, ownership and submission require the participant’s review. This package does not accept rules or submit to Devpost.
+The cinematic film is separate optional generated footage; it is not the source of these measurements. A demo capture does not constitute a completed hackathon submission. Upload the finished video to an allowed public video host before submitting.

@@ -459,12 +459,20 @@ function renderPanel() {
     );
   box.dataset.thread = readingKey;
   box.replaceChildren();
+  for (const earlier of thread?.history || []) {
+    const history = el('details','conversation-history');
+    history.append(el('summary','',`Round ${earlier.round || 1} · ${earlier.question || 'The first reading'}`));
+    for (const p of earlier.posts.values()) {
+      const item=el('p'); item.append(el('b','',profiles.find(x=>x.id===p.role)?.name + ': '),document.createTextNode(p.summary)); history.append(item);
+    }
+    box.append(history);
+  }
   if (thread)
     box.append(
       el(
         "p",
         "discussion-cutoff",
-        `${current.words.at} ${displayTime(thread.cutoff)} · ${isClip() ? "REVIEWED FILM" : "R" + current.revision}`,
+        `ROUND ${thread.round || 1} · ${current.words.at} ${displayTime(thread.cutoff)} · ${isClip() ? "REVIEWED FILM" : "R" + current.revision}`,
       ),
     );
   if (thread?.question) {
@@ -474,6 +482,7 @@ function renderPanel() {
       question.append(el("small", "viewer-intent", "Interpreted as: " + thread.intent));
     box.append(question);
   }
+  if (thread?.fallback && !thread.pending) box.append(el('p','conversation-progress',({en:'Live AI did not complete this round. Reviewed notes are shown; your follow-up may remain unanswered.',es:'La IA no completó esta ronda. Se muestran notas revisadas; la pregunta puede quedar sin respuesta.',pt:'A IA não concluiu esta rodada. Exibimos notas revisadas; a pergunta pode continuar sem resposta.'})[state.language]));
   const waiting = !current.brief.state.seen.length && !thread && !selected;
   if (waiting) {
     const welcome = el("div", "welcome");
@@ -515,10 +524,9 @@ function renderPanel() {
     )
       continue;
     const draft = $("stream-live").checked ? thread?.drafts.get(role) : null,
-      post =
-        list.find((p) => p.role === role) ||
-        (!draft && thread?.pending ? fallback.find((p) => p.role === role) : null);
+      post = list.find((p) => p.role === role);
     if (!post && !draft) continue;
+    if (thread?.round > 1 && ['math','reviewer'].includes(role) && thread.history.at(-1)?.posts.get(role)?.summary === post?.summary) continue;
     const row = el("article", `message ${profile.image}`),
       meta = el("div", "message-meta"),
       face = el("span", "message-face"),
@@ -546,6 +554,7 @@ function renderPanel() {
       ),
     );
     row.append(meta);
+    if (post?.reply_to) row.append(el('small','reply-link',`↳ ${profiles.find(x=>x.id===post.reply_to)?.name || 'The room'}`));
     if (post?.decision)
       row.append(
         el(
@@ -592,13 +601,22 @@ function renderPanel() {
     }
     box.append(row);
   }
+  if (thread?.pending) {
+    const speaking = profiles.find(p=>p.id===thread.speaker)?.name || 'The crew';
+    const status=el('p','conversation-progress',`${speaking} is building the next contribution…`); status.setAttribute('role','status'); box.append(status);
+  } else if (thread?.complete && !thread.noEvents && thread.conversationId && (thread.round || 1) < 3) {
+    const follow=el('div','conversation-followups');
+    const texts={en:[['Go deeper','What useful distinction have we not covered yet?'],['Challenge it','What evidence would change this explanation?'],['Make it simple','Explain the key difference in everyday language.']],es:[['Más detalle','¿Qué distinción útil falta por explicar?'],['Cuestiónalo','¿Qué evidencia cambiaría esta explicación?'],['Más sencillo','Explica la diferencia principal con palabras sencillas.']],pt:[['Aprofundar','Que distinção útil ainda falta explicar?'],['Questionar','Que evidência mudaria esta explicação?'],['Simplificar','Explique a diferença principal com palavras simples.']]}[state.language];
+    for(const [label,q] of texts){const b=el('button','',label+' ↗');b.onclick=()=>requestPanel(q,thread.cutoff,true,label);follow.append(b);}
+    follow.append(el('small','','Continue this conversation · up to 4 AI requests'));box.append(follow);
+  } else if (thread?.complete && thread.round >= 3) box.append(el('p','conversation-progress','Three rounds complete. Choose another moment or start a fresh discussion.'));
   for (const b of document.querySelectorAll("[data-agent]")) {
     b.setAttribute("aria-pressed", String(selected === b.dataset.agent));
-    b.classList.toggle("active", !!thread?.pending && !thread.posts.has(b.dataset.agent));
+    b.classList.toggle("active", !!thread?.pending && thread.speaker === b.dataset.agent);
     b.querySelector(".agent-state").textContent = thread?.posts.has(b.dataset.agent)
       ? "READY"
       : thread?.pending
-        ? "WRITING"
+        ? (thread.speaker === b.dataset.agent ? "WRITING" : "NEXT")
         : "INSTANT";
   }
   put(
@@ -657,9 +675,10 @@ async function requestPanel(
 ) {
   // Playback updates reviewed notes for free; only an explicit request generates AI.
   if (!manual) return;
+  const parent = question && activeThread()?.complete && activeThread()?.conversationId && activeThread().round < 3 ? activeThread() : null;
   const clipRequest = isClip(),
-    input = { ...viewInput(), time: Math.floor(cutoff * 10) / 10, question },
-    key = clipRequest ? pitchsideKey(input) : editorialKey(input),
+    input = { ...viewInput(), time: Math.floor(cutoff * 10) / 10, question, ...(parent?{parentKey:parent.conversationId}:{}) },
+    key = (clipRequest ? pitchsideKey(input) : editorialKey(input)) + ':' + (input.parentKey || ''),
     existing = threads.get(key);
   if (existing) {
     if (manual && !existing.pending && (existing.error || existing.fallback))
@@ -686,6 +705,9 @@ async function requestPanel(
     pending: true,
     serial: 0,
     created: Date.now(),
+    history: parent ? [...(parent.history || []),parent].slice(-2) : [],
+    round: parent ? parent.round + 1 : 1,
+    speaker:'analyst',
   };
   threads.set(key, thread);
   if (threads.size > 30) threads.delete(threads.keys().next().value);
@@ -729,6 +751,8 @@ async function requestPanel(
               .join(""),
           );
         if (type === "error") throw Error(data.message);
+        if (type === 'conversation') {thread.conversationId=data.id;thread.round=data.round;}
+        if (type === 'speaker') thread.speaker=data.role;
         if (type === "trace")
           document.dispatchEvent(
             new CustomEvent("btr-agent-trace", { detail: { key, data } }),
@@ -744,6 +768,7 @@ async function requestPanel(
         }
         if (type === "complete") {
           thread.complete = true;
+          thread.noEvents = !!data.no_events;
           thread.cached = data.cached;
           thread.total = data.elapsed_ms;
         }
@@ -983,6 +1008,7 @@ for (const id of ["export", "recap-export"])
     save(
       isClip() ? "btr-pitchside-story.json" : "btr-match-story.json",
       (isClip() ? pitchsideExport : matchExport)(viewInput(), [
+        ...(activeThread()?.history || []).flatMap(t=>[...t.posts.values()]),
         ...(activeThread()?.posts.values() || []),
       ]),
     );

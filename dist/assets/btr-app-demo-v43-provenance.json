@@ -1,0 +1,14 @@
+{
+  "schema": "btr.demo-capture.v1",
+  "duration_seconds": 105,
+  "kind": "edited-application-screen-capture",
+  "source": "Actual screenshots of the functioning local BTR guided tour",
+  "capture_frequency": "approximately one frame per second; selected sections held for reading",
+  "continuous_recording": false,
+  "fresh_ai": false,
+  "content": "Saved v42 AI contributions, deterministic calculations and reviewed notes, labeled in the app",
+  "audio": false,
+  "synthetic_match_data": true,
+  "editing": "Holds the calculation for reading; removes gaps between capture batches; retains the visible correction and audience switches",
+  "submission_host_pending": true
+}
