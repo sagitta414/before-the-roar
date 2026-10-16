@@ -281,7 +281,9 @@ function render(data) {
         "",
         (roles[post.role] || post.role) +
           " · " +
-          (post.engine === "azure_openai"
+          (post.engine === "azure_selection"
+            ? "AI SELECTED · SOURCE RENDERED"
+            : post.engine === "azure_openai"
             ? "AI"
             : post.engine === "calculated"
               ? "CALCULATED"
@@ -694,9 +696,9 @@ archiveReady
       contributions.append(row);
     }
     status.textContent =
-      "LATEST RECORDED EVALUATION · " +
+      "ARCHIVED GENERATIVE-DESK EVALUATION · " +
       new Date(saved.recorded_at).toLocaleString() +
-      ". Saved public receipts from the current evaluation; no new AI request. Inspect the accepted outputs and any fallback reasons below.";
+      ". Saved historical receipts; open the evidence room above for the current composition workflow; no new AI request. Inspect the accepted outputs and any fallback reasons below.";
     captionTag.textContent = "LOCAL CAPTION PREVIEW · SOURCE R1";
     captionBody.textContent =
       "The winger and defender move toward the same side. Their movement coincides; the tracking does not prove why the defender moved.";
@@ -715,7 +717,7 @@ archiveReady
     const archive = el(
       "a",
       "proof-output",
-      "Download current evaluation + raw outputs ↓",
+      "Download archived evaluation + raw outputs ↓",
     );
     archive.href = "assets/btr-agent-evaluation.json";
     archive.download = "";

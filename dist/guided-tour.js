@@ -199,13 +199,11 @@ downloadRow.append(
   button("Compare agent results ↗", () => {
     leave("match");
     document.getElementById("inside-nav").click();
-    document
-      .getElementById("judge-evidence")
-      .scrollIntoView({ block: "start", behavior: "smooth" });
+    document.dispatchEvent(new Event("btr-open-evidence"));
   }),
 );
 tour.append(downloadRow);
-tour.append(el('p','guided-note','Live discussion: ask for the opening reading, then choose “Did the run cause it?” to challenge the crew. Each fresh round uses up to four requests. Opening this view makes no AI request.'));
+tour.append(el('p','guided-note','Live discussion: ask for the opening reading, then choose “Did the run cause it?” to challenge the crew. Each fresh synthetic round uses one AI selection request; public wording is source-rendered. Opening this view makes no AI request.'));
 const map = el("details", "source-map");
 const sourceSummary=el("summary"); map.append(sourceSummary); matchSession.subscribe(state=>{const label=SOURCE_LABELS[state.section==='lab'?'lab':state.source];sourceSummary.textContent=label.title+" · source & scope";}); sourceSummary.textContent=SOURCE_LABELS[matchSession.get().source].title+" · source & scope";
 for (const entry of Object.values(SOURCE_LABELS)) {
@@ -266,7 +264,7 @@ proof.append(
   el(
     "p",
     "guided-note",
-    "Earlier demonstration: edited screen captures using saved v42 contributions. It does not demonstrate the current follow-up behavior. A fresh two-round recording and the v44 comparison are pending live verification. No continuous recording or audio is claimed.",
+    "Earlier demonstration: edited screen captures using saved v42 contributions. It does not demonstrate the current follow-up behavior. The current source-composition demonstration is available in Inside BTR. The v44 study remains historical and incomplete. No continuous recording or audio is claimed.",
   ),
 );
 const repository = el("a", "proof-output", "Inspect the public source on GitHub ↗");

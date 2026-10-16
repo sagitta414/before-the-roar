@@ -16,6 +16,7 @@ import { editorialIssues } from "../dist/editorial-quality.js";
 import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
 import { conversationContext, followUpMetric } from "./conversation.mjs";
 import { claimBoundaryIssues } from "./claim-boundary.mjs";
+import { groundedRound } from "./grounded-desk.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary, previous = []) {
@@ -214,7 +215,12 @@ export class MatchDesk {
         .update(
           this.clip
             ? "pitchside-tools-v12:" + pitchsideKey(input) + ":" + (input.parentKey || "")
-            : "cohesive-tools-v12:" + editorialKey(input) + ":" + (input.parentKey || ""),
+            : (process.env.BTR_GROUNDED_DESK === "1"
+                ? "cohesive-source-v52:"
+                : "cohesive-tools-v12:") +
+                editorialKey(input) +
+                ":" +
+                (input.parentKey || ""),
         )
         .digest("hex");
     if (this.pending.has(key)) {
@@ -347,6 +353,20 @@ export class MatchDesk {
       posts.set(p.role, p);
       emit("post", p);
     };
+    if (!this.clip && process.env.BTR_GROUNDED_DESK === "1")
+      return groundedRound({
+        packet,
+        notes,
+        conversation,
+        input,
+        journal,
+        narrator: this.narrator,
+        emit,
+        publish,
+        trace,
+        start,
+        options,
+      });
     await publish(notes.find((p) => p.role === "math"));
     await trace("math", "calculation_saved", {
       evidence_ids: notes.find((p) => p.role === "math").evidence_ids,

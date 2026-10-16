@@ -50,6 +50,7 @@ let state = matchSession.get(),
   voices = false,
   speechKey = "",
   lastRender = 0;
+let mobileVoice = "analyst", mobileAll = false;
 let guidedActive = false;
 document.addEventListener("btr-guided-activity", (e) => {
   guidedActive = !!e.detail;
@@ -426,6 +427,7 @@ function render() {
   }
 }
 function renderPanel() {
+  $("request-panel").textContent=isClip()?"Ask the crew · up to 4 requests":"Ask the crew · 1 AI request";
   const thread = activeThread(),
     discussionPacket = thread
       ? viewStory({ ...viewInput(), time: thread.cutoff })
@@ -439,6 +441,7 @@ function renderPanel() {
     thread?.serial,
     state.language,
     selected,
+    mobileVoice, mobileAll, window.matchMedia("(max-width:760px)").matches,
     narrativeOnly,
     thread ? 0 : Math.floor(viewTime() * 4),
     state.corrected,
@@ -516,8 +519,17 @@ function renderPanel() {
     welcome.append(agenda);
     box.append(welcome);
   }
+  const mobileFocus=window.matchMedia('(max-width:760px)').matches&&!mobileAll&&!selected&&!narrativeOnly&&!waiting;
+  const availableRoles=profiles.filter(p=>list.some(n=>n.role===p.id)||thread?.drafts.has(p.id));
+  const focused=availableRoles.some(p=>p.id===mobileVoice)?mobileVoice:availableRoles[0]?.id;
+  if(!waiting&&window.matchMedia('(max-width:760px)').matches&&!selected&&!narrativeOnly){
+    const picker=el('nav','mobile-voice-picker');picker.setAttribute('aria-label','Read the crew one voice at a time');
+    for(const p of availableRoles){const b=el('button','',p.name);b.setAttribute('aria-pressed',String(!mobileAll&&focused===p.id));b.onclick=()=>{mobileVoice=p.id;mobileAll=false;renderPanel();};picker.append(b);}
+    const all=el('button','',mobileAll?'Focus one voice':'Show all');all.onclick=()=>{mobileAll=!mobileAll;renderPanel();};picker.append(all);box.append(picker);
+  }
   for (const profile of waiting ? [] : profiles) {
     const role = profile.id;
+    if(mobileFocus&&role!==focused)continue;
     if (
       (narrativeOnly && role !== "presenter") ||
       (!narrativeOnly && selected && role !== selected)
@@ -544,7 +556,9 @@ function renderPanel() {
         "message-badge",
         draft && !post
           ? "DRAFT"
-          : post.engine === "azure_openai"
+          : post.engine === "azure_selection"
+            ? "AI SELECTED"
+            : post.engine === "azure_openai"
             ? "AI"
             : post.engine === "calculated"
               ? "MATH"
@@ -571,7 +585,7 @@ function renderPanel() {
     row.append(el("p", "", post?.summary || draft.summary));
     if(post){
       const labels={en:{math:'Calculated from records',reviewer:'Rule-based evidence check',guide:'Viewing question',interpretation:'Interpretation · not a measured fact',notes:'Reviewed reference note'},es:{math:'Calculado de los registros',reviewer:'Comprobación mediante reglas',guide:'Pregunta de observación',interpretation:'Interpretación · no es un hecho medido',notes:'Nota de referencia revisada'},pt:{math:'Calculado dos registros',reviewer:'Verificação por regras',guide:'Pergunta de observação',interpretation:'Interpretação · não é um fato medido',notes:'Nota de referência revisada'}}[state.language];
-      row.append(el('small','claim-kind',post.engine==='reviewed_fallback'?labels.notes:labels[role]||labels.interpretation));
+      row.append(el('small','claim-kind',post.engine==='azure_selection'?'AI-selected angle · source-rendered wording':post.engine==='reviewed_fallback'?labels.notes:labels[role]||labels.interpretation));
     }
     if (post?.replay_cue) row.append(el("p", "replay-cue", post.replay_cue));
     if (post) {
@@ -616,7 +630,7 @@ function renderPanel() {
     const texts={en:[['Go deeper','What useful distinction have we not covered yet?'],['Challenge it','What evidence would change this explanation?'],['Make it simple','Explain the key difference in everyday language.']],es:[['Más detalle','¿Qué distinción útil falta por explicar?'],['Cuestiónalo','¿Qué evidencia cambiaría esta explicación?'],['Más sencillo','Explica la diferencia principal con palabras sencillas.']],pt:[['Aprofundar','Que distinção útil ainda falta explicar?'],['Questionar','Que evidência mudaria esta explicação?'],['Simplificar','Explique a diferença principal com palavras simples.']]}[state.language];
     if(!isClip()&&state.scenario==='wide'&&!state.corrected)texts[1]=({en:['Did the run cause it?','Does this prove the wide run opened the central pass? What would you need to check?'],es:['¿La carrera lo causó?','¿Esto demuestra que la carrera abierta permitió el pase central? ¿Qué habría que comprobar?'],pt:['A corrida causou isso?','Isso prova que a corrida aberta permitiu o passe central? O que seria preciso verificar?']})[state.language];
     for(const [label,q] of texts){const b=el('button','',label+' ↗');b.onclick=()=>requestPanel(q,thread.cutoff,true,q);follow.append(b);}
-    follow.append(el('small','','Continue this conversation · up to 4 AI requests'));box.append(follow);
+    follow.append(el('small','',isClip()?'Continue this conversation · up to 4 AI requests':'Continue this conversation · 1 AI request'));box.append(follow);
   } else if (thread?.complete && thread.round >= 3) box.append(el('p','conversation-progress','Three rounds complete. Choose another moment or start a fresh discussion.'));
   for (const b of document.querySelectorAll("[data-agent]")) {
     b.setAttribute("aria-pressed", String(selected === b.dataset.agent));
@@ -636,7 +650,7 @@ function renderPanel() {
           : "Instant match notes · ask the crew for live AI"
         : thread.pending
           ? "AI discussion streaming · exact cutoff shown above"
-          : !list.some((p) => p.engine === "azure_openai") &&
+          : !list.some((p) => ["azure_openai","azure_selection"].includes(p.engine)) &&
               !current.brief.state.seen.length
             ? "Match notes · waiting for the first completed event"
             : thread.fallback
@@ -888,7 +902,7 @@ document.addEventListener('btr-open-live-discussion',()=>{
   $('question').value='What does the wide run show, and what does the ball’s route tell us separately?';
   renderPanel();
   $('question').focus({preventScroll:true});
-  $('composer-note').textContent='Send the opening question, then choose “Did the run cause it?” below the replies. Up to 4 requests per fresh round.';
+  $('composer-note').textContent='Send the opening question, then choose “Did the run cause it?” below the replies. One AI selection request per synthetic round.';
   document.querySelector('.broadcast-room').scrollIntoView({block:'start',behavior:'smooth'});
 });
 document.addEventListener("visibilitychange", () => {

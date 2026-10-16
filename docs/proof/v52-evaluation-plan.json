@@ -1,0 +1,91 @@
+{
+  "schema": "btr.evaluation-plan.v2",
+  "policy": "v52-source-composition",
+  "cases": [
+    {
+      "id": "wide-original",
+      "input": {
+        "source": "match",
+        "scenario": "wide",
+        "time": 16,
+        "corrected": false,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor"
+      }
+    },
+    {
+      "id": "wide-corrected",
+      "input": {
+        "source": "match",
+        "scenario": "wide",
+        "time": 16,
+        "corrected": true,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor"
+      }
+    },
+    {
+      "id": "pressure-to-chance",
+      "input": {
+        "source": "match",
+        "scenario": "press",
+        "time": 29,
+        "corrected": false,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 8,
+        "team": "harbor"
+      }
+    },
+    {
+      "id": "wide-corrected-es-beginner",
+      "input": {
+        "source": "match",
+        "scenario": "wide",
+        "time": 16,
+        "corrected": true,
+        "language": "es",
+        "mode": "beginner",
+        "focus": 7,
+        "team": "harbor"
+      }
+    },
+    {
+      "id": "counter-pt-saved",
+      "input": {
+        "source": "match",
+        "scenario": "counter",
+        "time": 28,
+        "corrected": false,
+        "language": "pt",
+        "mode": "math",
+        "focus": 7,
+        "team": "harbor"
+      }
+    },
+    {
+      "id": "pressure-before-regain",
+      "input": {
+        "source": "match",
+        "scenario": "press",
+        "time": 6,
+        "corrected": false,
+        "language": "en",
+        "mode": "beginner",
+        "focus": 8,
+        "team": "harbor"
+      }
+    }
+  ],
+  "follow_up": {
+    "parent": "wide-original",
+    "question": "Does this prove the wide run opened the central pass? What would you need to check?",
+    "paired": true
+  },
+  "maximum_requests": 14,
+  "method": "One trial per case and arm, fixed before generation. Both arms use the same evidence and editorial guards. Follow-up uses each arm’s own previous public contributions. No quality or audience benefit is inferred from guard acceptance."
+}

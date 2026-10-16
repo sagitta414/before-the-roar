@@ -10,12 +10,13 @@ import { EVALUATION_CASES, EXTENDED_CASES, FOLLOW_UP_QUESTION, blindReviewPack, 
 
 const flags = new Set(process.argv.slice(2));
 const study = flags.has('--conversation-study');
+const composed=flags.has('--source-composition');process.env.BTR_GROUNDED_DESK=composed?'1':'0';
 const qualitySmoke=flags.has('--quality-smoke');
 const compactIds = ['wide-original','pressure-to-chance','wide-corrected-es-beginner','counter-pt-saved'];
-const cases = qualitySmoke ? EVALUATION_CASES.filter(c=>c.id==='wide-original') : study ? EXTENDED_CASES.slice(0,11) : flags.has('--extended') ? EXTENDED_CASES : flags.has('--balanced') ? EXTENDED_CASES.slice(0,12) : flags.has('--compact') ? EVALUATION_CASES.filter(c=>compactIds.includes(c.id)) : EVALUATION_CASES;
-const follow = qualitySmoke || study || flags.has('--follow-up');
-const cap = cases.length*5 + (follow ? 5 : 0);
-const plan = {schema:'btr.evaluation-plan.v2',policy:'v51-grounded',cases,follow_up:follow?{parent:cases[0].id,question:FOLLOW_UP_QUESTION,paired:true}:null,maximum_requests:cap,method:'One trial per case and arm, fixed before generation. Both arms use the same evidence and editorial guards. Follow-up uses each arm’s own previous public contributions. No quality or audience benefit is inferred from guard acceptance.'};
+const cases = composed ? EVALUATION_CASES.filter(c=>[...compactIds,'wide-corrected','pressure-before-regain'].includes(c.id)) : qualitySmoke ? EVALUATION_CASES.filter(c=>c.id==='wide-original') : study ? EXTENDED_CASES.slice(0,11) : flags.has('--extended') ? EXTENDED_CASES : flags.has('--balanced') ? EXTENDED_CASES.slice(0,12) : flags.has('--compact') ? EVALUATION_CASES.filter(c=>compactIds.includes(c.id)) : EVALUATION_CASES;
+const follow = composed || qualitySmoke || study || flags.has('--follow-up');
+const perPair=composed?2:5;const cap = (cases.length+(follow?1:0))*perPair;
+const plan = {schema:'btr.evaluation-plan.v2',policy:composed?'v52-source-composition':'v51-grounded',cases,follow_up:follow?{parent:cases[0].id,question:FOLLOW_UP_QUESTION,paired:true}:null,maximum_requests:cap,method:'One trial per case and arm, fixed before generation. Both arms use the same evidence and editorial guards. Follow-up uses each arm’s own previous public contributions. No quality or audience benefit is inferred from guard acceptance.'};
 if(!flags.has('--live')){console.log(JSON.stringify(plan,null,2));process.exit(0);}
 for(const name of ['AZURE_OPENAI_ENDPOINT','AZURE_STORAGE_URL'])if(!process.env[name])throw Error(name+' required');
 class EvaluationStore extends ResultStore {
@@ -31,7 +32,7 @@ let reservations=resumed?.requests_reserved||0;
 if(before.limit-before.used<cap-reservations)throw Error(`The evaluation needs ${cap-reservations} available requests. The ceiling will not be changed.`);
 const reserve=store.reserve.bind(store);store.reserve=async()=>{if(reservations>=cap)return false;const ok=await reserve();if(ok)reservations++;return ok;};
 const runId=resumed?.run_id||'evaluation-'+randomBytes(10).toString('hex'),state=new AgentState(store),narrator={store,busy:0},model=process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini';
-const report=resumed||{schema:'btr.agent-evaluation.v1',policy:plan.policy,run_id:runId,recorded_at:new Date().toISOString(),model,plan,allowance_before:before,method:{cases:`${cases.length} fixed opening cases${follow?' and one paired follow-up':''}; one trial per arm; all failures retained.`,team:'Scout selects an evidence tool then writes; Guide reads Scout; Host receives all contributions. Deterministic calculations and checks are separate. Four model calls per round.',baseline:'One model call writes the same three editorial roles using the same source packet, calculated facts, glossary, source verdict and role contracts. Follow-ups receive its own earlier outputs.',scoring:'Identical editorial and citation guards. Acceptance is not semantic accuracy. No model judge or audience results.',pacing:'At least 75 seconds between paired cases; no model retries.',max_requests:cap},cases:[],complete:false,conclusion:'This comparison measures editorial guard acceptance, request count and latency. It does not by itself establish better football analysis, causal accuracy or viewer benefit. Blind human ratings remain unfilled.'};
+const report=resumed||{schema:'btr.agent-evaluation.v1',policy:plan.policy,run_id:runId,recorded_at:new Date().toISOString(),model,plan,allowance_before:before,method:{cases:`${cases.length} fixed opening cases${follow?' and one paired follow-up':''}; one trial per arm; all failures retained.`,team:composed?'One AI angle selection composes three source-rendered voices plus deterministic calculations and source checks. Public prose is not model-generated.':'Scout selects an evidence tool then writes; Guide reads Scout; Host receives all contributions. Deterministic calculations and checks are separate. Four model calls per round.',baseline:'One model call writes the same three editorial roles using the same source packet, calculated facts, glossary, source verdict and role contracts. Follow-ups receive its own earlier outputs.',scoring:composed?'Different output contracts: composition membership and citation validity versus free-prose editorial guards. Acceptance rates are NOT comparable accuracy scores. All raw outputs retained; no human ratings.':'Identical editorial and citation guards. Acceptance is not semantic accuracy. No model judge or audience results.',pacing:'At least 75 seconds between paired cases; no model retries.',max_requests:cap},cases:[],complete:false,conclusion:'This comparison measures editorial guard acceptance, request count and latency. It does not by itself establish better football analysis, causal accuracy or viewer benefit. Blind human ratings remain unfilled.'};
 if(resumed){report.resumptions??=[];report.resumptions.push({at:new Date().toISOString(),completed_pairs:report.cases.length,requests_reserved:reservations,reason:'Worker connection ended at a paired-case boundary. Persisted results retained; completed pairs are not repeated.',allowance:before});}
 const stdout=flags.has('--stdout');
 if(!stdout)await mkdir('docs/proof',{recursive:true});
@@ -60,21 +61,21 @@ async function baseline(input,previous=[]){
 }
 let caseStarted=-Infinity;
 async function pair(c,parent){
- const wait=Math.max(0,75000-(performance.now()-caseStarted));if(wait)await new Promise(r=>setTimeout(r,wait));caseStarted=performance.now();
+ const wait=Math.max(0,(composed?15000:75000)-(performance.now()-caseStarted));if(wait)await new Promise(r=>setTimeout(r,wait));caseStarted=performance.now();
  const packet=matchStory(c.input),key=createHash('sha256').update(runId+'-'+c.id).digest('hex'),row={...c,evidence:packet.evidence,review:packet.review,discussion_id:key,...(parent?{parent_case:parent.id}:{} )};report.cases.push(row);
  const input={...c.input,...(parent?{parentKey:parent.discussion_id}:{} )};const began=performance.now(),events=[];
  const posts=await new MatchDesk(narrator,{state}).discuss(input,(type,data)=>events.push({at_ms:Math.round(performance.now()-began),type,data}),{key});
  const journal=(await state.read(key)).value;
  row.team={posts,requests:journal.metrics.model_calls,elapsed_ms:Math.round(performance.now()-began),usage:journal.metrics,trace:journal.trace,raw:journal.raw_outputs||{},events,status:journal.status};await persist();
  row.baseline=await baseline(c.input,parent?[...parent.baseline.posts,...parent.baseline.support]:[]);
- await persist();console.log(JSON.stringify({case:c.id,team:posts.filter(p=>p.engine==='azure_openai').length,baseline:row.baseline.accepted,requests_reserved:reservations}));
+ await persist();console.log(JSON.stringify({case:c.id,team:posts.filter(p=>['azure_openai','azure_selection'].includes(p.engine)).length,baseline:row.baseline.accepted,requests_reserved:reservations}));
  return row;
 }
 await persist();console.log('BTR_EVAL_RUN='+runId);
 try{
  for(const c of cases)if(!report.cases.some(done=>done.id===c.id))await pair(c);
  if(follow){const parent=report.cases[0];const row=await pair({id:'wide-follow-up-challenge',input:{...parent.input,question:FOLLOW_UP_QUESTION}},parent);report.follow_up={input:row.input,posts:row.team.posts,events:row.team.events,paired_case_id:row.id};}
- report.complete=report.cases.length===cases.length+(follow?1:0)&&report.cases.every(c=>c.team&&Object.keys(c.team.raw||{}).length===3&&c.baseline&&!c.baseline.error);
+ report.complete=report.cases.length===cases.length+(follow?1:0)&&report.cases.every(c=>c.team&&Object.keys(c.team.raw||{}).length===(composed?1:3)&&c.baseline&&!c.baseline.error);
  report.allowance_after=await store.allowance();
 }finally{await persist();if(stdout)console.log('BTR_EVAL_REPORT64='+Buffer.from(JSON.stringify(report)).toString('base64'));}
 console.log(JSON.stringify({complete:report.complete,summary:report.summary,requests_reserved:reservations}));

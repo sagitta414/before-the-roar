@@ -227,7 +227,9 @@ export function evaluationSummary(cases) {
           (sum, v) =>
             sum +
             (arm === "team"
-              ? v.posts.filter((p) => p.engine === "azure_openai").length
+              ? v.posts.filter((p) =>
+                  ["azure_openai", "azure_selection"].includes(p.engine),
+                ).length
               : v.accepted),
           0,
         );
@@ -240,7 +242,9 @@ export function evaluationSummary(cases) {
               sum +
               (arm === "team"
                 ? v.posts.filter(
-                    (p) => MODEL_ROLES.includes(p.role) && p.engine !== "azure_openai",
+                    (p) =>
+                      MODEL_ROLES.includes(p.role) &&
+                      !["azure_openai", "azure_selection"].includes(p.engine),
                   ).length
                 : v.rejected),
             0,

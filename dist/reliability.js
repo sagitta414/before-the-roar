@@ -36,7 +36,7 @@ function update(s) {
   retry.disabled = ['checking', 'retrying'].includes(s.state);
   retry.textContent = retry.disabled ? 'Connecting…' : 'Retry AI connection';
   const fallback = posts.some((p) => p.engine === "reviewed_fallback"),
-    mixed = posts.some((p) => p.engine === "azure_openai");
+    mixed = posts.some((p) => ["azure_openai","azure_selection"].includes(p.engine));
   notice.hidden = !fallback && !["offline", "exhausted", "unknown", "unreachable", "checking", "retrying"].includes(s.state);
   notice.textContent = fallback
     ? mixed

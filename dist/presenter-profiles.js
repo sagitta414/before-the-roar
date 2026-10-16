@@ -24,3 +24,6 @@ const editorialProfiles={
  presenter:{title:'One takeaway. One reason to replay.',body:'Closes the discussion with a concise takeaway and a specific replay cue. Combines the evidence and its limits without repeating Scout’s observation or Guide’s definition.',method:['Read the four earlier public contributions.','Choose the useful takeaway for this viewer.','Close with one concrete detail to replay.']}
 };
 for(const p of PRESENTER_PROFILES)Object.assign(p,editorialProfiles[p.id]);
+
+// Explicitly distinguish AI selection from generated film dialogue.
+for(const p of PRESENTER_PROFILES){p.body+=' Synthetic match mode uses one AI editor to select a source-bound angle; the five public roles use code-rendered wording and calculations. Film discussions retain their generative handoffs.';if(['analyst','guide','presenter'].includes(p.id)){p.method=['Synthetic match: select an angle from available source records.','Render this role from the validated source catalog.','Film mode: generate from reviewed annotations with source limits.'];p.handoff='Synthetic roles share one AI editorial selection. They are not independent model votes; agreement does not establish truth.';}}
