@@ -1,0 +1,44 @@
+{
+  "version": 41,
+  "api_version": "3.7.2",
+  "checked_at": "2026-10-16T00:18:00Z",
+  "application_tests": { "passed": 136, "failed": 0 },
+  "public_source_tests": { "passed": 134, "failed": 0, "skipped": 2, "reason": "Optional cinematic media excluded from source distribution" },
+  "syntax": "passed",
+  "api_formatting": "passed",
+  "synthetic_validation": { "fixtures": 100, "seeds": "1001-1100", "valid": true },
+  "infrastructure": {
+    "bicep_compilation": "passed",
+    "deployment_script_plan_only": "passed",
+    "new_resources_provisioned": false
+  },
+  "browser": {
+    "surface": "local application in browser",
+    "guided_tour": "completed all 105 seconds, five stages, correction and personalization",
+    "offline_recovery": "Test recovery loaded three saved contributions; Resume showed five",
+    "receipt_replay_model_requests": 0,
+    "mobile_viewport_width": 375,
+    "mobile_document_width": 360,
+    "horizontal_overflow": false,
+    "event_map": "recorded participants and ball path rendered; labels inspected after spacing correction",
+    "console_errors": 0
+  },
+  "evaluation": {
+    "complete": true,
+    "raw_outputs_preserved": true,
+    "cases": 3,
+    "team_accepted": "5/9",
+    "baseline_accepted": "4/9",
+    "requests": 21,
+    "allowance_at_completion": { "limit": 120, "used": 21 },
+    "policy": "unchanged from previous deployed image",
+    "comparison_superiority_established": false
+  },
+  "film": { "creator_permission_confirmed": true, "keep_published": true },
+  "limits": [
+    "No fresh paid worker-interruption test in this release; prior live proof retained",
+    "No real viewer study",
+    "Final participant-recorded demo and submission remain outstanding",
+    "No judging-window allowance increase"
+  ]
+}

@@ -15,6 +15,15 @@ test('all six application routes and the guided story initialize together withou
   for(const id of ['centre','lab','truth','presenters','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
   document.dispatchEvent(new Event('btr-open-guided'));assert.equal(document.getElementById('guided-match').hidden,false);
   const menu=document.querySelector('.navigation-toggle');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'true');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'false');
+  document.getElementById('inside-nav').click();
+  const findButton=text=>[...document.querySelectorAll('.proof-actions button')].find(b=>b.textContent===text);
+  findButton('Test recovery').click();await new Promise(r=>setTimeout(r,50));
+  assert.match(document.querySelector('.proof-status').textContent,/REPLAYING SAVED RECEIPTS/);
+  assert.equal(document.querySelectorAll('.proof-contributions article').length,3);
+  findButton('Resume saved replay').click();await new Promise(r=>setTimeout(r,50));
+  assert.equal(document.querySelectorAll('.proof-contributions article').length,5);
+  assert.match(document.querySelector('.proof-caption').textContent,/Saved handoff complete/);
+  assert.ok(findButton('Correct the tracking').disabled);
   assert.deepEqual(errors,[]);assert.ok(requests.every(x=>!x.includes('/api/')||x.includes('/api/health')),'Initial route and guided actions must not spend model requests');
  }finally{for(const id of intervals)clearTimeout(id);for(const [key,d]of saved){if(d)Object.defineProperty(globalThis,key,d);else delete globalThis[key];}w.close();}
 });

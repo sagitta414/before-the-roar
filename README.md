@@ -2,11 +2,13 @@
 
 An explainable football studio: watch the play, follow a public editorial discussion, inspect the calculation, and challenge the evidence. A newcomer, an analyst and a numbers-focused fan get different explanations of the same source.
 
+Version 41 fixes the automatic tour, adds a quota-independent saved-receipt replay, disables automatic paid discussions, improves the event map and includes reproducible deployment files. See [CHANGELOG](CHANGELOG.md).
+
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
 **Start the guided match:** https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
 
-**Reviewer improvements and measured limits:** [docs/REVIEWER-RELEASE.md](docs/REVIEWER-RELEASE.md)
+**Reviewer improvements and measured limits:** [docs/SCAN-3-FIXES.md](docs/SCAN-3-FIXES.md)
 
 **Judge demonstration and scope:** [docs/JUDGE-DEMO.md](docs/JUDGE-DEMO.md)
 
@@ -64,13 +66,13 @@ Truth Lab's actual-frame Azure vision review receives JPEGs without authored obs
 
 `node scripts/production-smoke.mjs <Azure origin> --full` consumes up to twelve model requests and writes credential-free deployment receipts to `docs/proof/live-production-proof.json`. Metrics are measured duration and reported tokens, not invented dollar costs or judging scores. The demonstrated advantage is reusable work and source-revision enforcement; comparative superiority over a single model has not been established.
 
-Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. Limits remain two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas. Four automatic checkpoints in an uncached film viewing can use up to 24 model requests. Usage controls are not a currency cap or a guarantee of remaining credits.
+Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. Limits remain two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas. Normal film playback makes zero automatic model requests. Ask the crew explicitly generates a discussion, up to six requests; existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
 
-Configuration: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT`, `AZURE_STORAGE_URL`, `AI_DAILY_LIMIT`, `ALLOWED_ORIGINS`, `PORT`. Frontend `api-config.json` contains only the public API origin. Deploy with `scripts/deploy-azure.ps1 -Tag <version>`; publish the static Site through its managed source workflow. Docker includes `api/` and `dist/`.
+Configuration: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT`, `AZURE_STORAGE_URL`, `AI_DAILY_LIMIT`, `ALLOWED_ORIGINS`, `PORT`. Frontend `api-config.json` contains only the public API origin. See [deployment instructions](docs/DEPLOYMENT.md) for the parameterized script, Bicep template and existing-resource prerequisites. Publish the static Site through its managed source workflow. Docker includes `api/` and `dist/`.
 
 To regenerate coordinate films, set `RENDER_FILMS=1`, run `node server.mjs`, open `/__studio`, and use `scripts/encode-films.ps1`. Player cutouts, gait and camera choreography are illustrative. Asset prompts and provenance remain in the repository.
 
-Continuous eventing, inferred player identity, calibrated video speed, xG, broad semantic evaluation, production-scale resilience and partner rendering remain outside the implemented prototype. The participant still needs the final under-two-minute demo recording, rights review and submission. See the judge guide for the recording plan.
+Continuous eventing, inferred player identity, calibrated video speed, xG, broad semantic evaluation, production-scale resilience and partner rendering remain outside the implemented prototype. The participant still needs the final under-two-minute demo recording, real viewer testing and submission. The creator confirmed permission to keep the generated film published on October 15, 2026; that confirmation is recorded in the provenance and does not grant third-party redistribution rights. See the judge guide for the recording plan.
 
 One-day request top-ups: set `AI_DAILY_LIMIT_OVERRIDE_DATE` to a UTC date (YYYY-MM-DD) and `AI_DAILY_LIMIT_OVERRIDE` to the approved total ceiling for that date. Health and request reservations use the same ceiling. The override expires automatically at midnight UTC; `AI_DAILY_LIMIT` remains the normal daily ceiling. Existing usage counters are never reset.
 

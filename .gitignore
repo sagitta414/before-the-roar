@@ -3,3 +3,5 @@ node_modules/
 .sites*
 tmp/
 .env*
+
+infra/parameters.local.json

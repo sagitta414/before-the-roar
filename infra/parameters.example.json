@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": { "value": "your-btr-app" },
+    "environmentId": { "value": "/subscriptions/YOUR_SUBSCRIPTION/resourceGroups/YOUR_GROUP/providers/Microsoft.App/managedEnvironments/YOUR_ENVIRONMENT" },
+    "identityId": { "value": "/subscriptions/YOUR_SUBSCRIPTION/resourceGroups/YOUR_GROUP/providers/Microsoft.ManagedIdentity/userAssignedIdentities/YOUR_IDENTITY" },
+    "identityClientId": { "value": "YOUR_IDENTITY_CLIENT_ID" },
+    "registryServer": { "value": "YOUR_REGISTRY.azurecr.io" },
+    "image": { "value": "YOUR_REGISTRY.azurecr.io/before-the-roar:v41" },
+    "openAIEndpoint": { "value": "https://YOUR_OPENAI_RESOURCE.openai.azure.com/" },
+    "modelDeployment": { "value": "gpt-4o-mini" },
+    "storageContainerUrl": { "value": "https://YOUR_STORAGE.blob.core.windows.net/intelligence/" },
+    "allowedOrigins": { "value": "https://YOUR_FRONTEND_ORIGIN" },
+    "dailyLimit": { "value": 120 }
+  }
+}

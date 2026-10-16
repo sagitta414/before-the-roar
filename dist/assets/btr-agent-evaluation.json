@@ -1,16 +1,14 @@
 {
   "schema": "btr.agent-evaluation.v1",
-  "recorded_at": "2026-10-15T20:17:35.263Z",
-  "recovered_at": "2026-10-15T20:20:14.07Z",
+  "recorded_at": "2026-10-16T00:07:21.175Z",
   "model": "gpt-4o-mini",
-  "complete": false,
-  "requests_reserved": 21,
   "method": {
-    "cases": "Three fixed cases declared before this run; one trial per case; no model retries.",
-    "team": "Scout and Guide each select a tool and write. Host receives their actual outputs plus deterministic calculation and source check.",
-    "baseline": "One call writes all three editorial roles using the same facts, role briefs and code-calculated notes. Both arms use the same editorial guards.",
-    "scoring": "Guard acceptance, not semantic accuracy. No LLM judge. No audience validation.",
-    "transport_failure": "The Windows Azure CLI could not print a Unicode character in the final report. Team checkpoints were recovered from Azure Blob with no model calls. Original per-case baseline acceptance counts survived in progress receipts; raw baseline output and timings were not recovered."
+    "cases": "Three fixed cases declared before this run; one trial per case; no cherry-picked retries.",
+    "team": "Scout and Guide each select a tool and write; Host reads their actual outputs plus deterministic calculation and check.",
+    "baseline": "One model call writes the same three editorial roles using the same evidence, role briefs, calculations and source verdict. No tool-selection round trips.",
+    "scoring": "Identical editorial guards and citation checks. Guard acceptance is not semantic truth. No model judge. No audience study.",
+    "cost": "Requests and reported tokens; no inferred dollar cost.",
+    "max_requests": 21
   },
   "cases": [
     {
@@ -28,20 +26,6 @@
       "team": {
         "posts": [
           {
-            "engine": "calculated",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "cutoff": 16,
-            "revision": 1,
-            "role": "math",
-            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
-            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
-            "metric_value": "23.7 m",
-            "metric_title": "Forward passing gain"
-          },
-          {
             "engine": "reviewed_fallback",
             "evidence_ids": [
               "wide-evt-001",
@@ -54,8 +38,8 @@
             "summary": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision."
           },
           {
-            "summary": "A pass sends the ball to a teammate. What is the distance covered by the completed passes?",
-            "title": "Harbor's Passing Success",
+            "summary": "A pass sends the ball to a teammate. Where is the next receiver positioned relative to the passer?",
+            "title": "Harbor's Passing Progress",
             "caution": "Only these records are available. An annotation is not automatic video detection.",
             "evidence_ids": [
               "wide-evt-001",
@@ -65,8 +49,22 @@
             "engine": "azure_openai",
             "cutoff": 16,
             "revision": 1,
-            "latency_ms": 3478,
-            "first_text_ms": 3855
+            "latency_ms": 3832,
+            "first_text_ms": 4079
+          },
+          {
+            "engine": "calculated",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "math",
+            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
+            "metric_value": "23.7 m",
+            "metric_title": "Forward passing gain"
           },
           {
             "engine": "evidence_rules",
@@ -85,35 +83,35 @@
             "reviewed_contribution": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision."
           },
           {
-            "summary": "Two completed passes advanced the ball significantly toward the opponent's goal, demonstrating effective ball movement.",
+            "summary": "Width offers an option away from the ball as the passes advance the attack. The tracking shows that option; it cannot explain the defender’s intent.",
             "title": "Harbor's Passing Progress",
             "caution": "Only these records are available. An annotation is not automatic video detection.",
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002"
             ],
-            "replay_cue": "Replay the completed passes to observe the distance gained.",
+            "replay_cue": "Replay the completed passes that advance the attack.",
             "role": "presenter",
             "engine": "azure_openai",
             "cutoff": 16,
             "revision": 1,
-            "latency_ms": 2976,
-            "first_text_ms": 6917
+            "latency_ms": 4051,
+            "first_text_ms": 8022
           }
         ],
         "requests": 6,
-        "elapsed_ms": 7019,
+        "elapsed_ms": 8416,
         "usage": {
           "model_calls": 6,
-          "prompt_tokens": 6779,
-          "completion_tokens": 255,
+          "prompt_tokens": 6866,
+          "completion_tokens": 267,
           "usage_missing": 0,
-          "elapsed_ms": 7019
+          "elapsed_ms": 8242
         },
         "trace": [
           {
             "seq": 1,
-            "at": 1792095455575,
+            "at": 1792109241588,
             "role": "director",
             "action": "run_started",
             "cutoff": 16,
@@ -122,7 +120,7 @@
           },
           {
             "seq": 2,
-            "at": 1792095455673,
+            "at": 1792109241690,
             "role": "math",
             "action": "calculation_saved",
             "evidence_ids": [
@@ -132,24 +130,7 @@
           },
           {
             "seq": 3,
-            "at": 1792095457187,
-            "role": "analyst",
-            "action": "tool_completed",
-            "tool": "read_evidence",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002",
-              "wide-obs-run-8",
-              "wide-obs-space-16",
-              "wide-track-102-400",
-              "wide-analysis-16.0",
-              "wide-window-16.0"
-            ],
-            "duration_ms": 1416
-          },
-          {
-            "seq": 4,
-            "at": 1792095457777,
+            "at": 1792109244128,
             "role": "guide",
             "action": "tool_completed",
             "tool": "read_evidence",
@@ -162,30 +143,47 @@
               "wide-analysis-16.0",
               "wide-window-16.0"
             ],
-            "duration_ms": 2005
+            "duration_ms": 2353
+          },
+          {
+            "seq": 4,
+            "at": 1792109244187,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-analysis-16.0",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 2413
           },
           {
             "seq": 5,
-            "at": 1792095458863,
+            "at": 1792109245557,
             "role": "analyst",
             "action": "fallback_published",
-            "reason": "Player attribution belongs in the calculated facts"
+            "reason": "Unmeasured quality rating"
           },
           {
             "seq": 6,
-            "at": 1792095459259,
+            "at": 1792109245618,
             "role": "guide",
             "action": "contribution_saved",
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002"
             ],
-            "latency_ms": 3478,
-            "first_text_ms": 3855
+            "latency_ms": 3832,
+            "first_text_ms": 4079
           },
           {
             "seq": 7,
-            "at": 1792095459280,
+            "at": 1792109245639,
             "role": "reviewer",
             "action": "claim_checked",
             "claim": {
@@ -206,7 +204,7 @@
           },
           {
             "seq": 8,
-            "at": 1792095460172,
+            "at": 1792109246571,
             "role": "presenter",
             "action": "tool_completed",
             "tool": "read_evidence",
@@ -219,23 +217,23 @@
               "wide-analysis-16.0",
               "wide-window-16.0"
             ],
-            "duration_ms": 883
+            "duration_ms": 923
           },
           {
             "seq": 9,
-            "at": 1792095462274,
+            "at": 1792109249710,
             "role": "presenter",
             "action": "contribution_saved",
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002"
             ],
-            "latency_ms": 2976,
-            "first_text_ms": 6917
+            "latency_ms": 4051,
+            "first_text_ms": 8022
           },
           {
             "seq": 10,
-            "at": 1792095462291,
+            "at": 1792109249773,
             "role": "director",
             "action": "reviewed_notes_ready",
             "revision": 1
@@ -243,13 +241,100 @@
         ]
       },
       "baseline": {
-        "posts": [],
+        "posts": [
+          {
+            "summary": "A pass sends the ball to a teammate. Is the receiver ahead of the passer or beside them?",
+            "title": "Pass Receiver Position",
+            "caution": "Focus on the receiver's location relative to the passer.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1
+          },
+          {
+            "summary": "Width provides an option away from the ball as the attack progresses, but does not clarify the defender's intent.",
+            "title": "Width in Attack",
+            "caution": "Tracking alone cannot explain intent.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "replay_cue": "Replay the moment when the ball is passed to observe the receiver's position.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1
+          }
+        ],
         "accepted": 2,
         "rejected": 1,
         "requests": 1,
-        "elapsed_ms": null,
-        "raw_available": false,
-        "evidence": "Original CLI progress receipt; raw output lost during Windows Unicode console failure."
+        "elapsed_ms": 2873,
+        "rejections": [
+          {
+            "role": "analyst",
+            "reason": "Player attribution belongs in the calculated facts"
+          }
+        ],
+        "raw": {
+          "analyst": {
+            "interpretation": "Moreau's wide movement aligns with Laurent's shift, but it does not confirm that Moreau's run influenced the defender's actions.",
+            "headline": "Coinciding Movements",
+            "caution": "Tracking alone cannot prove causation.",
+            "evidence_ids": {
+              "primary": "wide-evt-001",
+              "secondary": "wide-evt-002"
+            }
+          },
+          "guide": {
+            "viewing_question": "Is the receiver ahead of the passer or beside them?",
+            "headline": "Pass Receiver Position",
+            "caution": "Focus on the receiver's location relative to the passer.",
+            "evidence_ids": {
+              "primary": "wide-evt-001",
+              "secondary": "wide-evt-002"
+            }
+          },
+          "presenter": {
+            "takeaway": "Width provides an option away from the ball as the attack progresses, but does not clarify the defender's intent.",
+            "headline": "Width in Attack",
+            "caution": "Tracking alone cannot explain intent.",
+            "evidence_ids": {
+              "primary": "wide-evt-001",
+              "secondary": "wide-evt-002"
+            },
+            "replay_cue": "Replay the moment when the ball is passed to observe the receiver's position."
+          }
+        },
+        "usage": {
+          "completion_tokens": 217,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 8,
+            "engine_ttft_ms": 84,
+            "engine_ttlt_ms": 1931,
+            "pre_inference_ms": 323,
+            "service_tbt_ms": 9,
+            "service_ttft_ms": 660,
+            "service_ttlt_ms": 2580,
+            "user_visible_ttft_ms": 337
+          },
+          "prompt_tokens": 2619,
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          },
+          "total_tokens": 2836
+        }
       }
     },
     {
@@ -267,6 +352,36 @@
       "team": {
         "posts": [
           {
+            "summary": "The recorded passes show a forward progression of the ball, with the second pass reaching a position further along the field than the first.",
+            "title": "Forward progression noted in passes",
+            "caution": "Movement claim withdrawn; defender position remains unchanged.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2,
+            "latency_ms": 2636,
+            "first_text_ms": 2212
+          },
+          {
+            "summary": "A pass sends the ball to a teammate. Where is the next receiver positioned relative to the passer?",
+            "title": "Harbor's Passing Progress",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2,
+            "latency_ms": 2669,
+            "first_text_ms": 2664
+          },
+          {
             "engine": "calculated",
             "evidence_ids": [
               "wide-evt-001",
@@ -279,36 +394,6 @@
             "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
             "metric_value": "23.7 m",
             "metric_title": "Forward passing gain"
-          },
-          {
-            "summary": "A pass sends the ball to a teammate. What was the distance covered by each completed pass?",
-            "title": "Harbor's Passing Performance",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "role": "guide",
-            "engine": "azure_openai",
-            "cutoff": 16,
-            "revision": 2,
-            "latency_ms": 2600,
-            "first_text_ms": 2588
-          },
-          {
-            "summary": "Two completed passes progressed the ball forward, with the first pass moving from a starting position of nearly forty-five to over fifty-eight meters along the field.",
-            "title": "Passes advance ball significantly",
-            "caution": "Defender movement claim withdrawn; passes remain valid.",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "role": "analyst",
-            "engine": "azure_openai",
-            "cutoff": 16,
-            "revision": 2,
-            "latency_ms": 2847,
-            "first_text_ms": 2468
           },
           {
             "engine": "evidence_rules",
@@ -324,7 +409,7 @@
             "decision": "withdraw",
             "target_claim": "The run caused the defender to follow.",
             "target_role": "analyst",
-            "reviewed_contribution": "Two completed passes progressed the ball forward, with the first pass moving from a starting position of nearly forty-five to over fifty-eight meters along the field."
+            "reviewed_contribution": "The recorded passes show a forward progression of the ball, with the second pass reaching a position further along the field than the first."
           },
           {
             "engine": "reviewed_fallback",
@@ -340,18 +425,18 @@
           }
         ],
         "requests": 6,
-        "elapsed_ms": 9071,
+        "elapsed_ms": 5919,
         "usage": {
           "model_calls": 6,
-          "prompt_tokens": 6860,
-          "completion_tokens": 266,
+          "prompt_tokens": 6930,
+          "completion_tokens": 261,
           "usage_missing": 0,
-          "elapsed_ms": 9071
+          "elapsed_ms": 5883
         },
         "trace": [
           {
             "seq": 1,
-            "at": 1792095465452,
+            "at": 1792109252696,
             "role": "director",
             "action": "run_started",
             "cutoff": 16,
@@ -360,7 +445,7 @@
           },
           {
             "seq": 2,
-            "at": 1792095465470,
+            "at": 1792109252714,
             "role": "math",
             "action": "calculation_saved",
             "evidence_ids": [
@@ -370,8 +455,8 @@
           },
           {
             "seq": 3,
-            "at": 1792095466715,
-            "role": "guide",
+            "at": 1792109253660,
+            "role": "analyst",
             "action": "tool_completed",
             "tool": "read_evidence",
             "evidence_ids": [
@@ -383,12 +468,12 @@
               "wide-analysis-16.0",
               "wide-window-16.0"
             ],
-            "duration_ms": 1236
+            "duration_ms": 933
           },
           {
             "seq": 4,
-            "at": 1792095466782,
-            "role": "analyst",
+            "at": 1792109253903,
+            "role": "guide",
             "action": "tool_completed",
             "tool": "read_evidence",
             "evidence_ids": [
@@ -400,35 +485,35 @@
               "wide-analysis-16.0",
               "wide-window-16.0"
             ],
-            "duration_ms": 1303
+            "duration_ms": 1176
           },
           {
             "seq": 5,
-            "at": 1792095468089,
-            "role": "guide",
-            "action": "contribution_saved",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "latency_ms": 2600,
-            "first_text_ms": 2588
-          },
-          {
-            "seq": 6,
-            "at": 1792095468336,
+            "at": 1792109255372,
             "role": "analyst",
             "action": "contribution_saved",
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002"
             ],
-            "latency_ms": 2847,
-            "first_text_ms": 2468
+            "latency_ms": 2636,
+            "first_text_ms": 2212
+          },
+          {
+            "seq": 6,
+            "at": 1792109255405,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "latency_ms": 2669,
+            "first_text_ms": 2664
           },
           {
             "seq": 7,
-            "at": 1792095468354,
+            "at": 1792109255422,
             "role": "reviewer",
             "action": "claim_checked",
             "claim": {
@@ -449,7 +534,7 @@
           },
           {
             "seq": 8,
-            "at": 1792095469488,
+            "at": 1792109256431,
             "role": "presenter",
             "action": "tool_completed",
             "tool": "read_evidence",
@@ -462,18 +547,18 @@
               "wide-analysis-16.0",
               "wide-window-16.0"
             ],
-            "duration_ms": 1124
+            "duration_ms": 1000
           },
           {
             "seq": 9,
-            "at": 1792095474499,
+            "at": 1792109258553,
             "role": "presenter",
             "action": "fallback_published",
-            "reason": "Host must state the football implication, not praise its importance"
+            "reason": "Quantities belong in the calculated contribution; Unmeasured quality rating"
           },
           {
             "seq": 10,
-            "at": 1792095474518,
+            "at": 1792109258578,
             "role": "director",
             "action": "reviewed_notes_ready",
             "revision": 2
@@ -481,13 +566,99 @@
         ]
       },
       "baseline": {
-        "posts": [],
-        "accepted": 3,
-        "rejected": 0,
+        "posts": [
+          {
+            "summary": "The defender's position remained unchanged during the recorded passes, indicating no influence from the runner's movement on the defender's actions.",
+            "title": "Defender Position Unaffected",
+            "caution": "Movement claim withdrawn; passes remain valid.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2
+          },
+          {
+            "summary": "A pass sends the ball to a teammate. Is the receiver ahead of the passer or beside them?",
+            "title": "Receiver Position Inquiry",
+            "caution": "Focus on the pass direction and receiver's location.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2
+          }
+        ],
+        "accepted": 2,
+        "rejected": 1,
         "requests": 1,
-        "elapsed_ms": null,
-        "raw_available": false,
-        "evidence": "Original CLI progress receipt; raw output lost during Windows Unicode console failure."
+        "elapsed_ms": 2618,
+        "rejections": [
+          {
+            "role": "presenter",
+            "reason": "Unmeasured quality rating"
+          }
+        ],
+        "raw": {
+          "analyst": {
+            "interpretation": "The defender's position remained unchanged during the recorded passes, indicating no influence from the runner's movement on the defender's actions.",
+            "headline": "Defender Position Unaffected",
+            "caution": "Movement claim withdrawn; passes remain valid.",
+            "evidence_ids": {
+              "primary": "wide-evt-001",
+              "secondary": "wide-evt-002"
+            }
+          },
+          "guide": {
+            "viewing_question": "Is the receiver ahead of the passer or beside them?",
+            "headline": "Receiver Position Inquiry",
+            "caution": "Focus on the pass direction and receiver's location.",
+            "evidence_ids": {
+              "primary": "wide-evt-001",
+              "secondary": "wide-evt-002"
+            }
+          },
+          "presenter": {
+            "takeaway": "The passes advanced the ball significantly without altering defender engagement, highlighting effective ball movement.",
+            "headline": "Effective Ball Movement",
+            "caution": "No claims on defender following the runner.",
+            "evidence_ids": {
+              "primary": "wide-evt-001",
+              "secondary": "wide-evt-002"
+            },
+            "replay_cue": "Replay the defender’s position before the passes."
+          }
+        },
+        "usage": {
+          "completion_tokens": 205,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 8,
+            "engine_ttft_ms": 62,
+            "engine_ttlt_ms": 1723,
+            "pre_inference_ms": 357,
+            "service_tbt_ms": 8,
+            "service_ttft_ms": 728,
+            "service_ttlt_ms": 2379,
+            "user_visible_ttft_ms": 371
+          },
+          "prompt_tokens": 2640,
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 1152
+          },
+          "total_tokens": 2845
+        }
       }
     },
     {
@@ -505,6 +676,36 @@
       "team": {
         "posts": [
           {
+            "summary": "The defender's position shifted from intercepting a pass to recovering the ball, allowing a forward pass that led directly to a goal.",
+            "title": "Defensive recovery enables forward attack.",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "press-evt-005",
+              "press-evt-002"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 29,
+            "revision": 1,
+            "latency_ms": 3081,
+            "first_text_ms": 2571
+          },
+          {
+            "engine": "reviewed_fallback",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-evt-003",
+              "press-evt-004",
+              "press-evt-005",
+              "press-track-8-150"
+            ],
+            "cutoff": 29,
+            "revision": 1,
+            "role": "guide",
+            "summary": "A transition is the change from defending to attacking. After winning the ball, is the next receiver ahead of the passer?"
+          },
+          {
             "engine": "calculated",
             "evidence_ids": [
               "press-evt-002",
@@ -517,36 +718,6 @@
             "working": "28.0 s − 10.0 s = 18.0 s",
             "metric_value": "18 s",
             "metric_title": "Regain to shot"
-          },
-          {
-            "summary": "Two completed forward passes connect the regain to the shot, indicating a direct progression from defense to attack.",
-            "title": "Forward Pass Connection",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
-            "evidence_ids": [
-              "press-evt-005",
-              "press-evt-003"
-            ],
-            "role": "analyst",
-            "engine": "azure_openai",
-            "cutoff": 29,
-            "revision": 1,
-            "latency_ms": 2346,
-            "first_text_ms": 1902
-          },
-          {
-            "summary": "A transition is the change from defending to attacking. How did the completed passes contribute to the goal?",
-            "title": "Forward Pass Connection",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
-            "evidence_ids": [
-              "press-evt-005",
-              "press-evt-003"
-            ],
-            "role": "guide",
-            "engine": "azure_openai",
-            "cutoff": 29,
-            "revision": 1,
-            "latency_ms": 2919,
-            "first_text_ms": 2908
           },
           {
             "engine": "evidence_rules",
@@ -565,38 +736,38 @@
             "decision": "qualify",
             "target_claim": "The pressure forced the interception.",
             "target_role": "analyst",
-            "reviewed_contribution": "Two completed forward passes connect the regain to the shot, indicating a direct progression from defense to attack."
+            "reviewed_contribution": "The defender's position shifted from intercepting a pass to recovering the ball, allowing a forward pass that led directly to a goal."
           },
           {
-            "summary": "Two completed forward passes effectively transitioned the play from defense to attack, culminating in a goal.",
-            "title": "Forward Pass Connection",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "engine": "reviewed_fallback",
             "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-evt-003",
+              "press-evt-004",
               "press-evt-005",
-              "press-evt-003"
+              "press-track-8-150"
             ],
-            "replay_cue": "Replay the regain, then follow the first forward receiver.",
-            "role": "presenter",
-            "engine": "azure_openai",
             "cutoff": 29,
             "revision": 1,
-            "latency_ms": 2602,
-            "first_text_ms": 5382
+            "role": "presenter",
+            "summary": "The forward connection turns the recovery into a route to goal. The finish rewards that connection; it does not explain the earlier interception.",
+            "replay_cue": "Replay the regain, then follow the first forward receiver."
           }
         ],
         "requests": 6,
-        "elapsed_ms": 5622,
+        "elapsed_ms": 6344,
         "usage": {
           "model_calls": 6,
-          "prompt_tokens": 9788,
-          "completion_tokens": 250,
+          "prompt_tokens": 9874,
+          "completion_tokens": 261,
           "usage_missing": 0,
-          "elapsed_ms": 5622
+          "elapsed_ms": 6311
         },
         "trace": [
           {
             "seq": 1,
-            "at": 1792095477804,
+            "at": 1792109261288,
             "role": "director",
             "action": "run_started",
             "cutoff": 29,
@@ -605,7 +776,7 @@
           },
           {
             "seq": 2,
-            "at": 1792095477822,
+            "at": 1792109261305,
             "role": "math",
             "action": "calculation_saved",
             "evidence_ids": [
@@ -615,8 +786,8 @@
           },
           {
             "seq": 3,
-            "at": 1792095478610,
-            "role": "analyst",
+            "at": 1792109262301,
+            "role": "guide",
             "action": "tool_completed",
             "tool": "read_evidence",
             "evidence_ids": [
@@ -633,12 +804,12 @@
               "press-analysis-29.0",
               "press-window-29.0"
             ],
-            "duration_ms": 779
+            "duration_ms": 987
           },
           {
             "seq": 4,
-            "at": 1792095479200,
-            "role": "guide",
+            "at": 1792109262817,
+            "role": "analyst",
             "action": "tool_completed",
             "tool": "read_evidence",
             "evidence_ids": [
@@ -655,35 +826,30 @@
               "press-analysis-29.0",
               "press-window-29.0"
             ],
-            "duration_ms": 1369
+            "duration_ms": 1503
           },
           {
             "seq": 5,
-            "at": 1792095480187,
+            "at": 1792109263679,
+            "role": "guide",
+            "action": "fallback_published",
+            "reason": "Guide should teach a viewing decision, not repeat Vector’s calculation"
+          },
+          {
+            "seq": 6,
+            "at": 1792109264405,
             "role": "analyst",
             "action": "contribution_saved",
             "evidence_ids": [
               "press-evt-005",
-              "press-evt-003"
+              "press-evt-002"
             ],
-            "latency_ms": 2346,
-            "first_text_ms": 1902
-          },
-          {
-            "seq": 6,
-            "at": 1792095480759,
-            "role": "guide",
-            "action": "contribution_saved",
-            "evidence_ids": [
-              "press-evt-005",
-              "press-evt-003"
-            ],
-            "latency_ms": 2919,
-            "first_text_ms": 2908
+            "latency_ms": 3081,
+            "first_text_ms": 2571
           },
           {
             "seq": 7,
-            "at": 1792095480777,
+            "at": 1792109264423,
             "role": "reviewer",
             "action": "claim_checked",
             "claim": {
@@ -707,7 +873,7 @@
           },
           {
             "seq": 8,
-            "at": 1792095481653,
+            "at": 1792109266088,
             "role": "presenter",
             "action": "tool_completed",
             "tool": "read_evidence",
@@ -725,25 +891,20 @@
               "press-analysis-29.0",
               "press-window-29.0"
             ],
-            "duration_ms": 866
+            "duration_ms": 1656
           },
           {
             "seq": 9,
-            "at": 1792095483399,
+            "at": 1792109267531,
             "role": "presenter",
-            "action": "contribution_saved",
-            "evidence_ids": [
-              "press-evt-005",
-              "press-evt-003"
-            ],
-            "latency_ms": 2602,
-            "first_text_ms": 5382
+            "action": "fallback_published",
+            "reason": "Unmeasured quality rating"
           },
           {
             "seq": 10,
-            "at": 1792095483417,
+            "at": 1792109267551,
             "role": "director",
-            "action": "broadcast_ready",
+            "action": "reviewed_notes_ready",
             "revision": 1
           }
         ]
@@ -753,26 +914,100 @@
         "accepted": 0,
         "rejected": 3,
         "requests": 1,
-        "elapsed_ms": null,
-        "raw_available": false,
-        "evidence": "Original CLI progress receipt; raw output lost during Windows Unicode console failure."
+        "elapsed_ms": 2897,
+        "rejections": [
+          {
+            "role": "analyst",
+            "reason": "Invalid editorial text"
+          },
+          {
+            "role": "guide",
+            "reason": "Invalid editorial text"
+          },
+          {
+            "role": "presenter",
+            "reason": "Invalid editorial text"
+          }
+        ],
+        "raw": {
+          "analyst": {
+            "interpretation": "The completed forward passes connect the regain to the attacking run, with the runner moving towards goal while the defender is positioned behind.",
+            "headline": "Forward Pass Connection",
+            "caution": "Evidence IDs: press-evt-003, press-evt-004",
+            "evidence_ids": {
+              "primary": "press-evt-003",
+              "secondary": "press-evt-004"
+            }
+          },
+          "guide": {
+            "viewing_question": "After winning the ball, is the next receiver ahead of the passer?",
+            "headline": "Understanding Transitions",
+            "caution": "Evidence IDs: press-evt-001, press-evt-002",
+            "evidence_ids": {
+              "primary": "press-evt-001",
+              "secondary": "press-evt-002"
+            }
+          },
+          "presenter": {
+            "takeaway": "The sequence of completed passes illustrates a successful transition from defense to attack, culminating in a goal.",
+            "headline": "Successful Transition to Goal",
+            "caution": "Evidence IDs: press-evt-005",
+            "evidence_ids": {
+              "primary": "press-evt-005",
+              "secondary": null
+            },
+            "replay_cue": "Replay the regain, then follow the first forward receiver."
+          }
+        },
+        "usage": {
+          "completion_tokens": 220,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 9,
+            "engine_ttft_ms": 112,
+            "engine_ttlt_ms": 1991,
+            "pre_inference_ms": 263,
+            "service_tbt_ms": 9,
+            "service_ttft_ms": 669,
+            "service_ttlt_ms": 2576,
+            "user_visible_ttft_ms": 407
+          },
+          "prompt_tokens": 3343,
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          },
+          "total_tokens": 3563
+        }
       }
     }
   ],
+  "conclusion": "All three fixed cases completed with raw team and baseline outputs preserved. The team passed 5 of 9 editorial checks versus 4 of 9 for the single-call baseline, using 18 requests versus 3 and 20.7 seconds versus 8.4 seconds in total. This small test does not establish superior football analysis; it shows a substantial cost and latency tradeoff. Rejected text is replaced by labeled reviewed explanations. Reusable work and correction handling remain the workflow’s demonstrated advantages.",
   "summary": {
     "team": {
-      "accepted": "7/9",
-      "rejected": 2,
-      "requests": 18,
-      "seconds": 21.7
-    },
-    "baseline": {
       "accepted": "5/9",
       "rejected": 4,
+      "requests": 18,
+      "seconds": 20.7
+    },
+    "baseline": {
+      "accepted": "4/9",
+      "rejected": 5,
       "requests": 3,
-      "seconds": "Not recorded"
+      "seconds": 8.4
     }
   },
-  "conclusion": "The team passed 7 of 9 editorial checks; the single-call baseline passed 5 of 9 in this small run. The team used 18 requests versus 3. Raw baseline output and timing were lost to a console export error, so this is a partial comparison, not a superiority claim. Completed team receipts are inspectable. Broader blinded football-quality review remains outstanding.",
-  "current_policy_note": "Historical comparison before subsequent editorial hardening. Current display rechecks saved contributions. The new gate is covered by regression tests, not a second live pass-rate claim."
+  "requests_reserved": 21,
+  "complete": true,
+  "allowance_after": {
+    "day": "2026-10-16",
+    "limit": 120,
+    "used": 21
+  },
+  "implementation": "v41 / unchanged editorial policy from v40 verified image"
 }
