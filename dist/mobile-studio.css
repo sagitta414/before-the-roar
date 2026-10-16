@@ -40,3 +40,19 @@
 .mobile-context{margin:8px 14px;border:1px solid #34465a;border-radius:7px;background:#111b28}.mobile-context>summary{padding:12px 14px;color:#cfdfef;font-size:13px;min-height:44px;cursor:pointer}.mobile-context[open]>summary{border-bottom:1px solid #34465a}.mobile-context .watch-source-bar{padding:10px 14px}.mobile-context .source-map{margin:0 14px 12px}.mobile-context .match-session-bar{border-bottom:0}.mobile-context .source-details[open]{position:static}
 
 .mobile-voice-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0}.mobile-voice-picker button{min-height:44px;font-size:13px;color:#dbe8f6;background:#182536;border:1px solid #3b526e;border-radius:5px}.mobile-voice-picker button[aria-pressed=true]{border-color:#ff4565;background:#3d2433}
+@media(max-width:760px){
+ /* Playback, then the conversation. Secondary analysis follows the discussion. */
+ body:not(.guided-active) #watch{display:flex;flex-direction:column}
+ body:not(.guided-active) #watch>.guided-launch{order:10;padding:12px 0;margin:8px 0}
+ body:not(.guided-active) .guided-launch>div{display:none}
+ .broadcast-room>.screen-column{display:contents}
+ .broadcast-room{display:flex;flex-direction:column}
+ .screen-column>*{order:5}
+ .screen-column>.player{order:0}
+ .screen-column>.transport{order:1}
+ .broadcast-room>.party{order:2;margin:4px 0 12px}
+ .party:has(.mobile-voice-picker) .five-specialists{display:none}
+ .conversation{max-height:none;min-height:0;overflow:visible}
+ .party-header{padding:10px 14px}
+ .mobile-context .ai-availability{border:0;margin:0}
+}

@@ -2,7 +2,31 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {sourceCatalog,selectSourcePosts} from '../api/grounded-desk.mjs';
 import {matchStory,localPanel} from '../dist/match-story.js';
 import {MatchDesk} from '../api/match-desk.mjs';import {testState} from './agent-fixture.mjs';
+import {followUpMetric,conversationContext} from '../api/conversation.mjs';
 const input={scenario:'wide',time:16,language:'en',mode:'analyst',focus:7,team:'harbor',corrected:false};
+
+test('simplification teaches a concept instead of turning a beginner request into a causal challenge',()=>{
+ for(const language of ['en','es','pt'])for(const corrected of [false,true]) {
+  const p=matchStory({...input,language,corrected}),notes=localPanel(p),first=sourceCatalog(p,notes).movement.posts;
+  const c=sourceCatalog(p,notes,{round:2,previous:first});
+  assert.notEqual(c.beginner.posts.find(x=>x.role==='guide').summary,c.limits.posts.find(x=>x.role==='guide').summary);
+  assert.notEqual(c.beginner.posts.at(-1).summary,c.limits.posts.at(-1).summary);
+  assert.ok(c.beginner.posts.find(x=>x.role==='analyst').unchanged);
+  for(const angle of ['beginner','calculation','next_check'])assert.doesNotThrow(()=>selectSourcePosts({angle},c,p));
+ }
+});
+
+test('third-round measurements do not recycle either earlier calculation and stored history survives',async()=>{
+ const p=matchStory(input),notes=localPanel(p),first=sourceCatalog(p,notes).movement.posts;
+ const second=sourceCatalog(p,notes,{round:2,previous:first}).limits.posts;
+ const next=followUpMetric(p,[...first,...second]);
+ assert.ok(!next || ![...first,...second].some(x=>x.role==='math'&&x.summary===next.text));
+ const state=testState({}),key='d'.repeat(64);
+ await state.write(key,{source:'match',input,status:'complete',conversation:{round:2,previous:first},posts:Object.fromEntries(second.map(p=>[p.role,p]))});
+ const ctx=await conversationContext(state,{...input,parentKey:key});
+ assert.equal(ctx.round,3);assert.equal(ctx.previous.length,10);
+ assert.ok(ctx.previous.some(x=>x.summary===first.find(x=>x.role==='math').summary));
+});
 test('source composition rejects model prose, unknown angles and unresolved citations across scenarios and languages',()=>{
  for(const scenario of ['wide','press','counter'])for(const language of ['en','es','pt'])for(const time of [6,16,29])for(const corrected of [false,true]){
   const p=matchStory({...input,scenario,language,time,corrected}),c=sourceCatalog(p,localPanel(p));

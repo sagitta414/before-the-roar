@@ -1,0 +1,109 @@
+{
+  "language": "en",
+  "audience": "beginner",
+  "dialogueEvents": 811,
+  "elapsed_ms": 66387,
+  "states": 121,
+  "events": 727,
+  "complete": true,
+  "recap": true,
+  "ai": 6,
+  "results": [
+    {
+      "cutoff": 900,
+      "first_text_ms": 1132,
+      "modes": [
+        "fan",
+        "beginner",
+        "math",
+        "analyst",
+        "player"
+      ],
+      "engine": "azure_openai",
+      "cached": false,
+      "latency_ms": 6446,
+      "tokens": 2633,
+      "headline": "Tension Builds with No Goals Yet"
+    },
+    {
+      "cutoff": 1800,
+      "first_text_ms": 10252,
+      "modes": [
+        "fan",
+        "beginner",
+        "math",
+        "analyst",
+        "player"
+      ],
+      "engine": "azure_openai",
+      "cached": false,
+      "latency_ms": 13102,
+      "tokens": 2632,
+      "headline": "Tense Scoreless Standoff"
+    },
+    {
+      "cutoff": 2700,
+      "first_text_ms": 2690,
+      "modes": [
+        "fan",
+        "beginner",
+        "math",
+        "analyst",
+        "player"
+      ],
+      "engine": "azure_openai",
+      "cached": false,
+      "latency_ms": 5992,
+      "tokens": 2643,
+      "headline": "Tension Builds as Teams Seek Advantage"
+    },
+    {
+      "cutoff": 3600,
+      "first_text_ms": 1266,
+      "modes": [
+        "fan",
+        "beginner",
+        "math",
+        "analyst",
+        "player"
+      ],
+      "engine": "azure_openai",
+      "cached": false,
+      "latency_ms": 4657,
+      "tokens": 2778,
+      "headline": "Harbor FC is Winning"
+    },
+    {
+      "cutoff": 4500,
+      "first_text_ms": 1207,
+      "modes": [
+        "fan",
+        "beginner",
+        "math",
+        "analyst",
+        "player"
+      ],
+      "engine": "azure_openai",
+      "cached": false,
+      "latency_ms": 5306,
+      "tokens": 2905,
+      "headline": "Harbor FC Dominates the Match"
+    },
+    {
+      "cutoff": 5400,
+      "first_text_ms": 1985,
+      "modes": [
+        "fan",
+        "beginner",
+        "math",
+        "analyst",
+        "player"
+      ],
+      "engine": "azure_openai",
+      "cached": false,
+      "latency_ms": 5188,
+      "tokens": 2889,
+      "headline": "Harbor FC Triumphs Over Northbridge"
+    }
+  ]
+}

@@ -9,7 +9,7 @@ export function followUpMetric(packet, previous = []) {
     const start = width.defender_start_m[1].toFixed(1);
     const end = width.defender_end_m[1].toFixed(1);
     const language = packet.language;
-    return {
+    const metric = {
       text: {
         en: `The defender shifts ${n} m across the pitch. That measures movement, not how much of it the winger caused. Compare when that shift begins with the pass release; timing alone still cannot prove influence.`,
         es: `El defensor se desplaza ${n} m a lo ancho. Eso mide movimiento, no cuánto provocó el extremo. Compara el inicio del desplazamiento con la salida del pase; el orden temporal no prueba la influencia.`,
@@ -24,12 +24,13 @@ export function followUpMetric(packet, previous = []) {
       equation: `|${end} − ${start}| = ${n} m`,
       evidence_ids: [packet.football.record.id],
     };
+    if (!previous.some(p=>p.role==='math' && p.summary===metric.text)) return metric;
   }
   return packet.analysis?.calculations?.find(
     (c) =>
       c.value !== "—" &&
       c.evidence_ids.length &&
-      c.text !== previous.find((p) => p.role === "math")?.summary,
+      !previous.some(p=>p.role==='math' && p.summary===c.text),
   );
 }
 export function sameConversation(a, b, clip = false) {
@@ -65,7 +66,7 @@ export async function conversationContext(state, input, clip = false) {
   return {
     round,
     parent: input.parentKey,
-    previous: Object.values(saved.posts)
+    previous: [...(saved.conversation?.previous || []), ...Object.values(saved.posts)]
       .map((p) => ({
         role: p.role,
         summary: p.summary,
@@ -74,7 +75,7 @@ export async function conversationContext(state, input, clip = false) {
         cutoff: p.cutoff,
         revision: p.revision,
       }))
-      .slice(-5),
+      .slice(-15),
   };
 }
 export const VOICES = {

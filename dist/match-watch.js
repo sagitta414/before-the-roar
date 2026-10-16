@@ -520,7 +520,9 @@ function renderPanel() {
     box.append(welcome);
   }
   const mobileFocus=window.matchMedia('(max-width:760px)').matches&&!mobileAll&&!selected&&!narrativeOnly&&!waiting;
-  const availableRoles=profiles.filter(p=>list.some(n=>n.role===p.id)||thread?.drafts.has(p.id));
+  const unchanged = post => post?.unchanged || (thread?.round > 1 && thread.history.some(h=>h.posts.get(post?.role)?.summary===post?.summary));
+  const availableRoles=profiles.filter(p=>list.some(n=>n.role===p.id&&!unchanged(n))||thread?.drafts.has(p.id));
+  if(list.some(unchanged)) box.append(el('p','conversation-progress',({en:'Unchanged contributions are kept in the earlier rounds above. Only new contributions appear here.',es:'Las aportaciones sin cambios quedan en las rondas anteriores. Aquí solo aparecen las nuevas.',pt:'As contribuições sem mudanças ficam nas rodadas anteriores. Aqui aparecem apenas as novas.'})[state.language]));
   const focused=availableRoles.some(p=>p.id===mobileVoice)?mobileVoice:availableRoles[0]?.id;
   if(!waiting&&window.matchMedia('(max-width:760px)').matches&&!selected&&!narrativeOnly){
     const picker=el('nav','mobile-voice-picker');picker.setAttribute('aria-label','Read the crew one voice at a time');
@@ -538,7 +540,7 @@ function renderPanel() {
     const draft = $("stream-live").checked ? thread?.drafts.get(role) : null,
       post = list.find((p) => p.role === role);
     if (!post && !draft) continue;
-    if (thread?.round > 1 && ['math','reviewer'].includes(role) && thread.history.at(-1)?.posts.get(role)?.summary === post?.summary) continue;
+    if (!selected && unchanged(post)) continue;
     const row = el("article", `message ${profile.image}`),
       meta = el("div", "message-meta"),
       face = el("span", "message-face"),
