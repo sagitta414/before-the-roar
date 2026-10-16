@@ -1,14 +1,142 @@
+// Incremental model stream parsing and labeled public draft extraction.
 // Azure sends SSE frames; network chunks may split UTF-8, JSON or frame boundaries.
-export async function readCompletion(body,onContent=()=>{}){
- const reader=body.getReader(),decoder=new TextDecoder();let buffer='',content='',finish=null,usage=null,doneMarker=false;
- function frame(block){const lines=block.split(/\r?\n/).filter(l=>l.startsWith('data:')).map(l=>l.slice(5).trimStart());if(!lines.length)return;const raw=lines.join('\n');if(raw==='[DONE]'){doneMarker=true;return;}const data=JSON.parse(raw);if(data.error)throw Error('Model stream error');if(data.usage)usage=data.usage;const choice=data.choices?.[0];if(choice?.finish_reason)finish=choice.finish_reason;if(choice?.delta?.refusal)throw Error('Model refusal');if(typeof choice?.delta?.content==='string'){content+=choice.delta.content;if(content.length>32000)throw Error('Model output too large');onContent(content);}}
- try{while(true){const chunk=await reader.read();if(chunk.done)break;buffer+=decoder.decode(chunk.value,{stream:true});let m;while((m=/\r?\n\r?\n/.exec(buffer))){frame(buffer.slice(0,m.index));buffer=buffer.slice(m.index+m[0].length);}if(buffer.length>64000)throw Error('Model frame too large');}buffer+=decoder.decode();if(buffer.trim())frame(buffer);if(!doneMarker||finish!=='stop')throw Error('Incomplete model stream');return {content,usage};}finally{try{await reader.cancel();}catch{}reader.releaseLock();}
+export async function readCompletion(body, onContent = () => {}) {
+  const reader = body.getReader(),
+    decoder = new TextDecoder();
+  let buffer = "",
+    content = "",
+    finish = null,
+    usage = null,
+    doneMarker = false;
+  function frame(block) {
+    const lines = block
+      .split(/\r?\n/)
+      .filter((l) => l.startsWith("data:"))
+      .map((l) => l.slice(5).trimStart());
+    if (!lines.length) return;
+    const raw = lines.join("\n");
+    if (raw === "[DONE]") {
+      doneMarker = true;
+      return;
+    }
+    const data = JSON.parse(raw);
+    if (data.error) throw Error("Model stream error");
+    if (data.usage) usage = data.usage;
+    const choice = data.choices?.[0];
+    if (choice?.finish_reason) finish = choice.finish_reason;
+    if (choice?.delta?.refusal) throw Error("Model refusal");
+    if (typeof choice?.delta?.content === "string") {
+      content += choice.delta.content;
+      if (content.length > 32000) throw Error("Model output too large");
+      onContent(content);
+    }
+  }
+  try {
+    while (true) {
+      const chunk = await reader.read();
+      if (chunk.done) break;
+      buffer += decoder.decode(chunk.value, { stream: true });
+      let m;
+      while ((m = /\r?\n\r?\n/.exec(buffer))) {
+        frame(buffer.slice(0, m.index));
+        buffer = buffer.slice(m.index + m[0].length);
+      }
+      if (buffer.length > 64000) throw Error("Model frame too large");
+    }
+    buffer += decoder.decode();
+    if (buffer.trim()) frame(buffer);
+    if (!doneMarker || finish !== "stop") throw Error("Incomplete model stream");
+    return { content, usage };
+  } finally {
+    try {
+      await reader.cancel();
+    } catch {}
+    reader.releaseLock();
+  }
 }
 // Only text at an exact [audience, interpretation] path can become a draft.
 // Parse JSON strings rather than regex matching: quotes, escapes and Unicode may split.
-export function draftInterpretations(source,modes,field='interpretation'){
- let i=0;const found={};const white=()=>{while(/\s/.test(source[i]||'')&&i<source.length)i++;};
- function string(){i++;let text='';while(i<source.length){const c=source[i++];if(c==='"')return {text,closed:true};if(c==='\\'){if(i>=source.length)break;const e=source[i++];if(e==='u'){const hex=source.slice(i,i+4);if(!/^[a-f\d]{4}$/i.test(hex))break;text+=String.fromCharCode(parseInt(hex,16));i+=4;}else {const escapes={'"':'"','\\':'\\','/':'/',b:'\b',f:'\f',n:'\n',r:'\r',t:'\t'};if(!(e in escapes))break;text+=escapes[e];}}else text+=c;}return {text,closed:false};}
- function value(path){white();if(i>=source.length)return false;if(source[i]==='"'){const v=string();if(path.length===2&&modes.includes(path[0])&&path[1]===field)found[path[0]]=v.text;return v.closed;}if(source[i]==='{'){i++;white();while(i<source.length&&source[i]!=='}'){if(source[i]!=='"')return false;const key=string();if(!key.closed)return false;white();if(source[i++]!==':')return false;if(!value([...path,key.text]))return false;white();if(source[i]===','){i++;white();}else if(source[i]!=='}')return false;}return source[i++]==='}';}if(source[i]==='['){i++;white();while(i<source.length&&source[i]!==']'){if(!value([...path,'[]']))return false;white();if(source[i]===','){i++;white();}else if(source[i]!==']')return false;}return source[i++]===']';}while(i<source.length&&!/[\s,}\]]/.test(source[i]))i++;return i<source.length;}
- value([]);return found;
+export function draftInterpretations(source, modes, field = "interpretation") {
+  let i = 0;
+  const found = {};
+  const white = () => {
+    while (/\s/.test(source[i] || "") && i < source.length) i++;
+  };
+  function string() {
+    i++;
+    let text = "";
+    while (i < source.length) {
+      const c = source[i++];
+      if (c === '"') return { text, closed: true };
+      if (c === "\\") {
+        if (i >= source.length) break;
+        const e = source[i++];
+        if (e === "u") {
+          const hex = source.slice(i, i + 4);
+          if (!/^[a-f\d]{4}$/i.test(hex)) break;
+          text += String.fromCharCode(parseInt(hex, 16));
+          i += 4;
+        } else {
+          const escapes = {
+            '"': '"',
+            "\\": "\\",
+            "/": "/",
+            b: "\b",
+            f: "\f",
+            n: "\n",
+            r: "\r",
+            t: "\t",
+          };
+          if (!(e in escapes)) break;
+          text += escapes[e];
+        }
+      } else text += c;
+    }
+    return { text, closed: false };
+  }
+  function value(path) {
+    white();
+    if (i >= source.length) return false;
+    if (source[i] === '"') {
+      const v = string();
+      if (path.length === 2 && modes.includes(path[0]) && path[1] === field)
+        found[path[0]] = v.text;
+      return v.closed;
+    }
+    if (source[i] === "{") {
+      i++;
+      white();
+      while (i < source.length && source[i] !== "}") {
+        if (source[i] !== '"') return false;
+        const key = string();
+        if (!key.closed) return false;
+        white();
+        if (source[i++] !== ":") return false;
+        if (!value([...path, key.text])) return false;
+        white();
+        if (source[i] === ",") {
+          i++;
+          white();
+        } else if (source[i] !== "}") return false;
+      }
+      return source[i++] === "}";
+    }
+    if (source[i] === "[") {
+      i++;
+      white();
+      while (i < source.length && source[i] !== "]") {
+        if (!value([...path, "[]"])) return false;
+        white();
+        if (source[i] === ",") {
+          i++;
+          white();
+        } else if (source[i] !== "]") return false;
+      }
+      return source[i++] === "]";
+    }
+    while (i < source.length && !/[\s,}\]]/.test(source[i])) i++;
+    return i < source.length;
+  }
+  value([]);
+  return found;
 }

@@ -22,4 +22,4 @@ The downloadable btr-guided-walkthrough.mp4 is a 105-second illustrated companio
 
 The earlier live recovery summary and fixed-case evaluation are downloadable in Inside BTR. The comparison is partial: team checkpoints and baseline progress counts survived; raw baseline responses and timings did not. Do not claim broad superiority, semantic accuracy, or an audience study.
 
-The photorealistic film remains an edit of separate generated shots. Account-specific usage permission, kit markings, likenesses and audio remain unresolved. Use the fictional synthetic route for the demonstration. Final footage, eligibility, ownership and submission require the participant’s review. This package does not accept rules or submit to Devpost.
+The photorealistic film remains an edit of separate generated shots. The creator confirmed permission to retain the film publicly on October 15, 2026. This confirmation does not grant redistribution rights to other repository users. Use the fictional synthetic route for the demonstration. Final footage, eligibility, ownership and submission require the participant’s review. This package does not accept rules or submit to Devpost.

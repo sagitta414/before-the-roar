@@ -19,16 +19,13 @@
       "source": "60-second photorealistic edit",
       "provenance": "assets/pitchside-minute-provenance.json",
       "generator": "Google Flow / Veo; final retry exact model unconfirmed",
-      "status": "Rights review unresolved",
-      "open_items": [
-        "Account-specific usage permission has not been verified in this pass",
-        "Generated kit markings and likenesses are not rights clearance",
-        "Audio clearance has not been established"
-      ],
-      "recording_recommendation": "Use the synthetic match route until these items are resolved",
-      "disclosure": "Eight independent generated shots; no continuous observed match identity"
+      "status": "Creator confirmed permission to retain the film in the public BTR app on October 15, 2026",
+      "recording_recommendation": "Use the synthetic route to demonstrate measured match evidence. The cinematic film remains available.",
+      "disclosure": "Eight independent generated shots; no continuous observed match identity",
+      "confirmation_source": "Direct user confirmation in the project conversation"
     }
   ],
   "verification_summary": "assets/btr-verification-summary.json",
-  "legal_clearance": false
+  "legal_clearance": false,
+  "permission_basis": "Creator confirmation; not an independent legal audit or a redistribution license"
 }

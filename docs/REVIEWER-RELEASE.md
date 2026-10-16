@@ -1,5 +1,7 @@
 # Reviewer improvements — version 40
 
+Historical release notes. The current fixes and complete comparison are documented in [SCAN-3-FIXES.md](SCAN-3-FIXES.md). The creator subsequently confirmed permission to keep the film published; that decision supersedes the unresolved permission status below.
+
 The default first visit opens an interactive, five-stage synthetic match: Watch, Discuss, Measure, Challenge and Personalize. It shares the same source, cutoff and correction with the rest of the app. Users can return to their sixty-second cinematic film or continue into Match Centre, Truth Lab and Match Lab.
 
 The entire guided route works without model requests. It labels reviewed notes, calculations, source checks and saved AI individually. Saved AI must match the exact scenario, cutoff, revision, language and perspective, and meet current editorial checks. Rejected archived text is replaced by an explicitly labeled reviewed explanation. No simulated typing is presented as live AI.
@@ -16,6 +18,6 @@ The 105-second MP4 is an illustrated walkthrough rendered from the application's
 
 Public source excludes unresolved generated film assets, associated extracted frames and deployment-account configuration. Optional-media-only tests are explicitly skipped in that distribution; synthetic-data and application tests remain. The live app preserves the existing film and its provenance.
 
-Remaining external evidence: a real audience test, final eligibility/ownership checks, account-specific cinematic-footage rights, and submission itself. No rules acceptance or Devpost submission is performed by this release.
+Remaining external evidence: a real audience test, final eligibility/ownership checks, documented creator permission, and submission itself. No rules acceptance or Devpost submission is performed by this release.
 
 Browser automation was unavailable during this pass. DOM integration tests exercised all six routes, mobile-menu semantics, every guided stage, correction and personalization. These are not visual or mobile-device certification.

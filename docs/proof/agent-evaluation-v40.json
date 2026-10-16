@@ -1,0 +1,778 @@
+{
+  "schema": "btr.agent-evaluation.v1",
+  "recorded_at": "2026-10-15T20:17:35.263Z",
+  "recovered_at": "2026-10-15T20:20:14.07Z",
+  "model": "gpt-4o-mini",
+  "complete": false,
+  "requests_reserved": 21,
+  "method": {
+    "cases": "Three fixed cases declared before this run; one trial per case; no model retries.",
+    "team": "Scout and Guide each select a tool and write. Host receives their actual outputs plus deterministic calculation and source check.",
+    "baseline": "One call writes all three editorial roles using the same facts, role briefs and code-calculated notes. Both arms use the same editorial guards.",
+    "scoring": "Guard acceptance, not semantic accuracy. No LLM judge. No audience validation.",
+    "transport_failure": "The Windows Azure CLI could not print a Unicode character in the final report. Team checkpoints were recovered from Azure Blob with no model calls. Original per-case baseline acceptance counts survived in progress receipts; raw baseline output and timings were not recovered."
+  },
+  "cases": [
+    {
+      "id": "wide-original",
+      "input": {
+        "source": "match",
+        "scenario": "wide",
+        "time": 16,
+        "corrected": false,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor"
+      },
+      "team": {
+        "posts": [
+          {
+            "engine": "calculated",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "math",
+            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
+            "metric_value": "23.7 m",
+            "metric_title": "Forward passing gain"
+          },
+          {
+            "engine": "reviewed_fallback",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "analyst",
+            "summary": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision."
+          },
+          {
+            "summary": "A pass sends the ball to a teammate. What is the distance covered by the completed passes?",
+            "title": "Harbor's Passing Success",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1,
+            "latency_ms": 3478,
+            "first_text_ms": 3855
+          },
+          {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+            "decision": "qualify",
+            "target_claim": "The run caused the defender to follow.",
+            "target_role": "analyst",
+            "reviewed_contribution": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision."
+          },
+          {
+            "summary": "Two completed passes advanced the ball significantly toward the opponent's goal, demonstrating effective ball movement.",
+            "title": "Harbor's Passing Progress",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "replay_cue": "Replay the completed passes to observe the distance gained.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1,
+            "latency_ms": 2976,
+            "first_text_ms": 6917
+          }
+        ],
+        "requests": 6,
+        "elapsed_ms": 7019,
+        "usage": {
+          "model_calls": 6,
+          "prompt_tokens": 6779,
+          "completion_tokens": 255,
+          "usage_missing": 0,
+          "elapsed_ms": 7019
+        },
+        "trace": [
+          {
+            "seq": 1,
+            "at": 1792095455575,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 16,
+            "revision": 1,
+            "storage": "azure_blob"
+          },
+          {
+            "seq": 2,
+            "at": 1792095455673,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ]
+          },
+          {
+            "seq": 3,
+            "at": 1792095457187,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-analysis-16.0",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 1416
+          },
+          {
+            "seq": 4,
+            "at": 1792095457777,
+            "role": "guide",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-analysis-16.0",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 2005
+          },
+          {
+            "seq": 5,
+            "at": 1792095458863,
+            "role": "analyst",
+            "action": "fallback_published",
+            "reason": "Player attribution belongs in the calculated facts"
+          },
+          {
+            "seq": 6,
+            "at": 1792095459259,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "latency_ms": 3478,
+            "first_text_ms": 3855
+          },
+          {
+            "seq": 7,
+            "at": 1792095459280,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 16,
+              "status": "bounded",
+              "claim": "The run caused the defender to follow.",
+              "explanation": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400"
+              ],
+              "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          {
+            "seq": 8,
+            "at": 1792095460172,
+            "role": "presenter",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-analysis-16.0",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 883
+          },
+          {
+            "seq": 9,
+            "at": 1792095462274,
+            "role": "presenter",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "latency_ms": 2976,
+            "first_text_ms": 6917
+          },
+          {
+            "seq": 10,
+            "at": 1792095462291,
+            "role": "director",
+            "action": "reviewed_notes_ready",
+            "revision": 1
+          }
+        ]
+      },
+      "baseline": {
+        "posts": [],
+        "accepted": 2,
+        "rejected": 1,
+        "requests": 1,
+        "elapsed_ms": null,
+        "raw_available": false,
+        "evidence": "Original CLI progress receipt; raw output lost during Windows Unicode console failure."
+      }
+    },
+    {
+      "id": "wide-corrected",
+      "input": {
+        "source": "match",
+        "scenario": "wide",
+        "time": 16,
+        "corrected": true,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor"
+      },
+      "team": {
+        "posts": [
+          {
+            "engine": "calculated",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 2,
+            "role": "math",
+            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
+            "metric_value": "23.7 m",
+            "metric_title": "Forward passing gain"
+          },
+          {
+            "summary": "A pass sends the ball to a teammate. What was the distance covered by each completed pass?",
+            "title": "Harbor's Passing Performance",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2,
+            "latency_ms": 2600,
+            "first_text_ms": 2588
+          },
+          {
+            "summary": "Two completed passes progressed the ball forward, with the first pass moving from a starting position of nearly forty-five to over fifty-eight meters along the field.",
+            "title": "Passes advance ball significantly",
+            "caution": "Defender movement claim withdrawn; passes remain valid.",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2,
+            "latency_ms": 2847,
+            "first_text_ms": 2468
+          },
+          {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400-r2"
+            ],
+            "cutoff": 16,
+            "revision": 2,
+            "role": "reviewer",
+            "summary": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result.",
+            "decision": "withdraw",
+            "target_claim": "The run caused the defender to follow.",
+            "target_role": "analyst",
+            "reviewed_contribution": "Two completed passes progressed the ball forward, with the first pass moving from a starting position of nearly forty-five to over fifty-eight meters along the field."
+          },
+          {
+            "engine": "reviewed_fallback",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400-r2"
+            ],
+            "cutoff": 16,
+            "revision": 2,
+            "role": "presenter",
+            "summary": "The corrected record changes the movement story, while the recorded passes remain. Replay the defender’s position before repeating the original explanation."
+          }
+        ],
+        "requests": 6,
+        "elapsed_ms": 9071,
+        "usage": {
+          "model_calls": 6,
+          "prompt_tokens": 6860,
+          "completion_tokens": 266,
+          "usage_missing": 0,
+          "elapsed_ms": 9071
+        },
+        "trace": [
+          {
+            "seq": 1,
+            "at": 1792095465452,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 16,
+            "revision": 2,
+            "storage": "azure_blob"
+          },
+          {
+            "seq": 2,
+            "at": 1792095465470,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ]
+          },
+          {
+            "seq": 3,
+            "at": 1792095466715,
+            "role": "guide",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400-r2",
+              "wide-analysis-16.0",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 1236
+          },
+          {
+            "seq": 4,
+            "at": 1792095466782,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400-r2",
+              "wide-analysis-16.0",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 1303
+          },
+          {
+            "seq": 5,
+            "at": 1792095468089,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "latency_ms": 2600,
+            "first_text_ms": 2588
+          },
+          {
+            "seq": 6,
+            "at": 1792095468336,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "latency_ms": 2847,
+            "first_text_ms": 2468
+          },
+          {
+            "seq": 7,
+            "at": 1792095468354,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 2,
+              "cutoff": 16,
+              "status": "withdrawn",
+              "claim": "The run caused the defender to follow.",
+              "explanation": "The corrected record keeps Laurent in place. The defender-movement claim is withdrawn; the recorded passes and shot remain unchanged.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400-r2"
+              ],
+              "check": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          {
+            "seq": 8,
+            "at": 1792095469488,
+            "role": "presenter",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400-r2",
+              "wide-analysis-16.0",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 1124
+          },
+          {
+            "seq": 9,
+            "at": 1792095474499,
+            "role": "presenter",
+            "action": "fallback_published",
+            "reason": "Host must state the football implication, not praise its importance"
+          },
+          {
+            "seq": 10,
+            "at": 1792095474518,
+            "role": "director",
+            "action": "reviewed_notes_ready",
+            "revision": 2
+          }
+        ]
+      },
+      "baseline": {
+        "posts": [],
+        "accepted": 3,
+        "rejected": 0,
+        "requests": 1,
+        "elapsed_ms": null,
+        "raw_available": false,
+        "evidence": "Original CLI progress receipt; raw output lost during Windows Unicode console failure."
+      }
+    },
+    {
+      "id": "pressure-to-chance",
+      "input": {
+        "source": "match",
+        "scenario": "press",
+        "time": 29,
+        "corrected": false,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 8,
+        "team": "harbor"
+      },
+      "team": {
+        "posts": [
+          {
+            "engine": "calculated",
+            "evidence_ids": [
+              "press-evt-002",
+              "press-evt-005"
+            ],
+            "cutoff": 29,
+            "revision": 1,
+            "role": "math",
+            "summary": "18 seconds from the completed regain to shot release, with 2 completed passes in between. This measures one attack, not a team average.",
+            "working": "28.0 s − 10.0 s = 18.0 s",
+            "metric_value": "18 s",
+            "metric_title": "Regain to shot"
+          },
+          {
+            "summary": "Two completed forward passes connect the regain to the shot, indicating a direct progression from defense to attack.",
+            "title": "Forward Pass Connection",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "press-evt-005",
+              "press-evt-003"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 29,
+            "revision": 1,
+            "latency_ms": 2346,
+            "first_text_ms": 1902
+          },
+          {
+            "summary": "A transition is the change from defending to attacking. How did the completed passes contribute to the goal?",
+            "title": "Forward Pass Connection",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "press-evt-005",
+              "press-evt-003"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 29,
+            "revision": 1,
+            "latency_ms": 2919,
+            "first_text_ms": 2908
+          },
+          {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-evt-003",
+              "press-evt-004",
+              "press-evt-005",
+              "press-track-8-150"
+            ],
+            "cutoff": 29,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "Pressure precedes the interception. These records cannot prove it forced the mistake.",
+            "decision": "qualify",
+            "target_claim": "The pressure forced the interception.",
+            "target_role": "analyst",
+            "reviewed_contribution": "Two completed forward passes connect the regain to the shot, indicating a direct progression from defense to attack."
+          },
+          {
+            "summary": "Two completed forward passes effectively transitioned the play from defense to attack, culminating in a goal.",
+            "title": "Forward Pass Connection",
+            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "evidence_ids": [
+              "press-evt-005",
+              "press-evt-003"
+            ],
+            "replay_cue": "Replay the regain, then follow the first forward receiver.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 29,
+            "revision": 1,
+            "latency_ms": 2602,
+            "first_text_ms": 5382
+          }
+        ],
+        "requests": 6,
+        "elapsed_ms": 5622,
+        "usage": {
+          "model_calls": 6,
+          "prompt_tokens": 9788,
+          "completion_tokens": 250,
+          "usage_missing": 0,
+          "elapsed_ms": 5622
+        },
+        "trace": [
+          {
+            "seq": 1,
+            "at": 1792095477804,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 29,
+            "revision": 1,
+            "storage": "azure_blob"
+          },
+          {
+            "seq": 2,
+            "at": 1792095477822,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "press-evt-002",
+              "press-evt-005"
+            ]
+          },
+          {
+            "seq": 3,
+            "at": 1792095478610,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-evt-003",
+              "press-evt-004",
+              "press-evt-005",
+              "press-obs-pressure-6",
+              "press-obs-recovery-10",
+              "press-obs-chance-23",
+              "press-obs-goal-29",
+              "press-track-8-150",
+              "press-analysis-29.0",
+              "press-window-29.0"
+            ],
+            "duration_ms": 779
+          },
+          {
+            "seq": 4,
+            "at": 1792095479200,
+            "role": "guide",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-evt-003",
+              "press-evt-004",
+              "press-evt-005",
+              "press-obs-pressure-6",
+              "press-obs-recovery-10",
+              "press-obs-chance-23",
+              "press-obs-goal-29",
+              "press-track-8-150",
+              "press-analysis-29.0",
+              "press-window-29.0"
+            ],
+            "duration_ms": 1369
+          },
+          {
+            "seq": 5,
+            "at": 1792095480187,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "press-evt-005",
+              "press-evt-003"
+            ],
+            "latency_ms": 2346,
+            "first_text_ms": 1902
+          },
+          {
+            "seq": 6,
+            "at": 1792095480759,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "press-evt-005",
+              "press-evt-003"
+            ],
+            "latency_ms": 2919,
+            "first_text_ms": 2908
+          },
+          {
+            "seq": 7,
+            "at": 1792095480777,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 29,
+              "status": "bounded",
+              "claim": "The pressure forced the interception.",
+              "explanation": "Silva approaches the ball carrier before Cole intercepts the pass. The timing supports a pressure-and-recovery story, not proof of causation.",
+              "evidence_ids": [
+                "press-evt-001",
+                "press-evt-002",
+                "press-evt-003",
+                "press-evt-004",
+                "press-evt-005",
+                "press-track-8-150"
+              ],
+              "check": "Pressure precedes the interception. These records cannot prove it forced the mistake.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          {
+            "seq": 8,
+            "at": 1792095481653,
+            "role": "presenter",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-evt-003",
+              "press-evt-004",
+              "press-evt-005",
+              "press-obs-pressure-6",
+              "press-obs-recovery-10",
+              "press-obs-chance-23",
+              "press-obs-goal-29",
+              "press-track-8-150",
+              "press-analysis-29.0",
+              "press-window-29.0"
+            ],
+            "duration_ms": 866
+          },
+          {
+            "seq": 9,
+            "at": 1792095483399,
+            "role": "presenter",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "press-evt-005",
+              "press-evt-003"
+            ],
+            "latency_ms": 2602,
+            "first_text_ms": 5382
+          },
+          {
+            "seq": 10,
+            "at": 1792095483417,
+            "role": "director",
+            "action": "broadcast_ready",
+            "revision": 1
+          }
+        ]
+      },
+      "baseline": {
+        "posts": [],
+        "accepted": 0,
+        "rejected": 3,
+        "requests": 1,
+        "elapsed_ms": null,
+        "raw_available": false,
+        "evidence": "Original CLI progress receipt; raw output lost during Windows Unicode console failure."
+      }
+    }
+  ],
+  "summary": {
+    "team": {
+      "accepted": "7/9",
+      "rejected": 2,
+      "requests": 18,
+      "seconds": 21.7
+    },
+    "baseline": {
+      "accepted": "5/9",
+      "rejected": 4,
+      "requests": 3,
+      "seconds": "Not recorded"
+    }
+  },
+  "conclusion": "The team passed 7 of 9 editorial checks; the single-call baseline passed 5 of 9 in this small run. The team used 18 requests versus 3. Raw baseline output and timing were lost to a console export error, so this is a partial comparison, not a superiority claim. Completed team receipts are inspectable. Broader blinded football-quality review remains outstanding.",
+  "current_policy_note": "Historical comparison before subsequent editorial hardening. Current display rechecks saved contributions. The new gate is covered by regression tests, not a second live pass-rate claim."
+}

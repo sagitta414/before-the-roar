@@ -4,17 +4,19 @@
 
 Public application: https://before-the-roar.sagitta107.chatgpt.site
 
-## Recording plan — 110 seconds
+## Recording plan — 105 seconds
 
-Use [the recording script](RECORDING-SCRIPT.txt) and the downloadable kit in Inside BTR. The default recording route now uses the authored synthetic match while generated-footage usage permissions and markings remain unresolved. Preserve provenance. Prepare an original proof run and its OBS browser output before recording. Check the visible daily allowance first. Show saved receipts as saved receipts; do not present them as live generation. Keep the final recording below two minutes.
+Use [the recording script](RECORDING-SCRIPT.txt) and the automatic guided tour. It uses authored synthetic evidence and zero fresh model calls. Record the actual browser controls; the illustrated MP4 is supplementary. The creator confirmed permission to keep the cinematic film published, but the main demonstration uses the measured synthetic source.
 
-| Time | Show | Say |
-| --- | --- | --- |
-| 0–20s | Watch, synthetic replay; an evidence citation | “BTR turns synthetic football events into explanations you can question. The source and clock stay attached to every claim.” |
-| 20–40s | Match Centre: beginner, math, Spanish | “The same evidence becomes a plain-language explanation, a calculation with units, or a tactical reading. Personalization changes the explanation, not the facts.” |
-| 40–65s | Inside BTR: Correct the tracking; the separate OBS output | “A revised tracking record withdraws the movement claim. Passes remain intact. The source revision reaches the on-screen caption.” |
-| 65–90s | Test recovery, Resume saved work; public receipts and model requests | “An actual worker exception interrupts this run. The next worker reloads the specialists from Blob Storage and finishes the handoff. Playback is independent.” |
-| 90–110s | Generate & validate seed 107; Export proof | “Every fixture is reproducible. Every decision has evidence, revision and tool receipts. The complete audit and dataset are downloadable.” |
+| Time | Show |
+| --- | --- |
+| 0–18s | Follow the synthetic play and shared clock |
+| 18–36s | Five public contributions with distinct roles |
+| 36–52s | Passing gain with units and source event IDs |
+| 52–72s | Correct the tracking and withdraw the affected claim |
+| 72–105s | Beginner, Spanish and math captions from the same evidence |
+
+For technical questions, open Inside BTR and replay saved recovery. Its pause illustrates the recorded handoff, without a new worker failure or model request. A live Test recovery remains a separate operation requiring available AI allowance; it uses up to six requests. Do not present receipt playback as a fresh live recovery test.
 
 ## Reproduce the five improvements
 

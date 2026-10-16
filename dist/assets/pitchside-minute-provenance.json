@@ -145,5 +145,12 @@
     ],
     "transform": "Re-encoded from the existing reviewed master to H.264/AAC, 1280x720 at 24fps, with front-loaded metadata. No new generated action or changed edit order.",
     "clock": "Scene-local video time is mapped to the original global evidence clock."
+  },
+  "publication_permission": {
+    "status": "creator_confirmed",
+    "confirmed_on": "2026-10-15",
+    "scope": "Keep the existing generated film published in BTR",
+    "evidence": "Direct creator confirmation in the project conversation",
+    "redistribution": "Optional media omitted from public source; no third-party redistribution license granted"
   }
 }
