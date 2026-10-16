@@ -1,3 +1,4 @@
+import {mountViewerStudy} from './viewer-study.js';
 import { createTourClock } from "./tour-clock.js";
 import { GUIDE_STEPS, SOURCE_LABELS, guidedSnapshot } from "./guided-model.js";
 import { createMatchPitch } from "./match-pitch.js";
@@ -196,7 +197,7 @@ downloadRow.append(
 );
 tour.append(downloadRow);
 const map = el("details", "source-map");
-map.append(el("summary", "", "What am I watching? Three clearly identified sources"));
+const sourceSummary=el("summary"); map.append(sourceSummary); matchSession.subscribe(state=>{const label=SOURCE_LABELS[state.section==='lab'?'lab':state.source];sourceSummary.textContent=label.title+" · source & scope";}); sourceSummary.textContent=SOURCE_LABELS[matchSession.get().source].title+" · source & scope";
 for (const entry of Object.values(SOURCE_LABELS)) {
   const row = el("article");
   row.append(el("strong", "", entry.title), el("p", "", entry.scope));
@@ -226,7 +227,11 @@ evaluation.append(
 proof.append(evaluation);
 const links = el("p");
 for (const [href, label] of [
-  ["assets/btr-agent-evaluation.json", "Agent comparison + raw contributions"],
+  ["assets/btr-agent-evaluation.json", "Current comparison + raw contributions"],
+  ["assets/btr-agent-evaluation-v41.json", "Earlier comparison (v41)"],
+  ["assets/btr-agent-evaluation-v42-first.json", "First v42 attempt · incomplete"],
+  ["assets/btr-agent-evaluation-v42-interrupted.json", "Interrupted v42 attempt · run notes"],
+  ["assets/btr-recovery-v42.json", "v42 recovery receipt · editorial flaw disclosed"],
   ["assets/btr-verification-summary.json", "Recovery verification"],
   ["assets/btr-recording-guide.txt", "105-second demonstration script"],
 ]) {
@@ -489,35 +494,7 @@ function render() {
         "These captions are localized from the same evidence. Changing a language or perspective never changes the facts.",
       ),
     );
-    const feedback = el("details");
-    feedback.append(el("summary", "", "Help test the experience"));
-    const question = el(
-      "p",
-      "",
-      "After this demonstration, can you explain why the claim changed?",
-    );
-    feedback.append(question);
-    for (const answer of ["Yes, clearly", "Partly", "Not yet"])
-      feedback.append(
-        button(answer, () => {
-          save("btr-viewer-feedback.json", {
-            schema: "btr.viewer-feedback.v1",
-            recorded_at: new Date().toISOString(),
-            answer,
-            source: "voluntary-local-download",
-            task: "Explain the correction",
-            ...options,
-          });
-        }),
-      );
-    feedback.append(
-      el(
-        "p",
-        "guided-note",
-        "Downloads your feedback locally. Nothing is sent or counted as a user study automatically.",
-      ),
-    );
-    content.append(feedback);
+    mountViewerStudy(content,save);
   }
 }
 // Timed stages must advance even when the browser suspends animation frames.

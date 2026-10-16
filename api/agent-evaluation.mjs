@@ -41,8 +41,30 @@ export const EVALUATION_CASES = [
     },
   },
 ];
+// Declared before generation; retain every trial, including rejected outputs.
+for (const [id, scenario, time, corrected, language, mode] of [
+  ["wide-corrected-es-beginner", "wide", 16, true, "es", "beginner"],
+  ["wide-corrected-pt-math", "wide", 26, true, "pt", "math"],
+  ["pressure-es-build", "press", 15, false, "es", "beginner"],
+  ["counter-pt-saved", "counter", 28, false, "pt", "math"],
+  ["pressure-before-regain", "press", 6, false, "en", "beginner"],
+  ["counter-first-outlet", "counter", 12, false, "en", "fan"],
+])
+  EVALUATION_CASES.push({
+    id,
+    input: {
+      source: "match",
+      scenario,
+      time,
+      corrected,
+      language,
+      mode,
+      focus: scenario === "press" ? 8 : 7,
+      team: "harbor",
+    },
+  });
 export const MODEL_ROLES = ["analyst", "guide", "presenter"];
-export function comparisonSchema(ids) {
+export function comparisonSchema(ids, primaryId) {
   const result = {
     type: "object",
     additionalProperties: false,
@@ -64,7 +86,7 @@ export function comparisonSchema(ids) {
         type: "object",
         additionalProperties: false,
         properties: {
-          primary: { type: "string", enum: ids },
+          primary: { type: "string", enum: primaryId ? [primaryId] : ids },
           secondary: { type: ["string", "null"], enum: [...ids, null] },
         },
         required: ["primary", "secondary"],

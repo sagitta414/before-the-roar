@@ -1,5 +1,7 @@
 import {PLAYERS,position,clock} from './engine.js';
 import {matchCenterSnapshot} from './analysis-model.js';
+import {analyzePlay} from './play-analysis.js';
+import {footballContext} from './football-context.js';
 
 const L={
  en:{beginner:'New to football',math:'Show the math',analyst:'Tactical view',wait:'The sequence is still developing. Let the recorded play arrive before drawing a conclusion.',pass:'A completed pass means a teammate received the ball. Keeping the ball gives a team another chance to build an attack.',goal:'The recorded shot finishes in a goal.',save:'The goalkeeper saves the recorded shot. A promising attack does not always become a goal.',regain:'A recovery means a team has won the ball back. Watch how quickly it starts the next attack.',wide:'Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.',press:'Silva approaches the ball carrier before Cole intercepts the pass. The timing supports a pressure-and-recovery story, not proof of causation.',counter:'Cole’s recovery starts a forward sequence. Follow the completed passes and Brooks’s run as Harbor move from defending to attacking.',corrected:'The corrected record keeps Laurent in place. The defender-movement claim is withdrawn; the recorded passes and shot remain unchanged.',noPass:'No completed Harbor pass to calculate yet.',formula:'completed ÷ attempted × 100',speed:'Average ball speed',distance:'Straight-line pass distance',duration:'Recorded interval',units:'metres ÷ seconds × 3.6 = km/h',noAttempts:'No Harbor attempts yet; completion is undefined.',fraction:'Harbor pass completion',interpretation:'Interpretation, not proof of cause.'},
@@ -7,17 +9,20 @@ const L={
  pt:{beginner:'Comece a entender',math:'Veja a matemática',analyst:'Visão tática',wait:'A sequência ainda está se desenvolvendo. Espere os acontecimentos registrados antes de concluir.',pass:'Um passe completo chega a um companheiro. Manter a bola permite continuar construindo o ataque.',goal:'O chute registrado termina em gol.',save:'O goleiro defende o chute registrado. Um bom ataque nem sempre termina em gol.',regain:'Recuperar significa voltar a ter a bola. Observe como começa o próximo ataque.',wide:'Moreau abre pela lateral enquanto Laurent se desloca para o mesmo lado. Os movimentos coincidem; não provam uma relação causal.',press:'Silva se aproxima do jogador com a bola antes de Cole interceptar o passe. A sequência sugere pressão e recuperação, não uma causa comprovada.',counter:'A recuperação de Cole inicia uma sequência para a frente. Siga os passes completos e a corrida de Brooks.',corrected:'O registro corrigido mantém Laurent no lugar. A afirmação de deslocamento é retirada; os passes e o chute não mudam.',noPass:'Ainda não há passe completo do Harbor para calcular.',formula:'completos ÷ tentados × 100',speed:'Velocidade média da bola',distance:'Distância do passe em linha reta',duration:'Intervalo registrado',units:'metros ÷ segundos × 3,6 = km/h',noAttempts:'Sem tentativas do Harbor; percentual indefinido.',fraction:'Passes completos do Harbor',interpretation:'Interpretação, não prova de causa.'}
 };
 export function sequenceBrief(s,time,{language='en',corrected=false,focus=7}={}){
- const state=matchCenterSnapshot(s,time,corrected),t=state.time,l=L[language]||L.en,m=state.metrics,last=state.seen.at(-1),pass=state.seen.filter(e=>e.type==='pass'&&e.team==='harbor'&&e.outcome==='complete').at(-1);
+ language=L[language]?language:'en';
+ const state=matchCenterSnapshot(s,time,corrected),t=state.time,l=L[language]||L.en,m=state.metrics,last=state.seen.at(-1),pass=state.seen.filter(e=>e.type==='pass'&&e.team==='harbor'&&e.outcome==='complete').at(-1),analysis=analyzePlay(s,t,language),football=footballContext(s,t,corrected,analysis,language);
  const threshold={wide:16,press:10,counter:12}[s.id],ready=t>=threshold;
  const tactical=corrected&&s.id==='wide'&&ready?l.corrected:ready?l[s.id]:l.wait;
- const beginner=last?.type==='shot'?(last.outcome==='goal'?l.goal:l.save):last?.type==='tackle'||last?.outcome==='intercepted'?l.regain:last?l.pass:l.wait;
+ const beginner=corrected&&s.id==='wide'&&ready?l.corrected:last?.type==='shot'?(last.outcome==='goal'?l.goal:l.save):football.definition?football.definition+' '+football.question:last?.type==='tackle'||last?.outcome==='intercepted'?l.regain:last?l.pass:l.wait;
  const num=v=>new Intl.NumberFormat(language,{maximumFractionDigits:1}).format(v);
- const math=m.passes?`${l.fraction}: ${m.completed} ÷ ${m.passes} × 100 = ${num(m.completed/m.passes*100)}%.`:l.noAttempts;
- const equation=pass?`${num(pass.distance)} m ÷ ${num(pass.end-pass.t)} s × 3.6 = ${num(pass.speed)} km/h`:l.noPass;
+ const hasAnalysis=analysis.passes.length||analysis.pressure;
+ const math=(corrected&&s.id==='wide'&&ready?l.corrected+' ':'')+(hasAnalysis?analysis.focus.text:m.passes?`${l.fraction}: ${m.completed} ÷ ${m.passes} × 100 = ${num(m.completed/m.passes*100)}%.`:l.noAttempts);
+ const equation=hasAnalysis?analysis.focus.equation:pass?`${num(pass.distance)} m ÷ ${num(pass.end-pass.t)} s × 3.6 = ${num(pass.speed)} km/h`:l.noPass;
  const p=state.players.find(p=>p.id===Number(focus))||state.players[6];
  const evidenceIds=state.seen.map(e=>e.id);if(ready&&s.id==='wide')evidenceIds.push(`wide-track-102-${Math.floor(t*25)}${corrected?'-r2':''}`);
  if(ready&&s.id==='press')evidenceIds.push('press-track-8-150');
  if(ready&&s.id==='counter')evidenceIds.push(`counter-track-9-${Math.floor(t*25)}`);
+ if(hasAnalysis)evidenceIds.push(analysis.record.id);
  return {state,language:L[language]?language:'en',cutoff:t,clock:clock(s,t),revision:corrected&&s.id==='wide'?2:1,evidenceIds,player:p,cards:[{id:'beginner',label:l.beginner,text:beginner},{id:'math',label:l.math,text:math,equation},{id:'analyst',label:l.analyst,text:tactical,note:l.interpretation}],lastPass:pass,score:{harbor:state.seen.filter(e=>e.team==='harbor'&&e.outcome==='goal').length,north:state.seen.filter(e=>e.team==='north'&&e.outcome==='goal').length},shotSpeed:state.seen.filter(e=>e.type==='shot').at(-1)?.speed??null};
 }
 export function productionPacket(s,time,options={}){
@@ -27,6 +32,7 @@ export function productionPacket(s,time,options={}){
 export function datasetRows(s,time,options={}){
  const b=sequenceBrief(s,time,options),rows=[{record_type:'manifest',schema:'btr.synthetic-sequence.v1',scenario_id:s.id,synthetic:true,cutoff_seconds:b.cutoff,revision:b.revision,pitch_metres:[105,68],tracking_sample_hz:1,provenance:'Authored keyframes interpolated by the BTR engine. Not inferred from video.',players:PLAYERS.map(({id,name,team})=>({id,name,team}))}];
  for(const e of b.state.seen)rows.push({record_type:'event',...e});
+ rows.push(analyzePlay(s,b.cutoff,b.language).record);
  for(const o of s.observations.filter(o=>o.t<=b.cutoff))rows.push({record_type:'observation',id:`${s.id}-obs-${o.type}-${o.t}`,source:'authored-scenario',...o});
  for(let second=0;second<=Math.floor(b.cutoff);second++)for(const p of PLAYERS)rows.push({record_type:'tracking',id:`${s.id}-track-${p.id}-${second*25}${b.revision===2?'-r2':''}`,second,player_id:p.id,position_m:position(s,p.id,second,b.revision===2).map(v=>+v.toFixed(3))});
  const ids=new Set(rows.map(r=>r.id));

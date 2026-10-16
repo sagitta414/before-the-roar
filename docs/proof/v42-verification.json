@@ -1,0 +1,45 @@
+{
+  "schema": "btr.release-verification.v1",
+  "release": "v42 / API 3.8.0",
+  "recorded_at": "2026-10-16",
+  "functional_tests": {"passed":143,"failed":0},
+  "source_only_tests": {"passed":141,"failed":0,"optional_media_skipped":2},
+  "synthetic_fixtures": {"held_out":100,"valid":true,"calibrated_to_real_matches":false},
+  "checks": ["Syntax checks pass","API formatting passes","All 15 language/audience combinations retain the correction","Player coordinate and event cutoffs are tested","Model rate-limit cooldown prevents reservations during its wait","Cache namespace changed after the guard repair"],
+  "browser": {
+    "desktop_width":1280,
+    "match_centre_pitch_top_before_px":560.5,
+    "match_centre_pitch_top_after_px":359.6,
+    "truth_story_top_after_px":369.5,
+    "horizontal_overflow":false,
+    "mobile_width":390,
+    "mobile_navigation_checked":true,
+    "corrected_spanish_beginner_caption_checked":true,
+    "voluntary_self_check_ui_checked":true,
+    "human_study":false
+  },
+  "evaluation": {
+    "artifact":"agent-evaluation.json",
+    "policy":"v42.2",
+    "complete":true,
+    "cases":4,
+    "languages":["en","es","pt"],
+    "scenarios":["wide","press","counter"],
+    "team":{"accepted":"11/12","model_requests":16,"total_execution_seconds":22.1},
+    "baseline":{"accepted":"12/12","model_requests":4,"total_execution_seconds":12.5},
+    "interpretation":"Editorial guard acceptance only, not semantic accuracy. The team does not beat the single-call baseline in this sample. One corrected Spanish Host answer is replaced by reviewed notes. Pacing time is excluded from execution totals."
+  },
+  "recovery": {
+    "artifact":"live-production-proof.json",
+    "requests_before":3,
+    "requests_after_total":4,
+    "roles_reused":["analyst","guide"],
+    "corrected_cue_status":"withdrawn",
+    "personalized_cues_checked":["es/beginner","en/math"],
+    "read_write_isolation":true,
+    "editorial_quality_passed":false,
+    "note":"The v42.1 recovery test exposed an unsupported no-direct-influence sentence. It is retained and annotated. v42.2 rejects that phrasing; no additional live recovery rerun is claimed."
+  },
+  "allowance":{"daily_limit":120,"raised":false,"reset_manually":false,"used_after_comparison":114,"remaining_after_comparison":6},
+  "limits":["Four fixed cases do not prove audience value or superior analysis.","Regex editorial guards cannot establish semantic truth.","The film still consists of separate generated shots.","The self-check is local infrastructure, not real user-study evidence.","No automatic match eventing, calibrated video speed, partner rendering or Fabric integration is claimed."]
+}

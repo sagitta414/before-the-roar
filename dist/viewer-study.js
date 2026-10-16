@@ -1,0 +1,20 @@
+// Voluntary task check. No network, identities, or claims of measured user impact.
+export const STUDY_TASKS=[
+ {id:'correction',question:'After the corrected tracking is applied, what should change?',options:['Withdraw the defender-movement claim; keep the pass records.','Erase the completed passes.','Keep saying that the defender followed the runner.'],answer:0,why:'The correction changes defender tracking. Completed pass events remain valid.'},
+ {id:'math',question:'What does forward passing gain measure?',options:['The probability that the attack will score.','The ball’s advance toward goal across completed passes, excluding carries.','The total distance run by the winger.'],answer:1,why:'It sums each completed pass’s end x minus start x. It is not xG or player distance.'},
+ {id:'source',question:'Where do the measured match statistics come from?',options:['Automatic tracking of the generated film.','Real Premier League event data.','The authored synthetic events and coordinates.'],answer:2,why:'The cinematic edit has separate reviewed observations. It is not the source of the match coordinates.'}
+];
+export function studyResult(answers,elapsedMs){
+ return {schema:'btr.viewer-task-check.v1',kind:'voluntary-self-check',completed:STUDY_TASKS.every(q=>Number.isInteger(answers[q.id])&&answers[q.id]>=0&&answers[q.id]<q.options.length),elapsed_seconds:Math.max(0,Math.round(elapsedMs/1000)),correct:STUDY_TASKS.filter(q=>answers[q.id]===q.answer).length,total:STUDY_TASKS.length,answers:STUDY_TASKS.map(q=>({task:q.id,choice:Number.isInteger(answers[q.id])?answers[q.id]:null,correct:answers[q.id]===q.answer})),limits:['Self-selected task check, not a controlled comprehension study.','Elapsed time is time in this check, not measured production time saved.','Nothing is sent or aggregated automatically.']};
+}
+export function mountViewerStudy(parent,save){
+ const root=document.createElement('details');root.className='viewer-study';root.innerHTML='<summary>Test what you learned · three quick questions</summary><p>Try this after exploring the correction and calculations. Your answers stay on this device.</p>';
+ const start=document.createElement('button');start.className='outline-button';start.textContent='Start the check';root.append(start);
+ start.onclick=()=>{
+  start.disabled=true;const began=performance.now(),answers={},form=document.createElement('form');
+  for(const q of STUDY_TASKS){const field=document.createElement('fieldset'),legend=document.createElement('legend');legend.textContent=q.question;field.append(legend);q.options.forEach((text,i)=>{const label=document.createElement('label'),radio=document.createElement('input');radio.type='radio';radio.name=q.id;radio.value=i;radio.required=true;radio.onchange=()=>answers[q.id]=i;label.append(radio,document.createTextNode(text));field.append(label);});form.append(field);}
+  const submit=document.createElement('button');submit.className='red-button';submit.textContent='Check my understanding';submit.type='submit';form.append(submit);root.append(form);
+  form.onsubmit=e=>{e.preventDefault();const result={...studyResult(answers,performance.now()-began),recorded_at:new Date().toISOString()};if(!result.completed)return;submit.disabled=true;for(const input of form.querySelectorAll('input'))input.disabled=true;const output=document.createElement('div');output.className='study-result';output.setAttribute('role','status');const score=document.createElement('strong');score.textContent=`${result.correct} / ${result.total} understood · ${result.elapsed_seconds}s`;output.append(score);for(const q of STUDY_TASKS){const p=document.createElement('p');p.textContent=q.why;output.append(p);}const exportButton=document.createElement('button');exportButton.className='outline-button';exportButton.type='button';exportButton.textContent='Download my task results ↓';exportButton.onclick=()=>save('btr-viewer-task-check.json',result);output.append(exportButton);root.append(output);};
+ };
+ parent.append(root);
+}

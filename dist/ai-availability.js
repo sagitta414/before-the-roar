@@ -7,7 +7,7 @@ export function availabilitySummary(health, now=Date.now()) {
  if(!health.ai_configured)return {state:'offline',title:'AI unavailable · reviewed notes available',detail:'Playback, calculations and synthetic datasets still work.',remaining,resetAt};
  if(remaining===0)return {state:'exhausted',title:'AI allowance reached · reviewed notes available',detail:'No new AI generation until the daily reset. Saved results can still be retrieved.',remaining,resetAt};
  if(remaining===null)return {state:'unknown',title:'AI allowance not confirmed',detail:'The server will check the allowance before generating. Playback remains available.',remaining,resetAt};
- return {state:'available',title:remaining+' AI requests remaining today',detail:'Shared across visitors. A new discussion uses up to 6 requests; cached work uses none.',remaining,resetAt};
+ return {state:'available',title:remaining+' AI requests remaining today',detail:'Shared across visitors. A new discussion uses up to 4 requests; cached work uses none.',remaining,resetAt};
 }
 export function createAvailability({fetcher=fetch,now=Date.now}={}) {
  let value=null,checkedAt=-Infinity,pending=null;const listeners=new Set();

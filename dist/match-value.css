@@ -1,0 +1,27 @@
+/* Supporting pages put their distinctive work immediately beneath one source bar. */
+body:not(.watching-clip) .media-status{display:none}
+@media(min-width:1000px){.guided-launch{padding:8px 0;gap:14px;margin-bottom:10px}.guided-launch>div>p{display:none}.guided-launch strong{font-size:21px}.party .five-specialists.crew{min-height:44px}.party .five-specialists .crew-member{min-height:40px}}
+.source-map{margin:0;padding:7px 2.3%;border:0;border-bottom:1px solid #303845;border-radius:0;font-size:12px;background:#0c1119}
+.source-map summary{min-height:24px;display:list-item;line-height:24px;color:#b9c9da}
+.source-map[open]{padding-bottom:14px}.source-map article{max-width:950px}
+.ai-availability{padding-top:5px;padding-bottom:5px;min-height:28px}.ai-availability .demo-available{margin-left:auto}
+body[data-section=centre] .extension-heading,body[data-section=truth] .extension-heading{min-height:0!important;padding:10px 0!important;margin:0 0 8px!important}
+body[data-section=centre] .extension-heading h1,body[data-section=truth] .extension-heading h1{font-size:30px!important;margin-top:5px}
+body[data-section=centre] .extension-heading>p,body[data-section=truth] .extension-heading>p{font-size:12px!important;line-height:1.4}
+#centre .analysis-controls,#truth .analysis-controls{padding:6px 12px;gap:14px;margin-bottom:10px;min-height:40px}
+#centre .analysis-controls>label:first-child,#truth .analysis-controls>label:first-child{display:none}
+#centre .sequence-score{display:none}
+#centre .formation-layout{margin-top:0;margin-bottom:12px}
+#centre .sequence-metrics{margin:10px 0 14px}
+#centre .sequence-metrics article{padding:12px 16px}#centre .sequence-metrics strong{font-size:26px}
+#centre .centre-journey{padding:14px 16px;border:1px solid #333d4b;background:#121a24;border-radius:4px;margin:12px 0}
+#truth .truth-intro{padding:8px 0 10px}#truth .truth-intro h2{font-size:25px;margin-top:5px}
+#truth .truth-case-bar{padding:8px 12px;min-height:32px}#truth .truth-chapters{margin-bottom:12px}
+#truth .truth-chapter{padding:8px 12px}#truth .truth-chapter strong{font-size:17px}
+#truth .truth-story-grid{margin-top:0}#truth .truth-narrative,#truth .truth-lens{padding:18px}
+#truth .truth-chapters{margin-top:12px}#truth .truth-lens .truth-challenge{min-height:44px}
+.viewer-study{margin-top:16px;padding:14px;background:#101923;border:1px solid #415164;border-radius:5px;color:#cbd8e8;font-size:14px;line-height:1.5}
+.viewer-study summary{cursor:pointer;color:#fff}.viewer-study fieldset{border:0;border-top:1px solid #38495d;padding:14px 0;margin:12px 0}.viewer-study legend{padding:0 0 8px;font-weight:600;color:#fff}.viewer-study label{display:flex;gap:10px;align-items:flex-start;min-height:44px;padding:7px 0;cursor:pointer}.viewer-study input{flex:none;margin-top:5px;accent-color:#fa3652}.viewer-study button{min-height:44px}.study-result{padding-top:16px}.study-result strong{font-size:18px;color:#d9ee75}
+.party .message{padding:10px 0}.party .message>p{margin:7px 0;line-height:1.5}.party .message-face{width:30px;height:30px}.party .message-specialty{font-size:10px}.party .message details.message-evidence>summary{min-height:24px;padding:3px 0}.party .party-header{min-height:46px;padding:10px 16px}.party .five-specialists.crew{min-height:50px;padding-top:4px;padding-bottom:4px}
+@media(min-width:1000px){body[data-section=centre] .ai-availability[data-state=available] small,body[data-section=truth] .ai-availability[data-state=available] small{font-size:10px}#centre .formation-panel{min-width:0}#centre .formation-layout{grid-template-columns:180px minmax(0,1fr) 180px}}
+@media(max-width:760px){.source-map{padding:7px 16px}.ai-availability .demo-available{margin-left:0}#centre .analysis-controls,#truth .analysis-controls{gap:8px}.viewer-study{padding:12px}#truth .truth-intro label{margin-top:8px}}

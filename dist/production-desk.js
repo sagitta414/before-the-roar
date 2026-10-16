@@ -36,7 +36,7 @@ const download = (name, data, type = "application/json") => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 let replay = null;
-const archiveReady = fetch("assets/btr-agent-evaluation-v40.json").then((r) => {
+const archiveReady = fetch("assets/btr-agent-evaluation.json").then((r) => {
   if (!r.ok) throw Error("Saved receipts unavailable");
   return r.json();
 });
@@ -563,7 +563,7 @@ const drawer = el("details", "agent-receipts"),
   summary = el("summary", "", "Inside the AI desk · tool receipts"),
   roomTrace = el("ol", "proof-trace");
 drawer.append(summary, roomTrace);
-document.querySelector(".party-header").after(drawer);
+document.getElementById("settings-dialog").append(drawer);
 document.addEventListener("btr-agent-trace", (e) => {
   if (e.detail.key !== lastTraceKey) {
     lastTraceKey = e.detail.key;
@@ -581,7 +581,7 @@ truthAction.onclick = () => {
   document.getElementById("inside-nav").click();
   workspace.scrollIntoView({ behavior: "smooth", block: "start" });
 };
-document.querySelector("#truth .extension-heading").after(truthAction);
+document.querySelector("#truth .truth-evidence-details").after(truthAction);
 
 const dataPanel = el("section", "proof-dataset"),
   dataHead = el("div", "proof-heading"),
@@ -686,10 +686,17 @@ archiveReady
     if (!sample) return;
     trace.replaceChildren();
     for (const item of sample.team.trace) receipt(trace, { ...item, replayed: true });
+    contributions.querySelectorAll("article").forEach(n=>n.remove());
+    for(const post of sample.team.posts){
+      const row=el("article");
+      row.append(el("b","",(roles[post.role]||post.role)+" · "+(post.engine==="azure_openai"?"SAVED AI":post.engine==="calculated"?"CALCULATED":post.engine==="evidence_rules"?"SOURCE CHECK":"REVIEWED FALLBACK")),el("p","",post.summary));
+      if(post.caution)row.append(el("small","",post.caution));
+      contributions.append(row);
+    }
     status.textContent =
-      "ARCHIVED EVALUATION · " +
+      "LATEST RECORDED EVALUATION · " +
       new Date(saved.recorded_at).toLocaleString() +
-      ". Real saved receipts; no new AI request. Editorial checks were strengthened after this run. Start a live desk to test the current workflow.";
+      ". Saved public receipts from the current evaluation; no new AI request. Inspect the accepted outputs and any fallback reasons below.";
     captionTag.textContent = "LOCAL CAPTION PREVIEW · SOURCE R1";
     captionBody.textContent =
       "The winger and defender move toward the same side. Their movement coincides; the tracking does not prove why the defender moved.";
@@ -708,9 +715,9 @@ archiveReady
     const archive = el(
       "a",
       "proof-output",
-      "Download the archived evaluation + known failures ↓",
+      "Download current evaluation + raw outputs ↓",
     );
-    archive.href = "assets/btr-agent-evaluation-v40.json";
+    archive.href = "assets/btr-agent-evaluation.json";
     archive.download = "";
     left.append(archive);
   })

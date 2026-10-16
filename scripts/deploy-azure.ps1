@@ -5,7 +5,7 @@ param(
  [Parameter(Mandatory)][string]$ResourceGroup,
  [Parameter(Mandatory)][string]$RegistryName,
  [Parameter(Mandatory)][string]$AppName,
- [ValidatePattern('^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$')][string]$Tag='v41',
+ [ValidatePattern('^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$')][string]$Tag='v42-verified',
  [switch]$PlanOnly
 )
 $ErrorActionPreference='Stop'

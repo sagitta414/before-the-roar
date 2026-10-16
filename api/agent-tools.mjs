@@ -59,8 +59,9 @@ export function executeAgentTool(name, args, { packet, notes, evidence, previous
       ...scope,
       records: evidence,
       definition: packet.guideDefinition,
-      limit:
-        "Only these records are available. An annotation is not automatic video detection.",
+      limit: packet.synthetic
+        ? "Recorded movement and event order do not establish why a defender acted. No intent or technique is measured."
+        : "Only these reviewed annotations are available. An annotation is not automatic video detection.",
     };
   if (name === "calculate_football")
     return {
