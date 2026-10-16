@@ -423,7 +423,7 @@ export function createApp({
           allowance: dailyRequestLimit(),
           active_runs: [...runs.values()].filter((r) => !r.completed && !r.stopped)
             .length,
-          version: "3.11.2",
+          version: "3.12.0",
           usage: (await narrator.store?.allowance?.().catch(() => null)) ?? null,
           agent_tools: true,
           durable_checkpoints: true,

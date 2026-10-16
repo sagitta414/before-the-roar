@@ -3,6 +3,18 @@ import assert from 'node:assert/strict';
 import {validateMatchPost} from '../api/match-desk.mjs';
 import {matchStory} from '../dist/match-story.js';
 import {followUpMetric} from '../api/conversation.mjs';
+import {claimBoundaryIssues} from '../api/claim-boundary.mjs';
+
+test('all public fields reject unmeasured independence and causal absence',()=>{
+ const packet=matchStory({...input,corrected:false,time:16,language:'en'});
+ const valid={headline:'Movement and progression',interpretation:'The defender shifts laterally while the recorded passes progress centrally.',caution:'The records do not establish the influence either way.',evidence_ids:{primary:packet.football.record.id}};
+ assert.ok(validateMatchPost({post:valid},packet,'analyst').evidence_contract.observation);
+ for(const claim of ['The run progresses without directly affecting the defender.','The passes progressed independently of the run.','The defender was unaffected.','La jugada avanza sin afectar al defensor.','O avanço ocorre sem influenciar o defensor.','The run opens the central route.']){
+  assert.ok(claimBoundaryIssues(claim).length,claim);
+  for(const field of ['interpretation','headline','caution','replay_cue'])assert.throws(()=>validateMatchPost({post:{...valid,[field]:claim}},packet,'analyst'),undefined,field+': '+claim);
+ }
+ assert.deepEqual(claimBoundaryIssues('These coordinates do not establish the influence either way.'),[]);
+});
 
 const input={scenario:'wide',time:26,corrected:true,language:'pt',mode:'math',focus:7,team:'harbor'};
 test('follow-up math uses reached tracking and never switches to a missing shot',()=>{

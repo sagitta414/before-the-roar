@@ -1,0 +1,10 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {evaluationSummary,blindReviewPack} from '../api/agent-evaluation.mjs';
+const log=await readFile('tmp/v51-evaluation-console.txt','utf8'),encoded=log.match(/BTR_EVAL_REPORT64=([A-Za-z0-9+/=]+)/)?.[1];
+if(!encoded)throw Error('No complete report; never reconstruct missing outputs');
+const report=JSON.parse(Buffer.from(encoded,'base64').toString('utf8')),plan=JSON.parse(await readFile('docs/proof/v51-evaluation-plan.json','utf8'));
+if(JSON.stringify(report.plan)!==JSON.stringify(plan)||!report.complete||report.cases.length!==2||report.requests_reserved>10)throw Error('Incomplete or unexpected comparison');
+if(JSON.stringify(report.summary)!==JSON.stringify(evaluationSummary(report.cases)))throw Error('Summary mismatch');
+for(const path of ['docs/proof/quality-evaluation-v51.json','dist/assets/btr-quality-evaluation-v51.json'])await writeFile(path,JSON.stringify(report,null,2)+'\n');
+await writeFile('docs/proof/blind-review-v51.json',JSON.stringify(blindReviewPack(report),null,2)+'\n');
+console.log(JSON.stringify({recorded_at:report.recorded_at,summary:report.summary,allowance:report.allowance_after,rounds:report.cases.map(c=>({id:c.id,team:c.team.posts.map(p=>({role:p.role,engine:p.engine,summary:p.summary,caution:p.caution})),baseline:c.baseline.posts}))},null,2));

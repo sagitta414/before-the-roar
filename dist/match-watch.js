@@ -569,6 +569,10 @@ function renderPanel() {
       row.append(metric);
     }
     row.append(el("p", "", post?.summary || draft.summary));
+    if(post){
+      const labels={en:{math:'Calculated from records',reviewer:'Rule-based evidence check',guide:'Viewing question',interpretation:'Interpretation · not a measured fact',notes:'Reviewed reference note'},es:{math:'Calculado de los registros',reviewer:'Comprobación mediante reglas',guide:'Pregunta de observación',interpretation:'Interpretación · no es un hecho medido',notes:'Nota de referencia revisada'},pt:{math:'Calculado dos registros',reviewer:'Verificação por regras',guide:'Pergunta de observação',interpretation:'Interpretação · não é um fato medido',notes:'Nota de referência revisada'}}[state.language];
+      row.append(el('small','claim-kind',post.engine==='reviewed_fallback'?labels.notes:labels[role]||labels.interpretation));
+    }
     if (post?.replay_cue) row.append(el("p", "replay-cue", post.replay_cue));
     if (post) {
       const detail = el("details", "message-evidence"),
@@ -576,6 +580,9 @@ function renderPanel() {
       detail.dataset.role = role;
       detail.open = sameThread ? opened.has(role) : false;
       detail.append(el("summary", "", label));
+      if(post.evidence_contract?.observation){
+        detail.append(el('strong','evidence-anchor-label',({en:'Recorded observation',es:'Observación registrada',pt:'Observação registrada'})[state.language]),el('p','evidence-anchor',post.evidence_contract.observation));
+      }
       if (post.working) detail.append(el("code", "working", post.working));
       if (post.target_claim)
         detail.append(el("blockquote", "reviewed-claim", post.target_claim));
@@ -596,7 +603,7 @@ function renderPanel() {
         links.append(b);
       }
       detail.append(links);
-      if (post.caution) detail.append(el("p", "", post.caution));
+      if (post.caution) detail.append(el('strong','evidence-anchor-label',({en:'What remains unknown',es:'Lo que sigue sin conocerse',pt:'O que ainda não sabemos'})[state.language]),el("p", "", post.caution));
       row.append(detail);
     }
     box.append(row);

@@ -5,15 +5,17 @@ import { MatchDesk } from '../api/match-desk.mjs';
 import { AgentState } from '../api/agent-state.mjs';
 import { matchStory, localPanel } from '../dist/match-story.js';
 import { editorialPolicy } from '../api/editorial-policy.mjs';
+import {followUpMetric} from '../api/conversation.mjs';
 import { EVALUATION_CASES, EXTENDED_CASES, FOLLOW_UP_QUESTION, blindReviewPack, MODEL_ROLES, comparisonSchema, evaluateBaseline, evaluationSummary } from '../api/agent-evaluation.mjs';
 
 const flags = new Set(process.argv.slice(2));
 const study = flags.has('--conversation-study');
+const qualitySmoke=flags.has('--quality-smoke');
 const compactIds = ['wide-original','pressure-to-chance','wide-corrected-es-beginner','counter-pt-saved'];
-const cases = study ? EXTENDED_CASES.slice(0,11) : flags.has('--extended') ? EXTENDED_CASES : flags.has('--balanced') ? EXTENDED_CASES.slice(0,12) : flags.has('--compact') ? EVALUATION_CASES.filter(c=>compactIds.includes(c.id)) : EVALUATION_CASES;
-const follow = study || flags.has('--follow-up');
+const cases = qualitySmoke ? EVALUATION_CASES.filter(c=>c.id==='wide-original') : study ? EXTENDED_CASES.slice(0,11) : flags.has('--extended') ? EXTENDED_CASES : flags.has('--balanced') ? EXTENDED_CASES.slice(0,12) : flags.has('--compact') ? EVALUATION_CASES.filter(c=>compactIds.includes(c.id)) : EVALUATION_CASES;
+const follow = qualitySmoke || study || flags.has('--follow-up');
 const cap = cases.length*5 + (follow ? 5 : 0);
-const plan = {schema:'btr.evaluation-plan.v2',policy:'v44.1',cases,follow_up:follow?{parent:cases[0].id,question:FOLLOW_UP_QUESTION,paired:true}:null,maximum_requests:cap,method:'One trial per case and arm, fixed before generation. Both arms use the same evidence and editorial guards. Follow-up uses each arm’s own previous public contributions. No quality or audience benefit is inferred from guard acceptance.'};
+const plan = {schema:'btr.evaluation-plan.v2',policy:'v51-grounded',cases,follow_up:follow?{parent:cases[0].id,question:FOLLOW_UP_QUESTION,paired:true}:null,maximum_requests:cap,method:'One trial per case and arm, fixed before generation. Both arms use the same evidence and editorial guards. Follow-up uses each arm’s own previous public contributions. No quality or audience benefit is inferred from guard acceptance.'};
 if(!flags.has('--live')){console.log(JSON.stringify(plan,null,2));process.exit(0);}
 for(const name of ['AZURE_OPENAI_ENDPOINT','AZURE_STORAGE_URL'])if(!process.env[name])throw Error(name+' required');
 class EvaluationStore extends ResultStore {
@@ -45,12 +47,12 @@ async function persist(){
 }
 async function baseline(input,previous=[]){
  const packet=matchStory(input),notes=localPanel(packet),support=notes.filter(p=>['math','reviewer'].includes(p.role));
- if(previous.length&&packet.analysis.calculations.length>1){const metric=packet.analysis.calculations.find(c=>c.text!==previous.find(p=>p.role==='math')?.summary);if(metric)Object.assign(support.find(p=>p.role==='math'),{summary:metric.text,working:metric.equation,evidence_ids:metric.evidence_ids});}
+ if(previous.length){const metric=followUpMetric(packet);if(metric)Object.assign(support.find(p=>p.role==='math'),{summary:metric.text,working:metric.equation,evidence_ids:metric.evidence_ids,metric_value:metric.value,metric_title:metric.label});}
  const evidence=packet.evidence.filter(e=>e.record_type!=='tracking'||packet.brief.evidenceIds.includes(e.id)),began=performance.now();
  const result={posts:[],accepted:0,rejected:3,requests:0,elapsed_ms:0};
  try{
   if(!await store.reserve())throw Error('Allowance reached');result.requests=1;
-  const response=await fetch(new URL(`openai/deployments/${encodeURIComponent(model)}/chat/completions?api-version=2024-10-21`,process.env.AZURE_OPENAI_ENDPOINT),{method:'POST',headers:{Authorization:'Bearer '+await accessToken('https://cognitiveservices.azure.com/'),'Content-Type':'application/json'},signal:AbortSignal.timeout(60000),body:JSON.stringify({messages:[{role:'system',content:'Write three distinct public contributions in one response. Return keys analyst, guide, presenter. Each follows its contract below. Within this response, Guide builds on Scout and Host synthesizes the other contributions. Use only the supplied facts.\n'+MODEL_ROLES.map(role=>editorialPolicy(packet,role)).join('\n\n')},{role:'user',content:JSON.stringify({question:input.question||null,clock:packet.clock,revision:packet.revision,calculated:packet.stats,role_briefs:notes,evidence,review:packet.review,guide_definition:packet.guideDefinition,football_context:packet.football,editorial_closing_reference:notes.find(p=>p.role==='presenter').summary,local_calculation:support.find(p=>p.role==='math'),conversation:{round:previous.length?2:1,max_rounds:3},prior_round:previous})}],temperature:.45,max_tokens:1400,response_format:{type:'json_schema',json_schema:{name:'single_editor_baseline',strict:true,schema:comparisonSchema(evidence.map(e=>e.id),packet.football?.observation?packet.football.record.id:undefined)}}})});
+  const response=await fetch(new URL(`openai/deployments/${encodeURIComponent(model)}/chat/completions?api-version=2024-10-21`,process.env.AZURE_OPENAI_ENDPOINT),{method:'POST',headers:{Authorization:'Bearer '+await accessToken('https://cognitiveservices.azure.com/'),'Content-Type':'application/json'},signal:AbortSignal.timeout(60000),body:JSON.stringify({messages:[{role:'system',content:'Write three distinct public contributions in one response. Return keys analyst, guide, presenter. Each follows its contract below. Within this response, Guide builds on Scout and Host synthesizes the other contributions. Use only the supplied facts.\n'+MODEL_ROLES.map(role=>editorialPolicy(packet,role,{round:previous.length?2:1})).join('\n\n')},{role:'user',content:JSON.stringify({question:input.question||null,clock:packet.clock,revision:packet.revision,calculated:packet.stats,role_briefs:notes,evidence,review:packet.review,guide_definition:packet.guideDefinition,football_context:packet.football,editorial_closing_reference:notes.find(p=>p.role==='presenter').summary,local_calculation:support.find(p=>p.role==='math'),conversation:{round:previous.length?2:1,max_rounds:3},prior_round:previous})}],temperature:.45,max_tokens:1400,response_format:{type:'json_schema',json_schema:{name:'single_editor_baseline',strict:true,schema:comparisonSchema(evidence.map(e=>e.id),packet.football?.observation?packet.football.record.id:undefined)}}})});
   if(!response.ok)throw Error('Baseline model HTTP '+response.status);
   const data=await response.json(),raw=JSON.parse(data.choices[0].message.content);Object.assign(result,evaluateBaseline(raw,packet,{previous,support}),{raw,usage:data.usage||null});
  }catch(error){result.error=error.message;}
@@ -76,3 +78,6 @@ try{
  report.allowance_after=await store.allowance();
 }finally{await persist();if(stdout)console.log('BTR_EVAL_REPORT64='+Buffer.from(JSON.stringify(report)).toString('base64'));}
 console.log(JSON.stringify({complete:report.complete,summary:report.summary,requests_reserved:reservations}));
+
+
+

@@ -15,6 +15,7 @@ import {
 import { editorialIssues } from "../dist/editorial-quality.js";
 import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
 import { conversationContext, followUpMetric } from "./conversation.mjs";
+import { claimBoundaryIssues } from "./claim-boundary.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary, previous = []) {
@@ -85,6 +86,16 @@ export function validateMatchPost(raw, packet, role) {
     p.replay_cue,
     p.viewing_question,
   ].join(" ");
+  if (packet.synthetic) {
+    const boundary = [
+      p.interpretation,
+      p.headline,
+      p.caution,
+      p.replay_cue,
+      p.viewing_question,
+    ].flatMap(claimBoundaryIssues);
+    if (boundary.length) throw Error(boundary.join("; "));
+  }
   if (
     PLAYERS.some((player) =>
       new RegExp("\\b" + player.name.split(" ").at(-1) + "\\b", "i").test(prose),
@@ -179,6 +190,12 @@ export function validateMatchPost(raw, packet, role) {
     title: p.headline,
     caution: p.caution,
     evidence_ids,
+    evidence_contract: {
+      kind: role === "guide" ? "viewing_question" : "interpretation",
+      observation: packet.football?.observation || null,
+      limitation: p.caution,
+      validation: "Citation and editorial checks only; not semantic proof",
+    },
     ...(role === "presenter" ? { replay_cue: p.replay_cue } : {}),
   };
 }
@@ -196,8 +213,8 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v11:" + pitchsideKey(input) + ":" + (input.parentKey || "")
-            : "cohesive-tools-v11:" + editorialKey(input) + ":" + (input.parentKey || ""),
+            ? "pitchside-tools-v12:" + pitchsideKey(input) + ":" + (input.parentKey || "")
+            : "cohesive-tools-v12:" + editorialKey(input) + ":" + (input.parentKey || ""),
         )
         .digest("hex");
     if (this.pending.has(key)) {
