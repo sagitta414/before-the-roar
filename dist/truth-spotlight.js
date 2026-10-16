@@ -1,4 +1,5 @@
 import {matchSession} from './match-session.js';
+import {EVIDENCE_CASES,eventComparison} from './evidence-cases.js';
 
 export function openTruthDemo(){
  matchSession.set({source:'match',scenario:'wide',corrected:false,section:'truth'},'truth-demo');
@@ -9,6 +10,8 @@ export function openTruthDemo(){
 export function createTruthSpotlight({seek,toggleCorrection,pause}){
  const make=(tag,cls,text)=>{const node=document.createElement(tag);node.className=cls;if(text)node.textContent=text;return node;};
  const root=make('section','truth-spotlight');root.setAttribute('aria-label','Evidence changes the story');
+ const cases=make('div','truth-case-picker');cases.setAttribute('role','group');cases.setAttribute('aria-label','Evidence tests');
+ for(const c of EVIDENCE_CASES){const b=make('button','outline-button',c.name);b.dataset.case=c.id;b.onclick=()=>{pause();matchSession.set({source:'match',scenario:c.id,corrected:false,section:'truth'},'evidence-case');matchSession.set({time:c.before},'evidence-case');};cases.append(b);}
  const eyebrow=make('p','eyebrow','THE CLAIM. THE CHANGE. THE CORRECTION.');
  const title=make('h2','','Change one record. See what changes.');
  const scope=make('p','truth-demo-scope','Controlled synthetic demonstration · no AI request. This changes an authored tracking record, not the real world.');
@@ -21,14 +24,25 @@ export function createTruthSpotlight({seek,toggleCorrection,pause}){
  cards[0].card.append(originalReplay);cards[2].card.append(currentReplay);
  const actions=make('div','truth-change-actions'),change=make('button','red-button'),status=make('p','truth-change-status');status.setAttribute('role','status');
  const survives=make('p','truth-change-survives');actions.append(change,status);
- root.append(eyebrow,title,scope,actions,grid,survives);
+ const proof=make('a','truth-proof-link','See the live AI evidence checks ↗');proof.href='evidence-proof.html';
+ root.append(cases,eyebrow,title,scope,actions,grid,survives,proof);
  document.querySelector('#truth .truth-story-grid').before(root);
- let current;
- change.onclick=()=>{pause();if(!current.ready)seek(current.context.ready,false);else toggleCorrection();};
+ let current,eventCase;
+ change.onclick=()=>{pause();if(eventCase)seek(eventCase.arrived?eventCase.config.before:eventCase.config.after,false);else if(!current.ready)seek(current.context.ready,false);else toggleCorrection();};
  function replay(corrected){pause();seek(current.time,corrected);document.getElementById('watch-nav').click();}
- originalReplay.onclick=()=>replay(false);currentReplay.onclick=()=>replay(current.changed);
+ originalReplay.onclick=()=>{if(eventCase){pause();seek(eventCase.config.before,false);document.getElementById('watch-nav').click();}else replay(false);};currentReplay.onclick=()=>replay(current.changed);
  return {render(n,packet){
-  current=n;root.hidden=packet.scenario!=='wide';if(root.hidden)return;
+  current=n;root.hidden=false;eventCase=eventComparison(packet.scenario,n.time);root.dataset.kind=eventCase?"arrival":"correction";
+  for(const b of cases.children)b.setAttribute('aria-pressed',String(b.dataset.case===packet.scenario));
+  if(eventCase){
+   const e=eventCase;root.dataset.changed=String(e.arrived);title.textContent='New evidence. A more precise story.';
+   scope.textContent='Controlled synthetic demonstration · no AI request. Advance the evidence cutoff; no event is rewritten.';
+   cards[0].body.textContent=e.original;cards[1].body.textContent=e.change;cards[2].body.textContent=e.current;
+   metric.textContent=e.metric;evidence.textContent=e.source?e.source.id+' · completed at '+e.source.end+'s':'Only completed events can support an outcome.';
+   change.textContent=e.arrived?'Restore the earlier cutoff ↺':'Release the next evidence →';status.textContent=e.arrived?'New outcome supported. Earlier records preserved.':'The outcome is pending. No prediction is presented as fact.';
+   survives.textContent=e.preserved;originalReplay.textContent='Replay before · '+e.beforeClock+' ↗';currentReplay.textContent='Replay current · '+e.clock+' ↗';return;
+  }
+  title.textContent='Change one record. See what changes.';scope.textContent='Controlled synthetic demonstration · no AI request. This changes an authored tracking record, not the real world.';
   root.dataset.changed=String(n.changed);
   cards[0].body.textContent=n.originalLine;
   cards[2].body.textContent=n.currentLine;

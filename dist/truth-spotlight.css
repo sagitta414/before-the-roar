@@ -8,11 +8,12 @@
 .truth-change-card button{margin-top:auto;min-height:44px;text-align:left;font-size:13px}
 .truth-change-metric{font:800 34px/1.2 'Barlow Condensed',sans-serif;color:#a4d5ff}
 .truth-change-detail{color:#b8c9dc;font-size:12px}
-.truth-spotlight[data-changed=true] .truth-change-card:first-child{border-color:#70444f}
-.truth-spotlight[data-changed=true] .truth-change-card:first-child .truth-change-copy{text-decoration:line-through;text-decoration-color:#ff8197;color:#c6b6bd}
+.truth-spotlight[data-changed=true][data-kind=correction] .truth-change-card:first-child{border-color:#70444f}
+.truth-spotlight[data-changed=true][data-kind=correction] .truth-change-card:first-child .truth-change-copy{text-decoration:line-through;text-decoration-color:#ff8197;color:#c6b6bd}
 .truth-spotlight[data-changed=true] .truth-change-card:last-child{border-color:#5d9d85;background:#112821}
 .truth-spotlight[data-changed=true] .truth-change-card:last-child h3{color:#a9e4c6}
 .truth-change-actions{display:flex;align-items:center;gap:18px;margin:0 0 16px}.truth-change-actions button{min-height:48px}
 .truth-change-status{font-size:14px;line-height:1.5;color:#d5e1ee}.truth-change-survives{margin:10px 0 0;padding:12px 16px;background:#172c29;color:#bce6d5;border-left:3px solid #92d7b8;font-size:14px}
 .truth-demo-entry{padding:20px;margin:16px 0;border:1px solid #435775;border-left:3px solid #ff4565;background:#152033;border-radius:8px}.truth-demo-entry strong{font-size:22px;color:#fff}.truth-demo-entry p{font-size:15px;line-height:1.6;color:#c8d6e8}
+.truth-case-picker{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}.truth-case-picker button{min-height:44px;flex:1;text-align:left}.truth-case-picker button[aria-pressed=true]{border-color:#ff4565;background:#482332;color:white}.truth-proof-link{display:inline-block;margin-top:16px;color:#abd5ff;font-size:14px}.truth-context-details{margin:16px 0;border:1px solid #334258;border-radius:8px;padding:16px}.truth-context-details>summary{cursor:pointer;font-size:16px;font-weight:700;color:#d6e5f4;min-height:28px}.truth-context-details .truth-story-grid{margin-top:18px}.truth-context-details .truth-measure,.truth-context-details .truth-change-note{display:none}.truth-case-picker button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 @media(max-width:760px){.truth-spotlight{padding:16px;margin-top:10px}.truth-change-grid{grid-template-columns:1fr;gap:10px}.truth-change-card{padding:16px}.truth-change-copy{font-size:17px;line-height:1.55}.truth-change-actions{flex-direction:column;align-items:stretch;gap:4px}.truth-demo-entry button{width:100%}.truth-change-metric{font-size:30px}}

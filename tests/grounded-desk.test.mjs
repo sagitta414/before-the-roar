@@ -5,6 +5,15 @@ import {MatchDesk} from '../api/match-desk.mjs';import {testState} from './agent
 import {followUpMetric,conversationContext} from '../api/conversation.mjs';
 const input={scenario:'wide',time:16,language:'en',mode:'analyst',focus:7,team:'harbor',corrected:false};
 
+test('outcome response waits for completed shots and distinguishes saved shots from goals',()=>{
+ for(const language of ['en','es','pt'])for(const [scenario,time,expected]of [['counter',27,null],['counter',28,'saved'],['wide',31,'goal']]){
+  const p=matchStory({...input,scenario,time,language}),c=sourceCatalog(p,localPanel(p));
+  const posts=selectSourcePosts({angle:'outcome'},c,p);assert.equal(p.analysis.shot?.outcome||null,expected);
+  assert.notEqual(posts.find(x=>x.role==='analyst').summary,posts.find(x=>x.role==='presenter').summary);
+  if(language==='en')assert.match(posts.find(x=>x.role==='presenter').summary,expected==='saved'?/was saved/:expected==='goal'?/recorded as a goal/:/cannot yet be reported/);
+ }
+});
+
 test('simplification teaches a concept instead of turning a beginner request into a causal challenge',()=>{
  for(const language of ['en','es','pt'])for(const corrected of [false,true]) {
   const p=matchStory({...input,language,corrected}),notes=localPanel(p),first=sourceCatalog(p,notes).movement.posts;

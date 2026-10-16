@@ -11,7 +11,7 @@ export const PLAYERS=[
  {id:9,name:'Theo Brooks',role:'Striker',team:'harbor',base:[77,35]},
  {id:10,name:'Rafael Costa',role:'Attacking midfielder',team:'harbor',base:[67,40]},
  {id:11,name:'Isaac Hart',role:'Right winger',team:'harbor',base:[70,54]},
- ...[[1,100,34],[2,78,26],[3,79,53],[4,83,34],[5,82,43],[6,64,30],[7,48,16],[8,62,46],[9,42,35],[10,54,39],[11,49,56]].map(([n,x,y])=>({id:100+n,number:n,name:['','Max Berg','Jules Laurent','Ben Shaw','Alex Ross','Milan Voss','Samir Ali','Hugo Bell','Arlo King','Adam Price','Nico Stone','Tom Avery'][n],team:'north',base:[x,y]}))
+ ...[[1,100,34],[2,78,26],[3,79,53],[4,83,34],[5,82,43],[6,64,30],[7,48,16],[8,62,46],[9,42,35],[10,54,39],[11,49,56]].map(([n,x,y])=>({id:100+n,number:n,name:['','Max Berg','Jules Laurent','Ben Shaw','Alex Ross','Milan Voss','Samir Ali','Hugo Bell','Arlo King','Adam Price','Nico Stone','Tom Avery'][n],role:['','Goalkeeper','Right back','Left back','Centre back','Centre back','Holding midfielder','Right winger','Central midfielder','Striker','Attacking midfielder','Left winger'][n],team:'north',base:[x,y]}))
 ];
 export const SCENARIOS=[
  {id:'wide',minute:67,duration:36,title:'The unseen run',subtitle:'A winger. A defender. A gap.',esTitle:'La carrera invisible',focus:7,kind:'Wide overload',

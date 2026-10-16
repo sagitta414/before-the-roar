@@ -1,7 +1,7 @@
 import {matchSession} from './match-session.js';
 import {position} from './engine.js';
 import {truthStory,truthStoryPacket} from './truth-story-model.js';
-import {createTruthSpotlight} from './truth-spotlight.js';
+import {createTruthSpotlight} from './truth-spotlight.js?v=55';
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const svg=(tag,attrs,text)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
 function text(id,value){if($(id).textContent!==value)$(id).textContent=value;}
@@ -10,6 +10,10 @@ function save(name,data){const url=URL.createObjectURL(new Blob([JSON.stringify(
 export function createTruthLab({seek,toggleCorrection,pause}){
  const spotlight=createTruthSpotlight({seek,toggleCorrection,pause});
  document.querySelector('#truth .truth-story-grid').after($('truth-chapters'));
+ const detail=el('details','truth-context-details'),summary=el('summary','','Explore the narrative and tracking');document.querySelector('#truth .truth-story-grid').before(detail);detail.append(summary,document.querySelector('#truth .truth-story-grid'));
+ document.querySelector('#truth .truth-evidence-details').removeAttribute('open');
+ for(const selector of ['.truth-impact','.truth-survives','.truth-editor-note']){const node=document.querySelector('#truth '+selector);document.querySelector('#truth .truth-evidence-details').append(node);}
+
  let scenario,time=0,corrected=false,language='en',audience='fan',narrative,signature='',speaking=false,spokenKey='',selectedClaim='movement';
  const canSpeak=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined',claimNodes=new Map();
  function silence(){if(speaking&&canSpeak)speechSynthesis.cancel();speaking=false;text('truth-listen','Listen to the story');$('truth-listen').setAttribute('aria-pressed','false');}
@@ -70,9 +74,9 @@ export function createTruthLab({seek,toggleCorrection,pause}){
   $('truth').dataset.revised=String(n.changed);
   text('truth-case-number','CASE '+n.context.number);text('truth-case-title',s.title);text('truth-question',n.context.question);text('truth-phase',n.phase);text('truth-version','R'+n.revision+' · '+n.clock);
   text('truth-headline',n.headline);text('truth-copy',n.observation);text('truth-outcome',n.outcome);text('truth-interpretation',n.interpretation);text('truth-check-note',n.review);
-  $('truth-diff').hidden=!n.changed;text('truth-old-line',n.originalLine);text('truth-new-line',n.currentLine);
+  $('truth-diff').hidden=true;text('truth-old-line',n.originalLine);text('truth-new-line',n.currentLine);
   text('truth-current-label',n.revision===2?'R2 / CORRECTED RECORD':'R1 / CURRENT RECORD');text('truth-lens-caption',n.changed?'The run remains. The defender’s movement does not.':n.context.subjectName+' and '+n.context.partnerName+' · tracks stop at '+n.clock);
-  const button=$('reveal-truth');button.disabled=!n.audit.correctionAvailable;button.setAttribute('aria-pressed',String(n.audit.revealed));button.textContent=!n.audit.correctionAvailable?'No alternate record in this case':n.audit.revealed?'Restore the original record ↺':'Challenge the tracking ↗';
+  const button=$('reveal-truth');button.hidden=true;button.disabled=!n.audit.correctionAvailable;button.setAttribute('aria-pressed',String(n.audit.revealed));button.textContent=!n.audit.correctionAvailable?'No alternate record in this case':n.audit.revealed?'Restore the original record ↺':'Challenge the tracking ↗';
   text('truth-change-note',n.audit.correctionAvailable?'Hold Laurent at his starting position. All recorded passes and shots stay intact.':'Use the chapter buttons to explore what the evidence can—and cannot—support.');
   const chapters=$('truth-chapters');
   if(chapters.dataset.scenario!==s.id+language){chapters.dataset.scenario=s.id+language;chapters.replaceChildren();for(const chapter of n.chapters){const b=el('button','truth-chapter');b.append(el('span','chapter-index',String(chapter.index+1).padStart(2,'0')),el('strong','',chapter.label),el('small','',chapter.clock));b.dataset.chapter=chapter.index;b.addEventListener('click',()=>{silence();seek(chapter.second,chapter.corrected);});chapters.append(b);}}

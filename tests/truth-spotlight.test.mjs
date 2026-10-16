@@ -18,9 +18,9 @@ test('comparison shows the withdrawn statement, unchanged passes, and replay for
   root.querySelector('.red-button').click();assert.equal(calls.at(-1),'toggle');
   render(16,true);assert.match(root.textContent,/13.0 m → 0.0 m/);assert.match(root.textContent,/no lateral movement/);
   assert.equal(root.querySelector('.truth-change-survives').textContent,preserved);
-  root.querySelectorAll('.outline-button')[1].click();assert.deepEqual(calls.at(-1),[16,true]);assert.equal(opened,true);
-  root.querySelectorAll('.outline-button')[0].click();assert.deepEqual(calls.at(-1),[16,false]);
+  root.querySelectorAll('.truth-change-card .outline-button')[1].click();assert.deepEqual(calls.at(-1),[16,true]);assert.equal(opened,true);
+  root.querySelectorAll('.truth-change-card .outline-button')[0].click();assert.deepEqual(calls.at(-1),[16,false]);
   render(8,false);assert.match(root.textContent,/not yet reached/);root.querySelector('.red-button').click();assert.deepEqual(calls.at(-1),[16,false]);
-  view.render(truthStory(SCENARIOS[1],16),truthStoryPacket(SCENARIOS[1],16));assert.equal(root.hidden,true);
+  view.render(truthStory(SCENARIOS[1],16),truthStoryPacket(SCENARIOS[1],16));assert.equal(root.hidden,false);assert.match(root.textContent,/Cole intercepted/);
  } finally {global.document=previous;dom.window.close();}
 });

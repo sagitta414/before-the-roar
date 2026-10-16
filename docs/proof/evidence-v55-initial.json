@@ -1,0 +1,1495 @@
+{
+  "recorded_at": "2026-10-16T17:19:14.362Z",
+  "limits": "Six developer-authored live probes, not blind testing, an accuracy score or proof of general reasoning. The model selects grounded catalog responses. Tracking correction and two event cutoffs are tested.",
+  "rounds": [
+    {
+      "input": {
+        "scenario": "wide",
+        "time": 16,
+        "corrected": false,
+        "question": "Can the defender’s lateral movement be measured here without claiming the runner caused it?",
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          }
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc",
+            "round": 1,
+            "parent": null,
+            "max_rounds": 3
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792171159694,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 16,
+            "revision": 1,
+            "storage": "azure_blob"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792171159705,
+            "role": "director",
+            "action": "source_catalog_ready",
+            "angles": [
+              "progression",
+              "movement",
+              "limits",
+              "outside_scope",
+              "beginner",
+              "calculation",
+              "next_check"
+            ],
+            "policy": "v53-audience-composition"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "math",
+            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
+            "metric_value": "23.7 m",
+            "metric_title": "Forward passing gain",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "turn_id": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc:math",
+            "round": 1,
+            "sequence": 1,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "analyst",
+            "summary": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "movement",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc:analyst",
+            "round": 1,
+            "sequence": 2,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400",
+              "wide-analysis-16.0"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place?",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "teaching_prompt",
+              "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "movement",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc:guide",
+            "round": 1,
+            "sequence": 3,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "math",
+            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
+            "metric_value": "23.7 m",
+            "metric_title": "Forward passing gain",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "movement",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc:math",
+            "round": 1,
+            "sequence": 4,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400",
+              "wide-analysis-16.0"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+            "decision": "qualify",
+            "target_claim": "The run caused the defender to follow.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_check",
+              "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "movement",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc:reviewer",
+            "round": 1,
+            "sequence": 5,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "wide-football-16.0-r1",
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "presenter",
+            "summary": "The central passing route and the wide run are both recorded. Crediting the run for the defender’s decision would require evidence beyond these positions.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "movement",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc:presenter",
+            "round": 1,
+            "sequence": 6,
+            "reply_to": "reviewer"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792171161362,
+            "role": "director",
+            "action": "source_composition_selected",
+            "angle": "movement",
+            "reason": null,
+            "model_requests": 1
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 1,
+            "prompt_tokens": 505,
+            "completion_tokens": 5,
+            "usage_missing": 0,
+            "elapsed_ms": 1974,
+            "status": "complete",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 16,
+              "status": "bounded",
+              "claim": "The run caused the defender to follow.",
+              "explanation": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400",
+                "wide-analysis-16.0"
+              ],
+              "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "policy": "v53-audience-composition"
+          }
+        }
+      ],
+      "http_status": 200,
+      "elapsed_ms": 2444
+    },
+    {
+      "input": {
+        "scenario": "wide",
+        "time": 16,
+        "corrected": true,
+        "question": "With the revised tracking, what must be withdrawn and what can we still say about the passing?",
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor",
+        "parentKey": "c326e2462d961ffdb598c1b6b1a73d553dfa8bcf600c83ef87dca64d3e43b6fc"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          }
+        },
+        {
+          "type": "error",
+          "data": {
+            "message": "The discussion could not finish. Please retry."
+          }
+        }
+      ],
+      "http_status": 200,
+      "elapsed_ms": 64
+    },
+    {
+      "input": {
+        "scenario": "press",
+        "time": 9,
+        "corrected": false,
+        "question": "Freeze at this instant. Has possession actually changed yet, or is that still an expectation?",
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          }
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62",
+            "round": 1,
+            "parent": null,
+            "max_rounds": 3
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792171161511,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 9,
+            "revision": 1,
+            "storage": "azure_blob"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792171161519,
+            "role": "director",
+            "action": "source_catalog_ready",
+            "angles": [
+              "progression",
+              "pressure",
+              "limits",
+              "outside_scope",
+              "beginner",
+              "calculation",
+              "next_check"
+            ],
+            "policy": "v53-audience-composition"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "press-analysis-9.0"
+            ],
+            "cutoff": 9,
+            "revision": 1,
+            "role": "math",
+            "summary": "The gap closes by 1.3 m while the receiver has the ball. Less space can limit decision time; this gap alone cannot establish a forced mistake.",
+            "working": "√((x₂ − x₁)² + (y₂ − y₁)²); 2.48 − 1.13 = 1.34 m",
+            "metric_value": "2.5 → 1.1 m",
+            "metric_title": "Space to the ball carrier",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The presser closes the gap while the receiver has the ball. The next pass has not yet produced a recorded recovery.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "turn_id": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62:math",
+            "round": 1,
+            "sequence": 1,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "press-football-9.0-r1"
+            ],
+            "cutoff": 9,
+            "revision": 1,
+            "role": "analyst",
+            "summary": "The presser closes the gap while the receiver has the ball. The next pass has not yet produced a recorded recovery.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The presser closes the gap while the receiver has the ball. The next pass has not yet produced a recorded recovery.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62:analyst",
+            "round": 1,
+            "sequence": 2,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-analysis-9.0"
+            ],
+            "cutoff": 9,
+            "revision": 1,
+            "role": "guide",
+            "summary": "Pressing means approaching an opponent with the ball to restrict their options. Is the receiver’s nearest passing option ahead of the ball or behind it?",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "teaching_prompt",
+              "observation": "The presser closes the gap while the receiver has the ball. The next pass has not yet produced a recorded recovery.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62:guide",
+            "round": 1,
+            "sequence": 3,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "press-analysis-9.0"
+            ],
+            "cutoff": 9,
+            "revision": 1,
+            "role": "math",
+            "summary": "The gap closes by 1.3 m while the receiver has the ball. Less space can limit decision time; this gap alone cannot establish a forced mistake.",
+            "working": "√((x₂ − x₁)² + (y₂ − y₁)²); 2.48 − 1.13 = 1.34 m",
+            "metric_value": "2.5 → 1.1 m",
+            "metric_title": "Space to the ball carrier",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The presser closes the gap while the receiver has the ball. The next pass has not yet produced a recorded recovery.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62:math",
+            "round": 1,
+            "sequence": 4,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-analysis-9.0"
+            ],
+            "cutoff": 9,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "Wait for the evidence before asserting a movement claim.",
+            "decision": "hold",
+            "target_claim": "The sequence is still developing. Let the recorded play arrive before drawing a conclusion.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_check",
+              "observation": "The presser closes the gap while the receiver has the ball. The next pass has not yet produced a recorded recovery.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62:reviewer",
+            "round": 1,
+            "sequence": 5,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "press-football-9.0-r1",
+              "press-analysis-9.0"
+            ],
+            "cutoff": 9,
+            "revision": 1,
+            "role": "presenter",
+            "summary": "An approaching opponent is a pressure observation. A forced mistake is a causal explanation that these records cannot establish.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The presser closes the gap while the receiver has the ball. The next pass has not yet produced a recorded recovery.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62:presenter",
+            "round": 1,
+            "sequence": 6,
+            "reply_to": "reviewer"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792171162688,
+            "role": "director",
+            "action": "source_composition_selected",
+            "angle": "pressure",
+            "reason": null,
+            "model_requests": 1
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 1,
+            "prompt_tokens": 602,
+            "completion_tokens": 5,
+            "usage_missing": 0,
+            "elapsed_ms": 1198,
+            "status": "complete",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 9,
+              "status": "held",
+              "claim": "The sequence is still developing. Let the recorded play arrive before drawing a conclusion.",
+              "explanation": "The sequence is still developing. Let the recorded play arrive before drawing a conclusion.",
+              "evidence_ids": [
+                "press-evt-001",
+                "press-analysis-9.0"
+              ],
+              "check": "Wait for the evidence before asserting a movement claim.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "policy": "v53-audience-composition"
+          }
+        }
+      ],
+      "http_status": 200,
+      "elapsed_ms": 1257
+    },
+    {
+      "input": {
+        "scenario": "press",
+        "time": 10,
+        "corrected": false,
+        "question": "What new event is now supported, and does it establish that the pressure caused the mistake?",
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor",
+        "parentKey": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          }
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "07b2ecdf73f411b3358b90046f3c6df1b15e1b88a1c8fa12a0a60375f4015eb5",
+            "round": 2,
+            "parent": "f1e56e836410981c5eeeb32a9dcce4cc09c46d1a9000cff1a6ff43892de16f62",
+            "max_rounds": 3
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792171162785,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 10,
+            "revision": 1,
+            "storage": "azure_blob"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792171162797,
+            "role": "director",
+            "action": "source_catalog_ready",
+            "angles": [
+              "progression",
+              "recovery",
+              "pressure",
+              "limits",
+              "outside_scope",
+              "beginner",
+              "calculation",
+              "next_check"
+            ],
+            "policy": "v53-audience-composition"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "press-analysis-10.0"
+            ],
+            "cutoff": 10,
+            "revision": 1,
+            "role": "math",
+            "summary": "The gap closes by 1.3 m while the receiver has the ball. Less space can limit decision time; this gap alone cannot establish a forced mistake.",
+            "working": "√((x₂ − x₁)² + (y₂ − y₁)²); 2.48 − 1.13 = 1.34 m",
+            "metric_value": "2.5 → 1.1 m",
+            "metric_title": "Space to the ball carrier",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "Possession changes at the recorded recovery. No completed forward pass has followed yet.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": true,
+            "turn_id": "07b2ecdf73f411b3358b90046f3c6df1b15e1b88a1c8fa12a0a60375f4015eb5:math",
+            "round": 2,
+            "sequence": 1,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "press-football-10.0-r1"
+            ],
+            "cutoff": 10,
+            "revision": 1,
+            "role": "analyst",
+            "summary": "Possession changes at the recorded recovery. No completed forward pass has followed yet.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "Possession changes at the recorded recovery. No completed forward pass has followed yet.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "07b2ecdf73f411b3358b90046f3c6df1b15e1b88a1c8fa12a0a60375f4015eb5:analyst",
+            "round": 2,
+            "sequence": 2,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-track-8-150",
+              "press-analysis-10.0"
+            ],
+            "cutoff": 10,
+            "revision": 1,
+            "role": "guide",
+            "summary": "What would we need to compare before crediting one player’s movement for the next event?",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "teaching_prompt",
+              "observation": "Possession changes at the recorded recovery. No completed forward pass has followed yet.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "07b2ecdf73f411b3358b90046f3c6df1b15e1b88a1c8fa12a0a60375f4015eb5:guide",
+            "round": 2,
+            "sequence": 3,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "press-analysis-10.0"
+            ],
+            "cutoff": 10,
+            "revision": 1,
+            "role": "math",
+            "summary": "The gap closes by 1.3 m while the receiver has the ball. Less space can limit decision time; this gap alone cannot establish a forced mistake.",
+            "working": "√((x₂ − x₁)² + (y₂ − y₁)²); 2.48 − 1.13 = 1.34 m",
+            "metric_value": "2.5 → 1.1 m",
+            "metric_title": "Space to the ball carrier",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "Possession changes at the recorded recovery. No completed forward pass has followed yet.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": true,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "07b2ecdf73f411b3358b90046f3c6df1b15e1b88a1c8fa12a0a60375f4015eb5:math",
+            "round": 2,
+            "sequence": 4,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "press-evt-001",
+              "press-evt-002",
+              "press-track-8-150",
+              "press-analysis-10.0"
+            ],
+            "cutoff": 10,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "Pressure precedes the interception. These records cannot prove it forced the mistake.",
+            "decision": "qualify",
+            "target_claim": "The pressure forced the interception.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_check",
+              "observation": "Possession changes at the recorded recovery. No completed forward pass has followed yet.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "07b2ecdf73f411b3358b90046f3c6df1b15e1b88a1c8fa12a0a60375f4015eb5:reviewer",
+            "round": 2,
+            "sequence": 5,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "press-football-10.0-r1"
+            ],
+            "cutoff": 10,
+            "revision": 1,
+            "role": "presenter",
+            "summary": "An approaching opponent is a pressure observation. A forced mistake is a causal explanation that these records cannot establish.",
+            "replay_cue": "Replay the intercepted pass and the receiver who wins it.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "Possession changes at the recorded recovery. No completed forward pass has followed yet.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": true,
+            "editorial_angle": "pressure",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "07b2ecdf73f411b3358b90046f3c6df1b15e1b88a1c8fa12a0a60375f4015eb5:presenter",
+            "round": 2,
+            "sequence": 6,
+            "reply_to": "reviewer"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792171163686,
+            "role": "director",
+            "action": "source_composition_selected",
+            "angle": "pressure",
+            "reason": null,
+            "model_requests": 1
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 1,
+            "prompt_tokens": 927,
+            "completion_tokens": 5,
+            "usage_missing": 0,
+            "elapsed_ms": 952,
+            "status": "complete",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 10,
+              "status": "bounded",
+              "claim": "The pressure forced the interception.",
+              "explanation": "Silva approaches the ball carrier before Cole intercepts the pass. The timing supports a pressure-and-recovery story, not proof of causation.",
+              "evidence_ids": [
+                "press-evt-001",
+                "press-evt-002",
+                "press-track-8-150",
+                "press-analysis-10.0"
+              ],
+              "check": "Pressure precedes the interception. These records cannot prove it forced the mistake.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "policy": "v53-audience-composition"
+          }
+        }
+      ],
+      "http_status": 200,
+      "elapsed_ms": 1016
+    },
+    {
+      "input": {
+        "scenario": "counter",
+        "time": 27,
+        "corrected": false,
+        "question": "The shot has started. Can you already report a goal at this evidence cutoff?",
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          }
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0",
+            "round": 1,
+            "parent": null,
+            "max_rounds": 3
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792171163795,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 27,
+            "revision": 1,
+            "storage": "azure_blob"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792171163803,
+            "role": "director",
+            "action": "source_catalog_ready",
+            "angles": [
+              "progression",
+              "recovery",
+              "limits",
+              "outside_scope",
+              "beginner",
+              "calculation",
+              "next_check"
+            ],
+            "policy": "v53-audience-composition"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "counter-evt-003",
+              "counter-evt-004"
+            ],
+            "cutoff": 27,
+            "revision": 1,
+            "role": "math",
+            "summary": "2 completed passes move the ball 32.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.43 − 44.00) + (87.11 − 68.89) = 32.65 m",
+            "metric_value": "32.7 m",
+            "metric_title": "Forward passing gain",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "turn_id": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0:math",
+            "round": 1,
+            "sequence": 1,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "counter-football-27.0-r1"
+            ],
+            "cutoff": 27,
+            "revision": 1,
+            "role": "analyst",
+            "summary": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0:analyst",
+            "round": 1,
+            "sequence": 2,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-track-9-675",
+              "counter-analysis-27.0"
+            ],
+            "cutoff": 27,
+            "revision": 1,
+            "role": "guide",
+            "summary": "A transition is the change from defending to attacking. After the recovery, is the next receiver ahead of the ball or beside it?",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "teaching_prompt",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0:guide",
+            "round": 1,
+            "sequence": 3,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "counter-evt-003",
+              "counter-evt-004"
+            ],
+            "cutoff": 27,
+            "revision": 1,
+            "role": "math",
+            "summary": "2 completed passes move the ball 32.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.43 − 44.00) + (87.11 − 68.89) = 32.65 m",
+            "metric_value": "32.7 m",
+            "metric_title": "Forward passing gain",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0:math",
+            "round": 1,
+            "sequence": 4,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-track-9-675",
+              "counter-analysis-27.0"
+            ],
+            "cutoff": 27,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "Interpretation, not proof of cause.",
+            "decision": "qualify",
+            "target_claim": "Cole’s recovery starts a forward sequence. Follow the completed passes and Brooks’s run as Harbor move from defending to attacking.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_check",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0:reviewer",
+            "round": 1,
+            "sequence": 5,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "counter-football-27.0-r1",
+              "counter-evt-003",
+              "counter-evt-004"
+            ],
+            "cutoff": 27,
+            "revision": 1,
+            "role": "presenter",
+            "summary": "The useful distinction is progress versus danger: moving the ball toward goal is measured here; the probability of scoring is not.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0:presenter",
+            "round": 1,
+            "sequence": 6,
+            "reply_to": "reviewer"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792171164822,
+            "role": "director",
+            "action": "source_composition_selected",
+            "angle": "progression",
+            "reason": null,
+            "model_requests": 1
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 1,
+            "prompt_tokens": 521,
+            "completion_tokens": 6,
+            "usage_missing": 0,
+            "elapsed_ms": 1051,
+            "status": "complete",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 27,
+              "status": "bounded",
+              "claim": "Cole’s recovery starts a forward sequence. Follow the completed passes and Brooks’s run as Harbor move from defending to attacking.",
+              "explanation": "Cole’s recovery starts a forward sequence. Follow the completed passes and Brooks’s run as Harbor move from defending to attacking.",
+              "evidence_ids": [
+                "counter-evt-001",
+                "counter-evt-002",
+                "counter-evt-003",
+                "counter-evt-004",
+                "counter-track-9-675",
+                "counter-analysis-27.0"
+              ],
+              "check": "Interpretation, not proof of cause.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "policy": "v53-audience-composition"
+          }
+        }
+      ],
+      "http_status": 200,
+      "elapsed_ms": 1112
+    },
+    {
+      "input": {
+        "scenario": "counter",
+        "time": 28,
+        "corrected": false,
+        "question": "Now that the shot record has arrived, what was the result and which parts of the build-up remain valid?",
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor",
+        "parentKey": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          }
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "19c6678f8d49d5abc49bc815fc68eb912a25c78025fae98537440071a7dae26f",
+            "round": 2,
+            "parent": "752d974c4e49b9c5afcefe2e4d095f49846409a00553b98d9f6a1dfe53c51db0",
+            "max_rounds": 3
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792171164915,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 28,
+            "revision": 1,
+            "storage": "azure_blob"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792171164925,
+            "role": "director",
+            "action": "source_catalog_ready",
+            "angles": [
+              "progression",
+              "recovery",
+              "limits",
+              "outside_scope",
+              "beginner",
+              "calculation",
+              "next_check"
+            ],
+            "policy": "v53-audience-composition"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "counter-evt-002",
+              "counter-evt-005"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "math",
+            "summary": "20 seconds from the completed regain to shot release, with 2 completed passes in between. This measures one attack, not a team average.",
+            "working": "27.0 s − 7.0 s = 20.0 s",
+            "metric_value": "20 s",
+            "metric_title": "Regain to shot",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "turn_id": "19c6678f8d49d5abc49bc815fc68eb912a25c78025fae98537440071a7dae26f:math",
+            "round": 2,
+            "sequence": 1,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "analyst",
+            "summary": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": true,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "19c6678f8d49d5abc49bc815fc68eb912a25c78025fae98537440071a7dae26f:analyst",
+            "round": 2,
+            "sequence": 2,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-evt-005",
+              "counter-track-9-700",
+              "counter-analysis-28.0"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "guide",
+            "summary": "What would we need to compare before crediting one player’s movement for the next event?",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "teaching_prompt",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "19c6678f8d49d5abc49bc815fc68eb912a25c78025fae98537440071a7dae26f:guide",
+            "round": 2,
+            "sequence": 3,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "counter-evt-002",
+              "counter-evt-005"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "math",
+            "summary": "20 seconds from the completed regain to shot release, with 2 completed passes in between. This measures one attack, not a team average.",
+            "working": "27.0 s − 7.0 s = 20.0 s",
+            "metric_value": "20 s",
+            "metric_title": "Regain to shot",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "calculation",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": false,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "19c6678f8d49d5abc49bc815fc68eb912a25c78025fae98537440071a7dae26f:math",
+            "round": 2,
+            "sequence": 4,
+            "reply_to": null
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-evt-005",
+              "counter-track-9-700",
+              "counter-analysis-28.0"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "Interpretation, not proof of cause.",
+            "decision": "qualify",
+            "target_claim": "Cole’s recovery starts a forward sequence. Follow the completed passes and Brooks’s run as Harbor move from defending to attacking.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_check",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": true,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "19c6678f8d49d5abc49bc815fc68eb912a25c78025fae98537440071a7dae26f:reviewer",
+            "round": 2,
+            "sequence": 5,
+            "reply_to": "analyst"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "azure_selection",
+            "evidence_ids": [
+              "counter-football-28.0-r1",
+              "counter-evt-002",
+              "counter-evt-005"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "presenter",
+            "summary": "The useful distinction is progress versus danger: moving the ball toward goal is measured here; the probability of scoring is not.",
+            "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+            "evidence_contract": {
+              "kind": "source_bound_composition",
+              "observation": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+              "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+              "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+            },
+            "unchanged": true,
+            "editorial_angle": "progression",
+            "composition_policy": "v53-audience-composition",
+            "turn_id": "19c6678f8d49d5abc49bc815fc68eb912a25c78025fae98537440071a7dae26f:presenter",
+            "round": 2,
+            "sequence": 6,
+            "reply_to": "reviewer"
+          }
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792171165915,
+            "role": "director",
+            "action": "source_composition_selected",
+            "angle": "progression",
+            "reason": null,
+            "model_requests": 1
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 1,
+            "prompt_tokens": 894,
+            "completion_tokens": 6,
+            "usage_missing": 0,
+            "elapsed_ms": 1026,
+            "status": "complete",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 28,
+              "status": "bounded",
+              "claim": "Cole’s recovery starts a forward sequence. Follow the completed passes and Brooks’s run as Harbor move from defending to attacking.",
+              "explanation": "Cole’s recovery starts a forward sequence. Follow the completed passes and Brooks’s run as Harbor move from defending to attacking.",
+              "evidence_ids": [
+                "counter-evt-001",
+                "counter-evt-002",
+                "counter-evt-003",
+                "counter-evt-004",
+                "counter-evt-005",
+                "counter-track-9-700",
+                "counter-analysis-28.0"
+              ],
+              "check": "Interpretation, not proof of cause.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "policy": "v53-audience-composition"
+          }
+        }
+      ],
+      "http_status": 200,
+      "elapsed_ms": 1091
+    }
+  ],
+  "complete": false
+}
