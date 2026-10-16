@@ -1,12 +1,14 @@
 import {matchSession} from './match-session.js';
 import {position} from './engine.js';
 import {truthStory,truthStoryPacket} from './truth-story-model.js';
+import {createTruthSpotlight} from './truth-spotlight.js';
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const svg=(tag,attrs,text)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
 function text(id,value){if($(id).textContent!==value)$(id).textContent=value;}
 function save(name,data){const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 
 export function createTruthLab({seek,toggleCorrection,pause}){
+ const spotlight=createTruthSpotlight({seek,toggleCorrection,pause});
  document.querySelector('#truth .truth-story-grid').after($('truth-chapters'));
  let scenario,time=0,corrected=false,language='en',audience='fan',narrative,signature='',speaking=false,spokenKey='',selectedClaim='movement';
  const canSpeak=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined',claimNodes=new Map();
@@ -63,6 +65,7 @@ export function createTruthLab({seek,toggleCorrection,pause}){
  function render(s,t,reveal,lang=language,mode=audience){
   language=lang;audience=['analyst','math'].includes(mode)?'analyst':'fan';$('truth-audience').value=audience;
   scenario=s;time=t;corrected=reveal;narrative=truthStory(s,t,reveal,audience,language);const n=narrative,packet=truthStoryPacket(s,t,reveal,audience,language),key=[s.id,n.time.toFixed(1),n.revision,audience,language].join(':');
+  spotlight.render(n,packet);
   if(speaking&&spokenKey!==key)silence();signature=key;
   $('truth').dataset.revised=String(n.changed);
   text('truth-case-number','CASE '+n.context.number);text('truth-case-title',s.title);text('truth-question',n.context.question);text('truth-phase',n.phase);text('truth-version','R'+n.revision+' · '+n.clock);

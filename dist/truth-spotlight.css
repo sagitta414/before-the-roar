@@ -1,0 +1,18 @@
+.truth-spotlight{margin:16px 0 24px;padding:24px;border:1px solid #41536b;border-top:3px solid #ff4565;border-radius:12px;background:radial-gradient(ellipse at 100% 0,#283348 0,transparent 55%),#101925}
+.truth-spotlight h2{font:800 clamp(27px,3vw,40px)/1.1 'Barlow Condensed',sans-serif;margin:6px 0 10px;color:#fff}
+.truth-demo-scope{font-size:13px;line-height:1.5;color:#b5c5d9;margin:0 0 20px}
+.truth-change-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.truth-change-card{padding:18px;background:#0c1420;border:1px solid #32465c;border-radius:8px;display:flex;flex-direction:column;min-width:0}
+.truth-change-card h3{font:700 11px/1.4 Barlow,sans-serif;letter-spacing:1.2px;color:#9cb4cf;margin:0 0 14px}
+.truth-change-copy{font-size:19px;line-height:1.5;color:#f0f4fb;margin:0 0 16px}
+.truth-change-card button{margin-top:auto;min-height:44px;text-align:left;font-size:13px}
+.truth-change-metric{font:800 34px/1.2 'Barlow Condensed',sans-serif;color:#a4d5ff}
+.truth-change-detail{color:#b8c9dc;font-size:12px}
+.truth-spotlight[data-changed=true] .truth-change-card:first-child{border-color:#70444f}
+.truth-spotlight[data-changed=true] .truth-change-card:first-child .truth-change-copy{text-decoration:line-through;text-decoration-color:#ff8197;color:#c6b6bd}
+.truth-spotlight[data-changed=true] .truth-change-card:last-child{border-color:#5d9d85;background:#112821}
+.truth-spotlight[data-changed=true] .truth-change-card:last-child h3{color:#a9e4c6}
+.truth-change-actions{display:flex;align-items:center;gap:18px;margin:0 0 16px}.truth-change-actions button{min-height:48px}
+.truth-change-status{font-size:14px;line-height:1.5;color:#d5e1ee}.truth-change-survives{margin:10px 0 0;padding:12px 16px;background:#172c29;color:#bce6d5;border-left:3px solid #92d7b8;font-size:14px}
+.truth-demo-entry{padding:20px;margin:16px 0;border:1px solid #435775;border-left:3px solid #ff4565;background:#152033;border-radius:8px}.truth-demo-entry strong{font-size:22px;color:#fff}.truth-demo-entry p{font-size:15px;line-height:1.6;color:#c8d6e8}
+@media(max-width:760px){.truth-spotlight{padding:16px;margin-top:10px}.truth-change-grid{grid-template-columns:1fr;gap:10px}.truth-change-card{padding:16px}.truth-change-copy{font-size:17px;line-height:1.55}.truth-change-actions{flex-direction:column;align-items:stretch;gap:4px}.truth-demo-entry button{width:100%}.truth-change-metric{font-size:30px}}

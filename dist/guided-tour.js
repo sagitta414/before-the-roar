@@ -1,6 +1,7 @@
 import {mountViewerStudy} from './viewer-study.js';
 import { createTourClock } from "./tour-clock.js";
 import { GUIDE_STEPS, SOURCE_LABELS, guidedSnapshot } from "./guided-model.js";
+import {openTruthDemo} from './truth-spotlight.js';
 import { createMatchPitch } from "./match-pitch.js";
 import { matchSession } from "./match-session.js";
 import { SCENARIOS } from "./engine.js";
@@ -51,6 +52,7 @@ intro.append(
 const open = button("Explore the guided match →", () => enter(), "red-button"),
   filmButton = button("Watch the 60-second film", () => leave("pitchside"));
 launcher.append(intro, open, filmButton);
+launcher.append(button('Change the evidence →',()=>{leave('match');openTruthDemo();}));
 watch.prepend(launcher);
 const tour = el("section", "guided-tour");
 tour.id = "guided-match";
