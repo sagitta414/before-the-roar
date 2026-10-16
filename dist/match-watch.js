@@ -584,7 +584,13 @@ function renderPanel() {
       metric.append(el("b", "", post.metric_value), el("span", "", post.metric_title));
       row.append(metric);
     }
-    row.append(el("p", "", post?.summary || draft.summary));
+    if(post&&!isClip()){
+      const sentence=el('button','why-sentence',post.summary);
+      sentence.append(el('small','','Show me why ↗'));
+      const context={scenario:state.scenario,time:post.cutoff??thread?.cutoff??viewTime(),corrected:state.corrected,quote:post.summary,ids:post.evidence_ids};
+      sentence.addEventListener('click',()=>window.dispatchEvent(new CustomEvent('btr-show-why',{detail:context})));
+      row.append(sentence);
+    }else row.append(el("p", "", post?.summary || draft.summary));
     if(post){
       const labels={en:{math:'Calculated from records',reviewer:'Rule-based evidence check',guide:'Viewing question',interpretation:'Interpretation · not a measured fact',notes:'Reviewed reference note'},es:{math:'Calculado de los registros',reviewer:'Comprobación mediante reglas',guide:'Pregunta de observación',interpretation:'Interpretación · no es un hecho medido',notes:'Nota de referencia revisada'},pt:{math:'Calculado dos registros',reviewer:'Verificação por regras',guide:'Pergunta de observação',interpretation:'Interpretação · não é um fato medido',notes:'Nota de referência revisada'}}[state.language];
       row.append(el('small','claim-kind',post.engine==='azure_selection'?'AI-selected angle · source-rendered wording':post.engine==='reviewed_fallback'?labels.notes:labels[role]||labels.interpretation));

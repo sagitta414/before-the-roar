@@ -1,0 +1,9 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {playEvidence} from '../dist/play-evidence.js';
+test('replay reveals only completed events at cutoff',()=>{for(const scenario of ['wide','press','counter'])for(const time of [0,4,12,16,26,36]){const m=playEvidence({scenario,time});assert.ok(m.seen.every(e=>e.end<=time));assert.ok(m.trail(7).length);if(time===0)assert.equal(m.last,undefined);}});
+test('club framing shares the same immutable facts and source ids',()=>{const m=playEvidence({time:26});assert.deepEqual(m.perspectives[0].facts,m.perspectives[1].facts);assert.notEqual(m.perspectives[0].angle,m.perspectives[1].angle);});
+test('missing tracking withholds movement and off-ball ranking while preserving event measurements',()=>{const a=playEvidence({time:16}),b=playEvidence({time:16,tracking:false});assert.equal(b.off,null);assert.deepEqual(b.trail(7),[]);assert.match(b.movement,/unavailable/);assert.deepEqual(b.facts,a.facts);assert.equal(b.pass,a.pass);});
+test('correction withdraws movement but leaves recorded events intact',()=>{const a=playEvidence({time:16}),b=playEvidence({time:16,corrected:true});assert.match(a.movement,/13.0 m/);assert.match(b.movement,/withdrawn/);assert.deepEqual(a.seen,b.seen);});
+test('off-ball candidate has no recorded involvements and actually has tracking',()=>{for(const scenario of ['wide','press','counter']){const m=playEvidence({scenario,time:26});assert.ok(m.s.tracks[m.off.id]);assert.ok(m.seen.every(e=>![e.from,e.to,e.interceptor].includes(m.off.id)));}});
+test('cited passes select their own geometry and cannot reveal a future event',()=>{assert.equal(playEvidence({time:26,eventId:'wide-evt-001'}).last.id,'wide-evt-001');assert.equal(playEvidence({time:16,eventId:'wide-evt-003'}).last.id,'wide-evt-002');});

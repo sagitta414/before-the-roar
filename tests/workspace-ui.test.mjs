@@ -9,7 +9,7 @@ test('all six application routes and the guided story initialize together withou
   for(const key of ['addEventListener','removeEventListener','getComputedStyle','matchMedia'])set(key,w[key].bind(w));
   set('requestAnimationFrame',()=>0);set('cancelAnimationFrame',()=>{});set('ResizeObserver',class{observe(){}disconnect(){}});set('BroadcastChannel',class{postMessage(){}close(){}addEventListener(){}});set('setInterval',(fn,ms)=>{const id=setTimeout(()=>{},ms);id.unref();intervals.push(id);return id;});
   set('fetch',async url=>{requests.push(String(url));if(String(url).includes('/api/health'))return Response.json({ai_configured:false,usage:{day:new Date().toISOString().slice(0,10),used:120,limit:120}});if(String(url)==='api-config.json')return Response.json({baseUrl:''});try{return new Response(await readFile(new URL('../dist/'+url,import.meta.url)));}catch{return new Response('{}',{status:404});}});
-  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js'])await import('../dist/'+file);
+  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js'])await import('../dist/'+file);
   await new Promise(r=>setTimeout(r,50));
   assert.ok(document.body.classList.contains('guided-active'));assert.match(document.querySelector('.guided-copy').textContent,/run you didn’t see/);
   for(const id of ['centre','lab','truth','presenters','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
@@ -33,6 +33,15 @@ test('all six application routes and the guided story initialize together withou
   assert.equal(document.querySelectorAll('.proof-contributions article').length,5);
   assert.match(document.querySelector('.proof-caption').textContent,/Saved handoff complete/);
   assert.ok(findButton('Correct the tracking').disabled);
+  w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
+  document.querySelector('#centre .play-launch').click();
+  const studio=document.querySelector('.play-studio');assert.equal(studio.open,true);
+  const clickStudio=text=>[...studio.querySelectorAll('button')].find(b=>b.textContent===text).click();
+  clickStudio('A story changes');clickStudio('Apply corrected tracking');assert.match(studio.querySelector('.ps-history').textContent,/withdrawn/);
+  clickStudio('What’s missing?');clickStudio('Remove player tracking');assert.equal(studio.querySelector('.ps-pitch').dataset.tracking,'false');assert.match(studio.querySelector('.ps-copy').textContent,/unavailable/);
+  clickStudio('Restore player tracking');clickStudio('Off the ball');clickStudio('Spotlight this run');assert.match(studio.querySelector('.ps-copy').textContent,/zero recorded/);
+  clickStudio('Two fans. One truth.');assert.match(studio.querySelector('.ps-copy').textContent,/Identical facts/);
+  clickStudio('Learn your way');clickStudio('Let me try');clickStudio('Theo Brooks');assert.match(studio.querySelector('.ps-copy').textContent,/Source: wide-evt-003/);
   assert.deepEqual(errors,[]);assert.ok(requests.every(x=>!x.includes('/api/')||x.includes('/api/health')),'Initial route and guided actions must not spend model requests');
  }finally{for(const id of intervals)clearTimeout(id);for(const [key,d]of saved){if(d)Object.defineProperty(globalThis,key,d);else delete globalThis[key];}w.close();}
 });
