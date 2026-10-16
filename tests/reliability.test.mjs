@@ -14,9 +14,15 @@ test('restored quota reports no negative balance and a UTC reset, not an availab
  assert.equal(availabilitySummary({ai_configured:false},now).state,'offline');
 });
 test('concurrent availability readers share read-only calls and failures discard stale ready state',async()=>{
- let fail=false,calls=[];const client=createAvailability({now:()=>now,fetcher:async path=>{calls.push(path);if(fail)throw Error('offline');return {ok:true,json:async()=>path.endsWith('api-config.json')?{baseUrl:'https://test.invalid'}:{ai_configured:true,usage:{day:'2026-10-15',used:10,limit:120}}};}});
+ let fail=false,calls=[];const client=createAvailability({now:()=>now,retryDelayMs:1,fetcher:async path=>{calls.push(path);if(fail)throw Error('offline');return {ok:true,json:async()=>path.endsWith('api-config.json')?{baseUrl:'https://test.invalid'}:{ai_configured:true,usage:{day:'2026-10-15',used:10,limit:120}}};}});
  const [a,b]=await Promise.all([client.check(),client.check()]);assert.equal(a.remaining,110);assert.deepEqual(a,b);assert.equal(calls.length,2);await client.check();assert.equal(calls.length,2);
- fail=true;assert.equal((await client.check(true)).state,'unknown');assert.ok(calls.every(p=>p.endsWith('api-config.json')||p.endsWith('/api/health')));
+ fail=true;assert.equal((await client.check(true)).state,'unreachable');assert.equal(client.get().remaining,null);assert.ok(calls.every(p=>p.endsWith('api-config.json')||p.endsWith('/api/health')));
+});
+
+test('a hung configuration request reaches a retryable terminal state and a fresh check can recover',async()=>{
+ let hung=true,phases=[];const client=createAvailability({now:()=>now,timeoutMs:10,retryDelayMs:1,fetcher:async path=>hung?new Promise(()=>{}):{ok:true,json:async()=>path.endsWith('api-config.json')?{baseUrl:'https://test.invalid'}:{ai_configured:true,usage:{day:'2026-10-15',used:10,limit:120}}}});
+ client.subscribe(s=>phases.push(s.state));await client.check();assert.equal(client.get().state,'unreachable');assert.ok(phases.includes('retrying'));assert.ok(!client.get().title.includes('Checking'));
+ hung=false;assert.equal((await client.check(true)).remaining,110);
 });
 test('every section is a valid direct route and unknown anchors cannot select arbitrary elements',()=>{
  for(const section of SECTIONS)assert.equal(sectionFromHash('#'+section),section);

@@ -187,8 +187,8 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v7:" + pitchsideKey(input) + ":" + (input.parentKey || "")
-            : "cohesive-tools-v7:" + editorialKey(input) + ":" + (input.parentKey || ""),
+            ? "pitchside-tools-v8:" + pitchsideKey(input) + ":" + (input.parentKey || "")
+            : "cohesive-tools-v8:" + editorialKey(input) + ":" + (input.parentKey || ""),
         )
         .digest("hex");
     if (this.pending.has(key)) {
@@ -593,7 +593,7 @@ export class MatchDesk {
                   : "interpretation",
             ).post,
             draft = fragment
-              ? role === "guide"
+              ? role === "guide" && conversation.round === 1
                 ? packet.guideDefinition + " " + fragment
                 : fragment
               : null;

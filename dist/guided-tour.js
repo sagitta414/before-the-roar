@@ -183,8 +183,16 @@ nextRow.append(back, stateLabel, next);
 copy.append(nextRow);
 const provenance = el("p", "guided-source");
 tour.append(provenance);
+function openLiveDiscussion(){
+  leave('match');
+  document.getElementById('watch-nav').click();
+  matchSession.set({scenario:'wide'},'live-demo');
+  matchSession.set({source:'match',time:16,corrected:false,language:'en',mode:'analyst',focus:7,team:'harbor'},'live-demo');
+  document.dispatchEvent(new Event('btr-open-live-discussion'));
+}
 const downloadRow = el("div", "guided-downloads");
 downloadRow.append(
+  button("Try the live two-round discussion →", openLiveDiscussion),
   button("Download story + evidence ↓", () =>
     save("btr-guided-story.json", guidedSnapshot(options, pack).export),
   ),
@@ -197,6 +205,7 @@ downloadRow.append(
   }),
 );
 tour.append(downloadRow);
+tour.append(el('p','guided-note','Live discussion: ask for the opening reading, then choose “Did the run cause it?” to challenge the crew. Each fresh round uses up to four requests. Opening this view makes no AI request.'));
 const map = el("details", "source-map");
 const sourceSummary=el("summary"); map.append(sourceSummary); matchSession.subscribe(state=>{const label=SOURCE_LABELS[state.section==='lab'?'lab':state.source];sourceSummary.textContent=label.title+" · source & scope";}); sourceSummary.textContent=SOURCE_LABELS[matchSession.get().source].title+" · source & scope";
 for (const entry of Object.values(SOURCE_LABELS)) {
@@ -228,7 +237,8 @@ evaluation.append(
 proof.append(evaluation);
 const links = el("p");
 for (const [href, label] of [
-  ["assets/btr-agent-evaluation.json", "Current comparison + raw contributions"],
+  ["assets/btr-agent-evaluation.json", "Published v42.2 comparison + raw contributions"],
+  ["assets/btr-evaluation-plan-v44.json", "v44 paired conversation comparison · plan, not results"],
   ["assets/btr-agent-evaluation-v41.json", "Earlier comparison (v41)"],
   ["assets/btr-agent-evaluation-v42-first.json", "First v42 attempt · incomplete"],
   ["assets/btr-agent-evaluation-v42-interrupted.json", "Interrupted v42 attempt · run notes"],
@@ -246,7 +256,7 @@ document.querySelector("#inside .extension-heading").after(proof);
 const walkthrough = el(
   "a",
   "proof-output",
-  "Watch the 105-second app demo ↗",
+  "Watch the earlier 105-second app demo ↗",
 );
 walkthrough.href = "assets/btr-app-demo-v43.mp4";
 walkthrough.target = "_blank";
@@ -256,7 +266,7 @@ proof.append(
   el(
     "p",
     "guided-note",
-    "Edited screen captures of the functioning app, with holds for reading. Saved AI contributions and reviewed notes are labeled. No fresh AI run, continuous recording or audio is claimed. The narration script is available above.",
+    "Earlier demonstration: edited screen captures using saved v42 contributions. It does not demonstrate the current follow-up behavior. A fresh two-round recording and the v44 comparison are pending live verification. No continuous recording or audio is claimed.",
   ),
 );
 const repository = el("a", "proof-output", "Inspect the public source on GitHub ↗");
@@ -264,6 +274,7 @@ repository.href = "https://github.com/sagitta414/before-the-roar";
 repository.target = "_blank";
 repository.rel = "noopener";
 proof.append(repository);
+proof.append(button('Try the current live conversation →',openLiveDiscussion));
 const studyLink=el('a','proof-output','Take the five-minute viewer study ↗');studyLink.href='study.html';proof.append(studyLink);
 function stopTour() {
   tourClock.reset();
@@ -603,14 +614,14 @@ fetch("assets/btr-agent-evaluation.json")
       el(
         "p",
         "",
-        `${data.cases.length} fixed cases · ${data.model} · recorded ${new Date(data.recorded_at).toLocaleString()}`,
+        `${data.policy || 'Archived policy'} · ${data.cases.length} fixed cases · ${data.model} · recorded ${new Date(data.recorded_at).toLocaleString()}`,
       ),
       table,
       el("p", "", data.conclusion),
       el(
         "p",
         "guided-note",
-        "Engineering and editorial guard checks on a small fixed set. These checks do not establish semantic accuracy, superiority, or audience satisfaction. The baseline receives the same evidence and calculated facts.",
+        "These are older-policy guard checks, not a measurement of the current conversation. A preregistered v44 comparison covers eleven opening pairs plus one paired follow-up, up to sixty model requests. Execution and blind human ratings are pending. Guard acceptance does not establish semantic accuracy, superiority or audience satisfaction.",
       ),
     );
     if (active) render();

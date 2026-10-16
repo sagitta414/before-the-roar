@@ -1,4 +1,4 @@
-import { installNavigation } from "./navigation.js?v=42";
+import { installNavigation } from "./navigation.js?v=44";
 import { aiAvailability, availabilityText } from "./ai-availability.js";
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
@@ -20,6 +20,10 @@ demoLink.onclick = (e) => {
   document.dispatchEvent(new Event("btr-open-guided"));
 };
 bar.append(demoLink);
+const retry = el('button', 'ai-retry', 'Retry AI connection');
+retry.type = 'button';
+retry.onclick = () => aiAvailability.check(true);
+bar.append(retry);
 const notice = el("p", "crew-availability");
 notice.setAttribute("role", "status");
 document.querySelector(".party-header").after(notice);
@@ -28,9 +32,12 @@ function update(s) {
   bar.dataset.state = s.state;
   title.textContent = s.title;
   detail.textContent = availabilityText(s);
+  retry.hidden = !['unreachable', 'unknown', 'offline', 'checking', 'retrying'].includes(s.state);
+  retry.disabled = ['checking', 'retrying'].includes(s.state);
+  retry.textContent = retry.disabled ? 'Connecting…' : 'Retry AI connection';
   const fallback = posts.some((p) => p.engine === "reviewed_fallback"),
     mixed = posts.some((p) => p.engine === "azure_openai");
-  notice.hidden = !fallback && !["offline", "exhausted", "unknown"].includes(s.state);
+  notice.hidden = !fallback && !["offline", "exhausted", "unknown", "unreachable", "checking", "retrying"].includes(s.state);
   notice.textContent = fallback
     ? mixed
       ? "Some AI responses unavailable · reviewed notes shown for those presenters."
@@ -39,7 +46,7 @@ function update(s) {
       ? "AI allowance reached · reviewed notes shown. Ask the crew can retrieve a saved answer; new answers wait for the reset."
       : s.state === "offline"
         ? "AI unavailable · reviewed notes shown."
-        : "Checking AI availability · reviewed notes remain available.";
+        : s.title + ' · reviewed notes remain available.';
   const connection = document.getElementById("connection-status");
   if (connection) connection.textContent = s.title;
 }

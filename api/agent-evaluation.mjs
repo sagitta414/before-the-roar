@@ -1,5 +1,6 @@
 // Shared fixed-case editorial acceptance measurements for team and single-call comparisons.
 import { validateMatchPost, repeatsContribution } from "./match-desk.mjs";
+import { editorialIssues } from "../dist/editorial-quality.js";
 export const EVALUATION_CASES = [
   {
     id: "wide-original",
@@ -64,6 +65,8 @@ for (const [id, scenario, time, corrected, language, mode] of [
     },
   });
 export const MODEL_ROLES = ["analyst", "guide", "presenter"];
+export const FOLLOW_UP_QUESTION =
+  "Does this prove the wide run opened the central pass? What would you need to check?";
 export const EXTENDED_CASES = [...EVALUATION_CASES];
 for (const [scenario, time, language, mode, corrected] of [
   ["wide", 6, "en", "beginner", false],
@@ -105,7 +108,7 @@ export function blindReviewPack(report) {
     ],
     scale: "0 = fails; 1 = partial; 2 = clear and supported",
     limits:
-      "Do not infer quality from guard acceptance. Review both arms against the supplied evidence, including failures.",
+      "Review the raw model proposals from both arms against the evidence, including guard-rejected proposals. No generated proposal is replaced by an authored fallback in this pack. Guard acceptance is reported separately and is not a quality score.",
     cases: report.cases.map((c, i) => ({
       id: c.id,
       input: c.input,
@@ -113,13 +116,25 @@ export function blindReviewPack(report) {
       review: c.review || null,
       arms: (i % 2 ? ["baseline", "team"] : ["team", "baseline"]).map((arm, j) => ({
         label: j ? "B" : "A",
-        posts: (c[arm]?.posts || [])
-          .filter((p) => MODEL_ROLES.includes(p.role))
-          .map((p) => ({
-            role: p.role,
-            summary: p.summary,
-            evidence_ids: p.evidence_ids,
-          })),
+        posts: MODEL_ROLES.map((role) => {
+          const raw = c[arm]?.raw?.[role];
+          const proposal = raw?.post || raw;
+          const served = c[arm]?.posts?.find((p) => p.role === role);
+          return {
+            role,
+            summary: proposal
+              ? proposal.viewing_question || proposal.takeaway || proposal.interpretation
+              : c[arm]?.raw
+                ? null
+                : served?.summary || null,
+            evidence_ids:
+              proposal?.evidence_ids ||
+              (c[arm]?.raw ? null : served?.evidence_ids) ||
+              null,
+            caution: proposal?.caution || null,
+            replay_cue: proposal?.replay_cue || null,
+          };
+        }),
         ratings: null,
         unsupported_claims: [],
         comment: "",
@@ -165,13 +180,26 @@ export function comparisonSchema(ids, primaryId) {
   }
   return result;
 }
-export function evaluateBaseline(raw, packet) {
+export function evaluateBaseline(raw, packet, { previous = [], support = [] } = {}) {
   const accepted = [],
     rejections = [];
   for (const role of MODEL_ROLES) {
     try {
       const post = validateMatchPost({ post: raw?.[role] }, packet, role);
-      if (role === "presenter" && repeatsContribution(post.summary, accepted))
+      if (
+        previous.length &&
+        repeatsContribution(
+          post.summary,
+          previous.filter((p) => p.role === role),
+        )
+      )
+        throw Error("Follow-up repeats the previous contribution");
+      if (role === "guide" && previous.length) post.summary = raw[role].viewing_question;
+      if (
+        role === "presenter" &&
+        (repeatsContribution(post.summary, [...accepted, ...support]) ||
+          editorialIssues(role, post.summary, [...accepted, ...support]).length)
+      )
         throw Error("Repeated contribution");
       accepted.push({
         ...post,

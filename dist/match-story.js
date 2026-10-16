@@ -19,10 +19,10 @@ export function matchStory(input){
  if(input.team==='north'||input.team==='neutral'){const name=input.team==='north'?'Northbridge':'Harbor + Northbridge',pass=completed.at(-1);cards.math.text=allPasses.length?`${name}: ${completed.length} ÷ ${allPasses.length} × 100 = ${(completed.length/allPasses.length*100).toFixed(1)}% · ${w.passes}.`:`${name}: ${w.undefined}.`;cards.math.equation=pass?`${pass.distance.toFixed(1)} m ÷ ${(pass.end-pass.t).toFixed(1)} s × 3.6 = ${pass.speed.toFixed(1)} km/h`:w.undefined;}
  const playerLine=`${player.name} · ${player.displacement.toFixed(1)} m ${w.displacement} · ${player.completed}/${player.passes} ${w.passes}.`;
  const analysis=analyzePlay(s,b.cutoff,language);
- if(input.team!=='north'&&(analysis.passes.length||analysis.pressure)){cards.math.text=analysis.focus.text;cards.math.equation=analysis.focus.equation;}
+ if(input.team!=='north'&&!revised&&(analysis.passes.length||analysis.pressure)){cards.math.text=analysis.focus.text;cards.math.equation=analysis.focus.equation;}
  const football=footballContext(s,b.cutoff,input.corrected,analysis,language);
  const baseBody=mode==='math'?cards.math.text:mode==='beginner'?cards.beginner.text:mode==='player'?playerLine+' '+cards.analyst.text:cards.analyst.text;
- const body=revised&&mode==='math'?w.changed+' '+baseBody:baseBody;
+ const body=revised&&mode==='math'&&input.team==='north'?w.changed+' '+baseBody:baseBody;
  const equation=cards.math.equation,trace=truthStoryPacket(s,b.cutoff,input.corrected,mode,language),records=new Map(datasetRows(s,b.cutoff,{...input,language}).filter(r=>r.id).map(r=>[r.id,r]));for(const r of trace.evidence)if(r.record_type==='tracking')records.set(r.id,r);records.set(analysis.record.id,analysis.record);const evidence=[...records.values()];
  const coverage={id:`${s.id}-window-${b.cutoff.toFixed(1)}`,record_type:'coverage',second:b.cutoff,description:stats};evidence.push(football.record,coverage);
  const review={decision:revised?'withdraw':ready?'qualify':'hold',claim:s.id==='wide'?w.claim:cards.analyst.text,reason:revised?w.changed:ready?(s.id==='wide'?w.check:cards.analyst.note):w.pending,evidence_ids:b.evidenceIds.length?b.evidenceIds:[coverage.id]};

@@ -4,7 +4,13 @@
 
 Public application: https://before-the-roar.sagitta107.chatgpt.site
 
-## Recording plan — 105 seconds
+## Current conversation demonstration — capture after live verification
+
+Open the guided match and choose **Try the live two-round discussion**. This hands off the original synthetic wide-run record at 67:16 without making a model request. Send the suggested opening question. Keep the streaming labels and evidence visible. When the round finishes, choose **Did the run cause it?** and inspect whether the new contribution identifies a useful distinction or specific missing evidence. The earlier round remains expandable. Export the conversation with both rounds.
+
+Capture the real request, waiting time, viewer question and next response. Do not replace a weak answer with a scripted answer or present cached playback as fresh generation. If the new insight is weak, disclose it as an evaluation finding. A fresh recording is pending adequate approved allowance; the live entry path alone does not establish quality.
+
+## Earlier recording plan — 105 seconds
 
 Use [the recording script](RECORDING-SCRIPT.txt) and the automatic guided tour. It uses authored synthetic evidence and zero fresh model calls. Record the actual browser controls; the illustrated MP4 is supplementary. The creator confirmed permission to keep the cinematic film published, but the main demonstration uses the measured synthetic source.
 
@@ -20,7 +26,7 @@ For technical questions, open Inside BTR and replay saved recovery. Its pause il
 
 ## Reproduce the five improvements
 
-1. **Tool-backed specialists:** Watch → Discuss this moment → Inside the AI desk. The log records model-selected tools and source IDs. Scout and Guide run concurrently; Host receives their actual public contributions, Vector's calculation and Check's verdict. This is a custom Node workflow with Azure OpenAI function calls, not Microsoft Agent Framework or a Foundry Agent Service deployment.
+1. **Tool-backed specialists:** Watch → Discuss this moment → Inside the AI desk. The log records model-selected tools and source IDs. Scout opens the discussion; Guide reads Scout before replying, and Host receives their actual public contributions, Vector's calculation and Check's verdict. This is a custom Node workflow with Azure OpenAI function calls, not Microsoft Agent Framework or a Foundry Agent Service deployment.
 2. **Correction propagation:** Inside BTR → Run the desk → Correct the tracking. The persistent ledger retains the earlier reading. The new revision changes the caption immediately; Run the revised desk regenerates AI commentary using only that revision. Old work is retained in the exported proof, not treated as current.
 3. **Recovery:** Test recovery throws after saving the specialists. Resume creates a fresh worker. The current workflow uses three requests before interruption and one afterwards, reusing Scout and Guide. Degraded agents are retried; completed contributions and tools are reused. Browser reload restores the current proof session for its remaining lifetime.
 4. **Data innovation:** Generate a seed from 1–1,000,000. The ninety-minute fixture includes passes, pressure, recoveries, carries, shots, restarts and halftime. This is an event-only export with event coordinates; it does not contain continuous player tracking. The separate authored 36-second sequence exports 1 Hz synthetic player samples. Validation checks continuity, bounds, units and restart rules. The pass-difficulty index is an explicitly uncalibrated heuristic, not a probability of success. Download includes provenance and results.
