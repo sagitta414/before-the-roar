@@ -40,9 +40,9 @@ test('clip desk uses only this film, streams tool-backed model calls and reuses 
    const post={interpretation:prompt.includes('Guide:')?pitchsideStory().guideDefinition+' Where is the defender looking?':prompt.includes('Host:')?'Access to the next touch matters more than who appears ahead of the duel.':'Watch the defender adjust beside the touch.',replay_cue:'Replay the attacker touching the ball beside the defender.',headline:'A close duel',caution:'Speed cannot be measured.',evidence_ids:{primary:'pitchside-touch',secondary:null}};
    const dataText=JSON.stringify({post}),chunks=[];for(let i=0;i<dataText.length;i+=16)chunks.push('data: '+JSON.stringify({choices:[{delta:{content:dataText.slice(i,i+16)}}]})+'\n\n');chunks.push('data: '+JSON.stringify({choices:[{delta:{},finish_reason:'stop'}]})+'\n\ndata: [DONE]\n\n');return new Response(chunks.join(''));
   };
-  const input={time:2,language:'en',mode:'fan'},a=await desk.discuss(input,(type,data)=>frames.push({type,data}));assert.equal(calls,6);assert.equal(reserved,6);assert.equal(a.length,5);assert.equal(a.filter(p=>p.engine==='azure_openai').length,3);assert.ok(frames.some(f=>f.type==='draft'));assert.equal(narrator.busy,0);
-  await desk.discuss(input,()=>{});assert.equal(calls,6);
-  await desk.discuss({...input,time:0},()=>{});assert.equal(calls,6);
+  const input={time:2,language:'en',mode:'fan'},a=await desk.discuss(input,(type,data)=>frames.push({type,data}));assert.equal(calls,4);assert.equal(reserved,4);assert.equal(a.length,5);assert.equal(a.filter(p=>p.engine==='azure_openai').length,3);assert.ok(frames.some(f=>f.type==='draft'));assert.equal(narrator.busy,0);
+  await desk.discuss(input,()=>{});assert.equal(calls,4);
+  await desk.discuss({...input,time:0},()=>{});assert.equal(calls,4);
  }finally{global.fetch=savedFetch;for(const [key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
 });
 

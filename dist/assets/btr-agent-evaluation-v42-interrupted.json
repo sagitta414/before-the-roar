@@ -1,0 +1,17 @@
+{
+  "schema": "btr.interrupted-evaluation.v1",
+  "policy": "v42 initial candidate, not final v42.1",
+  "complete": false,
+  "reason": "The deployment command returned the previous ready revision while the replacement was starting. Evaluation ran against the old revision, then stopped as that revision drained. No final report was emitted.",
+  "revision": "before-the-roar--0000054",
+  "recorded_at": "2026-10-16",
+  "completed_case_counters": [
+    {"case":"wide-original","team":3,"baseline":3,"requests_reserved":5},
+    {"case":"wide-corrected","team":1,"baseline":2,"requests_reserved":10},
+    {"case":"pressure-to-chance","team":1,"baseline":2,"requests_reserved":15},
+    {"case":"wide-corrected-es-beginner","team":1,"baseline":3,"requests_reserved":20},
+    {"case":"wide-corrected-pt-math","team":1,"baseline":0,"requests_reserved":25}
+  ],
+  "limits": "These are partial console counters, not a complete comparison. Remaining requests and raw outputs cannot be reconstructed from this log. Do not pool these counters with the final evaluation or use them as evidence of current quality.",
+  "prevention": "Final verification pins the confirmed running revision and checks the exact deployed source hashes before reserving model requests. No allowance was raised or reset."
+}

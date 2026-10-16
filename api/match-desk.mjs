@@ -54,6 +54,20 @@ export function validateMatchPost(raw, packet, role) {
     throw Error("Citation outside the evidence cutoff");
   const quality = editorialIssues(role, p.interpretation);
   if (quality.length) throw Error(quality.join("; "));
+  if (
+    /(?:does|did|do)(?: not|n't) (?:directly |actually |significantly |clearly )?(?:influence|affect)|no (?:direct |significant |clear )?(?:effect|influence|defensive reaction)|did not cause|no (?:influye|influy[oó]|afecta|afect[oó])|sin (?:efecto|reacci[oó]n defensiva)|n[aã]o (?:influencia|influenciou|afeta|afetou)|n[aã]o (?:tem|teve) (?:efeito|influ[eê]ncia)|sem (?:efeito|rea[cç][aã]o defensiva)/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error("Unproven causation cannot become proof of no influence");
+  if (/movement strategies|separation in.*strategies/i.test(p.interpretation))
+    throw Error("Describe the observed route, not an inferred strategy");
+  if (
+    packet.review?.decision === "withdraw" &&
+    ["analyst", "presenter"].includes(role) &&
+    !/correct|correg|corrig|retir|withdraw|no longer|ya no|já não/i.test(p.interpretation)
+  )
+    throw Error("Corrected source requires an explicit changed conclusion");
   const prose = [
     p.interpretation,
     p.headline,
@@ -172,8 +186,8 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v3:" + pitchsideKey(input)
-            : "cohesive-tools-v3:" + editorialKey(input),
+            ? "pitchside-tools-v6:" + pitchsideKey(input)
+            : "cohesive-tools-v6:" + editorialKey(input),
         )
         .digest("hex");
     if (this.pending.has(key)) {
@@ -286,8 +300,25 @@ export class MatchDesk {
         } else v.metrics.usage_missing++;
       });
     const reserve = async () => {
+      if ((this.narrator.retryAt || 0) > Date.now())
+        throw Error("Azure rate limit cooling down; saved work remains available");
       if (!(await this.store.reserve())) throw Error("Daily allowance reached");
       await journal.change((v) => v.metrics.model_calls++);
+    };
+    const modelFailure = (response, stage) => {
+      if (response.status === 429) {
+        const seconds = Number(response.headers.get("retry-after"));
+        this.narrator.retryAt =
+          Date.now() +
+          Math.min(
+            120000,
+            Math.max(
+              1000,
+              Number.isFinite(seconds) && seconds > 0 ? seconds * 1000 : 60000,
+            ),
+          );
+      }
+      return Error(`${stage} HTTP ${response.status}`);
     };
     const complete = async (role, previous = []) => {
       const began = performance.now();
@@ -348,6 +379,10 @@ export class MatchDesk {
             },
             required: ["post"],
           };
+        if (packet.football?.observation)
+          schema.properties.post.properties.evidence_ids.properties.primary.enum = [
+            packet.football.record.id,
+          ];
         let editorialPrompt = editorialPolicy(packet, role, {
           clip: this.clip,
         });
@@ -360,8 +395,6 @@ export class MatchDesk {
             type: "string",
           };
           schema.properties.post.required.push("viewing_question");
-          editorialPrompt +=
-            " Put a single question about a visible detail in viewing_question, ending with a question mark. Do not put the definition or answer in this field. The application adds the verified definition.";
         }
         if (role === "presenter") {
           delete schema.properties.post.properties.interpretation;
@@ -372,7 +405,6 @@ export class MatchDesk {
           schema.properties.post.required.push("takeaway");
           schema.properties.post.properties.replay_cue = { type: "string" };
           schema.properties.post.required.push("replay_cue");
-          editorialPrompt += ` Put a declarative football conclusion in takeaway, guided by editorial_closing_reference. State what makes this moment useful to understand. NEVER tell the viewer to evaluate, assess, judge, consider, watch or look: those instructions belong ONLY in replay_cue. Do not ask a question or close with generic uncertainty. Prefer the concrete grounded conclusion in role_brief over a new vague sentence. Do not repeat Scout's observation or begin with The ball, The player, or The evidence shows. Do not mention unknown identity unless asked. Put the viewing instruction in replay_cue, starting exactly with "${{ en: "Replay ", es: "Repite ", pt: "Reveja " }[packet.language]}". Name a visible detail in the cited evidence, not an unseen outcome. Never omit this field.`;
         }
         const url = new URL(
           `openai/deployments/${encodeURIComponent(process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4o-mini")}/chat/completions?api-version=2024-10-21`,
@@ -400,7 +432,7 @@ export class MatchDesk {
           },
         ];
         let toolReceipt = journal.value.tools?.[role];
-        if (!toolReceipt) {
+        if (role === "analyst" && !toolReceipt) {
           await reserve();
           const response = await fetch(url, {
             method: "POST",
@@ -415,7 +447,7 @@ export class MatchDesk {
               temperature: 0,
             }),
           });
-          if (!response.ok) throw Error("Evidence tool selection unavailable");
+          if (!response.ok) throw modelFailure(response, "Evidence tool selection");
           const selection = await response.json();
           await usage(selection.usage);
           const calls = selection.choices?.[0]?.message?.tool_calls;
@@ -440,9 +472,18 @@ export class MatchDesk {
               [],
             duration_ms: Math.round(performance.now() - began),
           });
-        } else
+        } else if (toolReceipt)
           await trace(role, "saved_tool_reused", {
             tool: toolReceipt.call.function.name,
+          });
+        else
+          await trace(role, "context_prepared", {
+            source:
+              role === "presenter"
+                ? "saved_public_contributions"
+                : "verified_glossary_and_evidence",
+            evidence_ids: ids,
+            model_tool_selection: false,
           });
         await reserve();
         const res = await fetch(url, {
@@ -460,10 +501,9 @@ export class MatchDesk {
                   revision: packet.revision,
                   calculated: packet.stats,
                   local_calculation: notes.find((p) => p.role === "math"),
+                  football_context: packet.football || null,
+                  guide_definition: packet.guideDefinition,
                   role_brief: notes.find((p) => p.role === role),
-                  reserved_contributions: notes
-                    .filter((p) => p.role !== role)
-                    .map((p) => ({ role: p.role, subject: p.summary })),
                   evidence,
                   review: packet.review,
                   previous_public_contributions: previous,
@@ -476,16 +516,20 @@ export class MatchDesk {
                     : {}),
                 }),
               },
-              {
-                role: "assistant",
-                content: null,
-                tool_calls: [toolReceipt.call],
-              },
-              {
-                role: "tool",
-                tool_call_id: toolReceipt.call.id,
-                content: JSON.stringify(toolReceipt.output),
-              },
+              ...(toolReceipt
+                ? [
+                    {
+                      role: "assistant",
+                      content: null,
+                      tool_calls: [toolReceipt.call],
+                    },
+                    {
+                      role: "tool",
+                      tool_call_id: toolReceipt.call.id,
+                      content: JSON.stringify(toolReceipt.output),
+                    },
+                  ]
+                : []),
             ],
             temperature: 0.2,
             max_tokens: 450,
@@ -497,7 +541,7 @@ export class MatchDesk {
             },
           }),
         });
-        if (!res.ok) throw Error("Model unavailable");
+        if (!res.ok) throw modelFailure(res, "Model response");
         let prior = "",
           first = null;
         const result = await readCompletion(res.body, (content) => {
@@ -528,7 +572,12 @@ export class MatchDesk {
           }
         });
         await usage(result.usage);
-        const validated = validateMatchPost(JSON.parse(result.content), packet, role);
+        const raw = JSON.parse(result.content);
+        await journal.change((v) => {
+          v.raw_outputs ??= {};
+          v.raw_outputs[role] = raw;
+        });
+        const validated = validateMatchPost(raw, packet, role);
         if (
           role === "presenter" &&
           (repeatsContribution(validated.summary, previous) ||

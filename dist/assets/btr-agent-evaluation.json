@@ -1,14 +1,15 @@
 {
   "schema": "btr.agent-evaluation.v1",
-  "recorded_at": "2026-10-16T00:07:21.175Z",
+  "recorded_at": "2026-10-16T01:38:22.298Z",
   "model": "gpt-4o-mini",
   "method": {
-    "cases": "Three fixed cases declared before this run; one trial per case; no cherry-picked retries.",
-    "team": "Scout and Guide each select a tool and write; Host reads their actual outputs plus deterministic calculation and check.",
+    "cases": "4 fixed cases declared before this run; one trial per case; no cherry-picked retries. The compact set covers three scenarios, three languages and corrected beginner/math modes within the remaining allowance.",
+    "team": "Scout selects a bounded evidence tool, then writes. Guide writes from supplied facts and glossary; Host reads their actual outputs plus deterministic calculation and check. Four model calls per fresh case.",
     "baseline": "One model call writes the same three editorial roles using the same evidence, role briefs, calculations and source verdict. No tool-selection round trips.",
     "scoring": "Identical editorial guards and citation checks. Guard acceptance is not semantic truth. No model judge. No audience study.",
     "cost": "Requests and reported tokens; no inferred dollar cost.",
-    "max_requests": 21
+    "max_requests": 20,
+    "pacing": "Each case starts at least 75 seconds after the previous case to stay within the existing deployment capacity. No retries. Earlier incomplete attempts and a recovery run that exposed an unsupported influence claim are retained separately."
   },
   "cases": [
     {
@@ -26,31 +27,32 @@
       "team": {
         "posts": [
           {
-            "engine": "reviewed_fallback",
+            "summary": "The winger's lateral run toward the touchline contrasts with the central path of the completed passes, indicating separate influences on the play's development.",
+            "title": "Winger's run diverges from pass route.",
+            "caution": "Recorded movement and event order do not establish why a defender acted.",
             "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002",
-              "wide-track-102-400"
+              "wide-football-16.0-r1"
             ],
+            "role": "analyst",
+            "engine": "azure_openai",
             "cutoff": 16,
             "revision": 1,
-            "role": "analyst",
-            "summary": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision."
+            "latency_ms": 3089,
+            "first_text_ms": 3083
           },
           {
-            "summary": "A pass sends the ball to a teammate. Where is the next receiver positioned relative to the passer?",
-            "title": "Harbor's Passing Progress",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place?",
+            "title": "Defender's Movement Analysis",
+            "caution": "The run's influence on the defender's action is not confirmed.",
             "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
+              "wide-football-16.0-r1"
             ],
             "role": "guide",
             "engine": "azure_openai",
             "cutoff": 16,
             "revision": 1,
-            "latency_ms": 3832,
-            "first_text_ms": 4079
+            "latency_ms": 2319,
+            "first_text_ms": 2779
           },
           {
             "engine": "calculated",
@@ -71,7 +73,8 @@
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002",
-              "wide-track-102-400"
+              "wide-track-102-400",
+              "wide-analysis-16.0"
             ],
             "cutoff": 16,
             "revision": 1,
@@ -80,38 +83,37 @@
             "decision": "qualify",
             "target_claim": "The run caused the defender to follow.",
             "target_role": "analyst",
-            "reviewed_contribution": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision."
+            "reviewed_contribution": "The winger's lateral run toward the touchline contrasts with the central path of the completed passes, indicating separate influences on the play's development."
           },
           {
-            "summary": "Width offers an option away from the ball as the passes advance the attack. The tracking shows that option; it cannot explain the defender’s intent.",
-            "title": "Harbor's Passing Progress",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "summary": "Passing progress and off-ball movement indicate separate influences on the attack's development. The winger's run does not guarantee a defensive reaction.",
+            "title": "Contrasting Movement and Pass Routes",
+            "caution": "The run's influence on the defender's action is not confirmed.",
             "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
+              "wide-football-16.0-r1"
             ],
-            "replay_cue": "Replay the completed passes that advance the attack.",
+            "replay_cue": "Replay the winger's lateral run toward the touchline.",
             "role": "presenter",
             "engine": "azure_openai",
             "cutoff": 16,
             "revision": 1,
-            "latency_ms": 4051,
-            "first_text_ms": 8022
+            "latency_ms": 1740,
+            "first_text_ms": 5179
           }
         ],
-        "requests": 6,
-        "elapsed_ms": 8416,
+        "requests": 4,
+        "elapsed_ms": 5621,
         "usage": {
-          "model_calls": 6,
-          "prompt_tokens": 6866,
-          "completion_tokens": 267,
+          "model_calls": 4,
+          "prompt_tokens": 7248,
+          "completion_tokens": 257,
           "usage_missing": 0,
-          "elapsed_ms": 8242
+          "elapsed_ms": 5493
         },
         "trace": [
           {
             "seq": 1,
-            "at": 1792109241588,
+            "at": 1792114703181,
             "role": "director",
             "action": "run_started",
             "cutoff": 16,
@@ -120,7 +122,7 @@
           },
           {
             "seq": 2,
-            "at": 1792109241690,
+            "at": 1792114703279,
             "role": "math",
             "action": "calculation_saved",
             "evidence_ids": [
@@ -130,60 +132,65 @@
           },
           {
             "seq": 3,
-            "at": 1792109244128,
+            "at": 1792114703604,
             "role": "guide",
-            "action": "tool_completed",
-            "tool": "read_evidence",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002",
+              "wide-analysis-16.0",
               "wide-obs-run-8",
               "wide-obs-space-16",
               "wide-track-102-400",
-              "wide-analysis-16.0",
+              "wide-football-16.0-r1",
               "wide-window-16.0"
             ],
-            "duration_ms": 2353
+            "model_tool_selection": false
           },
           {
             "seq": 4,
-            "at": 1792109244187,
+            "at": 1792114705076,
             "role": "analyst",
             "action": "tool_completed",
             "tool": "read_evidence",
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002",
+              "wide-analysis-16.0",
               "wide-obs-run-8",
               "wide-obs-space-16",
               "wide-track-102-400",
-              "wide-analysis-16.0",
+              "wide-football-16.0-r1",
               "wide-window-16.0"
             ],
-            "duration_ms": 2413
+            "duration_ms": 1695
           },
           {
             "seq": 5,
-            "at": 1792109245557,
-            "role": "analyst",
-            "action": "fallback_published",
-            "reason": "Unmeasured quality rating"
-          },
-          {
-            "seq": 6,
-            "at": 1792109245618,
+            "at": 1792114705713,
             "role": "guide",
             "action": "contribution_saved",
             "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
+              "wide-football-16.0-r1"
             ],
-            "latency_ms": 3832,
-            "first_text_ms": 4079
+            "latency_ms": 2319,
+            "first_text_ms": 2779
+          },
+          {
+            "seq": 6,
+            "at": 1792114706483,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "latency_ms": 3089,
+            "first_text_ms": 3083
           },
           {
             "seq": 7,
-            "at": 1792109245639,
+            "at": 1792114706504,
             "role": "reviewer",
             "action": "claim_checked",
             "claim": {
@@ -196,7 +203,8 @@
               "evidence_ids": [
                 "wide-evt-001",
                 "wide-evt-002",
-                "wide-track-102-400"
+                "wide-track-102-400",
+                "wide-analysis-16.0"
               ],
               "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
               "method": "Deterministic source and revision rules; not a semantic proof of model prose"
@@ -204,51 +212,98 @@
           },
           {
             "seq": 8,
-            "at": 1792109246571,
+            "at": 1792114706515,
             "role": "presenter",
-            "action": "tool_completed",
-            "tool": "read_evidence",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
             "evidence_ids": [
               "wide-evt-001",
               "wide-evt-002",
+              "wide-analysis-16.0",
               "wide-obs-run-8",
               "wide-obs-space-16",
               "wide-track-102-400",
-              "wide-analysis-16.0",
+              "wide-football-16.0-r1",
               "wide-window-16.0"
             ],
-            "duration_ms": 923
+            "model_tool_selection": false
           },
           {
             "seq": 9,
-            "at": 1792109249710,
+            "at": 1792114708266,
             "role": "presenter",
             "action": "contribution_saved",
             "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
+              "wide-football-16.0-r1"
             ],
-            "latency_ms": 4051,
-            "first_text_ms": 8022
+            "latency_ms": 1740,
+            "first_text_ms": 5179
           },
           {
             "seq": 10,
-            "at": 1792109249773,
+            "at": 1792114708286,
             "role": "director",
-            "action": "reviewed_notes_ready",
+            "action": "broadcast_ready",
             "revision": 1
           }
-        ]
+        ],
+        "raw": {
+          "guide": {
+            "post": {
+              "headline": "Defender's Movement Analysis",
+              "caution": "The run's influence on the defender's action is not confirmed.",
+              "evidence_ids": {
+                "primary": "wide-football-16.0-r1",
+                "secondary": null
+              },
+              "viewing_question": "Does the defender move toward the touchline with the runner, or stay in place?"
+            }
+          },
+          "analyst": {
+            "post": {
+              "interpretation": "The winger's lateral run toward the touchline contrasts with the central path of the completed passes, indicating separate influences on the play's development.",
+              "headline": "Winger's run diverges from pass route.",
+              "caution": "Recorded movement and event order do not establish why a defender acted.",
+              "evidence_ids": {
+                "primary": "wide-football-16.0-r1",
+                "secondary": null
+              }
+            }
+          },
+          "presenter": {
+            "post": {
+              "headline": "Contrasting Movement and Pass Routes",
+              "caution": "The run's influence on the defender's action is not confirmed.",
+              "evidence_ids": {
+                "primary": "wide-football-16.0-r1",
+                "secondary": null
+              },
+              "takeaway": "Passing progress and off-ball movement indicate separate influences on the attack's development. The winger's run does not guarantee a defensive reaction.",
+              "replay_cue": "Replay the winger's lateral run toward the touchline."
+            }
+          }
+        }
       },
       "baseline": {
         "posts": [
           {
-            "summary": "A pass sends the ball to a teammate. Is the receiver ahead of the passer or beside them?",
-            "title": "Pass Receiver Position",
-            "caution": "Focus on the receiver's location relative to the passer.",
+            "summary": "The winger's run toward the touchline coincides with the defender's lateral movement, while completed passes progress through the center of the field.",
+            "title": "Winger's run and defender's shift",
+            "caution": "Tracking does not confirm causation between movements.",
             "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
+              "wide-football-16.0-r1"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1
+          },
+          {
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place?",
+            "title": "Understanding off-ball runs",
+            "caution": "Focus on the recorded movements only.",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
             ],
             "role": "guide",
             "engine": "azure_openai",
@@ -256,62 +311,56 @@
             "revision": 1
           },
           {
-            "summary": "Width provides an option away from the ball as the attack progresses, but does not clarify the defender's intent.",
-            "title": "Width in Attack",
-            "caution": "Tracking alone cannot explain intent.",
+            "summary": "Passing progress and off-ball movement tell different parts of this attack. The wide run is worth following, without crediting it for the defender’s decision.",
+            "title": "Contrasting run and pass routes",
+            "caution": "Do not assume the run influenced the defender's actions.",
             "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
+              "wide-football-16.0-r1"
             ],
-            "replay_cue": "Replay the moment when the ball is passed to observe the receiver's position.",
+            "replay_cue": "Replay the winger's run and the completed passes.",
             "role": "presenter",
             "engine": "azure_openai",
             "cutoff": 16,
             "revision": 1
           }
         ],
-        "accepted": 2,
-        "rejected": 1,
+        "accepted": 3,
+        "rejected": 0,
         "requests": 1,
-        "elapsed_ms": 2873,
-        "rejections": [
-          {
-            "role": "analyst",
-            "reason": "Player attribution belongs in the calculated facts"
-          }
-        ],
+        "elapsed_ms": 3084,
+        "rejections": [],
         "raw": {
           "analyst": {
-            "interpretation": "Moreau's wide movement aligns with Laurent's shift, but it does not confirm that Moreau's run influenced the defender's actions.",
-            "headline": "Coinciding Movements",
-            "caution": "Tracking alone cannot prove causation.",
+            "interpretation": "The winger's run toward the touchline coincides with the defender's lateral movement, while completed passes progress through the center of the field.",
+            "headline": "Winger's run and defender's shift",
+            "caution": "Tracking does not confirm causation between movements.",
             "evidence_ids": {
-              "primary": "wide-evt-001",
-              "secondary": "wide-evt-002"
+              "primary": "wide-football-16.0-r1",
+              "secondary": null
             }
           },
           "guide": {
-            "viewing_question": "Is the receiver ahead of the passer or beside them?",
-            "headline": "Pass Receiver Position",
-            "caution": "Focus on the receiver's location relative to the passer.",
+            "viewing_question": "Does the defender move toward the touchline with the runner, or stay in place?",
+            "headline": "Understanding off-ball runs",
+            "caution": "Focus on the recorded movements only.",
             "evidence_ids": {
-              "primary": "wide-evt-001",
-              "secondary": "wide-evt-002"
+              "primary": "wide-football-16.0-r1",
+              "secondary": null
             }
           },
           "presenter": {
-            "takeaway": "Width provides an option away from the ball as the attack progresses, but does not clarify the defender's intent.",
-            "headline": "Width in Attack",
-            "caution": "Tracking alone cannot explain intent.",
+            "takeaway": "Passing progress and off-ball movement tell different parts of this attack. The wide run is worth following, without crediting it for the defender’s decision.",
+            "headline": "Contrasting run and pass routes",
+            "caution": "Do not assume the run influenced the defender's actions.",
             "evidence_ids": {
-              "primary": "wide-evt-001",
-              "secondary": "wide-evt-002"
+              "primary": "wide-football-16.0-r1",
+              "secondary": null
             },
-            "replay_cue": "Replay the moment when the ball is passed to observe the receiver's position."
+            "replay_cue": "Replay the winger's run and the completed passes."
           }
         },
         "usage": {
-          "completion_tokens": 217,
+          "completion_tokens": 236,
           "completion_tokens_details": {
             "accepted_prediction_tokens": 0,
             "audio_tokens": 0,
@@ -319,345 +368,21 @@
             "rejected_prediction_tokens": 0
           },
           "latency_checkpoint": {
-            "engine_tbt_ms": 8,
-            "engine_ttft_ms": 84,
-            "engine_ttlt_ms": 1931,
-            "pre_inference_ms": 323,
+            "engine_tbt_ms": 9,
+            "engine_ttft_ms": 110,
+            "engine_ttlt_ms": 2198,
+            "pre_inference_ms": 274,
             "service_tbt_ms": 9,
-            "service_ttft_ms": 660,
-            "service_ttlt_ms": 2580,
-            "user_visible_ttft_ms": 337
+            "service_ttft_ms": 692,
+            "service_ttlt_ms": 2772,
+            "user_visible_ttft_ms": 418
           },
-          "prompt_tokens": 2619,
+          "prompt_tokens": 3764,
           "prompt_tokens_details": {
             "audio_tokens": 0,
             "cached_tokens": 0
           },
-          "total_tokens": 2836
-        }
-      }
-    },
-    {
-      "id": "wide-corrected",
-      "input": {
-        "source": "match",
-        "scenario": "wide",
-        "time": 16,
-        "corrected": true,
-        "language": "en",
-        "mode": "analyst",
-        "focus": 7,
-        "team": "harbor"
-      },
-      "team": {
-        "posts": [
-          {
-            "summary": "The recorded passes show a forward progression of the ball, with the second pass reaching a position further along the field than the first.",
-            "title": "Forward progression noted in passes",
-            "caution": "Movement claim withdrawn; defender position remains unchanged.",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "role": "analyst",
-            "engine": "azure_openai",
-            "cutoff": 16,
-            "revision": 2,
-            "latency_ms": 2636,
-            "first_text_ms": 2212
-          },
-          {
-            "summary": "A pass sends the ball to a teammate. Where is the next receiver positioned relative to the passer?",
-            "title": "Harbor's Passing Progress",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "role": "guide",
-            "engine": "azure_openai",
-            "cutoff": 16,
-            "revision": 2,
-            "latency_ms": 2669,
-            "first_text_ms": 2664
-          },
-          {
-            "engine": "calculated",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "cutoff": 16,
-            "revision": 2,
-            "role": "math",
-            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
-            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
-            "metric_value": "23.7 m",
-            "metric_title": "Forward passing gain"
-          },
-          {
-            "engine": "evidence_rules",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002",
-              "wide-track-102-400-r2"
-            ],
-            "cutoff": 16,
-            "revision": 2,
-            "role": "reviewer",
-            "summary": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result.",
-            "decision": "withdraw",
-            "target_claim": "The run caused the defender to follow.",
-            "target_role": "analyst",
-            "reviewed_contribution": "The recorded passes show a forward progression of the ball, with the second pass reaching a position further along the field than the first."
-          },
-          {
-            "engine": "reviewed_fallback",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002",
-              "wide-track-102-400-r2"
-            ],
-            "cutoff": 16,
-            "revision": 2,
-            "role": "presenter",
-            "summary": "The corrected record changes the movement story, while the recorded passes remain. Replay the defender’s position before repeating the original explanation."
-          }
-        ],
-        "requests": 6,
-        "elapsed_ms": 5919,
-        "usage": {
-          "model_calls": 6,
-          "prompt_tokens": 6930,
-          "completion_tokens": 261,
-          "usage_missing": 0,
-          "elapsed_ms": 5883
-        },
-        "trace": [
-          {
-            "seq": 1,
-            "at": 1792109252696,
-            "role": "director",
-            "action": "run_started",
-            "cutoff": 16,
-            "revision": 2,
-            "storage": "azure_blob"
-          },
-          {
-            "seq": 2,
-            "at": 1792109252714,
-            "role": "math",
-            "action": "calculation_saved",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ]
-          },
-          {
-            "seq": 3,
-            "at": 1792109253660,
-            "role": "analyst",
-            "action": "tool_completed",
-            "tool": "read_evidence",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002",
-              "wide-obs-run-8",
-              "wide-obs-space-16",
-              "wide-track-102-400-r2",
-              "wide-analysis-16.0",
-              "wide-window-16.0"
-            ],
-            "duration_ms": 933
-          },
-          {
-            "seq": 4,
-            "at": 1792109253903,
-            "role": "guide",
-            "action": "tool_completed",
-            "tool": "read_evidence",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002",
-              "wide-obs-run-8",
-              "wide-obs-space-16",
-              "wide-track-102-400-r2",
-              "wide-analysis-16.0",
-              "wide-window-16.0"
-            ],
-            "duration_ms": 1176
-          },
-          {
-            "seq": 5,
-            "at": 1792109255372,
-            "role": "analyst",
-            "action": "contribution_saved",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "latency_ms": 2636,
-            "first_text_ms": 2212
-          },
-          {
-            "seq": 6,
-            "at": 1792109255405,
-            "role": "guide",
-            "action": "contribution_saved",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "latency_ms": 2669,
-            "first_text_ms": 2664
-          },
-          {
-            "seq": 7,
-            "at": 1792109255422,
-            "role": "reviewer",
-            "action": "claim_checked",
-            "claim": {
-              "id": "editorial-reading",
-              "revision": 2,
-              "cutoff": 16,
-              "status": "withdrawn",
-              "claim": "The run caused the defender to follow.",
-              "explanation": "The corrected record keeps Laurent in place. The defender-movement claim is withdrawn; the recorded passes and shot remain unchanged.",
-              "evidence_ids": [
-                "wide-evt-001",
-                "wide-evt-002",
-                "wide-track-102-400-r2"
-              ],
-              "check": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result.",
-              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
-            }
-          },
-          {
-            "seq": 8,
-            "at": 1792109256431,
-            "role": "presenter",
-            "action": "tool_completed",
-            "tool": "read_evidence",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002",
-              "wide-obs-run-8",
-              "wide-obs-space-16",
-              "wide-track-102-400-r2",
-              "wide-analysis-16.0",
-              "wide-window-16.0"
-            ],
-            "duration_ms": 1000
-          },
-          {
-            "seq": 9,
-            "at": 1792109258553,
-            "role": "presenter",
-            "action": "fallback_published",
-            "reason": "Quantities belong in the calculated contribution; Unmeasured quality rating"
-          },
-          {
-            "seq": 10,
-            "at": 1792109258578,
-            "role": "director",
-            "action": "reviewed_notes_ready",
-            "revision": 2
-          }
-        ]
-      },
-      "baseline": {
-        "posts": [
-          {
-            "summary": "The defender's position remained unchanged during the recorded passes, indicating no influence from the runner's movement on the defender's actions.",
-            "title": "Defender Position Unaffected",
-            "caution": "Movement claim withdrawn; passes remain valid.",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "role": "analyst",
-            "engine": "azure_openai",
-            "cutoff": 16,
-            "revision": 2
-          },
-          {
-            "summary": "A pass sends the ball to a teammate. Is the receiver ahead of the passer or beside them?",
-            "title": "Receiver Position Inquiry",
-            "caution": "Focus on the pass direction and receiver's location.",
-            "evidence_ids": [
-              "wide-evt-001",
-              "wide-evt-002"
-            ],
-            "role": "guide",
-            "engine": "azure_openai",
-            "cutoff": 16,
-            "revision": 2
-          }
-        ],
-        "accepted": 2,
-        "rejected": 1,
-        "requests": 1,
-        "elapsed_ms": 2618,
-        "rejections": [
-          {
-            "role": "presenter",
-            "reason": "Unmeasured quality rating"
-          }
-        ],
-        "raw": {
-          "analyst": {
-            "interpretation": "The defender's position remained unchanged during the recorded passes, indicating no influence from the runner's movement on the defender's actions.",
-            "headline": "Defender Position Unaffected",
-            "caution": "Movement claim withdrawn; passes remain valid.",
-            "evidence_ids": {
-              "primary": "wide-evt-001",
-              "secondary": "wide-evt-002"
-            }
-          },
-          "guide": {
-            "viewing_question": "Is the receiver ahead of the passer or beside them?",
-            "headline": "Receiver Position Inquiry",
-            "caution": "Focus on the pass direction and receiver's location.",
-            "evidence_ids": {
-              "primary": "wide-evt-001",
-              "secondary": "wide-evt-002"
-            }
-          },
-          "presenter": {
-            "takeaway": "The passes advanced the ball significantly without altering defender engagement, highlighting effective ball movement.",
-            "headline": "Effective Ball Movement",
-            "caution": "No claims on defender following the runner.",
-            "evidence_ids": {
-              "primary": "wide-evt-001",
-              "secondary": "wide-evt-002"
-            },
-            "replay_cue": "Replay the defender’s position before the passes."
-          }
-        },
-        "usage": {
-          "completion_tokens": 205,
-          "completion_tokens_details": {
-            "accepted_prediction_tokens": 0,
-            "audio_tokens": 0,
-            "reasoning_tokens": 0,
-            "rejected_prediction_tokens": 0
-          },
-          "latency_checkpoint": {
-            "engine_tbt_ms": 8,
-            "engine_ttft_ms": 62,
-            "engine_ttlt_ms": 1723,
-            "pre_inference_ms": 357,
-            "service_tbt_ms": 8,
-            "service_ttft_ms": 728,
-            "service_ttlt_ms": 2379,
-            "user_visible_ttft_ms": 371
-          },
-          "prompt_tokens": 2640,
-          "prompt_tokens_details": {
-            "audio_tokens": 0,
-            "cached_tokens": 1152
-          },
-          "total_tokens": 2845
+          "total_tokens": 4000
         }
       }
     },
@@ -676,34 +401,32 @@
       "team": {
         "posts": [
           {
-            "summary": "The defender's position shifted from intercepting a pass to recovering the ball, allowing a forward pass that led directly to a goal.",
-            "title": "Defensive recovery enables forward attack.",
-            "caution": "Only these records are available. An annotation is not automatic video detection.",
+            "summary": "After regaining possession, the ball was passed forward to a teammate, who was positioned ahead of the ball, facilitating a direct attacking route.",
+            "title": "Forward positioning enhances attack",
+            "caution": "Recorded movement and event order do not establish why a defender acted.",
             "evidence_ids": [
-              "press-evt-005",
-              "press-evt-002"
+              "press-football-29.0-r1"
             ],
             "role": "analyst",
             "engine": "azure_openai",
             "cutoff": 29,
             "revision": 1,
-            "latency_ms": 3081,
-            "first_text_ms": 2571
+            "latency_ms": 3306,
+            "first_text_ms": 2753
           },
           {
-            "engine": "reviewed_fallback",
+            "summary": "A transition is the change from defending to attacking. After the recovery, is the next receiver ahead of the ball or beside it?",
+            "title": "Receiver's Positioning After Recovery",
+            "caution": "The receiver's position may influence the next play but does not guarantee a successful outcome.",
             "evidence_ids": [
-              "press-evt-001",
-              "press-evt-002",
-              "press-evt-003",
-              "press-evt-004",
-              "press-evt-005",
-              "press-track-8-150"
+              "press-football-29.0-r1"
             ],
+            "role": "guide",
+            "engine": "azure_openai",
             "cutoff": 29,
             "revision": 1,
-            "role": "guide",
-            "summary": "A transition is the change from defending to attacking. After winning the ball, is the next receiver ahead of the passer?"
+            "latency_ms": 1562,
+            "first_text_ms": 1561
           },
           {
             "engine": "calculated",
@@ -727,7 +450,8 @@
               "press-evt-003",
               "press-evt-004",
               "press-evt-005",
-              "press-track-8-150"
+              "press-track-8-150",
+              "press-analysis-29.0"
             ],
             "cutoff": 29,
             "revision": 1,
@@ -736,38 +460,37 @@
             "decision": "qualify",
             "target_claim": "The pressure forced the interception.",
             "target_role": "analyst",
-            "reviewed_contribution": "The defender's position shifted from intercepting a pass to recovering the ball, allowing a forward pass that led directly to a goal."
+            "reviewed_contribution": "After regaining possession, the ball was passed forward to a teammate, who was positioned ahead of the ball, facilitating a direct attacking route."
           },
           {
-            "engine": "reviewed_fallback",
+            "summary": "A completed forward pass after recovery enables a direct attacking route, contrasting with the preceding interception attempt.",
+            "title": "Forward connection leads to goal",
+            "caution": "The goal does not confirm the press caused the chance.",
             "evidence_ids": [
-              "press-evt-001",
-              "press-evt-002",
-              "press-evt-003",
-              "press-evt-004",
-              "press-evt-005",
-              "press-track-8-150"
+              "press-football-29.0-r1"
             ],
+            "replay_cue": "Replay the regain, then follow the first forward receiver.",
+            "role": "presenter",
+            "engine": "azure_openai",
             "cutoff": 29,
             "revision": 1,
-            "role": "presenter",
-            "summary": "The forward connection turns the recovery into a route to goal. The finish rewards that connection; it does not explain the earlier interception.",
-            "replay_cue": "Replay the regain, then follow the first forward receiver."
+            "latency_ms": 1619,
+            "first_text_ms": 4815
           }
         ],
-        "requests": 6,
-        "elapsed_ms": 6344,
+        "requests": 4,
+        "elapsed_ms": 5185,
         "usage": {
-          "model_calls": 6,
-          "prompt_tokens": 9874,
-          "completion_tokens": 261,
+          "model_calls": 4,
+          "prompt_tokens": 8618,
+          "completion_tokens": 246,
           "usage_missing": 0,
-          "elapsed_ms": 6311
+          "elapsed_ms": 5094
         },
         "trace": [
           {
             "seq": 1,
-            "at": 1792109261288,
+            "at": 1792114777461,
             "role": "director",
             "action": "run_started",
             "cutoff": 29,
@@ -776,7 +499,7 @@
           },
           {
             "seq": 2,
-            "at": 1792109261305,
+            "at": 1792114777479,
             "role": "math",
             "action": "calculation_saved",
             "evidence_ids": [
@@ -786,29 +509,30 @@
           },
           {
             "seq": 3,
-            "at": 1792109262301,
+            "at": 1792114777490,
             "role": "guide",
-            "action": "tool_completed",
-            "tool": "read_evidence",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
             "evidence_ids": [
               "press-evt-001",
               "press-evt-002",
               "press-evt-003",
               "press-evt-004",
               "press-evt-005",
+              "press-analysis-29.0",
               "press-obs-pressure-6",
               "press-obs-recovery-10",
               "press-obs-chance-23",
               "press-obs-goal-29",
               "press-track-8-150",
-              "press-analysis-29.0",
+              "press-football-29.0-r1",
               "press-window-29.0"
             ],
-            "duration_ms": 987
+            "model_tool_selection": false
           },
           {
             "seq": 4,
-            "at": 1792109262817,
+            "at": 1792114778675,
             "role": "analyst",
             "action": "tool_completed",
             "tool": "read_evidence",
@@ -818,38 +542,42 @@
               "press-evt-003",
               "press-evt-004",
               "press-evt-005",
+              "press-analysis-29.0",
               "press-obs-pressure-6",
               "press-obs-recovery-10",
               "press-obs-chance-23",
               "press-obs-goal-29",
               "press-track-8-150",
-              "press-analysis-29.0",
+              "press-football-29.0-r1",
               "press-window-29.0"
             ],
-            "duration_ms": 1503
+            "duration_ms": 1186
           },
           {
             "seq": 5,
-            "at": 1792109263679,
+            "at": 1792114779061,
             "role": "guide",
-            "action": "fallback_published",
-            "reason": "Guide should teach a viewing decision, not repeat Vector’s calculation"
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "press-football-29.0-r1"
+            ],
+            "latency_ms": 1562,
+            "first_text_ms": 1561
           },
           {
             "seq": 6,
-            "at": 1792109264405,
+            "at": 1792114780805,
             "role": "analyst",
             "action": "contribution_saved",
             "evidence_ids": [
-              "press-evt-005",
-              "press-evt-002"
+              "press-football-29.0-r1"
             ],
-            "latency_ms": 3081,
-            "first_text_ms": 2571
+            "latency_ms": 3306,
+            "first_text_ms": 2753
           },
           {
             "seq": 7,
-            "at": 1792109264423,
+            "at": 1792114780826,
             "role": "reviewer",
             "action": "claim_checked",
             "claim": {
@@ -865,7 +593,8 @@
                 "press-evt-003",
                 "press-evt-004",
                 "press-evt-005",
-                "press-track-8-150"
+                "press-track-8-150",
+                "press-analysis-29.0"
               ],
               "check": "Pressure precedes the interception. These records cannot prove it forced the mistake.",
               "method": "Deterministic source and revision rules; not a semantic proof of model prose"
@@ -873,94 +602,160 @@
           },
           {
             "seq": 8,
-            "at": 1792109266088,
+            "at": 1792114780836,
             "role": "presenter",
-            "action": "tool_completed",
-            "tool": "read_evidence",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
             "evidence_ids": [
               "press-evt-001",
               "press-evt-002",
               "press-evt-003",
               "press-evt-004",
               "press-evt-005",
+              "press-analysis-29.0",
               "press-obs-pressure-6",
               "press-obs-recovery-10",
               "press-obs-chance-23",
               "press-obs-goal-29",
               "press-track-8-150",
-              "press-analysis-29.0",
+              "press-football-29.0-r1",
               "press-window-29.0"
             ],
-            "duration_ms": 1656
+            "model_tool_selection": false
           },
           {
             "seq": 9,
-            "at": 1792109267531,
+            "at": 1792114782464,
             "role": "presenter",
-            "action": "fallback_published",
-            "reason": "Unmeasured quality rating"
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "press-football-29.0-r1"
+            ],
+            "latency_ms": 1619,
+            "first_text_ms": 4815
           },
           {
             "seq": 10,
-            "at": 1792109267551,
+            "at": 1792114782485,
             "role": "director",
-            "action": "reviewed_notes_ready",
+            "action": "broadcast_ready",
             "revision": 1
-          }
-        ]
-      },
-      "baseline": {
-        "posts": [],
-        "accepted": 0,
-        "rejected": 3,
-        "requests": 1,
-        "elapsed_ms": 2897,
-        "rejections": [
-          {
-            "role": "analyst",
-            "reason": "Invalid editorial text"
-          },
-          {
-            "role": "guide",
-            "reason": "Invalid editorial text"
-          },
-          {
-            "role": "presenter",
-            "reason": "Invalid editorial text"
           }
         ],
         "raw": {
-          "analyst": {
-            "interpretation": "The completed forward passes connect the regain to the attacking run, with the runner moving towards goal while the defender is positioned behind.",
-            "headline": "Forward Pass Connection",
-            "caution": "Evidence IDs: press-evt-003, press-evt-004",
-            "evidence_ids": {
-              "primary": "press-evt-003",
-              "secondary": "press-evt-004"
+          "guide": {
+            "post": {
+              "headline": "Receiver's Positioning After Recovery",
+              "caution": "The receiver's position may influence the next play but does not guarantee a successful outcome.",
+              "evidence_ids": {
+                "primary": "press-football-29.0-r1",
+                "secondary": null
+              },
+              "viewing_question": "After the recovery, is the next receiver ahead of the ball or beside it?"
             }
           },
-          "guide": {
-            "viewing_question": "After winning the ball, is the next receiver ahead of the passer?",
-            "headline": "Understanding Transitions",
-            "caution": "Evidence IDs: press-evt-001, press-evt-002",
-            "evidence_ids": {
-              "primary": "press-evt-001",
-              "secondary": "press-evt-002"
+          "analyst": {
+            "post": {
+              "interpretation": "After regaining possession, the ball was passed forward to a teammate, who was positioned ahead of the ball, facilitating a direct attacking route.",
+              "headline": "Forward positioning enhances attack",
+              "caution": "Recorded movement and event order do not establish why a defender acted.",
+              "evidence_ids": {
+                "primary": "press-football-29.0-r1",
+                "secondary": null
+              }
             }
           },
           "presenter": {
-            "takeaway": "The sequence of completed passes illustrates a successful transition from defense to attack, culminating in a goal.",
-            "headline": "Successful Transition to Goal",
-            "caution": "Evidence IDs: press-evt-005",
+            "post": {
+              "headline": "Forward connection leads to goal",
+              "caution": "The goal does not confirm the press caused the chance.",
+              "evidence_ids": {
+                "primary": "press-football-29.0-r1",
+                "secondary": null
+              },
+              "takeaway": "A completed forward pass after recovery enables a direct attacking route, contrasting with the preceding interception attempt.",
+              "replay_cue": "Replay the regain, then follow the first forward receiver."
+            }
+          }
+        }
+      },
+      "baseline": {
+        "posts": [
+          {
+            "summary": "After the recovery, the ball is passed forward to a teammate positioned ahead, indicating a shift in play direction.",
+            "title": "Forward Pass After Recovery",
+            "caution": "This does not confirm the effectiveness of the preceding pressure.",
+            "evidence_ids": [
+              "press-football-29.0-r1"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 29,
+            "revision": 1
+          },
+          {
+            "summary": "A transition is the change from defending to attacking. After the recovery, is the next receiver ahead of the ball or beside it?",
+            "title": "Receiver Positioning",
+            "caution": "This question focuses on the recorded positions only.",
+            "evidence_ids": [
+              "press-football-29.0-r1"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 29,
+            "revision": 1
+          },
+          {
+            "summary": "The finish completes an attack built after the recovery, highlighting the forward connection's role in the chance's development.",
+            "title": "Goal Completes Attack",
+            "caution": "The goal does not prove the press caused it.",
+            "evidence_ids": [
+              "press-football-29.0-r1"
+            ],
+            "replay_cue": "Replay the regain, then follow the first forward receiver.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 29,
+            "revision": 1
+          }
+        ],
+        "accepted": 3,
+        "rejected": 0,
+        "requests": 1,
+        "elapsed_ms": 3249,
+        "rejections": [],
+        "raw": {
+          "analyst": {
+            "interpretation": "After the recovery, the ball is passed forward to a teammate positioned ahead, indicating a shift in play direction.",
+            "headline": "Forward Pass After Recovery",
+            "caution": "This does not confirm the effectiveness of the preceding pressure.",
             "evidence_ids": {
-              "primary": "press-evt-005",
+              "primary": "press-football-29.0-r1",
+              "secondary": null
+            }
+          },
+          "guide": {
+            "viewing_question": "After the recovery, is the next receiver ahead of the ball or beside it?",
+            "headline": "Receiver Positioning",
+            "caution": "This question focuses on the recorded positions only.",
+            "evidence_ids": {
+              "primary": "press-football-29.0-r1",
+              "secondary": null
+            }
+          },
+          "presenter": {
+            "takeaway": "The finish completes an attack built after the recovery, highlighting the forward connection's role in the chance's development.",
+            "headline": "Goal Completes Attack",
+            "caution": "The goal does not prove the press caused it.",
+            "evidence_ids": {
+              "primary": "press-football-29.0-r1",
               "secondary": null
             },
             "replay_cue": "Replay the regain, then follow the first forward receiver."
           }
         },
         "usage": {
-          "completion_tokens": 220,
+          "completion_tokens": 218,
           "completion_tokens_details": {
             "accepted_prediction_tokens": 0,
             "audio_tokens": 0,
@@ -969,45 +764,809 @@
           },
           "latency_checkpoint": {
             "engine_tbt_ms": 9,
-            "engine_ttft_ms": 112,
-            "engine_ttlt_ms": 1991,
-            "pre_inference_ms": 263,
-            "service_tbt_ms": 9,
-            "service_ttft_ms": 669,
-            "service_ttlt_ms": 2576,
-            "user_visible_ttft_ms": 407
+            "engine_ttft_ms": 152,
+            "engine_ttlt_ms": 2044,
+            "pre_inference_ms": 307,
+            "service_tbt_ms": 8,
+            "service_ttft_ms": 809,
+            "service_ttlt_ms": 2645,
+            "user_visible_ttft_ms": 503
           },
-          "prompt_tokens": 3343,
+          "prompt_tokens": 4226,
           "prompt_tokens_details": {
             "audio_tokens": 0,
             "cached_tokens": 0
           },
-          "total_tokens": 3563
+          "total_tokens": 4444
+        }
+      }
+    },
+    {
+      "id": "wide-corrected-es-beginner",
+      "input": {
+        "source": "match",
+        "scenario": "wide",
+        "time": 16,
+        "corrected": true,
+        "language": "es",
+        "mode": "beginner",
+        "focus": 7,
+        "team": "harbor"
+      },
+      "team": {
+        "posts": [
+          {
+            "summary": "El registro corregido muestra que el defensor se quedó en su sitio mientras los pases se completaron. Esto cambia la explicación del avance del ataque.",
+            "title": "Cambio en la posición del defensor",
+            "caution": "No se puede afirmar que la carrera no influyó en el defensor.",
+            "evidence_ids": [
+              "wide-football-16.0-r2"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2,
+            "latency_ms": 4803,
+            "first_text_ms": 3824
+          },
+          {
+            "summary": "Una carrera sin balón es un movimiento sin tener la pelota. Aquí el registro corregido muestra que el defensor se quedó en su sitio. ¿El defensor se desplaza hacia la banda con el corredor o se queda en su sitio?",
+            "title": "Movimiento del defensor",
+            "caution": "El defensor se quedó en su sitio durante la jugada.",
+            "evidence_ids": [
+              "wide-football-16.0-r2"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2,
+            "latency_ms": 1844,
+            "first_text_ms": 1876
+          },
+          {
+            "engine": "calculated",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 2,
+            "role": "math",
+            "summary": "2 pases completos avanzan 23,7 m hacia la portería, sumando x final menos x inicial. No incluye conducciones.",
+            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
+            "metric_value": "23,7 m",
+            "metric_title": "Avance longitudinal por pases"
+          },
+          {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400-r2",
+              "wide-analysis-16.0"
+            ],
+            "cutoff": 16,
+            "revision": 2,
+            "role": "reviewer",
+            "summary": "El registro corregido mantiene a Laurent en su sitio. Retira la afirmación de movimiento; conserva los pases y el resultado del disparo.",
+            "decision": "withdraw",
+            "target_claim": "La carrera provocó que el defensor lo siguiera.",
+            "target_role": "analyst",
+            "reviewed_contribution": "El registro corregido muestra que el defensor se quedó en su sitio mientras los pases se completaron. Esto cambia la explicación del avance del ataque."
+          },
+          {
+            "engine": "reviewed_fallback",
+            "evidence_ids": [
+              "wide-football-16.0-r2",
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400-r2",
+              "wide-analysis-16.0"
+            ],
+            "cutoff": 16,
+            "revision": 2,
+            "role": "presenter",
+            "summary": "El ataque sigue avanzando, pero cambia su explicación: el registro corregido ya no respalda que el defensor fuera arrastrado."
+          }
+        ],
+        "requests": 4,
+        "elapsed_ms": 6590,
+        "usage": {
+          "model_calls": 4,
+          "prompt_tokens": 7542,
+          "completion_tokens": 250,
+          "usage_missing": 0,
+          "elapsed_ms": 6556
+        },
+        "trace": [
+          {
+            "seq": 1,
+            "at": 1792114852389,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 16,
+            "revision": 2,
+            "storage": "azure_blob"
+          },
+          {
+            "seq": 2,
+            "at": 1792114852410,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ]
+          },
+          {
+            "seq": 3,
+            "at": 1792114852422,
+            "role": "guide",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400-r2",
+              "wide-football-16.0-r2",
+              "wide-window-16.0"
+            ],
+            "model_tool_selection": false
+          },
+          {
+            "seq": 4,
+            "at": 1792114853413,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400-r2",
+              "wide-football-16.0-r2",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 991
+          },
+          {
+            "seq": 5,
+            "at": 1792114854278,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r2"
+            ],
+            "latency_ms": 1844,
+            "first_text_ms": 1876
+          },
+          {
+            "seq": 6,
+            "at": 1792114857235,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r2"
+            ],
+            "latency_ms": 4803,
+            "first_text_ms": 3824
+          },
+          {
+            "seq": 7,
+            "at": 1792114857261,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 2,
+              "cutoff": 16,
+              "status": "withdrawn",
+              "claim": "La carrera provocó que el defensor lo siguiera.",
+              "explanation": "El registro corregido mantiene a Laurent en su sitio. Se retira la afirmación de movimiento; los pases y el disparo no cambian.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400-r2",
+                "wide-analysis-16.0"
+              ],
+              "check": "El registro corregido mantiene a Laurent en su sitio. Retira la afirmación de movimiento; conserva los pases y el resultado del disparo.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          {
+            "seq": 8,
+            "at": 1792114857271,
+            "role": "presenter",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400-r2",
+              "wide-football-16.0-r2",
+              "wide-window-16.0"
+            ],
+            "model_tool_selection": false
+          },
+          {
+            "seq": 9,
+            "at": 1792114858866,
+            "role": "presenter",
+            "action": "fallback_published",
+            "reason": "Corrected source requires an explicit changed conclusion"
+          },
+          {
+            "seq": 10,
+            "at": 1792114858892,
+            "role": "director",
+            "action": "reviewed_notes_ready",
+            "revision": 2
+          }
+        ],
+        "raw": {
+          "guide": {
+            "post": {
+              "headline": "Movimiento del defensor",
+              "caution": "El defensor se quedó en su sitio durante la jugada.",
+              "evidence_ids": {
+                "primary": "wide-football-16.0-r2",
+                "secondary": null
+              },
+              "viewing_question": "¿El defensor se desplaza hacia la banda con el corredor o se queda en su sitio?"
+            }
+          },
+          "analyst": {
+            "post": {
+              "interpretation": "El registro corregido muestra que el defensor se quedó en su sitio mientras los pases se completaron. Esto cambia la explicación del avance del ataque.",
+              "headline": "Cambio en la posición del defensor",
+              "caution": "No se puede afirmar que la carrera no influyó en el defensor.",
+              "evidence_ids": {
+                "primary": "wide-football-16.0-r2",
+                "secondary": null
+              }
+            }
+          },
+          "presenter": {
+            "post": {
+              "headline": "Cambio en la posición del defensor",
+              "caution": "No se puede afirmar que la carrera no influyó en el defensor.",
+              "evidence_ids": {
+                "primary": "wide-football-16.0-r2",
+                "secondary": null
+              },
+              "takeaway": "La corrección cambia la explicación: el defensor se queda en su sitio mientras los pases permanecen registrados.",
+              "replay_cue": "Repite el avance de los pases completados."
+            }
+          }
+        }
+      },
+      "baseline": {
+        "posts": [
+          {
+            "summary": "El registro corregido muestra que el defensor se queda en su sitio mientras los pases se completan hacia adelante.",
+            "title": "Cambio en la posición del defensor",
+            "caution": "No se puede afirmar que la carrera no influyó en el defensor.",
+            "evidence_ids": [
+              "wide-football-16.0-r2"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2
+          },
+          {
+            "summary": "Una carrera sin balón es un movimiento sin tener la pelota. Aquí el registro corregido muestra que el defensor se quedó en su sitio. ¿El defensor se desplaza hacia la banda con el corredor o se queda en su sitio?",
+            "title": "Pregunta sobre el movimiento del defensor",
+            "caution": "No se puede asumir que el defensor se movió.",
+            "evidence_ids": [
+              "wide-football-16.0-r2"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2
+          },
+          {
+            "summary": "La corrección cambia la explicación: el registro corregido mantiene al defensor en su sitio mientras los pases se completan.",
+            "title": "Implicación del registro corregido",
+            "caution": "No se puede afirmar que la carrera no influyó en el defensor.",
+            "evidence_ids": [
+              "wide-football-16.0-r2"
+            ],
+            "replay_cue": "Repite el análisis de la posición del defensor.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 2
+          }
+        ],
+        "accepted": 3,
+        "rejected": 0,
+        "requests": 1,
+        "elapsed_ms": 2875,
+        "rejections": [],
+        "raw": {
+          "analyst": {
+            "interpretation": "El registro corregido muestra que el defensor se queda en su sitio mientras los pases se completan hacia adelante.",
+            "headline": "Cambio en la posición del defensor",
+            "caution": "No se puede afirmar que la carrera no influyó en el defensor.",
+            "evidence_ids": {
+              "primary": "wide-football-16.0-r2",
+              "secondary": null
+            }
+          },
+          "guide": {
+            "viewing_question": "¿El defensor se desplaza hacia la banda con el corredor o se queda en su sitio?",
+            "headline": "Pregunta sobre el movimiento del defensor",
+            "caution": "No se puede asumir que el defensor se movió.",
+            "evidence_ids": {
+              "primary": "wide-football-16.0-r2",
+              "secondary": null
+            }
+          },
+          "presenter": {
+            "takeaway": "La corrección cambia la explicación: el registro corregido mantiene al defensor en su sitio mientras los pases se completan.",
+            "headline": "Implicación del registro corregido",
+            "caution": "No se puede afirmar que la carrera no influyó en el defensor.",
+            "evidence_ids": {
+              "primary": "wide-football-16.0-r2",
+              "secondary": null
+            },
+            "replay_cue": "Repite el análisis de la posición del defensor."
+          }
+        },
+        "usage": {
+          "completion_tokens": 239,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 8,
+            "engine_ttft_ms": 130,
+            "engine_ttlt_ms": 2148,
+            "pre_inference_ms": 176,
+            "service_tbt_ms": 8,
+            "service_ttft_ms": 624,
+            "service_ttlt_ms": 2588,
+            "user_visible_ttft_ms": 448
+          },
+          "prompt_tokens": 3947,
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          },
+          "total_tokens": 4186
+        }
+      }
+    },
+    {
+      "id": "counter-pt-saved",
+      "input": {
+        "source": "match",
+        "scenario": "counter",
+        "time": 28,
+        "corrected": false,
+        "language": "pt",
+        "mode": "math",
+        "focus": 7,
+        "team": "harbor"
+      },
+      "team": {
+        "posts": [
+          {
+            "summary": "Após a recuperação, o jogador avança e realiza um passe para um companheiro em posição mais avançada, enquanto a defesa se reposiciona.",
+            "title": "Mudança de posição após recuperação",
+            "caution": "A movimentação registrada não estabelece por que um defensor agiu.",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 28,
+            "revision": 1,
+            "latency_ms": 2693,
+            "first_text_ms": 2370
+          },
+          {
+            "summary": "Uma transição é a mudança de defender para atacar. Após recuperar, o próximo receptor está à frente da bola ou ao lado?",
+            "title": "Próximo receptor na jogada?",
+            "caution": "A posição do receptor pode influenciar a defesa.",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 28,
+            "revision": 1,
+            "latency_ms": 1918,
+            "first_text_ms": 1971
+          },
+          {
+            "engine": "calculated",
+            "evidence_ids": [
+              "counter-evt-002",
+              "counter-evt-005"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "math",
+            "summary": "20 segundos da recuperação ao início do chute, com 2 passes completos. Mede um ataque, não a média da equipe.",
+            "working": "27.0 s − 7.0 s = 20.0 s",
+            "metric_value": "20 s",
+            "metric_title": "Recuperação ao chute"
+          },
+          {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-evt-005",
+              "counter-track-9-700",
+              "counter-analysis-28.0"
+            ],
+            "cutoff": 28,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "Interpretação, não prova de causa.",
+            "decision": "qualify",
+            "target_claim": "A recuperação de Cole inicia uma sequência para a frente. Siga os passes completos e a corrida de Brooks.",
+            "target_role": "analyst",
+            "reviewed_contribution": "Após a recuperação, o jogador avança e realiza um passe para um companheiro em posição mais avançada, enquanto a defesa se reposiciona."
+          },
+          {
+            "summary": "A sequência de passes após a recuperação mostra como a construção do ataque pode ser distinta do resultado final.",
+            "title": "Transição eficaz após recuperação",
+            "caution": "A movimentação registrada não estabelece por que um defensor agiu.",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "replay_cue": "Reveja a sequência de passes que leva ao chute.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 28,
+            "revision": 1,
+            "latency_ms": 1737,
+            "first_text_ms": 4329
+          }
+        ],
+        "requests": 4,
+        "elapsed_ms": 4726,
+        "usage": {
+          "model_calls": 4,
+          "prompt_tokens": 8090,
+          "completion_tokens": 248,
+          "usage_missing": 0,
+          "elapsed_ms": 4647
+        },
+        "trace": [
+          {
+            "seq": 1,
+            "at": 1792114927459,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 28,
+            "revision": 1,
+            "storage": "azure_blob"
+          },
+          {
+            "seq": 2,
+            "at": 1792114927486,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "counter-evt-002",
+              "counter-evt-005"
+            ]
+          },
+          {
+            "seq": 3,
+            "at": 1792114927496,
+            "role": "guide",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-evt-005",
+              "counter-analysis-28.0",
+              "counter-obs-recovery-7",
+              "counter-obs-transition-12",
+              "counter-obs-chance-22",
+              "counter-obs-save-28",
+              "counter-track-9-700",
+              "counter-football-28.0-r1",
+              "counter-window-28.0"
+            ],
+            "model_tool_selection": false
+          },
+          {
+            "seq": 4,
+            "at": 1792114928546,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-evt-005",
+              "counter-analysis-28.0",
+              "counter-obs-recovery-7",
+              "counter-obs-transition-12",
+              "counter-obs-chance-22",
+              "counter-obs-save-28",
+              "counter-track-9-700",
+              "counter-football-28.0-r1",
+              "counter-window-28.0"
+            ],
+            "duration_ms": 1051
+          },
+          {
+            "seq": 5,
+            "at": 1792114929423,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "latency_ms": 1918,
+            "first_text_ms": 1971
+          },
+          {
+            "seq": 6,
+            "at": 1792114930199,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "latency_ms": 2693,
+            "first_text_ms": 2370
+          },
+          {
+            "seq": 7,
+            "at": 1792114930218,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 28,
+              "status": "bounded",
+              "claim": "A recuperação de Cole inicia uma sequência para a frente. Siga os passes completos e a corrida de Brooks.",
+              "explanation": "20 segundos da recuperação ao início do chute, com 2 passes completos. Mede um ataque, não a média da equipe.",
+              "evidence_ids": [
+                "counter-evt-001",
+                "counter-evt-002",
+                "counter-evt-003",
+                "counter-evt-004",
+                "counter-evt-005",
+                "counter-track-9-700",
+                "counter-analysis-28.0"
+              ],
+              "check": "Interpretação, não prova de causa.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          {
+            "seq": 8,
+            "at": 1792114930228,
+            "role": "presenter",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
+            "evidence_ids": [
+              "counter-evt-001",
+              "counter-evt-002",
+              "counter-evt-003",
+              "counter-evt-004",
+              "counter-evt-005",
+              "counter-analysis-28.0",
+              "counter-obs-recovery-7",
+              "counter-obs-transition-12",
+              "counter-obs-chance-22",
+              "counter-obs-save-28",
+              "counter-track-9-700",
+              "counter-football-28.0-r1",
+              "counter-window-28.0"
+            ],
+            "model_tool_selection": false
+          },
+          {
+            "seq": 9,
+            "at": 1792114931979,
+            "role": "presenter",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "latency_ms": 1737,
+            "first_text_ms": 4329
+          },
+          {
+            "seq": 10,
+            "at": 1792114932042,
+            "role": "director",
+            "action": "broadcast_ready",
+            "revision": 1
+          }
+        ],
+        "raw": {
+          "guide": {
+            "post": {
+              "headline": "Próximo receptor na jogada?",
+              "caution": "A posição do receptor pode influenciar a defesa.",
+              "evidence_ids": {
+                "primary": "counter-football-28.0-r1",
+                "secondary": null
+              },
+              "viewing_question": "Após recuperar, o próximo receptor está à frente da bola ou ao lado?"
+            }
+          },
+          "analyst": {
+            "post": {
+              "interpretation": "Após a recuperação, o jogador avança e realiza um passe para um companheiro em posição mais avançada, enquanto a defesa se reposiciona.",
+              "headline": "Mudança de posição após recuperação",
+              "caution": "A movimentação registrada não estabelece por que um defensor agiu.",
+              "evidence_ids": {
+                "primary": "counter-football-28.0-r1",
+                "secondary": null
+              }
+            }
+          },
+          "presenter": {
+            "post": {
+              "headline": "Transição eficaz após recuperação",
+              "caution": "A movimentação registrada não estabelece por que um defensor agiu.",
+              "evidence_ids": {
+                "primary": "counter-football-28.0-r1",
+                "secondary": null
+              },
+              "takeaway": "A sequência de passes após a recuperação mostra como a construção do ataque pode ser distinta do resultado final.",
+              "replay_cue": "Reveja a sequência de passes que leva ao chute."
+            }
+          }
+        }
+      },
+      "baseline": {
+        "posts": [
+          {
+            "summary": "Após a recuperação, o jogador se posiciona para um passe que avança em direção ao campo adversário, enquanto o defensor permanece atrás.",
+            "title": "Mudança de posição após recuperação",
+            "caution": "Não se pode afirmar que a corrida do jogador não influenciou o defensor.",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 28,
+            "revision": 1
+          },
+          {
+            "summary": "Uma transição é a mudança de defender para atacar. Após recuperar, o próximo receptor está à frente da bola ou ao lado?",
+            "title": "Comparação de posições",
+            "caution": "Não se deve considerar a intenção do jogador.",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 28,
+            "revision": 1
+          },
+          {
+            "summary": "A defesa encerra o ataque sem apagar seu avanço. Harbor transformou uma recuperação em chute; o resultado e a construção merecem avaliações separadas.",
+            "title": "Implicação do ataque",
+            "caution": "Não se pode afirmar que a corrida do jogador não influenciou o defensor.",
+            "evidence_ids": [
+              "counter-football-28.0-r1"
+            ],
+            "replay_cue": "Reveja a sequência de passes e a posição dos jogadores.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 28,
+            "revision": 1
+          }
+        ],
+        "accepted": 3,
+        "rejected": 0,
+        "requests": 1,
+        "elapsed_ms": 3289,
+        "rejections": [],
+        "raw": {
+          "analyst": {
+            "interpretation": "Após a recuperação, o jogador se posiciona para um passe que avança em direção ao campo adversário, enquanto o defensor permanece atrás.",
+            "headline": "Mudança de posição após recuperação",
+            "caution": "Não se pode afirmar que a corrida do jogador não influenciou o defensor.",
+            "evidence_ids": {
+              "primary": "counter-football-28.0-r1",
+              "secondary": null
+            }
+          },
+          "guide": {
+            "viewing_question": "Após recuperar, o próximo receptor está à frente da bola ou ao lado?",
+            "headline": "Comparação de posições",
+            "caution": "Não se deve considerar a intenção do jogador.",
+            "evidence_ids": {
+              "primary": "counter-football-28.0-r1",
+              "secondary": null
+            }
+          },
+          "presenter": {
+            "takeaway": "A defesa encerra o ataque sem apagar seu avanço. Harbor transformou uma recuperação em chute; o resultado e a construção merecem avaliações separadas.",
+            "headline": "Implicação do ataque",
+            "caution": "Não se pode afirmar que a corrida do jogador não influenciou o defensor.",
+            "evidence_ids": {
+              "primary": "counter-football-28.0-r1",
+              "secondary": null
+            },
+            "replay_cue": "Reveja a sequência de passes e a posição dos jogadores."
+          }
+        },
+        "usage": {
+          "completion_tokens": 248,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 10,
+            "engine_ttft_ms": 125,
+            "engine_ttlt_ms": 2541,
+            "pre_inference_ms": 189,
+            "service_tbt_ms": 10,
+            "service_ttft_ms": 598,
+            "service_ttlt_ms": 3005,
+            "user_visible_ttft_ms": 409
+          },
+          "prompt_tokens": 4097,
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          },
+          "total_tokens": 4345
         }
       }
     }
   ],
-  "conclusion": "All three fixed cases completed with raw team and baseline outputs preserved. The team passed 5 of 9 editorial checks versus 4 of 9 for the single-call baseline, using 18 requests versus 3 and 20.7 seconds versus 8.4 seconds in total. This small test does not establish superior football analysis; it shows a substantial cost and latency tradeoff. Rejected text is replaced by labeled reviewed explanations. Reusable work and correction handling remain the workflow’s demonstrated advantages.",
+  "conclusion": "This small comparison measures editorial guard acceptance and execution cost. It does not establish that multiple agents produce better football analysis. The separate recovery demonstration establishes reuse of completed work.",
+  "policy": "v42.2",
   "summary": {
     "team": {
-      "accepted": "5/9",
-      "rejected": 4,
-      "requests": 18,
-      "seconds": 20.7
+      "accepted": "11/12",
+      "rejected": 1,
+      "requests": 16,
+      "seconds": 22.1
     },
     "baseline": {
-      "accepted": "4/9",
-      "rejected": 5,
-      "requests": 3,
-      "seconds": 8.4
+      "accepted": "12/12",
+      "rejected": 0,
+      "requests": 4,
+      "seconds": 12.5
     }
   },
-  "requests_reserved": 21,
+  "requests_reserved": 20,
   "complete": true,
   "allowance_after": {
     "day": "2026-10-16",
     "limit": 120,
-    "used": 21
-  },
-  "implementation": "v41 / unchanged editorial policy from v40 verified image"
+    "used": 114
+  }
 }

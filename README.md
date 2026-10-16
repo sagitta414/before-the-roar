@@ -2,13 +2,15 @@
 
 An explainable football studio: watch the play, follow a public editorial discussion, inspect the calculation, and challenge the evidence. A newcomer, an analyst and a numbers-focused fan get different explanations of the same source.
 
-Version 41 fixes the automatic tour, adds a quota-independent saved-receipt replay, disables automatic paid discussions, improves the event map and includes reproducible deployment files. See [CHANGELOG](CHANGELOG.md).
+Version 42 adds concrete football context, reduces a fresh discussion to four model requests, preserves corrections in every audience mode, and brings the pitch and evidence higher on screen. Current evaluation results and raw outputs are published with historical comparisons retained. See [CHANGELOG](CHANGELOG.md).
 
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
 **Start the guided match:** https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
 
-**Reviewer improvements and measured limits:** [docs/SCAN-3-FIXES.md](docs/SCAN-3-FIXES.md)
+**Current changes and measured limits:** [CHANGELOG.md](CHANGELOG.md) · [verification record](docs/proof/v42-verification.json)
+
+**Earlier reviewer fixes:** [docs/SCAN-3-FIXES.md](docs/SCAN-3-FIXES.md)
 
 **Judge demonstration and scope:** [docs/JUDGE-DEMO.md](docs/JUDGE-DEMO.md)
 
@@ -38,17 +40,17 @@ The original creator film remains at `original.html`. No real Premier League mat
 
 ## Tool-backed editorial workflow
 
-Scout and Guide run concurrently. Each model selects a bounded function tool: retrieve evidence, retrieve a deterministic calculation, or review earlier public claims. Tools cannot request arbitrary URLs or source selectors. The result is returned to the model before it writes. Host receives the other four public contributions. Vector calculates immediately; Check applies source rules to the explicit scenario claim.
+Scout and Guide run concurrently. Scout selects a bounded function tool: retrieve evidence, retrieve a deterministic calculation, or review earlier public claims. Tools cannot request arbitrary URLs or source selectors. Guide receives the same bounded evidence with a verified glossary; Host receives the other four public contributions. Those supplied contexts are labeled as such, not fabricated model tool calls. Vector calculates immediately; Check applies source rules to the explicit scenario claim.
 
 Three roles use Azure OpenAI; two specialist components are deterministic. This is custom Node orchestration with Azure OpenAI function calls. Microsoft Agent Framework, Foundry Agent Service, MCP, A2A and Fabric integration are not claimed. Public receipts are operations and contributions, not private chain-of-thought.
 
-Tool results, posts, claim revisions, tokens and receipts persist. A complete fresh discussion uses up to six model requests. Complete runs are reused without fabricated typing. Successful intermediate work is reused after failure; unavailable stages retry. Drafts are labeled and validated before final publication. Number, player-attribution, citation and repetition guards reduce specific errors without proving semantic truth.
+Tool results, raw model outputs (including rejected text), posts, claim revisions, tokens and receipts persist. A complete fresh discussion uses up to four model requests. Complete runs are reused without fabricated typing. Successful intermediate work is reused after failure; unavailable stages retry. Drafts are labeled and validated before final publication. Number, player-attribution, citation, correction and repetition guards reduce specific errors without proving semantic truth.
 
 ## Correction and recovery
 
 Inside BTR's production desk records the original reading and its withdrawal. Correcting tracking immediately updates the deterministic caption and separate OBS output. The revised AI discussion uses a new checkpoint namespace; prior contributions remain in the exported audit rather than appearing as current.
 
-Test recovery throws an actual exception after the specialists are saved. Resume creates a fresh worker, reloads stored work and completes the handoff while the independent video continues. This is a worker interruption test, not an Azure shutdown. A successful run uses four requests before the fault and two afterwards. Automated tests replace both the worker and repository instance.
+Test recovery throws an actual exception after the specialists are saved. Resume creates a fresh worker, reloads stored work and completes the handoff while the independent video continues. This is a worker interruption test, not an Azure shutdown. A successful run uses three requests before the fault and one afterwards. Automated tests replace both the worker and repository instance.
 
 Blob ETags reject stale writes. Proof runs last thirty minutes, use distinct reader/writer capabilities, store only their hashes, and omit credentials from exports. Tab session storage restores the producer after reload. The ordinary full-match event stream is still ephemeral; it requires a new fixture after a backend restart. This upgrade makes editorial work durable, not every application service.
 
@@ -64,9 +66,9 @@ Truth Lab's actual-frame Azure vision review receives JPEGs without authored obs
 
 `docs/proof/synthetic-validation.json` reports 100 held-out seeds (1001–1100). It establishes internal consistency, not real-league calibration. The tests cover cutoffs, source/revision isolation, localization, streaming, budget races, handoffs, worker recovery, stale-write rejection, authorization and corrupted data.
 
-`node scripts/production-smoke.mjs <Azure origin> --full` consumes up to twelve model requests and writes credential-free deployment receipts to `docs/proof/live-production-proof.json`. Metrics are measured duration and reported tokens, not invented dollar costs or judging scores. The demonstrated advantage is reusable work and source-revision enforcement; comparative superiority over a single model has not been established.
+`node scripts/production-smoke.mjs <Azure origin> --full` consumes up to eight model requests and writes credential-free deployment receipts to `docs/proof/live-production-proof.json`. Metrics are measured duration and reported tokens, not invented dollar costs or judging scores. The demonstrated advantage is reusable work and source-revision enforcement; comparative superiority over a single model has not been established.
 
-Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. Limits remain two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas. Normal film playback makes zero automatic model requests. Ask the crew explicitly generates a discussion, up to six requests; existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
+Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. Limits remain two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas. Normal film playback makes zero automatic model requests. Ask the crew explicitly generates a discussion, up to four requests; existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
 
 Configuration: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT`, `AZURE_STORAGE_URL`, `AI_DAILY_LIMIT`, `ALLOWED_ORIGINS`, `PORT`. Frontend `api-config.json` contains only the public API origin. See [deployment instructions](docs/DEPLOYMENT.md) for the parameterized script, Bicep template and existing-resource prerequisites. Publish the static Site through its managed source workflow. Docker includes `api/` and `dist/`.
 

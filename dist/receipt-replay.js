@@ -23,6 +23,6 @@ export function receiptReplay(archive, resumed = false) {
       .map((role) => sample.team.posts.find((p) => p.role === role))
       .filter(Boolean),
     limitation:
-      "The pause demonstrates the saved specialist handoff. No new worker interruption, storage recovery or AI generation is performed. Historical editorial checks differ from the current policy.",
+      "The pause demonstrates the recorded specialist handoff. No new worker interruption, storage recovery or AI generation is performed. The recording date identifies the evaluated policy; this is not a fresh live test.",
   };
 }

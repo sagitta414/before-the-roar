@@ -18,17 +18,17 @@ These resources incur Azure costs. The supplied template creates only the Contai
 ## First Container App deployment
 
 1. Copy `infra/parameters.example.json` to ignored `infra/parameters.local.json`; fill in your resource IDs, endpoint and frontend origin. Use a private Blob container URL without a SAS token.
-2. Build the image: `az acr build --subscription YOUR_SUBSCRIPTION --registry YOUR_REGISTRY --image before-the-roar:v41 --file Dockerfile .`
+2. Build the image: `az acr build --subscription YOUR_SUBSCRIPTION --registry YOUR_REGISTRY --image before-the-roar:v42-verified --file Dockerfile .`
 3. Inspect: `az deployment group what-if --subscription YOUR_SUBSCRIPTION --resource-group YOUR_GROUP --template-file infra/container-app.bicep --parameters @infra/parameters.local.json`.
 4. Apply with `az deployment group create` using the same arguments. Its output is the app URL.
 5. Set `dist/api-config.json` to that URL for a separately hosted frontend; allow its origin in `allowedOrigins`. The Container App also serves the frontend itself.
 
-The default allowance is 120 requests per UTC day. A new discussion can use six requests; plain playback and the guided tour generate none. The allowance is not a currency budget. The template uses zero minimum replicas and one maximum replica.
+The default allowance is 120 requests per UTC day. A new discussion can use four requests; plain playback and the guided tour generate none. The allowance is not a currency budget. The template uses zero minimum replicas and one maximum replica.
 
 ## Subsequent releases
 
 ```powershell
-./scripts/deploy-azure.ps1 -SubscriptionId YOUR_SUBSCRIPTION -ResourceGroup YOUR_GROUP -RegistryName YOUR_REGISTRY -AppName YOUR_APP -Tag v41 -PlanOnly
+./scripts/deploy-azure.ps1 -SubscriptionId YOUR_SUBSCRIPTION -ResourceGroup YOUR_GROUP -RegistryName YOUR_REGISTRY -AppName YOUR_APP -Tag v42-verified -PlanOnly
 ```
 
 Review the generated arguments, then omit `-PlanOnly` to build and update. This path updates the image only, preserving environment variables, origin restrictions, identity and allowance settings. Check the ready revision and `/api/health`.

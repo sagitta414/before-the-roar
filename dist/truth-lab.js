@@ -7,6 +7,7 @@ function text(id,value){if($(id).textContent!==value)$(id).textContent=value;}
 function save(name,data){const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 
 export function createTruthLab({seek,toggleCorrection,pause}){
+ document.querySelector('#truth .truth-story-grid').after($('truth-chapters'));
  let scenario,time=0,corrected=false,language='en',audience='fan',narrative,signature='',speaking=false,spokenKey='',selectedClaim='movement';
  const canSpeak=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined',claimNodes=new Map();
  function silence(){if(speaking&&canSpeak)speechSynthesis.cancel();speaking=false;text('truth-listen','Listen to the story');$('truth-listen').setAttribute('aria-pressed','false');}
