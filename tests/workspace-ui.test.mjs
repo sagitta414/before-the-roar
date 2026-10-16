@@ -39,9 +39,13 @@ test('all six application routes and the guided story initialize together withou
   const clickStudio=text=>[...studio.querySelectorAll('button')].find(b=>b.textContent===text).click();
   clickStudio('A story changes');clickStudio('Apply corrected tracking');assert.match(studio.querySelector('.ps-history').textContent,/withdrawn/);
   clickStudio('What’s missing?');clickStudio('Remove player tracking');assert.equal(studio.querySelector('.ps-pitch').dataset.tracking,'false');assert.match(studio.querySelector('.ps-copy').textContent,/unavailable/);
-  clickStudio('Restore player tracking');clickStudio('Off the ball');clickStudio('Spotlight this run');assert.match(studio.querySelector('.ps-copy').textContent,/zero recorded/);
+  clickStudio('Restore player tracking');clickStudio('Off the ball');clickStudio('Spotlight this run');assert.match(studio.querySelector('.ps-copy').textContent,/zero recorded/i);
   clickStudio('Two fans. One truth.');assert.match(studio.querySelector('.ps-copy').textContent,/Identical facts/);
   clickStudio('Learn your way');clickStudio('Let me try');clickStudio('Theo Brooks');assert.match(studio.querySelector('.ps-copy').textContent,/Source: wide-evt-003/);
+  clickStudio('Two fans. One truth.');clickStudio('Learn your way');assert.match(studio.querySelector('.ps-copy').textContent,/Source: wide-evt-003/,'prediction result survives switching experiences');
+  assert.equal(studio.querySelectorAll('.ps-stage').length,3);
+  studio.querySelector('.ps-next button').click();assert.equal(studio.querySelector('[data-tab="fans"]').getAttribute('aria-pressed'),'true');
+  const choose=studio.querySelector('select');choose.value='press';choose.dispatchEvent(new Event('change'));assert.equal(studio.querySelector('.ps-scorebar span').textContent,'ORIGINAL TRACKING');assert.equal(studio.querySelectorAll('.ps-history').length,0);assert.equal(studio.querySelector('.ps-controls input').value,'16');
   assert.deepEqual(errors,[]);assert.ok(requests.every(x=>!x.includes('/api/')||x.includes('/api/health')),'Initial route and guided actions must not spend model requests');
  }finally{for(const id of intervals)clearTimeout(id);for(const [key,d]of saved){if(d)Object.defineProperty(globalThis,key,d);else delete globalThis[key];}w.close();}
 });
