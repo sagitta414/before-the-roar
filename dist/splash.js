@@ -11,14 +11,17 @@
  const motion=document.createElement('button');motion.type='button';motion.className='btr-motion';motion.textContent='Pause motion';splash.querySelector('.btr-splash-top').append(motion);
  const entry=document.createElement('div');entry.className='btr-entry';entry.innerHTML='<p>Watch the play. Hear every angle.<br>Find the story behind the moment.</p><button class="btr-enter" type="button" autofocus><span>Enter the match room</span><b aria-hidden="true">↗</b></button><small>YOUR GAME. YOUR PERSPECTIVE.</small>';hero.append(entry);
  splash.querySelector('.btr-splash-bottom').innerHTML='<div class="btr-welcome-footer"><span><i></i> YOUR FRONT ROW STARTS HERE</span><small>AI FOOTBALL STUDIO / SYNTHETIC MATCH EXPERIENCES</small></div><div class="btr-crew-preview"><div class="btr-crew-faces">'+['scout','guide','vector','check','host'].map(name=>'<img src="assets/'+name+'-portrait.webp" alt="" width="38" height="38">').join('')+'</div><div><strong>FIVE VOICES. ONE WATCH PARTY.</strong><span>Observation · explanation · calculation · challenge · synthesis</span></div></div>';
+ const paths=document.createElement('div');paths.className='btr-entry-paths';paths.setAttribute('role','group');paths.setAttribute('aria-label','Choose your starting experience');
+ for(const [id,label,description]of [['watch','Watch','Feel the moment'],['centre','Match Centre','Understand the play'],['truth','Truth Lab','Challenge the claim']]){const button=document.createElement('button');button.type='button';button.setAttribute('aria-label','Enter '+label);const title=document.createElement('strong'),detail=document.createElement('span');title.textContent=label;detail.textContent=description;button.append(title,detail);button.addEventListener('click',()=>{location.hash=id;dismiss();});paths.append(button);}entry.append(paths);
  document.body.append(splash);
  if(typeof splash.showModal!=='function'){splash.remove();return;}
- const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;let closed=false,paused=reduce;
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;let closed=false,paused=reduce||!!navigator.connection?.saveData;
  const film=document.createElement('video');film.className='btr-welcome-film';film.muted=true;film.loop=true;film.playsInline=true;film.preload='none';film.setAttribute('aria-hidden','true');film.tabIndex=-1;film.poster='assets/pitchside-minute-poster.jpg';stage.prepend(film);
  function setMotion(){splash.classList.toggle('motion-paused',paused);motion.textContent=paused?'Play motion':'Pause motion';motion.setAttribute('aria-pressed',String(paused));if(paused)film.pause();else{if(!film.getAttribute('src'))film.src='assets/pitchside-scene-0.mp4';film.play().catch(()=>{paused=true;splash.classList.add('motion-paused');motion.textContent='Play motion';motion.setAttribute('aria-pressed','true');});}}
  film.addEventListener('playing',()=>splash.classList.add('film-ready'));
  motion.addEventListener('click',()=>{paused=!paused;setMotion();});setMotion();
- function dismiss(){if(closed)return;closed=true;film.pause();splash.classList.add('leaving');setTimeout(()=>{splash.close();film.removeAttribute('src');film.load();splash.remove();},reduce?0:350);}
+ const visibility=()=>{if(document.hidden)film.pause();else if(!paused&&!closed)film.play().catch(()=>{});};document.addEventListener('visibilitychange',visibility);
+ function dismiss(){if(closed)return;closed=true;document.removeEventListener('visibilitychange',visibility);film.pause();splash.classList.add('leaving');setTimeout(()=>{splash.close();film.removeAttribute('src');film.load();splash.remove();},reduce?0:350);}
  splash.querySelector('.btr-enter').addEventListener('click',dismiss);
  splash.addEventListener('cancel',e=>{e.preventDefault();splash.querySelector('.btr-enter').focus();});
  try{splash.showModal();splash.querySelector('.btr-enter').focus();}catch{film.pause();splash.remove();}

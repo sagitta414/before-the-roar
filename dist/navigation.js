@@ -32,10 +32,11 @@ export function installNavigation(){
   if(location.hash!=='#'+name&&historyMode!=='none')history[historyMode==='replace'?'replaceState':'pushState'](null,'','#'+name);
   close();if(changed)window.scrollTo({top:0,behavior:'instant'});
  }
- nav.addEventListener('click',e=>{const button=e.target.closest('.nav');if(!button)return;e.preventDefault();e.stopImmediatePropagation();apply(button.id.replace(/-nav$/,''));if(matchMedia('(max-width:760px)').matches)toggle.focus();},true);
+ nav.addEventListener('click',e=>{const button=e.target.closest('.nav');if(!button)return;e.preventDefault();e.stopImmediatePropagation();apply(button.id.replace(/-nav$/,''));if(matchMedia('(max-width:760px)').matches)button.focus({preventScroll:true});},true);
  document.addEventListener('btr-section',e=>{if(!routing)apply(e.detail,{notify:false});});
  const restore=()=>apply(sectionFromHash(location.hash),{historyMode:'none'});addEventListener('popstate',restore);addEventListener('hashchange',restore);
  history.scrollRestoration='manual';
  addEventListener('load',()=>window.scrollTo({top:0,behavior:'instant'}),{once:true});
  document.getElementById('lab-nav').hidden=false;apply(sectionFromHash(location.hash),{historyMode:'replace'});
 }
+
