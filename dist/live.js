@@ -1,4 +1,6 @@
 import { renderEventPitch } from "./event-pitch.js";
+import { createLabAnalytics } from "./lab-analytics.js";
+const matchAnalytics = createLabAnalytics();
 import { createLabRun } from "./lab-run.js";
 import { aiAvailability, availabilityText } from "./ai-availability.js";
 import { lesson } from "./learning.js";
@@ -285,6 +287,7 @@ function onEvent(type, data) {
   if (type === "state") {
     const s = data.stats;
     liveStats = s;
+    matchAnalytics.render(s);
     if (data.batch.length) {
       lastEvent = data.batch.at(-1);
       lastPass =
@@ -392,6 +395,7 @@ $("start").addEventListener("click", async () => {
   setActive(true);
   dialogue.reset();
   liveStats = null;
+  matchAnalytics.render(null);
   lastEvent = null;
   lastPass = null;
   renderDialogue();

@@ -1,0 +1,2587 @@
+{
+  "schema": "btr.live-conversation.v1",
+  "recorded_at": "2026-10-16T12:08:02.261Z",
+  "origin": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io",
+  "rounds": [
+    {
+      "input": {
+        "scenario": "wide",
+        "time": 16,
+        "corrected": false,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor",
+        "question": "What is happening away from the ball, and why is it worth watching?"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          },
+          "at": "2026-10-16T12:08:02.638Z"
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e",
+            "round": 1,
+            "parent": null,
+            "max_rounds": 3
+          },
+          "at": "2026-10-16T12:08:02.638Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792152483848,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 16,
+            "revision": 1,
+            "storage": "azure_blob"
+          },
+          "at": "2026-10-16T12:08:02.690Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "math",
+            "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+            "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
+            "metric_value": "23.7 m",
+            "metric_title": "Forward passing gain",
+            "turn_id": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e:math",
+            "round": 1,
+            "sequence": 1,
+            "reply_to": null
+          },
+          "at": "2026-10-16T12:08:02.735Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792152483902,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002"
+            ]
+          },
+          "at": "2026-10-16T12:08:02.745Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          },
+          "at": "2026-10-16T12:08:02.745Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792152486172,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-football-16.0-r1",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 2259
+          },
+          "at": "2026-10-16T12:08:05.013Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.444Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.444Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.444Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.444Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.444Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touch",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender later",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally,",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.445Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.446Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.446Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.447Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.447Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally.",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.447Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.447Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.447Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.447Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space,",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not directly",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not directly influence",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not directly influence the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not directly influence the defender",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not directly influence the defender's",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not directly influence the defender's actions",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's run toward the touchline draws the defender laterally, while the completed passes move centrally. This off-ball movement creates space, even if it does not directly influence the defender's actions.",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 3808
+          },
+          "at": "2026-10-16T12:08:06.995Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "reviewed_fallback",
+            "evidence_ids": [
+              "wide-football-16.0-r1",
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400",
+              "wide-analysis-16.0"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "analyst",
+            "summary": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+            "caution": "AI could not answer this question. Showing the recorded match briefing.",
+            "turn_id": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e:analyst",
+            "round": 1,
+            "sequence": 2,
+            "reply_to": null
+          },
+          "at": "2026-10-16T12:08:07.317Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 4,
+            "at": 1792152488483,
+            "role": "analyst",
+            "action": "fallback_published",
+            "reason": "Unproven causation cannot become proof of no influence"
+          },
+          "at": "2026-10-16T12:08:07.325Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "guide"
+          },
+          "at": "2026-10-16T12:08:07.326Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 5,
+            "at": 1792152488492,
+            "role": "guide",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-football-16.0-r1",
+              "wide-window-16.0"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-16T12:08:07.333Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touch",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner,",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.439Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.440Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.440Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.440Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place?",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.440Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place?",
+            "title": "Winger's Run and Defender's Positioning",
+            "caution": "The recorded movements do not confirm causation.",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1,
+            "latency_ms": 4275,
+            "first_text_ms": 8803,
+            "turn_id": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e:guide",
+            "round": 1,
+            "sequence": 3,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-16T12:08:11.610Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 6,
+            "at": 1792152492777,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "latency_ms": 4275,
+            "first_text_ms": 8803
+          },
+          "at": "2026-10-16T12:08:11.643Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400",
+              "wide-analysis-16.0"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+            "decision": "qualify",
+            "target_claim": "The run caused the defender to follow.",
+            "target_role": "analyst",
+            "reviewed_contribution": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+            "turn_id": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e:reviewer",
+            "round": 1,
+            "sequence": 4,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-16T12:08:11.653Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 7,
+            "at": 1792152492821,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 16,
+              "status": "bounded",
+              "claim": "The run caused the defender to follow.",
+              "explanation": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400",
+                "wide-analysis-16.0"
+              ],
+              "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          "at": "2026-10-16T12:08:11.722Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "presenter"
+          },
+          "at": "2026-10-16T12:08:11.723Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 8,
+            "at": 1792152492890,
+            "role": "presenter",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-football-16.0-r1",
+              "wide-window-16.0"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-16T12:08:11.732Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.430Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.430Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.430Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.430Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.430Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates,",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.431Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence on",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.456Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence on defenders",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.456Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence on defenders isn't",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.456Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence on defenders isn't directly",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.925Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence on defenders isn't directly proven",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.925Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence on defenders isn't directly proven.",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:13.925Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "Off-ball runs can create space and options for teammates, even if their influence on defenders isn't directly proven.",
+            "title": "Winger's Run and Defender's Positioning",
+            "caution": "The recorded movements do not confirm causation.",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "replay_cue": "Replay the winger's run toward the touchline.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1,
+            "latency_ms": 2346,
+            "first_text_ms": 10795,
+            "turn_id": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e:presenter",
+            "round": 1,
+            "sequence": 5,
+            "reply_to": "reviewer"
+          },
+          "at": "2026-10-16T12:08:14.077Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 9,
+            "at": 1792152495245,
+            "role": "presenter",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "latency_ms": 2346,
+            "first_text_ms": 10795
+          },
+          "at": "2026-10-16T12:08:14.136Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 10,
+            "at": 1792152495313,
+            "role": "director",
+            "action": "reviewed_notes_ready",
+            "revision": 1
+          },
+          "at": "2026-10-16T12:08:14.183Z"
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 4,
+            "prompt_tokens": 9177,
+            "completion_tokens": 260,
+            "usage_missing": 0,
+            "elapsed_ms": 11500,
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 16,
+              "status": "bounded",
+              "claim": "The run caused the defender to follow.",
+              "explanation": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400",
+                "wide-analysis-16.0"
+              ],
+              "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "status": "degraded"
+          },
+          "at": "2026-10-16T12:08:14.183Z"
+        }
+      ],
+      "started_at": "2026-10-16T12:08:02.522Z",
+      "finished_at": "2026-10-16T12:08:14.184Z"
+    },
+    {
+      "input": {
+        "scenario": "wide",
+        "time": 16,
+        "corrected": false,
+        "language": "en",
+        "mode": "analyst",
+        "focus": 7,
+        "team": "harbor",
+        "question": "Does this prove the wide run opened the central pass? What would you need to check?",
+        "parentKey": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "shared-match-session",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "analyst"
+          },
+          "at": "2026-10-16T12:08:14.228Z"
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "43256ae409d31907603f8dcd0a841d2c004bdf72636826a3d63263a19bc754ba",
+            "round": 2,
+            "parent": "c458bb0e3e279966412ecc6b0ea3da23ea858f09419f9dbe4ccbe11edaa08c6e",
+            "max_rounds": 3
+          },
+          "at": "2026-10-16T12:08:14.238Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792152495453,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 16,
+            "revision": 1,
+            "storage": "azure_blob"
+          },
+          "at": "2026-10-16T12:08:14.313Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "calculated",
+            "evidence_ids": [],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "math",
+            "summary": "A completed shot is needed to time the transition.",
+            "working": "A completed shot is needed to time the transition.",
+            "metric_value": "—",
+            "metric_title": "Regain to shot",
+            "turn_id": "43256ae409d31907603f8dcd0a841d2c004bdf72636826a3d63263a19bc754ba:math",
+            "round": 2,
+            "sequence": 1,
+            "reply_to": null
+          },
+          "at": "2026-10-16T12:08:14.322Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792152495490,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": []
+          },
+          "at": "2026-10-16T12:08:14.339Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          },
+          "at": "2026-10-16T12:08:14.339Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792152496405,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-football-16.0-r1",
+              "wide-window-16.0"
+            ],
+            "duration_ms": 899
+          },
+          "at": "2026-10-16T12:08:15.246Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touch",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coinc",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction.",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.390Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.391Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.391Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.391Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally,",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.658Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from the winger",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from the winger's",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from the winger's run",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from the winger's run.",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:16.659Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from the winger's run.",
+            "title": "Coinciding movements observed",
+            "caution": "Recorded movement and event order do not establish why a defender acted.",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1,
+            "latency_ms": 2802,
+            "first_text_ms": 2162,
+            "turn_id": "43256ae409d31907603f8dcd0a841d2c004bdf72636826a3d63263a19bc754ba:analyst",
+            "round": 2,
+            "sequence": 2,
+            "reply_to": null
+          },
+          "at": "2026-10-16T12:08:17.150Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 4,
+            "at": 1792152498318,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "latency_ms": 2802,
+            "first_text_ms": 2162
+          },
+          "at": "2026-10-16T12:08:17.159Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "guide"
+          },
+          "at": "2026-10-16T12:08:17.160Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 5,
+            "at": 1792152498327,
+            "role": "guide",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-football-16.0-r1",
+              "wide-window-16.0"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-16T12:08:17.168Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.947Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.947Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.947Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.947Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.947Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.947Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.947Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender in",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.972Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender in when",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.972Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender in when the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.972Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender in when the passes",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.972Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender in when the passes are",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.972Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender in when the passes are completed",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.972Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What positions are the runner and defender in when the passes are completed?",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:18.972Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "What positions are the runner and defender in when the passes are completed?",
+            "title": "Coinciding movements observed",
+            "caution": "Recorded movement and event order do not establish why a defender acted.",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1,
+            "latency_ms": 1888,
+            "first_text_ms": 4719,
+            "turn_id": "43256ae409d31907603f8dcd0a841d2c004bdf72636826a3d63263a19bc754ba:guide",
+            "round": 2,
+            "sequence": 3,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-16T12:08:19.141Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 6,
+            "at": 1792152500309,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "latency_ms": 1888,
+            "first_text_ms": 4719
+          },
+          "at": "2026-10-16T12:08:19.153Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "engine": "evidence_rules",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-track-102-400",
+              "wide-analysis-16.0"
+            ],
+            "cutoff": 16,
+            "revision": 1,
+            "role": "reviewer",
+            "summary": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+            "decision": "qualify",
+            "target_claim": "The run caused the defender to follow.",
+            "target_role": "analyst",
+            "reviewed_contribution": "The winger's lateral run toward the touchline coincides with the defender's movement in the same direction. While the completed passes occur centrally, the defender's positioning does not confirm a direct influence from the winger's run.",
+            "turn_id": "43256ae409d31907603f8dcd0a841d2c004bdf72636826a3d63263a19bc754ba:reviewer",
+            "round": 2,
+            "sequence": 4,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-16T12:08:19.162Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 7,
+            "at": 1792152500330,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 16,
+              "status": "bounded",
+              "claim": "The run caused the defender to follow.",
+              "explanation": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400",
+                "wide-analysis-16.0"
+              ],
+              "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          "at": "2026-10-16T12:08:19.172Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "presenter"
+          },
+          "at": "2026-10-16T12:08:19.173Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 8,
+            "at": 1792152500340,
+            "role": "presenter",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
+            "evidence_ids": [
+              "wide-evt-001",
+              "wide-evt-002",
+              "wide-analysis-16.0",
+              "wide-obs-run-8",
+              "wide-obs-space-16",
+              "wide-track-102-400",
+              "wide-football-16.0-r1",
+              "wide-window-16.0"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-16T12:08:19.181Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.977Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning,",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central passes",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central passes remains",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:20.979Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central passes remains un",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:21.150Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central passes remains unpro",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:21.150Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central passes remains unproven",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:21.150Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central passes remains unproven.",
+            "cutoff": 16,
+            "revision": 1,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:21.150Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "The wide run may have influenced the defender's positioning, but its direct impact on the central passes remains unproven.",
+            "title": "Coinciding movements analyzed",
+            "caution": "Tracking data alone does not confirm causation.",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "replay_cue": "Replay the winger's run and defender's movement.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 16,
+            "revision": 1,
+            "latency_ms": 2039,
+            "first_text_ms": 6749,
+            "turn_id": "43256ae409d31907603f8dcd0a841d2c004bdf72636826a3d63263a19bc754ba:presenter",
+            "round": 2,
+            "sequence": 5,
+            "reply_to": "reviewer"
+          },
+          "at": "2026-10-16T12:08:21.219Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 9,
+            "at": 1792152502387,
+            "role": "presenter",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "wide-football-16.0-r1"
+            ],
+            "latency_ms": 2039,
+            "first_text_ms": 6749
+          },
+          "at": "2026-10-16T12:08:21.227Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 10,
+            "at": 1792152502403,
+            "role": "director",
+            "action": "broadcast_ready",
+            "revision": 1
+          },
+          "at": "2026-10-16T12:08:21.242Z"
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 4,
+            "prompt_tokens": 10375,
+            "completion_tokens": 258,
+            "usage_missing": 0,
+            "elapsed_ms": 6999,
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 1,
+              "cutoff": 16,
+              "status": "bounded",
+              "claim": "The run caused the defender to follow.",
+              "explanation": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
+              "evidence_ids": [
+                "wide-evt-001",
+                "wide-evt-002",
+                "wide-track-102-400",
+                "wide-analysis-16.0"
+              ],
+              "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "status": "complete"
+          },
+          "at": "2026-10-16T12:08:21.244Z"
+        }
+      ],
+      "started_at": "2026-10-16T12:08:14.185Z",
+      "finished_at": "2026-10-16T12:08:21.245Z"
+    }
+  ],
+  "complete": true,
+  "limits": "A single demonstration, not a comparative evaluation or accuracy measurement. All emitted outputs and fallback labels are retained.",
+  "before": {
+    "ok": true,
+    "service": "Before the Roar · Azure Intelligence",
+    "model": "gpt-4o-mini",
+    "ai_configured": true,
+    "persistent_cache": true,
+    "allowance": 180,
+    "active_runs": 0,
+    "version": "3.11.0",
+    "usage": {
+      "day": "2026-10-16",
+      "limit": 180,
+      "used": 144
+    },
+    "agent_tools": true,
+    "durable_checkpoints": true,
+    "production_proof": true,
+    "dataset_version": 2,
+    "external_broadcast": true,
+    "pitchside_video": true,
+    "film_duration": 60,
+    "streaming": true,
+    "video_discussion": true,
+    "video_discussion_roles": [
+      "analyst",
+      "guide",
+      "math",
+      "reviewer",
+      "presenter"
+    ],
+    "perspectives": [
+      "fan",
+      "beginner",
+      "math",
+      "analyst",
+      "player"
+    ]
+  },
+  "after": {
+    "ok": true,
+    "service": "Before the Roar · Azure Intelligence",
+    "model": "gpt-4o-mini",
+    "ai_configured": true,
+    "persistent_cache": true,
+    "allowance": 180,
+    "active_runs": 0,
+    "version": "3.11.0",
+    "usage": {
+      "day": "2026-10-16",
+      "limit": 180,
+      "used": 152
+    },
+    "agent_tools": true,
+    "durable_checkpoints": true,
+    "production_proof": true,
+    "dataset_version": 2,
+    "external_broadcast": true,
+    "pitchside_video": true,
+    "film_duration": 60,
+    "streaming": true,
+    "video_discussion": true,
+    "video_discussion_roles": [
+      "analyst",
+      "guide",
+      "math",
+      "reviewer",
+      "presenter"
+    ],
+    "perspectives": [
+      "fan",
+      "beginner",
+      "math",
+      "analyst",
+      "player"
+    ]
+  }
+}

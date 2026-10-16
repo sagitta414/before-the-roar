@@ -1,0 +1,53 @@
+{
+  "source": "Sample fixture 07 · first 30 minutes · synthetic",
+  "fixture": "btr-synthetic-v2-7",
+  "cutoff": 1800,
+  "stats": {
+    "second": 1800,
+    "events": 256,
+    "score": {
+      "home": 0,
+      "away": 0
+    },
+    "passes": {
+      "home": 86,
+      "away": 85
+    },
+    "completed": {
+      "home": 75,
+      "away": 77
+    },
+    "shots": {
+      "home": 0,
+      "away": 2
+    },
+    "pressures": {
+      "home": 11,
+      "away": 12
+    },
+    "regains": {
+      "home": 26,
+      "away": 29
+    },
+    "possession": {
+      "home": 46,
+      "away": 54
+    },
+    "completion": {
+      "home": 87,
+      "away": 91
+    },
+    "rhythm": "transition-heavy",
+    "recentRecoveries": 10,
+    "ball": [
+      75.8,
+      31
+    ],
+    "focus": {
+      "passes": 5,
+      "completed": 5,
+      "shots": 0,
+      "pressures": 1
+    }
+  }
+}

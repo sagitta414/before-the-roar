@@ -1,0 +1,15 @@
+{
+  "release": "3.11.2",
+  "image": "v45-2-grounded",
+  "digest": "sha256:2fc3b5826e779d1d5613309fc89216a94606524f43266c8f80d386a3724dbe77",
+  "functional_tests": 153,
+  "syntax": "passed",
+  "format": "passed",
+  "live_capture": "two-round-v45-2.json",
+  "model_editorial_posts": 5,
+  "reviewed_fallbacks": 1,
+  "semantic_quality": "Not fully grounded: manual review identified unsupported absence and independence wording. Guards are not semantic proof.",
+  "browser": "Both saved rounds loaded through public Watch UI; timing question and lateral displacement visible.",
+  "screen_recording": false,
+  "comparison": "v44 partial retained; no current-policy comparative advantage claimed."
+}

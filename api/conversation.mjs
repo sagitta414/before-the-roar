@@ -1,6 +1,37 @@
 // Follow-ups read saved public contributions, never client-supplied dialogue.
 import { clipSceneStart } from "../dist/pitchside-story.js";
 export const CONVERSATION_LIMIT = 3;
+// A second round adds a reached calculation, never an unavailable placeholder.
+export function followUpMetric(packet, previous = []) {
+  const width = packet.football?.record?.width;
+  if (width) {
+    const n = width.defender_lateral_displacement_m.toFixed(1);
+    const start = width.defender_start_m[1].toFixed(1);
+    const end = width.defender_end_m[1].toFixed(1);
+    const language = packet.language;
+    return {
+      text: {
+        en: `The defender shifts ${n} m across the pitch. That measures movement, not how much of it the winger caused. Compare when that shift begins with the pass release; timing alone still cannot prove influence.`,
+        es: `El defensor se desplaza ${n} m a lo ancho. Eso mide movimiento, no cuánto provocó el extremo. Compara el inicio del desplazamiento con la salida del pase; el orden temporal no prueba la influencia.`,
+        pt: `O defensor se desloca ${n} m na largura. Isso mede movimento, não quanto o ponta causou. Compare o início do deslocamento com a saída do passe; a ordem temporal não prova influência.`,
+      }[language],
+      label: {
+        en: "Defender lateral movement",
+        es: "Movimiento lateral del defensor",
+        pt: "Movimento lateral do defensor",
+      }[language],
+      value: n + " m",
+      equation: `|${end} − ${start}| = ${n} m`,
+      evidence_ids: [packet.football.record.id],
+    };
+  }
+  return packet.analysis?.calculations?.find(
+    (c) =>
+      c.value !== "—" &&
+      c.evidence_ids.length &&
+      c.text !== previous.find((p) => p.role === "math")?.summary,
+  );
+}
 export function sameConversation(a, b, clip = false) {
   const keys = clip
     ? ["language", "mode", "clipChallenge"]

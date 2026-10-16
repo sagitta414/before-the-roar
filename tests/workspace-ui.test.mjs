@@ -13,6 +13,15 @@ test('all six application routes and the guided story initialize together withou
   await new Promise(r=>setTimeout(r,50));
   assert.ok(document.body.classList.contains('guided-active'));assert.match(document.querySelector('.guided-copy').textContent,/run you didn’t see/);
   for(const id of ['centre','lab','truth','presenters','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
+  const {matchSession}=await import('../dist/match-session.js');
+  matchSession.set({source:'pitchside',section:'centre',clipTime:0});
+  document.querySelector('#centre .scene-brief button').click();
+  const reached=matchSession.get().clipTime;assert.ok(reached>0);
+  const video=document.querySelector('#centre .film-workspace video');video.currentTime=0;video.dispatchEvent(new Event('seeked'));
+  assert.equal(matchSession.get().clipTime,reached,'metadata seek must not rewind the reviewed moment');
+  assert.equal(document.querySelector('#centre .film-study-grid').hidden,false);
+  document.querySelectorAll('#centre .review-scenes button')[1].click();assert.ok(matchSession.get().clipTime>=8);
+  assert.equal(document.querySelectorAll('.agent-instructions').length,5);
   document.dispatchEvent(new Event('btr-open-guided'));assert.equal(document.getElementById('guided-match').hidden,false);
   const menu=document.querySelector('.navigation-toggle');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'true');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'false');
   document.getElementById('inside-nav').click();

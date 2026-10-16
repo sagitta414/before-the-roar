@@ -19,11 +19,18 @@ for(const name of ['AZURE_OPENAI_ENDPOINT','AZURE_STORAGE_URL'])if(!process.env[
 class EvaluationStore extends ResultStore {
  async blob(path,options={}){if(!process.env.BTR_EVAL_STORAGE_TOKEN)return super.blob(path,options);return fetch(this.base+path,{...options,headers:{Authorization:'Bearer '+process.env.BTR_EVAL_STORAGE_TOKEN,'x-ms-version':'2023-11-03',...options.headers},signal:AbortSignal.timeout(12000)});}
 }
-const store = new EvaluationStore(), before=await store.allowance();let reservations=0;
-if(before.limit-before.used<cap)throw Error(`The evaluation needs ${cap} available requests. The ceiling will not be changed.`);
+const store = new EvaluationStore(), before=await store.allowance();let resumed=null;
+if(process.env.BTR_EVAL_RESUME){
+ if(!/^evaluation-[a-f0-9]{20}$/.test(process.env.BTR_EVAL_RESUME))throw Error('Invalid saved evaluation identifier');
+ const saved=await store.blob(`evaluations/${process.env.BTR_EVAL_RESUME}.json`);if(!saved.ok)throw Error('Saved evaluation unavailable');resumed=await saved.json();
+ if(resumed.complete||JSON.stringify(resumed.plan)!==JSON.stringify(plan)||resumed.cases.some(c=>!c.team||!c.baseline))throw Error('Resume requires an unfinished identical plan at a completed paired-case boundary');
+}
+let reservations=resumed?.requests_reserved||0;
+if(before.limit-before.used<cap-reservations)throw Error(`The evaluation needs ${cap-reservations} available requests. The ceiling will not be changed.`);
 const reserve=store.reserve.bind(store);store.reserve=async()=>{if(reservations>=cap)return false;const ok=await reserve();if(ok)reservations++;return ok;};
-const runId='evaluation-'+randomBytes(10).toString('hex'),state=new AgentState(store),narrator={store,busy:0},model=process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini';
-const report={schema:'btr.agent-evaluation.v1',policy:plan.policy,run_id:runId,recorded_at:new Date().toISOString(),model,plan,allowance_before:before,method:{cases:`${cases.length} fixed opening cases${follow?' and one paired follow-up':''}; one trial per arm; all failures retained.`,team:'Scout selects an evidence tool then writes; Guide reads Scout; Host receives all contributions. Deterministic calculations and checks are separate. Four model calls per round.',baseline:'One model call writes the same three editorial roles from the same source packet, calculated facts, glossary, source verdict and role contracts. Follow-ups receive its own earlier outputs.',scoring:'Identical editorial and citation guards. Acceptance is not semantic accuracy. No model judge or audience results.',pacing:'At least 75 seconds between paired cases; no model retries.',max_requests:cap},cases:[],complete:false,conclusion:'This comparison measures editorial guard acceptance, request count and latency. It does not by itself establish better football analysis, causal accuracy or viewer benefit. Blind human ratings remain unfilled.'};
+const runId=resumed?.run_id||'evaluation-'+randomBytes(10).toString('hex'),state=new AgentState(store),narrator={store,busy:0},model=process.env.AZURE_OPENAI_DEPLOYMENT||'gpt-4o-mini';
+const report=resumed||{schema:'btr.agent-evaluation.v1',policy:plan.policy,run_id:runId,recorded_at:new Date().toISOString(),model,plan,allowance_before:before,method:{cases:`${cases.length} fixed opening cases${follow?' and one paired follow-up':''}; one trial per arm; all failures retained.`,team:'Scout selects an evidence tool then writes; Guide reads Scout; Host receives all contributions. Deterministic calculations and checks are separate. Four model calls per round.',baseline:'One model call writes the same three editorial roles using the same source packet, calculated facts, glossary, source verdict and role contracts. Follow-ups receive its own earlier outputs.',scoring:'Identical editorial and citation guards. Acceptance is not semantic accuracy. No model judge or audience results.',pacing:'At least 75 seconds between paired cases; no model retries.',max_requests:cap},cases:[],complete:false,conclusion:'This comparison measures editorial guard acceptance, request count and latency. It does not by itself establish better football analysis, causal accuracy or viewer benefit. Blind human ratings remain unfilled.'};
+if(resumed){report.resumptions??=[];report.resumptions.push({at:new Date().toISOString(),completed_pairs:report.cases.length,requests_reserved:reservations,reason:'Worker connection ended at a paired-case boundary. Persisted results retained; completed pairs are not repeated.',allowance:before});}
 const stdout=flags.has('--stdout');
 if(!stdout)await mkdir('docs/proof',{recursive:true});
 async function persist(){
@@ -63,7 +70,7 @@ async function pair(c,parent){
 }
 await persist();console.log('BTR_EVAL_RUN='+runId);
 try{
- for(const c of cases)await pair(c);
+ for(const c of cases)if(!report.cases.some(done=>done.id===c.id))await pair(c);
  if(follow){const parent=report.cases[0];const row=await pair({id:'wide-follow-up-challenge',input:{...parent.input,question:FOLLOW_UP_QUESTION}},parent);report.follow_up={input:row.input,posts:row.team.posts,events:row.team.events,paired_case_id:row.id};}
  report.complete=report.cases.length===cases.length+(follow?1:0)&&report.cases.every(c=>c.team&&Object.keys(c.team.raw||{}).length===3&&c.baseline&&!c.baseline.error);
  report.allowance_after=await store.allowance();

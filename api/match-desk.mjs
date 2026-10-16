@@ -14,7 +14,7 @@ import {
 } from "../dist/pitchside-story.js";
 import { editorialIssues } from "../dist/editorial-quality.js";
 import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
-import { conversationContext } from "./conversation.mjs";
+import { conversationContext, followUpMetric } from "./conversation.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary, previous = []) {
@@ -56,6 +56,13 @@ export function validateMatchPost(raw, packet, role) {
   const quality = editorialIssues(role, p.interpretation);
   if (quality.length) throw Error(quality.join("; "));
   if (
+    packet.synthetic &&
+    /\b(distraction|decoy|distracci[oó]n|distra[cç][aã]o)\b|\b(draws|pulls|forces) the defender/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error("Defender attention and causal influence are not recorded");
+  if (
     /(?:does|did|do)(?: not|n't) (?:directly |actually |significantly |clearly )?(?:influence|affect)|no (?:direct |significant |clear )?(?:effect|influence|defensive reaction)|did not cause|no (?:influye|influy[oó]|afecta|afect[oó])|sin (?:efecto|reacci[oó]n defensiva)|n[aã]o (?:influencia|influenciou|afeta|afetou)|n[aã]o (?:tem|teve) (?:efeito|influ[eê]ncia)|sem (?:efeito|rea[cç][aã]o defensiva)/i.test(
       p.interpretation,
     )
@@ -66,7 +73,9 @@ export function validateMatchPost(raw, packet, role) {
   if (
     packet.review?.decision === "withdraw" &&
     ["analyst", "presenter"].includes(role) &&
-    !/correct|correg|corrig|retir|withdraw|no longer|ya no|já não/i.test(p.interpretation)
+    !/correct|correg|corrig|correç|retir|withdraw|no longer|ya no|já não/i.test(
+      p.interpretation,
+    )
   )
     throw Error("Corrected source requires an explicit changed conclusion");
   const prose = [
@@ -187,8 +196,8 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v8:" + pitchsideKey(input) + ":" + (input.parentKey || "")
-            : "cohesive-tools-v8:" + editorialKey(input) + ":" + (input.parentKey || ""),
+            ? "pitchside-tools-v11:" + pitchsideKey(input) + ":" + (input.parentKey || "")
+            : "cohesive-tools-v11:" + editorialKey(input) + ":" + (input.parentKey || ""),
         )
         .digest("hex");
     if (this.pending.has(key)) {
@@ -221,10 +230,7 @@ export class MatchDesk {
       start = performance.now();
     const conversation = await conversationContext(this.state, input, this.clip);
     if (conversation.round > 1 && packet.analysis?.calculations?.length > 1) {
-      const previousMath = conversation.previous.find((p) => p.role === "math");
-      const metric = packet.analysis.calculations.find(
-        (c) => c.text !== previousMath?.summary,
-      );
+      const metric = followUpMetric(packet, conversation.previous);
       if (metric)
         Object.assign(
           notes.find((p) => p.role === "math"),
@@ -421,6 +427,7 @@ export class MatchDesk {
           ];
         let editorialPrompt = editorialPolicy(packet, role, {
           clip: this.clip,
+          round: conversation.round,
         });
         if (role === "guide") {
           delete schema.properties.post.properties.interpretation;
@@ -537,9 +544,24 @@ export class MatchDesk {
                   revision: packet.revision,
                   calculated: packet.stats,
                   local_calculation: notes.find((p) => p.role === "math"),
-                  football_context: packet.football || null,
-                  guide_definition: packet.guideDefinition,
-                  role_brief: notes.find((p) => p.role === role),
+                  football_context: packet.football
+                    ? {
+                        ...packet.football,
+                        ...(conversation.round > 1
+                          ? { question: undefined, definition: undefined }
+                          : {}),
+                      }
+                    : null,
+                  guide_definition:
+                    conversation.round === 1 ? packet.guideDefinition : undefined,
+                  role_brief:
+                    conversation.round > 1 && role === "guide"
+                      ? {
+                          task: packet.football?.record?.width
+                            ? "Ask a new viewing question about the order of the defender's movement and the pass release; do not reuse the opening question."
+                            : "Ask a new viewing question that addresses this follow-up using only the supplied source; do not reuse the opening question.",
+                        }
+                      : notes.find((p) => p.role === role),
                   evidence,
                   review: packet.review,
                   previous_public_contributions: previous,
@@ -616,6 +638,8 @@ export class MatchDesk {
           v.raw_outputs[role] = raw;
         });
         const validated = validateMatchPost(raw, packet, role);
+        if (role === "guide" && conversation.round > 1)
+          validated.summary = raw.post.viewing_question;
         if (
           conversation.round > 1 &&
           repeatsContribution(
@@ -624,8 +648,6 @@ export class MatchDesk {
           )
         )
           throw Error("Follow-up repeats the previous contribution");
-        if (role === "guide" && conversation.round > 1)
-          validated.summary = raw.post.viewing_question;
         if (
           role === "presenter" &&
           (repeatsContribution(validated.summary, previous) ||
