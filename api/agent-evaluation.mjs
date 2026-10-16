@@ -64,6 +64,69 @@ for (const [id, scenario, time, corrected, language, mode] of [
     },
   });
 export const MODEL_ROLES = ["analyst", "guide", "presenter"];
+export const EXTENDED_CASES = [...EVALUATION_CASES];
+for (const [scenario, time, language, mode, corrected] of [
+  ["wide", 6, "en", "beginner", false],
+  ["wide", 26, "en", "fan", false],
+  ["wide", 16, "es", "analyst", false],
+  ["wide", 16, "pt", "beginner", false],
+  ["press", 10, "en", "math", false],
+  ["press", 29, "es", "fan", false],
+  ["press", 29, "pt", "analyst", false],
+  ["counter", 5, "en", "beginner", false],
+  ["counter", 28, "en", "analyst", false],
+  ["counter", 28, "es", "beginner", false],
+  ["wide", 16, "en", "math", true],
+])
+  EXTENDED_CASES.push({
+    id: [scenario, time, language, mode, corrected ? "corrected" : "original"].join("-"),
+    input: {
+      source: "match",
+      scenario,
+      time,
+      language,
+      mode,
+      corrected,
+      focus: scenario === "press" ? 8 : 7,
+      team: "harbor",
+    },
+  });
+
+// Human assessors score anonymous arms after generation, without a model judge.
+export function blindReviewPack(report) {
+  return {
+    schema: "btr.blind-editorial-review.v1",
+    source_policy: report.policy,
+    ratings: [
+      "grounding",
+      "football_value",
+      "distinct_contributions",
+      "conversational_quality",
+    ],
+    scale: "0 = fails; 1 = partial; 2 = clear and supported",
+    limits:
+      "Do not infer quality from guard acceptance. Review both arms against the supplied evidence, including failures.",
+    cases: report.cases.map((c, i) => ({
+      id: c.id,
+      input: c.input,
+      evidence: c.evidence || [],
+      review: c.review || null,
+      arms: (i % 2 ? ["baseline", "team"] : ["team", "baseline"]).map((arm, j) => ({
+        label: j ? "B" : "A",
+        posts: (c[arm]?.posts || [])
+          .filter((p) => MODEL_ROLES.includes(p.role))
+          .map((p) => ({
+            role: p.role,
+            summary: p.summary,
+            evidence_ids: p.evidence_ids,
+          })),
+        ratings: null,
+        unsupported_claims: [],
+        comment: "",
+      })),
+    })),
+  };
+}
 export function comparisonSchema(ids, primaryId) {
   const result = {
     type: "object",

@@ -423,7 +423,7 @@ export function createApp({
           allowance: dailyRequestLimit(),
           active_runs: [...runs.values()].filter((r) => !r.completed && !r.stopped)
             .length,
-          version: "3.8.0",
+          version: "3.9.0",
           usage: (await narrator.store?.allowance?.().catch(() => null)) ?? null,
           agent_tools: true,
           durable_checkpoints: true,
@@ -481,6 +481,8 @@ export function createApp({
             error: "Choose a supported audience and language.",
           });
         let question;
+        if (input.parentKey !== undefined && !/^[a-f0-9]{64}$/.test(input.parentKey))
+          return send(res, 400, { error: "Invalid discussion reference" });
         try {
           question = normalizeQuestion(input.question);
         } catch (error) {
@@ -540,6 +542,7 @@ export function createApp({
                 language,
                 mode,
                 question,
+                parentKey: input.parentKey,
               },
               emit,
             );

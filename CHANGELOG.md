@@ -1,3 +1,10 @@
+## v43 — a continuing studio conversation
+
+- Guide reads Scout's contribution; Host receives the whole exchange. Distinct voice instructions encourage concrete, conversational responses.
+- Follow-up rounds retrieve saved public context, retain earlier rounds, expose reply relationships, and skip unchanged calculation/check cards. Three-round cap; up to four requests per explicitly requested round.
+- A voluntary paired viewer study compares records and crew explanations with balanced random assignment, local-only answers, objective scoring and anonymous exports. No human results claimed.
+- Twenty fixed comparison cases, a twelve-case bounded live plan, follow-up verification, and a blind human-review export. The earlier comparison remains the current measured result until a new live run finishes.
+- Presentation mode and an actual browser-capture demo, with saved output provenance and a narration script.
 # Changelog
 
 This log reconstructs releases from the retained source, release notes and verification artifacts. It does not assert a public commit history or prove use of a coding assistant. The first public source export was a single snapshot; subsequent public commits record actual changes.

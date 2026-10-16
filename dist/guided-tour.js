@@ -29,6 +29,7 @@ const save = (filename, data) => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 const watch = document.getElementById("watch");
+if(new URLSearchParams(location.search).get('demo')==='1')document.body.classList.add('demo-presentation');
 let active = false,
   step = 0,
   options = { time: 16, corrected: false, language: "en", mode: "analyst" },
@@ -245,9 +246,9 @@ document.querySelector("#inside .extension-heading").after(proof);
 const walkthrough = el(
   "a",
   "proof-output",
-  "Watch the 105-second illustrated walkthrough ↗",
+  "Watch the 105-second app demo ↗",
 );
-walkthrough.href = "assets/btr-guided-walkthrough.mp4";
+walkthrough.href = "assets/btr-app-demo-v43.mp4";
 walkthrough.target = "_blank";
 walkthrough.rel = "noopener";
 proof.append(
@@ -255,7 +256,7 @@ proof.append(
   el(
     "p",
     "guided-note",
-    "The walkthrough renders the app’s synthetic coordinates, calculations and reviewed explanations. It contains no cinematic footage or audio. It is labeled as an illustration, not a browser recording or a fresh AI run.",
+    "Edited screen captures of the functioning app, with holds for reading. Saved AI contributions and reviewed notes are labeled. No fresh AI run, continuous recording or audio is claimed. The narration script is available above.",
   ),
 );
 const repository = el("a", "proof-output", "Inspect the public source on GitHub ↗");
@@ -263,6 +264,7 @@ repository.href = "https://github.com/sagitta414/before-the-roar";
 repository.target = "_blank";
 repository.rel = "noopener";
 proof.append(repository);
+const studyLink=el('a','proof-output','Take the five-minute viewer study ↗');studyLink.href='study.html';proof.append(studyLink);
 function stopTour() {
   tourClock.reset();
   renderTourProgress();
