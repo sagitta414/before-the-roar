@@ -1,0 +1,82 @@
+{
+  "recorded_at": "2026-10-17T02:57:11.811Z",
+  "rounds": [
+    {
+      "challenge": false,
+      "frames": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "reviewed-ai-video",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "fan"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Scout",
+            "job": "Observation",
+            "text": "Amir Cole transferred the ball to Mateo Silva. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Guide",
+            "job": "New to football",
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Vector",
+            "job": "Calculation",
+            "text": "At release: 23.6 m to the receiver; 28.5 m nearest lane clearance. Synthetic-model difficulty: 9/100. This is a model estimate, not observed success probability.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Check",
+            "job": "Challenge",
+            "text": "This uses enrolled kit markers and a fixed camera. Occlusion or changed lighting can break detection. A plausible narrative is not additional evidence.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Host",
+            "job": "Synthesis",
+            "text": "The ball reached Mateo Silva. The next useful question is whether that player can progress play; this transfer alone does not answer it.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "key": "abaa5dd1c9809245d7ee252686db4f700ffa0839cb8606265262d819792645ca",
+            "engine": "partial_or_source_fallback",
+            "error": "Invalid text or source citation",
+            "calls": 1,
+            "cutoff": 6,
+            "event_id": "video-1",
+            "cached": false,
+            "elapsed_ms": 1027
+          }
+        }
+      ]
+    }
+  ]
+}

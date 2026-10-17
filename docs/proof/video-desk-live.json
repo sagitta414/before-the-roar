@@ -1,0 +1,159 @@
+{
+  "recorded_at": "2026-10-17T03:06:23.173Z",
+  "rounds": [
+    {
+      "challenge": false,
+      "frames": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "reviewed-ai-video",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "fan"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Scout",
+            "job": "Observation",
+            "text": "Amir Cole transferred the ball to Mateo Silva. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s · AI-selected, source-rendered wording",
+            "engine": "azure_video"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Guide",
+            "job": "New to football",
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s · AI-selected, source-rendered wording",
+            "engine": "azure_video"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Host",
+            "job": "Synthesis",
+            "text": "The ball reached Mateo Silva. The next useful question is whether that player can progress play; this transfer alone does not answer it.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s · AI-selected, source-rendered wording",
+            "engine": "azure_video"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Vector",
+            "job": "Calculation",
+            "text": "At release: 23.6 m to the receiver; 28.5 m nearest lane clearance. Synthetic-model difficulty: 9/100. This is a model estimate, not observed success probability.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Check",
+            "job": "Challenge",
+            "text": "This uses enrolled kit markers and a fixed camera. Occlusion or changed lighting can break detection. A plausible narrative is not additional evidence.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "key": "6e70aa038ae28803a7cda2834b53a00634abc92af5320c0990203107dce27992",
+            "engine": "azure_video",
+            "error": null,
+            "calls": 1,
+            "cutoff": 6,
+            "event_id": "video-1",
+            "cached": false,
+            "elapsed_ms": 2057
+          }
+        }
+      ]
+    },
+    {
+      "challenge": true,
+      "frames": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "reviewed-ai-video",
+            "discussion_scope": "evidence-cutoff",
+            "language": "en",
+            "mode": "fan"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Scout",
+            "job": "Observation",
+            "text": "Amir Cole transferred the ball to Mateo Silva. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s · AI-selected, source-rendered wording",
+            "engine": "azure_video"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Guide",
+            "job": "New to football",
+            "text": "A completed pass tells you who received the ball. It does not prove the defenders were fooled or that the next attack will succeed.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s · AI-selected, source-rendered wording",
+            "engine": "azure_video"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Host",
+            "job": "Synthesis",
+            "text": "The useful conclusion is narrower: the ball reached a teammate. Evaluate the next action before calling this an advantage.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s · AI-selected, source-rendered wording",
+            "engine": "azure_video"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Vector",
+            "job": "Calculation",
+            "text": "At release: 23.6 m to the receiver; 28.5 m nearest lane clearance. Synthetic-model difficulty: 9/100. This is a model estimate, not observed success probability.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "Check",
+            "job": "Challenge",
+            "text": "We can retain the recorded event and its frame references. We must withhold intention, tactical causation and any result beyond the observed frames.",
+            "source": "video-1 · frames 120–171 · observed by 5.7 s",
+            "engine": "source-rendered explanation"
+          }
+        },
+        {
+          "type": "complete",
+          "data": {
+            "key": "4d07e6f7521828a521556ef746a424dc41d0b4ac87c3e93404ccd2d5a0b7ed4a",
+            "engine": "azure_video",
+            "error": null,
+            "calls": 1,
+            "cutoff": 6,
+            "event_id": "video-1",
+            "cached": false,
+            "elapsed_ms": 1558
+          }
+        }
+      ]
+    }
+  ]
+}

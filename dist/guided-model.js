@@ -10,6 +10,7 @@ export const GUIDE_STEPS=[
 export const SOURCE_LABELS={
  match:{title:'Measured match story',scope:'One authored 36-second sequence. Replay, statistics and corrections use the same synthetic coordinates.'},
  pitchside:{title:'Pitchside film',scope:'A 60-second edit of eight generated shots. Reviewed observations describe the film; synthetic match statistics do not describe these pixels.'},
+ video:{title:'Measured stadium minute',scope:'One continuous controlled synthetic video. Pixel-derived event candidates, calibrated ground-plane measurements and the video AI crew share its frame evidence. The cinematic film is a separate source.'},
  lab:{title:'Full-match generator',scope:'A separate seeded 90-minute fixture. Event coordinates and statistics; no continuous player tracking.'}
 };
 export function guidedInput({time=16,corrected=false,language='en',mode='analyst'}={}){return {source:'match',scenario:'wide',time:Math.max(0,Math.min(16,Number(time)||0)),corrected:!!corrected,language:['en','es','pt'].includes(language)?language:'en',mode:['fan','beginner','math','analyst','player'].includes(mode)?mode:'analyst',focus:7,team:'harbor'};}

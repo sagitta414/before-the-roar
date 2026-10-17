@@ -1,3 +1,4 @@
+import {VideoDesk,validateVideoInput} from './video-desk.mjs';
 import {EvidenceDesk} from './evidence-desk.mjs';
 import {normalizeStudio} from '../dist/studio-insight.js';
 // HTTP routing, input validation, origin/rate controls and synthetic match stream ownership.
@@ -44,6 +45,7 @@ export function createApp({
     runs = new Map(),
     rates = new Map(),
     evidenceDesk = new EvidenceDesk(narrator),
+    videoDesk = new VideoDesk(narrator),
     matchDesk = new MatchDesk(narrator),
     clipDesk = new MatchDesk(narrator, { clip: true });
   let created = 0;
@@ -442,7 +444,7 @@ export function createApp({
           perspectives: MODES,
         });
       if (
-        ["/api/desk", "/api/match-desk", "/api/clip-desk", "/api/evidence-review"].includes(route) &&
+        ["/api/desk", "/api/match-desk", "/api/clip-desk", "/api/evidence-review", "/api/video-desk"].includes(route) &&
         req.method === "POST"
       ) {
         if (
@@ -511,6 +513,7 @@ export function createApp({
             input.time > PITCHSIDE.duration)
         )
           return send(res, 400, { error: "Invalid clip or evidence cutoff." });
+        if(route==='/api/video-desk'){try{validateVideoInput(input);}catch{return send(res,400,{error:'Invalid measured-video request'});}}
         if(route==='/api/evidence-review'){try{normalizeStudio(input);if(input.previous){normalizeStudio(input.previous);if(input.previous.scenario!==input.scenario)throw Error('Different scenario');}if(input.intent&&!['opening','challenge','math'].includes(input.intent))throw Error('Invalid intent');}catch{return send(res,400,{error:'Invalid evidence snapshot'});}}
         rate.n++;
         rates.set(ip, rate);
@@ -539,7 +542,8 @@ export function createApp({
           mode,
         });
         try {
-          if(route==='/api/evidence-review'){
+          if(route==='/api/video-desk'){await videoDesk.discuss(input,emit);}
+          else if(route==='/api/evidence-review'){
             const result=await evidenceDesk.review(input);
             emit('receipt',{...result,posts:undefined});
             for(const post of result.posts)emit('post',post);
