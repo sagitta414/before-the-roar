@@ -51,6 +51,20 @@ test('follow-up adds a different sourced calculation and correction preserves co
  assert.match(b.limits.posts.find(x=>x.role==='math').summary,/13.0 m/);
  const corrected=matchStory({...input,corrected:true}),c=sourceCatalog(corrected,localPanel(corrected));assert.match(c.movement.posts[0].summary,/corrected/);assert.match(c.movement.posts.at(-1).summary,/does not erase/);
 });
+test('advancing the playhead changes the answer only after a new event is reached',()=>{
+ for(const language of ['en','es','pt']){
+  const earlier=matchStory({...input,time:22,language}),previous=sourceCatalog(earlier,localPanel(earlier)).movement.posts;
+  const waiting=matchStory({...input,time:25,language}),before=sourceCatalog(waiting,localPanel(waiting),{round:2,previous});
+  assert.equal(before.next_event,undefined,'unfinished pass must not be reported');
+  const later=matchStory({...input,time:26,language}),catalog=sourceCatalog(later,localPanel(later),{round:2,previous});
+  const posts=selectSourcePosts({angle:'next_event'},catalog,later);
+  assert.equal(posts.length,5);
+  assert.ok(posts.every(p=>p.evidence_ids.includes(later.brief.state.seen.at(-1).id)));
+  assert.notEqual(posts.find(p=>p.role==='analyst').summary,posts.find(p=>p.role==='guide').summary);
+  assert.notEqual(posts.find(p=>p.role==='guide').summary,posts.find(p=>p.role==='presenter').summary);
+  assert.ok(posts.every(p=>p.cutoff===26));
+ }
+});
 test('one request composes a round, caches it, and fails closed on hostile model output',async()=>{
  const saved=Object.fromEntries(['BTR_GROUNDED_DESK','AZURE_OPENAI_ENDPOINT','AZURE_ACCESS_TOKEN'].map(k=>[k,process.env[k]])),original=global.fetch;
  Object.assign(process.env,{BTR_GROUNDED_DESK:'1',AZURE_OPENAI_ENDPOINT:'https://example.test',AZURE_ACCESS_TOKEN:'test'});

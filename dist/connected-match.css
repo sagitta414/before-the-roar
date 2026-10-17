@@ -1,0 +1,16 @@
+.connected-perspectives{margin:18px 0 0;padding:18px;border:1px solid #34404c;background:linear-gradient(145deg,#172129,#10161e);color:#f4f6f2}
+.connected-perspectives-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:13px}
+.connected-perspectives-head .eyebrow{color:#d7f15b;letter-spacing:.12em;font-size:10px}
+.connected-perspectives-head strong{font-size:11px;color:#aab9bd;font-weight:500}
+.connected-perspectives-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.connected-perspective{padding:14px;min-width:0;border-top:2px solid #d7f15b;background:#202b34}
+.connected-perspective.math{border-top-color:#e5bd72}.connected-perspective.analyst{border-top-color:#76baff}
+.connected-perspective span{display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em;font-size:10px;font-weight:800;color:#fff}
+.connected-perspective p{margin:0;font-size:13px;line-height:1.45;color:#e0e7e5}
+.connected-perspective code{display:block;margin-top:9px;white-space:normal;overflow-wrap:anywhere;color:#f4d48b;font-size:11px}
+.connected-perspectives-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.connected-perspectives-actions button{padding:9px 12px;border:1px solid #586876;background:transparent;color:#f4f6f2;font-size:11px;font-weight:700;cursor:pointer}
+.connected-perspectives-actions button:hover,.connected-perspectives-actions button:focus-visible{border-color:#d7f15b;color:#d7f15b}
+.conversation-followups .next-event-check{background:#d7f15b;color:#11180d;border-color:#d7f15b;font-weight:800}
+@media(max-width:900px){.connected-perspectives-cards{grid-template-columns:1fr}.connected-perspectives-head{display:block}.connected-perspectives-head strong{display:block;margin-top:5px}.connected-perspective{padding:12px}.connected-perspective p{font-size:14px}}
+@media(max-width:480px){.connected-perspectives{margin:12px -8px 0;padding:13px}.connected-perspectives-actions{display:grid;grid-template-columns:1fr}.connected-perspectives-actions button{min-height:44px}.conversation-followups .next-event-check{min-height:44px}}

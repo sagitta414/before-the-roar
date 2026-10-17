@@ -4,6 +4,21 @@ import {matchSession} from './match-session.js';
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 let current={scenario:'wide',time:18,corrected:false,focus:7,section:'watch'},language='en',cueLanguage='en',cueMode='beginner',stage='ingest';
 const scenario=()=>SCENARIOS.find(s=>s.id===current.scenario)||SCENARIOS[0];
+// Keep the three audience readings beside the shared tactical replay rather
+// than burying them below the roster and analytics sections.
+const comparison=el('section','connected-perspectives');
+comparison.setAttribute('aria-label','Three views of the same recorded play');
+const comparisonHead=el('div','connected-perspectives-head');
+comparisonHead.append(el('span','eyebrow','ONE MATCH · THREE WAYS TO UNDERSTAND IT'),el('strong','', 'Same clock. Same evidence. Different questions.'));
+const comparisonCards=el('div','connected-perspectives-cards');
+const comparisonActions=el('div','connected-perspectives-actions');
+const watchButton=el('button','', 'Watch this exact sequence ↗');
+watchButton.addEventListener('click',()=>{matchSession.set({source:'match',scenario:current.scenario,time:current.time,corrected:current.corrected},'comparison');$('watch-nav').click();});
+const truthButton=el('button','', 'Challenge this evidence ↗');
+truthButton.addEventListener('click',()=>{$('truth-nav').click();});
+comparisonActions.append(watchButton,truthButton);
+comparison.append(comparisonHead,comparisonCards,comparisonActions);
+document.querySelector('#centre .formation-panel').append(comparison);
 const options=()=>({language:cueLanguage,mode:cueMode,corrected:current.corrected,focus:current.focus});
 function save(name,data,type='application/json'){const url=URL.createObjectURL(new Blob([typeof data==='string'?data:JSON.stringify(data,null,2)],{type})),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function dataset(){save(`btr-${scenario().id}-${current.time.toFixed(1)}s.jsonl`,datasetRows(scenario(),current.time,options()).map(x=>JSON.stringify(x)).join('\n')+'\n','application/x-ndjson');}
@@ -16,6 +31,9 @@ $('cue-mode-select').addEventListener('change',()=>{cueMode=$('cue-mode-select')
 $('cue-language').addEventListener('change',()=>{cueLanguage=$('cue-language').value;renderProduction();});
 function renderCenter(){
  const s=scenario(),b=sequenceBrief(s,current.time,{language,corrected:current.corrected,focus:current.focus}),m=b.state.metrics;
+ comparisonCards.replaceChildren();
+ for(const card of b.cards){const item=el('article','connected-perspective '+card.id);item.append(el('span','',card.label),el('p','',card.text));if(card.equation)item.append(el('code','',card.equation));comparisonCards.append(item);}
+ comparisonHead.querySelector('strong').textContent=`${b.clock} · R${b.revision} · ${b.evidenceIds.length} reached evidence references`;
  $('sequence-title').textContent=s.title;$('sequence-score').textContent=`${b.score.harbor} : ${b.score.north}`;
  $('sequence-metrics').replaceChildren();
  for(const [value,label,detail]of [[b.state.seen.length,'EVENTS RECEIVED','Completed by '+b.clock],[m.completion===null?'â€”':m.completion+'%','HARBOR PASS COMPLETION',`${m.completed} completed / ${m.passes} attempted`],[m.speed===null?'â€”':m.speed.toFixed(1),'LATEST HARBOR PASS SPEED','km/h Â· distance Ã· time'],[b.shotSpeed===null?'â€”':b.shotSpeed.toFixed(1),'LATEST SHOT SPEED','km/h Â· synthetic coordinates']]){const item=el('article');item.append(el('span','',label),el('strong','',String(value)),el('small','',detail));$('sequence-metrics').append(item);}
