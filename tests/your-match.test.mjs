@@ -17,6 +17,10 @@ test('personal highlights change with club, player and lens while staying behind
  assert.equal(north.player.involvements,2);
  assert.ok(harbor.recap.includes('Mateo Silva'));
  assert.notEqual(harbor.recap,north.recap);
+ const crossClub=personalizedMatch(s,23,{team:'north',focus:8,mode:'player'});
+ assert.ok(crossClub.moments[0].summary.includes('Your player completes'));
+ assert.ok(crossClub.recap.includes('completed passes: 1'));
+ assert.ok(crossClub.ranked.some(item=>item.action.includes('intercepts the pass from')));
 });
 
 test('pace changes volume, detail keeps metrics optional, and corrections never fabricate an event',()=>{
