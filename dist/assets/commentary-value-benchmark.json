@@ -1,0 +1,19 @@
+{
+  "artifact": "BTR commentary utility benchmark",
+  "version": "v111",
+  "status": "automated_checks_passed",
+  "score": "5/5",
+  "checks": [
+    {"id": "citations_resolve", "result": "pass", "value": "Every public factual claim points to an allowed evidence record."},
+    {"id": "affected_claim_changes", "result": "pass", "value": "A corrected tracking record withdraws the dependent movement claim."},
+    {"id": "unaffected_facts_survive", "result": "pass", "value": "Recorded passes and shots remain unchanged after the tracking correction."},
+    {"id": "audiences_differ", "result": "pass", "value": "Beginner and analyst modes use different explanation contracts."},
+    {"id": "no_future_leakage", "result": "pass", "value": "The evidence cutoff prevents later events from entering the current story."}
+  ],
+  "comparison_boundary": "These checks measure useful product behavior, not writing preference or general model superiority.",
+  "independent_human_preference": {
+    "status": "pending",
+    "review_path": "../independent-review.html",
+    "minimum_recommended_reviewers": 3
+  }
+}
