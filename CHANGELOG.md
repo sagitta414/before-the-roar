@@ -4,6 +4,7 @@
 - AI availability retains the last confirmed allowance during refresh, labels failed refreshes as stale, and retries without calling a transient delay an outage.
 - The second-round film discussion displays all five roles, marking unchanged calculations and source checks as carried forward.
 - Editorial checks reject unsupported claims that a defender stayed still, generic evidence-change questions, and Host paraphrases of Scout. A reviewed, labeled fallback answers the evidence challenge if new model wording fails.
+- Public two-round testing also caught a claim about defender readiness and a static comparison offered as an evidence-change test. Both now fail editorial review; the film prompt asks for the observable action and an unbroken comparison.
 - Film Scout retrieves the known reviewed source directly. A fresh film round now uses up to three model requests instead of four; saved exact-evidence rounds use none.
 - All 210 tests pass. A live deployment check is still required before treating the release as verified.
 

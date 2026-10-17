@@ -113,7 +113,9 @@ export function validateMatchPost(raw, packet, role, context={}) {
   ].join(" ");
   if (packet.review?.scope === 'manually-reviewed-ai-video' && /\b(?:does not|doesn't|did not|didn't|never)\s+(?:change|move|shift)|\b(?:remains|stays)\s+(?:still|stationary|in place|at (?:the|his|its) (?:same|starting) position)|\b(?:no|without)\s+(?:significant\s+)?(?:movement|change in position)/i.test(prose))
     throw Error('The reviewed film does not establish unchanged defender movement');
-  if (packet.review?.scope === 'manually-reviewed-ai-video' && context.round>1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(context.question||'') && role==='guide' && !/\b(?:camera|frame|angle|shot|compare|comparison|continuous|cámara|encuadre|toma|comparaci[oó]n|continua|câmera|quadro|tomada|compara[cç][aã]o|contínua)\b/i.test(p.interpretation))
+  if (packet.review?.scope === 'manually-reviewed-ai-video' && /(?:not|n't) (?:fully )?(?:prepared|ready) to (?:contest|defend|react)|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? (?:intent|readiness|attention)/i.test(prose))
+    throw Error('The reviewed film does not establish player readiness or advantage');
+  if (packet.review?.scope === 'manually-reviewed-ai-video' && context.round>1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(context.question||'') && role==='guide' && !/(?:continuous|unbroken|sequence|sequential|continua|continua|contínua|sin cortes|sem cortes).*(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada)|(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada).*(?:continuous|unbroken|sequence|sequential|continua|contínua|sin cortes|sem cortes)/i.test(p.interpretation))
     throw Error('Guide must identify a concrete evidence comparison for this challenge');
   if (packet.synthetic) {
     const boundary = [
