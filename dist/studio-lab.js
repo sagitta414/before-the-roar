@@ -10,6 +10,7 @@ const comparison=el('section','connected-perspectives');
 comparison.setAttribute('aria-label','Three views of the same recorded play');
 const comparisonHead=el('div','connected-perspectives-head');
 comparisonHead.append(el('span','eyebrow','ONE MATCH · THREE WAYS TO UNDERSTAND IT'),el('strong','', 'Same clock. Same evidence. Different questions.'));
+const comparisonTakeaway=el('p','connected-perspectives-takeaway');
 const comparisonCards=el('div','connected-perspectives-cards');
 const comparisonActions=el('div','connected-perspectives-actions');
 const watchButton=el('button','', 'Watch this exact sequence ↗');
@@ -17,7 +18,7 @@ watchButton.addEventListener('click',()=>{matchSession.set({source:'match',scena
 const truthButton=el('button','', 'Challenge this evidence ↗');
 truthButton.addEventListener('click',()=>{$('truth-nav').click();});
 comparisonActions.append(watchButton,truthButton);
-comparison.append(comparisonHead,comparisonCards,comparisonActions);
+comparison.append(comparisonHead,comparisonTakeaway,comparisonCards,comparisonActions);
 document.querySelector('#centre .formation-panel').append(comparison);
 const options=()=>({language:cueLanguage,mode:cueMode,corrected:current.corrected,focus:current.focus});
 function save(name,data,type='application/json'){const url=URL.createObjectURL(new Blob([typeof data==='string'?data:JSON.stringify(data,null,2)],{type})),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
@@ -33,6 +34,8 @@ function renderCenter(){
  const s=scenario(),b=sequenceBrief(s,current.time,{language,corrected:current.corrected,focus:current.focus}),m=b.state.metrics;
  comparisonCards.replaceChildren();
  for(const card of b.cards){const item=el('article','connected-perspective '+card.id);item.append(el('span','',card.label),el('p','',card.text));if(card.equation)item.append(el('code','',card.equation));comparisonCards.append(item);}
+ comparisonHead.querySelector('.eyebrow').textContent=({en:'ONE MATCH · THREE WAYS TO UNDERSTAND IT',es:'UN PARTIDO · TRES FORMAS DE ENTENDERLO',pt:'UMA PARTIDA · TRÊS FORMAS DE ENTENDER'})[language]||'ONE MATCH · THREE WAYS TO UNDERSTAND IT';
+ comparisonTakeaway.replaceChildren(el('b','',({en:'WHY IT MATTERS',es:'POR QUÉ IMPORTA',pt:'POR QUE IMPORTA'})[language]||'WHY IT MATTERS'),document.createTextNode(b.takeaway));
  comparisonHead.querySelector('strong').textContent=`${b.clock} · R${b.revision} · ${b.evidenceIds.length} reached evidence references`;
  $('sequence-title').textContent=s.title;$('sequence-score').textContent=`${b.score.harbor} : ${b.score.north}`;
  $('sequence-metrics').replaceChildren();

@@ -19,6 +19,9 @@ test('three localized perspectives share exact evidence and preserve saved shots
   for(const mode of ['math','analyst'])assert.deepEqual(productionPacket(SCENARIOS[0],18,{language,mode,corrected:true}).evidence_ids,first.evidence_ids);
   assert.equal(first.revision,2);assert.ok(sequenceBrief(SCENARIOS[0],18,{language,corrected:true}).cards[2].text.includes({en:'withdrawn',es:'retira',pt:'retirada'}[language]));
   const corrected=sequenceBrief(SCENARIOS[0],18,{language,corrected:true});assert.equal(new Set(corrected.cards.map(c=>c.text)).size,3);
+  const original=sequenceBrief(SCENARIOS[0],18,{language});
+  assert.notEqual(original.takeaway,corrected.takeaway);
+  assert.ok(corrected.takeaway.includes({en:'no longer supports',es:'ya no respalda',pt:'já não sustenta'}[language]));
   assert.equal(corrected.cards[1].equation,sequenceBrief(SCENARIOS[0],18,{language,corrected:false}).cards[1].equation);
   assert.ok(corrected.cards[0].text.includes({en:'without the ball',es:'sin balón',pt:'sem bola'}[language]));
  }

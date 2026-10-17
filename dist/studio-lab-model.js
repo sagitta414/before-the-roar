@@ -28,7 +28,8 @@ export function sequenceBrief(s,time,{language='en',corrected=false,focus=7}={})
  if(ready&&s.id==='press')evidenceIds.push('press-track-8-150');
  if(ready&&s.id==='counter')evidenceIds.push(`counter-track-9-${Math.floor(t*25)}`);
  if(hasAnalysis)evidenceIds.push(analysis.record.id);
- return {state,language:L[language]?language:'en',cutoff:t,clock:clock(s,t),revision:corrected&&s.id==='wide'?2:1,evidenceIds,player:p,cards:[{id:'beginner',label:l.beginner,text:beginner},{id:'math',label:l.math,text:math,equation},{id:'analyst',label:l.analyst,text:tactical,note:l.interpretation}],lastPass:pass,score:{harbor:state.seen.filter(e=>e.team==='harbor'&&e.outcome==='goal').length,north:state.seen.filter(e=>e.team==='north'&&e.outcome==='goal').length},shotSpeed:state.seen.filter(e=>e.type==='shot').at(-1)?.speed??null};
+ const takeaway=football.implication||(!last?l.wait:last.type==='shot'?(last.outcome==='goal'?l.goal:l.save):last.type==='tackle'||last.outcome==='intercepted'?l.regain:l.pass);
+ return {state,language:L[language]?language:'en',cutoff:t,clock:clock(s,t),revision:corrected&&s.id==='wide'?2:1,evidenceIds,player:p,takeaway,cards:[{id:'beginner',label:l.beginner,text:beginner},{id:'math',label:l.math,text:math,equation},{id:'analyst',label:l.analyst,text:tactical,note:l.interpretation}],lastPass:pass,score:{harbor:state.seen.filter(e=>e.team==='harbor'&&e.outcome==='goal').length,north:state.seen.filter(e=>e.team==='north'&&e.outcome==='goal').length},shotSpeed:state.seen.filter(e=>e.type==='shot').at(-1)?.speed??null};
 }
 export function productionPacket(s,time,options={}){
  const b=sequenceBrief(s,time,options),mode=['beginner','math','analyst'].includes(options.mode)?options.mode:'beginner',card=b.cards.find(c=>c.id===mode);
