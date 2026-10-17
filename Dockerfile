@@ -4,6 +4,7 @@ ENV NODE_ENV=production PORT=8080
 COPY --chown=node:node api ./api
 COPY --chown=node:node dist ./dist
 COPY --chown=node:node scripts/evaluate-agents.mjs ./scripts/evaluate-agents.mjs
+COPY --chown=node:node scripts/quality-benchmark.mjs ./scripts/quality-benchmark.mjs
 USER node
 EXPOSE 8080
 CMD ["node", "api/server.mjs"]

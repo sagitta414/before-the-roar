@@ -1,0 +1,467 @@
+{
+  "captured_at": "2026-10-17T01:43:57.406Z",
+  "kind": "live-evidence-demo",
+  "records": [
+    {
+      "key": "d473232afbc4cb7f820c56aafc597c0b11c4119276d406b63c8f99c63906651a",
+      "engine": "reviewed_fallback",
+      "focus": "change",
+      "error": "Plan rejected: No completed shot or interception; Outcome has no cited input",
+      "cached": false,
+      "elapsed_ms": 1904,
+      "receipt": {
+        "snapshot": {
+          "scenario": "wide",
+          "time": 16,
+          "language": "en",
+          "corrected": false,
+          "tracking": true
+        },
+        "records": [
+          {
+            "t": 2,
+            "end": 5,
+            "type": "pass",
+            "from": 6,
+            "to": 8,
+            "id": "wide-evt-001",
+            "team": "harbor",
+            "start": [
+              44.920797070420214,
+              37.79589340054215
+            ],
+            "endPosition": [
+              58.25,
+              34.166666666666664
+            ],
+            "distance": 13.814446692640093,
+            "speed": 16.577336031168112,
+            "outcome": "complete"
+          },
+          {
+            "t": 10,
+            "end": 13,
+            "type": "pass",
+            "from": 8,
+            "to": 10,
+            "id": "wide-evt-002",
+            "team": "harbor",
+            "start": [
+              59.5,
+              33.333333333333336
+            ],
+            "endPosition": [
+              69.83333333333333,
+              31.666666666666668
+            ],
+            "distance": 10.466878978738384,
+            "speed": 12.56025477448606,
+            "outcome": "complete"
+          },
+          {
+            "id": "wide-scope-16.0-r1-tracking",
+            "type": "coverage",
+            "second": 16,
+            "tracking": true,
+            "revision": 1
+          },
+          {
+            "id": "wide-track-102-16.0-r1",
+            "type": "tracking",
+            "player": 102,
+            "second": 16,
+            "start": [
+              78,
+              26
+            ],
+            "position": [
+              81,
+              13
+            ]
+          }
+        ]
+      },
+      "previous": null,
+      "intent": "opening",
+      "plan": null,
+      "validation": {
+        "accepted": false,
+        "errors": [
+          "No completed shot or interception",
+          "Outcome has no cited input"
+        ]
+      },
+      "usage": {
+        "completion_tokens": 42,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 8,
+          "engine_ttft_ms": 36,
+          "engine_ttlt_ms": 362,
+          "pre_inference_ms": 243,
+          "service_tbt_ms": 8,
+          "service_ttft_ms": 527,
+          "service_ttlt_ms": 882,
+          "user_visible_ttft_ms": 284
+        },
+        "prompt_tokens": 643,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        },
+        "total_tokens": 685
+      },
+      "delta": {
+        "added": [
+          "wide-evt-001",
+          "wide-evt-002",
+          "wide-track-102-16.0-r1"
+        ],
+        "removed": [],
+        "changed": [],
+        "preserved": [],
+        "compared": false
+      },
+      "ledger": [
+        {
+          "kind": "withdrawn",
+          "text": "No movement claim has been withdrawn at this snapshot.",
+          "ids": [
+            "wide-scope-16.0-r1-tracking"
+          ]
+        },
+        {
+          "kind": "preserved",
+          "text": "2 completed event records remain available at this cutoff.",
+          "ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        },
+        {
+          "kind": "uncertain",
+          "text": "The records do not establish intent, causation, or an outcome after this cutoff.",
+          "ids": [
+            "wide-scope-16.0-r1-tracking"
+          ]
+        }
+      ],
+      "audiences": {
+        "beginner": "The ball and the players tell different parts of the story. A pass moves the ball to a teammate; a run without the ball can offer another route. Watch the highlighted trail, but don’t assume it caused the defender’s decision.",
+        "analyst": "Laurent shifts 13.0 m laterally from his starting position. 2 completed Harbor passes gain 23.7 m toward goal, summing each pass’s forward displacement. Carries and intercepted passes are excluded. Assess ball progression separately from defensive displacement; this is a short sequence, not a team-strength estimate."
+      },
+      "tool_result": {
+        "tool": "source_delta",
+        "summary": "Laurent shifts 13.0 m laterally from his starting position.",
+        "delta": {
+          "added": [
+            "wide-evt-001",
+            "wide-evt-002",
+            "wide-track-102-16.0-r1"
+          ],
+          "removed": [],
+          "changed": [],
+          "preserved": [],
+          "compared": false
+        },
+        "evidence_ids": [
+          "wide-track-102-16.0-r1"
+        ]
+      },
+      "next_question": "What evidence would distinguish a coordinated defensive shift from a defender following the runner?",
+      "policy": "One Azure analyst proposes an evidence tool and citations. Verified calculations and source-rendered roles constrain public claims; this is not five independent models.",
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "Laurent shifts 13.0 m laterally from his starting position.",
+          "evidence_ids": [
+            "wide-track-102-16.0-r1"
+          ],
+          "engine": "reviewed_fallback"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "The ball and the players tell different parts of the story. A pass moves the ball to a teammate; a run without the ball can offer another route. Watch the highlighted trail, but don’t assume it caused the defender’s decision.",
+          "evidence_ids": [
+            "wide-scope-16.0-r1-tracking"
+          ],
+          "engine": "reviewed_fallback"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "Mateo Silva → Rafael Costa: 10.5 m in 3.0 s (12.6 km/h). complete.",
+          "evidence_ids": [
+            "wide-evt-002"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "Sequence and proximity do not prove causation.",
+          "evidence_ids": [
+            "wide-scope-16.0-r1-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "Laurent shifts 13.0 m laterally from his starting position. Keep the completed passes; revise only what the changed evidence supports.",
+          "evidence_ids": [
+            "wide-track-102-16.0-r1",
+            "wide-scope-16.0-r1-tracking"
+          ],
+          "engine": "reviewed_fallback"
+        }
+      ],
+      "round": 1
+    },
+    {
+      "key": "335fe83aa4199a98f70846a2b549ed04d1ebf520df3be427f28301a71252bf65",
+      "engine": "azure_selection",
+      "focus": "change",
+      "error": null,
+      "cached": false,
+      "elapsed_ms": 1123,
+      "receipt": {
+        "snapshot": {
+          "scenario": "wide",
+          "time": 16,
+          "language": "en",
+          "corrected": true,
+          "tracking": true
+        },
+        "records": [
+          {
+            "t": 2,
+            "end": 5,
+            "type": "pass",
+            "from": 6,
+            "to": 8,
+            "id": "wide-evt-001",
+            "team": "harbor",
+            "start": [
+              44.920797070420214,
+              37.79589340054215
+            ],
+            "endPosition": [
+              58.25,
+              34.166666666666664
+            ],
+            "distance": 13.814446692640093,
+            "speed": 16.577336031168112,
+            "outcome": "complete"
+          },
+          {
+            "t": 10,
+            "end": 13,
+            "type": "pass",
+            "from": 8,
+            "to": 10,
+            "id": "wide-evt-002",
+            "team": "harbor",
+            "start": [
+              59.5,
+              33.333333333333336
+            ],
+            "endPosition": [
+              69.83333333333333,
+              31.666666666666668
+            ],
+            "distance": 10.466878978738384,
+            "speed": 12.56025477448606,
+            "outcome": "complete"
+          },
+          {
+            "id": "wide-scope-16.0-r2-tracking",
+            "type": "coverage",
+            "second": 16,
+            "tracking": true,
+            "revision": 2
+          },
+          {
+            "id": "wide-track-102-16.0-r2",
+            "type": "tracking",
+            "player": 102,
+            "second": 16,
+            "start": [
+              78,
+              26
+            ],
+            "position": [
+              78,
+              26
+            ]
+          }
+        ]
+      },
+      "previous": {
+        "scenario": "wide",
+        "time": 16,
+        "language": "en",
+        "corrected": false,
+        "tracking": true
+      },
+      "intent": "challenge",
+      "plan": {
+        "tool": "source_delta",
+        "evidence_ids": [
+          "wide-scope-16.0-r2-tracking",
+          "wide-track-102-16.0-r2"
+        ],
+        "uncertainty": "causation_unproven",
+        "next_question": "defensive_shape"
+      },
+      "validation": {
+        "accepted": true,
+        "errors": []
+      },
+      "usage": {
+        "completion_tokens": 52,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 7,
+          "engine_ttft_ms": 42,
+          "engine_ttlt_ms": 426,
+          "pre_inference_ms": 104,
+          "service_tbt_ms": 7,
+          "service_ttft_ms": 408,
+          "service_ttlt_ms": 778,
+          "user_visible_ttft_ms": 304
+        },
+        "prompt_tokens": 918,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        },
+        "total_tokens": 970
+      },
+      "delta": {
+        "added": [],
+        "removed": [],
+        "changed": [
+          "wide-track-102-16.0-r2"
+        ],
+        "preserved": [
+          "wide-evt-001",
+          "wide-evt-002"
+        ],
+        "compared": true
+      },
+      "ledger": [
+        {
+          "kind": "withdrawn",
+          "text": "Withdraw the original claim that Laurent moved wide.",
+          "ids": [
+            "wide-scope-16.0-r2-tracking"
+          ]
+        },
+        {
+          "kind": "preserved",
+          "text": "2 completed event records remain available at this cutoff.",
+          "ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        },
+        {
+          "kind": "uncertain",
+          "text": "The records do not establish intent, causation, or an outcome after this cutoff.",
+          "ids": [
+            "wide-scope-16.0-r2-tracking"
+          ]
+        }
+      ],
+      "audiences": {
+        "beginner": "An off-ball run is a player moving without the ball. Here the corrected record keeps the defender still. We can still describe the passes, but cannot say this defender followed the run.",
+        "analyst": "Laurent stays at his starting position. The earlier movement claim is withdrawn. 2 completed Harbor passes gain 23.7 m toward goal, summing each pass’s forward displacement. Carries and intercepted passes are excluded. Assess ball progression separately from defensive displacement; this is a short sequence, not a team-strength estimate."
+      },
+      "tool_result": {
+        "tool": "source_delta",
+        "summary": "Laurent stays at his starting position. The earlier movement claim is withdrawn.",
+        "delta": {
+          "added": [],
+          "removed": [],
+          "changed": [
+            "wide-track-102-16.0-r2"
+          ],
+          "preserved": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ],
+          "compared": true
+        },
+        "evidence_ids": [
+          "wide-track-102-16.0-r2"
+        ]
+      },
+      "next_question": "What evidence would distinguish a coordinated defensive shift from a defender following the runner?",
+      "policy": "One Azure analyst proposes an evidence tool and citations. Verified calculations and source-rendered roles constrain public claims; this is not five independent models.",
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "Laurent stays at his starting position. The earlier movement claim is withdrawn.",
+          "evidence_ids": [
+            "wide-track-102-16.0-r2"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "An off-ball run is a player moving without the ball. Here the corrected record keeps the defender still. We can still describe the passes, but cannot say this defender followed the run.",
+          "evidence_ids": [
+            "wide-scope-16.0-r2-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "2 completed Harbor passes gain 23.7 m toward goal, summing each pass’s forward displacement. Carries and intercepted passes are excluded.",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ],
+          "engine": "evidence_rules",
+          "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "Withdraw the original claim that Laurent moved wide. 2 completed event records remain available at this cutoff. The records do not establish intent, causation, or an outcome after this cutoff.",
+          "evidence_ids": [
+            "wide-scope-16.0-r2-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "Laurent stays at his starting position. The earlier movement claim is withdrawn. Sequence and proximity do not prove causation. What evidence would distinguish a coordinated defensive shift from a defender following the runner?",
+          "evidence_ids": [
+            "wide-track-102-16.0-r2",
+            "wide-scope-16.0-r2-tracking"
+          ],
+          "engine": "azure_selection"
+        }
+      ],
+      "round": 2
+    }
+  ]
+}

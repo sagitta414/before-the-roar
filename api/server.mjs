@@ -426,7 +426,7 @@ export function createApp({
           allowance: dailyRequestLimit(),
           active_runs: [...runs.values()].filter((r) => !r.completed && !r.stopped)
             .length,
-          version: "3.14.0",
+          version: "3.15.0",
           evidence_review: true,
           usage: (await narrator.store?.allowance?.().catch(() => null)) ?? null,
           agent_tools: true,
@@ -511,7 +511,7 @@ export function createApp({
             input.time > PITCHSIDE.duration)
         )
           return send(res, 400, { error: "Invalid clip or evidence cutoff." });
-        if(route==='/api/evidence-review'){try{normalizeStudio(input);if(input.previous)normalizeStudio(input.previous);}catch{return send(res,400,{error:'Invalid evidence snapshot'});}}
+        if(route==='/api/evidence-review'){try{normalizeStudio(input);if(input.previous){normalizeStudio(input.previous);if(input.previous.scenario!==input.scenario)throw Error('Different scenario');}if(input.intent&&!['opening','challenge','math'].includes(input.intent))throw Error('Invalid intent');}catch{return send(res,400,{error:'Invalid evidence snapshot'});}}
         rate.n++;
         rates.set(ip, rate);
         deskStreams++;

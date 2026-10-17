@@ -9,11 +9,13 @@ test('all six application routes and the guided story initialize together withou
   for(const key of ['addEventListener','removeEventListener','getComputedStyle','matchMedia'])set(key,w[key].bind(w));
   set('requestAnimationFrame',()=>0);set('cancelAnimationFrame',()=>{});set('ResizeObserver',class{observe(){}disconnect(){}});set('BroadcastChannel',class{postMessage(){}close(){}addEventListener(){}});set('setInterval',(fn,ms)=>{const id=setTimeout(()=>{},ms);id.unref();intervals.push(id);return id;});
   set('fetch',async url=>{requests.push(String(url));if(String(url).includes('/api/health'))return Response.json({ai_configured:false,usage:{day:new Date().toISOString().slice(0,10),used:120,limit:120}});if(String(url)==='api-config.json')return Response.json({baseUrl:''});try{return new Response(await readFile(new URL('../dist/'+url,import.meta.url)));}catch{return new Response('{}',{status:404});}});
-  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js'])await import('../dist/'+file);
+  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js'])await import('../dist/'+file);
   await new Promise(r=>setTimeout(r,50));
   assert.ok(document.body.classList.contains('guided-active'));assert.match(document.querySelector('.guided-copy').textContent,/run you didn’t see/);
   for(const id of ['centre','lab','truth','presenters','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
   const {matchSession}=await import('../dist/match-session.js');
+  matchSession.set({source:'match',section:'truth',time:16,corrected:true});
+  const ledger=document.querySelector('.truth-quality');assert.ok(ledger);assert.equal(ledger.closest('details'),null,'claim audit must not be buried in an evidence drawer');assert.match(ledger.textContent,/Withdraw the original claim/);const audience=ledger.querySelector('details');audience.open=true;matchSession.set({time:17});assert.equal(ledger.querySelector('details').open,true,'open audience comparison survives a replay tick');
   matchSession.set({source:'pitchside',section:'centre',clipTime:0});
   document.querySelector('#centre .scene-brief button').click();
   const reached=matchSession.get().clipTime;assert.ok(reached>0);

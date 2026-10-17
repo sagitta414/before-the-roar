@@ -6,3 +6,4 @@
 !Dockerfile
 !scripts/
 !scripts/evaluate-agents.mjs
+!scripts/quality-benchmark.mjs
