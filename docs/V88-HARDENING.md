@@ -1,0 +1,11 @@
+# V88: personalization and proof hardening
+
+The public Your Match panel now gives the same reached event five different interpretations. Beginner defines the football concept, Math explains the measured pass direction or speed, Tactical states a positional consequence and its limit, Fan frames the selected club, and Player Focus follows the selected player. English, Spanish and Portuguese use the same event and cutoff. When club and player differ, the panel names both viewpoints. Net goal-directed pass movement is signed; a negative value explicitly means completed passes moved toward the team's own goal overall. Intercepted passes never count as completed passes.
+
+The saved two-round Azure proof exposed stale Vector detail: the second-round sentence computed ball speed while its expanded title, working and value still named earlier defender movement. The source catalog now updates all four fields together. A completed saved round is repaired on read when its sentence matches the reached next event. This repair is deterministic and makes no model request. Tests cover fresh and saved rounds.
+
+The Evidence Room now displays the measured tradeoff of the held-out eight-case video comparison: 24 calls for a three-call crew, eight calls for the single-call editor, and identical wording for 18 of 24 paired role outputs. Automated wording and citation checks are not football-quality ratings. The production default remains one AI selection call. The independent blind review is available, but no independent scores have been received; this release makes no superiority claim.
+
+When the shared AI allowance is low, the availability bar offers a reviewed 90-second evidence demonstration that uses no model requests. The measured training minute is explicitly separated from the cinematic generated film, with a direct return to the film. No tracking statistic is transferred between those different sources.
+
+The remaining external validation gaps cannot be closed by UI or unit tests: a photorealistic continuous film rendered from the measured production pack, annotated unfamiliar broadcast footage, and independent human ratings of the blind comparison. The app labels these limits instead of treating its development clip or automated checks as proof of real-broadcast accuracy or crew superiority.

@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {sourceCatalog,selectSourcePosts} from '../api/grounded-desk.mjs';
+import {sourceCatalog,selectSourcePosts,reconcileCachedNextEventMath} from '../api/grounded-desk.mjs';
 import {matchStory,localPanel} from '../dist/match-story.js';
 import {MatchDesk} from '../api/match-desk.mjs';import {testState} from './agent-fixture.mjs';
 import {followUpMetric,conversationContext} from '../api/conversation.mjs';
@@ -62,6 +62,16 @@ test('advancing the playhead changes the answer only after a new event is reache
   assert.ok(posts.every(p=>p.evidence_ids.includes(later.brief.state.seen.at(-1).id)));
   assert.notEqual(posts.find(p=>p.role==='analyst').summary,posts.find(p=>p.role==='guide').summary);
   assert.notEqual(posts.find(p=>p.role==='guide').summary,posts.find(p=>p.role==='presenter').summary);
+  if(language==='en')assert.match(posts.find(p=>p.role==='presenter').summary,/from 2 to 3 completed passes/);
+  const math=posts.find(p=>p.role==='math');
+  assert.match(math.summary,/km\/h/);
+  assert.match(math.metric_value,/km\/h/);
+  assert.match(math.working,/km\/h/);
+  assert.ok(!/Defender lateral movement/.test(math.metric_title));
+  const stale={...math,working:'|12.0 − 26.0| = 14.0 m',metric_title:'Defender lateral movement',metric_value:'14.0 m'};
+  const repaired=reconcileCachedNextEventMath(later,localPanel(later),{round:2,previous},stale);
+  assert.equal(repaired.summary,stale.summary);
+  assert.deepEqual([repaired.working,repaired.metric_title,repaired.metric_value],[math.working,math.metric_title,math.metric_value]);
   assert.ok(posts.every(p=>p.cutoff===26));
  }
 });
@@ -73,6 +83,16 @@ test('one request composes a round, caches it, and fails closed on hostile model
  try{const events=[],posts=await desk.discuss(input,(t,d)=>events.push({t,d}));assert.equal(count,1);assert.equal(reserved,1);assert.equal(posts.filter(p=>p.engine==='azure_selection').length,3);assert.ok(!events.some(e=>e.t==='draft'));await desk.discuss(input,()=>{});assert.equal(count,1);
  const parentKey=events.find(e=>e.t==='conversation').d.id,next=await desk.discuss({...input,parentKey,question:'Did it cause the move?'},()=>{});assert.equal(count,2);assert.equal(next.filter(p=>p.engine==='reviewed_fallback').length,3);assert.ok(next.every(p=>!p.summary.includes('Invented goal')));
  }finally{global.fetch=original;for(const[k,v]of Object.entries(saved))if(v===undefined)delete process.env[k];else process.env[k]=v;}
+});
+test('a saved next-event round repairs stale Vector metadata without another AI request',async()=>{
+ const earlierInput={...input,time:22},laterInput={...input,time:26,parentKey:'a'.repeat(64),question:'What changed?'};
+ const state=testState({}),earlier=matchStory(earlierInput),previous=sourceCatalog(earlier,localPanel(earlier)).movement.posts;
+ await state.write(laterInput.parentKey,{source:'match',input:earlierInput,status:'complete',conversation:{round:1,previous:[]},posts:Object.fromEntries(previous.map(p=>[p.role,p]))});
+ const packet=matchStory(laterInput),notes=localPanel(packet),conversation=await conversationContext(state,laterInput),math=sourceCatalog(packet,notes,conversation).next_event.posts.find(p=>p.role==='math');
+ const key='b'.repeat(64),stale={...math,metric_title:'Defender lateral movement',metric_value:'14.0 m',working:'|12.0 − 26.0| = 14.0 m'};
+ await state.write(key,{source:'match',input:laterInput,status:'complete',conversation,posts:{math:stale},trace:[],metrics:{model_calls:1},claim:{}});
+ const prior=process.env.BTR_GROUNDED_DESK;process.env.BTR_GROUNDED_DESK='1';
+ try{const desk=new MatchDesk({busy:0,store:{reserve:async()=>{throw Error('Must reuse saved round');}}},{state});const emitted=[];await desk.discuss(laterInput,(type,data)=>emitted.push({type,data}),{key});const saved=(await state.read(key)).value.posts.math;assert.equal(saved.metric_title,math.metric_title);assert.equal(saved.metric_value,math.metric_value);assert.equal(saved.working,math.working);assert.ok(emitted.some(x=>x.type==='post'&&x.data.metric_title===math.metric_title));}finally{if(prior===undefined)delete process.env.BTR_GROUNDED_DESK;else process.env.BTR_GROUNDED_DESK=prior;}
 });
 test('interrupted source composition resumes the saved selection without a second paid request',async()=>{
  const saved=Object.fromEntries(['BTR_GROUNDED_DESK','AZURE_OPENAI_ENDPOINT','AZURE_ACCESS_TOKEN'].map(k=>[k,process.env[k]])),original=global.fetch;
