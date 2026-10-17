@@ -2,6 +2,8 @@
 .connected-perspectives-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:13px}
 .connected-perspectives-head .eyebrow{color:#d7f15b;letter-spacing:.12em;font-size:10px}
 .connected-perspectives-head strong{font-size:11px;color:#aab9bd;font-weight:500}
+.connected-perspectives-takeaway{display:flex;gap:12px;align-items:baseline;margin:0 0 12px;padding:10px 12px;border-left:3px solid #d7f15b;background:#1d2a30;color:#eef6e7;font-size:13px;line-height:1.45}
+.connected-perspectives-takeaway b{flex:none;color:#d7f15b;letter-spacing:.08em;font-size:10px}
 .connected-perspectives-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .connected-perspective{padding:14px;min-width:0;border-top:2px solid #d7f15b;background:#202b34}
 .connected-perspective.math{border-top-color:#e5bd72}.connected-perspective.analyst{border-top-color:#76baff}
@@ -12,5 +14,5 @@
 .connected-perspectives-actions button{padding:9px 12px;border:1px solid #586876;background:transparent;color:#f4f6f2;font-size:11px;font-weight:700;cursor:pointer}
 .connected-perspectives-actions button:hover,.connected-perspectives-actions button:focus-visible{border-color:#d7f15b;color:#d7f15b}
 .conversation-followups .next-event-check{background:#d7f15b;color:#11180d;border-color:#d7f15b;font-weight:800}
-@media(max-width:900px){.connected-perspectives-cards{grid-template-columns:1fr}.connected-perspectives-head{display:block}.connected-perspectives-head strong{display:block;margin-top:5px}.connected-perspective{padding:12px}.connected-perspective p{font-size:14px}}
+@media(max-width:900px){.connected-perspectives-cards{grid-template-columns:1fr}.connected-perspectives-head{display:block}.connected-perspectives-head strong{display:block;margin-top:5px}.connected-perspective{padding:12px}.connected-perspective p{font-size:14px}.connected-perspectives-takeaway{display:block}.connected-perspectives-takeaway b{display:block;margin-bottom:4px}}
 @media(max-width:480px){.connected-perspectives{margin:12px -8px 0;padding:13px}.connected-perspectives-actions{display:grid;grid-template-columns:1fr}.connected-perspectives-actions button{min-height:44px}.conversation-followups .next-event-check{min-height:44px}}
