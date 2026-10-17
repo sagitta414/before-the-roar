@@ -53,6 +53,7 @@ This log reconstructs releases from the retained source, release notes and verif
 - Watch now creates a 30-minute read-only mobile session and scannable QR code. The phone follows the current source, clock, evidence revision, team and selected player over the existing authorized SSE channel.
 - Extended broadcast cues with bounded evidence summaries, personalization state, calculation and claim-review metadata. Reader credentials still cannot update or stop a room.
 - Added a persistent Pair Phone control across app views and a full interactive demo when live pairing is unavailable. The fallback is explicitly labeled and makes no false synchronization claim.
+- Live refreshes preserve the viewer's phone-only lens and counterfactual; a changed source, cutoff or evidence revision resets the simulation.
 - Added mobile layout QA at 390×844, interaction checks for audience switching, Show Me Why and Truth Lab, and broadcast-contract assertions. The full automated suite remains green.
 
 ## v42 / API 3.8.0 — football value and clearer evidence

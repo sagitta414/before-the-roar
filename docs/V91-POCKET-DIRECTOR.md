@@ -17,6 +17,7 @@ Pocket Director is the mobile second screen for the existing BTR match session. 
 - Reader capabilities cannot update or stop a room. Rooms expire after 30 minutes and accept at most six connected readers.
 - Cues carry no real match or real player data. All player names, positions and events are fictional synthetic records.
 - A stopped connection retains the last reviewed moment and labels the session ended. An unreachable service opens an explicit **Demo mode**.
+- Repeated live refreshes update the clock without clearing a phone-selected lens or counterfactual. A real source, cutoff or evidence-revision change clears the local simulation so it cannot drift across moments.
 - The phone pitch is derived from the coordinate-rendered synthetic source. For the separately generated pitchside film, it is labeled as a companion illustration and is not presented as inferred video tracking.
 - Browser voice recognition is optional. Typing remains available when the device does not expose speech recognition.
 - A fresh AI follow-up consumes the same shared daily allowance as the main app. Changing view or opening evidence makes no model request.
