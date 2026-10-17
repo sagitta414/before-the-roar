@@ -28,6 +28,8 @@ export function recoveryProof(record) {
       ["The new worker reused Scout and Guide", sameSet(reusedRoles, ["analyst", "guide"])],
       ["Exactly four specialist model requests ran", totalRequests === 4],
       ["Request receipts are numbered 1 through 4", requestNumbers.join(",") === "1,2,3,4"],
+      ["Every live request has an execution ID", completions.every((item) => item.execution_id)],
+      ["Every live request reports latency", completions.every((item) => Number.isFinite(item.latency_ms) && item.latency_ms >= 0)],
       ["No specialist model request was duplicated", uniqueModelRoles === totalRequests],
       ["Vector remained a deterministic calculation", posts.math?.engine === "calculated"],
       ["Check enforced the evidence gate", posts.reviewer?.guard_engine === "evidence_rules"],

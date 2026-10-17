@@ -381,6 +381,7 @@ export class MatchDesk {
         cutoff: packet.cutoff,
         revision: packet.revision,
         storage: this.store.base ? "azure_blob" : "local_file",
+        execution_state: journal.value.trace.length ? "failed_recovered" : "deterministic",
       },
     );
     let sequence = 0;

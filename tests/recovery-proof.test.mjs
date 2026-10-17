@@ -7,13 +7,13 @@ const completeRecord = () => ({
     status: "complete",
     metrics: { model_calls: 4 },
     trace: [
-      { role: "analyst", action: "model_handoff_completed", request_number: 1 },
-      { role: "guide", action: "model_handoff_completed", request_number: 2 },
+      { role: "analyst", action: "model_handoff_completed", request_number: 1, execution_id: "exec-scout", latency_ms: 120 },
+      { role: "guide", action: "model_handoff_completed", request_number: 2, execution_id: "exec-guide", latency_ms: 130 },
       { role: "director", action: "worker_interrupted", saved_roles: ["analyst", "guide", "math"], saved_model_requests: 2 },
       { role: "analyst", action: "saved_model_handoff_reused" },
       { role: "guide", action: "saved_model_handoff_reused" },
-      { role: "reviewer", action: "model_handoff_completed", request_number: 3 },
-      { role: "presenter", action: "model_handoff_completed", request_number: 4 },
+      { role: "reviewer", action: "model_handoff_completed", request_number: 3, execution_id: "exec-check", latency_ms: 140 },
+      { role: "presenter", action: "model_handoff_completed", request_number: 4, execution_id: "exec-host", latency_ms: 150 },
       { role: "director", action: "four_model_handoff_completed" },
     ],
     posts: {
@@ -35,7 +35,7 @@ test("recovery proof verifies a two-request checkpoint and two-request restart",
 
 test("recovery proof fails closed when a saved specialist is called twice", () => {
   const record = completeRecord();
-  record.workflow.trace.splice(5, 0, { role: "analyst", action: "model_handoff_completed", request_number: 3 });
+  record.workflow.trace.splice(5, 0, { role: "analyst", action: "model_handoff_completed", request_number: 3, execution_id: "exec-scout-again", latency_ms: 100 });
   record.workflow.metrics.model_calls = 5;
   const proof = recoveryProof(record);
   assert.equal(proof.verified, false);

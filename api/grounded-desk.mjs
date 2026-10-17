@@ -4,6 +4,7 @@ import { DeskInterrupted } from "./agent-state.mjs";
 import { accessToken } from "./azure.mjs";
 import { followUpMetric } from "./conversation.mjs";
 import { PLAYERS } from "../dist/engine.js";
+import { randomUUID } from "node:crypto";
 
 export const GROUNDED_POLICY = "v103-four-model-handoff";
 const pick = (p, a) => a[["en", "es", "pt"].indexOf(p.language)] || a[0];
@@ -350,6 +351,8 @@ export async function groundedRound({
     await trace("math", "calculation_saved", {
       from: ["analyst", "guide"],
       evidence_ids: math.evidence_ids,
+      execution_state: "deterministic",
+      model_requests: 0,
     });
   };
 
@@ -368,6 +371,10 @@ export async function groundedRound({
       await trace(role, "saved_model_handoff_reused", {
         angle: saved.angle,
         from: handoffPosts.map((p) => p.role),
+        execution_state: "replay",
+        execution_id: saved.execution_id,
+        original_latency_ms: saved.latency_ms,
+        model_requests: 0,
       });
       return saved;
     }
@@ -380,6 +387,8 @@ export async function groundedRound({
     }
     narrator.busy++;
     let reserved = false;
+    const correlationId = `btr-${randomUUID()}`,
+      requestStarted = performance.now();
     try {
       if (!(await narrator.store.reserve())) throw Error("Daily allowance reached");
       reserved = true;
@@ -388,6 +397,8 @@ export async function groundedRound({
       await trace(role, "model_handoff_started", {
         from: handoffPosts.map((p) => p.role),
         choices,
+        execution_state: "live",
+        correlation_id: correlationId,
       });
       const schema = {
         type: "object",
@@ -441,8 +452,11 @@ export async function groundedRound({
         throw Error(`${ROLE_HANDOFFS[role].label} model HTTP ${response.status}`);
       }
       const data = await response.json();
-      const decision = JSON.parse(data.choices?.[0]?.message?.content || "{}");
+      const decision = JSON.parse(data.choices?.[0]?.message?.content || "{}"),
+        latencyMs = Math.round(performance.now() - requestStarted),
+        executionId = data.id || correlationId;
       if (!choices.includes(decision.angle)) throw Error(`${ROLE_HANDOFFS[role].label} selected an unbounded angle`);
+      Object.assign(decision, { execution_id: executionId, latency_ms: latencyMs });
       await journal.change((v) => {
         v.raw_outputs ||= {};
         v.raw_outputs[role] = decision;
@@ -455,6 +469,9 @@ export async function groundedRound({
         from: handoffPosts.map((p) => p.role),
         request_number: journal.value.metrics.model_calls,
         reservation: reserved ? "committed" : "missing",
+        execution_state: "live",
+        execution_id: executionId,
+        latency_ms: latencyMs,
       });
       return decision;
     } finally {
@@ -505,6 +522,7 @@ export async function groundedRound({
       await trace("director", "worker_interrupted", {
         saved_roles: ["analyst", "guide", "math"],
         saved_model_requests: journal.value.metrics.model_calls,
+        execution_state: "failed_recovered",
       });
       throw new DeskInterrupted();
     }

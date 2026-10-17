@@ -34,6 +34,9 @@ test('all seven application routes and the guided story initialize together with
   findButton('Resume saved replay').click();await new Promise(r=>setTimeout(r,50));
   assert.equal(document.querySelectorAll('.proof-contributions article').length,5);
   assert.match(document.querySelector('.proof-caption').textContent,/Saved handoff complete/);
+  assert.equal(document.querySelectorAll('.execution-key>div').length,4);
+  assert.equal(document.querySelector('.host-final-receipt').hidden,false);
+  assert.match(document.querySelector('.host-final-receipt').textContent,/Host · final publish receipt/i);
   assert.ok(findButton('Correct the tracking').disabled);
   w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
   document.querySelector('#centre .play-launch').click();

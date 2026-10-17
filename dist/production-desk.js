@@ -2,7 +2,7 @@ import { receiptReplay } from "./receipt-replay.js";
 import { aiAvailability, availabilityText } from "./ai-availability.js?v=68";
 import { matchSession } from "./match-session.js";
 import { PITCHSIDE } from "./pitchside-story.js";
-import { recoveryProof } from "./recovery-proof.js?v=106";
+import { recoveryProof } from "./recovery-proof.js?v=107";
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
   if (cls) n.className = cls;
@@ -83,6 +83,19 @@ const intro = el(
   "Follow the public handoffs. Stop the worker. Change the evidence. See exactly what reaches the screen. This demonstration uses the synthetic “Unseen run” at 67:16.",
 );
 workspace.append(intro);
+const executionKey = el("div", "execution-key");
+for (const [state, title, copy] of [
+  ["live", "Live", "Azure request · execution ID + latency"],
+  ["replay", "Replay", "Stored result · zero new model calls"],
+  ["deterministic", "Deterministic", "Calculation or gate · zero model calls"],
+  ["failed_recovered", "Failed / recovered", "Restored stages and newly executed stages shown"],
+]) {
+  const item = el("div");
+  item.dataset.state = state;
+  item.append(el("b", "", title), el("span", "", copy));
+  executionKey.append(item);
+}
+workspace.append(executionKey);
 const actions = el("div", "proof-actions"),
   start = el("button", "red-button", "Run the desk"),
   fault = el("button", "proof-live-button", "Run live recovery proof"),
@@ -133,6 +146,9 @@ trace.append(
   ),
 );
 left.append(trace);
+const hostReceipt = el("article", "host-final-receipt");
+hostReceipt.hidden = true;
+left.append(hostReceipt);
 const metrics = el("div", "proof-metrics");
 left.append(metrics);
 const contributions = el("details", "proof-contributions");
@@ -232,8 +248,12 @@ function receipt(list, item) {
   const li = el("li"),
     who = el("b", "", roles[item.role] || item.role),
     detail = el("div");
+  const state = item.execution_state || (item.replayed ? "replay" :
+    item.action === "calculation_saved" || item.action === "claim_checked" ? "deterministic" :
+    item.action === "worker_interrupted" || item.action === "checkpoint_resumed" ? "failed_recovered" : "system");
+  li.dataset.state = state;
   detail.append(
-    el("strong", "", pretty(item.action)),
+    el("strong", "", `${state === "system" ? "" : state.replace("failed_recovered", "recovered") + " · "}${pretty(item.action)}`),
     el(
       "small",
       "",
@@ -245,6 +265,10 @@ function receipt(list, item) {
         item.request_number ? `request #${item.request_number}` : null,
         item.from?.length ? `received ${item.from.map((role) => roles[role] || role).join(" + ")}` : null,
         item.saved_roles?.length ? `saved ${item.saved_roles.map((role) => roles[role] || role).join(" + ")}` : null,
+        item.execution_id ? `execution ${item.execution_id}` : null,
+        item.correlation_id && !item.execution_id ? `correlation ${item.correlation_id}` : null,
+        item.original_latency_ms != null ? `original ${(item.original_latency_ms / 1000).toFixed(2)}s` : null,
+        item.model_requests === 0 ? "0 model calls" : null,
         item.reason,
       ]
         .filter(Boolean)
@@ -254,6 +278,29 @@ function receipt(list, item) {
   li.append(who, detail);
   list.append(li);
   while (list.children.length > 24) list.firstChild.remove();
+}
+function renderHostReceipt(workflow, replayed = false) {
+  const completed = [...(workflow?.trace || [])].reverse().find(
+      (item) => item.role === "presenter" && item.action === "model_handoff_completed",
+    ),
+    post = workflow?.posts?.presenter;
+  hostReceipt.hidden = !(completed || post);
+  if (hostReceipt.hidden) return;
+  hostReceipt.replaceChildren();
+  const top = el("div", "host-receipt-top");
+  top.append(
+    el("span", "execution-badge", replayed ? "REPLAY · 0 NEW CALLS" : "LIVE · REQUEST #4"),
+    el("b", "", "HOST · FINAL PUBLISH RECEIPT"),
+  );
+  hostReceipt.append(
+    top,
+    el("p", "", post?.summary || "The final Host contribution is stored."),
+    el("small", "", [
+      completed?.execution_id ? `Execution ${completed.execution_id}` : "Stored receipt",
+      completed?.latency_ms != null ? `${(completed.latency_ms / 1000).toFixed(2)}s` : null,
+      "Received Scout + Guide + Vector + Check",
+    ].filter(Boolean).join(" · ")),
+  );
 }
 function setProofStep(key, state, note) {
   const step = proofSteps.querySelector(`[data-step="${key}"]`);
@@ -299,6 +346,18 @@ function renderRecoveryVerdict(data) {
     checklist.append(row);
   }
   proofVerdict.append(copy, numbers, checklist);
+  const recoveryMap = el("div", "recovery-map");
+  for (const [state, title, detail] of [
+    ["replay", "RESTORED", "Scout · Guide"],
+    ["deterministic", "RECALCULATED", "Vector · no model request"],
+    ["live", "EXECUTED AFTER RESTART", "Check · Host"],
+  ]) {
+    const item = el("div");
+    item.dataset.state = state;
+    item.append(el("b", "", title), el("span", "", detail));
+    recoveryMap.append(item);
+  }
+  proofVerdict.append(recoveryMap);
   return proof;
 }
 function render(data) {
@@ -306,6 +365,7 @@ function render(data) {
   const w = data.workflow;
   trace.replaceChildren();
   for (const item of w?.trace || []) receipt(trace, item);
+  renderHostReceipt(w);
   if (!trace.children.length)
     trace.append(
       el(
@@ -440,6 +500,7 @@ async function showReplay(resumed = false) {
       );
       contributions.append(row);
     }
+    renderHostReceipt({ posts: Object.fromEntries(replay.posts.map((post) => [post.role, post])), trace: replay.trace }, true);
     captionTag.textContent =
       "SAVED RECEIPT REPLAY · " + new Date(replay.recorded_at).toLocaleDateString();
     captionTitle.textContent = resumed ? "Saved handoff complete" : "Specialists saved";
