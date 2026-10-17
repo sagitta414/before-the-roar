@@ -2,7 +2,7 @@ import {testState,toolResponse} from './agent-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PITCHSIDE,PITCHSIDE_BEATS,clipClock,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipDiscussionMatches,clipEditorialCutoff} from '../dist/pitchside-story.js';
-import {MatchDesk,validateMatchPost,repeatsInsight} from '../api/match-desk.mjs';
+import {MatchDesk,validateMatchPost,repeatsInsight,repeatsFilmUncertainty} from '../api/match-desk.mjs';
 import {createApp} from '../api/server.mjs';
 
 test('crossing a film cut cannot retain an earlier discussion or future reply',()=>{
@@ -30,9 +30,12 @@ test('film follow-up rejects stationary-defender claims absent from reviewed fra
  const packet=pitchsideStory({time:12,language:'en'}),post={interpretation:'The nearby defender does not change position significantly as the pass reaches a teammate.',headline:'A steady defence',caution:'The wider defensive line is outside this shot.',evidence_ids:{primary:'pitchside-reception',secondary:null}};
  assert.throws(()=>validateMatchPost({post},packet,'analyst',{round:2,question:'What evidence would change this explanation?'}),/unchanged defender movement/);
  assert.throws(()=>validateMatchPost({post:{...post,interpretation:'The defender may not be fully prepared to contest, giving the receiver a potential advantage.'}},packet,'analyst',{round:1}),/player readiness or advantage/);
+ assert.throws(()=>validateMatchPost({post:{...post,interpretation:'What options does the receiver have after making the pass?',viewing_question:'What options does the receiver have after making the pass?'}},packet,'guide',{round:1}),/receiver is not the recorded passer/);
  assert.throws(()=>validateMatchPost({post:{...post,interpretation:'What positioning options does the receiver have after this pass?',viewing_question:'What positioning options does the receiver have after this pass?'}},packet,'guide',{round:2,question:'What evidence would change this explanation?'}),/concrete evidence comparison/);
  assert.throws(()=>validateMatchPost({post:{...post,interpretation:'How does the defender’s position compare to the receiver’s as the ball arrives?',viewing_question:'How does the defender’s position compare to the receiver’s as the ball arrives?'}},packet,'guide',{round:2,question:'What evidence would change this explanation?'}),/concrete evidence comparison/);
  assert.equal(repeatsInsight('The pass indicates a defensive presence, yet the overall defensive shape and effectiveness cannot be determined from this moment.',[{summary:'The attacker passes to a nearby teammate while a defender is positioned close, indicating a defensive presence. The defensive shape and overall effectiveness cannot be assessed from this moment.'}]),true);
+ assert.equal(repeatsFilmUncertainty('The completed pass indicates a connection, but the defender’s control over space remains unverified.',[{role:'analyst',summary:'The attacker passes to a teammate with a nearby defender present. The defender’s control is unknown.'}]),true);
+ assert.equal(repeatsFilmUncertainty('The next touch will test whether the receiver can turn away from the defender.',[{role:'analyst',summary:'The attacker passes to a teammate with a nearby defender present.'}]),false);
 });
 
 test('clip cache keys vary with cutoff, language, mode and question',()=>{

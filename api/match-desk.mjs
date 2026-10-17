@@ -42,6 +42,9 @@ export function repeatsInsight(summary, previous = []) {
     return shared/mine.size>=.55&&mine.size-shared<5;
   });
 }
+export function repeatsFilmUncertainty(summary, previous=[]) {
+  return /pass|connection/i.test(summary) && /defender/i.test(summary) && /(?:unverified|unknown|not (?:known|confirmed|established)|remains unclear)/i.test(summary) && !/(?:next touch|next pass|turn|release|exit|wider line|continuous|unbroken)/i.test(summary) && previous.some(p=>p.role==='analyst'&&/pass|passes|connection/i.test(p.summary)&&/defender/i.test(p.summary));
+}
 function reviewedClipChallenge(packet,role){
   const pass=['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id),l=['en','es','pt'].indexOf(packet.language);
   const lines=pass?{
@@ -115,6 +118,8 @@ export function validateMatchPost(raw, packet, role, context={}) {
     throw Error('The reviewed film does not establish unchanged defender movement');
   if (packet.review?.scope === 'manually-reviewed-ai-video' && /(?:not|n't) (?:fully )?(?:prepared|ready) to (?:contest|defend|react)|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? (?:intent|readiness|attention)/i.test(prose))
     throw Error('The reviewed film does not establish player readiness or advantage');
+  if (packet.review?.scope === 'manually-reviewed-ai-video' && role==='guide' && /receiver.{0,45}(?:making|made|sends|sent) (?:the|a) pass/i.test(p.interpretation))
+    throw Error('The receiver is not the recorded passer');
   if (packet.review?.scope === 'manually-reviewed-ai-video' && context.round>1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(context.question||'') && role==='guide' && !/(?:continuous|unbroken|sequence|sequential|continua|continua|contínua|sin cortes|sem cortes).*(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada)|(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada).*(?:continuous|unbroken|sequence|sequential|continua|contínua|sin cortes|sem cortes)/i.test(p.interpretation))
     throw Error('Guide must identify a concrete evidence comparison for this challenge');
   if (packet.synthetic) {
@@ -730,6 +735,7 @@ export class MatchDesk {
           role === "presenter" &&
           (repeatsContribution(validated.summary, previous) ||
             repeatsInsight(validated.summary, previous.filter(p=>p.role==='analyst')) ||
+            (this.clip && repeatsFilmUncertainty(validated.summary, previous)) ||
             editorialIssues(role, validated.summary, previous).length)
         )
           throw Error("Repeated contribution; using the reviewed closing cue");
