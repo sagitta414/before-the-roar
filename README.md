@@ -2,7 +2,7 @@
 
 An explainable football studio: watch the play, follow a public editorial discussion, inspect the calculation, and challenge the evidence. A newcomer, an analyst and a numbers-focused fan get different explanations of the same source.
 
-The current connected-match release places beginner, math and tactical readings beside the same synthetic replay. Watch, Match Centre and Truth Lab carry one playhead and source revision. A synthetic crew follow-up can advance to the next completed event and compare it with the earlier claim; it still keeps causation separate from observation. The AI film is a separately labeled, manually reviewed source. See [the current release evidence and mobile checks](docs/V81-CONNECTED-MATCH.md). The paired viewer study remains available at `/study.html`; no independent human superiority result is claimed.
+The connected-match release places beginner, math and tactical readings beside the same synthetic replay. Watch, Match Centre and Truth Lab carry one playhead and source revision. A three-round synthetic discussion now follows a run, a completed pass and a shot, changing each role's contribution only when new evidence arrives. See the [recorded Azure conversation](https://before-the-roar.sagitta107.chatgpt.site/conversation-proof.html) and its [unedited receipt](docs/proof/live-next-event-v89.json). The AI film is a separately labeled, manually reviewed source. No independent human superiority result is claimed.
 
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
@@ -12,7 +12,7 @@ The current connected-match release places beginner, math and tactical readings 
 
 **Earlier reviewer fixes:** [docs/SCAN-3-FIXES.md](docs/SCAN-3-FIXES.md)
 
-**Judge demonstration and scope:** [docs/JUDGE-DEMO.md](docs/JUDGE-DEMO.md)
+**Judge demonstration and scope:** [docs/JUDGE-DEMO.md](docs/JUDGE-DEMO.md) · [current commentary and proof limits](docs/V90-COMMENTARY-READINESS.md)
 
 ## Run and verify
 
@@ -40,9 +40,9 @@ The original creator film remains at `original.html`. No real Premier League mat
 
 ## Tool-backed editorial workflow
 
-Scout selects a bounded function tool: retrieve evidence, retrieve a deterministic calculation, or review earlier public claims. Tools cannot request arbitrary URLs or source selectors. Guide receives Scout's actual contribution, bounded evidence and the verified glossary; Host receives the other four public contributions. Those supplied contexts are labeled as such, not fabricated model tool calls. Vector calculates immediately; Check applies source rules to the explicit scenario claim. Follow-ups retrieve server-side public contributions, preserve earlier rounds in the interface, and are limited to three rounds per chain. They cannot reuse history from a different source, revision, language, perspective or incompatible film scene.
+The production synthetic-match desk uses one Azure selection request to choose a source-bound editorial angle. Five public roles then render different work: Scout states the reached observation; Guide teaches the relevant football concept; Vector calculates from recorded distance and time; Check states the claim boundary; Host synthesizes what changed and what to watch next. The wording and citations come from a closed, verified source catalog. Follow-ups retrieve server-side public contributions, preserve earlier rounds, and are limited to three rounds per chain. They cannot reuse history from a different source, revision, language, perspective or incompatible film scene.
 
-Three roles use Azure OpenAI; two specialist components are deterministic. This is custom Node orchestration with Azure OpenAI function calls. Microsoft Agent Framework, Foundry Agent Service, MCP, A2A and Fabric integration are not claimed. Public receipts are operations and contributions, not private chain-of-thought.
+The film desk uses a separate three-request editorial workflow; the synthetic-match desk defaults to one request because the held-out eight-case comparison did not establish an advantage for the extra calls. This is custom Node orchestration with Azure OpenAI. Microsoft Agent Framework, Foundry Agent Service, MCP, A2A and Fabric integration are not claimed. Public receipts are operations and contributions, not private chain-of-thought.
 
 Tool results, raw model outputs (including rejected text), posts, claim revisions, tokens and receipts persist. A fresh film discussion uses three model requests and can use up to three bounded editorial repairs; a synthetic round uses one selection request. Complete runs are reused without fabricated typing. Successful intermediate work is reused after failure; unavailable stages retry. Drafts are labeled and validated before final publication. Number, player-attribution, citation, correction and repetition guards reduce specific errors without proving semantic truth.
 
@@ -68,13 +68,13 @@ Truth Lab's actual-frame Azure vision review receives JPEGs without authored obs
 
 `node scripts/production-smoke.mjs <Azure origin> --full` consumes up to eight model requests and writes credential-free deployment receipts to `docs/proof/live-production-proof.json`. Metrics are measured duration and reported tokens, not invented dollar costs or judging scores. The demonstrated advantage is reusable work and source-revision enforcement; comparative superiority over a single model has not been established.
 
-Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. The normal limit is two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas; a date-bound override can temporarily raise the daily request limit. Normal film playback makes zero automatic model requests. Asking the film crew explicitly uses three to six requests; the synthetic match uses one selection request per fresh round. Existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
+Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. The effective shared daily request ceiling is reported by `/api/health`; a date-bound override can temporarily raise the normal ceiling. Two model requests can be in flight, with zero-to-one hosting replicas. Normal film playback makes zero automatic model requests. Asking the film crew explicitly uses three to six requests; the synthetic match uses one selection request per fresh round. Existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
 
 Configuration: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT`, `AZURE_STORAGE_URL`, `AI_DAILY_LIMIT`, `ALLOWED_ORIGINS`, `PORT`. Frontend `api-config.json` contains only the public API origin. See [deployment instructions](docs/DEPLOYMENT.md) for the parameterized script, Bicep template and existing-resource prerequisites. Publish the static Site through its managed source workflow. Docker includes `api/` and `dist/`.
 
 To regenerate coordinate films, set `RENDER_FILMS=1`, run `node server.mjs`, open `/__studio`, and use `scripts/encode-films.ps1`. Player cutouts, gait and camera choreography are illustrative. Asset prompts and provenance remain in the repository.
 
-Continuous eventing, inferred player identity, calibrated video speed, xG, broad semantic evaluation, production-scale resilience and partner rendering remain outside the implemented prototype. The participant still needs the final under-two-minute demo recording, real viewer testing and submission. The creator confirmed permission to keep the generated film published on October 15, 2026; that confirmation is recorded in the provenance and does not grant third-party redistribution rights. See the judge guide for the recording plan.
+Continuous eventing, inferred player identity, calibrated video speed, xG, broad semantic evaluation, production-scale resilience and partner rendering remain outside the implemented prototype. The final submission video needs to show the current three-round discussion; real viewer testing and the submission itself are still pending. The creator confirmed permission to keep the generated film published on October 15, 2026; that confirmation is recorded in the provenance and does not grant third-party redistribution rights. See the judge guide for the recording plan.
 
 One-day request top-ups: set `AI_DAILY_LIMIT_OVERRIDE_DATE` to a UTC date (YYYY-MM-DD) and `AI_DAILY_LIMIT_OVERRIDE` to the approved total ceiling for that date. Health and request reservations use the same ceiling. The override expires automatically at midnight UTC; `AI_DAILY_LIMIT` remains the normal daily ceiling. Existing usage counters are never reset.
 

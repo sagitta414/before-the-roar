@@ -1,15 +1,15 @@
-// Preserve an unedited two-round synthetic discussion across a newly reached event.
+// Preserve an unedited three-round synthetic discussion across newly reached events.
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const origin = process.argv[2];
 if (!origin?.startsWith('https://')) throw Error('Pass the deployed HTTPS API origin');
-const path = 'docs/proof/live-next-event-v81.json';
+const path = 'docs/proof/live-next-event-v89.json';
 const health = await fetch(origin + '/api/health', { signal: AbortSignal.timeout(30000) }).then(r => r.json());
-if (health.usage.limit - health.usage.used < 2) throw Error('Two available requests required');
+if (health.usage.limit - health.usage.used < 3) throw Error('Three available requests required');
 const report = { schema:'btr.live-next-event.v1', recorded_at:new Date().toISOString(), before:health, rounds:[], complete:false, limits:'One live synthetic case; source-rendered public prose and one AI angle selection per round. Not a general quality score.' };
 await mkdir('docs/proof',{recursive:true});
 const save = () => writeFile(path,JSON.stringify(report,null,2)+'\n');
-for (const [time,question] of [[22,'Before the next pass arrives, what is established by this wide run?'],[26,'Now check the next recorded event against that reading. What changed, and what remains unproven?']]) {
+for (const [time,question] of [[22,'Before the next pass arrives, what is established by this wide run?'],[26,'Now check the next recorded pass against that reading. What changed?'],[31,'The shot is complete. What happened next, and what remains unproven?']]) {
  const parentKey=report.rounds.at(-1)?.events.find(e=>e.type==='conversation')?.data.id;
  const input={scenario:'wide',time,language:'en',mode:'analyst',focus:7,team:'harbor',corrected:false,question,...(parentKey?{parentKey}:{})};
  const round={input,events:[],started_at:new Date().toISOString()};report.rounds.push(round);await save();
