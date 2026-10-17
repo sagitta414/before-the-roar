@@ -46,6 +46,16 @@ export function broadcastInput(input) {
 }
 export function broadcastCue(input, sequence, now) {
   const s = input.source === "pitchside" ? pitchsideStory(input) : matchStory(input);
+  const evidence = s.evidence.slice(-6).map((record) => ({
+    id: record.id,
+    type: record.record_type || record.type || "event",
+    second: Number(record.second ?? record.end ?? s.cutoff),
+    description:
+      record.description ||
+      record.detail ||
+      [record.type, record.outcome].filter(Boolean).join(" · ") ||
+      "Recorded source",
+  }));
   return {
     schema: "btr.broadcast-cue.v1",
     sequence,
@@ -61,6 +71,19 @@ export function broadcastCue(input, sequence, now) {
     title: s.title,
     body: s.body,
     evidence_ids: s.evidence.map((e) => e.id),
+    evidence,
+    experience: {
+      team: input.team || "neutral",
+      focus: Number(input.focus) || null,
+      corrected: input.corrected === true || input.clipChallenge === true,
+      synthetic: true,
+    },
+    explanation: {
+      observation: s.analysis?.summary || s.title,
+      calculation: s.equation || null,
+      review: s.review?.reason || "The visible evidence supports this wording through the stated cutoff.",
+      decision: s.review?.decision || "retain",
+    },
     placement: "lower-left",
     display_duration_ms: 6000,
   };

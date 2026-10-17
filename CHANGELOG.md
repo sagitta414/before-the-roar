@@ -47,6 +47,14 @@
 
 This log reconstructs releases from the retained source, release notes and verification artifacts. It does not assert a public commit history or prove use of a coding assistant. The first public source export was a single snapshot; subsequent public commits record actual changes.
 
+## v91 / API 3.16.0 — Pocket Director
+
+- Added a phone-first companion with a broadcast-style live moment, four audience views, synthetic evidence pitch, source-to-screen explanation, counterfactual claim withdrawal, and streamed crew follow-ups.
+- Watch now creates a 30-minute read-only mobile session and scannable QR code. The phone follows the current source, clock, evidence revision, team and selected player over the existing authorized SSE channel.
+- Extended broadcast cues with bounded evidence summaries, personalization state, calculation and claim-review metadata. Reader credentials still cannot update or stop a room.
+- Added a persistent Pair Phone control across app views and a full interactive demo when live pairing is unavailable. The fallback is explicitly labeled and makes no false synchronization claim.
+- Added mobile layout QA at 390×844, interaction checks for audience switching, Show Me Why and Truth Lab, and broadcast-contract assertions. The full automated suite remains green.
+
 ## v42 / API 3.8.0 — football value and clearer evidence
 
 - Concrete football briefs compare the wide run with the central passing route, a recovery with the forward outlet, and the build-up with the shot outcome. The mathematical contribution uses passing gain, pressure distance or time from recovery to shot, with units and source IDs.
