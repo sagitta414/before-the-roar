@@ -11,11 +11,11 @@ test('tour controls advance all stages without RAF and resume after a hidden-tab
   set('window',w);for(const k of ['document','location','sessionStorage','CustomEvent','Event'])set(k,w[k]);set('performance',{now:()=>now});set('requestAnimationFrame',()=>0);set('fetch',async()=>new Response('{}',{status:404}));
   await import('../dist/guided-tour.js');
   const auto=[...document.querySelectorAll('button')].find(b=>b.textContent==='Play the 105-second tour');auto.click();
-  now=20000;tick();assert.equal(document.querySelector('.guided-steps [aria-current]').textContent,'2 · Discuss');assert.equal(document.querySelectorAll('.guided-role').length,5);
+  now=20000;tick();assert.equal(document.querySelector('.guided-steps [aria-current]').textContent,'2 · Investigate');assert.equal(document.querySelectorAll('.guided-role').length,5);
   hidden=true;document.dispatchEvent(new Event('visibilitychange'));assert.equal(auto.textContent,'Resume tour');now=120000;tick();assert.match(document.querySelector('.tour-progress').textContent,/20 \/ 105/);
-  hidden=false;document.dispatchEvent(new Event('visibilitychange'));auto.click();now=136000;tick();assert.match(document.querySelector('.guided-steps [aria-current]').textContent,/Measure/);
+  hidden=false;document.dispatchEvent(new Event('visibilitychange'));auto.click();now=136000;tick();assert.match(document.querySelector('.guided-steps [aria-current]').textContent,/Calculate/);
   now=160000;tick();assert.match(document.querySelector('.guided-verdict').textContent,/WITHDRAWN/);
-  now=191000;tick();assert.match(document.querySelector('.guided-steps [aria-current]').textContent,/Personalize/);assert.match(document.querySelector('.guided-caption').textContent,/ES/);
+  now=191000;tick();assert.match(document.querySelector('.guided-steps [aria-current]').textContent,/Publish/);assert.match(document.querySelector('.guided-caption').textContent,/ES/);
   now=205000;tick();assert.equal(auto.textContent,'Replay the 105-second tour');assert.match(document.querySelector('.tour-progress').textContent,/Tour complete · 105/);
  }finally{for(const [k,d]of saved){if(d)Object.defineProperty(globalThis,k,d);else delete globalThis[k];}w.close();}
 });

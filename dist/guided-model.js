@@ -1,11 +1,11 @@
 import {matchStory,localPanel,matchExport} from './match-story.js';
 import {editorialIssues} from './editorial-quality.js';
 export const GUIDE_STEPS=[
- {id:'watch',label:'Watch',title:'The run you didn’t see.',copy:'Follow the winger and the defender. Two completed passes move the ball forward while the players move toward the same side.'},
- {id:'discuss',label:'Discuss',title:'Five jobs. One football story.',copy:'Observation, explanation, calculation, challenge, then a takeaway. Each contribution has a different job and shares the same evidence cutoff.'},
- {id:'evidence',label:'Measure',title:'Measure the route toward goal.',copy:'Completed passes gain ground toward goal. Open the calculation to see exactly which events contribute; carries and off-ball runs are excluded.'},
- {id:'correct',label:'Challenge',title:'Change the record. Change the story.',copy:'Apply an alternate defender-tracking record. The movement claim is withdrawn immediately. The completed passes stay intact.'},
- {id:'audience',label:'Personalize',title:'Same facts. Your way into the game.',copy:'Switch the language and perspective. The on-screen caption changes while the source revision and event evidence stay attached.'}
+ {id:'watch',label:'Inject',title:'The run you didn’t see enters the room.',copy:'A synthetic tracking observation arrives at 67:18. The match state, evidence cutoff and source revision are shared across the experience.'},
+ {id:'discuss',label:'Investigate',title:'The crew disagrees with a purpose.',copy:'Scout observes. Vector measures. Check challenges the inference. Host can publish only what survives the evidence gate.'},
+ {id:'evidence',label:'Calculate',title:'Numbers with football meaning.',copy:'Vector calculates from the reached event records and exposes every input. The result advances the story without pretending to prove intent.'},
+ {id:'correct',label:'Correct',title:'One revision. Three visible consequences.',copy:'Compare the original and corrected tracking side by side. The calculation updates, the unsupported claim is withdrawn and the broadcast line changes.'},
+ {id:'audience',label:'Publish',title:'One trusted story. Every screen.',copy:'Publish the corrected state to Watch and a paired Pocket Director, then personalize its language and level without changing the evidence.'}
 ];
 export const SOURCE_LABELS={
  match:{title:'Measured match story',scope:'One authored 36-second sequence. Replay, statistics and corrections use the same synthetic coordinates.'},
