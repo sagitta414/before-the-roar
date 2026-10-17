@@ -39,6 +39,7 @@ test('film follow-up rejects stationary-defender claims absent from reviewed fra
  assert.equal(repeatsFilmUncertainty('The next touch will test whether the receiver can turn away from the defender.',[{role:'analyst',summary:'The attacker passes to a teammate with a nearby defender present.'}]),false);
  assert.equal(filmHostSkipsCheck('The outlet offers a passing option; the receiver can advance, pass again or hold.',packet),true);
  assert.equal(filmHostSkipsCheck('The pass connects with a teammate, but the defensive line’s reaction is unrecorded.',packet),true);
+ assert.equal(filmHostSkipsCheck('The successful reception indicates a viable outlet, yet the impact of the defender’s positioning on the receiver’s next move remains unproven.',packet),true);
  assert.equal(filmHostSkipsCheck('The local outlet is confirmed, but the wider defensive line is outside this shot; the next touch can test the exit.',packet),false);
 });
 
@@ -76,6 +77,25 @@ test('a rejected film Host draft gets one bounded editorial revision',async()=>{
   const desk=new MatchDesk(narrator,{clip:true,state:testState(store)}),posts=await desk.discuss({time:2,language:'en',mode:'fan'},()=>{});
   assert.equal(posts.at(-1).engine,'azure_openai');assert.equal(calls,4);assert.equal(reserved,4);assert.equal(repairSeen,true);
  }finally{global.fetch=savedFetch;for(const [key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
+});
+
+test('a rejected film Scout answer is repaired before publishing a reviewed note',async()=>{
+ const savedFetch=global.fetch,endpoint=process.env.AZURE_OPENAI_ENDPOINT,token=process.env.AZURE_ACCESS_TOKEN;
+ process.env.AZURE_OPENAI_ENDPOINT='https://example.test/';process.env.AZURE_ACCESS_TOKEN='test';
+ const cache=new Map();let calls=0,repairs=0;
+ const store={read:async k=>cache.get(k),write:async(k,v)=>cache.set(k,v),reserve:async()=>true},narrator={busy:0,store};
+ try{
+  global.fetch=async(_url,options)=>{
+   calls++;const body=JSON.parse(options.body),prompt=body.messages[0].content,repair=body.stream===false,scout=prompt.includes('Scout:'),guide=prompt.includes('Guide:');
+   if(repair){repairs++;assert.ok(scout);assert.match(prompt,/describe only the reached observation/);}
+   const text=scout?(repair?'The attacker touches the ball beside a nearby defender.':'The attacker is ready to beat the defender.'):guide?'Where is the ball after the touch?':'The next touch could show whether the attacker keeps the ball close.';
+   const post={...(guide?{viewing_question:text}:scout?{interpretation:text}:{takeaway:text,replay_cue:'Replay the attacker touching the ball beside the defender.'}),headline:'The close duel',caution:'The wider action is outside this shot.',evidence_ids:{primary:'pitchside-touch',secondary:null}};
+   const content=JSON.stringify({post});
+   return repair?Response.json({choices:[{message:{content}}],usage:{}}):new Response('data: '+JSON.stringify({choices:[{delta:{content}}]})+'\n\ndata: '+JSON.stringify({choices:[{delta:{},finish_reason:'stop'}]})+'\n\ndata: [DONE]\n\n');
+  };
+  const desk=new MatchDesk(narrator,{clip:true,state:testState(store)}),frames=[],posts=await desk.discuss({time:2,language:'en',mode:'fan'},(type,data)=>frames.push({type,data}));
+  assert.equal(calls,4);assert.equal(repairs,1);assert.equal(posts[0].engine,'azure_openai');assert.match(posts[0].summary,/touches the ball/);assert.ok(!frames.some(f=>f.type==='post'&&/ready to beat/.test(f.data.summary||'')));
+ }finally{global.fetch=savedFetch;for(const[key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
 });
 
 test('clip API rejects wrong assets and cutoffs before spending, accepts an empty evidence window',async()=>{
