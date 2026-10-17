@@ -1,5 +1,6 @@
 // A user-controlled welcome experience, independent of AI availability.
 (()=>{
+ if(new URLSearchParams(location.search).get('intro')==='enter'){const url=new URL(location.href);url.searchParams.delete('intro');history.replaceState(null,'',url);return;}
  const splash=document.createElement('dialog');splash.className='btr-splash';splash.setAttribute('aria-label','Welcome to Before the Roar');
  splash.innerHTML='<div class="btr-splash-top"><span>FOOTBALL. FROM EVERY ANGLE.</span><button type="button" autofocus>Skip intro ↗</button></div><div><div class="btr-splash-brand" aria-hidden="true">BTR<span>›</span></div><p class="btr-splash-name">BEFORE THE ROAR</p><h2>ONE MATCH.<br><em>EVERY PERSPECTIVE.</em></h2></div><div class="btr-splash-bottom"><div class="btr-splash-status"><span role="status">Opening your match room</span><small>WATCH · UNDERSTAND · CHALLENGE</small></div><div class="btr-splash-track" aria-hidden="true"><i></i></div></div>';
  const stage=document.createElement('div');stage.className='btr-splash-stage';stage.setAttribute('aria-hidden','true');
@@ -18,6 +19,7 @@
  const paths=document.createElement('div');paths.className='btr-entry-paths';paths.setAttribute('role','group');paths.setAttribute('aria-label','Choose your starting experience');
  for(const [id,label,description]of [['watch','Watch','Feel the moment'],['centre','Match Centre','Understand the play'],['truth','Truth Lab','Challenge the claim']]){const button=document.createElement('button');button.type='button';button.setAttribute('aria-label','Enter '+label);const title=document.createElement('strong'),detail=document.createElement('span');title.textContent=label;detail.textContent=description;button.append(title,detail);button.addEventListener('click',()=>{location.hash=id;dismiss();});paths.append(button);}entry.append(paths);
  document.body.append(splash);
+ const preview=document.createElement('a');preview.href='intro-preview.html';preview.textContent='Preview new intro ↗';preview.style.cssText='color:#b9c7d8;font:600 11px Arial,sans-serif;text-decoration:underline;text-underline-offset:4px';splash.querySelector('.btr-splash-top').insertBefore(preview,motion);
  if(typeof splash.showModal!=='function'){splash.remove();return;}
  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;let closed=false,paused=reduce||!!navigator.connection?.saveData;
  const film=document.createElement('video');film.className='btr-welcome-film';film.muted=true;film.loop=true;film.playsInline=true;film.preload='none';film.setAttribute('aria-hidden','true');film.tabIndex=-1;film.poster='assets/pitchside-minute-poster.jpg';stage.prepend(film);
