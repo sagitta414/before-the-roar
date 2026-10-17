@@ -2,7 +2,7 @@ import { receiptReplay } from "./receipt-replay.js";
 import { aiAvailability, availabilityText } from "./ai-availability.js?v=68";
 import { matchSession } from "./match-session.js";
 import { PITCHSIDE } from "./pitchside-story.js";
-import { recoveryProof } from "./recovery-proof.js?v=107";
+import { recoveryProof } from "./recovery-proof.js?v=108";
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
   if (cls) n.className = cls;
@@ -288,15 +288,22 @@ function renderHostReceipt(workflow, replayed = false) {
   if (hostReceipt.hidden) return;
   hostReceipt.replaceChildren();
   const top = el("div", "host-receipt-top");
+  const badge = replayed
+    ? "REPLAY · 0 NEW CALLS"
+    : completed
+      ? `LIVE · REQUEST #${completed.request_number}`
+      : post?.engine === "reviewed_fallback"
+        ? "FAILED · REVIEWED FALLBACK"
+        : "STORED · NO LIVE RECEIPT";
   top.append(
-    el("span", "execution-badge", replayed ? "REPLAY · 0 NEW CALLS" : "LIVE · REQUEST #4"),
+    el("span", "execution-badge", badge),
     el("b", "", "HOST · FINAL PUBLISH RECEIPT"),
   );
   hostReceipt.append(
     top,
     el("p", "", post?.summary || "The final Host contribution is stored."),
     el("small", "", [
-      completed?.execution_id ? `Execution ${completed.execution_id}` : "Stored receipt",
+      completed?.execution_id ? `Execution ${completed.execution_id}` : post?.selection_unavailable || "Stored receipt",
       completed?.latency_ms != null ? `${(completed.latency_ms / 1000).toFixed(2)}s` : null,
       "Received Scout + Guide + Vector + Check",
     ].filter(Boolean).join(" · ")),
@@ -348,9 +355,9 @@ function renderRecoveryVerdict(data) {
   proofVerdict.append(copy, numbers, checklist);
   const recoveryMap = el("div", "recovery-map");
   for (const [state, title, detail] of [
-    ["replay", "RESTORED", "Scout · Guide"],
-    ["deterministic", "RECALCULATED", "Vector · no model request"],
-    ["live", "EXECUTED AFTER RESTART", "Check · Host"],
+    ["replay", "RESTORED", proof.reused_roles.length ? proof.reused_roles.map((role) => roles[role]).join(" · ") : "None"],
+    ["deterministic", "RECALCULATED", proof.published_roles.includes("math") ? "Vector · no model request" : "None"],
+    ["live", "EXECUTED AFTER RESTART", proof.verified ? "Check · Host" : "None verified"],
   ]) {
     const item = el("div");
     item.dataset.state = state;
