@@ -584,6 +584,11 @@ truthAction.onclick = () => {
   workspace.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 document.querySelector("#truth .truth-evidence-details").after(truthAction);
+document.addEventListener('btr-run-recovery',()=>{
+  document.getElementById('inside-nav').click();
+  workspace.scrollIntoView({behavior:'smooth',block:'start'});
+  if(!busy)fault.click();
+});
 
 const dataPanel = el("section", "proof-dataset"),
   dataHead = el("div", "proof-heading"),

@@ -7,6 +7,7 @@ import { matchSession } from "./match-session.js";
 import { SCENARIOS } from "./engine.js";
 import { PRESENTER_PROFILES } from "./presenter-profiles.js";
 import { ROLE_LABELS } from "./editorial-roles.js";
+import {judgeProof} from './judge-mode-model.js';
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
   if (cls) n.className = cls;
@@ -37,19 +38,21 @@ let active = false,
   pack = null,
   playing = false,
   lastFrame = 0;
+let judgeRun=judgeProof(),pocketState={connected:false};
+document.addEventListener('btr-pocket-status',event=>{pocketState=event.detail||{connected:false};if(active&&step===4)render();});
 const tourClock = createTourClock();
 const launcher = el("section", "guided-launch"),
   intro = el("div");
 intro.append(
-  el("span", "eyebrow", "START HERE / THE BTR EXPERIENCE"),
-  el("strong", "", "One play. Every perspective. A story you can question."),
+  el("span", "eyebrow", "JUDGE MODE / THE DEFINING BTR MOMENT"),
+  el("strong", "", "One event. Five specialists. One correction every screen can trust."),
   el(
     "p",
     "",
-    "Follow the football, meet the crew, and see the explanation change when the evidence changes.",
+    "Inject a new synthetic observation, watch the crew challenge it, revise the evidence and publish the corrected explanation.",
   ),
 );
-const open = button("Explore the guided match →", () => enter(), "red-button"),
+const open = button("Run the defining moment →", () => enter(), "red-button"),
   filmButton = button("Watch the 60-second film", () => leave("pitchside"));
 launcher.append(intro, open, filmButton);
 launcher.append(button('Change the evidence →',()=>{leave('match');openTruthDemo();}));
@@ -60,8 +63,8 @@ tour.hidden = true;
 tour.setAttribute("aria-label", "Guided match demonstration");
 launcher.after(tour);
 const top = el("div", "guided-top"),
-  badge = el("b", "", "INTERACTIVE DEMO · NO AI REQUESTS"),
-  source = el("span", "", "SYNTHETIC MATCH · THE UNSEEN RUN"),
+  badge = el("b", "", "LIVE SESSION PROOF · NO AI REQUESTS"),
+  source = el("span", "", "NEW SESSION EVENT · THE UNSEEN RUN"),
   auto = button("Play the 105-second tour", () => {
     const state = tourClock.read();
     playing = false;
@@ -289,14 +292,17 @@ function sync() {
 function enter() {
   document.getElementById("film").pause();
   active = true;
+  const startedAt=Date.now();
+  judgeRun=judgeProof({runId:`judge-${startedAt.toString(36)}`,startedAt});
   document.body.classList.add("guided-active");
   tour.hidden = false;
-  open.textContent = "Restart guided match ↺";
+  open.textContent = "Restart defining moment ↺";
   document.dispatchEvent(new CustomEvent("btr-guided-activity", { detail: true }));
   matchSession.set({ scenario: "wide", source: "match" }, "guided");
   options.time = 16;
   step = 0;
   options.corrected = false;
+  document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'ingest',revision:1,runId:judgeRun.run_id}}));
   render();
 }
 function leave(source) {
@@ -305,7 +311,7 @@ function leave(source) {
   active = false;
   tour.hidden = true;
   document.body.classList.remove("guided-active");
-  open.textContent = "Explore the guided match →";
+  open.textContent = "Run the defining moment →";
   document.dispatchEvent(new CustomEvent("btr-guided-activity", { detail: false }));
   matchSession.set({ source }, "guided-exit");
   try {
@@ -354,6 +360,8 @@ function render() {
     if (options.time < 16)
       description.textContent =
         "Follow the ball, winger and defender as the recorded play arrives. The caption uses only evidence through the current playhead.";
+    const receipt=el('div','judge-ingest');
+    receipt.append(el('span','','● EVENT RECEIVED'),el('strong','',judgeRun.event.id),el('code','',new Date(judgeRun.event.received_at).toISOString()),el('small','',judgeRun.event.source+' · '+judgeRun.event.match_clock+' · SOURCE R1'));
     const fact = el("div", "guided-verdict");
     fact.append(
       el("strong", "", "WATCH THE WIDE CHANNEL"),
@@ -366,16 +374,17 @@ function render() {
       ),
     );
     content.append(
-      fact,
+      receipt,fact,
       el(
         "p",
         "guided-note",
-        "Replay the first sixteen seconds, or move straight to the crew. All positions and events are authored synthetic data.",
+        "This event is newly injected into this browser session. It is authored synthetic data, not a claim of a live stadium feed.",
       ),
     );
   } else if (step === 1) {
-    for (const p of snapshot.posts) {
-      const profile = PRESENTER_PROFILES.find((r) => r.id === p.role),
+    const ids={Scout:'analyst',Guide:'guide',Vector:'math',Check:'reviewer',Host:'presenter'};
+    for (const p of judgeRun.handoffs.slice(0,5)) {
+      const profile = PRESENTER_PROFILES.find((r) => r.id === ids[p.role]),
         row = el("article", "guided-role"),
         img = el("img");
       img.src = `assets/${profile.image}-portrait.webp`;
@@ -383,27 +392,20 @@ function render() {
       const text = el("div"),
         meta = el("div");
       meta.append(
-        el("b", "", profile.name + " / " + ROLE_LABELS[options.language][p.role]),
+        el("b", "", profile.name + " / " + p.action),
         el(
           "small",
           "",
-          p.engine === "azure_openai"
-            ? "SAVED AI"
-            : p.engine === "calculated"
-              ? "CALCULATED"
-              : p.engine === "evidence_rules"
-                ? "SOURCE CHECK"
-                : "REVIEWED NOTE",
+          p.role==='Vector'?'CALCULATED':p.role==='Check'?'EVIDENCE GATE':'SOURCE-BOUND',
         ),
       );
       text.append(meta, el("p", "", p.summary));
       const detail = el("details");
       detail.append(
         el("summary", "", "Evidence + limits"),
-        el("code", "", p.evidence_ids.join(" · ")),
+        el("code", "", p.evidence.join(" · ")),
       );
-      if (p.working) detail.append(el("code", "", p.working));
-      if (p.caution) detail.append(el("p", "", p.caution));
+      if(p.role==='Check')detail.append(el('p','guided-disagreement','CHALLENGE ACCEPTED · Host must preserve this limit.'));
       text.append(detail);
       row.append(img, text);
       content.append(row);
@@ -444,12 +446,17 @@ function render() {
       el("strong", "", options.corrected ? "WITHDRAWN · R2" : "QUALIFIED · R1"),
       el("span", "", snapshot.story.review.reason),
     );
+    const comparison=el('div','judge-comparison');
+    for(const [label,item] of [['ORIGINAL · R1',judgeRun.original],['CORRECTED · R2',judgeRun.corrected]]){const card=el('article');card.append(el('small','',label),el('strong','',item.measurement),el('p','',item.narrative),el('code','',item.evidence_id));comparison.append(card);}
+    const consequences=el('div','judge-consequences');
+    for(const [ok,label] of [[judgeRun.outcomes.calculation_updated,'CALCULATION UPDATED'],[judgeRun.outcomes.claim_withdrawn,'CLAIM WITHDRAWN'],[judgeRun.outcomes.narrative_changed,'NARRATIVE CHANGED'],[judgeRun.outcomes.unaffected_facts_preserved,'2 PASSES PRESERVED']])consequences.append(el('span',ok?'pass':'fail',(ok?'✓ ':'× ')+label));
     content.append(
-      verdict,
+      comparison,consequences,verdict,
       button(
         options.corrected ? "Restore original record" : "Apply corrected tracking",
         () => {
           options.corrected = !options.corrected;
+          document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'correction',revision:options.corrected?2:1,runId:judgeRun.run_id}}));
           render();
         },
         "red-button",
@@ -459,6 +466,7 @@ function render() {
         "guided-note",
         `${snapshot.story.stats} The pass records do not change. The caption and defender position update together.`,
       ),
+      button('Run the real interruption + recovery proof ↗',()=>{leave('match');document.dispatchEvent(new Event('btr-run-recovery'));}),
     );
   } else {
     const preferences = el("div", "guided-preferences");
@@ -499,7 +507,11 @@ function render() {
       label.append(select);
       preferences.append(label);
     }
+    const delivery=el('div','judge-delivery');
+    delivery.append(el('article','',`WATCH PARTY\nR${snapshot.story.revision} · ${snapshot.story.clock}`),el('article','',pocketState.connected?`POCKET DIRECTOR\nSYNCED · R${pocketState.revision||snapshot.story.revision}`:'POCKET DIRECTOR\nPAIR A PHONE TO PROVE LIVE SYNC'));
+    const publish=button('Publish corrected story to both screens →',()=>{options.corrected=true;sync();document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'publish',revision:2,runId:judgeRun.run_id}}));render();},'red-button');
     content.append(
+      delivery,publish,
       preferences,
       el(
         "p",
