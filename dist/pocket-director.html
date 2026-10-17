@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#090d15">
   <title>BTR Pocket Director</title>
   <meta name="description" content="A synchronized, evidence-first football companion from Before the Roar.">
-  <link rel="stylesheet" href="pocket-director.css?v=91">
+  <link rel="stylesheet" href="pocket-director.css?v=97">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -38,12 +38,13 @@
     </section>
 
     <section class="pitch-card" aria-labelledby="pitch-title">
-      <div class="section-heading"><div><span>LIVE EVIDENCE MAP</span><h2 id="pitch-title">What the explanation is looking at</h2></div><button id="focus-toggle">FOLLOW 7</button></div>
+      <div class="section-heading"><div><span>LIVE MOMENT MAP</span><h2 id="pitch-title">Who matters right now</h2></div><button id="focus-toggle">FOLLOW 7</button></div>
       <div class="pitch-shell">
         <svg id="pitch" viewBox="0 0 105 68" role="img" aria-label="Synthetic player positions and movement evidence"></svg>
         <div class="pitch-watermark">SYNTHETIC TRACKING</div>
       </div>
       <div class="evidence-caption"><span id="evidence-count">0 SOURCES</span><p id="pitch-caption">The exact players and source records behind this claim.</p></div>
+      <div class="pitch-legend"><span><i class="home"></i>HARBOR</span><span><i class="away"></i>NORTHBRIDGE</span><span><i class="focus"></i>FOCUS</span></div>
     </section>
 
     <section class="proof-sheet" id="proof-sheet" aria-labelledby="proof-title" hidden>
@@ -58,14 +59,14 @@
 
     <section class="truth-card" aria-labelledby="truth-title">
       <div class="truth-icon"><span></span></div>
-      <div><span>TRUTH LAB / WHAT IF?</span><h2 id="truth-title">Move one defender. Test the story.</h2><p id="truth-copy">Create a clearly labelled simulation on your phone and see which explanation survives.</p></div>
+      <div><span>TRUTH LAB / WHAT IF?</span><h2 id="truth-title">Change one fact. Test the story.</h2><p id="truth-copy">See which explanation survives when the evidence changes.</p></div>
       <button id="challenge">CHANGE THE EVIDENCE <b>↗</b></button>
       <div id="change-result" class="change-result" hidden aria-live="polite"></div>
     </section>
 
     <section class="ask-card" aria-labelledby="ask-title">
-      <div class="section-heading"><div><span>ASK THE CREW</span><h2 id="ask-title">Your question. Their next round.</h2></div><span class="stream-mark"><i></i> STREAMING</span></div>
-      <div id="crew-stream" class="crew-stream"><p class="ask-empty">Ask what to watch, what a number means, or what the evidence cannot prove.</p></div>
+      <div class="section-heading"><div><span>ASK THE CREW</span><h2 id="ask-title">Ask the next question.</h2></div><span class="stream-mark"><i></i> LIVE</span></div>
+      <div id="crew-stream" class="crew-stream"><p class="ask-empty">What did I miss? What does the number mean? What can’t the evidence prove?</p></div>
       <form id="ask-form">
         <button type="button" id="voice" aria-label="Ask by voice">⌁</button>
         <input id="question" maxlength="180" placeholder="Ask about this moment…" autocomplete="off">
@@ -78,6 +79,6 @@
 
   <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-scroll="top"><i>●</i>LIVE</button><button data-scroll="pitch"><i>⌖</i>EVIDENCE</button><button data-scroll="truth-title"><i>◇</i>WHAT IF</button><button data-scroll="ask-title"><i>✦</i>ASK</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=91"></script>
+  <script type="module" src="pocket-director.js?v=97"></script>
 </body>
 </html>
