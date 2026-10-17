@@ -6,6 +6,8 @@ The connected-match release places beginner, math and tactical readings beside t
 
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
+**Pocket Director:** https://before-the-roar.sagitta107.chatgpt.site/pocket-director.html
+
 **Start the guided match:** https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
 
 **Current changes and measured limits:** [CHANGELOG.md](CHANGELOG.md) · [verification record](docs/proof/v44-verification.json)
@@ -58,7 +60,9 @@ Blob ETags reject stale writes. Proof runs last thirty minutes, use distinct rea
 
 Fan, beginner, math, tactical and player modes support English, Spanish and Portuguese. All 22 fictional players and both clubs are selectable in the synthetic replay. Facts, denominators, units and source IDs survive personalization.
 
-Watch's transparent `overlay.html` uses Azure SSE and six-second stale-cue expiry. Production proof output polls its persisted authority every second and works independently of the producer tab until its thirty-minute expiry. Both publish deterministic evidence-bound captions; AI drafts do not go directly to air. A commercial rendering partner is not connected.
+Pocket Director is a responsive second-screen experience paired from Watch with a scannable, read-only session link. It follows the active clock, source, evidence revision, language, team and player over the existing Azure SSE broadcast room. On the phone, a viewer can switch among beginner, math, tactical and player explanations, reveal the source-to-screen chain, inspect a synthetic pitch map, ask a voice or typed follow-up, and run a clearly labeled counterfactual that withdraws only the affected claim. If the live room is unavailable, the page opens an explicit interactive demo rather than pretending to be synchronized.
+
+Watch's transparent `overlay.html` and Pocket Director use Azure SSE and read-only capabilities. Broadcast cues expire from the overlay after six seconds; the phone retains the last received reviewed moment and labels a stopped session. Production proof output polls its persisted authority every second and works independently of the producer tab until its thirty-minute expiry. Public AI drafts do not go directly to air. A commercial rendering partner is not connected.
 
 Truth Lab's actual-frame Azure vision review receives JPEGs without authored observations or generation prompts. Results remain **unverified candidates**, separate from match statistics. It is not continuous automatic event detection or calibrated tracking.
 
