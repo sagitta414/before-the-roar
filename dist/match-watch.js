@@ -47,6 +47,7 @@ let state = matchSession.get(),
   started = false,
   selected = null,
   narrativeOnly = false,
+  deskOnly = false,
   voices = false,
   speechKey = "",
   lastRender = 0;
@@ -426,6 +427,64 @@ function render() {
     if (cutoff !== null) requestPanel("", cutoff, false);
   }
 }
+const receiptTools = {
+  analyst: ["EVIDENCE ANGLE SELECTOR", "Reached records", "Candidate angle"],
+  guide: ["FOOTBALL CONCEPT GUIDE", "Scout handoff", "Plain-language test"],
+  math: ["SYNTHETIC METRIC CALCULATOR", "Event geometry + units", "Verified calculation"],
+  reviewer: ["EVIDENCE CONTRACT GUARD", "Claims + source IDs", "Publish / hold verdict"],
+  presenter: ["BROADCAST COMPOSER", "Four specialist handoffs", "On-screen takeaway"],
+};
+function receiptEngine(post) {
+  return {
+    azure_selection: "AZURE AI",
+    azure_openai: "AZURE AI",
+    calculated: "CODE",
+    evidence_rules: "RULES",
+    reviewed_fallback: "REVIEWED",
+  }[post?.engine] || (post ? "SOURCE" : "QUEUED");
+}
+function renderReceipts(thread, list, evidence) {
+  const box = $("tool-receipts");
+  if (!box) return;
+  const evidenceCount = evidence?.length || 0,
+    run = $("receipt-run");
+  run.textContent = thread
+    ? `ROUND ${thread.round || 1} · ${thread.cached ? "SAVED RUN" : thread.pending ? "RUNNING LIVE" : thread.fallback ? "REVIEWED FALLBACK" : "DELIVERED"}`
+    : "READY · NO MODEL REQUEST";
+  box.replaceChildren();
+  for (const [index, profile] of profiles.entries()) {
+    const post = list.find((item) => item.role === profile.id),
+      draft = thread?.drafts.get(profile.id),
+      working = !!draft || (!!thread?.pending && thread.speaker === profile.id),
+      status = post ? "complete" : working ? "working" : "waiting",
+      [tool, input, output] = receiptTools[profile.id],
+      card = el("article", "tool-receipt");
+    card.dataset.status = status;
+    const head = el("div", "receipt-head"),
+      identity = el("div"),
+      route = el("div", "receipt-route"),
+      meta = el("div", "receipt-meta"),
+      stateLabel = status === "complete" ? "RECEIPT" : status === "working" ? "RUNNING" : "STANDBY";
+    identity.append(el("b", "", profile.name.toUpperCase()), el("small", "", tool));
+    head.append(el("span", "receipt-index", String(index + 1).padStart(2, "0")), identity, el("span", "receipt-state", stateLabel));
+    route.append(el("span", "", input), el("i", "", "→"), el("span", "", output));
+    const text = post?.summary || draft?.summary || (status === "working" ? "Processing the reached evidence…" : "Waiting for the previous editorial handoff.");
+    card.append(head, route, el("p", "receipt-output", text));
+    meta.append(el("span", "engine", receiptEngine(post)));
+    const ids = post?.evidence_ids?.length ? post.evidence_ids.slice(-2) : evidence?.slice(-2).map((item) => item.id) || [];
+    meta.append(el("span", "", `${ids.length} SOURCE${ids.length === 1 ? "" : "S"}`));
+    for (const id of ids) meta.append(el("span", "", id));
+    card.append(meta);
+    box.append(card);
+  }
+  const summary = el("div", "receipt-summary"),
+    delivery = thread?.cached ? "CACHED" : thread?.total != null ? `${(thread.total / 1000).toFixed(1)}s` : thread?.pending ? "STREAMING" : "INSTANT",
+    request = thread ? (isClip() ? "FILM DESK" : "ONE ROUND") : "NONE";
+  for (const [label, value] of [["EVIDENCE", `${evidenceCount} RECORDS`], ["DELIVERY", delivery], ["MODEL REQUEST", request]]) {
+    const item = el("span", "", label); item.append(el("b", "", value)); summary.append(item);
+  }
+  box.append(summary);
+}
 function renderPanel() {
   $("request-panel").textContent=isClip()?"Ask the crew · 3–6 requests":"Ask the crew · 1 AI request";
   const thread = activeThread(),
@@ -443,9 +502,11 @@ function renderPanel() {
     selected,
     mobileVoice, mobileAll, window.matchMedia("(max-width:760px)").matches,
     narrativeOnly,
+    deskOnly,
     thread ? 0 : Math.floor(viewTime() * 4),
     state.corrected,
   ].join("|");
+  renderReceipts(thread, list, discussionEvidence);
   if ($("conversation").dataset.signature === signature) return;
   $("conversation").dataset.signature = signature;
   const box = $("conversation"),
@@ -907,12 +968,13 @@ document.addEventListener("btr-request-contributions", () => {
 });
 document.addEventListener("btr-profile-role", (e) => {
   navigate("watch");
+  $("room-tab").click();
   selected = profiles.some((p) => p.id === e.detail) ? e.detail : null;
-  narrativeOnly = false;
   renderPanel();
 });
 document.addEventListener("btr-agent-question", (e) => {
   navigate("watch");
+  $("room-tab").click();
   selected = e.detail.role;
   $("question").value = e.detail.question;
   renderPanel();
@@ -989,38 +1051,32 @@ $("all-agents").onclick = () => {
   selected = null;
   renderPanel();
 };
-for (const [id, value] of [
-  ["room-tab", false],
-  ["narrative-tab", true],
-])
-  $(id).onclick = () => {
-    narrativeOnly = value;
+const roomViews = ["room", "narrative", "desk"];
+for (const view of roomViews)
+  $(view + "-tab").onclick = () => {
+    narrativeOnly = view === "narrative";
+    deskOnly = view === "desk";
     selected = null;
-    for (const [tab, on] of [
-      ["room", !value],
-      ["narrative", value],
-    ]) {
+    document.querySelector(".party").classList.toggle("desk-view", deskOnly);
+    for (const tab of roomViews) {
+      const on = tab === view;
       $(tab + "-tab").setAttribute("aria-selected", String(on));
       $(tab + "-panel").hidden = !on;
     }
     renderPanel();
   };
-for (const id of ["room-tab", "narrative-tab"])
+for (const [index, view] of roomViews.entries()) {
+  const id = view + "-tab";
   $(id).onkeydown = (e) => {
     if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) {
       e.preventDefault();
-      const next =
-        e.key === "Home"
-          ? "room-tab"
-          : e.key === "End"
-            ? "narrative-tab"
-            : id === "room-tab"
-              ? "narrative-tab"
-              : "room-tab";
+      const nextIndex = e.key === "Home" ? 0 : e.key === "End" ? roomViews.length - 1 : (index + (e.key === "ArrowRight" ? 1 : -1) + roomViews.length) % roomViews.length,
+        next = roomViews[nextIndex] + "-tab";
       $(next).click();
       $(next).focus();
     }
   };
+}
 $("voices").onclick = () => {
   if (!("speechSynthesis" in window)) return toast("Device voices are unavailable.");
   voices = !voices;
