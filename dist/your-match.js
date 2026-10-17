@@ -10,7 +10,9 @@ const words={
 };
 const section=el('section','your-match');section.setAttribute('aria-label','Your personalized match');
 const watch=el('section','your-match-watch');watch.setAttribute('aria-label','Personalized match highlight');
-document.querySelector('#centre .centre-journey')?.after(section);
+const journey=document.querySelector('#centre .centre-journey'),pitchPanel=document.querySelector('#centre .formation-panel');
+function place(){if(window.matchMedia('(max-width:760px)').matches){if(section.parentElement!==pitchPanel)pitchPanel?.append(section);}else if(section.previousElementSibling!==journey)journey?.after(section);}
+place();window.addEventListener('resize',place);
 document.querySelector('#watch .match-actions')?.after(watch);
 const persist=s=>{try{localStorage.setItem('btr-your-match-v1',JSON.stringify({insightPace:s.insightPace,insightDetail:s.insightDetail}));}catch{}};
 const setProfile=patch=>{matchSession.set(patch,'your-match');const s=matchSession.get();try{localStorage.setItem('btr-preferences-v1',JSON.stringify({language:s.language,mode:s.mode,team:s.team,focus:s.focus}));}catch{}};
