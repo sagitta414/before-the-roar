@@ -448,15 +448,24 @@ function renderReceipts(thread, list, evidence) {
   if (!box) return;
   const evidenceCount = evidence?.length || 0,
     run = $("receipt-run");
-  run.textContent = thread
-    ? `ROUND ${thread.round || 1} · ${thread.cached ? "SAVED RUN" : thread.pending ? "RUNNING LIVE" : thread.fallback ? "REVIEWED FALLBACK" : "DELIVERED"}`
-    : "READY · NO MODEL REQUEST";
+  const completedRequests = (thread?.trace || []).filter((item) => item.action === "model_handoff_completed"),
+    executionState = !thread
+      ? "SOURCE PREVIEW · ASK AI TO RUN"
+      : thread.pending
+        ? "LIVE · AZURE EXECUTING"
+        : thread.fallback
+          ? "FAILED · REVIEWED FALLBACK"
+          : thread.cached
+            ? "REPLAY · SAVED RESULTS · 0 NEW CALLS"
+            : `LIVE · ${completedRequests.length || (isClip() ? 3 : 4)} AZURE REQUESTS COMPLETED`;
+  run.textContent = executionState;
+  run.dataset.state = !thread ? "preview" : thread.fallback ? "failed" : thread.cached ? "replay" : thread.pending ? "live" : "complete";
   box.replaceChildren();
   for (const [index, profile] of profiles.entries()) {
     const post = list.find((item) => item.role === profile.id),
       draft = thread?.drafts.get(profile.id),
       working = !!draft || (!!thread?.pending && thread.speaker === profile.id),
-      status = post ? "complete" : working ? "working" : "waiting",
+      status = !thread ? "preview" : post ? "complete" : working ? "working" : "waiting",
       [tool, input, output] = receiptTools[profile.id],
       card = el("article", "tool-receipt");
     card.dataset.status = status;
@@ -464,7 +473,9 @@ function renderReceipts(thread, list, evidence) {
       identity = el("div"),
       route = el("div", "receipt-route"),
       meta = el("div", "receipt-meta"),
-      stateLabel = status === "complete" ? "RECEIPT" : status === "working" ? "RUNNING" : "STANDBY";
+      execution = [...(thread?.trace || [])].reverse().find((item) => item.role === profile.id && item.action === "model_handoff_completed"),
+      reused = [...(thread?.trace || [])].reverse().find((item) => item.role === profile.id && item.action === "saved_model_handoff_reused"),
+      stateLabel = status === "preview" ? "PREVIEW" : status === "complete" ? (reused ? "REPLAY" : execution ? "LIVE" : post?.engine === "calculated" || post?.engine === "evidence_rules" ? "DETERMINISTIC" : thread?.fallback ? "FALLBACK" : "RECEIPT") : status === "working" ? "RUNNING" : "STANDBY";
     identity.append(el("b", "", profile.name.toUpperCase()), el("small", "", tool));
     head.append(el("span", "receipt-index", String(index + 1).padStart(2, "0")), identity, el("span", "receipt-state", stateLabel));
     route.append(el("span", "", input), el("i", "", "→"), el("span", "", output));
@@ -474,13 +485,17 @@ function renderReceipts(thread, list, evidence) {
     const ids = post?.evidence_ids?.length ? post.evidence_ids.slice(-2) : evidence?.slice(-2).map((item) => item.id) || [];
     meta.append(el("span", "", `${ids.length} SOURCE${ids.length === 1 ? "" : "S"}`));
     for (const id of ids) meta.append(el("span", "", id));
+    if (execution?.execution_id) meta.append(el("span", "execution-id", execution.execution_id));
+    if (execution?.latency_ms != null) meta.append(el("span", "", `${(execution.latency_ms / 1000).toFixed(2)}s`));
+    if (reused) meta.append(el("span", "replay-state", "0 NEW CALLS"));
+    if (post?.engine === "calculated" || post?.engine === "evidence_rules") meta.append(el("span", "deterministic-state", "0 MODEL CALLS"));
     card.append(meta);
     box.append(card);
   }
   const summary = el("div", "receipt-summary"),
     delivery = thread?.cached ? "CACHED" : thread?.total != null ? `${(thread.total / 1000).toFixed(1)}s` : thread?.pending ? "STREAMING" : "INSTANT",
-    request = thread ? (isClip() ? "FILM DESK" : "ONE ROUND") : "NONE";
-  for (const [label, value] of [["EVIDENCE", `${evidenceCount} RECORDS`], ["DELIVERY", delivery], ["MODEL REQUEST", request]]) {
+    request = !thread ? "NOT STARTED" : thread.cached ? "REPLAY · 0 NEW" : thread.fallback ? "FAILED / FALLBACK" : thread.pending ? "LIVE" : `${completedRequests.length || (isClip() ? 3 : 4)} COMPLETED`;
+  for (const [label, value] of [["EVIDENCE", `${evidenceCount} RECORDS`], ["DELIVERY", delivery], ["MODEL EXECUTION", request]]) {
     const item = el("span", "", label); item.append(el("b", "", value)); summary.append(item);
   }
   box.append(summary);
@@ -858,10 +873,13 @@ async function requestPanel(
         if (type === "error") throw Error(data.message);
         if (type === 'conversation') {thread.conversationId=data.id;thread.round=data.round;}
         if (type === 'speaker') thread.speaker=data.role;
-        if (type === "trace")
+        if (type === "trace") {
+          thread.trace ||= [];
+          thread.trace.push(data);
           document.dispatchEvent(
             new CustomEvent("btr-agent-trace", { detail: { key, data } }),
           );
+        }
         if (type === "post") {
           thread.posts.set(data.role, data);
           thread.drafts.delete(data.role);

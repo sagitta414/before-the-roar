@@ -12,6 +12,7 @@
 .tool-receipt{position:relative;border:1px solid #2c405b;background:linear-gradient(135deg,#14243a,#101a2a);padding:11px 12px;overflow:hidden}
 .tool-receipt:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:#59708e}
 .tool-receipt[data-status="complete"]:before{background:var(--lime)}.tool-receipt[data-status="working"]:before{background:#ffbd4a;animation:receiptPulse 1.2s infinite}.tool-receipt[data-status="waiting"]{opacity:.68}
+.tool-receipt[data-status="preview"]:before{background:#6f8bab}.tool-receipt[data-status="preview"]{opacity:.84}.tool-receipt[data-status="preview"] .receipt-state{color:#a8c1df}
 .receipt-head{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:8px}
 .receipt-index{width:24px;height:24px;border:1px solid #49617e;display:grid;place-items:center;color:#a9bdd7;font:800 8px ui-monospace,monospace}
 .receipt-head b{font-size:9px;letter-spacing:.7px}.receipt-head small{display:block;color:#728aa9;font-size:7px;margin-top:3px}
@@ -20,6 +21,7 @@
 .receipt-route span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.receipt-route i{font-style:normal;color:#4d6684}
 .receipt-output{font-size:9px;line-height:1.55;color:#c2d0e2;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .receipt-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}.receipt-meta span{font-size:6px;letter-spacing:.6px;padding:4px 5px;background:#0c1726;border:1px solid #2b405a;color:#829ab9}.receipt-meta .engine{color:#d8e7f8;border-color:#48617e}
+.receipt-meta .execution-id{color:#cbff71;border-color:#66882c;max-width:100%;overflow-wrap:anywhere}.receipt-meta .replay-state{color:#83bdff;border-color:#376893}.receipt-meta .deterministic-state{color:#d1a2ff;border-color:#714998}.desk-intro>b[data-state=live],.desk-intro>b[data-state=complete]{color:#d8ff8e;border-color:#66882c}.desk-intro>b[data-state=replay]{color:#8dc4ff;border-color:#376893}.desk-intro>b[data-state=failed]{color:#ff9ba4;border-color:#9b3d49}
 .receipt-summary{margin:0 12px 12px;padding:11px 12px;border:1px solid #344c69;background:#0c1624;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .receipt-summary span{font-size:6px;color:#7087a5;letter-spacing:.6px}.receipt-summary b{display:block;color:#d7e5f5;font-size:9px;margin-top:4px}
 .receipt-scope{font-size:7px;line-height:1.6;color:#617895;margin:0 18px 18px;padding-top:10px;border-top:1px solid #263b56}
