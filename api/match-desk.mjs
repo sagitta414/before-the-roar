@@ -47,7 +47,9 @@ export function repeatsFilmUncertainty(summary, previous=[]) {
 }
 export function filmHostSkipsCheck(summary, packet) {
   if(!['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id))return false;
-  return !/(?:line|defen|beyond|outside|unverified|unknown|cannot confirm|not establish|línea|defens|fuera|desconoc|não confirm|fora|linha)/i.test(summary);
+  const boundary=/(?:line|defen|beyond|outside|unverified|unknown|cannot confirm|not establish|línea|defens|fuera|desconoc|não confirm|fora|linha)/i.test(summary);
+  const nextTest=/(?:next|following|touch|turn|release|exit|siguiente|próxim|toque|salida|saída|soltar)/i.test(summary);
+  return !boundary||!nextTest;
 }
 function reviewedClipChallenge(packet,role){
   const pass=['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id),l=['en','es','pt'].indexOf(packet.language);

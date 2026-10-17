@@ -38,6 +38,7 @@ test('film follow-up rejects stationary-defender claims absent from reviewed fra
  assert.equal(repeatsFilmUncertainty('The completed pass indicates a connection, but the defender’s control over space remains unverified.',[{role:'analyst',summary:'The attacker passes to a teammate with a nearby defender present. The defender’s control is unknown.'}]),true);
  assert.equal(repeatsFilmUncertainty('The next touch will test whether the receiver can turn away from the defender.',[{role:'analyst',summary:'The attacker passes to a teammate with a nearby defender present.'}]),false);
  assert.equal(filmHostSkipsCheck('The outlet offers a passing option; the receiver can advance, pass again or hold.',packet),true);
+ assert.equal(filmHostSkipsCheck('The pass connects with a teammate, but the defensive line’s reaction is unrecorded.',packet),true);
  assert.equal(filmHostSkipsCheck('The local outlet is confirmed, but the wider defensive line is outside this shot; the next touch can test the exit.',packet),false);
 });
 

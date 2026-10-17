@@ -9,6 +9,7 @@
 - Azure logs showed a Host draft praising a pass's “importance” instead of giving its implication. A bounded revision now retries that rejected Host output once, preserving the raw rejected draft and the same evidence cutoff.
 - A live retry copied that rejected “importance” wording. The repair prompt now omits the rejected prose and bans that phrasing explicitly. Scout's “readiness to progress” is also rejected because the reviewed frames cannot establish mental readiness.
 - A later complete AI run still had Host echo Scout's list of receiver choices. For received-pass scenes, Host now has to integrate Check's unverified wider-line boundary; the revision prompt makes that contrast explicit.
+- The public pass-scene test then showed a Host caveat without a useful next action. The pass-scene acceptance check now requires both the defensive boundary and a concrete next-touch or exit test in Host's takeaway.
 - Film Scout retrieves the known reviewed source directly. A fresh film round normally uses three model requests instead of four; one rejected Host draft may require a fourth. Saved exact-evidence rounds use none.
 - The revision path has a focused model-response test; the full suite passes 211 tests. Public browser testing verified the first-moment review and carried-forward roles. Independent human ratings remain pending.
 
