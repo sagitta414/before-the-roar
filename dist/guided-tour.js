@@ -5,7 +5,7 @@ import {openTruthDemo} from './truth-spotlight.js';
 import { createMatchPitch } from "./match-pitch.js";
 import { matchSession } from "./match-session.js";
 import { SCENARIOS } from "./engine.js";
-import { PRESENTER_PROFILES } from "./presenter-profiles.js";
+import { PRESENTER_PROFILES } from "./presenter-profiles.js?v=103";
 import { ROLE_LABELS } from "./editorial-roles.js";
 import {judgeProof} from './judge-mode-model.js';
 const el = (tag, cls, text) => {
@@ -214,7 +214,7 @@ downloadRow.append(
   }),
 );
 tour.append(downloadRow);
-tour.append(el('p','guided-note','Live discussion: ask for the opening reading, then choose “Did the run cause it?” to challenge the crew. Each fresh synthetic round uses one AI selection request; public wording is source-rendered. Opening this view makes no AI request.'));
+tour.append(el('p','guided-note','Live discussion: ask for the opening reading, then choose “Did the run cause it?” to challenge the crew. Each fresh synthetic round uses four sequential AI requests—Scout, Guide, Check and Host—while Vector calculates in code. Public wording remains source-rendered. Opening this view makes no AI request.'));
 const map = el("details", "source-map");
 const sourceSummary=el("summary"); map.append(sourceSummary); matchSession.subscribe(state=>{const label=SOURCE_LABELS[state.section==='lab'?'lab':state.source];sourceSummary.textContent=label.title+" · source & scope";}); sourceSummary.textContent=SOURCE_LABELS[matchSession.get().source].title+" · source & scope";
 for (const entry of Object.values(SOURCE_LABELS)) {

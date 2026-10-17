@@ -97,13 +97,13 @@ test('newcomer teaching follows the reached play and next-event roles add differ
   }
  }
 });
-test('one request composes a round, caches it, and fails closed on hostile model output',async()=>{
+test('four specialist requests hand off in order, cache the round, and fail closed on an unbounded selection',async()=>{
  const saved=Object.fromEntries(['BTR_GROUNDED_DESK','AZURE_OPENAI_ENDPOINT','AZURE_ACCESS_TOKEN'].map(k=>[k,process.env[k]])),original=global.fetch;
  Object.assign(process.env,{BTR_GROUNDED_DESK:'1',AZURE_OPENAI_ENDPOINT:'https://example.test',AZURE_ACCESS_TOKEN:'test'});
  let count=0,reserved=0;const state=testState({}),desk=new MatchDesk({busy:0,store:{reserve:async()=>{reserved++;return true;}}},{state});
- global.fetch=async()=>{count++;return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(count===1?{angle:'movement'}:{angle:'limits',prose:'Invented goal'})}}]}));};
- try{const events=[],posts=await desk.discuss(input,(t,d)=>events.push({t,d}));assert.equal(count,1);assert.equal(reserved,1);assert.equal(posts.filter(p=>p.engine==='azure_selection').length,3);assert.ok(!events.some(e=>e.t==='draft'));await desk.discuss(input,()=>{});assert.equal(count,1);
- const parentKey=events.find(e=>e.t==='conversation').d.id,next=await desk.discuss({...input,parentKey,question:'Did it cause the move?'},()=>{});assert.equal(count,2);assert.equal(next.filter(p=>p.engine==='reviewed_fallback').length,3);assert.ok(next.every(p=>!p.summary.includes('Invented goal')));
+ global.fetch=async()=>{count++;const decision=count<=4?{angle:count===1?'movement':'limits'}:{angle:'invented'};return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(decision)}}]}));};
+ try{const events=[],posts=await desk.discuss(input,(t,d)=>events.push({t,d}));assert.equal(count,4);assert.equal(reserved,4);assert.equal(posts.filter(p=>p.engine==='azure_openai').length,4);assert.equal(posts.find(p=>p.role==='math').engine,'calculated');assert.ok(!events.some(e=>e.t==='draft'));const traces=events.filter(e=>e.t==='trace'&&e.d.action==='model_handoff_completed');assert.deepEqual(traces.map(e=>e.d.role),['analyst','guide','reviewer','presenter']);await desk.discuss(input,()=>{});assert.equal(count,4);
+ const parentKey=events.find(e=>e.t==='conversation').d.id,next=await desk.discuss({...input,parentKey,question:'Did it cause the move?'},()=>{});assert.equal(count,5);assert.equal(next.filter(p=>p.engine==='reviewed_fallback').length,4);assert.ok(next.every(p=>!p.summary.includes('Invented goal')));
  }finally{global.fetch=original;for(const[k,v]of Object.entries(saved))if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });
 test('a saved next-event round repairs stale Vector metadata without another AI request',async()=>{
@@ -132,11 +132,11 @@ test('a new event streams its own calculation first, without flashing the previo
   assert.ok(math.every(x=>x.data.metric_title===math[0].data.metric_title));
  }finally{global.fetch=original;for(const[k,v]of Object.entries(prior))if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });
-test('interrupted source composition resumes the saved selection without a second paid request',async()=>{
+test('interrupted handoff resumes saved specialists and spends only the two unfinished model requests',async()=>{
  const saved=Object.fromEntries(['BTR_GROUNDED_DESK','AZURE_OPENAI_ENDPOINT','AZURE_ACCESS_TOKEN'].map(k=>[k,process.env[k]])),original=global.fetch;
  Object.assign(process.env,{BTR_GROUNDED_DESK:'1',AZURE_OPENAI_ENDPOINT:'https://example.test',AZURE_ACCESS_TOKEN:'test'});
  let calls=0,reservations=0;global.fetch=async()=>{calls++;return new Response(JSON.stringify({choices:[{message:{content:'{"angle":"movement"}'}}]}));};
  const state=testState({}),narrator={busy:0,store:{reserve:async()=>{reservations++;return true;}}},key='c'.repeat(64);
- try{await assert.rejects(()=>new MatchDesk(narrator,{state}).discuss(input,()=>{},{key,interruptAfterSpecialists:true}),/checkpoint/i);const posts=await new MatchDesk(narrator,{state}).discuss(input,()=>{},{key,interruptAfterSpecialists:true});assert.equal(calls,1);assert.equal(reservations,1);assert.equal(posts.length,5);assert.equal((await state.read(key)).value.status,'complete');}finally{global.fetch=original;for(const[k,v]of Object.entries(saved))if(v===undefined)delete process.env[k];else process.env[k]=v;}
+ try{await assert.rejects(()=>new MatchDesk(narrator,{state}).discuss(input,()=>{},{key,interruptAfterSpecialists:true}),/checkpoint/i);assert.equal(calls,2);assert.equal(reservations,2);const emitted=[];const posts=await new MatchDesk(narrator,{state}).discuss(input,(type,data)=>emitted.push({type,data}),{key,interruptAfterSpecialists:true});assert.equal(calls,4);assert.equal(reservations,4);assert.equal(posts.length,5);assert.equal((await state.read(key)).value.status,'complete');assert.deepEqual(emitted.filter(e=>e.type==='trace'&&e.data.action==='saved_model_handoff_reused').map(e=>e.data.role),['analyst','guide']);}finally{global.fetch=original;for(const[k,v]of Object.entries(saved))if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });
 

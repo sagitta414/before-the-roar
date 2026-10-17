@@ -25,5 +25,11 @@ const editorialProfiles={
 };
 for(const p of PRESENTER_PROFILES)Object.assign(p,editorialProfiles[p.id]);
 
-// Explicitly distinguish AI selection from generated film dialogue.
-for(const p of PRESENTER_PROFILES){p.body+=' Synthetic match mode uses one AI editor to select a source-bound angle; the five public roles use code-rendered wording and calculations. Film discussions retain their generative handoffs.';if(['analyst','guide','presenter'].includes(p.id)){p.method=['Synthetic match: select an angle from available source records.','Render this role from the validated source catalog.','Film mode: generate from reviewed annotations with source limits.'];p.handoff='Synthetic roles share one AI editorial selection. They are not independent model votes; agreement does not establish truth.';}}
+// Expose the real sequential handoff without implying that model agreement proves a fact.
+const syntheticHandoff={
+ analyst:'Scout runs first from the verified event window and passes its public observation to Guide.',
+ guide:'Guide runs after Scout and Vector, then passes its teaching angle to Check.',
+ reviewer:'Check runs after Scout, Guide and Vector. Its model choice stays subordinate to the deterministic evidence verdict.',
+ presenter:'Host runs last with all four completed contributions and must preserve Check’s limitation.'
+};
+for(const p of PRESENTER_PROFILES){p.body+=' Synthetic match mode runs separate Azure model executions for Scout, Guide, Check and Host. Vector remains deterministic, and every public sentence is rendered from validated source records.';if(syntheticHandoff[p.id])p.handoff=syntheticHandoff[p.id]+' Agreement between roles does not establish truth.';}

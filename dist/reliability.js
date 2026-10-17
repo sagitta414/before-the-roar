@@ -1,5 +1,5 @@
 import { installNavigation } from "./navigation.js?v=102";
-import { aiAvailability, availabilityText } from "./ai-availability.js?v=68";
+import { aiAvailability, availabilityText } from "./ai-availability.js?v=103";
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
   n.className = cls;

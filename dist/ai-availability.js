@@ -7,7 +7,7 @@ export function availabilitySummary(health, now=Date.now()) {
  if(!health.ai_configured)return {state:'offline',title:'AI unavailable · reviewed notes available',detail:'Playback, calculations and synthetic datasets still work.',remaining,resetAt};
  if(remaining===0)return {state:'exhausted',title:'AI allowance reached · reviewed notes available',detail:'No new AI generation until the daily reset. Saved results can still be retrieved.',remaining,resetAt};
  if(remaining===null)return {state:'unknown',title:'AI allowance not confirmed',detail:'The server will check the allowance before generating. Playback remains available.',remaining,resetAt};
- return {state:'available',title:remaining+' AI requests remaining today',detail:'Shared across visitors. Synthetic round: 1 request. Film round: 3, up to 6 if editorial repairs are needed. Cached work uses none.',remaining,resetAt};
+ return {state:'available',title:remaining+' AI requests remaining today',detail:'Shared across visitors. Synthetic round: 4 requests. Film round: 3, up to 6 if editorial repairs are needed. Cached work uses none.',remaining,resetAt};
 }
 export function createAvailability({fetcher=fetch,now=Date.now,timeoutMs=8000,retryDelayMs=1500}={}) {
  let value=null,checkedAt=-Infinity,pending=null,phase='idle',config=null;
