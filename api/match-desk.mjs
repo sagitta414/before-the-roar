@@ -715,30 +715,40 @@ export class MatchDesk {
           }
         });
         await usage(result.usage);
-        const raw = JSON.parse(result.content);
-        await journal.change((v) => {
-          v.raw_outputs ??= {};
-          v.raw_outputs[role] = raw;
-        });
-        const validated = validateMatchPost(raw, packet, role,{round:conversation.round,question:input.question});
-        if (role === "guide" && conversation.round > 1)
-          validated.summary = raw.post.viewing_question;
-        if (
-          conversation.round > 1 &&
-          repeatsContribution(
-            validated.summary,
-            conversation.previous.filter((p) => p.role === role),
-          )
-        )
-          throw Error("Follow-up repeats the previous contribution");
-        if (
-          role === "presenter" &&
-          (repeatsContribution(validated.summary, previous) ||
-            repeatsInsight(validated.summary, previous.filter(p=>p.role==='analyst')) ||
-            (this.clip && repeatsFilmUncertainty(validated.summary, previous)) ||
-            editorialIssues(role, validated.summary, previous).length)
-        )
-          throw Error("Repeated contribution; using the reviewed closing cue");
+        let raw = JSON.parse(result.content);
+        const accept = candidate => {
+          const validated = validateMatchPost(candidate, packet, role,{round:conversation.round,question:input.question});
+          if (role === "guide" && conversation.round > 1)
+            validated.summary = candidate.post.viewing_question;
+          if (conversation.round > 1 && repeatsContribution(validated.summary,conversation.previous.filter(p=>p.role===role)))
+            throw Error("Follow-up repeats the previous contribution");
+          if (role === "presenter" && (repeatsContribution(validated.summary,previous) || repeatsInsight(validated.summary,previous.filter(p=>p.role==='analyst')) || (this.clip && repeatsFilmUncertainty(validated.summary,previous)) || editorialIssues(role,validated.summary,previous).length))
+            throw Error("Repeated contribution; using the reviewed closing cue");
+          return validated;
+        };
+        let validated;
+        try { validated=accept(raw); }
+        catch (firstError) {
+          if (role!=="presenter" || !this.clip) throw firstError;
+          await journal.change(v=>{v.rejected_outputs??={};v.rejected_outputs[role]=raw;});
+          await trace(role,"editorial_revision_requested",{reason:firstError.message});
+          await reserve();
+          const repairedResponse=await fetch(url,{
+            method:"POST",headers,signal:AbortSignal.timeout(30000),
+            body:JSON.stringify({
+              messages:[
+                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. State a specific new football implication or the precise next-touch replay test. Avoid praise, generic importance, and repeating Scout. Keep the same evidence cutoff and citations.'},
+                {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,rejected_draft:raw.post,editorial_rejection:firstError.message})},
+              ],temperature:.25,max_tokens:450,stream:false,
+              response_format:{type:"json_schema",json_schema:{name:"match_editor",strict:true,schema}},
+            }),
+          });
+          if(!repairedResponse.ok)throw modelFailure(repairedResponse,"Editorial revision");
+          const repaired=await repairedResponse.json();await usage(repaired.usage);
+          raw=JSON.parse(repaired.choices?.[0]?.message?.content||'null');
+          validated=accept(raw);
+        }
+        await journal.change(v=>{v.raw_outputs??={};v.raw_outputs[role]=raw;});
         const post = {
           ...validated,
           role,

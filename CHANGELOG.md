@@ -6,8 +6,9 @@
 - Editorial checks reject unsupported claims that a defender stayed still, generic evidence-change questions, and Host paraphrases of Scout. A reviewed, labeled fallback answers the evidence challenge if new model wording fails.
 - Public two-round testing also caught a claim about defender readiness and a static comparison offered as an evidence-change test. Both now fail editorial review; the film prompt asks for the observable action and an unbroken comparison.
 - A subsequent live pass found Guide confusing receiver and passer, and Host repeating Scout's uncertainty. Both are now checked explicitly; Host must add a next-action consequence or a concrete replay test.
-- Film Scout retrieves the known reviewed source directly. A fresh film round now uses up to three model requests instead of four; saved exact-evidence rounds use none.
-- All 210 tests pass. A live deployment check is still required before treating the release as verified.
+- Azure logs showed a Host draft praising a pass's “importance” instead of giving its implication. A bounded revision now retries that rejected Host output once, preserving the raw rejected draft and the same evidence cutoff.
+- Film Scout retrieves the known reviewed source directly. A fresh film round normally uses three model requests instead of four; one rejected Host draft may require a fourth. Saved exact-evidence rounds use none.
+- The revision path has a focused model-response test; the full suite passes 211 tests. Public browser testing verified the first-moment review and carried-forward roles. Independent human ratings remain pending.
 
 ## v67 — more natural measured training visuals
 

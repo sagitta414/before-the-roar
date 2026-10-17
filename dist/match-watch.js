@@ -427,7 +427,7 @@ function render() {
   }
 }
 function renderPanel() {
-  $("request-panel").textContent=isClip()?"Ask the crew · up to 3 requests":"Ask the crew · 1 AI request";
+  $("request-panel").textContent=isClip()?"Ask the crew · up to 4 requests":"Ask the crew · 1 AI request";
   const thread = activeThread(),
     discussionPacket = thread
       ? viewStory({ ...viewInput(), time: thread.cutoff })
@@ -639,7 +639,7 @@ function renderPanel() {
     const texts={en:[['Go deeper','What useful distinction have we not covered yet?'],['Challenge it','What evidence would change this explanation?'],['Make it simple','Explain the key difference in everyday language.']],es:[['Más detalle','¿Qué distinción útil falta por explicar?'],['Cuestiónalo','¿Qué evidencia cambiaría esta explicación?'],['Más sencillo','Explica la diferencia principal con palabras sencillas.']],pt:[['Aprofundar','Que distinção útil ainda falta explicar?'],['Questionar','Que evidência mudaria esta explicação?'],['Simplificar','Explique a diferença principal com palavras simples.']]}[state.language];
     if(!isClip()&&state.scenario==='wide'&&!state.corrected)texts[1]=({en:['Did the run cause it?','Does this prove the wide run opened the central pass? What would you need to check?'],es:['¿La carrera lo causó?','¿Esto demuestra que la carrera abierta permitió el pase central? ¿Qué habría que comprobar?'],pt:['A corrida causou isso?','Isso prova que a corrida aberta permitiu o passe central? O que seria preciso verificar?']})[state.language];
     for(const [label,q] of texts){const b=el('button','',label+' ↗');b.onclick=()=>requestPanel(q,thread.cutoff,true,q);follow.append(b);}
-    follow.append(el('small','',isClip()?'Continue this conversation · up to 3 AI requests':'Continue this conversation · 1 AI request'));box.append(follow);
+    follow.append(el('small','',isClip()?'Continue this conversation · up to 4 AI requests':'Continue this conversation · 1 AI request'));box.append(follow);
   } else if (thread?.complete && thread.round >= 3) box.append(el('p','conversation-progress','Three rounds complete. Choose another moment or start a fresh discussion.'));
   for (const b of document.querySelectorAll("[data-agent]")) {
     b.setAttribute("aria-pressed", String(selected === b.dataset.agent));
@@ -959,7 +959,7 @@ $("question-form").onsubmit = (e) => {
   }
 };
 $("request-panel").onclick = () => requestPanel();
-$("request-panel").textContent = "Ask the crew · up to 3 requests";
+$("request-panel").textContent = "Ask the crew · up to 4 requests";
 $("request-panel").title =
   "Exact saved discussions are reused. Watching and changing views make no automatic model requests.";
 for (const b of document.querySelectorAll("[data-question]")) {

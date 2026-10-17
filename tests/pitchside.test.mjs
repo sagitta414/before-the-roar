@@ -56,6 +56,23 @@ test('clip desk uses only this film, streams tool-backed model calls and reuses 
   await desk.discuss({...input,time:0},()=>{});assert.equal(calls,3);
  }finally{global.fetch=savedFetch;for(const [key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
 });
+test('a rejected film Host draft gets one bounded editorial revision',async()=>{
+ const savedFetch=global.fetch,endpoint=process.env.AZURE_OPENAI_ENDPOINT,token=process.env.AZURE_ACCESS_TOKEN;
+ process.env.AZURE_OPENAI_ENDPOINT='https://example.test/';process.env.AZURE_ACCESS_TOKEN='test';
+ const cache=new Map();let calls=0,reserved=0,repairSeen=false;
+ const store={read:async k=>cache.get(k),write:async(k,v)=>cache.set(k,v),reserve:async()=>{reserved++;return true;}},narrator={busy:0,store};
+ try{
+  global.fetch=async(_url,options)=>{
+   calls++;const body=JSON.parse(options.body),isHost=body.messages[0].content.includes('Host:'),repair=body.stream===false;
+   if(repair){repairSeen=true;assert.match(body.messages[1].content,/Host must state the football implication/);}
+   const post={interpretation:isHost?(repair?'The next touch tests whether the attacker can keep the ball away from the nearby defender.':'The importance of the attacker touching the ball is clear.'):body.messages[0].content.includes('Guide:')?'A duel is a contest between an attacker and a defender. Where is the ball after the touch?':'The attacker touches the ball beside a defender.',viewing_question:'Where is the ball after the touch?',takeaway:repair?'The next touch tests whether the attacker can keep the ball away from the nearby defender.':'The importance of the attacker touching the ball is clear.',replay_cue:'Replay the attacker touching the ball beside the defender.',headline:'The close duel',caution:'The wider action is outside this shot.',evidence_ids:{primary:'pitchside-touch',secondary:null}};
+   const content=JSON.stringify({post});
+   return repair?new Response(JSON.stringify({choices:[{message:{content}}],usage:{}}),{headers:{'Content-Type':'application/json'}}):new Response('data: '+JSON.stringify({choices:[{delta:{content}}]})+'\n\ndata: '+JSON.stringify({choices:[{delta:{},finish_reason:'stop'}]})+'\n\ndata: [DONE]\n\n');
+  };
+  const desk=new MatchDesk(narrator,{clip:true,state:testState(store)}),posts=await desk.discuss({time:2,language:'en',mode:'fan'},()=>{});
+  assert.equal(posts.at(-1).engine,'azure_openai');assert.equal(calls,4);assert.equal(reserved,4);assert.equal(repairSeen,true);
+ }finally{global.fetch=savedFetch;for(const [key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
+});
 
 test('clip API rejects wrong assets and cutoffs before spending, accepts an empty evidence window',async()=>{
  const app=createApp({narrator:{busy:0,store:{read:async()=>null,reserve:async()=>assert.fail('No model call before evidence')}}});await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${app.server.address().port}/api/clip-desk`;
