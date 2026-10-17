@@ -1,0 +1,29 @@
+{
+  "version": "v66-domain-challenge",
+  "detector_sha256": "f39bd8aa306b61c467d3c161c038903cc667704b44363a5941bbbb0247d2327f",
+  "created_at": "2026-10-17T03:17:31.945Z",
+  "protocol": "Frozen colour detector; 10 fps at 480×320. Retain raw marker matches on unfamiliar footage. These are not verified identities. No target-domain enrolment or calibration: withhold all names and physical speed. No pass annotations: precision and recall remain unscored. No tuning or selective reruns.",
+  "clips": [
+    {
+      "id": "unfamiliar-real-practice",
+      "file": "tmp/external-evaluation/footballers.webm",
+      "kind": "Real training footage, not a broadcast match",
+      "source": "https://commons.wikimedia.org/wiki/File:Footballers.webm",
+      "author": "Evworo",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "enrolled": false,
+      "calibrated": false,
+      "sha256": "6d01ea60dc27c5bf3abc00db0c6158b62527c874505b2a16d80249ba37f0e5f7"
+    },
+    {
+      "id": "cinematic-generated-minute",
+      "file": "dist/assets/pitchside-minute.mp4",
+      "kind": "Generated cinematic montage; existing app film",
+      "source": "Existing BTR generated film",
+      "enrolled": false,
+      "calibrated": false,
+      "sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25"
+    }
+  ]
+}

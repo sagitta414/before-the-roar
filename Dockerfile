@@ -10,3 +10,4 @@ RUN mkdir -p docs/proof && chown -R node:node docs
 USER node
 EXPOSE 8080
 CMD ["node", "api/server.mjs"]
+COPY --chown=node:node scripts/heldout-commentary.mjs ./scripts/heldout-commentary.mjs

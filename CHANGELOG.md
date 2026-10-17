@@ -1,3 +1,11 @@
+## v66 — evidence room and independent-review preparation
+
+- Ran an eight-case, 32-request comparison on previously unused synthetic event packets. Both arms passed 24/24 wording/citation checks; 18/24 role texts were identical. Crew: 16,265 tokens; single-call editor: 7,124. No human superiority claim.
+- Added anonymous paired review with local progress, complete-rating validation, trial hashes, duplicate-review exclusion and a private arm key. Real independent reviews remain pending; QA fixtures are never counted.
+- Frozen detector tested on an unfamiliar licensed real training clip and the existing cinematic montage. Results retain unusable color matches and leave event accuracy unscored. Neither source is calibrated for physical metrics.
+- Added a 1,800-frame rendering handoff with explicit coordinates and a continuous authored ball return. This is not a finished photorealistic video. Realistic character assets, rendering, visual approval and new pixel validation remain pending.
+- Preserved Watch and existing footage; linked the new evidence room from Match Lab. No usage-limit increase.
+
 ## v44 — different audience explanations and bounded startup recovery
 
 - Corrected beginner, tactical and math narratives stay distinct in all three languages while retaining the same evidence and valid calculations.

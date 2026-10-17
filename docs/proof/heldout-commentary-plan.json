@@ -1,0 +1,221 @@
+{
+  "version": "v66-unseen-events",
+  "created_at": "2026-10-17T03:22:40.350Z",
+  "maximum_requests": 32,
+  "method": "Eight previously unused commentary packets from frozen-detector seed 9101. Same grounded wording catalogs, model and role contracts in both arms. Three-call handoff versus one-call editor, alternating order, one trial, no retries. Automatic checks test catalog and citation compliance only. This is within-family synthetic generalization, not an independent human quality score",
+  "cases": [],
+  "complete": false,
+  "inputs": [
+    {
+      "id": "unseen-1",
+      "event": {
+        "id": "video-1",
+        "type": "pass",
+        "from": 6,
+        "to": 8,
+        "start": 4,
+        "end": 5.9,
+        "distance": 23.03656083800015,
+        "speed": 43.53490632148449,
+        "quality": {
+          "distance": 22.886591070102174,
+          "pressure": 27.161863674807204,
+          "clearance": 27.161863674807204,
+          "completion": 0.9119422500168182,
+          "difficulty": 9,
+          "label": "Routine"
+        },
+        "evidence": {
+          "firstFrame": 120,
+          "lastFrame": 177
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "What happened, and what should a beginner watch next?",
+      "tracking": true
+    },
+    {
+      "id": "unseen-2",
+      "event": {
+        "id": "video-2",
+        "type": "pass",
+        "from": 8,
+        "to": 10,
+        "start": 12.2,
+        "end": 13.8,
+        "distance": 22.601469615086376,
+        "speed": 52.303666948627914,
+        "quality": {
+          "distance": 22.369045387370235,
+          "pressure": 14.673934919730149,
+          "clearance": 14.673934919730149,
+          "completion": 0.9139096420085164,
+          "difficulty": 9,
+          "label": "Routine"
+        },
+        "evidence": {
+          "firstFrame": 366,
+          "lastFrame": 414
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "What happened, and what should a beginner watch next?",
+      "tracking": true
+    },
+    {
+      "id": "unseen-3",
+      "event": {
+        "id": "video-3",
+        "type": "pass",
+        "from": 10,
+        "to": 7,
+        "start": 20.5,
+        "end": 21.8,
+        "distance": 26.340237411792717,
+        "speed": 75.5041585118353,
+        "quality": {
+          "distance": 26.28714509244724,
+          "pressure": 7.921659264283041,
+          "clearance": 3.9807675180437947,
+          "completion": 0.7850626864399561,
+          "difficulty": 21,
+          "label": "Demanding"
+        },
+        "evidence": {
+          "firstFrame": 615,
+          "lastFrame": 654
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "Tracking is lost. What can we still claim, and what must we withhold?",
+      "tracking": false
+    },
+    {
+      "id": "unseen-4",
+      "event": {
+        "id": "video-4",
+        "type": "pass",
+        "from": 7,
+        "to": 9,
+        "start": 27.5,
+        "end": 28.9,
+        "distance": 18.81683797617697,
+        "speed": 50.50049245792707,
+        "quality": {
+          "distance": 18.81683797617697,
+          "pressure": 10.853582941993311,
+          "clearance": 1.8747313158265557,
+          "completion": 0.8522992576373293,
+          "difficulty": 15,
+          "label": "Routine"
+        },
+        "evidence": {
+          "firstFrame": 825,
+          "lastFrame": 867
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "What happened, and what should a beginner watch next?",
+      "tracking": true
+    },
+    {
+      "id": "unseen-5",
+      "event": {
+        "id": "video-5",
+        "type": "shot",
+        "from": 9,
+        "to": null,
+        "start": 36.2,
+        "end": 36.8,
+        "distance": 19.790542251807288,
+        "speed": 132.79970288003403,
+        "quality": null,
+        "evidence": {
+          "firstFrame": 1086,
+          "lastFrame": 1104
+        },
+        "status": "shot candidate · ground-plane model; outcome not certified"
+      },
+      "question": "Does this prove a goal? Explain what is observed.",
+      "tracking": true
+    },
+    {
+      "id": "unseen-6",
+      "event": {
+        "id": "video-6",
+        "type": "pass",
+        "from": 6,
+        "to": 8,
+        "start": 44,
+        "end": 45.5,
+        "distance": 23.062671200556778,
+        "speed": 55.591565629346746,
+        "quality": {
+          "distance": 22.998423781424002,
+          "pressure": 25.58621712272704,
+          "clearance": 25.58621712272704,
+          "completion": 0.911511827108776,
+          "difficulty": 9,
+          "label": "Routine"
+        },
+        "evidence": {
+          "firstFrame": 1320,
+          "lastFrame": 1365
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "Tracking is lost. What can we still claim, and what must we withhold?",
+      "tracking": false
+    },
+    {
+      "id": "unseen-7",
+      "event": {
+        "id": "video-7",
+        "type": "pass",
+        "from": 8,
+        "to": 10,
+        "start": 51.8,
+        "end": 53.3,
+        "distance": 23.02826280809477,
+        "speed": 55.20902715441407,
+        "quality": {
+          "distance": 22.941120782975545,
+          "pressure": 13.518888175588831,
+          "clearance": 13.518888175588831,
+          "completion": 0.9117326122845111,
+          "difficulty": 9,
+          "label": "Routine"
+        },
+        "evidence": {
+          "firstFrame": 1554,
+          "lastFrame": 1599
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "What happened, and what should a beginner watch next?",
+      "tracking": true
+    },
+    {
+      "id": "unseen-8",
+      "event": {
+        "id": "video-8",
+        "type": "shot",
+        "from": 10,
+        "to": null,
+        "start": 56.9,
+        "end": 58.2,
+        "distance": 33.05433736683808,
+        "speed": 91.53874263727025,
+        "quality": null,
+        "evidence": {
+          "firstFrame": 1707,
+          "lastFrame": 1746
+        },
+        "status": "shot candidate · ground-plane model; outcome not certified"
+      },
+      "question": "Does this prove a goal? Explain what is observed.",
+      "tracking": true
+    }
+  ],
+  "contracts": "Use only the supplied observed event and roster. Write distinct, concise football explanations. Scout states observation; Guide teaches one concept; Host synthesizes and asks what evidence to inspect next. Do not infer player intention, tactical causation or a goal from a shot candidate. No claim beyond the cutoff. Current missing tracking prohibits new live claims but does not erase the prior event. Do not add numbers; Vector provides calculations separately. Cite exactly the event ID. At most 60 words per role."
+}

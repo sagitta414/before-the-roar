@@ -1,0 +1,21 @@
+{
+  "id": "btr-unseen-editorial-v66",
+  "hash": "8102dd01b6f5803ac9eec0add220cf433cb8ad864c7b35423d7f2389abc2783a",
+  "minimum_reviewers": 3,
+  "target_reviewers": 5,
+  "dimensions": [
+    "grounding",
+    "clarity",
+    "usefulness"
+  ],
+  "scale": "1 poor, 3 adequate, 5 excellent",
+  "unit": "Each independent reviewer rates all eight paired cases. Aggregate within reviewer first; cases are not independent participants.",
+  "exclusions": [
+    "Wrong trial hash",
+    "Incomplete ratings",
+    "Duplicate anonymous reviewer ID",
+    "No independence attestation"
+  ],
+  "publication": "Do not identify a winning arm until completed exports are received. Independently verify reviewer identities outside the app; do not publish personal information.",
+  "limitation": "Static blind review hides labels from normal UI but cannot prevent someone inspecting other published comparisons or identifying writing style."
+}

@@ -1,0 +1,24 @@
+import {VIDEO_CONTRACT,requestVideoRoles,validateVideoPost} from '../api/video-desk.mjs';
+import {readFile,writeFile} from 'node:fs/promises';
+import {ResultStore,accessToken} from '../api/azure.mjs';
+const resultPath='docs/proof/heldout-commentary.json';
+const validation=JSON.parse(await readFile('dist/assets/tracking/holdout.json'));
+const roster=JSON.parse(await readFile('dist/assets/tracking/calibration.json')).roster;
+const events=validation.cases[0].events.map(({truth,matched,...e})=>e);
+const cases=events.map((event,i)=>({id:'unseen-'+(i+1),event,question:i%3===2?'Tracking is lost. What can we still claim, and what must we withhold?':event.type==='shot'?'Does this prove a goal? Explain what is observed.':'What happened, and what should a beginner watch next?',tracking:i%3!==2}));const roles=['Scout','Guide','Host'];
+const contracts={Scout:'State the observed event. Separate observation from intention and causation.',Guide:'Teach one football concept plainly. Do not repeat Scout or turn a synthetic estimate into real-world probability.',Host:'Synthesize the observation and limitation. Offer a concrete next viewing question, without inventing an outcome.'};
+const system='You are an evidence-grounded football editorial desk. Use only the supplied observed event and roster. Shot candidates are not goals. No player intention or tactical causation is established. Missing current tracking does not erase past observed events, but prohibits new live claims. Difficulty is a synthetic model estimate. Each role writes at most 60 words and cites only the supplied event ID. '+JSON.stringify(contracts);
+const item={type:'object',additionalProperties:false,properties:{text:{type:'string'},evidence_id:{type:'string'}},required:['text','evidence_id']};
+class EvaluationStore extends ResultStore{async blob(path,options={}){return fetch(this.base+path,{...options,headers:{Authorization:'Bearer '+process.env.BTR_EVAL_STORAGE_TOKEN,'x-ms-version':'2023-11-03',...options.headers},signal:AbortSignal.timeout(10000)});}}
+const report={version:'v66-unseen-events',created_at:new Date().toISOString(),maximum_requests:32,method:'Eight previously unused commentary packets from frozen-detector seed 9101. Same grounded wording catalogs, model and role contracts in both arms. Three-call handoff versus one-call editor, alternating order, one trial, no retries. Automatic checks test catalog and citation compliance only. This is within-family synthetic generalization, not an independent human quality score',cases:[],complete:false};
+await writeFile('docs/proof/heldout-commentary-plan.json',JSON.stringify({...report,inputs:cases,contracts:VIDEO_CONTRACT},null,2));
+if(!process.argv.includes('--live')){console.log('Plan saved; --live required.');process.exit(0);}
+try{const prior=JSON.parse(await readFile(resultPath));if(prior.complete){console.log('Completed comparison retained; no extra requests.');process.exit(0);}}catch{}
+const store=process.env.BTR_EVAL_STORAGE_TOKEN?new EvaluationStore():new ResultStore(),allowance=await store.allowance();if(allowance.limit-allowance.used<32)throw Error('Insufficient approved allowance');report.allowance_before=allowance;
+async function save(){for(const path of [resultPath])await writeFile(path,JSON.stringify(report,null,2));}
+async function call(packet,selected,prior=[]){if(!await store.reserve())throw Error('Allowance reached');const started=performance.now(),result=await requestVideoRoles({...packet,roster},selected,prior);return {...result,elapsed_ms:Math.round(performance.now()-started)};}
+for(const[i,c]of cases.entries()){const row={input:c};report.cases.push(row);for(const arm of(i%2?['baseline','crew']:['crew','baseline'])){const calls=[];row[arm]={calls,posts:{}};try{if(arm==='baseline')calls.push(await call(c,roles));else for(const role of roles){const result=await call(c,[role],calls.map(x=>x.posts));calls.push(result);await save();}row[arm].posts=Object.assign({},...calls.map(x=>x.posts));row[arm].valid_citations=Object.values(row[arm].posts).filter(p=>p.evidence_id===c.event.id).length;row[arm].format_checks=Object.fromEntries(Object.entries(row[arm].posts).map(([role,p])=>{try{validateVideoPost(p,c.event);return [role,{accepted:true}];}catch(e){return [role,{accepted:false,error:e.message}];}}));}catch(e){row[arm].error=e.message;}await save();}console.log('Compared '+c.id);}
+report.allowance_after=await store.allowance();report.complete=report.cases.every(c=>!c.crew.error&&!c.baseline.error);report.requests=report.cases.reduce((n,c)=>n+c.crew.calls.length+c.baseline.calls.length,0);await save();console.log(JSON.stringify({complete:report.complete,requests:report.requests,allowance:report.allowance_after}));
+
+console.log('BTR_COMMENTARY64='+Buffer.from(JSON.stringify(report)).toString('base64'));
+

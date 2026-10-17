@@ -1,0 +1,25 @@
+{
+  "version": "v66-unseen-events",
+  "complete": true,
+  "cases": 8,
+  "arms": {
+    "crew": {
+      "calls": 24,
+      "tokens": 16265,
+      "compliant": 24,
+      "outputs": 24,
+      "elapsed_ms": 25127
+    },
+    "baseline": {
+      "calls": 8,
+      "tokens": 7124,
+      "compliant": 24,
+      "outputs": 24,
+      "elapsed_ms": 13166
+    }
+  },
+  "identical_role_texts": 18,
+  "method": "Eight previously unused commentary packets from frozen-detector seed 9101. Same grounded wording catalogs, model and role contracts in both arms. Three-call handoff versus one-call editor, alternating order, one trial, no retries. Automatic checks test catalog and citation compliance only. This is within-family synthetic generalization, not an independent human quality score",
+  "human_reviews": 0,
+  "human_review_status": "Not collected by this report. Real reviewer exports must be assessed separately."
+}

@@ -1,0 +1,15 @@
+{
+  "version": "btr-render-contract-v66",
+  "status": "Production handoff; not a rendered or photorealism-validated video",
+  "frames": 1800,
+  "max_ball_speed_m_s": 27.10237627209582,
+  "sha256": "33c8127381727f9b0741d81149d4bc92fb0a2addccff3c441c99143f19cd93b0",
+  "acceptance": {
+    "continuous_frames": 1800,
+    "truth_timestamp_alignment": "exact frame / 30",
+    "footage_sha256": "populate after rendering",
+    "photorealism_review": "pending",
+    "detector_validation": "pending",
+    "limitations": "Eight-player training sequence, not a full 22-player competitive match. Final 0.1 second holds the final sampled pose."
+  }
+}

@@ -1,0 +1,4 @@
+import {readFile,writeFile} from 'node:fs/promises';import {summarizeReviews} from '../dist/blind-review-model.js';
+const files=process.argv.slice(2);if(!files.length)throw Error('Pass reviewer JSON exports as arguments; no synthetic reviewers are generated.');
+const trial=JSON.parse(await readFile('dist/assets/tracking/blind-trial.json')),privateKey=JSON.parse(await readFile('tmp/review-private/arm-key.json'));if(privateKey.hash!==trial.hash)throw Error('Key does not match current trial');
+const reviews=await Promise.all(files.map(f=>readFile(f,'utf8').then(JSON.parse))),summary=summarizeReviews(reviews,trial,privateKey.key);await writeFile('docs/proof/independent-review-summary.json',JSON.stringify({trial:trial.id,hash:trial.hash,...summary},null,2));console.log(JSON.stringify(summary,null,2));

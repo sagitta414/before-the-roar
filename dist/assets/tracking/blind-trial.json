@@ -1,0 +1,873 @@
+{
+  "id": "btr-unseen-editorial-v66",
+  "hash": "8102dd01b6f5803ac9eec0add220cf433cb8ad864c7b35423d7f2389abc2783a",
+  "created_at": "2026-10-17T03:24:08.527Z",
+  "cases": [
+    {
+      "id": "unseen-1",
+      "evidence": {
+        "question": "What happened, and what should a beginner watch next?",
+        "tracking": true,
+        "event": {
+          "id": "video-1",
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "start": 4,
+          "end": 5.9,
+          "distance": 23.03656083800015,
+          "speed": 43.53490632148449,
+          "quality": {
+            "distance": 22.886591070102174,
+            "pressure": 27.161863674807204,
+            "clearance": 27.161863674807204,
+            "completion": 0.9119422500168182,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 120,
+            "lastFrame": 177
+          },
+          "status": "pixel-derived candidate"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "A": {
+          "Scout": {
+            "text": "Amir Cole transferred the ball to Mateo Silva. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-1"
+          },
+          "Guide": {
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "evidence_id": "video-1"
+          },
+          "Host": {
+            "text": "The transfer is recorded. Next, inspect the receiver’s options before calling it a breakthrough.",
+            "evidence_id": "video-1"
+          }
+        },
+        "B": {
+          "Scout": {
+            "text": "Amir Cole transferred the ball to Mateo Silva. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-1"
+          },
+          "Guide": {
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "evidence_id": "video-1"
+          },
+          "Host": {
+            "text": "The ball reached Mateo Silva. The next useful question is whether that player can progress play; this transfer alone does not answer it.",
+            "evidence_id": "video-1"
+          }
+        }
+      }
+    },
+    {
+      "id": "unseen-2",
+      "evidence": {
+        "question": "What happened, and what should a beginner watch next?",
+        "tracking": true,
+        "event": {
+          "id": "video-2",
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "start": 12.2,
+          "end": 13.8,
+          "distance": 22.601469615086376,
+          "speed": 52.303666948627914,
+          "quality": {
+            "distance": 22.369045387370235,
+            "pressure": 14.673934919730149,
+            "clearance": 14.673934919730149,
+            "completion": 0.9139096420085164,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 366,
+            "lastFrame": 414
+          },
+          "status": "pixel-derived candidate"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "A": {
+          "Scout": {
+            "text": "Mateo Silva transferred the ball to Rafael Costa. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-2"
+          },
+          "Guide": {
+            "text": "Receiving a pass keeps the move going. To judge whether it helped, watch what the receiver can do next rather than treating completion alone as success.",
+            "evidence_id": "video-2"
+          },
+          "Host": {
+            "text": "The transfer is recorded. Next, inspect the receiver’s options before calling it a breakthrough.",
+            "evidence_id": "video-2"
+          }
+        },
+        "B": {
+          "Scout": {
+            "text": "Mateo Silva transferred the ball to Rafael Costa. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-2"
+          },
+          "Guide": {
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "evidence_id": "video-2"
+          },
+          "Host": {
+            "text": "The ball reached Rafael Costa. The next useful question is whether that player can progress play; this transfer alone does not answer it.",
+            "evidence_id": "video-2"
+          }
+        }
+      }
+    },
+    {
+      "id": "unseen-3",
+      "evidence": {
+        "question": "Tracking is lost. What can we still claim, and what must we withhold?",
+        "tracking": false,
+        "event": {
+          "id": "video-3",
+          "type": "pass",
+          "from": 10,
+          "to": 7,
+          "start": 20.5,
+          "end": 21.8,
+          "distance": 26.340237411792717,
+          "speed": 75.5041585118353,
+          "quality": {
+            "distance": 26.28714509244724,
+            "pressure": 7.921659264283041,
+            "clearance": 3.9807675180437947,
+            "completion": 0.7850626864399561,
+            "difficulty": 21,
+            "label": "Demanding"
+          },
+          "evidence": {
+            "firstFrame": 615,
+            "lastFrame": 654
+          },
+          "status": "pixel-derived candidate"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "B": {
+          "Scout": {
+            "text": "The receiving player stayed close enough to the ball for a completed-transfer candidate. This is evidence of reception, not of the passer’s intention.",
+            "evidence_id": "video-3"
+          },
+          "Guide": {
+            "text": "A completed pass tells you who received the ball. It does not prove the defenders were fooled or that the next attack will succeed.",
+            "evidence_id": "video-3"
+          },
+          "Host": {
+            "text": "The useful conclusion is narrower: the ball reached a teammate. Evaluate the next action before calling this an advantage.",
+            "evidence_id": "video-3"
+          }
+        },
+        "A": {
+          "Scout": {
+            "text": "The receiving player stayed close enough to the ball for a completed-transfer candidate. This is evidence of reception, not of the passer’s intention.",
+            "evidence_id": "video-3"
+          },
+          "Guide": {
+            "text": "A completed pass tells you who received the ball. It does not prove the defenders were fooled or that the next attack will succeed.",
+            "evidence_id": "video-3"
+          },
+          "Host": {
+            "text": "The useful conclusion is narrower: the ball reached a teammate. Evaluate the next action before calling this an advantage.",
+            "evidence_id": "video-3"
+          }
+        }
+      }
+    },
+    {
+      "id": "unseen-4",
+      "evidence": {
+        "question": "What happened, and what should a beginner watch next?",
+        "tracking": true,
+        "event": {
+          "id": "video-4",
+          "type": "pass",
+          "from": 7,
+          "to": 9,
+          "start": 27.5,
+          "end": 28.9,
+          "distance": 18.81683797617697,
+          "speed": 50.50049245792707,
+          "quality": {
+            "distance": 18.81683797617697,
+            "pressure": 10.853582941993311,
+            "clearance": 1.8747313158265557,
+            "completion": 0.8522992576373293,
+            "difficulty": 15,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 825,
+            "lastFrame": 867
+          },
+          "status": "pixel-derived candidate"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "B": {
+          "Scout": {
+            "text": "Luca Moreau transferred the ball to Theo Brooks. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-4"
+          },
+          "Guide": {
+            "text": "Receiving a pass keeps the move going. To judge whether it helped, watch what the receiver can do next rather than treating completion alone as success.",
+            "evidence_id": "video-4"
+          },
+          "Host": {
+            "text": "The transfer is recorded. Next, inspect the receiver’s options before calling it a breakthrough.",
+            "evidence_id": "video-4"
+          }
+        },
+        "A": {
+          "Scout": {
+            "text": "Luca Moreau transferred the ball to Theo Brooks. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-4"
+          },
+          "Guide": {
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "evidence_id": "video-4"
+          },
+          "Host": {
+            "text": "The ball reached Theo Brooks. The next useful question is whether that player can progress play; this transfer alone does not answer it.",
+            "evidence_id": "video-4"
+          }
+        }
+      }
+    },
+    {
+      "id": "unseen-5",
+      "evidence": {
+        "question": "Does this prove a goal? Explain what is observed.",
+        "tracking": true,
+        "event": {
+          "id": "video-5",
+          "type": "shot",
+          "from": 9,
+          "to": null,
+          "start": 36.2,
+          "end": 36.8,
+          "distance": 19.790542251807288,
+          "speed": 132.79970288003403,
+          "quality": null,
+          "evidence": {
+            "firstFrame": 1086,
+            "lastFrame": 1104
+          },
+          "status": "shot candidate · ground-plane model; outcome not certified"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "B": {
+          "Scout": {
+            "text": "Theo Brooks sent the ball toward the goal mouth. The detector marks a shot candidate, not a confirmed goal.",
+            "evidence_id": "video-5"
+          },
+          "Guide": {
+            "text": "A shot is an attempt toward goal. Its speed does not tell us whether it beat the goalkeeper.",
+            "evidence_id": "video-5"
+          },
+          "Host": {
+            "text": "The moment creates a question: what happened at the goal line? That requires further evidence.",
+            "evidence_id": "video-5"
+          }
+        },
+        "A": {
+          "Scout": {
+            "text": "Theo Brooks sent the ball toward the goal mouth. The detector marks a shot candidate, not a confirmed goal.",
+            "evidence_id": "video-5"
+          },
+          "Guide": {
+            "text": "A shot is an attempt toward goal. Its speed does not tell us whether it beat the goalkeeper.",
+            "evidence_id": "video-5"
+          },
+          "Host": {
+            "text": "The moment creates a question: what happened at the goal line? That requires further evidence.",
+            "evidence_id": "video-5"
+          }
+        }
+      }
+    },
+    {
+      "id": "unseen-6",
+      "evidence": {
+        "question": "Tracking is lost. What can we still claim, and what must we withhold?",
+        "tracking": false,
+        "event": {
+          "id": "video-6",
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "start": 44,
+          "end": 45.5,
+          "distance": 23.062671200556778,
+          "speed": 55.591565629346746,
+          "quality": {
+            "distance": 22.998423781424002,
+            "pressure": 25.58621712272704,
+            "clearance": 25.58621712272704,
+            "completion": 0.911511827108776,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 1320,
+            "lastFrame": 1365
+          },
+          "status": "pixel-derived candidate"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "B": {
+          "Scout": {
+            "text": "The receiving player stayed close enough to the ball for a completed-transfer candidate. This is evidence of reception, not of the passer’s intention.",
+            "evidence_id": "video-6"
+          },
+          "Guide": {
+            "text": "A completed pass tells you who received the ball. It does not prove the defenders were fooled or that the next attack will succeed.",
+            "evidence_id": "video-6"
+          },
+          "Host": {
+            "text": "The useful conclusion is narrower: the ball reached a teammate. Evaluate the next action before calling this an advantage.",
+            "evidence_id": "video-6"
+          }
+        },
+        "A": {
+          "Scout": {
+            "text": "The receiving player stayed close enough to the ball for a completed-transfer candidate. This is evidence of reception, not of the passer’s intention.",
+            "evidence_id": "video-6"
+          },
+          "Guide": {
+            "text": "A completed pass tells you who received the ball. It does not prove the defenders were fooled or that the next attack will succeed.",
+            "evidence_id": "video-6"
+          },
+          "Host": {
+            "text": "The useful conclusion is narrower: the ball reached a teammate. Evaluate the next action before calling this an advantage.",
+            "evidence_id": "video-6"
+          }
+        }
+      }
+    },
+    {
+      "id": "unseen-7",
+      "evidence": {
+        "question": "What happened, and what should a beginner watch next?",
+        "tracking": true,
+        "event": {
+          "id": "video-7",
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "start": 51.8,
+          "end": 53.3,
+          "distance": 23.02826280809477,
+          "speed": 55.20902715441407,
+          "quality": {
+            "distance": 22.941120782975545,
+            "pressure": 13.518888175588831,
+            "clearance": 13.518888175588831,
+            "completion": 0.9117326122845111,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 1554,
+            "lastFrame": 1599
+          },
+          "status": "pixel-derived candidate"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "B": {
+          "Scout": {
+            "text": "Mateo Silva transferred the ball to Rafael Costa. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-7"
+          },
+          "Guide": {
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "evidence_id": "video-7"
+          },
+          "Host": {
+            "text": "The transfer is recorded. Next, inspect the receiver’s options before calling it a breakthrough.",
+            "evidence_id": "video-7"
+          }
+        },
+        "A": {
+          "Scout": {
+            "text": "Mateo Silva transferred the ball to Rafael Costa. The completion is supported by the receiving player’s sustained proximity to the ball.",
+            "evidence_id": "video-7"
+          },
+          "Guide": {
+            "text": "A passing lane is the route between teammates. A defender near that route may make the pass harder; watch the space between passer and receiver.",
+            "evidence_id": "video-7"
+          },
+          "Host": {
+            "text": "The ball reached Rafael Costa. The next useful question is whether that player can progress play; this transfer alone does not answer it.",
+            "evidence_id": "video-7"
+          }
+        }
+      }
+    },
+    {
+      "id": "unseen-8",
+      "evidence": {
+        "question": "Does this prove a goal? Explain what is observed.",
+        "tracking": true,
+        "event": {
+          "id": "video-8",
+          "type": "shot",
+          "from": 10,
+          "to": null,
+          "start": 56.9,
+          "end": 58.2,
+          "distance": 33.05433736683808,
+          "speed": 91.53874263727025,
+          "quality": null,
+          "evidence": {
+            "firstFrame": 1707,
+            "lastFrame": 1746
+          },
+          "status": "shot candidate · ground-plane model; outcome not certified"
+        },
+        "roster": [
+          {
+            "id": 6,
+            "name": "Amir Cole",
+            "role": "Holding midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 8,
+            "name": "Mateo Silva",
+            "role": "Central midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 10,
+            "name": "Rafael Costa",
+            "role": "Attacking midfielder",
+            "team": "harbor"
+          },
+          {
+            "id": 7,
+            "name": "Luca Moreau",
+            "role": "Left winger",
+            "team": "harbor"
+          },
+          {
+            "id": 9,
+            "name": "Theo Brooks",
+            "role": "Striker",
+            "team": "harbor"
+          },
+          {
+            "id": 102,
+            "name": "Jules Laurent",
+            "role": "Right back",
+            "team": "north"
+          },
+          {
+            "id": 104,
+            "name": "Alex Ross",
+            "role": "Centre back",
+            "team": "north"
+          },
+          {
+            "id": 101,
+            "name": "Max Berg",
+            "role": "Goalkeeper",
+            "team": "north"
+          }
+        ]
+      },
+      "outputs": {
+        "A": {
+          "Scout": {
+            "text": "Rafael Costa sent the ball toward the goal mouth. The detector marks a shot candidate, not a confirmed goal.",
+            "evidence_id": "video-8"
+          },
+          "Guide": {
+            "text": "A shot is an attempt toward goal. Its speed does not tell us whether it beat the goalkeeper.",
+            "evidence_id": "video-8"
+          },
+          "Host": {
+            "text": "The moment creates a question: what happened at the goal line? That requires further evidence.",
+            "evidence_id": "video-8"
+          }
+        },
+        "B": {
+          "Scout": {
+            "text": "Rafael Costa sent the ball toward the goal mouth. The detector marks a shot candidate, not a confirmed goal.",
+            "evidence_id": "video-8"
+          },
+          "Guide": {
+            "text": "A shot is an attempt toward goal. Its speed does not tell us whether it beat the goalkeeper.",
+            "evidence_id": "video-8"
+          },
+          "Host": {
+            "text": "The moment creates a question: what happened at the goal line? That requires further evidence.",
+            "evidence_id": "video-8"
+          }
+        }
+      }
+    }
+  ]
+}
