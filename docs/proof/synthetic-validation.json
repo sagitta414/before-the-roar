@@ -1,6 +1,6 @@
 {
   "schema": "btr.validation-benchmark.v1",
-  "generated_at": "2026-10-16T05:07:20.306Z",
+  "generated_at": "2026-10-17T13:23:39.570Z",
   "simulator": "v2",
   "fixtures": 100,
   "seeds": {

@@ -2,7 +2,7 @@
 
 An explainable football studio: watch the play, follow a public editorial discussion, inspect the calculation, and challenge the evidence. A newcomer, an analyst and a numbers-focused fan get different explanations of the same source.
 
-Version 44 gives corrected beginner, tactical and math views distinct explanations, recovers stalled AI availability checks, and connects the guided match to a two-round live discussion. A fresh round uses up to four model requests. The new paired comparison is preregistered but awaits execution; the older v42.2 results do not establish crew superiority. The paired viewer study is at `/study.html`; the guided presentation is at `/?tour=1&demo=1#watch`. See [v44 release notes and remaining verification](docs/V44-RELEASE.md).
+The current connected-match release places beginner, math and tactical readings beside the same synthetic replay. Watch, Match Centre and Truth Lab carry one playhead and source revision. A synthetic crew follow-up can advance to the next completed event and compare it with the earlier claim; it still keeps causation separate from observation. The AI film is a separately labeled, manually reviewed source. See [the current release evidence and mobile checks](docs/V81-CONNECTED-MATCH.md). The paired viewer study remains available at `/study.html`; no independent human superiority result is claimed.
 
 **Public app:** https://before-the-roar.sagitta107.chatgpt.site
 
@@ -44,7 +44,7 @@ Scout selects a bounded function tool: retrieve evidence, retrieve a determinist
 
 Three roles use Azure OpenAI; two specialist components are deterministic. This is custom Node orchestration with Azure OpenAI function calls. Microsoft Agent Framework, Foundry Agent Service, MCP, A2A and Fabric integration are not claimed. Public receipts are operations and contributions, not private chain-of-thought.
 
-Tool results, raw model outputs (including rejected text), posts, claim revisions, tokens and receipts persist. A complete fresh film discussion uses three model requests, or four when Host needs an editorial revision; a synthetic round uses one. Complete runs are reused without fabricated typing. Successful intermediate work is reused after failure; unavailable stages retry. Drafts are labeled and validated before final publication. Number, player-attribution, citation, correction and repetition guards reduce specific errors without proving semantic truth.
+Tool results, raw model outputs (including rejected text), posts, claim revisions, tokens and receipts persist. A fresh film discussion uses three model requests and can use up to three bounded editorial repairs; a synthetic round uses one selection request. Complete runs are reused without fabricated typing. Successful intermediate work is reused after failure; unavailable stages retry. Drafts are labeled and validated before final publication. Number, player-attribution, citation, correction and repetition guards reduce specific errors without proving semantic truth.
 
 ## Correction and recovery
 
@@ -68,7 +68,7 @@ Truth Lab's actual-frame Azure vision review receives JPEGs without authored obs
 
 `node scripts/production-smoke.mjs <Azure origin> --full` consumes up to eight model requests and writes credential-free deployment receipts to `docs/proof/live-production-proof.json`. Metrics are measured duration and reported tokens, not invented dollar costs or judging scores. The demonstrated advantage is reusable work and source-revision enforcement; comparative superiority over a single model has not been established.
 
-Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. Limits remain two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas. Normal film playback makes zero automatic model requests. Ask the crew explicitly generates a film discussion, three requests, or four with an editorial revision; existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
+Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. The normal limit is two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas; a date-bound override can temporarily raise the daily request limit. Normal film playback makes zero automatic model requests. Asking the film crew explicitly uses three to six requests; the synthetic match uses one selection request per fresh round. Existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
 
 Configuration: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT`, `AZURE_STORAGE_URL`, `AI_DAILY_LIMIT`, `ALLOWED_ORIGINS`, `PORT`. Frontend `api-config.json` contains only the public API origin. See [deployment instructions](docs/DEPLOYMENT.md) for the parameterized script, Bicep template and existing-resource prerequisites. Publish the static Site through its managed source workflow. Docker includes `api/` and `dist/`.
 

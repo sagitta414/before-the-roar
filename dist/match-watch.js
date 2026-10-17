@@ -11,7 +11,7 @@ import {
   clipDiscussionMatches,
   clipEditorialCutoff,
 } from "./pitchside-story.js";
-import { SCENARIOS, PLAYERS, clock } from "./engine.js";
+import { SCENARIOS, PLAYERS, clock, events } from "./engine.js";
 import { matchSession } from "./match-session.js";
 import {
   matchStory,
@@ -639,6 +639,17 @@ function renderPanel() {
     const texts={en:[['Go deeper','What useful distinction have we not covered yet?'],['Challenge it','What evidence would change this explanation?'],['Make it simple','Explain the key difference in everyday language.']],es:[['Más detalle','¿Qué distinción útil falta por explicar?'],['Cuestiónalo','¿Qué evidencia cambiaría esta explicación?'],['Más sencillo','Explica la diferencia principal con palabras sencillas.']],pt:[['Aprofundar','Que distinção útil ainda falta explicar?'],['Questionar','Que evidência mudaria esta explicação?'],['Simplificar','Explique a diferença principal com palavras simples.']]}[state.language];
     if(!isClip()&&state.scenario==='wide'&&!state.corrected)texts[1]=({en:['Did the run cause it?','Does this prove the wide run opened the central pass? What would you need to check?'],es:['¿La carrera lo causó?','¿Esto demuestra que la carrera abierta permitió el pase central? ¿Qué habría que comprobar?'],pt:['A corrida causou isso?','Isso prova que a corrida aberta permitiu o passe central? O que seria preciso verificar?']})[state.language];
     for(const [label,q] of texts){const b=el('button','',label+' ↗');b.onclick=()=>requestPanel(q,thread.cutoff,true,q);follow.append(b);}
+    if (!isClip()) {
+      const scenario = SCENARIOS.find(s => s.id === state.scenario);
+      const next = events(scenario).find(e => e.end > thread.cutoff + .01);
+      if (next) {
+        const label = ({en:'See what happened next',es:'Ver qué pasó después',pt:'Veja o que aconteceu depois'})[state.language];
+        const question = 'Check the next recorded event against the previous reading. What changed, and what remains unproven?';
+        const button = el('button','next-event-check',`${label} · ${displayTime(next.end)} ↗`);
+        button.onclick = () => { seek(next.end); requestPanel(question,next.end,true,label,thread); };
+        follow.prepend(button);
+      }
+    }
     follow.append(el('small','',isClip()?'Continue this conversation · up to 4 AI requests':'Continue this conversation · 1 AI request'));box.append(follow);
   } else if (thread?.complete && thread.round >= 3) box.append(el('p','conversation-progress','Three rounds complete. Choose another moment or start a fresh discussion.'));
   for (const b of document.querySelectorAll("[data-agent]")) {
@@ -703,10 +714,12 @@ async function requestPanel(
   cutoff = viewTime(),
   manual = true,
   askedQuestion = question,
+  parentOverride = null,
 ) {
   // Playback updates reviewed notes for free; only an explicit request generates AI.
   if (!manual) return;
-  const parent = question && activeThread()?.complete && activeThread()?.conversationId && activeThread().round < 3 ? activeThread() : null;
+  const candidate = parentOverride || activeThread();
+  const parent = question && candidate?.complete && candidate?.conversationId && candidate.round < 3 ? candidate : null;
   const clipRequest = isClip(),
     input = { ...viewInput(), time: Math.floor(cutoff * 10) / 10, question, ...(parent?{parentKey:parent.conversationId}:{}) },
     key = (clipRequest ? pitchsideKey(input) : editorialKey(input)) + ':' + (input.parentKey || ''),
