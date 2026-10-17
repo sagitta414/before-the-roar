@@ -728,7 +728,8 @@ export class MatchDesk {
             validated.summary = candidate.post.viewing_question;
           if (conversation.round > 1 && repeatsContribution(validated.summary,conversation.previous.filter(p=>p.role===role)))
             throw Error("Follow-up repeats the previous contribution");
-          if (role === "presenter" && (repeatsContribution(validated.summary,previous) || repeatsInsight(validated.summary,previous.filter(p=>p.role==='analyst')) || (this.clip && (repeatsFilmUncertainty(validated.summary,previous) || filmHostSkipsCheck(validated.summary,packet))) || editorialIssues(role,validated.summary,previous).length))
+          const filmPass = this.clip && ['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id);
+          if (role === "presenter" && (repeatsContribution(validated.summary,previous) || (!filmPass && repeatsInsight(validated.summary,previous.filter(p=>p.role==='analyst'))) || (this.clip && (repeatsFilmUncertainty(validated.summary,previous) || filmHostSkipsCheck(validated.summary,packet))) || editorialIssues(role,validated.summary,previous).length))
             throw Error("Repeated contribution; using the reviewed closing cue");
           return validated;
         };
@@ -739,18 +740,25 @@ export class MatchDesk {
           await journal.change(v=>{v.rejected_outputs??={};v.rejected_outputs[role]=raw;});
           await trace(role,"editorial_revision_requested",{reason:firstError.message});
           await reserve();
-          const repairTask = role === "analyst"
+          const challengeRepair = conversation.round > 1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(input.question || "");
+          const repairTask = challengeRepair && role === "guide"
+            ? "Guide: the answer MUST be a question naming a continuous camera angle or unbroken view, the defender's route during the pass, and the receiver's next touch. Example of the required comparison: Which continuous angle would show the defender's route through the pass and the receiver's first touch? Do not ask only about the defender's position."
+            : challengeRepair && role === "presenter"
+              ? "Host: answer what evidence could change the reading, not another summary of Scout. State that an unbroken view from pass release through the receiver's first touch could test the defender's route. State that this shot confirms a local outlet, not a break in the wider defensive line. Put the replay instruction only in replay_cue."
+          : role === "analyst"
             ? "Scout: describe only the reached observation. Answer the viewer's question by naming the visible touch or pass and the specific missing view. Do not infer defender movement between cuts, player readiness, an advantage, or a wider tactical outcome."
             : role === "guide"
               ? "Guide: ask one short, concrete viewing question that teaches the football concept and follows Scout's observation. The application supplies the definition. Do not claim what a defender did between cuts or what the receiver accomplished after the touch."
-              : "Host: state a specific new football implication or the precise next-touch replay test. For a received pass, distinguish the local outlet from the unverified wider defensive line, and say what the next touch can test. Do not repeat Scout.";
+              : ['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id)
+                ? "Host: synthesize Check's limit and offer a concrete replay test, without a quality rating or a claim about defender influence. A supported example is: A local outlet is confirmed, but the wider defensive line remains outside this shot; the receiver's first touch can test the exit. Keep the observation, boundary and test in separate clauses. Do not repeat Scout's account of the reception."
+                : "Host: state a specific new football implication or the precise next-touch replay test. Do not repeat Scout, give an unmeasured quality rating or claim an unseen outcome.";
           const repairedResponse=await fetch(url,{
             method:"POST",headers,signal:AbortSignal.timeout(30000),
             body:JSON.stringify({
               messages:[
                 {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. '+repairTask+' Avoid generic praise. Keep the same evidence cutoff, language and citations.'},
                 {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,football_context:packet.football,guide_definition:packet.guideDefinition,role_brief:notes.find(p=>p.role===role),calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,editorial_rejection:firstError.message})},
-              ],temperature:.25,max_tokens:450,stream:false,
+              ],temperature:0,max_tokens:450,stream:false,
               response_format:{type:"json_schema",json_schema:{name:"match_editor",strict:true,schema}},
             }),
           });

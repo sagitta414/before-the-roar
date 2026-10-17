@@ -98,6 +98,25 @@ test('a rejected film Scout answer is repaired before publishing a reviewed note
  }finally{global.fetch=savedFetch;for(const[key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
 });
 
+test('a pass-scene Host revision adds the wider-line limit and next-touch test',async()=>{
+ const savedFetch=global.fetch,endpoint=process.env.AZURE_OPENAI_ENDPOINT,token=process.env.AZURE_ACCESS_TOKEN;
+ process.env.AZURE_OPENAI_ENDPOINT='https://example.test/';process.env.AZURE_ACCESS_TOKEN='test';
+ const cache=new Map();let calls=0;
+ const store={read:async k=>cache.get(k),write:async(k,v)=>cache.set(k,v),reserve:async()=>true};
+ try{
+  global.fetch=async(_url,options)=>{
+   calls++;const body=JSON.parse(options.body),prompt=body.messages[0].content,repair=body.stream===false,guide=prompt.includes('Guide:'),host=prompt.includes('Host:');
+   if(repair){assert.ok(host);assert.match(prompt,/wider defensive line/);assert.equal(body.temperature,0);}
+   const text=guide?'Where could the receiver turn after the first touch?':host?(repair?'A local outlet is confirmed, but the wider defensive line remains outside this shot; the receiver’s first touch can test the exit.':'The importance of the pass is clear.'):'The pass reaches a nearby teammate with a defender in view.';
+   const post={...(guide?{viewing_question:text}:host?{takeaway:text,replay_cue:'Replay the receiver’s first touch.'}:{interpretation:text}),headline:'The local outlet',caution:'The wider line is outside this shot.',evidence_ids:{primary:'pitchside-reception',secondary:null}};
+   const content=JSON.stringify({post});
+   return repair?Response.json({choices:[{message:{content}}],usage:{}}):new Response('data: '+JSON.stringify({choices:[{delta:{content}}]})+'\n\ndata: '+JSON.stringify({choices:[{delta:{},finish_reason:'stop'}]})+'\n\ndata: [DONE]\n\n');
+  };
+  const desk=new MatchDesk({busy:0,store},{clip:true,state:testState(store)}),posts=await desk.discuss({time:12,language:'en',mode:'fan'},()=>{});
+  assert.equal(calls,4);assert.equal(posts.at(-1).engine,'azure_openai');assert.match(posts.at(-1).summary,/first touch can test/);
+ }finally{global.fetch=savedFetch;for(const[key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
+});
+
 test('clip API rejects wrong assets and cutoffs before spending, accepts an empty evidence window',async()=>{
  const app=createApp({narrator:{busy:0,store:{read:async()=>null,reserve:async()=>assert.fail('No model call before evidence')}}});await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${app.server.address().port}/api/clip-desk`;
  try{for(const input of [{clip_id:'featured',time:8},{clip_id:PITCHSIDE.id,time:PITCHSIDE.duration+1},{clip_id:PITCHSIDE.id,time:-1}])assert.equal((await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)})).status,400);

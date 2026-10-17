@@ -1,0 +1,2729 @@
+{
+  "schema": "btr.live-film-conversation.v1",
+  "recorded_at": "2026-10-17T12:45:14.702Z",
+  "origin": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io",
+  "source": "manually reviewed AI film at 00:12",
+  "before": {
+    "version": "3.15.0",
+    "usage": {
+      "day": "2026-10-17",
+      "limit": 240,
+      "used": 204
+    }
+  },
+  "rounds": [
+    {
+      "input": {
+        "clip_id": "pitchside-minute-veo-quality-v1",
+        "time": 12,
+        "language": "en",
+        "mode": "analyst",
+        "question": "At the receiving touch, what is useful about this outlet and what remains unproven?"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "reviewed-ai-video",
+            "discussion_scope": "evidence-cutoff",
+            "clip_id": "pitchside-minute-veo-quality-v1",
+            "cutoff": 12,
+            "language": "en",
+            "mode": "analyst"
+          },
+          "at": "2026-10-17T12:45:14.754Z"
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b",
+            "round": 1,
+            "parent": null,
+            "max_rounds": 3
+          },
+          "at": "2026-10-17T12:45:14.755Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792241116019,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 12,
+            "revision": 4,
+            "storage": "azure_blob"
+          },
+          "at": "2026-10-17T12:45:14.809Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "math",
+            "summary": "One reviewed pass reaches a teammate in this scene. A single completion cannot establish a team pass-accuracy rate.",
+            "working": "attacking players − nearby defenders: 2 − 1 = +1.\nCompleted receptions in this scene = 1. Total pass attempts are not annotated → pass accuracy unavailable.",
+            "metric_value": "2 v 1",
+            "metric_title": "A pass reaches its receiver",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "engine": "calculated",
+            "title": "The receiving touch",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 12,
+            "revision": 4,
+            "turn_id": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b:math",
+            "round": 1,
+            "sequence": 1,
+            "reply_to": null
+          },
+          "at": "2026-10-17T12:45:14.851Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792241116073,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ]
+          },
+          "at": "2026-10-17T12:45:14.862Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          },
+          "at": "2026-10-17T12:45:14.863Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792241116201,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "pitchside-duel",
+              "pitchside-touch",
+              "pitchside-run",
+              "pitchside-frame",
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "duration_ms": 116
+          },
+          "at": "2026-10-17T12:45:15.040Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.733Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.733Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.733Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.733Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.733Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate,",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However,",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:15.734Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making remains",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making remains un",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making remains unpro",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making remains unproven",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.149Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making remains unproven.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.150Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making remains unproven.",
+            "title": "A passing option is present; defender's impact unverified.",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "evidence_contract": {
+              "kind": "interpretation",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 12,
+            "revision": 4,
+            "latency_ms": 2020,
+            "first_text_ms": 980,
+            "turn_id": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b:analyst",
+            "round": 1,
+            "sequence": 2,
+            "reply_to": null
+          },
+          "at": "2026-10-17T12:45:16.891Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 4,
+            "at": 1792241118115,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "latency_ms": 2020,
+            "first_text_ms": 980
+          },
+          "at": "2026-10-17T12:45:16.901Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "guide"
+          },
+          "at": "2026-10-17T12:45:16.902Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 5,
+            "at": 1792241118125,
+            "role": "guide",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
+            "evidence_ids": [
+              "pitchside-duel",
+              "pitchside-touch",
+              "pitchside-run",
+              "pitchside-frame",
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-17T12:45:16.910Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the receiver",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the receiver have",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the receiver have with",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the receiver have with the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the receiver have with the defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the receiver have with the defender nearby",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.206Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "A pass sends the ball to a teammate. What options does the receiver have with the defender nearby?",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.207Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "A pass sends the ball to a teammate. What options does the receiver have with the defender nearby?",
+            "title": "A pass reaches its receiver, but defender's effect is unclear.",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "evidence_contract": {
+              "kind": "viewing_question",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 12,
+            "revision": 4,
+            "latency_ms": 1497,
+            "first_text_ms": 3454,
+            "turn_id": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b:guide",
+            "round": 1,
+            "sequence": 3,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-17T12:45:18.407Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 6,
+            "at": 1792241119631,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "latency_ms": 1497,
+            "first_text_ms": 3454
+          },
+          "at": "2026-10-17T12:45:18.416Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "reviewer",
+            "summary": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+            "decision": "qualify",
+            "target_claim": "A completed pass proves the defence was broken.",
+            "engine": "evidence_rules",
+            "title": "The receiving touch",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 12,
+            "revision": 4,
+            "target_role": "analyst",
+            "reviewed_contribution": "The outlet is useful as it connects with a nearby teammate, providing a clear passing option. However, the influence of the defender on the receiver's decision-making remains unproven.",
+            "turn_id": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b:reviewer",
+            "round": 1,
+            "sequence": 4,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-17T12:45:18.426Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 7,
+            "at": 1792241119650,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 4,
+              "cutoff": 12,
+              "status": "bounded",
+              "claim": "A completed pass proves the defence was broken.",
+              "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+              "evidence_ids": [
+                "pitchside-outlet",
+                "pitchside-reception"
+              ],
+              "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          "at": "2026-10-17T12:45:18.435Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "presenter"
+          },
+          "at": "2026-10-17T12:45:18.435Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 8,
+            "at": 1792241119659,
+            "role": "presenter",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
+            "evidence_ids": [
+              "pitchside-duel",
+              "pitchside-touch",
+              "pitchside-run",
+              "pitchside-frame",
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-17T12:45:18.444Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:19.696Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate,",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However,",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the receiver",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the receiver's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.032Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the receiver's options",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.033Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the receiver's options remains",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.033Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the receiver's options remains un",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.033Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the receiver's options remains unverified",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.166Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The outlet effectively connects with a teammate, allowing for potential progression. However, the defender's influence on the receiver's options remains unverified.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 4943
+          },
+          "at": "2026-10-17T12:45:20.166Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 9,
+            "at": 1792241121522,
+            "role": "presenter",
+            "action": "editorial_revision_requested",
+            "reason": "Unmeasured quality rating"
+          },
+          "at": "2026-10-17T12:45:20.309Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "presenter",
+            "summary": "A short outlet is useful only if the receiver can use the next touch. Look for the exit, not just the completed pass.",
+            "engine": "reviewed_fallback",
+            "replay_cue": "Replay the receiver’s first touch.",
+            "title": "The receiving touch",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "caution": "AI wording did not pass the editorial check. This is a reviewed evidence note.",
+            "cutoff": 12,
+            "revision": 4,
+            "turn_id": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b:presenter",
+            "round": 1,
+            "sequence": 5,
+            "reply_to": "reviewer"
+          },
+          "at": "2026-10-17T12:45:22.031Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 10,
+            "at": 1792241123254,
+            "role": "presenter",
+            "action": "fallback_published",
+            "reason": "Repeated contribution; using the reviewed closing cue"
+          },
+          "at": "2026-10-17T12:45:22.041Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 11,
+            "at": 1792241123275,
+            "role": "director",
+            "action": "reviewed_notes_ready",
+            "revision": 4
+          },
+          "at": "2026-10-17T12:45:22.060Z"
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 4,
+            "prompt_tokens": 11293,
+            "completion_tokens": 391,
+            "usage_missing": 0,
+            "elapsed_ms": 7288,
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 4,
+              "cutoff": 12,
+              "status": "bounded",
+              "claim": "A completed pass proves the defence was broken.",
+              "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+              "evidence_ids": [
+                "pitchside-outlet",
+                "pitchside-reception"
+              ],
+              "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "status": "degraded"
+          },
+          "at": "2026-10-17T12:45:22.061Z"
+        }
+      ],
+      "started_at": "2026-10-17T12:45:14.703Z",
+      "finished_at": "2026-10-17T12:45:22.062Z"
+    },
+    {
+      "input": {
+        "clip_id": "pitchside-minute-veo-quality-v1",
+        "time": 12,
+        "language": "en",
+        "mode": "analyst",
+        "question": "What evidence would change this explanation?",
+        "parentKey": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b"
+      },
+      "events": [
+        {
+          "type": "connected",
+          "data": {
+            "source": "reviewed-ai-video",
+            "discussion_scope": "evidence-cutoff",
+            "clip_id": "pitchside-minute-veo-quality-v1",
+            "cutoff": 12,
+            "language": "en",
+            "mode": "analyst"
+          },
+          "at": "2026-10-17T12:45:22.110Z"
+        },
+        {
+          "type": "conversation",
+          "data": {
+            "id": "a631bb07bd1ea3edfd817052521e9bb3574370514a20b5020e5b27d86bdc5e50",
+            "round": 2,
+            "parent": "72b3780acd813cbc876421912246b0345d17400eb92bdd38078d005a263d373b",
+            "max_rounds": 3
+          },
+          "at": "2026-10-17T12:45:22.122Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 1,
+            "at": 1792241123361,
+            "role": "director",
+            "action": "run_started",
+            "cutoff": 12,
+            "revision": 4,
+            "storage": "azure_blob"
+          },
+          "at": "2026-10-17T12:45:22.146Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "math",
+            "summary": "One reviewed pass reaches a teammate in this scene. A single completion cannot establish a team pass-accuracy rate.",
+            "working": "attacking players − nearby defenders: 2 − 1 = +1.\nCompleted receptions in this scene = 1. Total pass attempts are not annotated → pass accuracy unavailable.",
+            "metric_value": "2 v 1",
+            "metric_title": "A pass reaches its receiver",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "engine": "calculated",
+            "title": "The receiving touch",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 12,
+            "revision": 4,
+            "turn_id": "a631bb07bd1ea3edfd817052521e9bb3574370514a20b5020e5b27d86bdc5e50:math",
+            "round": 2,
+            "sequence": 1,
+            "reply_to": null
+          },
+          "at": "2026-10-17T12:45:22.155Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 2,
+            "at": 1792241123379,
+            "role": "math",
+            "action": "calculation_saved",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ]
+          },
+          "at": "2026-10-17T12:45:22.165Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "analyst"
+          },
+          "at": "2026-10-17T12:45:22.166Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 3,
+            "at": 1792241123400,
+            "role": "analyst",
+            "action": "tool_completed",
+            "tool": "read_evidence",
+            "evidence_ids": [
+              "pitchside-duel",
+              "pitchside-touch",
+              "pitchside-run",
+              "pitchside-frame",
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "duration_ms": 11
+          },
+          "at": "2026-10-17T12:45:22.185Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.358Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.359Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains un",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified,",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not visible",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not visible in",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not visible in this",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not visible in this shot",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "analyst",
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not visible in this shot.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:23.624Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not visible in this shot.",
+            "title": "Defender's influence remains unverified.",
+            "caution": "The records do not establish the influence either way.",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "evidence_contract": {
+              "kind": "interpretation",
+              "observation": null,
+              "limitation": "The records do not establish the influence either way.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 12,
+            "revision": 4,
+            "latency_ms": 2371,
+            "first_text_ms": 1243,
+            "turn_id": "a631bb07bd1ea3edfd817052521e9bb3574370514a20b5020e5b27d86bdc5e50:analyst",
+            "round": 2,
+            "sequence": 2,
+            "reply_to": null
+          },
+          "at": "2026-10-17T12:45:24.553Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 4,
+            "at": 1792241125770,
+            "role": "analyst",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "latency_ms": 2371,
+            "first_text_ms": 1243
+          },
+          "at": "2026-10-17T12:45:24.561Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "guide"
+          },
+          "at": "2026-10-17T12:45:24.562Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 5,
+            "at": 1792241125779,
+            "role": "guide",
+            "action": "context_prepared",
+            "source": "verified_glossary_and_evidence",
+            "evidence_ids": [
+              "pitchside-duel",
+              "pitchside-touch",
+              "pitchside-run",
+              "pitchside-frame",
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-17T12:45:24.571Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the receiver",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the receiver have",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the receiver have with",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the receiver have with the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the receiver have with the defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the receiver have with the defender nearby",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "guide",
+            "summary": "What options does the receiver have with the defender nearby?",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:25.560Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 6,
+            "at": 1792241126944,
+            "role": "guide",
+            "action": "editorial_revision_requested",
+            "reason": "Guide must identify a concrete evidence comparison for this challenge"
+          },
+          "at": "2026-10-17T12:45:25.735Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "summary": "Which continuous angle would show the defender's route during the pass and the receiver's first touch?",
+            "title": "The defender's route remains unverified.",
+            "caution": "The records do not establish the influence either way.",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "evidence_contract": {
+              "kind": "viewing_question",
+              "observation": null,
+              "limitation": "The records do not establish the influence either way.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 12,
+            "revision": 4,
+            "latency_ms": 2602,
+            "first_text_ms": 3444,
+            "turn_id": "a631bb07bd1ea3edfd817052521e9bb3574370514a20b5020e5b27d86bdc5e50:guide",
+            "round": 2,
+            "sequence": 3,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-17T12:45:27.174Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 7,
+            "at": 1792241128391,
+            "role": "guide",
+            "action": "contribution_saved",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "latency_ms": 2602,
+            "first_text_ms": 3444
+          },
+          "at": "2026-10-17T12:45:27.182Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "reviewer",
+            "summary": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+            "decision": "qualify",
+            "target_claim": "A completed pass proves the defence was broken.",
+            "engine": "evidence_rules",
+            "title": "The receiving touch",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 12,
+            "revision": 4,
+            "target_role": "analyst",
+            "reviewed_contribution": "The attacker receives a pass from a teammate while a defender is positioned nearby. The defender's influence on the receiver's options remains unverified, as the wider defensive shape is not visible in this shot.",
+            "turn_id": "a631bb07bd1ea3edfd817052521e9bb3574370514a20b5020e5b27d86bdc5e50:reviewer",
+            "round": 2,
+            "sequence": 4,
+            "reply_to": "analyst"
+          },
+          "at": "2026-10-17T12:45:27.191Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 8,
+            "at": 1792241128408,
+            "role": "reviewer",
+            "action": "claim_checked",
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 4,
+              "cutoff": 12,
+              "status": "bounded",
+              "claim": "A completed pass proves the defence was broken.",
+              "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+              "evidence_ids": [
+                "pitchside-outlet",
+                "pitchside-reception"
+              ],
+              "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            }
+          },
+          "at": "2026-10-17T12:45:27.202Z"
+        },
+        {
+          "type": "speaker",
+          "data": {
+            "role": "presenter"
+          },
+          "at": "2026-10-17T12:45:27.203Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 9,
+            "at": 1792241128420,
+            "role": "presenter",
+            "action": "context_prepared",
+            "source": "saved_public_contributions",
+            "evidence_ids": [
+              "pitchside-duel",
+              "pitchside-touch",
+              "pitchside-run",
+              "pitchside-frame",
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "model_tool_selection": false
+          },
+          "at": "2026-10-17T12:45:27.211Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection,",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.318Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.416Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first touch",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.417Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first touch is",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.587Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first touch is needed",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.587Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first touch is needed to",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.587Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first touch is needed to clarify",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.587Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first touch is needed to clarify this",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.587Z"
+        },
+        {
+          "type": "draft",
+          "data": {
+            "role": "presenter",
+            "summary": "The reception confirms a pass connection, but the impact of the nearby defender on the receiver's next actions is not established. A continuous view showing both the defender's position during the pass and the receiver's first touch is needed to clarify this.",
+            "cutoff": 12,
+            "revision": 4,
+            "first_text_ms": 6202
+          },
+          "at": "2026-10-17T12:45:28.587Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 10,
+            "at": 1792241129893,
+            "role": "presenter",
+            "action": "editorial_revision_requested",
+            "reason": "Repeated contribution; using the reviewed closing cue"
+          },
+          "at": "2026-10-17T12:45:28.684Z"
+        },
+        {
+          "type": "post",
+          "data": {
+            "role": "presenter",
+            "summary": "A continuous view of the defender through the pass could change the defensive reading. This shot confirms the outlet, not a break in the wider line.",
+            "engine": "reviewed_fallback",
+            "replay_cue": "Replay the receiver’s first touch.",
+            "title": "The receiving touch",
+            "evidence_ids": [
+              "pitchside-outlet",
+              "pitchside-reception"
+            ],
+            "caution": "AI wording did not pass the editorial check. This is a reviewed evidence note.",
+            "cutoff": 12,
+            "revision": 4,
+            "turn_id": "a631bb07bd1ea3edfd817052521e9bb3574370514a20b5020e5b27d86bdc5e50:presenter",
+            "round": 2,
+            "sequence": 5,
+            "reply_to": "reviewer"
+          },
+          "at": "2026-10-17T12:45:30.330Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 11,
+            "at": 1792241131548,
+            "role": "presenter",
+            "action": "fallback_published",
+            "reason": "Repeated contribution; using the reviewed closing cue"
+          },
+          "at": "2026-10-17T12:45:30.339Z"
+        },
+        {
+          "type": "trace",
+          "data": {
+            "seq": 12,
+            "at": 1792241131566,
+            "role": "director",
+            "action": "reviewed_notes_ready",
+            "revision": 4
+          },
+          "at": "2026-10-17T12:45:30.358Z"
+        },
+        {
+          "type": "complete",
+          "data": {
+            "cached": false,
+            "model_calls": 5,
+            "prompt_tokens": 16046,
+            "completion_tokens": 431,
+            "usage_missing": 0,
+            "elapsed_ms": 8223,
+            "claim": {
+              "id": "editorial-reading",
+              "revision": 4,
+              "cutoff": 12,
+              "status": "bounded",
+              "claim": "A completed pass proves the defence was broken.",
+              "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+              "evidence_ids": [
+                "pitchside-outlet",
+                "pitchside-reception"
+              ],
+              "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+              "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+            },
+            "status": "degraded"
+          },
+          "at": "2026-10-17T12:45:30.359Z"
+        }
+      ],
+      "started_at": "2026-10-17T12:45:22.062Z",
+      "finished_at": "2026-10-17T12:45:30.360Z"
+    }
+  ],
+  "complete": true,
+  "all_ai": false,
+  "limits": "One live demonstration with a fixed evidence cutoff. Not a comparison or accuracy score. All fallbacks and drafts are retained.",
+  "after": {
+    "version": "3.15.0",
+    "usage": {
+      "day": "2026-10-17",
+      "limit": 240,
+      "used": 213
+    }
+  }
+}
