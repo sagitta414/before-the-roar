@@ -28,7 +28,7 @@ for(const p of PRESENTER_PROFILES)Object.assign(p,editorialProfiles[p.id]);
 // Expose the real sequential handoff without implying that model agreement proves a fact.
 const syntheticHandoff={
  analyst:'Scout runs first from the verified event window and passes its public observation to Guide.',
- guide:'Guide runs after Scout and Vector, then passes its teaching angle to Check.',
+ guide:'Guide runs after Scout. Vector then calculates from the records before Check begins.',
  reviewer:'Check runs after Scout, Guide and Vector. Its model choice stays subordinate to the deterministic evidence verdict.',
  presenter:'Host runs last with all four completed contributions and must preserve Check’s limitation.'
 };
