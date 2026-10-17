@@ -2,7 +2,7 @@ import {testState,toolResponse} from './agent-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PITCHSIDE,PITCHSIDE_BEATS,clipClock,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipDiscussionMatches,clipEditorialCutoff} from '../dist/pitchside-story.js';
-import {MatchDesk,validateMatchPost,repeatsInsight,repeatsFilmUncertainty} from '../api/match-desk.mjs';
+import {MatchDesk,validateMatchPost,repeatsInsight,repeatsFilmUncertainty,filmHostSkipsCheck} from '../api/match-desk.mjs';
 import {createApp} from '../api/server.mjs';
 
 test('crossing a film cut cannot retain an earlier discussion or future reply',()=>{
@@ -37,6 +37,8 @@ test('film follow-up rejects stationary-defender claims absent from reviewed fra
  assert.equal(repeatsInsight('The pass indicates a defensive presence, yet the overall defensive shape and effectiveness cannot be determined from this moment.',[{summary:'The attacker passes to a nearby teammate while a defender is positioned close, indicating a defensive presence. The defensive shape and overall effectiveness cannot be assessed from this moment.'}]),true);
  assert.equal(repeatsFilmUncertainty('The completed pass indicates a connection, but the defender’s control over space remains unverified.',[{role:'analyst',summary:'The attacker passes to a teammate with a nearby defender present. The defender’s control is unknown.'}]),true);
  assert.equal(repeatsFilmUncertainty('The next touch will test whether the receiver can turn away from the defender.',[{role:'analyst',summary:'The attacker passes to a teammate with a nearby defender present.'}]),false);
+ assert.equal(filmHostSkipsCheck('The outlet offers a passing option; the receiver can advance, pass again or hold.',packet),true);
+ assert.equal(filmHostSkipsCheck('The local outlet is confirmed, but the wider defensive line is outside this shot; the next touch can test the exit.',packet),false);
 });
 
 test('clip cache keys vary with cutoff, language, mode and question',()=>{

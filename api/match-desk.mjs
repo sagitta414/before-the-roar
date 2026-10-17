@@ -45,6 +45,10 @@ export function repeatsInsight(summary, previous = []) {
 export function repeatsFilmUncertainty(summary, previous=[]) {
   return /pass|connection/i.test(summary) && /defender/i.test(summary) && /(?:unverified|unknown|not (?:known|confirmed|established)|remains unclear)/i.test(summary) && !/(?:next touch|next pass|turn|release|exit|wider line|continuous|unbroken)/i.test(summary) && previous.some(p=>p.role==='analyst'&&/pass|passes|connection/i.test(p.summary)&&/defender/i.test(p.summary));
 }
+export function filmHostSkipsCheck(summary, packet) {
+  if(!['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id))return false;
+  return !/(?:line|defen|beyond|outside|unverified|unknown|cannot confirm|not establish|línea|defens|fuera|desconoc|não confirm|fora|linha)/i.test(summary);
+}
 function reviewedClipChallenge(packet,role){
   const pass=['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id),l=['en','es','pt'].indexOf(packet.language);
   const lines=pass?{
@@ -722,7 +726,7 @@ export class MatchDesk {
             validated.summary = candidate.post.viewing_question;
           if (conversation.round > 1 && repeatsContribution(validated.summary,conversation.previous.filter(p=>p.role===role)))
             throw Error("Follow-up repeats the previous contribution");
-          if (role === "presenter" && (repeatsContribution(validated.summary,previous) || repeatsInsight(validated.summary,previous.filter(p=>p.role==='analyst')) || (this.clip && repeatsFilmUncertainty(validated.summary,previous)) || editorialIssues(role,validated.summary,previous).length))
+          if (role === "presenter" && (repeatsContribution(validated.summary,previous) || repeatsInsight(validated.summary,previous.filter(p=>p.role==='analyst')) || (this.clip && (repeatsFilmUncertainty(validated.summary,previous) || filmHostSkipsCheck(validated.summary,packet))) || editorialIssues(role,validated.summary,previous).length))
             throw Error("Repeated contribution; using the reviewed closing cue");
           return validated;
         };
@@ -737,7 +741,7 @@ export class MatchDesk {
             method:"POST",headers,signal:AbortSignal.timeout(30000),
             body:JSON.stringify({
               messages:[
-                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. State a specific new football implication or the precise next-touch replay test. Do not use the words importance, important, essential, crucial, or highlights. Do not repeat Scout. Keep the same evidence cutoff and citations.'},
+                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. State a specific new football implication or the precise next-touch replay test. For a received pass, distinguish the local outlet from the unverified wider defensive line, and say what the next touch can test. Do not use the words importance, important, essential, crucial, or highlights. Do not repeat Scout. Keep the same evidence cutoff and citations.'},
                 {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,editorial_rejection:firstError.message})},
               ],temperature:.25,max_tokens:450,stream:false,
               response_format:{type:"json_schema",json_schema:{name:"match_editor",strict:true,schema}},
