@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {JSDOM} from 'jsdom';
-test('all six application routes and the guided story initialize together without paid requests',async()=>{
+test('all seven application routes and the guided story initialize together without paid requests',async()=>{
  const dom=new JSDOM(await readFile(new URL('../dist/index.html',import.meta.url),'utf8'),{url:'https://example.test/?tour=1#watch',pretendToBeVisual:true}),w=dom.window;
  const saved=new Map(),set=(key,value)=>{saved.set(key,Object.getOwnPropertyDescriptor(globalThis,key));Object.defineProperty(globalThis,key,{configurable:true,writable:true,value});};
  const requests=[],errors=[],intervals=[];w.addEventListener('error',e=>errors.push(e.error));w.scrollTo=()=>{};w.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){}});w.HTMLElement.prototype.scrollIntoView=()=>{};w.HTMLMediaElement.prototype.load=()=>{};w.HTMLMediaElement.prototype.pause=()=>{};w.HTMLMediaElement.prototype.play=async()=>{};
@@ -12,7 +12,7 @@ test('all six application routes and the guided story initialize together withou
   for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js'])await import('../dist/'+file);
   await new Promise(r=>setTimeout(r,50));
   assert.ok(document.body.classList.contains('guided-active'));assert.match(document.querySelector('.guided-copy').textContent,/run you didn’t see/);
-  for(const id of ['centre','lab','truth','presenters','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
+  for(const id of ['centre','lab','truth','presenters','security','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
   const {matchSession}=await import('../dist/match-session.js');
   matchSession.set({source:'match',section:'truth',time:16,corrected:true});
   const ledger=document.querySelector('.truth-quality');assert.ok(ledger);assert.equal(ledger.closest('details'),null,'claim audit must not be buried in an evidence drawer');assert.match(ledger.textContent,/Withdraw the original claim/);const audience=ledger.querySelector('details');audience.open=true;matchSession.set({time:17});assert.equal(ledger.querySelector('details').open,true,'open audience comparison survives a replay tick');
@@ -53,6 +53,6 @@ test('all six application routes and the guided story initialize together withou
   const lang=studio.querySelector('[aria-label="Evidence studio language"]');lang.value='es';lang.dispatchEvent(new Event('change'));assert.match(studio.querySelector('.ps-copy').textContent,/Cole interceptó/);assert.match(studio.querySelector('.ps-crew').textContent,/equipo/);
   lang.value='pt';lang.dispatchEvent(new Event('change'));assert.match(studio.querySelector('.ps-copy').textContent,/Cole interceptou/);assert.equal(studio.lang,'pt');
   lang.value='en';lang.dispatchEvent(new Event('change'));choose.value='counter';choose.dispatchEvent(new Event('change'));clickStudio('Reveal the completed event');assert.equal(studio.querySelector('.ps-controls input').value,'28');assert.match(studio.querySelector('.ps-comparison').textContent,/Berg saved/);
-  assert.deepEqual(errors,[]);assert.ok(requests.every(x=>!x.includes('/api/')||x.includes('/api/health')),'Initial route and guided actions must not spend model requests');
+  assert.deepEqual(errors,[]);assert.ok(requests.every(x=>!x.includes('/api/')||x.includes('/api/health')||x.includes('/api/judge-event')),'Initial route and guided actions may create a free judge envelope but must not spend model requests');
  }finally{for(const id of intervals)clearTimeout(id);for(const [key,d]of saved){if(d)Object.defineProperty(globalThis,key,d);else delete globalThis[key];}w.close();}
 });

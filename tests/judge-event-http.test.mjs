@@ -1,0 +1,4 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createApp} from '../api/server.mjs';
+test('judge event is created server-side with a fresh envelope and bounded authored evidence',async()=>{let now=1771080000000;const app=createApp({clock:()=>now});await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+app.server.address().port;try{const first=await fetch(base+'/api/judge-event',{method:'POST'}).then(r=>r.json());now++;const second=await fetch(base+'/api/judge-event',{method:'POST'}).then(r=>r.json());assert.notEqual(first.envelope_id,second.envelope_id);assert.equal(first.received_at,1771080000000);assert.equal(first.evidence_id,'wide-track-102-450');assert.equal(first.unseen_in_session,true);assert.match(first.limits.join(' '),/not a stadium feed/);}finally{app.server.closeAllConnections();await new Promise(r=>app.server.close(r));}});

@@ -211,6 +211,12 @@ export function createApp({
           validation: validateSyntheticMatch(match),
         });
       }
+      if (route === "/api/judge-event" && req.method === "POST") {
+        if (origin && !allowed.has(origin) && origin !== `https://${req.headers.host}` && origin !== `http://${req.headers.host}`)
+          return send(res, 403, { error: "Origin not allowed" });
+        const received=clock(),envelope=randomBytes(10).toString('hex');
+        return send(res,201,{schema:'btr.live-event-envelope.v1',envelope_id:`judge-${envelope}`,received_at:received,server_timestamp:new Date(received).toISOString(),scenario:'wide',sequence_second:18,match_clock:'67:18',revision:1,evidence_id:'wide-track-102-450',source:'Azure session event · authored synthetic tracking',unseen_in_session:true,limits:['The envelope is created live by the server.','The underlying football observation belongs to the authored synthetic scenario; this is not a stadium feed.']});
+      }
       if (route.startsWith("/api/production")) {
         if (
           origin &&

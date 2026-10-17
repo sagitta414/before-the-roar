@@ -1,5 +1,5 @@
 import {matchSession} from './match-session.js';
-export const SECTIONS=['watch','centre','lab','truth','presenters','inside'];
+export const SECTIONS=['watch','centre','lab','truth','presenters','security','inside'];
 export const sectionFromHash=hash=>SECTIONS.includes(hash.replace(/^#/,''))?hash.replace(/^#/,''):'watch';
 export function installNavigation(){
  const header=document.querySelector('.masthead'),nav=header.querySelector('nav');nav.id='main-navigation';

@@ -31,7 +31,7 @@ const save = (filename, data) => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 const watch = document.getElementById("watch");
-if(new URLSearchParams(location.search).get('demo')==='1')document.body.classList.add('demo-presentation');
+if(['1'].includes(new URLSearchParams(location.search).get('demo'))||new URLSearchParams(location.search).get('judge')==='1')document.body.classList.add('demo-presentation');
 let active = false,
   step = 0,
   options = { time: 16, corrected: false, language: "en", mode: "analyst" },
@@ -39,6 +39,12 @@ let active = false,
   playing = false,
   lastFrame = 0;
 let judgeRun=judgeProof(),pocketState={connected:false};
+let recovery={state:'ready',message:'Interrupt a real editorial worker, preserve its checkpoint, then resume it here.',logs:[]};
+const judgeApi=fetch('api-config.json').then(r=>r.json()).then(c=>['127.0.0.1','localhost'].includes(location.hostname)?'':c.baseUrl||'').catch(()=>'');
+async function judgeCall(path,body,token){const base=await judgeApi,r=await fetch(base+path,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(120000)});if(!r.ok)throw Error((await r.json().catch(()=>({}))).error||'Judge proof unavailable');return r;}
+async function injectJudgeEvent(){try{const event=await judgeCall('/api/judge-event',{},null).then(r=>r.json());judgeRun={...judgeRun,event:{...judgeRun.event,...event,id:event.evidence_id}};source.textContent='SERVER EVENT RECEIVED · THE UNSEEN RUN';}catch(error){judgeRun={...judgeRun,event:{...judgeRun.event,source:'Local authored fallback · Azure event endpoint unavailable',error:error.message}};source.textContent='LOCAL FALLBACK · THE UNSEEN RUN';}if(active&&step===0)render();}
+async function streamRecovery(session){const response=await judgeCall(`/api/production/${session.id}/run`,{},session.token),reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',paused=false;while(true){const {done,value}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});let split;while((split=buffer.indexOf('\n\n'))>=0){const block=buffer.slice(0,split);buffer=buffer.slice(split+2);const kind=block.split('\n').find(x=>x.startsWith('event:'))?.slice(6).trim();let data={};try{data=JSON.parse(block.split('\n').filter(x=>x.startsWith('data:')).map(x=>x.slice(5)).join(''));}catch{}if(kind==='trace'){recovery.logs=[...recovery.logs,{action:data.action||'tool receipt',status:data.status||data.engine||'saved'}].slice(-8);if(active&&step===3)render();}if(kind==='paused')paused=true;if(kind==='error')throw Error(data.message||'Recovery worker failed');}}return paused;}
+async function runJudgeRecovery(){if(recovery.state==='running')return;recovery={state:'running',message:'Creating an interruptible production session…',logs:[]};render();try{const session=await judgeCall('/api/production',{source:'match',scenario:'wide',time:16,corrected:false,focus:7,team:'harbor',language:'en',mode:'analyst',interrupt:true},null).then(r=>r.json());recovery.message='Worker running. Completed receipts are saved before interruption.';render();const paused=await streamRecovery(session);if(!paused)throw Error('The worker completed before the injected interruption');recovery.logs=[...recovery.logs,{action:'worker interrupted',status:'checkpoint preserved'}];recovery.message='Interruption detected. Starting a fresh worker from the saved checkpoint…';render();await streamRecovery(session);const state=await judgeCall(`/api/production/${session.id}/state`,undefined,session.token).then(r=>r.json());recovery={state:'complete',message:'Recovered without hiding the failure. Saved specialist work was reused and the final output passed through the evidence gate.',logs:[...recovery.logs,{action:'fresh worker resumed',status:state.workflow?.status||'complete'},{action:'audit ledger retained',status:`generation ${state.generation}`}].slice(-8)};}catch(error){recovery={...recovery,state:'failed',message:error.message+' The deterministic correction remains available.'};}render();document.dispatchEvent(new Event('btr-ai-finished'));}
 document.addEventListener('btr-pocket-status',event=>{pocketState=event.detail||{connected:false};if(active&&step===4)render();});
 const tourClock = createTourClock();
 const launcher = el("section", "guided-launch"),
@@ -65,7 +71,7 @@ launcher.after(tour);
 const top = el("div", "guided-top"),
   badge = el("b", "", "LIVE SESSION PROOF · NO AI REQUESTS"),
   source = el("span", "", "NEW SESSION EVENT · THE UNSEEN RUN"),
-  auto = button("Play the 105-second tour", () => {
+  auto = button("Play the 60-second judge cut", () => {
     const state = tourClock.read();
     playing = false;
     if (state.status === "running") tourClock.pause();
@@ -77,7 +83,7 @@ const top = el("div", "guided-top"),
   exit = button("Explore the app ↗", () => leave("match"));
 top.append(badge, source, auto, exit);
 tour.append(top);
-const progress = el("output", "tour-progress", "Ready · 0 / 105 seconds");
+const progress = el("output", "tour-progress", "Ready · 0 / 60 seconds");
 progress.setAttribute("aria-label", "Tour progress");
 tour.append(progress);
 function renderTourProgress() {
@@ -85,8 +91,8 @@ function renderTourProgress() {
   auto.textContent = {
     running: "Pause tour",
     paused: "Resume tour",
-    complete: "Replay the 105-second tour",
-    idle: "Play the 105-second tour",
+    complete: "Replay the 60-second judge cut",
+    idle: "Play the 60-second judge cut",
   }[t.status];
   progress.dataset.status = t.status;
   progress.textContent =
@@ -98,7 +104,7 @@ function renderTourProgress() {
     }[t.status] +
     " · " +
     Math.floor(t.seconds) +
-    " / 105 seconds";
+    " / 60 seconds";
 }
 const topFilm = button("Watch the film", () => leave("pitchside"));
 top.insertBefore(topFilm, exit);
@@ -294,6 +300,7 @@ function enter() {
   active = true;
   const startedAt=Date.now();
   judgeRun=judgeProof({runId:`judge-${startedAt.toString(36)}`,startedAt});
+  recovery={state:'ready',message:'Interrupt a real editorial worker, preserve its checkpoint, then resume it here.',logs:[]};
   document.body.classList.add("guided-active");
   tour.hidden = false;
   open.textContent = "Restart defining moment ↺";
@@ -303,6 +310,7 @@ function enter() {
   step = 0;
   options.corrected = false;
   document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'ingest',revision:1,runId:judgeRun.run_id}}));
+  injectJudgeEvent();
   render();
 }
 function leave(source) {
@@ -361,7 +369,7 @@ function render() {
       description.textContent =
         "Follow the ball, winger and defender as the recorded play arrives. The caption uses only evidence through the current playhead.";
     const receipt=el('div','judge-ingest');
-    receipt.append(el('span','','● EVENT RECEIVED'),el('strong','',judgeRun.event.id),el('code','',new Date(judgeRun.event.received_at).toISOString()),el('small','',judgeRun.event.source+' · '+judgeRun.event.match_clock+' · SOURCE R1'));
+    receipt.append(el('span','','● EVENT RECEIVED'),el('strong','',judgeRun.event.envelope_id||judgeRun.event.id),el('code','',new Date(judgeRun.event.received_at).toISOString()),el('small','',judgeRun.event.source+' · evidence '+judgeRun.event.id+' · '+judgeRun.event.match_clock+' · SOURCE R1'));
     const fact = el("div", "guided-verdict");
     fact.append(
       el("strong", "", "WATCH THE WIDE CHANNEL"),
@@ -450,8 +458,10 @@ function render() {
     for(const [label,item] of [['ORIGINAL · R1',judgeRun.original],['CORRECTED · R2',judgeRun.corrected]]){const card=el('article');card.append(el('small','',label),el('strong','',item.measurement),el('p','',item.narrative),el('code','',item.evidence_id));comparison.append(card);}
     const consequences=el('div','judge-consequences');
     for(const [ok,label] of [[judgeRun.outcomes.calculation_updated,'CALCULATION UPDATED'],[judgeRun.outcomes.claim_withdrawn,'CLAIM WITHDRAWN'],[judgeRun.outcomes.narrative_changed,'NARRATIVE CHANGED'],[judgeRun.outcomes.unaffected_facts_preserved,'2 PASSES PRESERVED']])consequences.append(el('span',ok?'pass':'fail',(ok?'✓ ':'× ')+label));
+    const coverage=el('details','judge-coverage');coverage.append(el('summary','','What else the evidence gate handles'));for(const item of judgeRun.coverage){const row=el('p');row.append(el('b','',item.label),document.createTextNode(' · '+item.result),el('small','',item.status.toUpperCase()));coverage.append(row);}
+    const recoveryPanel=el('section','judge-recovery');recoveryPanel.dataset.state=recovery.state;recoveryPanel.append(el('small','','FAILURE RECOVERY / LIVE AZURE PROOF'),el('h3','',recovery.state==='complete'?'INTERRUPTED. SAVED. RECOVERED.':'SHOW THE FAILURE. KEEP THE PROOF.'),el('p','',recovery.message));if(recovery.logs.length){const log=el('ol');for(const item of recovery.logs){const li=el('li');li.append(el('span','',item.action),el('b','',item.status));log.append(li);}recoveryPanel.append(log);}recoveryPanel.append(button(recovery.state==='running'?'Recovery running…':recovery.state==='complete'?'Run another recovery rehearsal':'Run live interruption + recovery',runJudgeRecovery,recovery.state==='complete'?'outline-button':'red-button'));recoveryPanel.querySelector('button').disabled=recovery.state==='running';
     content.append(
-      comparison,consequences,verdict,
+      comparison,consequences,coverage,verdict,
       button(
         options.corrected ? "Restore original record" : "Apply corrected tracking",
         () => {
@@ -466,7 +476,7 @@ function render() {
         "guided-note",
         `${snapshot.story.stats} The pass records do not change. The caption and defender position update together.`,
       ),
-      button('Run the real interruption + recovery proof ↗',()=>{leave('match');document.dispatchEvent(new Event('btr-run-recovery'));}),
+      recoveryPanel,
     );
   } else {
     const preferences = el("div", "guided-preferences");
@@ -508,7 +518,7 @@ function render() {
       preferences.append(label);
     }
     const delivery=el('div','judge-delivery');
-    delivery.append(el('article','',`WATCH PARTY\nR${snapshot.story.revision} · ${snapshot.story.clock}`),el('article','',pocketState.connected?`POCKET DIRECTOR\nSYNCED · R${pocketState.revision||snapshot.story.revision}`:'POCKET DIRECTOR\nPAIR A PHONE TO PROVE LIVE SYNC'));
+    delivery.append(el('article','',`WATCH PARTY\nR${snapshot.story.revision} · ${snapshot.story.clock}\nREADY NOW`),el('article','',pocketState.connected?`POCKET DIRECTOR\nSYNCED · R${pocketState.revision||snapshot.story.revision}\nROOM ${String(pocketState.room||'').slice(0,6).toUpperCase()}`:'POCKET DIRECTOR\nPAIR A PHONE TO PROVE LIVE SYNC\nREAD-ONLY LINK · AUTO UPDATE'));
     const publish=button('Publish corrected story to both screens →',()=>{options.corrected=true;sync();document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'publish',revision:2,runId:judgeRun.run_id}}));render();},'red-button');
     content.append(
       delivery,publish,
@@ -652,7 +662,7 @@ try {
   dismissed = sessionStorage.getItem("btr-guided-dismissed") === "1";
 } catch {}
 if (
-  new URLSearchParams(location.search).has("tour") ||
+  new URLSearchParams(location.search).has("tour") || new URLSearchParams(location.search).get('judge')==='1' ||
   (!dismissed && (!location.hash || location.hash === "#watch"))
 )
   enter();

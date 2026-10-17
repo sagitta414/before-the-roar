@@ -26,6 +26,12 @@ export function judgeProof({runId='preview',startedAt=0}={}){
    {role:'Host',action:'PUBLISH R2',text:corrected.narrative.currentLine,evidence:[after.current_source[0]]}
   ],
   outcomes:{calculation_updated:before.reading!==after.reference,claim_withdrawn:after.status==='withdrawn',narrative_changed:original.narrative.originalLine!==corrected.narrative.currentLine,unaffected_facts_preserved:original.checks.find(item=>item.id==='passes').reading===corrected.checks.find(item=>item.id==='passes').reference},
+  coverage:[
+   {label:'SOURCE REVISION',result:'Movement recalculated and withdrawn',status:'demonstrated'},
+   {label:'EVIDENCE CUTOFF',result:'Future events stay out of the story',status:'tested'},
+   {label:'MISSING TRACKING',result:'Movement claims are withheld',status:'tested'},
+   {label:'OUTCOME GUARD',result:'A saved shot never becomes a goal',status:'tested'}
+  ],
   limits:['Authored synthetic scenario; the event is injected into a new browser session, not captured from a live stadium feed.','The correction demonstrates source revision and claim withdrawal; it does not prove causation.']
  };
 }

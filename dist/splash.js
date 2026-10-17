@@ -1,5 +1,6 @@
 // A user-controlled welcome experience, independent of AI availability.
 (()=>{
+ if(new URLSearchParams(location.search).get('judge')==='1')return;
  if(new URLSearchParams(location.search).get('intro')==='enter'){const url=new URL(location.href);url.searchParams.delete('intro');history.replaceState(null,'',url);return;}
  const splash=document.createElement('dialog');splash.className='btr-splash';splash.setAttribute('aria-label','Welcome to Before the Roar');
  splash.innerHTML='<div class="btr-splash-top"><span>FOOTBALL. FROM EVERY ANGLE.</span><button type="button" autofocus>Skip intro ↗</button></div><div><div class="btr-splash-brand" aria-hidden="true">BTR<span>›</span></div><p class="btr-splash-name">BEFORE THE ROAR</p><h2>ONE MATCH.<br><em>EVERY PERSPECTIVE.</em></h2></div><div class="btr-splash-bottom"><div class="btr-splash-status"><span role="status">Opening your match room</span><small>WATCH · UNDERSTAND · CHALLENGE</small></div><div class="btr-splash-track" aria-hidden="true"><i></i></div></div>';
