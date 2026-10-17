@@ -1,3 +1,5 @@
+import {EvidenceDesk} from './evidence-desk.mjs';
+import {normalizeStudio} from '../dist/studio-insight.js';
 // HTTP routing, input validation, origin/rate controls and synthetic match stream ownership.
 import { VisionDesk } from "./vision.mjs";
 import http from "node:http";
@@ -41,6 +43,7 @@ export function createApp({
   const root = resolve("dist"),
     runs = new Map(),
     rates = new Map(),
+    evidenceDesk = new EvidenceDesk(narrator),
     matchDesk = new MatchDesk(narrator),
     clipDesk = new MatchDesk(narrator, { clip: true });
   let created = 0;
@@ -423,7 +426,8 @@ export function createApp({
           allowance: dailyRequestLimit(),
           active_runs: [...runs.values()].filter((r) => !r.completed && !r.stopped)
             .length,
-          version: "3.13.0",
+          version: "3.14.0",
+          evidence_review: true,
           usage: (await narrator.store?.allowance?.().catch(() => null)) ?? null,
           agent_tools: true,
           durable_checkpoints: true,
@@ -438,7 +442,7 @@ export function createApp({
           perspectives: MODES,
         });
       if (
-        ["/api/desk", "/api/match-desk", "/api/clip-desk"].includes(route) &&
+        ["/api/desk", "/api/match-desk", "/api/clip-desk", "/api/evidence-review"].includes(route) &&
         req.method === "POST"
       ) {
         if (
@@ -507,6 +511,7 @@ export function createApp({
             input.time > PITCHSIDE.duration)
         )
           return send(res, 400, { error: "Invalid clip or evidence cutoff." });
+        if(route==='/api/evidence-review'){try{normalizeStudio(input);if(input.previous)normalizeStudio(input.previous);}catch{return send(res,400,{error:'Invalid evidence snapshot'});}}
         rate.n++;
         rates.set(ip, rate);
         deskStreams++;
@@ -525,7 +530,7 @@ export function createApp({
         };
         emit("connected", {
           source:
-            route === "/api/match-desk" ? "shared-match-session" : "reviewed-ai-video",
+            route === "/api/evidence-review" ? "evidence-studio" : route === "/api/match-desk" ? "shared-match-session" : "reviewed-ai-video",
           discussion_scope: route === "/api/desk" ? "full-clip" : "evidence-cutoff",
           ...(route === "/api/clip-desk"
             ? { clip_id: input.clip_id, cutoff: input.time }
@@ -534,7 +539,12 @@ export function createApp({
           mode,
         });
         try {
-          if (route === "/api/clip-desk")
+          if(route==='/api/evidence-review'){
+            const result=await evidenceDesk.review(input);
+            emit('receipt',{...result,posts:undefined});
+            for(const post of result.posts)emit('post',post);
+            emit('complete',{cached:result.cached,engine:result.engine,elapsed_ms:result.elapsed_ms});
+          }else if (route === "/api/clip-desk")
             await clipDesk.discuss(
               {
                 time: input.time,

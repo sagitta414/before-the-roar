@@ -1,0 +1,985 @@
+{
+  "at": "2026-10-17T00:49:08.660Z",
+  "scope": "Six developer-authored live integration probes, not a blinded accuracy evaluation. One Azure selection per fresh snapshot; source-rendered public wording.",
+  "rounds": [
+    {
+      "input": {
+        "scenario": "wide",
+        "time": 16,
+        "language": "en",
+        "corrected": true,
+        "tracking": true,
+        "previous": {
+          "scenario": "wide",
+          "time": 16,
+          "language": "en",
+          "corrected": false,
+          "tracking": true
+        }
+      },
+      "status": 200,
+      "pass": true,
+      "receipt": {
+        "key": "1b754b2145e76c229a015c40681bd42bc83e6b3ac3c53977ddeb912808b5ed83",
+        "engine": "azure_selection",
+        "focus": "change",
+        "error": null,
+        "cached": false,
+        "elapsed_ms": 1904,
+        "receipt": {
+          "snapshot": {
+            "scenario": "wide",
+            "time": 16,
+            "language": "en",
+            "corrected": true,
+            "tracking": true
+          },
+          "records": [
+            {
+              "t": 2,
+              "end": 5,
+              "type": "pass",
+              "from": 6,
+              "to": 8,
+              "id": "wide-evt-001",
+              "team": "harbor",
+              "start": [
+                44.920797070420214,
+                37.79589340054215
+              ],
+              "endPosition": [
+                58.25,
+                34.166666666666664
+              ],
+              "distance": 13.814446692640093,
+              "speed": 16.577336031168112,
+              "outcome": "complete"
+            },
+            {
+              "t": 10,
+              "end": 13,
+              "type": "pass",
+              "from": 8,
+              "to": 10,
+              "id": "wide-evt-002",
+              "team": "harbor",
+              "start": [
+                59.5,
+                33.333333333333336
+              ],
+              "endPosition": [
+                69.83333333333333,
+                31.666666666666668
+              ],
+              "distance": 10.466878978738384,
+              "speed": 12.56025477448606,
+              "outcome": "complete"
+            },
+            {
+              "id": "wide-scope-16.0-r2-tracking",
+              "type": "coverage",
+              "second": 16,
+              "tracking": true,
+              "revision": 2
+            },
+            {
+              "id": "wide-track-102-16.0-r2",
+              "type": "tracking",
+              "player": 102,
+              "second": 16,
+              "start": [
+                78,
+                26
+              ],
+              "position": [
+                78,
+                26
+              ]
+            }
+          ]
+        },
+        "previous": {
+          "scenario": "wide",
+          "time": 16,
+          "language": "en",
+          "corrected": false,
+          "tracking": true
+        },
+        "policy": "One AI editor chooses an emphasis; five public roles use source-rendered wording and verified references."
+      },
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "Laurent stays at his starting position. The earlier movement claim is withdrawn.",
+          "evidence_ids": [
+            "wide-track-102-16.0-r2"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "A pass is an attempt to move the ball to a teammate. Tracking describes where players move. Removing one source does not erase the other.",
+          "evidence_ids": [
+            "wide-scope-16.0-r2-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "Mateo Silva → Rafael Costa: 10.5 m in 3.0 s (12.6 km/h). complete.",
+          "evidence_ids": [
+            "wide-evt-002"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "Withdraw the original defender-movement claim. Sequence and proximity do not prove causation.",
+          "evidence_ids": [
+            "wide-scope-16.0-r2-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "Laurent stays at his starting position. The earlier movement claim is withdrawn. Keep the completed passes; revise only what the changed evidence supports.",
+          "evidence_ids": [
+            "wide-track-102-16.0-r2",
+            "wide-scope-16.0-r2-tracking"
+          ],
+          "engine": "azure_selection"
+        }
+      ]
+    },
+    {
+      "input": {
+        "scenario": "wide",
+        "time": 16,
+        "language": "en",
+        "corrected": false,
+        "tracking": false,
+        "previous": {
+          "scenario": "wide",
+          "time": 16,
+          "language": "en",
+          "corrected": false,
+          "tracking": true
+        }
+      },
+      "status": 200,
+      "pass": true,
+      "receipt": {
+        "key": "81807576499dd412166818f1c5be7e4f80eb4e272e3da1145e0f3763104f7d35",
+        "engine": "azure_selection",
+        "focus": "change",
+        "error": null,
+        "cached": false,
+        "elapsed_ms": 703,
+        "receipt": {
+          "snapshot": {
+            "scenario": "wide",
+            "time": 16,
+            "language": "en",
+            "corrected": false,
+            "tracking": false
+          },
+          "records": [
+            {
+              "t": 2,
+              "end": 5,
+              "type": "pass",
+              "from": 6,
+              "to": 8,
+              "id": "wide-evt-001",
+              "team": "harbor",
+              "start": [
+                44.920797070420214,
+                37.79589340054215
+              ],
+              "endPosition": [
+                58.25,
+                34.166666666666664
+              ],
+              "distance": 13.814446692640093,
+              "speed": 16.577336031168112,
+              "outcome": "complete"
+            },
+            {
+              "t": 10,
+              "end": 13,
+              "type": "pass",
+              "from": 8,
+              "to": 10,
+              "id": "wide-evt-002",
+              "team": "harbor",
+              "start": [
+                59.5,
+                33.333333333333336
+              ],
+              "endPosition": [
+                69.83333333333333,
+                31.666666666666668
+              ],
+              "distance": 10.466878978738384,
+              "speed": 12.56025477448606,
+              "outcome": "complete"
+            },
+            {
+              "id": "wide-scope-16.0-r1-no-tracking",
+              "type": "coverage",
+              "second": 16,
+              "tracking": false,
+              "revision": 1
+            }
+          ]
+        },
+        "previous": {
+          "scenario": "wide",
+          "time": 16,
+          "language": "en",
+          "corrected": false,
+          "tracking": true
+        },
+        "policy": "One AI editor chooses an emphasis; five public roles use source-rendered wording and verified references."
+      },
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "Player tracking is withheld. Movement and off-ball claims must be withdrawn; completed event records remain available.",
+          "evidence_ids": [
+            "wide-scope-16.0-r1-no-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "A pass is an attempt to move the ball to a teammate. Tracking describes where players move. Removing one source does not erase the other.",
+          "evidence_ids": [
+            "wide-scope-16.0-r1-no-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "Mateo Silva → Rafael Costa: 10.5 m in 3.0 s (12.6 km/h). complete.",
+          "evidence_ids": [
+            "wide-evt-002"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "Do not infer positions from missing tracking. Sequence and proximity do not prove causation.",
+          "evidence_ids": [
+            "wide-scope-16.0-r1-no-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "Player tracking is withheld. Movement and off-ball claims must be withdrawn; completed event records remain available. Keep the completed passes; revise only what the changed evidence supports.",
+          "evidence_ids": [
+            "wide-scope-16.0-r1-no-tracking",
+            "wide-scope-16.0-r1-no-tracking"
+          ],
+          "engine": "azure_selection"
+        }
+      ]
+    },
+    {
+      "input": {
+        "scenario": "press",
+        "time": 9,
+        "language": "es",
+        "corrected": false,
+        "tracking": true
+      },
+      "status": 200,
+      "pass": true,
+      "receipt": {
+        "key": "f2f62f2b6d70b55c0147e47accc75b9fa011087e96f7368bf11eae9fc52c512b",
+        "engine": "azure_selection",
+        "focus": "change",
+        "error": null,
+        "cached": false,
+        "elapsed_ms": 966,
+        "receipt": {
+          "snapshot": {
+            "scenario": "press",
+            "time": 9,
+            "language": "es",
+            "corrected": false,
+            "tracking": true
+          },
+          "records": [
+            {
+              "t": 2,
+              "end": 5,
+              "type": "pass",
+              "from": 108,
+              "to": 106,
+              "team": "north",
+              "id": "press-evt-001",
+              "start": [
+                63.28282646115526,
+                46.1613874892858
+              ],
+              "endPosition": [
+                65.66666666666667,
+                29.166666666666668
+              ],
+              "distance": 17.16109640915105,
+              "speed": 20.59331569098126,
+              "outcome": "complete"
+            },
+            {
+              "id": "press-scope-9.0-r1-tracking",
+              "type": "coverage",
+              "second": 9,
+              "tracking": true,
+              "revision": 1
+            },
+            {
+              "id": "press-track-6-9.0-r1",
+              "type": "tracking",
+              "player": 6,
+              "second": 9,
+              "start": [
+                45,
+                37
+              ],
+              "position": [
+                55.5,
+                34
+              ]
+            }
+          ]
+        },
+        "previous": null,
+        "policy": "One AI editor chooses an emphasis; five public roles use source-rendered wording and verified references."
+      },
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "El pase no ha terminado. El cambio de posesión no está confirmado en este instante.",
+          "evidence_ids": [
+            "press-scope-9.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "Un pase intenta llevar el balón a un compañero. El seguimiento describe el movimiento de los jugadores. Retirar una fuente no borra la otra.",
+          "evidence_ids": [
+            "press-scope-9.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "Arlo King → Samir Ali: 17.2 m en 3.0 s (20.6 km/h). completo.",
+          "evidence_ids": [
+            "press-evt-001"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "La secuencia y la proximidad no prueban causalidad.",
+          "evidence_ids": [
+            "press-scope-9.0-r1-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "El pase no ha terminado. El cambio de posesión no está confirmado en este instante. Conserva los pases completados; revisa solo lo que permite la evidencia modificada.",
+          "evidence_ids": [
+            "press-scope-9.0-r1-tracking",
+            "press-scope-9.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        }
+      ]
+    },
+    {
+      "input": {
+        "scenario": "press",
+        "time": 10,
+        "language": "es",
+        "corrected": false,
+        "tracking": true,
+        "previous": {
+          "scenario": "press",
+          "time": 9,
+          "language": "es",
+          "corrected": false,
+          "tracking": true
+        }
+      },
+      "status": 200,
+      "pass": true,
+      "receipt": {
+        "key": "efc0598eca543924588bdb67d9f1f90753405ad448024f047ab89542c3f5770c",
+        "engine": "azure_selection",
+        "focus": "change",
+        "error": null,
+        "cached": false,
+        "elapsed_ms": 370,
+        "receipt": {
+          "snapshot": {
+            "scenario": "press",
+            "time": 10,
+            "language": "es",
+            "corrected": false,
+            "tracking": true
+          },
+          "records": [
+            {
+              "t": 2,
+              "end": 5,
+              "type": "pass",
+              "from": 108,
+              "to": 106,
+              "team": "north",
+              "id": "press-evt-001",
+              "start": [
+                63.28282646115526,
+                46.1613874892858
+              ],
+              "endPosition": [
+                65.66666666666667,
+                29.166666666666668
+              ],
+              "distance": 17.16109640915105,
+              "speed": 20.59331569098126,
+              "outcome": "complete"
+            },
+            {
+              "t": 7,
+              "end": 10,
+              "type": "pass",
+              "from": 106,
+              "to": 110,
+              "team": "north",
+              "outcome": "intercepted",
+              "interceptor": 6,
+              "id": "press-evt-002",
+              "start": [
+                65.75,
+                30
+              ],
+              "endPosition": [
+                56.75,
+                33.5
+              ],
+              "distance": 9.656603957913983,
+              "speed": 11.58792474949678
+            },
+            {
+              "id": "press-scope-10.0-r1-tracking",
+              "type": "coverage",
+              "second": 10,
+              "tracking": true,
+              "revision": 1
+            },
+            {
+              "id": "press-track-8-10.0-r1",
+              "type": "tracking",
+              "player": 8,
+              "second": 10,
+              "start": [
+                57,
+                35
+              ],
+              "position": [
+                65.33333333333333,
+                29.666666666666668
+              ]
+            }
+          ]
+        },
+        "previous": {
+          "scenario": "press",
+          "time": 9,
+          "language": "es",
+          "corrected": false,
+          "tracking": true
+        },
+        "policy": "One AI editor chooses an emphasis; five public roles use source-rendered wording and verified references."
+      },
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "Cole interceptó el pase. La presión precedió a la recuperación; el registro no demuestra que causara el error.",
+          "evidence_ids": [
+            "press-evt-002"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "Un pase intenta llevar el balón a un compañero. El seguimiento describe el movimiento de los jugadores. Retirar una fuente no borra la otra.",
+          "evidence_ids": [
+            "press-scope-10.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "Samir Ali → Amir Cole: 9.7 m en 3.0 s (11.6 km/h). interceptado.",
+          "evidence_ids": [
+            "press-evt-002"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "La secuencia y la proximidad no prueban causalidad.",
+          "evidence_ids": [
+            "press-scope-10.0-r1-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "Cole interceptó el pase. La presión precedió a la recuperación; el registro no demuestra que causara el error. Conserva los pases completados; revisa solo lo que permite la evidencia modificada.",
+          "evidence_ids": [
+            "press-evt-002",
+            "press-scope-10.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        }
+      ]
+    },
+    {
+      "input": {
+        "scenario": "counter",
+        "time": 27,
+        "language": "pt",
+        "corrected": false,
+        "tracking": true
+      },
+      "status": 200,
+      "pass": true,
+      "receipt": {
+        "key": "65bdcfad4bfdc1b30756eb338c3fc2a8d7e5e7c2d6f97f8a63ddb0ba3da446e0",
+        "engine": "azure_selection",
+        "focus": "change",
+        "error": null,
+        "cached": false,
+        "elapsed_ms": 729,
+        "receipt": {
+          "snapshot": {
+            "scenario": "counter",
+            "time": 27,
+            "language": "pt",
+            "corrected": false,
+            "tracking": true
+          },
+          "records": [
+            {
+              "t": 1,
+              "end": 4,
+              "type": "pass",
+              "from": 110,
+              "to": 109,
+              "team": "north",
+              "id": "counter-evt-001",
+              "start": [
+                53.7988329173836,
+                38.20729684275825
+              ],
+              "endPosition": [
+                42,
+                35.57142857142857
+              ],
+              "distance": 12.089675750661689,
+              "speed": 14.507610900794026,
+              "outcome": "complete"
+            },
+            {
+              "t": 7,
+              "end": 7,
+              "type": "tackle",
+              "from": 6,
+              "to": 109,
+              "id": "counter-evt-002",
+              "team": "harbor",
+              "start": [
+                42,
+                36
+              ],
+              "endPosition": [
+                42,
+                36
+              ],
+              "distance": 0,
+              "speed": null,
+              "outcome": "complete"
+            },
+            {
+              "t": 9,
+              "end": 12,
+              "type": "pass",
+              "from": 6,
+              "to": 8,
+              "id": "counter-evt-003",
+              "team": "harbor",
+              "start": [
+                44,
+                35.6
+              ],
+              "endPosition": [
+                58.42857142857143,
+                28.857142857142858
+              ],
+              "distance": 15.926386781639062,
+              "speed": 19.111664137966876,
+              "outcome": "complete"
+            },
+            {
+              "t": 19,
+              "end": 22,
+              "type": "pass",
+              "from": 8,
+              "to": 9,
+              "id": "counter-evt-004",
+              "team": "harbor",
+              "start": [
+                68.88888888888889,
+                28.88888888888889
+              ],
+              "endPosition": [
+                87.11111111111111,
+                32.44444444444444
+              ],
+              "distance": 18.565865399293713,
+              "speed": 22.279038479152458,
+              "outcome": "complete"
+            },
+            {
+              "id": "counter-scope-27.0-r1-tracking",
+              "type": "coverage",
+              "second": 27,
+              "tracking": true,
+              "revision": 1
+            },
+            {
+              "id": "counter-track-7-27.0-r1",
+              "type": "tracking",
+              "player": 7,
+              "second": 27,
+              "start": [
+                55,
+                22
+              ],
+              "position": [
+                82,
+                14.4
+              ]
+            }
+          ]
+        },
+        "previous": null,
+        "policy": "One AI editor chooses an emphasis; five public roles use source-rendered wording and verified references."
+      },
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "O resultado do chute não está disponível neste instante. Ainda não se pode afirmar gol nem defesa.",
+          "evidence_ids": [
+            "counter-scope-27.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "Um passe tenta levar a bola a um companheiro. O rastreamento descreve o movimento dos jogadores. Retirar uma fonte não apaga a outra.",
+          "evidence_ids": [
+            "counter-scope-27.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "Mateo Silva → Theo Brooks: 18.6 m em 3.0 s (22.3 km/h). completo.",
+          "evidence_ids": [
+            "counter-evt-004"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "Sequência e proximidade não provam causalidade.",
+          "evidence_ids": [
+            "counter-scope-27.0-r1-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "O resultado do chute não está disponível neste instante. Ainda não se pode afirmar gol nem defesa. Mantenha os passes completos; revise apenas o que a evidência alterada permite.",
+          "evidence_ids": [
+            "counter-scope-27.0-r1-tracking",
+            "counter-scope-27.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        }
+      ]
+    },
+    {
+      "input": {
+        "scenario": "counter",
+        "time": 28,
+        "language": "pt",
+        "corrected": false,
+        "tracking": true,
+        "previous": {
+          "scenario": "counter",
+          "time": 27,
+          "language": "pt",
+          "corrected": false,
+          "tracking": true
+        }
+      },
+      "status": 200,
+      "pass": true,
+      "receipt": {
+        "key": "640baf8127d7a91225f2f8bd9e6efa27cc5647628dd5173e57d95c6f2b4d8d4f",
+        "engine": "azure_selection",
+        "focus": "change",
+        "error": null,
+        "cached": false,
+        "elapsed_ms": 1536,
+        "receipt": {
+          "snapshot": {
+            "scenario": "counter",
+            "time": 28,
+            "language": "pt",
+            "corrected": false,
+            "tracking": true
+          },
+          "records": [
+            {
+              "t": 1,
+              "end": 4,
+              "type": "pass",
+              "from": 110,
+              "to": 109,
+              "team": "north",
+              "id": "counter-evt-001",
+              "start": [
+                53.7988329173836,
+                38.20729684275825
+              ],
+              "endPosition": [
+                42,
+                35.57142857142857
+              ],
+              "distance": 12.089675750661689,
+              "speed": 14.507610900794026,
+              "outcome": "complete"
+            },
+            {
+              "t": 7,
+              "end": 7,
+              "type": "tackle",
+              "from": 6,
+              "to": 109,
+              "id": "counter-evt-002",
+              "team": "harbor",
+              "start": [
+                42,
+                36
+              ],
+              "endPosition": [
+                42,
+                36
+              ],
+              "distance": 0,
+              "speed": null,
+              "outcome": "complete"
+            },
+            {
+              "t": 9,
+              "end": 12,
+              "type": "pass",
+              "from": 6,
+              "to": 8,
+              "id": "counter-evt-003",
+              "team": "harbor",
+              "start": [
+                44,
+                35.6
+              ],
+              "endPosition": [
+                58.42857142857143,
+                28.857142857142858
+              ],
+              "distance": 15.926386781639062,
+              "speed": 19.111664137966876,
+              "outcome": "complete"
+            },
+            {
+              "t": 19,
+              "end": 22,
+              "type": "pass",
+              "from": 8,
+              "to": 9,
+              "id": "counter-evt-004",
+              "team": "harbor",
+              "start": [
+                68.88888888888889,
+                28.88888888888889
+              ],
+              "endPosition": [
+                87.11111111111111,
+                32.44444444444444
+              ],
+              "distance": 18.565865399293713,
+              "speed": 22.279038479152458,
+              "outcome": "complete"
+            },
+            {
+              "t": 27,
+              "end": 28,
+              "type": "shot",
+              "from": 9,
+              "target": [
+                102,
+                34
+              ],
+              "outcome": "saved",
+              "id": "counter-evt-005",
+              "team": "harbor",
+              "start": [
+                93,
+                32.5
+              ],
+              "endPosition": [
+                102,
+                34
+              ],
+              "distance": 9.124143795447328,
+              "speed": 32.846917663610384
+            },
+            {
+              "id": "counter-scope-28.0-r1-tracking",
+              "type": "coverage",
+              "second": 28,
+              "tracking": true,
+              "revision": 1
+            },
+            {
+              "id": "counter-track-7-28.0-r1",
+              "type": "tracking",
+              "player": 7,
+              "second": 28,
+              "start": [
+                55,
+                22
+              ],
+              "position": [
+                83,
+                14.6
+              ]
+            }
+          ]
+        },
+        "previous": {
+          "scenario": "counter",
+          "time": 27,
+          "language": "pt",
+          "corrected": false,
+          "tracking": true
+        },
+        "policy": "One AI editor chooses an emphasis; five public roles use source-rendered wording and verified references."
+      },
+      "posts": [
+        {
+          "role": "analyst",
+          "name": "Scout",
+          "summary": "Berg defendeu o chute de Brooks. A construção permanece registrada; este chute não produziu gol.",
+          "evidence_ids": [
+            "counter-evt-005"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "guide",
+          "name": "Guide",
+          "summary": "Um passe tenta levar a bola a um companheiro. O rastreamento descreve o movimento dos jogadores. Retirar uma fonte não apaga a outra.",
+          "evidence_ids": [
+            "counter-scope-28.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        },
+        {
+          "role": "math",
+          "name": "Vector",
+          "summary": "Mateo Silva → Theo Brooks: 18.6 m em 3.0 s (22.3 km/h). completo.",
+          "evidence_ids": [
+            "counter-evt-004"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "reviewer",
+          "name": "Check",
+          "summary": "Sequência e proximidade não provam causalidade.",
+          "evidence_ids": [
+            "counter-scope-28.0-r1-tracking"
+          ],
+          "engine": "evidence_rules"
+        },
+        {
+          "role": "presenter",
+          "name": "Host",
+          "summary": "Berg defendeu o chute de Brooks. A construção permanece registrada; este chute não produziu gol. Mantenha os passes completos; revise apenas o que a evidência alterada permite.",
+          "evidence_ids": [
+            "counter-evt-005",
+            "counter-scope-28.0-r1-tracking"
+          ],
+          "engine": "azure_selection"
+        }
+      ]
+    }
+  ],
+  "before": {
+    "day": "2026-10-17",
+    "limit": 240,
+    "used": 13
+  },
+  "after": {
+    "day": "2026-10-17",
+    "limit": 240,
+    "used": 19
+  },
+  "pass": true
+}

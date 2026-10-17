@@ -1,3 +1,6 @@
+import {studioInsight,studioKey,changeTimes,choose} from './studio-insight.js';
+import {localizeStudio,translateText} from './studio-language.js';
+import {aiAvailability} from './ai-availability.js';
 import {playEvidence} from './play-evidence.js';
 import {PLAYERS,SCENARIOS,position,events,clock as matchClock} from './engine.js';
 import {matchSession} from './match-session.js';
@@ -5,26 +8,28 @@ import {matchCenterSnapshot} from './analysis-model.js';
 import {createMatchPitch} from './match-pitch.js';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined&&text!==null)n.textContent=text;if(cls)n.className=cls;return n;};
 const button=(text,fn,cls)=>{const b=el('button',text,cls);b.type='button';b.onclick=fn;return b;};
+const tr=(en,es,pt)=>choose(input.language||'en',en,es,pt);
 const name=id=>PLAYERS.find(p=>p.id===id)?.name||'Unknown player';
 const modes=[['why','Show me why'],['off','Off the ball'],['learn','Learn your way'],['fans','Two fans. One truth.'],['story','A story changes'],['missing','What’s missing?']];
 const stages=[['01','See the play','Start with what happened.'],['02','Understand it','Find your way into the game.'],['03','Test the story','Find out what survives scrutiny.']];
 let input={},tab='why',learn='Show me',focus=7,timer=null,origin=null,history=[],quote=null,guess=null,replayEnd=36,selected='movement',replayEvent=null;
 const dialog=el('dialog',null,'play-studio');dialog.setAttribute('aria-labelledby','play-studio-title');
 const header=el('header',null,'ps-head'),heading=el('div');heading.append(el('small','BTR / THE EVIDENCE STUDIO'));const title=el('h2','Inside the play.');title.id='play-studio-title';heading.append(title);
-const scenario=el('select');scenario.setAttribute('aria-label','Inside the play scenario');for(const s of SCENARIOS){const o=el('option',s.title);o.value=s.id;scenario.append(o);}scenario.onchange=()=>{stop();input={scenario:scenario.value,time:16,corrected:false,tracking:true};focus=playEvidence(input).s.focus;quote=null;guess=null;history=[];render();};
-const headerActions=el('div',null,'ps-head-actions');headerActions.append(scenario,button('Close ×',()=>dialog.close()));header.append(heading,headerActions);
+const scenario=el('select');scenario.setAttribute('aria-label','Inside the play scenario');for(const s of SCENARIOS){const o=el('option',s.title);o.value=s.id;scenario.append(o);}scenario.onchange=()=>{stop();input={scenario:scenario.value,time:16,corrected:false,tracking:true,language:input.language||'en'};selected='movement';focus=studioInsight(input).moveId;quote=null;guess=null;history=[];render();};
+const language=el('select');language.setAttribute('aria-label','Evidence studio language');for(const[value,label]of [['en','English'],['es','Español'],['pt','Português']]){const o=el('option',label);o.value=value;language.append(o);}language.onchange=()=>{stop();input.language=language.value;render();};
+const headerActions=el('div',null,'ps-head-actions');headerActions.append(language,scenario,button('Close ×',()=>dialog.close()));header.append(heading,headerActions);
 const tabs=el('nav',null,'ps-tabs');tabs.setAttribute('aria-label','Evidence experiences');
 for(let i=0;i<3;i++){const group=el('section',null,'ps-stage');group.dataset.stage=i;const label=el('div',null,'ps-stage-title');label.append(el('span',stages[i][0]),el('strong',stages[i][1]));group.append(label);for(const [id,text]of modes.slice(i*2,i*2+2)){const b=button(text,()=>go(id));b.dataset.tab=id;group.append(b);}tabs.append(group);}
 const grid=el('div',null,'ps-grid'),left=el('section',null,'ps-replay'),pitchBox=el('div',null,'ps-pitch'),scorebar=el('div',null,'ps-scorebar'),ribbon=el('div',null,'ps-replay-caption'),controls=el('div',null,'ps-controls');
 const play=button('Play',()=>{if(timer)stop();else start(36);}),range=el('input'),clock=el('span');range.type='range';range.min=0;range.max=36;range.step=.1;range.setAttribute('aria-label','Evidence replay time');controls.append(play,range,clock);
 const legend=el('div',null,'ps-legend');legend.append(el('span','Selected movement','gold'),el('span','Pass participants','blue'),el('span','Recorded pass','red'));
 const facts=el('div',null,'ps-facts');left.append(scorebar,pitchBox,ribbon,controls,legend,facts,el('p','Authored synthetic tracking · average speeds from event endpoints · interpretations do not establish causation.','ps-note'));
-const right=el('section',null,'ps-reading'),copy=el('div',null,'ps-copy'),next=el('footer',null,'ps-next');right.append(copy,next);grid.append(left,right);dialog.append(header,tabs,grid);document.body.append(dialog);
+const right=el('section',null,'ps-reading'),copy=el('div',null,'ps-copy'),next=el('footer',null,'ps-next');const crew=el('section',null,'ps-crew');crew.setAttribute('aria-label','Evidence review crew');right.append(copy,crew,next);grid.append(left,right);dialog.append(header,tabs,grid);document.body.append(dialog);
 const pitch=createMatchPitch(pitchBox,id=>{stop();focus=id;selected='player';render();});
 function stop(){clearInterval(timer);timer=null;replayEvent=null;play.textContent='Play';}
 function start(end){quote=null;input.eventId=null;replayEnd=end;if(input.time>=end)input.time=0;play.textContent='Pause';timer=setInterval(()=>{input.time=Math.min(replayEnd,input.time+.1);if(input.time>=replayEnd)stop();render();},100);}
-function go(id){stop();tab=id;const m=playEvidence(input);if(id==='off'&&m.off){focus=m.off.id;selected='player';}if(id==='story'){focus=102;selected='movement';}render();}
-function open(detail={}){stop();origin=document.activeElement;const state=matchSession.get();input={scenario:detail.scenario||state.scenario,time:detail.time??(state.source==='match'?state.time:16),corrected:detail.corrected??state.corrected,tracking:true,eventId:detail.ids?.find(id=>id.includes('-evt-'))};quote=detail.quote?detail:null;tab='why';learn='Show me';history=[];guess=null;selected=input.eventId?'pass':'movement';document.querySelectorAll('video').forEach(v=>v.pause());focus=selected==='movement'&&input.scenario==='wide'?102:playEvidence(input).s.focus;render();if(!dialog.open)dialog.showModal();}
+function go(id){stop();tab=id;const m=playEvidence(input);if(id==='off'&&m.off){focus=m.off.id;selected='player';}if(id==='story'){focus={wide:102,press:6,counter:101}[m.s.id];selected='player';}if(id==='why'){selected='movement';focus=studioInsight(input).moveId;}render();}
+function open(detail={}){stop();origin=document.activeElement;const state=matchSession.get();input={scenario:detail.scenario||state.scenario,time:detail.time??(state.source==='match'?state.time:16),corrected:detail.corrected??state.corrected,tracking:true,language:state.language||'en',eventId:detail.ids?.find(id=>id.includes('-evt-'))};quote=detail.quote?detail:null;tab='why';learn='Show me';history=[];guess=null;selected=input.eventId?'pass':'movement';document.querySelectorAll('video').forEach(v=>v.pause());focus=selected==='movement'?studioInsight(input).moveId:playEvidence(input).last?.from||playEvidence(input).s.focus;render();if(!dialog.open)dialog.showModal();}
 // Local inspection never advances or corrects the shared match behind the dialog.
 range.oninput=()=>{stop();input.time=+range.value;quote=null;input.eventId=null;guess=null;render();};
 dialog.addEventListener('close',()=>{stop();origin?.focus();});
@@ -39,7 +44,7 @@ function renderPitch(m){pitch.update(m.s,matchCenterSnapshot(m.s,m.time,m.correc
  if(m.tracking)for(const id of ids){const points=m.trail(id),p=position(m.s,id,m.time,m.corrected);draw('polyline',{points:points.map(p=>p.join(',')).join(' '),fill:'none',stroke:id===focus?'#ffe773':'#83d8ff','stroke-width':'.65'});draw('circle',{cx:p[0],cy:p[1],r:2.4,fill:'none',stroke:'#fff','stroke-width':'.35'});}
  if(m.last)draw('line',{x1:m.last.start[0],y1:m.last.start[1],x2:m.last.endPosition[0],y2:m.last.endPosition[1],stroke:'#ff7885','stroke-width':selected==='pass'?'.8':'.35','stroke-dasharray':'1 .8',opacity:selected==='pass'?1:.45});svg.append(g);
 }
-function render(){const m=playEvidence(input);input.time=m.time;scenario.value=m.s.id;range.value=m.time;clock.textContent=matchClock(m.s,m.time);dialog.dataset.stage=Math.floor(modes.findIndex(([id])=>id===tab)/2);tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===tab)));tabs.querySelectorAll('.ps-stage').forEach(s=>s.dataset.active=String(s.dataset.stage===dialog.dataset.stage));
+function render(){const insight=studioInsight(input),m=insight.m;if(selected==='movement')focus=insight.moveId;input.time=m.time;scenario.value=m.s.id;language.value=input.language||'en';for(const o of scenario.options)o.textContent=translateText(SCENARIOS.find(s=>s.id===o.value).title,input.language||'en');range.value=m.time;clock.textContent=matchClock(m.s,m.time);dialog.dataset.stage=Math.floor(modes.findIndex(([id])=>id===tab)/2);tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===tab)));tabs.querySelectorAll('.ps-stage').forEach(s=>s.dataset.active=String(s.dataset.stage===dialog.dataset.stage));
  scorebar.replaceChildren(el('strong','HARBOR / NORTHBRIDGE'),el('span',m.tracking?(m.corrected?'CORRECTED TRACKING':'ORIGINAL TRACKING'):'TRACKING WITHHELD'));scorebar.dataset.state=!m.tracking?'missing':m.corrected?'corrected':'original';
  ribbon.replaceChildren(el('small',selected==='pass'?'PASS IN FOCUS':'PLAYER IN FOCUS'),el('strong',selected==='pass'&&(replayEvent||m.last)?`${name((replayEvent||m.last).from)} → ${name((replayEvent||m.last).interceptor||(replayEvent||m.last).to)}`:m.tracking?name(focus):'Positions unavailable'));
  facts.replaceChildren();for(const[value,label]of [[`${m.facts.complete}/${m.facts.passes}`,'PASSES COMPLETED'],[String(m.seen.length),'RECORDED EVENTS'],[m.tracking?'Available':'Withheld','PLAYER TRACKING']]){const c=el('div');c.append(el('strong',value),el('small',label));facts.append(c);}renderPitch(replayEvent?{...m,last:replayEvent}:m);
@@ -47,7 +52,7 @@ function render(){const m=playEvidence(input);input.time=m.time;scenario.value=m
  if(tab==='why'){
   copy.append(el('h3','Don’t just read it. See it.'));para('Choose a statement. The replay follows its evidence.','ps-intro');
   if(quote){copy.append(el('blockquote',quote.quote));para(`Original contribution · ${m.time.toFixed(1)} s. Replay context supports inspection, not every interpretation. Sources: ${(quote.ids||[]).join(', ')}`,'ps-note');}
-  for(const[kicker,text,key,id]of [['01 / THE PASS',m.pass,'pass',m.last?.from],['02 / THE MOVEMENT',m.movement,'movement',m.s.id==='wide'?102:m.off?.id]]){const b=action('',()=>{focus=id||focus;selected=key;render();},'ps-statement');b.setAttribute('aria-pressed',String(selected===key));b.append(el('small',kicker),el('span',text),el('em','Locate the evidence ↗'));}
+  for(const[kicker,text,key,id]of [['01 / THE PASS',m.pass,'pass',m.last?.from],['02 / THE MOVEMENT',m.movement,'movement',insight.moveId]]){const b=action('',()=>{focus=id||focus;selected=key;render();},'ps-statement');b.setAttribute('aria-pressed',String(selected===key));b.append(el('small',kicker),el('span',text),el('em','Locate the evidence ↗'));}
   if(m.last)action('Replay this pass',()=>{focus=m.last.from;selected='pass';input.time=m.last.t;replayEvent=m.last;start(m.last.end);render();},'ps-primary');evidence(m);
  }
  if(tab==='off'){
@@ -58,7 +63,12 @@ function render(){const m=playEvidence(input);input.time=m.time;scenario.value=m
  }
  if(tab==='story'){
   copy.append(el('h3','A better story knows when to change.'));
-  if(m.s.id!=='wide'){para('The correction experiment belongs to the wide-run case. Switching opens its evidence at 16 seconds.');action('Open the wide-run case',()=>{input={scenario:'wide',time:16,corrected:false,tracking:true};focus=102;history=[];quote=null;guess=null;render();},'ps-primary');}
+  if(m.s.id!=='wide'){
+   const [beforeTime,afterTime]=changeTimes[m.s.id],before=studioInsight({...input,time:beforeTime}),arrived=m.time>=afterTime;
+   const compare=el('div',null,'ps-comparison');compare.append(card(tr('BEFORE THE RECORD ARRIVES','ANTES DE QUE LLEGUE EL REGISTRO','ANTES DA CHEGADA DO REGISTRO'),before.change),card(arrived?tr('NEW RECORD AVAILABLE','NUEVO REGISTRO DISPONIBLE','NOVO REGISTRO DISPONÍVEL'):tr('OUTCOME STILL PENDING','RESULTADO PENDIENTE','RESULTADO PENDENTE'),insight.change,'current'));copy.append(compare);
+   action(arrived?tr('Return to the unresolved moment','Volver al momento sin resolver','Voltar ao momento não resolvido'):tr('Reveal the completed event','Revelar el evento completado','Revelar o evento completo'),()=>{history.push({time:m.time,from:insight.change});input.time=arrived?beforeTime:afterTime;input.eventId=null;quote=null;guess=null;history.at(-1).to=studioInsight(input).change;render();},'ps-primary');
+   para(tr('This test adds a completed source record; it does not rewrite an earlier event. Ask the crew below to review the new evidence.','Esta prueba añade un registro completado; no reescribe un evento anterior. Pide al equipo que revise la nueva evidencia.','Este teste adiciona um registro completo; não reescreve um evento anterior. Peça à equipe para revisar a nova evidência.'));evidence(m);
+  }
   else if(!m.tracking){para('Tracking is withheld. Restore it before comparing source revisions.');action('Restore player tracking',()=>{input.tracking=true;render();},'ps-primary');}
   else {const compare=el('div',null,'ps-comparison');compare.append(card('ORIGINAL RECORD',playEvidence({...input,corrected:false}).movement,m.corrected?'superseded':''),card(m.corrected?'CORRECTED RECORD':'READY TO TEST',m.corrected?m.movement:'Does the movement claim survive a corrected tracking source?','current'));copy.append(compare);action(m.corrected?'Restore original tracking':'Apply corrected tracking',()=>{history.push({time:m.time,from:m.movement});input.corrected=!m.corrected;history.at(-1).to=playEvidence(input).movement;focus=102;render();},'ps-primary');para('The player’s trail changes. Recorded pass and shot events remain intact. Neither tracking source proves what caused the defender to move.');if(history.length){const d=el('details',null,'ps-history');d.open=true;d.append(el('summary',`Revision history · ${history.length} changes`));for(const h of history){const item=el('div');item.append(el('small',`AT ${h.time.toFixed(1)} S`),el('del',h.from),el('p',h.to));d.append(item);}copy.append(d);}}
  }
@@ -75,8 +85,34 @@ function render(){const m=playEvidence(input);input.time=m.time;scenario.value=m
  if(tab==='missing'){
   copy.append(el('h3','The missing piece changes the answer.'));para('Remove one evidence source. See what stays defensible.','ps-intro');action(m.tracking?'Remove player tracking':'Restore player tracking',()=>{input.tracking=!m.tracking;render();},'ps-primary');const matrix=el('div',null,'ps-capabilities');for(const[label,available]of [['Pass event endpoints',true],['Recorded outcomes',true],['Player positions & trails',m.tracking],['Off-ball movement ranking',m.tracking]]){const row=el('div');row.dataset.available=available;row.append(el('span',label),el('strong',available?'AVAILABLE':'WITHHELD'));matrix.append(row);}copy.append(matrix,card('WHAT WE CAN SAY NOW',m.movement));para('The pass remains visible because its endpoints belong to the event record. Removing tracking does not remove those records or edit the crew’s saved responses.');evidence(m);
  }
+ renderCrew();
  if(wasOpen&&copy.querySelector('.ps-evidence'))copy.querySelector('.ps-evidence').open=true;
- const index=modes.findIndex(([id])=>id===tab),nextMode=modes[(index+1)%modes.length];next.replaceChildren(el('small',`CONTINUE THE STORY / ${index+1} OF 6`),button(`${nextMode[1]} →`,()=>go(nextMode[0])));
+ const index=modes.findIndex(([id])=>id===tab),nextMode=modes[(index+1)%modes.length];next.replaceChildren(el('small',`CONTINUE THE STORY / ${index+1} OF 6`),button(`${nextMode[1]} →`,()=>go(nextMode[0])));localizeStudio(dialog,input.language||'en');
 }
 for(const selector of ['.viewing-actions','#centre .extension-heading','#truth .extension-heading']){const host=document.querySelector(selector);if(host)host.append(button('Inside the play ↗',()=>open(),'play-launch'));}
 window.addEventListener('btr-show-why',e=>open(e.detail));
+
+const reviews=new Map();let priorReview=null;
+function renderCrew(){
+ const key=studioKey(input),result=reviews.get(key);crew.replaceChildren(el('h4',tr('Bring this evidence to the crew','Lleva esta evidencia al equipo','Leve esta evidência à equipe')));
+ crew.append(el('p',tr('One Azure AI editor selects the emphasis. Five roles return source-grounded wording and citations.','Un editor de Azure AI elige el enfoque. Cinco roles devuelven texto basado en fuentes y citas.','Um editor do Azure AI escolhe o foco. Cinco papéis retornam texto baseado em fontes e referências.'),'ps-note'));
+ const b=button(result?.pending?tr('Reviewing…','Revisando…','Revisando…'):result?.complete?tr('Review saved · no new request','Revisión guardada · sin nueva solicitud','Revisão salva · sem nova solicitação'):priorReview?tr('Review updated evidence · 1 AI request','Revisar evidencia actualizada · 1 solicitud AI','Revisar evidência atualizada · 1 solicitação AI'):tr('Ask the crew · 1 AI request','Preguntar al equipo · 1 solicitud AI','Perguntar à equipe · 1 solicitação AI'),requestCrew,'ps-primary');b.disabled=!!(result?.pending||result?.complete);crew.append(b);
+ if(result?.error)crew.append(el('p',result.error,'ps-note'));
+ if(result?.receipt){crew.append(el('small',result.receipt.engine==='azure_selection'?(result.receipt.cached?tr('SAVED AZURE REVIEW','REVISIÓN AZURE GUARDADA','REVISÃO AZURE SALVA'):tr('FRESH AZURE REVIEW','NUEVA REVISIÓN AZURE','NOVA REVISÃO AZURE')):tr('REVIEWED FALLBACK · AI UNAVAILABLE','RESPALDO REVISADO · AI NO DISPONIBLE','RESPOSTA REVISADA · AI INDISPONÍVEL')));}
+ for(const post of result?.posts||[]){const c=card(post.name,post.summary,'ps-crew-post');c.append(el('small',post.evidence_ids.join(' · ')));crew.append(c);}
+ if(result?.receipt){const detail=el('details');detail.append(el('summary',tr('Inspect this review’s source snapshot','Inspeccionar las fuentes de esta revisión','Inspecionar as fontes desta revisão')),el('code',JSON.stringify(result.receipt.receipt,null,2)));crew.append(detail);}
+}
+async function requestCrew(){
+ stop();const snapshot={scenario:input.scenario,time:input.time,language:input.language||'en',corrected:!!input.corrected,tracking:input.tracking!==false},key=studioKey(snapshot);
+ if(reviews.get(key)?.pending||reviews.get(key)?.complete)return;
+ const previous=priorReview?.scenario===snapshot.scenario?priorReview:null,result={pending:true,posts:[]};reviews.set(key,result);render();
+ const update=()=>{if(dialog.open&&studioKey(input)===key){renderCrew();localizeStudio(crew,input.language||'en');}};
+ try{
+  const config=await fetch('api-config.json').then(r=>r.json());const local=['localhost','127.0.0.1'].includes(location.hostname);
+  const response=await fetch((local?'':config.baseUrl||'')+'/api/evidence-review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...snapshot,previous}),signal:AbortSignal.timeout(45000)});
+  if(!response.ok)throw Error(tr('Review unavailable. Retry shortly.','Revisión no disponible. Inténtalo de nuevo en breve.','Revisão indisponível. Tente novamente em breve.'));
+  const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='';while(true){const{done,value}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});if(buffer.length>256000)throw Error('Response limit');let end;while((end=buffer.indexOf('\n\n'))>=0){const frame=buffer.slice(0,end);buffer=buffer.slice(end+2);const type=frame.match(/^event: (.+)$/m)?.[1],raw=frame.match(/^data: (.+)$/m)?.[1];if(!type||!raw)continue;const data=JSON.parse(raw);if(type==='error')throw Error(data.message);if(type==='receipt')result.receipt=data;if(type==='post')result.posts.push(data);if(type==='complete')result.complete=data.engine==='azure_selection';update();}}
+  if(!result.receipt||result.posts.length!==5)throw Error(tr('Review interrupted. Retry to recover.','Revisión interrumpida. Reintenta para recuperarla.','Revisão interrompida. Tente novamente para recuperar.'));
+  if(result.complete)priorReview=snapshot;else result.error=tr('AI review unavailable. The five contributions below are labeled fallback notes; retry when the service is available.','Revisión AI no disponible. Las cinco contribuciones son notas de respaldo; reintenta cuando el servicio esté disponible.','Revisão AI indisponível. As cinco contribuições são notas de contingência; tente quando o serviço estiver disponível.');
+ }catch(e){result.error=e.name==='TimeoutError'?tr('Review timed out. Retry to recover cached work.','La revisión agotó el tiempo. Reintenta para recuperar el trabajo guardado.','A revisão excedeu o tempo. Tente recuperar o trabalho salvo.'):e.message;}finally{result.pending=false;update();aiAvailability.check(true).catch(()=>{});}
+}
