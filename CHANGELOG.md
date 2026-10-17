@@ -1,3 +1,10 @@
+## v67 — more natural measured training visuals
+
+- Replaced block players with generated photographic stride artwork and added textured, muted grass and a yellow training ball.
+- Made names and tracking trails optional; reduced visual clutter in the default broadcast view.
+- Rechecked 600 decoded frames: 8/8 expected development events matched. This is controlled synthetic footage, not validation on real broadcast video.
+- All 209 tests passed. Earlier-render holdouts remain labeled separately.
+
 ## v66 — evidence room and independent-review preparation
 
 - Ran an eight-case, 32-request comparison on previously unused synthetic event packets. Both arms passed 24/24 wording/citation checks; 18/24 role texts were identical. Crew: 16,265 tokens; single-call editor: 7,124. No human superiority claim.
@@ -68,3 +75,4 @@ Persisted specialist work, actual interruption/resume verification, separate out
 ## Earlier prototypes
 
 Film-led Watch experience, synthetic scenarios, Match Centre, Truth Lab, fictional presenters and multilingual explanations. Earlier release numbering is incomplete in the public record; no precise 3.4–3.5 change attribution is claimed.
+
