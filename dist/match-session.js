@@ -1,5 +1,5 @@
 // One session for Watch, Match Centre, Truth Lab and the output desk.
-export const DEFAULT_SESSION={source:'pitchside',clipTime:0,clipChallenge:false,studyScene:false,scenario:'wide',time:0,corrected:false,language:'en',mode:'fan',focus:7,team:'harbor',insightPace:'balanced',insightDetail:'quick',section:'watch'};
+export const DEFAULT_SESSION={source:'match',clipTime:0,clipChallenge:false,studyScene:false,scenario:'wide',time:16,corrected:false,language:'en',mode:'fan',focus:7,team:'harbor',insightPace:'balanced',insightDetail:'quick',section:'watch'};
 export function reduceSession(state,patch){
  const next={...state,...patch};
  next.source=next.source==='match'?'match':'pitchside';

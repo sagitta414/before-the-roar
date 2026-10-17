@@ -42,8 +42,34 @@ update();
 const sourceBar=document.querySelector('.watch-source-bar');
 if(sourceBar){
   const dossier=el('div','match-dossier');
-  dossier.innerHTML=`<span>MATCH DOSSIER</span><strong>BTR-WIDE-67</strong><i></i><p><b>Broadcast view</b> shows the atmosphere. <b>Evidence view</b> carries the measurements. Both follow the same fictional teams and editorial question; they are companion representations, not the same pixel source.</p>`;
+  dossier.innerHTML=`<span>MATCH DOSSIER</span><strong>BTR-WIDE-67</strong><i></i><p><b>Evidence view is the core journey:</b> Watch, Match Centre and Truth Lab all read the same measured replay. <b>Broadcast view</b> is optional cinematic companion coverage and is labelled separately.</p>`;
   sourceBar.after(dossier);
+}
+
+const truth=$('truth');
+if(truth){
+  const path=el('section','truth-primary-path');
+  path.setAttribute('aria-label','Three-step evidence correction');
+  path.innerHTML=`<header><span>THE DEFINING TEST / THREE STEPS</span><strong>One claim. One changed record. One corrected story.</strong></header><div><button type="button" data-truth-step="original"><b>01</b><span>ORIGINAL CLAIM<small>Inspect the claim at 67:16</small></span></button><i>→</i><button type="button" data-truth-step="change"><b>02</b><span>CHANGE EVIDENCE<small>Hold one defender in place</small></span></button><i>→</i><button type="button" data-truth-step="corrected"><b>03</b><span>CORRECTED OUTPUT<small>See what the audience receives</small></span></button></div><button type="button" class="truth-more-toggle" aria-expanded="false">More evidence tools +</button>`;
+  truth.querySelector('.truth-intro')?.after(path);
+  let selectedTruthStep=matchSession.get().corrected?'change':'original';
+  const setTruth=(corrected,focus=false)=>{
+    selectedTruthStep=focus?'corrected':corrected?'change':'original';
+    matchSession.set({source:'match',scenario:'wide',time:16,corrected,section:'truth'},'truth-primary-path');
+    $('truth-nav')?.click();
+    if(focus)setTimeout(()=>truth.querySelector('.truth-story-grid, .truth-context-details')?.scrollIntoView({behavior:'smooth',block:'center'}),40);
+  };
+  path.querySelector('[data-truth-step="original"]').onclick=()=>setTruth(false);
+  path.querySelector('[data-truth-step="change"]').onclick=()=>setTruth(true);
+  path.querySelector('[data-truth-step="corrected"]').onclick=()=>setTruth(true,true);
+  const more=path.querySelector('.truth-more-toggle');
+  more.onclick=()=>{const shown=truth.classList.toggle('show-all-tools');more.setAttribute('aria-expanded',String(shown));more.textContent=shown?'Fewer controls −':'More evidence tools +';};
+  const syncTruthPath=state=>path.querySelectorAll('[data-truth-step]').forEach(button=>{
+    if(!state.corrected)selectedTruthStep='original';
+    const step=button.dataset.truthStep,active=state.source==='match'&&state.time>=15.9&&state.time<=16.1&&step===selectedTruthStep;
+    button.classList.toggle('is-active',active);
+  });
+  matchSession.subscribe(syncTruthPath);syncTruthPath(matchSession.get());
 }
 
 const inside=$('inside');
@@ -51,18 +77,20 @@ if(inside){
   const proof=el('section','cohesion-proof');
   proof.setAttribute('aria-label','What the current prototype proves');
   proof.innerHTML=`
-    <header><div><span>THE BTR DIFFERENCE / VERIFIED</span><h2>One story. Three kinds of proof.</h2></div><button type="button" data-open-demo>Run the defining moment →</button></header>
+    <header><div><span>THE BTR DIFFERENCE / VERIFIED</span><h2>One story. Five kinds of proof.</h2></div><button type="button" data-open-demo>Run the defining moment →</button></header>
     <div class="cohesion-proof__grid">
       <article data-tone="live"><small>01 / AGENT EXECUTION</small><h3>Specialists really hand off.</h3><strong>4 AZURE REQUESTS + 1 CALCULATION</strong><p>Scout, Guide, Check and Host execute sequentially. Vector calculates in code. Execution IDs, latency, evidence and delivery state remain inspectable.</p><button type="button" data-jump-watch>Open the AI desk ↗</button></article>
       <article data-tone="truth"><small>02 / CORRECTION</small><h3>The story must survive the evidence.</h3><strong>CLAIM WITHDRAWN · OUTPUT REVISED</strong><p>Truth Lab changes one synthetic observation, recalculates the affected metric and publishes a narrower broadcast explanation while preserving unaffected facts.</p><button type="button" data-jump-truth>Run the evidence test ↗</button></article>
       <article data-tone="guard"><small>03 / VISION SAFETY GATE</small><h3>Unknown footage fails closed.</h3><strong>IDENTITY + SPEED WITHHELD</strong><p>An unfamiliar real training clip produced no enrolled marker matches. BTR published no player identity or physical speed. This validates withholding behavior, not broadcast detection accuracy.</p><a href="assets/external-video-results.json" download>Download the domain test ↓</a></article>
+      <article data-tone="vision"><small>04 / AUTO-EVENT READINESS</small><h3>Detection has a visible release gate.</h3><strong>8/8 DEV EVENTS · BROADCAST NOT VALIDATED</strong><p>The controlled 600-frame marker clip matches eight expected development events. Unfamiliar footage is blocked from publishing identities or speeds. Production still requires annotated, held-out broadcast video.</p><a href="assets/video-readiness.json" download>Inspect the readiness gate ↓</a></article>
+      <article data-tone="value"><small>05 / COMMENTARY VALUE</small><h3>Value is tested as behavior.</h3><strong>5/5 OBJECTIVE UTILITY CHECKS PASS</strong><p>Citations resolve, corrections alter affected claims, unaffected facts survive, audience modes differ and future events stay out. Independent human preference remains pending.</p><a href="assets/commentary-value-benchmark.json" download>Inspect the value checks ↓</a></article>
     </div>
     <div class="source-contract">
-      <div><span>BROADCAST LAYER</span><b>Cinematic minute</b><p>Audience-ready film with manually reviewed, time-linked observations.</p></div><i aria-hidden="true">+</i>
-      <div><span>EVIDENCE LAYER</span><b>Measured replay</b><p>Coordinate-backed events, movement, pass quality and claim boundaries.</p></div><i aria-hidden="true">→</i>
+      <div><span>CORE EVIDENCE LAYER</span><b>Measured replay</b><p>The default source across Watch, Match Centre and Truth Lab: coordinate-backed events, movement, pass quality and claim boundaries.</p></div><i aria-hidden="true">+</i>
+      <div><span>OPTIONAL BROADCAST LAYER</span><b>Cinematic minute</b><p>Audience-ready companion film with manually reviewed, time-linked observations and no transferred measurements.</p></div><i aria-hidden="true">→</i>
       <div><span>PUBLIC LAYER</span><b>One match dossier</b><p>Personalized narrative with source labels, receipts and revision history.</p></div>
     </div>
-    <div class="quality-boundary"><div><span>WHY MULTI-AGENT?</span><strong>Not because more calls automatically mean better prose.</strong><p>The demonstrated advantage is role separation, inspectable disagreement, checkpoint recovery and a deterministic evidence gate. The bounded model comparison does not establish general superiority.</p></div><a href="assets/commentary-comparison.json" download>Inspect the comparison ↓</a></div>`;
+    <div class="quality-boundary"><div><span>WHY MULTI-AGENT?</span><strong>Measured system value, with the human question left open.</strong><p>The verified advantage is role separation, inspectable disagreement, correction, audience differentiation, checkpoint recovery and a deterministic evidence gate. Five automated utility checks pass. The bounded model comparison does not establish general prose superiority; independent preference is explicitly pending.</p></div><a href="independent-review.html">Run an independent review ↗</a></div>`;
   inside.querySelector('.extension-heading')?.after(proof);
   const placeProof=()=>{
     const anchor=inside.querySelector(':scope > #judge-evidence')||inside.querySelector(':scope > .extension-heading');

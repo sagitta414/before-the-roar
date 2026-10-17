@@ -52,7 +52,7 @@ test('a seek can become playable through canplay without a second loadeddata eve
 });
 
 test('a fresh session plays the full minute across every cut and reaches the complete recap',()=>{
- const session=createSession(),initial=mediaPlan(session.get());assert.equal(initial.src,'assets/pitchside-stream.mp4');assert.equal(initial.duration,60);
+ const session=createSession({source:'pitchside'}),initial=mediaPlan(session.get());assert.equal(initial.src,'assets/pitchside-stream.mp4');assert.equal(initial.duration,60);
  for(const scene of FILM_SCENES){
   const state=session.get(),next=scenePlayback(scene.end-.1,Math.min(60,scene.end+.1),state.studyScene);
   assert.equal(next.stop,false);session.set({clipTime:next.time},'film');

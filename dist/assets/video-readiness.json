@@ -1,0 +1,34 @@
+{
+  "artifact": "BTR automatic video event readiness gate",
+  "version": "v111",
+  "status": "development_only",
+  "evaluations": [
+    {
+      "domain": "controlled synthetic marker video",
+      "frames_decoded": 600,
+      "expected_events": 8,
+      "matched_expected_events": 8,
+      "use": "development demonstration",
+      "held_out": false
+    },
+    {
+      "domain": "unfamiliar real training footage",
+      "enrolled_marker_matches": 0,
+      "player_identities_published": 0,
+      "physical_speeds_published": 0,
+      "use": "domain safety test",
+      "held_out": true
+    }
+  ],
+  "release_gate": {
+    "general_broadcast_detection": "not_validated",
+    "required_next_evidence": [
+      "annotated unfamiliar broadcast clips",
+      "event-level precision and recall",
+      "identity accuracy",
+      "camera-calibrated speed error"
+    ],
+    "publishing_rule": "Withhold identity and physical speed when enrollment or calibration is absent."
+  },
+  "boundary": "Eight matched events describe one controlled development clip and are not a broadcast accuracy claim."
+}
