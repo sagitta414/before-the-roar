@@ -1,4 +1,4 @@
-import { aiAvailability } from "./ai-availability.js?v=68";
+import { aiAvailability } from "./ai-availability.js?v=103";
 import { bindDescriptions } from "./film-captions.js";
 import { createBroadcastOutput } from "./broadcast-output.js";
 import {
@@ -20,7 +20,7 @@ import {
   editorialKey,
   WORDS,
 } from "./match-story.js";
-import { PRESENTER_PROFILES as profiles } from "./presenter-profiles.js";
+import { PRESENTER_PROFILES as profiles } from "./presenter-profiles.js?v=103";
 import { createMatchPitch } from "./match-pitch.js";
 import { matchCenterSnapshot } from "./analysis-model.js";
 import { arrangeReadingRoom } from "./reading-room.js";
@@ -986,7 +986,7 @@ document.addEventListener('btr-open-live-discussion',()=>{
   $('question').value='What does the wide run show, and what does the ball’s route tell us separately?';
   renderPanel();
   $('question').focus({preventScroll:true});
-  $('composer-note').textContent='Send the opening question, then choose “Did the run cause it?” below the replies. One AI selection request per synthetic round.';
+  $('composer-note').textContent='Send the opening question, then choose “Did the run cause it?” below the replies. Four sequential AI requests per synthetic round.';
   document.querySelector('.broadcast-room').scrollIntoView({block:'start',behavior:'smooth'});
 });
 document.addEventListener("visibilitychange", () => {
