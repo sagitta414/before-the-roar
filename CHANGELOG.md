@@ -1,3 +1,11 @@
+## v110 — one investigation from play to proof
+
+- Added a persistent five-stage story spine: Watch, Understand, Measure, Challenge and Publish. Each stage opens the existing room that performs that job, while the sixty-second defining-moment demonstration stays one click away.
+- Reframed the cinematic minute and coordinate replay as two explicitly different layers in match dossier `BTR-WIDE-67`: broadcast atmosphere and measured evidence. The interface states that they are companion representations rather than the same pixel source.
+- Added a compact proof layer to Inside BTR showing real sequential specialist execution, Truth Lab correction and the unfamiliar-video safety gate. The external domain result is downloadable from the public app.
+- Replaced the stale v42.2 comparison display with the latest bounded regression. It reports grounding, request counts and the absence of independent human preference results without claiming that more model calls improve prose.
+- Verified 232 automated tests, JavaScript syntax checks, 100 held-out synthetic fixtures and responsive layout at 390×844 without horizontal overflow.
+
 ## v68 — restored first-moment review and bounded conversation
 
 - Match Centre's opening review advances past the first annotation boundary and renders the reached observation and explanation immediately.

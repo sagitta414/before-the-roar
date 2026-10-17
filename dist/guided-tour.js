@@ -607,7 +607,7 @@ document.addEventListener("btr-open-guided", () => {
   document.getElementById("watch-nav").click();
   enter();
 });
-fetch("assets/btr-agent-evaluation.json")
+fetch("assets/commentary-comparison.json")
   .then((r) => {
     if (!r.ok) throw Error("No measured evaluation yet");
     return r.json();
@@ -615,6 +615,14 @@ fetch("assets/btr-agent-evaluation.json")
   .then((data) => {
     pack = data;
     evaluation.replaceChildren();
+    if(data.version?.includes('bounded-regression')){
+      const rows=data.cases||[],teamCalls=rows.reduce((sum,row)=>sum+(row.crew?.calls?.length||0),0),baselineCalls=rows.reduce((sum,row)=>sum+(row.baseline?.calls?.length||0),0),teamCitations=rows.reduce((sum,row)=>sum+(row.crew?.valid_citations||0),0),baselineCitations=rows.reduce((sum,row)=>sum+(row.baseline?.valid_citations||0),0);
+      const current=el('div','current-quality-proof');
+      current.innerHTML=`<div><span>CURRENT BOUNDED REGRESSION</span><strong>${rows.length} FIXED CASES</strong><small>Same evidence catalog · no retries</small></div><div><span>GROUNDING</span><strong>${teamCitations}/${rows.length*3} · ${baselineCitations}/${rows.length*3}</strong><small>Crew · single-call baseline</small></div><div><span>MODEL REQUESTS</span><strong>${teamCalls} · ${baselineCalls}</strong><small>Crew · single-call baseline</small></div><div><span>HUMAN PREFERENCE</span><strong>NOT MEASURED</strong><small>No superiority claim</small></div>`;
+      evaluation.append(el('p','',`${data.method}`),current,el('p','guided-note','Both approaches stayed inside the verified wording catalog. The multi-agent design earns its place through visible role boundaries, disagreement, checkpoint recovery and per-stage receipts—not a claim that additional calls automatically improve prose.'));
+      if(active)render();
+      return;
+    }
     const table = el("table");
     const head = el("tr");
     for (const t of ["Measured check", "Agent team", "Single model"])
