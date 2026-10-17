@@ -62,7 +62,7 @@ test('advancing the playhead changes the answer only after a new event is reache
   assert.ok(posts.every(p=>p.evidence_ids.includes(later.brief.state.seen.at(-1).id)));
   assert.notEqual(posts.find(p=>p.role==='analyst').summary,posts.find(p=>p.role==='guide').summary);
   assert.notEqual(posts.find(p=>p.role==='guide').summary,posts.find(p=>p.role==='presenter').summary);
-  if(language==='en')assert.match(posts.find(p=>p.role==='presenter').summary,/from 2 to 3 completed passes/);
+  if(language==='en')assert.match(posts.find(p=>p.role==='presenter').summary,/3 completed passes, up from 2/);
   const math=posts.find(p=>p.role==='math');
   assert.match(math.summary,/km\/h/);
   assert.match(math.metric_value,/km\/h/);
@@ -73,6 +73,28 @@ test('advancing the playhead changes the answer only after a new event is reache
   assert.equal(repaired.summary,stale.summary);
   assert.deepEqual([repaired.working,repaired.metric_title,repaired.metric_value],[math.working,math.metric_title,math.metric_value]);
   assert.ok(posts.every(p=>p.cutoff===26));
+ }
+});
+test('newcomer teaching follows the reached play and next-event roles add different value',()=>{
+ const wide=matchStory({...input,time:16}),press=matchStory({...input,scenario:'press',time:23}),finish=matchStory({...input,time:31});
+ const guide=p=>sourceCatalog(p,localPanel(p)).beginner.posts.find(n=>n.role==='guide').summary;
+ assert.match(guide(wide),/off-ball run/);
+ assert.match(guide(press),/recovery means winning possession back/);
+ assert.doesNotMatch(guide(press),/off-ball run/);
+ assert.match(guide(finish),/shot is an attempt/);
+ for(const language of ['en','es','pt']){
+  const earlier=matchStory({...input,time:26,language}),previous=sourceCatalog(earlier,localPanel(earlier)).movement.posts;
+  const later=matchStory({...input,time:31,language}),posts=sourceCatalog(later,localPanel(later),{round:2,previous}).next_event.posts;
+  const byRole=Object.fromEntries(posts.map(n=>[n.role,n]));
+  assert.match(byRole.math.metric_value,/km\/h/);
+  assert.notEqual(byRole.math.summary,byRole.analyst.summary);
+  assert.notEqual(byRole.guide.summary,byRole.analyst.summary);
+  assert.notEqual(byRole.reviewer.summary,byRole.presenter.summary);
+  if(language==='en'){
+   assert.match(byRole.math.metric_title,/shot-path speed/);
+   assert.match(byRole.guide.summary,/shot is the attempt/);
+   assert.match(byRole.presenter.summary,/recorded goal/);
+  }
  }
 });
 test('one request composes a round, caches it, and fails closed on hostile model output',async()=>{
@@ -93,6 +115,22 @@ test('a saved next-event round repairs stale Vector metadata without another AI 
  await state.write(key,{source:'match',input:laterInput,status:'complete',conversation,posts:{math:stale},trace:[],metrics:{model_calls:1},claim:{}});
  const prior=process.env.BTR_GROUNDED_DESK;process.env.BTR_GROUNDED_DESK='1';
  try{const desk=new MatchDesk({busy:0,store:{reserve:async()=>{throw Error('Must reuse saved round');}}},{state});const emitted=[];await desk.discuss(laterInput,(type,data)=>emitted.push({type,data}),{key});const saved=(await state.read(key)).value.posts.math;assert.equal(saved.metric_title,math.metric_title);assert.equal(saved.metric_value,math.metric_value);assert.equal(saved.working,math.working);assert.ok(emitted.some(x=>x.type==='post'&&x.data.metric_title===math.metric_title));}finally{if(prior===undefined)delete process.env.BTR_GROUNDED_DESK;else process.env.BTR_GROUNDED_DESK=prior;}
+});
+test('a new event streams its own calculation first, without flashing the previous metric',async()=>{
+ const earlierInput={...input,time:22},laterInput={...input,time:26,parentKey:'e'.repeat(64),question:'What happened next?'};
+ const earlier=matchStory(earlierInput),previous=sourceCatalog(earlier,localPanel(earlier)).movement.posts,state=testState({});
+ await state.write(laterInput.parentKey,{source:'match',input:earlierInput,status:'complete',conversation:{round:1,previous:[]},posts:Object.fromEntries(previous.map(p=>[p.role,p]))});
+ const prior=Object.fromEntries(['BTR_GROUNDED_DESK','AZURE_OPENAI_ENDPOINT','AZURE_ACCESS_TOKEN'].map(k=>[k,process.env[k]])),original=global.fetch;
+ Object.assign(process.env,{BTR_GROUNDED_DESK:'1',AZURE_OPENAI_ENDPOINT:'https://example.test',AZURE_ACCESS_TOKEN:'test'});
+ global.fetch=async()=>new Response(JSON.stringify({choices:[{message:{content:'{"angle":"next_event"}'}}]}));
+ try{
+  const emitted=[],desk=new MatchDesk({busy:0,store:{reserve:async()=>true}},{state});
+  await desk.discuss(laterInput,(type,data)=>emitted.push({type,data}));
+  const math=emitted.filter(x=>x.type==='post'&&x.data.role==='math');
+  assert.ok(math.length>=1);
+  assert.match(math[0].data.metric_title,/Average ball speed/);
+  assert.ok(math.every(x=>x.data.metric_title===math[0].data.metric_title));
+ }finally{global.fetch=original;for(const[k,v]of Object.entries(prior))if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });
 test('interrupted source composition resumes the saved selection without a second paid request',async()=>{
  const saved=Object.fromEntries(['BTR_GROUNDED_DESK','AZURE_OPENAI_ENDPOINT','AZURE_ACCESS_TOKEN'].map(k=>[k,process.env[k]])),original=global.fetch;
