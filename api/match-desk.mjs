@@ -47,8 +47,8 @@ export function repeatsFilmUncertainty(summary, previous=[]) {
 }
 export function filmHostSkipsCheck(summary, packet) {
   if(!['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id))return false;
-  const boundary=/(?:line|defen|beyond|outside|unverified|unknown|cannot confirm|not establish|línea|defens|fuera|desconoc|não confirm|fora|linha)/i.test(summary);
-  const nextTest=/(?:next|following|touch|turn|release|exit|siguiente|próxim|toque|salida|saída|soltar)/i.test(summary);
+  const boundary=/(?:wider (?:defensive )?line|defensive line|line (?:is|remains) (?:outside|unverified|unknown)|line break|beyond (?:the|this) (?:shot|frame)|línea defensiva|línea más amplia|linha defensiva|linha mais ampla)/i.test(summary);
+  const nextTest=/(?:next|first|following) (?:touch|turn|pass|release)|(?:touch|turn|pass|release|exit) (?:after|at) (?:reception|receiving)|siguiente toque|próximo toque|primer toque|primeiro toque|próxima ação|siguiente acción|salida tras|saída após/i.test(summary);
   return !boundary||!nextTest;
 }
 function reviewedClipChallenge(packet,role){
@@ -735,16 +735,21 @@ export class MatchDesk {
         let validated;
         try { validated=accept(raw); }
         catch (firstError) {
-          if (role!=="presenter" || !this.clip) throw firstError;
+          if (!this.clip) throw firstError;
           await journal.change(v=>{v.rejected_outputs??={};v.rejected_outputs[role]=raw;});
           await trace(role,"editorial_revision_requested",{reason:firstError.message});
           await reserve();
+          const repairTask = role === "analyst"
+            ? "Scout: describe only the reached observation. Answer the viewer's question by naming the visible touch or pass and the specific missing view. Do not infer defender movement between cuts, player readiness, an advantage, or a wider tactical outcome."
+            : role === "guide"
+              ? "Guide: ask one short, concrete viewing question that teaches the football concept and follows Scout's observation. The application supplies the definition. Do not claim what a defender did between cuts or what the receiver accomplished after the touch."
+              : "Host: state a specific new football implication or the precise next-touch replay test. For a received pass, distinguish the local outlet from the unverified wider defensive line, and say what the next touch can test. Do not repeat Scout.";
           const repairedResponse=await fetch(url,{
             method:"POST",headers,signal:AbortSignal.timeout(30000),
             body:JSON.stringify({
               messages:[
-                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. State a specific new football implication or the precise next-touch replay test. For a received pass, distinguish the local outlet from the unverified wider defensive line, and say what the next touch can test. Do not use the words importance, important, essential, crucial, or highlights. Do not repeat Scout. Keep the same evidence cutoff and citations.'},
-                {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,editorial_rejection:firstError.message})},
+                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. '+repairTask+' Avoid generic praise. Keep the same evidence cutoff, language and citations.'},
+                {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,football_context:packet.football,guide_definition:packet.guideDefinition,role_brief:notes.find(p=>p.role===role),calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,editorial_rejection:firstError.message})},
               ],temperature:.25,max_tokens:450,stream:false,
               response_format:{type:"json_schema",json_schema:{name:"match_editor",strict:true,schema}},
             }),

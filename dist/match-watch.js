@@ -427,7 +427,7 @@ function render() {
   }
 }
 function renderPanel() {
-  $("request-panel").textContent=isClip()?"Ask the crew · up to 4 requests":"Ask the crew · 1 AI request";
+  $("request-panel").textContent=isClip()?"Ask the crew · 3–6 requests":"Ask the crew · 1 AI request";
   const thread = activeThread(),
     discussionPacket = thread
       ? viewStory({ ...viewInput(), time: thread.cutoff })
@@ -959,7 +959,7 @@ $("question-form").onsubmit = (e) => {
   }
 };
 $("request-panel").onclick = () => requestPanel();
-$("request-panel").textContent = "Ask the crew · up to 4 requests";
+$("request-panel").textContent = "Ask the crew · 3–6 requests";
 $("request-panel").title =
   "Exact saved discussions are reused. Watching and changing views make no automatic model requests.";
 for (const b of document.querySelectorAll("[data-question]")) {
