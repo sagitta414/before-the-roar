@@ -290,7 +290,7 @@ export const ROLE_HANDOFFS = {
   guide: {
     label: "Guide",
     instruction:
-      "Read Scout and Vector, then choose the most useful teaching angle for this viewer. Add a football concept or viewing question rather than repeating Scout.",
+      "Read Scout, then choose the most useful teaching angle for this viewer. Add a football concept or viewing question rather than repeating Scout. Vector calculates after you.",
   },
   reviewer: {
     label: "Check",
@@ -344,9 +344,14 @@ export async function groundedRound({
   });
 
   const math = (catalog.next_event || catalog.progression).posts.find((p) => p.role === "math");
-  if (!journal.value.posts.math) await publish(math);
-  else emit("post", { ...journal.value.posts.math, cached: true });
-  await trace("math", "calculation_saved", { evidence_ids: math.evidence_ids });
+  const publishMath = async () => {
+    if (!journal.value.posts.math) await publish(math);
+    else emit("post", { ...journal.value.posts.math, cached: true });
+    await trace("math", "calculation_saved", {
+      from: ["analyst", "guide"],
+      evidence_ids: math.evidence_ids,
+    });
+  };
 
   const modelUrl = () =>
     new URL(
@@ -485,10 +490,12 @@ export async function groundedRound({
       conversation.round > 1 ? "next_check" : null,
       "limits",
     ]);
-    const guideDecision = await runSpecialist("guide", guideChoices, [completed.analyst, math]);
-    completed.guide = journal.value.posts.guide || postFor(guideDecision.angle, "guide", guideDecision, [completed.analyst, math]);
+    const guideDecision = await runSpecialist("guide", guideChoices, [completed.analyst]);
+    completed.guide = journal.value.posts.guide || postFor(guideDecision.angle, "guide", guideDecision, [completed.analyst]);
     if (!journal.value.posts.guide) await publish(completed.guide);
     else emit("post", { ...completed.guide, cached: true });
+
+    await publishMath();
 
     if (options.interruptAfterSpecialists && !journal.value.fault_injected) {
       await journal.change((v) => {
@@ -525,6 +532,7 @@ export async function groundedRound({
   }
 
   if (failure) {
+    if (!journal.value.posts.math) await publishMath();
     const angle = fallbackAngle(catalog, packet, conversation, input);
     const fallback = selectSourcePosts({ angle }, catalog, packet);
     for (const role of ["analyst", "guide", "reviewer", "presenter"]) {

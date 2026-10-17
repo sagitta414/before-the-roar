@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T18:23:25.445Z",
+  "generated_at": "2026-10-17T18:33:34.268Z",
   "roles": {
     "math": {
       "kind": "Deterministic calculation contract",
@@ -22,7 +22,7 @@
     "guide": {
       "kind": "Sequential Azure model execution + source-bound renderer",
       "scope": "Guide receives an isolated Azure model request in the four-step synthetic handoff. The request sees only verified evidence and the completed public contributions from earlier roles.",
-      "opening": "Read Scout and Vector, then choose the most useful teaching angle for this viewer. Add a football concept or viewing question rather than repeating Scout. Public wording is selected from the validated source catalog; arbitrary model prose, arithmetic and citations are not accepted.",
+      "opening": "Read Scout, then choose the most useful teaching angle for this viewer. Add a football concept or viewing question rather than repeating Scout. Vector calculates after you. Public wording is selected from the validated source catalog; arbitrary model prose, arithmetic and citations are not accepted.",
       "followup": "Read saved public history and the completed contributions provided by the preceding roles. Choose a relevant bounded angle for this new question without repeating the earlier round. Evidence cutoff and revision remain fixed."
     },
     "presenter": {
