@@ -1,0 +1,68 @@
+{
+  "version": "synthetic-logistic-v1",
+  "weights": [
+    0.6430202900607467,
+    -1.9129110163507785,
+    1.7710366990963697,
+    1.0180271321307899
+  ],
+  "features": [
+    "intercept",
+    "distance / 40 m",
+    "nearest receiver defender / 10 m (capped)",
+    "lane clearance / 8 m (capped)"
+  ],
+  "method": "Logistic regression trained on procedurally sampled synthetic pass outcomes. It approximates the synthetic generator, not professional football success rates. Difficulty = 100 × (1 − predicted completion). No time-after-release features are used.",
+  "train": 2400,
+  "test": 800,
+  "seed": 6203,
+  "brier": 0.19045105275132174,
+  "baselineBrier": 0.21901892361111205,
+  "bins": [
+    {
+      "range": [
+        0,
+        0.2
+      ],
+      "n": 1,
+      "predicted": 0.17487485311055806,
+      "observed": 0
+    },
+    {
+      "range": [
+        0.2,
+        0.4
+      ],
+      "n": 67,
+      "predicted": 0.3193962958081246,
+      "observed": 0.3283582089552239
+    },
+    {
+      "range": [
+        0.4,
+        0.6
+      ],
+      "n": 207,
+      "predicted": 0.5167839005168378,
+      "observed": 0.5410628019323671
+    },
+    {
+      "range": [
+        0.6,
+        0.8
+      ],
+      "n": 327,
+      "predicted": 0.6999462453895561,
+      "observed": 0.7247706422018348
+    },
+    {
+      "range": [
+        0.8,
+        1
+      ],
+      "n": 198,
+      "predicted": 0.8626703766933047,
+      "observed": 0.8636363636363636
+    }
+  ]
+}
