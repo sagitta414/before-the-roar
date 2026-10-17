@@ -13,10 +13,10 @@ test('restored quota reports no negative balance and a UTC reset, not an availab
  assert.equal(availabilitySummary({ai_configured:true,usage:{day:'2026-10-14',used:120,limit:120}},now).state,'unknown');
  assert.equal(availabilitySummary({ai_configured:false},now).state,'offline');
 });
-test('concurrent availability readers share read-only calls and failures discard stale ready state',async()=>{
+test('concurrent availability readers share calls and a failed refresh keeps the last confirmed state visibly stale',async()=>{
  let fail=false,calls=[];const client=createAvailability({now:()=>now,retryDelayMs:1,fetcher:async path=>{calls.push(path);if(fail)throw Error('offline');return {ok:true,json:async()=>path.endsWith('api-config.json')?{baseUrl:'https://test.invalid'}:{ai_configured:true,usage:{day:'2026-10-15',used:10,limit:120}}};}});
  const [a,b]=await Promise.all([client.check(),client.check()]);assert.equal(a.remaining,110);assert.deepEqual(a,b);assert.equal(calls.length,2);await client.check();assert.equal(calls.length,2);
- fail=true;assert.equal((await client.check(true)).state,'unreachable');assert.equal(client.get().remaining,null);assert.ok(calls.every(p=>p.endsWith('api-config.json')||p.endsWith('/api/health')));
+ fail=true;assert.equal((await client.check(true)).state,'stale');assert.equal(client.get().remaining,110);assert.match(client.get().detail,/Last confirmed/);assert.ok(calls.every(p=>p.endsWith('api-config.json')||p.endsWith('/api/health')));
 });
 
 test('a hung configuration request reaches a retryable terminal state and a fresh check can recover',async()=>{

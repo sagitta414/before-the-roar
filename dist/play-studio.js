@@ -1,7 +1,7 @@
 import {studioInsight,studioKey,changeTimes,choose} from './studio-insight.js';
 import {auditEvidence} from './evidence-audit.js';
 import {localizeStudio,translateText} from './studio-language.js';
-import {aiAvailability} from './ai-availability.js';
+import {aiAvailability} from './ai-availability.js?v=68';
 import {playEvidence} from './play-evidence.js';
 import {PLAYERS,SCENARIOS,position,events,clock as matchClock} from './engine.js';
 import {matchSession} from './match-session.js';

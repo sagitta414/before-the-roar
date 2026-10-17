@@ -18,7 +18,7 @@ test('all six application routes and the guided story initialize together withou
   const ledger=document.querySelector('.truth-quality');assert.ok(ledger);assert.equal(ledger.closest('details'),null,'claim audit must not be buried in an evidence drawer');assert.match(ledger.textContent,/Withdraw the original claim/);const audience=ledger.querySelector('details');audience.open=true;matchSession.set({time:17});assert.equal(ledger.querySelector('details').open,true,'open audience comparison survives a replay tick');
   matchSession.set({source:'pitchside',section:'centre',clipTime:0});
   document.querySelector('#centre .scene-brief button').click();
-  const reached=matchSession.get().clipTime;assert.ok(reached>0);
+  const reached=matchSession.get().clipTime;assert.ok(reached>.25,'first-moment action must move beyond the boundary into the reviewed observation');
   const video=document.querySelector('#centre .film-workspace video');video.currentTime=0;video.dispatchEvent(new Event('seeked'));
   assert.equal(matchSession.get().clipTime,reached,'metadata seek must not rewind the reviewed moment');
   assert.equal(document.querySelector('#centre .film-study-grid').hidden,false);

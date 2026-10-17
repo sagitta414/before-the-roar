@@ -7,14 +7,14 @@ export function availabilitySummary(health, now=Date.now()) {
  if(!health.ai_configured)return {state:'offline',title:'AI unavailable · reviewed notes available',detail:'Playback, calculations and synthetic datasets still work.',remaining,resetAt};
  if(remaining===0)return {state:'exhausted',title:'AI allowance reached · reviewed notes available',detail:'No new AI generation until the daily reset. Saved results can still be retrieved.',remaining,resetAt};
  if(remaining===null)return {state:'unknown',title:'AI allowance not confirmed',detail:'The server will check the allowance before generating. Playback remains available.',remaining,resetAt};
- return {state:'available',title:remaining+' AI requests remaining today',detail:'Shared across visitors. Synthetic round: 1 request. Film round: up to 4. Cached work uses none.',remaining,resetAt};
+ return {state:'available',title:remaining+' AI requests remaining today',detail:'Shared across visitors. Synthetic round: 1 request. Film round: up to 3. Cached work uses none.',remaining,resetAt};
 }
 export function createAvailability({fetcher=fetch,now=Date.now,timeoutMs=8000,retryDelayMs=1500}={}) {
  let value=null,checkedAt=-Infinity,pending=null,phase='idle',config=null;
  const listeners=new Set();
  const summary=()=>{
-  if(['checking','retrying'].includes(phase))return {state:phase,title:phase==='retrying'?'AI connection is taking longer · retrying':'Checking AI availability',detail:'Playback and reviewed explanations are ready.',remaining:null,resetAt:null};
-  if(phase==='failed')return {...availabilitySummary(null,now()),state:'unreachable',title:'AI connection unavailable · retry available'};
+  if(['checking','retrying'].includes(phase))return value?{...availabilitySummary(value,now()),state:'refreshing',detail:'Last confirmed allowance · checking for an update. Playback and reviewed explanations are ready.'}:{state:phase,title:'Checking AI availability',detail:'Playback and reviewed explanations are ready.',remaining:null,resetAt:null};
+  if(phase==='failed')return value?{...availabilitySummary(value,now()),state:'stale',title:'AI status needs a refresh',detail:'Last confirmed allowance shown. Playback and reviewed explanations are ready.',}:{...availabilitySummary(null,now()),state:'unreachable',title:'AI status not confirmed · retry available'};
   return availabilitySummary(value,now());
  };
  const notify=()=>{const s=summary();for(const fn of listeners)fn(s);return s;};
@@ -34,11 +34,11 @@ export function createAvailability({fetcher=fetch,now=Date.now,timeoutMs=8000,re
  return {get:summary,subscribe(fn){listeners.add(fn);fn(summary());return()=>listeners.delete(fn);},
   async check(force=false){
    if(pending)return pending;if(!force&&now()-checkedAt<30000)return summary();
-   phase='checking';value=null;notify();
+   phase='checking';notify();
    pending=(async()=>{
     for(let attempt=0;attempt<2;attempt++){
      try{value=await request();phase='ready';break;}
-     catch{value=null;if(attempt===0){phase='retrying';notify();await new Promise(r=>setTimeout(r,retryDelayMs));}else phase='failed';}
+     catch{if(attempt===0){phase='retrying';notify();await new Promise(r=>setTimeout(r,retryDelayMs));}else phase='failed';}
     }
     checkedAt=now();return notify();
    })();

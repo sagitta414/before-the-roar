@@ -2,7 +2,7 @@ import { renderEventPitch } from "./event-pitch.js";
 import { createLabAnalytics } from "./lab-analytics.js";
 const matchAnalytics = createLabAnalytics();
 import { createLabRun } from "./lab-run.js";
-import { aiAvailability, availabilityText } from "./ai-availability.js";
+import { aiAvailability, availabilityText } from "./ai-availability.js?v=68";
 import { lesson } from "./learning.js";
 import { DialogueState } from "./dialogue.js";
 const $ = (id) => document.getElementById(id),

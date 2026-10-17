@@ -1,5 +1,5 @@
 import { receiptReplay } from "./receipt-replay.js";
-import { aiAvailability, availabilityText } from "./ai-availability.js";
+import { aiAvailability, availabilityText } from "./ai-availability.js?v=68";
 import { matchSession } from "./match-session.js";
 import { PITCHSIDE } from "./pitchside-story.js";
 const el = (tag, cls, text) => {

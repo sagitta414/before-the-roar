@@ -1,4 +1,4 @@
-import {aiAvailability,availabilityText} from './ai-availability.js';
+import {aiAvailability,availabilityText} from './ai-availability.js?v=68';
 import {matchSession} from './match-session.js';import {PITCHSIDE,clipClock} from './pitchside-story.js';import {visionWindow} from './vision-window.js';
 const el=(t,c,s)=>{const n=document.createElement(t);if(c)n.className=c;if(s)n.textContent=s;return n;};
 export function addVisionCheck(root){

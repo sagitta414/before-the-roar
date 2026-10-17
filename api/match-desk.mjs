@@ -31,7 +31,31 @@ export function repeatsContribution(summary, previous = []) {
     return a.size >= 5 && [...a].filter((g) => b.has(g)).length / a.size > 0.7;
   });
 }
-export function validateMatchPost(raw, packet, role) {
+export function repeatsInsight(summary, previous = []) {
+  const stop = new Set('the a an to is and or while from this that yet overall be been of its however single alone can cannot does not in on for with as at by it their'.split(' '));
+  const words = s => new Set((s.toLocaleLowerCase().match(/[\p{L}]+/gu)||[]).filter(w=>w.length>2&&!stop.has(w)));
+  const mine=words(summary);
+  return previous.some(p=>{
+    const other=words(p.summary||'');
+    if(mine.size<5||other.size<5)return false;
+    const shared=[...mine].filter(w=>other.has(w)).length;
+    return shared/mine.size>=.55&&mine.size-shared<5;
+  });
+}
+function reviewedClipChallenge(packet,role){
+  const pass=['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id),l=['en','es','pt'].indexOf(packet.language);
+  const lines=pass?{
+    analyst:['The reviewed shot shows a nearby defender and a received pass. It does not track the defender’s complete route.','La toma revisada muestra un defensor cercano y un pase recibido. No sigue toda la trayectoria del defensor.','A tomada revisada mostra um defensor próximo e um passe recebido. Não acompanha todo o trajeto do defensor.'],
+    guide:['Which continuous angle would show the defender’s route during the pass and the receiver’s next touch?','¿Qué toma continua mostraría la trayectoria del defensor durante el pase y el siguiente toque del receptor?','Qual tomada contínua mostraria o trajeto do defensor durante o passe e o próximo toque de quem recebeu?'],
+    presenter:['A continuous view of the defender through the pass could change the defensive reading. This shot confirms the outlet, not a break in the wider line.','Una toma continua del defensor durante el pase podría cambiar la lectura defensiva. Esta toma confirma la salida, no una ruptura de la línea.','Uma tomada contínua do defensor durante o passe poderia mudar a leitura defensiva. Esta tomada confirma a saída, não a ruptura da linha.']
+  }:{
+    analyst:['The reviewed notes describe the visible action in this shot. They do not establish what changed beyond the frame.','Las notas revisadas describen la acción visible en esta toma. No establecen qué cambió fuera del encuadre.','As notas revisadas descrevem a ação visível nesta tomada. Não estabelecem o que mudou fora do quadro.'],
+    guide:['Which continuous angle would let us compare this action with the next visible touch?','¿Qué toma continua permitiría comparar esta acción con el siguiente toque visible?','Qual tomada contínua permitiria comparar esta ação com o próximo toque visível?'],
+    presenter:['An unbroken view of the next action could change this reading. The current shot supports only the reached observation.','Una toma sin cortes de la siguiente acción podría cambiar esta lectura. La toma actual solo respalda la observación alcanzada.','Uma tomada sem cortes da próxima ação poderia mudar esta leitura. A tomada atual só sustenta a observação alcançada.']
+  };
+  return lines[role]?.[Math.max(0,l)];
+}
+export function validateMatchPost(raw, packet, role, context={}) {
   const p = {
       ...raw?.post,
       interpretation:
@@ -87,6 +111,10 @@ export function validateMatchPost(raw, packet, role) {
     p.replay_cue,
     p.viewing_question,
   ].join(" ");
+  if (packet.review?.scope === 'manually-reviewed-ai-video' && /\b(?:does not|doesn't|did not|didn't|never)\s+(?:change|move|shift)|\b(?:remains|stays)\s+(?:still|stationary|in place|at (?:the|his|its) (?:same|starting) position)|\b(?:no|without)\s+(?:significant\s+)?(?:movement|change in position)/i.test(prose))
+    throw Error('The reviewed film does not establish unchanged defender movement');
+  if (packet.review?.scope === 'manually-reviewed-ai-video' && context.round>1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(context.question||'') && role==='guide' && !/\b(?:camera|frame|angle|shot|compare|comparison|continuous|cámara|encuadre|toma|comparaci[oó]n|continua|câmera|quadro|tomada|compara[cç][aã]o|contínua)\b/i.test(p.interpretation))
+    throw Error('Guide must identify a concrete evidence comparison for this challenge');
   if (packet.synthetic) {
     const boundary = [
       p.interpretation,
@@ -513,8 +541,18 @@ export class MatchDesk {
         ];
         let toolReceipt = journal.value.tools?.[role];
         if (role === "analyst" && !toolReceipt) {
-          await reserve();
-          const response = await fetch(url, {
+          let call;
+          if (this.clip) {
+            // The film has one bounded, manually reviewed source. Choosing it is
+            // deterministic; a model selection call adds cost without evidence.
+            call = {
+              id: `film_evidence_${packet.revision}`,
+              type: "function",
+              function: { name: "read_evidence", arguments: "{}" },
+            };
+          } else {
+            await reserve();
+            const response = await fetch(url, {
             method: "POST",
             headers,
             signal: AbortSignal.timeout(20000),
@@ -526,14 +564,15 @@ export class MatchDesk {
               max_tokens: 160,
               temperature: 0,
             }),
-          });
-          if (!response.ok) throw modelFailure(response, "Evidence tool selection");
-          const selection = await response.json();
-          await usage(selection.usage);
-          const calls = selection.choices?.[0]?.message?.tool_calls;
-          if (calls?.length !== 1) throw Error("Exactly one bounded tool is required");
-          const call = calls[0],
-            output = executeAgentTool(
+            });
+            if (!response.ok) throw modelFailure(response, "Evidence tool selection");
+            const selection = await response.json();
+            await usage(selection.usage);
+            const calls = selection.choices?.[0]?.message?.tool_calls;
+            if (calls?.length !== 1) throw Error("Exactly one bounded tool is required");
+            call = calls[0];
+          }
+          const output = executeAgentTool(
               call.function.name,
               JSON.parse(call.function.arguments),
               toolContext,
@@ -674,7 +713,7 @@ export class MatchDesk {
           v.raw_outputs ??= {};
           v.raw_outputs[role] = raw;
         });
-        const validated = validateMatchPost(raw, packet, role);
+        const validated = validateMatchPost(raw, packet, role,{round:conversation.round,question:input.question});
         if (role === "guide" && conversation.round > 1)
           validated.summary = raw.post.viewing_question;
         if (
@@ -688,6 +727,7 @@ export class MatchDesk {
         if (
           role === "presenter" &&
           (repeatsContribution(validated.summary, previous) ||
+            repeatsInsight(validated.summary, previous.filter(p=>p.role==='analyst')) ||
             editorialIssues(role, validated.summary, previous).length)
         )
           throw Error("Repeated contribution; using the reviewed closing cue");
@@ -718,9 +758,10 @@ export class MatchDesk {
         const p = {
           ...notes.find((p) => p.role === role),
           engine: "reviewed_fallback",
+          ...(this.clip && conversation.round>1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(input.question||'')?{summary:reviewedClipChallenge(packet,role)}:{}),
           caution: input.question
             ? this.clip
-              ? packet.copy.fallback
+              ? {en:'AI wording did not pass the editorial check. This is a reviewed evidence note.',es:'El texto de IA no pasó la revisión editorial. Esta es una nota revisada.',pt:'O texto da IA não passou na revisão editorial. Esta é uma nota revisada.'}[packet.language]
               : {
                   en: "AI could not answer this question. Showing the recorded match briefing.",
                   es: "La IA no pudo responder. Se muestra el resumen registrado.",

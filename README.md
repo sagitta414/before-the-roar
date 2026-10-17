@@ -44,7 +44,7 @@ Scout selects a bounded function tool: retrieve evidence, retrieve a determinist
 
 Three roles use Azure OpenAI; two specialist components are deterministic. This is custom Node orchestration with Azure OpenAI function calls. Microsoft Agent Framework, Foundry Agent Service, MCP, A2A and Fabric integration are not claimed. Public receipts are operations and contributions, not private chain-of-thought.
 
-Tool results, raw model outputs (including rejected text), posts, claim revisions, tokens and receipts persist. A complete fresh discussion uses up to four model requests. Complete runs are reused without fabricated typing. Successful intermediate work is reused after failure; unavailable stages retry. Drafts are labeled and validated before final publication. Number, player-attribution, citation, correction and repetition guards reduce specific errors without proving semantic truth.
+Tool results, raw model outputs (including rejected text), posts, claim revisions, tokens and receipts persist. A complete fresh film discussion uses up to three model requests; a synthetic round uses one. Complete runs are reused without fabricated typing. Successful intermediate work is reused after failure; unavailable stages retry. Drafts are labeled and validated before final publication. Number, player-attribution, citation, correction and repetition guards reduce specific errors without proving semantic truth.
 
 ## Correction and recovery
 
@@ -68,7 +68,7 @@ Truth Lab's actual-frame Azure vision review receives JPEGs without authored obs
 
 `node scripts/production-smoke.mjs <Azure origin> --full` consumes up to eight model requests and writes credential-free deployment receipts to `docs/proof/live-production-proof.json`. Metrics are measured duration and reported tokens, not invented dollar costs or judging scores. The demonstrated advantage is reusable work and source-revision enforcement; comparative superiority over a single model has not been established.
 
-Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. Limits remain two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas. Normal film playback makes zero automatic model requests. Ask the crew explicitly generates a discussion, up to four requests; existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
+Existing Azure OpenAI (`gpt-4o-mini`), Container Apps, Blob Storage and managed identity are reused. No new paid services are provisioned. Limits remain two in-flight model requests, 120 requests per UTC day and zero-to-one hosting replicas. Normal film playback makes zero automatic model requests. Ask the crew explicitly generates a film discussion, up to three requests; existing exact-evidence results are reused. Usage controls are not a currency cap or a guarantee of remaining credits.
 
 Configuration: `AZURE_CLIENT_ID`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_DEPLOYMENT`, `AZURE_STORAGE_URL`, `AI_DAILY_LIMIT`, `ALLOWED_ORIGINS`, `PORT`. Frontend `api-config.json` contains only the public API origin. See [deployment instructions](docs/DEPLOYMENT.md) for the parameterized script, Bicep template and existing-resource prerequisites. Publish the static Site through its managed source workflow. Docker includes `api/` and `dist/`.
 

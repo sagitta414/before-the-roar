@@ -2,7 +2,7 @@ import {testState,toolResponse} from './agent-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PITCHSIDE,PITCHSIDE_BEATS,clipClock,pitchsideStory,pitchsidePanel,pitchsideKey,pitchsideExport,clipDiscussionMatches,clipEditorialCutoff} from '../dist/pitchside-story.js';
-import {MatchDesk,validateMatchPost} from '../api/match-desk.mjs';
+import {MatchDesk,validateMatchPost,repeatsInsight} from '../api/match-desk.mjs';
 import {createApp} from '../api/server.mjs';
 
 test('crossing a film cut cannot retain an earlier discussion or future reply',()=>{
@@ -26,6 +26,12 @@ test('pitchside annotations, explanations and exports respect each clip cutoff',
  assert.ok(validateMatchPost(raw,p,'analyst'));
  for(const id of ['featured-shot','wide-evt-002','pitchside-frame'])assert.throws(()=>validateMatchPost({post:{...raw.post,evidence_ids:{primary:id}}},p,'analyst'),/cutoff/);
 });
+test('film follow-up rejects stationary-defender claims absent from reviewed frames and repeated host synthesis',()=>{
+ const packet=pitchsideStory({time:12,language:'en'}),post={interpretation:'The nearby defender does not change position significantly as the pass reaches a teammate.',headline:'A steady defence',caution:'The wider defensive line is outside this shot.',evidence_ids:{primary:'pitchside-reception',secondary:null}};
+ assert.throws(()=>validateMatchPost({post},packet,'analyst',{round:2,question:'What evidence would change this explanation?'}),/unchanged defender movement/);
+ assert.throws(()=>validateMatchPost({post:{...post,interpretation:'What positioning options does the receiver have after this pass?',viewing_question:'What positioning options does the receiver have after this pass?'}},packet,'guide',{round:2,question:'What evidence would change this explanation?'}),/concrete evidence comparison/);
+ assert.equal(repeatsInsight('The pass indicates a defensive presence, yet the overall defensive shape and effectiveness cannot be determined from this moment.',[{summary:'The attacker passes to a nearby teammate while a defender is positioned close, indicating a defensive presence. The defensive shape and overall effectiveness cannot be assessed from this moment.'}]),true);
+});
 
 test('clip cache keys vary with cutoff, language, mode and question',()=>{
  const input={time:8,language:'en',mode:'fan',question:''};const variants=[input,...Object.entries({time:4,language:'es',mode:'math',question:'What happened?'}).map(([k,v])=>({...input,[k]:v}))];assert.equal(new Set(variants.map(pitchsideKey)).size,variants.length);
@@ -40,9 +46,9 @@ test('clip desk uses only this film, streams tool-backed model calls and reuses 
    const post={interpretation:prompt.includes('Guide:')?pitchsideStory().guideDefinition+' Where is the defender looking?':prompt.includes('Host:')?'Access to the next touch matters more than who appears ahead of the duel.':'Watch the defender adjust beside the touch.',replay_cue:'Replay the attacker touching the ball beside the defender.',headline:'A close duel',caution:'Speed cannot be measured.',evidence_ids:{primary:'pitchside-touch',secondary:null}};
    const dataText=JSON.stringify({post}),chunks=[];for(let i=0;i<dataText.length;i+=16)chunks.push('data: '+JSON.stringify({choices:[{delta:{content:dataText.slice(i,i+16)}}]})+'\n\n');chunks.push('data: '+JSON.stringify({choices:[{delta:{},finish_reason:'stop'}]})+'\n\ndata: [DONE]\n\n');return new Response(chunks.join(''));
   };
-  const input={time:2,language:'en',mode:'fan'},a=await desk.discuss(input,(type,data)=>frames.push({type,data}));assert.equal(calls,4);assert.equal(reserved,4);assert.equal(a.length,5);assert.equal(a.filter(p=>p.engine==='azure_openai').length,3);assert.ok(frames.some(f=>f.type==='draft'));assert.equal(narrator.busy,0);
-  await desk.discuss(input,()=>{});assert.equal(calls,4);
-  await desk.discuss({...input,time:0},()=>{});assert.equal(calls,4);
+  const input={time:2,language:'en',mode:'fan'},a=await desk.discuss(input,(type,data)=>frames.push({type,data}));assert.equal(calls,3);assert.equal(reserved,3);assert.equal(a.length,5);assert.equal(a.filter(p=>p.engine==='azure_openai').length,3);assert.ok(frames.some(f=>f.type==='draft'));assert.equal(narrator.busy,0);
+  await desk.discuss(input,()=>{});assert.equal(calls,3);
+  await desk.discuss({...input,time:0},()=>{});assert.equal(calls,3);
  }finally{global.fetch=savedFetch;for(const [key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
 });
 

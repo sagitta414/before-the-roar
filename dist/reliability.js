@@ -1,5 +1,5 @@
 import { installNavigation } from "./navigation.js?v=44";
-import { aiAvailability, availabilityText } from "./ai-availability.js";
+import { aiAvailability, availabilityText } from "./ai-availability.js?v=68";
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
   n.className = cls;
@@ -32,12 +32,12 @@ function update(s) {
   bar.dataset.state = s.state;
   title.textContent = s.title;
   detail.textContent = availabilityText(s);
-  retry.hidden = !['unreachable', 'unknown', 'offline', 'checking', 'retrying'].includes(s.state);
+  retry.hidden = !['unreachable', 'unknown', 'offline', 'checking', 'retrying', 'stale'].includes(s.state);
   retry.disabled = ['checking', 'retrying'].includes(s.state);
   retry.textContent = retry.disabled ? 'Connecting…' : 'Retry AI connection';
   const fallback = posts.some((p) => p.engine === "reviewed_fallback"),
     mixed = posts.some((p) => ["azure_openai","azure_selection"].includes(p.engine));
-  notice.hidden = !fallback && !["offline", "exhausted", "unknown", "unreachable", "checking", "retrying"].includes(s.state);
+  notice.hidden = !fallback && !["offline", "exhausted", "unknown", "unreachable", "stale"].includes(s.state);
   notice.textContent = fallback
     ? mixed
       ? "Some AI responses unavailable · reviewed notes shown for those presenters."
@@ -61,8 +61,12 @@ document.addEventListener("visibilitychange", () => {
   if (!document.hidden) aiAvailability.check();
 });
 setInterval(() => {
+  if (!document.hidden && ['unreachable','stale'].includes(aiAvailability.get().state)) aiAvailability.check(true);
+}, 12000);
+setInterval(() => {
   if (!document.hidden) aiAvailability.check();
 }, 60000);
+window.addEventListener('online',()=>aiAvailability.check(true));
 const kit = el("details", "recording-kit");
 kit.innerHTML =
   '<summary>Recording kit · 105 seconds, with evidence</summary><p>Open the guided match and choose Play the 105-second tour. Record the actual controls and keep source labels visible.</p><ol><li><b>0–18s:</b> Watch the synthetic play.</li><li><b>18–36s:</b> Read the five public contributions.</li><li><b>36–52s:</b> Inspect passing gain and source events.</li><li><b>52–72s:</b> Correct the tracking and withdraw the claim.</li><li><b>72–105s:</b> Compare beginner, Spanish and math captions.</li></ol><p>Inside BTR separately provides a saved-receipt replay and an explicit live recovery test. Saved playback is labeled and makes zero AI requests.</p><p><a href="assets/btr-recording-guide.txt" download>Download the recording script ↓</a> · <a href="assets/btr-verification-summary.json" download>Earlier live recovery verification ↓</a></p><p><a href="assets/btr-footage-register.json" download>Footage provenance and creator permission ↓</a></p>';

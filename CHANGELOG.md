@@ -1,3 +1,12 @@
+## v68 — restored first-moment review and bounded conversation
+
+- Match Centre's opening review advances past the first annotation boundary and renders the reached observation and explanation immediately.
+- AI availability retains the last confirmed allowance during refresh, labels failed refreshes as stale, and retries without calling a transient delay an outage.
+- The second-round film discussion displays all five roles, marking unchanged calculations and source checks as carried forward.
+- Editorial checks reject unsupported claims that a defender stayed still, generic evidence-change questions, and Host paraphrases of Scout. A reviewed, labeled fallback answers the evidence challenge if new model wording fails.
+- Film Scout retrieves the known reviewed source directly. A fresh film round now uses up to three model requests instead of four; saved exact-evidence rounds use none.
+- All 210 tests pass. A live deployment check is still required before treating the release as verified.
+
 ## v67 — more natural measured training visuals
 
 - Replaced block players with generated photographic stride artwork and added textured, muted grass and a yellow training ball.
