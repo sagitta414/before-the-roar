@@ -11,6 +11,8 @@ test('all seven application routes and the guided story initialize together with
   set('fetch',async url=>{requests.push(String(url));if(String(url).includes('/api/health'))return Response.json({ai_configured:false,usage:{day:new Date().toISOString().slice(0,10),used:120,limit:120}});if(String(url)==='api-config.json')return Response.json({baseUrl:''});try{return new Response(await readFile(new URL('../dist/'+url,import.meta.url)));}catch{return new Response('{}',{status:404});}});
   for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js'])await import('../dist/'+file);
   await new Promise(r=>setTimeout(r,50));
+  assert.equal(document.getElementById('receipt-run').textContent,'SOURCE PREVIEW · ASK AI TO RUN');
+  assert.doesNotMatch(document.getElementById('desk-panel').textContent,/NO MODEL REQUEST/);
   assert.ok(document.body.classList.contains('guided-active'));assert.match(document.querySelector('.guided-copy').textContent,/run you didn’t see/);
   for(const id of ['centre','lab','truth','presenters','security','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
   const {matchSession}=await import('../dist/match-session.js');
