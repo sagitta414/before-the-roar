@@ -7,6 +7,7 @@
 - Public two-round testing also caught a claim about defender readiness and a static comparison offered as an evidence-change test. Both now fail editorial review; the film prompt asks for the observable action and an unbroken comparison.
 - A subsequent live pass found Guide confusing receiver and passer, and Host repeating Scout's uncertainty. Both are now checked explicitly; Host must add a next-action consequence or a concrete replay test.
 - Azure logs showed a Host draft praising a pass's “importance” instead of giving its implication. A bounded revision now retries that rejected Host output once, preserving the raw rejected draft and the same evidence cutoff.
+- A live retry copied that rejected “importance” wording. The repair prompt now omits the rejected prose and bans that phrasing explicitly. Scout's “readiness to progress” is also rejected because the reviewed frames cannot establish mental readiness.
 - Film Scout retrieves the known reviewed source directly. A fresh film round normally uses three model requests instead of four; one rejected Host draft may require a fourth. Saved exact-evidence rounds use none.
 - The revision path has a focused model-response test; the full suite passes 211 tests. Public browser testing verified the first-moment review and carried-forward roles. Independent human ratings remain pending.
 

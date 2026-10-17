@@ -116,7 +116,7 @@ export function validateMatchPost(raw, packet, role, context={}) {
   ].join(" ");
   if (packet.review?.scope === 'manually-reviewed-ai-video' && /\b(?:does not|doesn't|did not|didn't|never)\s+(?:change|move|shift)|\b(?:remains|stays)\s+(?:still|stationary|in place|at (?:the|his|its) (?:same|starting) position)|\b(?:no|without)\s+(?:significant\s+)?(?:movement|change in position)/i.test(prose))
     throw Error('The reviewed film does not establish unchanged defender movement');
-  if (packet.review?.scope === 'manually-reviewed-ai-video' && /(?:not|n't) (?:fully )?(?:prepared|ready) to (?:contest|defend|react)|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? (?:intent|readiness|attention)/i.test(prose))
+  if (packet.review?.scope === 'manually-reviewed-ai-video' && /\b(?:readiness|preparedness|ready to|prepared to)\b|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? (?:intent|attention)/i.test(prose))
     throw Error('The reviewed film does not establish player readiness or advantage');
   if (packet.review?.scope === 'manually-reviewed-ai-video' && role==='guide' && /receiver.{0,45}(?:making|made|sends|sent) (?:the|a) pass/i.test(p.interpretation))
     throw Error('The receiver is not the recorded passer');
@@ -737,8 +737,8 @@ export class MatchDesk {
             method:"POST",headers,signal:AbortSignal.timeout(30000),
             body:JSON.stringify({
               messages:[
-                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. State a specific new football implication or the precise next-touch replay test. Avoid praise, generic importance, and repeating Scout. Keep the same evidence cutoff and citations.'},
-                {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,rejected_draft:raw.post,editorial_rejection:firstError.message})},
+                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. State a specific new football implication or the precise next-touch replay test. Do not use the words importance, important, essential, crucial, or highlights. Do not repeat Scout. Keep the same evidence cutoff and citations.'},
+                {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,editorial_rejection:firstError.message})},
               ],temperature:.25,max_tokens:450,stream:false,
               response_format:{type:"json_schema",json_schema:{name:"match_editor",strict:true,schema}},
             }),
