@@ -1,5 +1,7 @@
 // Pixel-only detection and temporal event inference. No scenario/action/ground-truth import.
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+export function worldToPixel(p,cal){const c=cal.camera;return c?{x:c.center+(p.x/105-.5)*(c.farWidth+(c.nearWidth-c.farWidth)*p.y/68),y:c.top+c.height*p.y/68}:{x:cal.pitch.x+p.x*cal.pitch.scaleX,y:cal.pitch.y+p.y*cal.pitch.scaleY};}
+export function pixelToWorld(p,cal){const c=cal.camera;if(!c)return {x:(p.x-cal.pitch.x)/cal.pitch.scaleX,y:(p.y-cal.pitch.y)/cal.pitch.scaleY};const y=(p.y-c.top)/c.height*68;return {x:((p.x-c.center)/(c.farWidth+(c.nearWidth-c.farWidth)*y/68)+.5)*105,y};}
 export function laneDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,q=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy||1)));return Math.hypot(p.x-a.x-q*dx,p.y-a.y-q*dy);}
 export function passFeatures(a,b,defenders){return {distance:distance(a,b),pressure:defenders.length?Math.min(...defenders.map(p=>distance(p,b))):null,clearance:defenders.length?Math.min(...defenders.map(p=>laneDistance(p,a,b))):null};}
 export function passEstimate(features,model){if(features.pressure===null||features.clearance===null)return null;const x=[1,features.distance/40,Math.min(10,features.pressure)/10,Math.min(8,features.clearance)/8],z=x.reduce((n,v,i)=>n+v*model.weights[i],0),completion=1/(1+Math.exp(-z));return {...features,completion,difficulty:Math.round(100*(1-completion)),label:completion>.8?'Routine':completion>.6?'Demanding':'High difficulty'};}
@@ -8,10 +10,10 @@ export function createPixelDetector(cal){
  for(let key=0;key<32768;key++){const rgb=[((key>>10)&31)*8+4,((key>>5)&31)*8+4,(key&31)*8+4];let best=38*38,which=-1;colors.forEach((c,i)=>{const d=c.reduce((n,v,k)=>n+(v-rgb[k])**2,0);if(d<best){best=d;which=i;}});lookup[key]=which;}
  return function detect(data,width,height,{hideTracking=false,occludeBall=false}={}){
   const sums=colors.map(()=>({x:0,y:0,n:0})),labels=new Int8Array(width*height).fill(-1);
-  for(let p=0;p<labels.length;p++){const q=p*4;labels[p]=lookup[((data[q]>>3)<<10)|((data[q+1]>>3)<<5)|(data[q+2]>>3)];}
+  for(let p=0;p<labels.length;p++){if(cal.camera&&Math.floor(p/width)*cal.height/height<cal.camera.top-30)continue;const q=p*4;labels[p]=lookup[((data[q]>>3)<<10)|((data[q+1]>>3)<<5)|(data[q+2]>>3)];}
   const stack=new Int32Array(width*height);
   for(let p=0;p<labels.length;p++){const cls=labels[p];if(cls<0)continue;let count=1,n=0,sx=0,sy=0;stack[0]=p;labels[p]=-2;while(count){const q=stack[--count],x=q%width,y=Math.floor(q/width);n++;sx+=x;sy+=y;for(const next of [x? q-1:-1,x<width-1?q+1:-1,y?q-width:-1,y<height-1?q+width:-1])if(next>=0&&labels[next]===cls){labels[next]=-2;stack[count++]=next;}}if(n>sums[cls].n)sums[cls]={x:sx,y:sy,n};}
-  const point=(s,foot=0)=>({x:((s.x/s.n+.5)*cal.width/width-cal.pitch.x)/cal.pitch.scaleX,y:((s.y/s.n+.5)*cal.height/height+foot-cal.pitch.y)/cal.pitch.scaleY});
+  const point=(s,foot=0)=>pixelToWorld({x:(s.x/s.n+.5)*cal.width/width,y:(s.y/s.n+.5)*cal.height/height+foot},cal);
   const players=hideTracking?[]:cal.roster.flatMap((p,i)=>{const s=sums[i];return s.n>=4&&s.n<=180?[{...p,...point(s,cal.markerFootOffset),pixels:s.n,identity:'enrolled colour marker'}]:[];});
   const s=sums.at(-1),ball=!occludeBall&&s.n>=3&&s.n<160?point(s):null;return {players,ball};
  };

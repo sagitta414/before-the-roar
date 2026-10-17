@@ -1,0 +1,11 @@
+import {readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';import {spawnSync} from 'node:child_process';
+const python='C:/Users/Jeffl/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const hash=()=>readFile('dist/tracking-model.js').then(b=>createHash('sha256').update(b).digest('hex'));
+const policy=await hash(),cases=[{id:'new-positions-and-timing',seed:9101},{id:'new-positions-compressed',seed:9102,filter:'eq=brightness=-0.03:saturation=0.95'},{id:'low-light-stress',seed:9103,filter:'eq=brightness=-0.18:saturation=0.7'}];
+const report={version:'v64-frozen-detector',detector_sha256:policy,created_at:new Date().toISOString(),method:'Detector frozen before generating three new synthetic seeds. New positions and timings; fixed calibration and enrolled roster. Final case deliberately tests lighting outside normal conditions. No tuning or reruns after results. Same procedural family, not independent real-world validation.',cases:[]};
+await writeFile('docs/proof/tracking-holdout-plan.json',JSON.stringify({...report,plan:cases},null,2));
+function run(cmd,args){const r=spawnSync(cmd,args,{encoding:'utf8',maxBuffer:10*1024*1024});if(r.status!==0)throw Error(r.stderr||r.stdout);}
+for(const c of cases){const folder='tmp/tracking-'+c.seed;await mkdir(folder,{recursive:true});run(python,['scripts/create-tracking-video.py','--seed',String(c.seed),'--output',folder,'--truth',folder+'/truth.json']);if(c.filter){run('ffmpeg',['-hide_banner','-loglevel','error','-y','-i',folder+'/training-minute.mp4','-vf',c.filter,'-c:v','libx264','-crf','28',folder+'/perturbed.mp4']);await copyFile(folder+'/perturbed.mp4',folder+'/training-minute.mp4');}const output=folder+'/report.json';run(process.execPath,['scripts/evaluate-tracking.mjs',folder,folder+'/truth.json',output]);const r=JSON.parse(await readFile(output));report.cases.push({...c,...r});console.log(JSON.stringify({case:c.id,detected:r.detectedEvents,matched:r.matchedEvents,expected:r.expectedEvents,speedError:r.speedMeanAbsoluteErrorKmh}));}
+if(policy!==await hash())throw Error('Detector changed during holdout');
+for(const file of ['docs/proof/tracking-holdout.json','dist/assets/tracking/holdout.json'])await writeFile(file,JSON.stringify(report,null,2));

@@ -1,0 +1,92 @@
+{
+  "version": "v64-matched-contracts",
+  "created_at": "2026-10-17T02:28:31.690Z",
+  "maximum_requests": 12,
+  "method": "Experimental three-call handoff protocol versus one-call desk. Identical role contracts, observed event packets, model, temperature and maximum 60 words per role. Alternating arm order; one trial; no retries. Crew receives earlier public contributions; baseline generates all three in one response. This compares protocols, not the production bounded selector. Citation validity is not accuracy. Independent human ratings are pending; no superiority claim.",
+  "cases": [],
+  "complete": false,
+  "inputs": [
+    {
+      "id": "pass",
+      "event": {
+        "id": "video-2",
+        "type": "pass",
+        "from": 8,
+        "to": 10,
+        "start": 12,
+        "end": 13.5,
+        "distance": 20.98520697458687,
+        "speed": 51.55045909411664,
+        "quality": {
+          "distance": 20.789631584367786,
+          "pressure": 17.243366554316466,
+          "clearance": 17.243366554316466,
+          "completion": 0.9196695921486875,
+          "difficulty": 8,
+          "label": "Routine"
+        },
+        "evidence": {
+          "firstFrame": 360,
+          "lastFrame": 405
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "What happened, and why might a beginner care?",
+      "tracking": true
+    },
+    {
+      "id": "shot",
+      "event": {
+        "id": "video-5",
+        "type": "shot",
+        "from": 9,
+        "to": null,
+        "start": 36,
+        "end": 36.6,
+        "distance": 17.30990327772259,
+        "speed": 97.70120825942115,
+        "quality": null,
+        "evidence": {
+          "firstFrame": 1080,
+          "lastFrame": 1098
+        },
+        "status": "shot candidate · ground-plane model; outcome not certified"
+      },
+      "question": "Does this prove a goal? Explain what we know.",
+      "tracking": true
+    },
+    {
+      "id": "challenge",
+      "event": {
+        "id": "video-2",
+        "type": "pass",
+        "from": 8,
+        "to": 10,
+        "start": 12,
+        "end": 13.5,
+        "distance": 20.98520697458687,
+        "speed": 51.55045909411664,
+        "quality": {
+          "distance": 20.789631584367786,
+          "pressure": 17.243366554316466,
+          "clearance": 17.243366554316466,
+          "completion": 0.9196695921486875,
+          "difficulty": 8,
+          "label": "Routine"
+        },
+        "evidence": {
+          "firstFrame": 360,
+          "lastFrame": 405
+        },
+        "status": "pixel-derived candidate"
+      },
+      "question": "The tracking is now lost. What can you still claim, and what must you withhold?",
+      "tracking": false
+    }
+  ],
+  "contracts": {
+    "Scout": "State the observed event. Separate observation from intention and causation.",
+    "Guide": "Teach one football concept plainly. Do not repeat Scout or turn a synthetic estimate into real-world probability.",
+    "Host": "Synthesize the observation and limitation. Offer a concrete next viewing question, without inventing an outcome."
+  }
+}

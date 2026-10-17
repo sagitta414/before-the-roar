@@ -1,0 +1,576 @@
+{
+  "version": "v64-frozen-detector",
+  "detector_sha256": "f39bd8aa306b61c467d3c161c038903cc667704b44363a5941bbbb0247d2327f",
+  "created_at": "2026-10-17T02:26:14.577Z",
+  "method": "Detector frozen before generating three new synthetic seeds. New positions and timings; fixed calibration and enrolled roster. Final case deliberately tests lighting outside normal conditions. No tuning or reruns after results. Same procedural family, not independent real-world validation.",
+  "cases": [
+    {
+      "id": "new-positions-and-timing",
+      "seed": 9101,
+      "version": "controlled-pixel-tracking-v1",
+      "source": "Decoded compressed MP4 pixels at 10 fps, 480\u00d7320. Detector receives calibration and enrolled colour identities only. Event schedule and coordinates are read solely by this evaluator.",
+      "limits": [
+        "Fixed camera, known ground-plane scale, visible enrolled markers and high-visibility ball.",
+        "Classical colour segmentation and temporal rules; not a learned general football-video detector.",
+        "This controlled fixture is not independent evidence of performance on broadcast footage.",
+        "Shot speeds assume a ground-plane ball; aerial balls and camera motion are unsupported."
+      ],
+      "frames": 600,
+      "playerDetectionRate": 0.9997916666666666,
+      "ballDetectionRate": 1,
+      "playerMeanErrorMetres": 0.07905255510258442,
+      "ballMeanErrorMetres": 0.1722007643138341,
+      "ballP95ErrorMetres": 0.6862258556972278,
+      "speedMeanAbsoluteErrorKmh": 3.8753159984580385,
+      "expectedEvents": 8,
+      "detectedEvents": 8,
+      "matchedEvents": 8,
+      "eventPrecision": 1,
+      "eventRecall": 1,
+      "medianComputeMs": 1.4413999999999305,
+      "p95ComputeMs": 1.8782999999999674,
+      "events": [
+        {
+          "id": "video-1",
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "start": 4,
+          "end": 5.9,
+          "distance": 23.03656083800015,
+          "speed": 43.53490632148449,
+          "quality": {
+            "distance": 22.886591070102174,
+            "pressure": 27.161863674807204,
+            "clearance": 27.161863674807204,
+            "completion": 0.9119422500168182,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 120,
+            "lastFrame": 177
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 3.9554797562181765,
+            "end": 5.8268662158472875,
+            "from": 6,
+            "to": 8,
+            "type": "pass",
+            "speed": 44.178666164815105
+          }
+        },
+        {
+          "id": "video-2",
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "start": 12.2,
+          "end": 13.8,
+          "distance": 22.601469615086376,
+          "speed": 52.303666948627914,
+          "quality": {
+            "distance": 22.369045387370235,
+            "pressure": 14.673934919730149,
+            "clearance": 14.673934919730149,
+            "completion": 0.9139096420085164,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 366,
+            "lastFrame": 414
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 12.171867144744393,
+            "end": 13.672521110006006,
+            "from": 8,
+            "to": 10,
+            "type": "pass",
+            "speed": 54.24393770214482
+          }
+        },
+        {
+          "id": "video-3",
+          "type": "pass",
+          "from": 10,
+          "to": 7,
+          "start": 20.5,
+          "end": 21.8,
+          "distance": 26.340237411792717,
+          "speed": 75.5041585118353,
+          "quality": {
+            "distance": 26.28714509244724,
+            "pressure": 7.921659264283041,
+            "clearance": 3.9807675180437947,
+            "completion": 0.7850626864399561,
+            "difficulty": 21,
+            "label": "Demanding"
+          },
+          "evidence": {
+            "firstFrame": 615,
+            "lastFrame": 654
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 20.46921681460472,
+            "end": 21.608233765037614,
+            "from": 10,
+            "to": 7,
+            "type": "pass",
+            "speed": 83.94513775766264
+          }
+        },
+        {
+          "id": "video-4",
+          "type": "pass",
+          "from": 7,
+          "to": 9,
+          "start": 27.5,
+          "end": 28.9,
+          "distance": 18.81683797617697,
+          "speed": 50.50049245792707,
+          "quality": {
+            "distance": 18.81683797617697,
+            "pressure": 10.853582941993311,
+            "clearance": 1.8747313158265557,
+            "completion": 0.8522992576373293,
+            "difficulty": 15,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 825,
+            "lastFrame": 867
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 27.510916255063915,
+            "end": 28.74875736889606,
+            "from": 7,
+            "to": 9,
+            "type": "pass",
+            "speed": 54.40761781981785
+          }
+        },
+        {
+          "id": "video-5",
+          "type": "shot",
+          "from": 9,
+          "to": null,
+          "start": 36.2,
+          "end": 36.8,
+          "distance": 19.790542251807288,
+          "speed": 132.79970288003403,
+          "quality": null,
+          "evidence": {
+            "firstFrame": 1086,
+            "lastFrame": 1104
+          },
+          "status": "shot candidate \u00b7 ground-plane model; outcome not certified",
+          "matched": true,
+          "truth": {
+            "start": 36.278649309747124,
+            "end": 36.778649309747124,
+            "from": 9,
+            "to": null,
+            "type": "shot",
+            "speed": 142.31572341910444
+          }
+        },
+        {
+          "id": "video-6",
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "start": 44,
+          "end": 45.5,
+          "distance": 23.062671200556778,
+          "speed": 55.591565629346746,
+          "quality": {
+            "distance": 22.998423781424002,
+            "pressure": 25.58621712272704,
+            "clearance": 25.58621712272704,
+            "completion": 0.911511827108776,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 1320,
+            "lastFrame": 1365
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 43.9434514433546,
+            "end": 45.36877050294573,
+            "from": 6,
+            "to": 8,
+            "type": "pass",
+            "speed": 58.55184331502771
+          }
+        },
+        {
+          "id": "video-7",
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "start": 51.8,
+          "end": 53.3,
+          "distance": 23.02826280809477,
+          "speed": 55.20902715441407,
+          "quality": {
+            "distance": 22.941120782975545,
+            "pressure": 13.518888175588831,
+            "clearance": 13.518888175588831,
+            "completion": 0.9117326122845111,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 1554,
+            "lastFrame": 1599
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 51.756678354519046,
+            "end": 53.170209213371876,
+            "from": 8,
+            "to": 10,
+            "type": "pass",
+            "speed": 58.430828115424795
+          }
+        },
+        {
+          "id": "video-8",
+          "type": "shot",
+          "from": 10,
+          "to": null,
+          "start": 56.9,
+          "end": 58.2,
+          "distance": 33.05433736683808,
+          "speed": 91.53874263727025,
+          "quality": null,
+          "evidence": {
+            "firstFrame": 1707,
+            "lastFrame": 1746
+          },
+          "status": "shot candidate \u00b7 ground-plane model; outcome not certified",
+          "matched": true,
+          "truth": {
+            "start": 56.93956301167687,
+            "end": 58.24211081503553,
+            "from": 10,
+            "to": null,
+            "type": "shot",
+            "speed": 91.91103623460683
+          }
+        }
+      ]
+    },
+    {
+      "id": "new-positions-compressed",
+      "seed": 9102,
+      "filter": "eq=brightness=-0.03:saturation=0.95",
+      "version": "controlled-pixel-tracking-v1",
+      "source": "Decoded compressed MP4 pixels at 10 fps, 480\u00d7320. Detector receives calibration and enrolled colour identities only. Event schedule and coordinates are read solely by this evaluator.",
+      "limits": [
+        "Fixed camera, known ground-plane scale, visible enrolled markers and high-visibility ball.",
+        "Classical colour segmentation and temporal rules; not a learned general football-video detector.",
+        "This controlled fixture is not independent evidence of performance on broadcast footage.",
+        "Shot speeds assume a ground-plane ball; aerial balls and camera motion are unsupported."
+      ],
+      "frames": 600,
+      "playerDetectionRate": 0.9879166666666667,
+      "ballDetectionRate": 1,
+      "playerMeanErrorMetres": 0.09353865656226412,
+      "ballMeanErrorMetres": 0.20270604892390925,
+      "ballP95ErrorMetres": 0.634132447500744,
+      "speedMeanAbsoluteErrorKmh": 2.667649697943599,
+      "expectedEvents": 8,
+      "detectedEvents": 8,
+      "matchedEvents": 8,
+      "eventPrecision": 1,
+      "eventRecall": 1,
+      "medianComputeMs": 1.4198999999998705,
+      "p95ComputeMs": 1.88960000000003,
+      "events": [
+        {
+          "id": "video-1",
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "start": 4.2,
+          "end": 5.9,
+          "distance": 22.78039618270779,
+          "speed": 48.32072198403715,
+          "quality": {
+            "distance": 22.688664640140022,
+            "pressure": 25.887467874120468,
+            "clearance": 25.887467874120468,
+            "completion": 0.9126993969259218,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 126,
+            "lastFrame": 177
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 4.160866481481915,
+            "end": 5.820112278293877,
+            "from": 6,
+            "to": 8,
+            "type": "pass",
+            "speed": 49.34631971170045
+          }
+        },
+        {
+          "id": "video-2",
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "start": 11.6,
+          "end": 13.4,
+          "distance": 21.59789818075574,
+          "speed": 45.23588614832327,
+          "quality": {
+            "distance": 21.300869189816073,
+            "pressure": 15.020620199074555,
+            "clearance": 14.998194030138416,
+            "completion": 0.9178447446663927,
+            "difficulty": 8,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 348,
+            "lastFrame": 402
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 11.594902538500008,
+            "end": 13.136530429513101,
+            "from": 8,
+            "to": 10,
+            "type": "pass",
+            "speed": 50.41209267242746
+          }
+        },
+        {
+          "id": "video-3",
+          "type": "pass",
+          "from": 10,
+          "to": 7,
+          "start": 20.4,
+          "end": 21.8,
+          "distance": 21.484502314930953,
+          "speed": 57.08797298903137,
+          "quality": {
+            "distance": 21.39161868041688,
+            "pressure": 7.067871013510066,
+            "clearance": 3.8187062253031088,
+            "completion": 0.7953861096190106,
+            "difficulty": 20,
+            "label": "Demanding"
+          },
+          "evidence": {
+            "firstFrame": 612,
+            "lastFrame": 654
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 20.3811472822019,
+            "end": 21.663609870010568,
+            "from": 10,
+            "to": 7,
+            "type": "pass",
+            "speed": 60.73051176116238
+          }
+        },
+        {
+          "id": "video-4",
+          "type": "pass",
+          "from": 7,
+          "to": 9,
+          "start": 27.9,
+          "end": 29.3,
+          "distance": 21.25252733394761,
+          "speed": 57.215491562703164,
+          "quality": {
+            "distance": 21.25252733394761,
+            "pressure": 6.363244378386147,
+            "clearance": 3.212362055570528,
+            "completion": 0.7617691411643558,
+            "difficulty": 24,
+            "label": "Demanding"
+          },
+          "evidence": {
+            "firstFrame": 837,
+            "lastFrame": 879
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 27.90906881135617,
+            "end": 29.173496754375545,
+            "from": 7,
+            "to": 9,
+            "type": "pass",
+            "speed": 60.80386196471403
+          }
+        },
+        {
+          "id": "video-5",
+          "type": "shot",
+          "from": 9,
+          "to": null,
+          "start": 35.8,
+          "end": 36.8,
+          "distance": 14.89444262553368,
+          "speed": 48.5745330029333,
+          "quality": null,
+          "evidence": {
+            "firstFrame": 1074,
+            "lastFrame": 1104
+          },
+          "status": "shot candidate \u00b7 ground-plane model; outcome not certified",
+          "matched": true,
+          "truth": {
+            "start": 35.73646996433388,
+            "end": 36.90440571642366,
+            "from": 9,
+            "to": null,
+            "type": "shot",
+            "speed": 48.58261229068873
+          }
+        },
+        {
+          "id": "video-6",
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "start": 44.4,
+          "end": 45.8,
+          "distance": 22.89406953186133,
+          "speed": 62.00065629095886,
+          "quality": {
+            "distance": 22.819020492746503,
+            "pressure": 24.289055052748484,
+            "clearance": 24.28905505274848,
+            "completion": 0.9122013988283838,
+            "difficulty": 9,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 1332,
+            "lastFrame": 1374
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 44.41004729611748,
+            "end": 45.65562021278017,
+            "from": 6,
+            "to": 8,
+            "type": "pass",
+            "speed": 66.62785246162147
+          }
+        },
+        {
+          "id": "video-7",
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "start": 51.9,
+          "end": 53.6,
+          "distance": 21.907280004160206,
+          "speed": 48.50805930281111,
+          "quality": {
+            "distance": 21.82625659800578,
+            "pressure": 15.618354165108176,
+            "clearance": 15.34844824566559,
+            "completion": 0.9159301383416847,
+            "difficulty": 8,
+            "label": "Routine"
+          },
+          "evidence": {
+            "firstFrame": 1557,
+            "lastFrame": 1608
+          },
+          "status": "pixel-derived candidate",
+          "matched": true,
+          "truth": {
+            "start": 51.90436268252254,
+            "end": 53.446564587655104,
+            "from": 8,
+            "to": 10,
+            "type": "pass",
+            "speed": 51.28033098587711
+          }
+        },
+        {
+          "id": "video-8",
+          "type": "shot",
+          "from": 10,
+          "to": null,
+          "start": 57.3,
+          "end": 58.5,
+          "distance": 34.24749476540528,
+          "speed": 98.79606793666643,
+          "quality": null,
+          "evidence": {
+            "firstFrame": 1719,
+            "lastFrame": 1755
+          },
+          "status": "shot candidate \u00b7 ground-plane model; outcome not certified",
+          "matched": true,
+          "truth": {
+            "start": 57.28042792606553,
+            "end": 58.51842811951448,
+            "from": 10,
+            "to": null,
+            "type": "shot",
+            "speed": 99.29700495282181
+          }
+        }
+      ]
+    },
+    {
+      "id": "low-light-stress",
+      "seed": 9103,
+      "filter": "eq=brightness=-0.18:saturation=0.7",
+      "version": "controlled-pixel-tracking-v1",
+      "source": "Decoded compressed MP4 pixels at 10 fps, 480\u00d7320. Detector receives calibration and enrolled colour identities only. Event schedule and coordinates are read solely by this evaluator.",
+      "limits": [
+        "Fixed camera, known ground-plane scale, visible enrolled markers and high-visibility ball.",
+        "Classical colour segmentation and temporal rules; not a learned general football-video detector.",
+        "This controlled fixture is not independent evidence of performance on broadcast footage.",
+        "Shot speeds assume a ground-plane ball; aerial balls and camera motion are unsupported."
+      ],
+      "frames": 600,
+      "playerDetectionRate": 0,
+      "ballDetectionRate": 0,
+      "playerMeanErrorMetres": 0,
+      "ballMeanErrorMetres": 0,
+      "speedMeanAbsoluteErrorKmh": null,
+      "expectedEvents": 8,
+      "detectedEvents": 0,
+      "matchedEvents": 0,
+      "eventPrecision": 0,
+      "eventRecall": 0,
+      "medianComputeMs": 1.2185999999999808,
+      "p95ComputeMs": 1.6054000000000315,
+      "events": []
+    }
+  ]
+}
