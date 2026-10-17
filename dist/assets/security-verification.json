@@ -1,0 +1,17 @@
+{
+  "schema": "btr.azure-security-verification.v1",
+  "verified_at": "2026-10-17T17:55:00Z",
+  "identity": {
+    "type": "UserAssigned",
+    "resource_name": "btr-runtime-jl107",
+    "product": "Microsoft Entra managed identity"
+  },
+  "role_assignments": [
+    {"role": "AcrPull", "scope_type": "Azure Container Registry"},
+    {"role": "Cognitive Services OpenAI User", "scope_type": "Azure OpenAI resource"},
+    {"role": "Storage Blob Data Contributor", "scope_type": "BTR Storage account"}
+  ],
+  "runtime_controls": ["HTTPS ingress", "origin allowlist", "request rate limits", "read/write capability separation", "ETag checkpoint writes"],
+  "not_claimed": ["Microsoft Defender for Cloud integration", "Microsoft Sentinel integration", "Azure Key Vault integration", "Microsoft Purview integration"],
+  "method": "Read-only Azure CLI inspection of the deployed Container App identity and its role assignments. Object IDs are intentionally omitted from this public receipt."
+}

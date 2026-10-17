@@ -9,10 +9,10 @@
  body:has(.masthead){padding-bottom:calc(88px + env(safe-area-inset-bottom))}
  .masthead{position:sticky;top:0;z-index:35;background:#0b111bf7!important;backdrop-filter:none;transform:none;filter:none;min-height:58px!important;padding:8px 16px!important;border-bottom:1px solid #364359}
  .masthead .navigation-toggle{display:none!important}
- .masthead nav,.masthead.navigation-open nav{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));position:fixed;bottom:0;left:0;width:100%;margin:0!important;padding:7px 6px calc(7px + env(safe-area-inset-bottom));gap:3px!important;background:#101722f7;border-top:1px solid #455267;box-shadow:0 -8px 30px #0004;backdrop-filter:blur(18px);z-index:60}
+ .masthead nav,.masthead.navigation-open nav{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr));position:fixed;bottom:0;left:0;width:100%;margin:0!important;padding:7px 4px calc(7px + env(safe-area-inset-bottom));gap:2px!important;background:#101722f7;border-top:1px solid #455267;box-shadow:0 -8px 30px #0004;backdrop-filter:blur(18px);z-index:60}
  .masthead .nav{display:flex!important;flex-direction:column;justify-content:center;gap:5px;border:0;border-radius:7px;padding:7px 2px!important;font:600 10px/1.2 Barlow,Arial,sans-serif!important;min-height:56px;min-width:0;white-space:normal;text-align:center;color:#b7c7dc}
  .masthead .nav::before{font:600 18px/1 Arial,sans-serif;content:'◉';color:#9bb4d0}
- #watch-nav::before{content:'▶'}#centre-nav::before{content:'◎'}#lab-nav::before{content:'▥'}#truth-nav::before{content:'◇'}#presenters-nav::before{content:'◉'}#inside-nav::before{content:'i'}
+ #watch-nav::before{content:'▶'}#centre-nav::before{content:'◎'}#lab-nav::before{content:'▥'}#truth-nav::before{content:'◇'}#presenters-nav::before{content:'◉'}#security-nav::before{content:'⌾'}#inside-nav::before{content:'i'}
  .masthead .nav.selected{background:linear-gradient(145deg,#482032,#251b2c);box-shadow:inset 0 2px #ff3c61;color:#fff}.masthead .nav.selected::before{color:#ff6684}
  main,.extension-view{padding-left:14px!important;padding-right:14px!important;max-width:100%;min-width:0}
  button,summary,select,a,input{touch-action:manipulation}button,summary{min-height:44px}input[type=range]{min-height:32px}select,input:not([type=range]):not([type=checkbox]){font-size:16px!important;min-height:44px;max-width:100%}
@@ -43,8 +43,9 @@
 @media(max-width:760px){
  /* Playback, then the conversation. Secondary analysis follows the discussion. */
  body:not(.guided-active) #watch{display:flex;flex-direction:column}
- body:not(.guided-active) #watch>.guided-launch{order:10;padding:12px 0;margin:8px 0}
- body:not(.guided-active) .guided-launch>div{display:none}
+ body:not(.guided-active) #watch>.guided-launch{order:-2;padding:14px;margin:8px 0;border:1px solid #3b4c61;background:#101925}
+ body:not(.guided-active) .guided-launch>div{display:block;flex-basis:100%}
+ body:not(.guided-active) .guided-launch>div p{display:none}
  .broadcast-room>.screen-column{display:contents}
  .broadcast-room{display:flex;flex-direction:column}
  .screen-column>*{order:5}

@@ -5,22 +5,22 @@ export function createTourClock(now = () => performance.now()) {
     status = "idle";
   const read = () => {
     const seconds = Math.min(
-      105,
+      60,
       elapsed + (status === "running" ? (now() - started) / 1000 : 0),
     );
-    if (seconds >= 105) {
-      elapsed = 105;
+    if (seconds >= 60) {
+      elapsed = 60;
       status = "complete";
     }
     return {
       seconds,
       status,
       step:
-        seconds >= 72 ? 4 : seconds >= 52 ? 3 : seconds >= 36 ? 2 : seconds >= 18 ? 1 : 0,
+        seconds >= 44 ? 4 : seconds >= 32 ? 3 : seconds >= 20 ? 2 : seconds >= 10 ? 1 : 0,
       time: Math.min(16, seconds),
-      corrected: seconds >= 60,
-      mode: seconds >= 91 ? "math" : seconds >= 72 ? "beginner" : "analyst",
-      language: seconds >= 83 ? "es" : "en",
+      corrected: seconds >= 38,
+      mode: seconds >= 53 ? "math" : seconds >= 44 ? "beginner" : "analyst",
+      language: seconds >= 49 ? "es" : "en",
     };
   };
   return {
