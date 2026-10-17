@@ -412,7 +412,7 @@ export async function groundedRound({
           Authorization: `Bearer ${await accessToken("https://cognitiveservices.azure.com/")}`,
           "Content-Type": "application/json",
         },
-        signal: AbortSignal.timeout(20000),
+        signal: AbortSignal.timeout(45000),
         body: JSON.stringify({
           messages: [
             {
