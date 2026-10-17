@@ -28,7 +28,7 @@ test('all seven application routes and the guided story initialize together with
   const menu=document.querySelector('.navigation-toggle');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'true');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'false');
   document.getElementById('inside-nav').click();
   const findButton=text=>[...document.querySelectorAll('.proof-actions button')].find(b=>b.textContent===text);
-  findButton('Test recovery').click();await new Promise(r=>setTimeout(r,50));
+  findButton('Run live recovery proof').click();await new Promise(r=>setTimeout(r,50));
   assert.match(document.querySelector('.proof-status').textContent,/REPLAYING SAVED RECEIPTS/);
   assert.equal(document.querySelectorAll('.proof-contributions article').length,3);
   findButton('Resume saved replay').click();await new Promise(r=>setTimeout(r,50));

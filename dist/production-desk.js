@@ -2,6 +2,7 @@ import { receiptReplay } from "./receipt-replay.js";
 import { aiAvailability, availabilityText } from "./ai-availability.js?v=68";
 import { matchSession } from "./match-session.js";
 import { PITCHSIDE } from "./pitchside-story.js";
+import { recoveryProof } from "./recovery-proof.js?v=106";
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
   if (cls) n.className = cls;
@@ -46,7 +47,8 @@ let base = "",
   record = null,
   busy = false,
   dataset = null,
-  lastTraceKey = "";
+  lastTraceKey = "",
+  autoRecoveryActive = false;
 const config = fetch("api-config.json")
   .then((r) => r.json())
   .then((c) => {
@@ -83,7 +85,7 @@ const intro = el(
 workspace.append(intro);
 const actions = el("div", "proof-actions"),
   start = el("button", "red-button", "Run the desk"),
-  fault = el("button", "outline-button", "Test recovery"),
+  fault = el("button", "proof-live-button", "Run live recovery proof"),
   resume = el("button", "outline-button", "Resume saved work"),
   correct = el("button", "outline-button", "Correct the tracking"),
   exportButton = el("button", "outline-button", "Export proof ↓");
@@ -93,6 +95,20 @@ const replayButton = el("button", "outline-button", "Replay saved recovery");
 replayButton.onclick = () => showReplay(false);
 actions.append(start, fault, replayButton, resume, correct, exportButton);
 workspace.append(actions);
+const proofSteps = el("ol", "recovery-steps");
+for (const [key, number, title] of [
+  ["event", "01", "Unseen event"],
+  ["saved", "02", "Work saved"],
+  ["interrupt", "03", "Worker stopped"],
+  ["resume", "04", "Fresh worker"],
+  ["publish", "05", "Story published"],
+]) {
+  const step = el("li");
+  step.dataset.step = key;
+  step.append(el("span", "", number), el("b", "", title), el("small", "", "Waiting"));
+  proofSteps.append(step);
+}
+workspace.append(proofSteps);
 const status = el(
   "p",
   "proof-status",
@@ -100,6 +116,9 @@ const status = el(
 );
 status.setAttribute("role", "status");
 workspace.append(status);
+const proofVerdict = el("section", "recovery-verdict");
+proofVerdict.hidden = true;
+workspace.append(proofVerdict);
 const grid = el("div", "proof-grid"),
   left = el("article", "proof-panel"),
   right = el("article", "proof-panel");
@@ -223,6 +242,9 @@ function receipt(list, item) {
         item.replayed ? "saved receipt" : null,
         item.latency_ms != null ? (item.latency_ms / 1000).toFixed(1) + "s" : null,
         item.evidence_ids?.length ? item.evidence_ids.length + " sources" : null,
+        item.request_number ? `request #${item.request_number}` : null,
+        item.from?.length ? `received ${item.from.map((role) => roles[role] || role).join(" + ")}` : null,
+        item.saved_roles?.length ? `saved ${item.saved_roles.map((role) => roles[role] || role).join(" + ")}` : null,
         item.reason,
       ]
         .filter(Boolean)
@@ -232,6 +254,52 @@ function receipt(list, item) {
   li.append(who, detail);
   list.append(li);
   while (list.children.length > 24) list.firstChild.remove();
+}
+function setProofStep(key, state, note) {
+  const step = proofSteps.querySelector(`[data-step="${key}"]`);
+  if (!step) return;
+  step.dataset.state = state;
+  step.querySelector("small").textContent = note;
+}
+function resetProofSteps() {
+  proofVerdict.hidden = true;
+  for (const step of proofSteps.children) {
+    delete step.dataset.state;
+    step.querySelector("small").textContent = "Waiting";
+  }
+}
+function renderRecoveryVerdict(data) {
+  const proof = recoveryProof(data);
+  proofVerdict.hidden = false;
+  proofVerdict.dataset.result = proof.verified ? "verified" : "incomplete";
+  proofVerdict.replaceChildren();
+  const copy = el("div");
+  copy.append(
+    el("span", "eyebrow", proof.verified ? "RECOVERY VERIFIED" : "PROOF INCOMPLETE"),
+    el("h3", "", proof.verified ? "The story survived the worker." : "The audit found a gap."),
+    el("p", "", proof.verified
+      ? "A fresh worker reused the saved Scout and Guide decisions, recalculated Vector, then spent only the two unfinished requests on Check and Host."
+      : "The audience output remains blocked from claiming a successful recovery until every check passes."),
+  );
+  const numbers = el("div", "recovery-numbers");
+  for (const [value, label] of [
+    [proof.before_interruption, "BEFORE STOP"],
+    [proof.after_restart, "AFTER RESTART"],
+    [proof.total_requests, "TOTAL REQUESTS"],
+    [proof.duplicate_requests, "DUPLICATE CALLS"],
+  ]) {
+    const metric = el("div");
+    metric.append(el("strong", "", String(value)), el("span", "", label));
+    numbers.append(metric);
+  }
+  const checklist = el("ul", "recovery-checks");
+  for (const check of proof.checks) {
+    const row = el("li", "", `${check.passed ? "✓" : "×"} ${check.label}`);
+    row.dataset.passed = String(check.passed);
+    checklist.append(row);
+  }
+  proofVerdict.append(copy, numbers, checklist);
+  return proof;
 }
 function render(data) {
   record = data;
@@ -394,18 +462,19 @@ async function showReplay(resumed = false) {
 async function run() {
   if (replay) {
     await showReplay(true);
-    return;
+    return { paused: false, replay: true };
   }
   const availability = await aiAvailability.check(true);
   if (["offline", "exhausted", "unknown"].includes(availability.state)) {
     await showReplay(false);
-    return;
+    return { paused: false, replay: true };
   }
   setBusy(true);
   status.textContent =
     "The crew is working. Facts remain available while the dialogue streams.";
   trace.replaceChildren();
-  let paused = false;
+  let paused = false,
+    runError = null;
   try {
     const response = await call(`/api/production/${session.id}/run`, {}),
       reader = response.body.getReader(),
@@ -432,7 +501,21 @@ async function run() {
               .map((x) => x.slice(5))
               .join(""),
           );
-        if (kind === "trace") receipt(trace, data);
+        if (kind === "trace") {
+          receipt(trace, data);
+          if (autoRecoveryActive && data.action === "model_handoff_completed" && data.role === "analyst") {
+            setProofStep("event", "done", "Event accepted");
+            setProofStep("saved", "active", "Specialists are working…");
+          }
+          if (autoRecoveryActive && data.action === "worker_interrupted") {
+            setProofStep("saved", "done", "Scout + Guide + Vector saved");
+            setProofStep("interrupt", "interrupted", "Deliberate exception recorded");
+          }
+          if (autoRecoveryActive && data.action === "saved_model_handoff_reused")
+            setProofStep("resume", "active", "Reusing the saved checkpoint…");
+          if (autoRecoveryActive && data.action === "model_handoff_completed" && data.role === "presenter")
+            setProofStep("publish", "active", "Auditing the Host output…");
+        }
         if (kind === "paused") {
           paused = true;
           status.textContent = data.message;
@@ -450,18 +533,24 @@ async function run() {
       status.textContent =
         "Worker interrupted after saving the specialists. Playback stays independent. Resume starts a fresh worker, reuses completed AI work and retries unavailable agents.";
   } catch (e) {
+    runError = e;
     status.textContent = e.message + " Saved checkpoints can be resumed.";
     resume.hidden = false;
   } finally {
     setBusy(false);
     document.dispatchEvent(new Event("btr-ai-finished"));
   }
+  return { paused, record, error: runError };
 }
-async function create(interrupt) {
+async function create(interrupt, autoRecover = false) {
   if (busy) return;
   setBusy(true);
   const availability = await aiAvailability.check(true);
   if (availability.state !== "available") {
+    if (autoRecover) {
+      autoRecoveryActive = false;
+      setProofStep("event", "failed", "Live AI unavailable");
+    }
     await showReplay(false);
     return;
   }
@@ -498,15 +587,50 @@ async function create(interrupt) {
       recoveryFilm.currentTime = 0;
       recoveryFilm.play().catch(() => {});
     }
-    await run();
+    const first = await run();
+    if (autoRecover && first?.paused) {
+      setProofStep("event", "done", "Event accepted");
+      setProofStep("saved", "done", "Scout + Guide + Vector saved");
+      setProofStep("interrupt", "interrupted", "Deliberate exception recorded");
+      setProofStep("resume", "active", "Starting a fresh worker…");
+      status.textContent =
+        "INTERRUPTION VISIBLE · Checkpoint is safe. Starting a fresh worker from persisted storage…";
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      const second = await run();
+      if (!second?.paused && !second?.replay) {
+        setProofStep("resume", "done", "Saved work reused");
+        const proof = renderRecoveryVerdict(record);
+        setProofStep("publish", proof.verified ? "done" : "failed", proof.verified ? "Check + Host complete" : "Verification failed");
+        status.textContent = proof.verified
+          ? "RECOVERY VERIFIED · Four specialist requests total. Zero duplicate paid calls. The corrected Host story is published."
+          : "PROOF INCOMPLETE · The final record did not satisfy every recovery check. Inspect the failed checks below.";
+        contributions.open = true;
+        autoRecoveryActive = false;
+      }
+    } else if (autoRecover && !first?.replay) {
+      const proof = renderRecoveryVerdict(record);
+      setProofStep("interrupt", "failed", first?.error ? "Worker failed before checkpoint" : "No interruption recorded");
+      setProofStep("publish", "failed", "Audience claim blocked");
+      status.textContent = proof.verified
+        ? "RECOVERY VERIFIED"
+        : "PROOF INCOMPLETE · The deliberate interruption was not recovered. The app will not present this run as successful.";
+      autoRecoveryActive = false;
+    }
   } catch (e) {
+    autoRecoveryActive = false;
+    setProofStep("publish", "failed", "Recovery stopped");
     status.textContent = e.message;
   } finally {
     setBusy(false);
   }
 }
 start.onclick = () => create(false);
-fault.onclick = () => create(true);
+fault.onclick = () => {
+  resetProofSteps();
+  autoRecoveryActive = true;
+  setProofStep("event", "active", "Injecting unseen event…");
+  create(true, true);
+};
 resume.onclick = () => run();
 correct.onclick = async () => {
   setBusy(true);
