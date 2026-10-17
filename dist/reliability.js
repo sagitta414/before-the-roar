@@ -16,6 +16,7 @@ document.querySelector(".watch-source-bar").after(bar);
 const demoLink = el("a", "demo-available", "Guided demo always available →");
 demoLink.href = "#watch";
 demoLink.onclick = (e) => {
+  if (demoLink.dataset.reviewed === 'true') return;
   e.preventDefault();
   document.dispatchEvent(new Event("btr-open-guided"));
 };
@@ -32,6 +33,10 @@ function update(s) {
   bar.dataset.state = s.state;
   title.textContent = s.title;
   detail.textContent = availabilityText(s);
+  const reviewedPath = s.remaining !== null && s.remaining <= 12 || ['offline','unreachable','stale'].includes(s.state);
+  demoLink.dataset.reviewed = String(reviewedPath);
+  demoLink.href = reviewedPath ? 'quality-demo.html' : '#watch';
+  demoLink.textContent = reviewedPath ? 'Play the reviewed evidence demo · no AI request →' : 'Guided demo always available →';
   retry.hidden = !['unreachable', 'unknown', 'offline', 'checking', 'retrying', 'stale'].includes(s.state);
   retry.disabled = ['checking', 'retrying'].includes(s.state);
   retry.textContent = retry.disabled ? 'Connecting…' : 'Retry AI connection';

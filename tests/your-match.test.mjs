@@ -61,3 +61,28 @@ test('the personal display settings follow the shared match session',()=>{
  assert.equal(session.get().insightPace,'balanced');
  assert.equal(session.get().insightDetail,'quick');
 });
+
+test('each lens gives a distinct evidence-bounded reading of the same event',()=>{
+ const s=SCENARIOS.find(item=>item.id==='press'),base={team:'north',focus:8,insightPace:'every'};
+ const readings=['fan','beginner','math','analyst','player'].map(mode=>personalizedMatch(s,23,{...base,mode}));
+ const pass=readings.map(result=>result.ranked.find(item=>item.id==='press-evt-004'));
+ assert.equal(new Set(pass.map(item=>item.summary)).size,5);
+ assert.ok(pass[1].summary.includes('completed pass means'));
+ assert.ok(pass[2].summary.includes('toward the opponent'));
+ assert.ok(pass[3].summary.includes('defensive line'));
+ assert.ok(pass[4].summary.includes('Your player completes'));
+ assert.ok(readings[2].recap.includes('negative value means'));
+ assert.ok(!readings[2].recap.includes('Forward passing gain'));
+ for(const result of readings)assert.ok(result.ranked.every(item=>item.time<=23));
+});
+
+test('directional math is localized and never treats an intercepted pass as completed',()=>{
+ const s=SCENARIOS.find(item=>item.id==='press');
+ for(const language of ['en','es','pt']){
+  const result=personalizedMatch(s,10,{team:'north',mode:'math',language,insightPace:'every'});
+  assert.equal(result.ranked.length,2);
+  assert.equal(result.ranked.find(item=>item.kind==='recovery').time,10);
+  assert.ok(!result.ranked.find(item=>item.kind==='recovery').summary.includes('completed pass moved'));
+  assert.ok(result.recap.includes(language==='en'?'own goal':language==='es'?'propia portería':'próprio gol'));
+ }
+});

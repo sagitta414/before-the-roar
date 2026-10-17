@@ -16,7 +16,7 @@ import { editorialIssues } from "../dist/editorial-quality.js";
 import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
 import { conversationContext, followUpMetric } from "./conversation.mjs";
 import { claimBoundaryIssues } from "./claim-boundary.mjs";
-import { groundedRound } from "./grounded-desk.mjs";
+import { groundedRound, reconcileCachedNextEventMath } from "./grounded-desk.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary, previous = []) {
@@ -357,6 +357,12 @@ export class MatchDesk {
     };
     for (const item of journal.value.trace) emit("trace", { ...item, replayed: true });
     if (journal.value.status === "complete") {
+      if (!this.clip && process.env.BTR_GROUNDED_DESK === '1' && journal.value.posts.math) {
+        const previous = journal.value.posts.math;
+        const repaired = reconcileCachedNextEventMath(packet, notes, conversation, previous);
+        if (repaired.metric_title !== previous.metric_title || repaired.metric_value !== previous.metric_value || repaired.working !== previous.working)
+          await journal.change(v => { v.posts.math = repaired; });
+      }
       for (const p of Object.values(journal.value.posts))
         emit("post", { ...p, cached: true });
       emit("complete", {

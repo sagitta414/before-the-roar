@@ -95,6 +95,11 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
     set('guide', pick(p, [`Follow the ball, then compare the next recorded action with the earlier guess. ${observed}`, `Sigue el balón y compara la siguiente acción registrada con la hipótesis anterior. ${observed}`, `Siga a bola e compare a próxima ação registrada com a hipótese anterior. ${observed}`]));
     const speed = event.type === 'pass' && event.distance != null && event.end > event.t ? event.distance / (event.end-event.t) * 3.6 : null;
     set('math', speed === null ? pick(p, ['No new pass-speed calculation follows from this event.', 'Este evento no permite calcular una nueva velocidad de pase.', 'Este evento não permite calcular uma nova velocidade de passe.']) : pick(p, [`${event.distance.toFixed(1)} m ÷ ${(event.end-event.t).toFixed(1)} s × 3.6 = ${speed.toFixed(1)} km/h average ball speed, not peak speed.`, `${event.distance.toFixed(1)} m ÷ ${(event.end-event.t).toFixed(1)} s × 3,6 = ${speed.toFixed(1)} km/h de velocidad media, no máxima.`, `${event.distance.toFixed(1)} m ÷ ${(event.end-event.t).toFixed(1)} s × 3,6 = ${speed.toFixed(1)} km/h de velocidade média, não máxima.`]));
+    Object.assign(posts.find(n => n.role === 'math'), {
+      working: speed === null ? pick(p, ['No timed completed pass in the new record.', 'No hay pase completado cronometrado en el nuevo registro.', 'Não há passe completo cronometrado no novo registro.']) : `${event.distance.toFixed(2)} m ÷ ${(event.end-event.t).toFixed(2)} s × 3.6 = ${speed.toFixed(1)} km/h`,
+      metric_value: speed === null ? '—' : `${speed.toFixed(1)} km/h`,
+      metric_title: speed === null ? pick(p, ['No new pass speed', 'Sin nueva velocidad de pase', 'Sem nova velocidade de passe']) : pick(p, ['Average ball speed', 'Velocidad media del balón', 'Velocidade média da bola'])
+    });
     set('reviewer', pick(p, [`The new event confirms: ${observed} It does not isolate the earlier movement as its cause.`, `El nuevo evento confirma: ${observed} No aísla el movimiento anterior como causa.`, `O novo evento confirma: ${observed} Não isola o movimento anterior como causa.`]));
     const beforePasses = p.brief.state.seen.filter(e => e.end <= previousCutoff && e.type === 'pass' && e.outcome === 'complete').length;
     const afterPasses = p.brief.state.seen.filter(e => e.type === 'pass' && e.outcome === 'complete').length;
@@ -256,6 +261,12 @@ export function selectSourcePosts(selection, catalog, packet) {
     )
       throw Error("Composition has an invalid source boundary");
   return posts;
+}
+export function reconcileCachedNextEventMath(packet, notes, conversation, post) {
+  if (!post || conversation.round <= 1) return post;
+  const current = sourceCatalog(packet, notes, conversation).next_event?.posts.find(p => p.role === 'math');
+  if (!current || current.summary !== post.summary) return post;
+  return { ...post, working: current.working, metric_value: current.metric_value, metric_title: current.metric_title };
 }
 export async function groundedRound({
   packet,
