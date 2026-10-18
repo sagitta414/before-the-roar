@@ -100,17 +100,6 @@ const chapterStarts = [0, 8, 16, 24, 32, 40, 48, 52],
 chapterNav.setAttribute("aria-label", "Film chapters");
 $("player").before(chapterLabel);
 document.querySelector(".transport").after(chapterNav);
-const sceneMode = el("select", "scene-mode");
-sceneMode.setAttribute("aria-label", "Film playback mode");
-for (const [value, label] of [
-  ["reel", "Full minute · continuous"],
-  ["scene", "Study one scene"],
-]) {
-  const option = el("option", "", label);
-  option.value = value;
-  sceneMode.append(option);
-}
-sceneMode.onchange = () => matchSession.set({ studyScene: sceneMode.value === "scene" });
 for (const [i, t] of chapterStarts.entries()) {
   const button = el("button");
   button.append(el("span", "", clipClock(t)), el("b", "", chapterLabels.en[i]));
@@ -1155,24 +1144,14 @@ function renderSource() {
   if (clip) {
     const index = chapterStarts.findLastIndex((t) => clipTime >= t),
       labels = chapterLabels[state.language];
-    sceneMode.value = state.studyScene ? "scene" : "reel";
-    for (const option of sceneMode.options)
-      option.textContent = {
-        en: ["Full minute · continuous", "Study one scene"],
-        es: ["Minuto completo · continuo", "Estudiar una escena"],
-        pt: ["Minuto completo · contínuo", "Estudar uma cena"],
-      }[state.language][option.value === "scene" ? 1 : 0];
     if (
       chapterLabel.dataset.scene !== String(index) ||
-      chapterLabel.dataset.language !== state.language ||
-      chapterLabel.dataset.mode !== sceneMode.value
+      chapterLabel.dataset.language !== state.language
     ) {
       chapterLabel.dataset.scene = index;
       chapterLabel.dataset.language = state.language;
-      chapterLabel.dataset.mode = sceneMode.value;
       chapterLabel.replaceChildren(
         el("strong", "", `${String(index + 1).padStart(2, "0")} / 08 · ${labels[index]}`),
-        sceneMode,
         el(
           "small",
           "",
