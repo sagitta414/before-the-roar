@@ -1,0 +1,35 @@
+{
+  "schema": "btr.cinematic-submission-demo.v1",
+  "created_at": "2026-10-18T16:06:13.032Z",
+  "duration_seconds": 105,
+  "visual_strategy": "AI-generated fictional companion film remains visible for the complete demo; evidence and application proof appear as broadcast overlays.",
+  "film": {
+    "source": "dist/assets/pitchside-minute.mp4",
+    "real_match_data": false,
+    "measurement_source": false,
+    "label_visible": true
+  },
+  "fresh_execution": {
+    "azure_model_requests": 4,
+    "deterministic_role": "Vector",
+    "delivery_seconds": 3.2
+  },
+  "correction": {
+    "defender_shift_m": [
+      13,
+      0
+    ],
+    "claim_withdrawn": true,
+    "pass_calculation_retained": true
+  },
+  "evaluation": {
+    "crew_points": 46,
+    "baseline_points": 45,
+    "kind": "recorded model-scored comparison",
+    "independent_human_review": "pending"
+  },
+  "narration": {
+    "provider": "Azure AI Speech",
+    "burned_captions": true
+  }
+}

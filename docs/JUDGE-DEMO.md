@@ -6,9 +6,13 @@ Public application: https://before-the-roar.sagitta107.chatgpt.site
 
 Direct judge entry: https://before-the-roar.sagitta107.chatgpt.site/?judge=1#watch
 
-Current narrated demo: `demo/before-the-roar-judge-demo-v2.mp4` (1080p, 1:45)
+Recommended cinematic demo: `demo/before-the-roar-cinematic-judge-demo.mp4` (1080p, 1:45)
 
-Share copy: `demo/before-the-roar-judge-demo-v2-share.mp4` (720p)
+The AI-generated football action remains visible for the complete cinematic cut. Agent execution, calculation, correction, Pocket Director and Foundry proof appear as broadcast overlays around it.
+
+Evidence-led alternate cut: `demo/before-the-roar-judge-demo-v2.mp4` (1080p, 1:45)
+
+Share copy: `demo/before-the-roar-cinematic-judge-demo-share.mp4` (720p)
 
 ## Current conversation demonstration — verified live capture
 
