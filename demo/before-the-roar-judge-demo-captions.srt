@@ -1,0 +1,38 @@
+1
+00:00:00,000 --> 00:00:12,500
+Football data can tell you what happened. Before the Roar asks the harder question:
+why did it matter, and can that explanation survive a challenge?
+
+2
+00:00:12,500 --> 00:00:27,500
+At 67:16, a synthetic tracking event enters the studio.
+A winger moves wide. A defender follows. The ball travels through the centre.
+
+3
+00:00:27,500 --> 00:00:48,000
+Five specialists investigate the same evidence. Scout observes. Guide explains.
+Vector calculates. Check challenges. Host publishes only what the evidence supports.
+
+4
+00:00:48,000 --> 00:01:05,500
+Change one record: the defender's measured shift falls from 13 metres to zero.
+The passes remain, the unsupported claim is withdrawn, and the broadcast line changes.
+
+5
+00:01:05,500 --> 00:01:23,500
+The same match becomes a different experience for every viewer:
+newcomer, analyst, numbers fan, club supporter, or player follower.
+
+6
+00:01:23,500 --> 00:01:43,500
+The Production Desk shows what ran: model requests, deterministic calculations,
+execution IDs, latency, sources, recovery state, and a Microsoft Foundry evidence audit.
+
+7
+00:01:43,500 --> 00:01:52,500
+Azure runs and protects the service. Pocket Director carries the same trusted
+explanation to the fan's phone.
+
+8
+00:01:52,500 --> 00:01:55,700
+Every play. Every perspective. Every claim earned.
