@@ -21,6 +21,11 @@ const AUDIENCE_STORIES={
   fan:{wide:'Moreau abre e Laurent reage pelo mesmo lado. O duelo muda de forma, mas o replay não explica por que o defensor se moveu.',press:'O Harbor cerca a bola e o toque seguinte muda a posse. A pressão é visível; a causa do erro não.',counter:'O Harbor transforma a recuperação em chute. A jogada ganha ritmo, enquanto o registro separa a construção da finalização.'},
   analyst:{wide:'A amplitude de Moreau estica o corredor direito enquanto Laurent se desloca lateralmente e altera o espaço junto à última linha. O tempo apoia uma relação posicional, não uma conclusão causal.',press:'O Harbor comprime a linha de recepção antes da perda. A sequência mostra um padrão de pressão e recuperação, mas não isola qual defensor ou gatilho causou o erro.',counter:'A recuperação é seguida por progressão e chute antes da recomposição do bloco. Essa ordem descreve a transição; não mede a integridade da linha nem a qualidade da chance.'}}
 };
+const CORRECTED_AUDIENCE_STORIES={
+ en:{fan:'Moreau still runs wide, but the corrected tracking keeps Laurent at his starting position. The attacking movement remains visible; the claim that the defender reacted to it is withdrawn.',analyst:'Moreau’s width remains in the record, but Laurent has 0.0 m lateral displacement in R2. Without the defensive shift, the previous spacing interpretation is unsupported; the two completed passes and their forward gain remain valid.'},
+ es:{fan:'Moreau sigue abriéndose, pero el seguimiento corregido mantiene a Laurent en su posición inicial. El movimiento atacante sigue visible; se retira la afirmación de que el defensor reaccionó.',analyst:'La amplitud de Moreau permanece en el registro, pero Laurent tiene 0,0 m de desplazamiento lateral en R2. Sin el movimiento defensivo, la interpretación anterior del espacio no se sostiene; los dos pases completos y su avance siguen válidos.'},
+ pt:{fan:'Moreau continua abrindo, mas o rastreamento corrigido mantém Laurent na posição inicial. O movimento atacante continua visível; a afirmação de que o defensor reagiu é retirada.',analyst:'A amplitude de Moreau permanece no registro, mas Laurent tem 0,0 m de deslocamento lateral em R2. Sem o movimento defensivo, a interpretação anterior do espaço não se sustenta; os dois passes completos e o avanço continuam válidos.'}
+};
 export function matchStory(input){
  const s=SCENARIOS.find(s=>s.id===input.scenario)||SCENARIOS[0],language=WORDS[input.language]?input.language:'en',w=WORDS[language],b=sequenceBrief(s,input.time,{...input,language}),m=b.state.metrics,mode=WORDS.en[input.mode]?input.mode:'fan';
  const cards=Object.fromEntries(b.cards.map(c=>[c.id,c])),last=b.state.seen.at(-1),resolved=last?.type==='shot',ready=b.cutoff>={wide:16,press:10,counter:12}[s.id],revised=b.revision===2&&ready;
@@ -32,7 +37,7 @@ export function matchStory(input){
  const analysis=analyzePlay(s,b.cutoff,language);
  if(input.team!=='north'&&!revised&&(analysis.passes.length||analysis.pressure)){cards.math.text=analysis.focus.text;cards.math.equation=analysis.focus.equation;}
  const football=footballContext(s,b.cutoff,input.corrected,analysis,language);
- const audienceStory=AUDIENCE_STORIES[language]?.[mode]?.[s.id];
+ const audienceStory=revised&&s.id==='wide'&&['fan','analyst'].includes(mode)?CORRECTED_AUDIENCE_STORIES[language][mode]:AUDIENCE_STORIES[language]?.[mode]?.[s.id];
  const baseBody=mode==='math'?cards.math.text:mode==='beginner'?cards.beginner.text:mode==='player'?playerLine+' '+cards.analyst.text:audienceStory||cards.analyst.text;
  const body=revised?w.changed+' '+baseBody:baseBody;
  const equation=cards.math.equation,trace=truthStoryPacket(s,b.cutoff,input.corrected,mode,language),records=new Map(datasetRows(s,b.cutoff,{...input,language}).filter(r=>r.id).map(r=>[r.id,r]));for(const r of trace.evidence)if(r.record_type==='tracking')records.set(r.id,r);records.set(analysis.record.id,analysis.record);const evidence=[...records.values()];

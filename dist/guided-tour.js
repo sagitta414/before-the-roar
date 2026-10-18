@@ -413,7 +413,7 @@ function render() {
           p.role==='Vector'?'CALCULATED':p.role==='Check'?'EVIDENCE GATE':'SOURCE-BOUND',
         ),
       );
-      text.append(meta, el("p", "", p.summary));
+      text.append(meta, el("p", "", p.summary || p.text));
       const detail = el("details");
       detail.append(
         el("summary", "", "Evidence + limits"),
@@ -465,7 +465,7 @@ function render() {
     const consequences=el('div','judge-consequences');
     for(const [ok,label] of [[judgeRun.outcomes.calculation_updated,'CALCULATION UPDATED'],[judgeRun.outcomes.claim_withdrawn,'CLAIM WITHDRAWN'],[judgeRun.outcomes.narrative_changed,'NARRATIVE CHANGED'],[judgeRun.outcomes.unaffected_facts_preserved,'2 PASSES PRESERVED']])consequences.append(el('span',ok?'pass':'fail',(ok?'✓ ':'× ')+label));
     const coverage=el('details','judge-coverage');coverage.append(el('summary','','What else the evidence gate handles'));for(const item of judgeRun.coverage){const row=el('p');row.append(el('b','',item.label),document.createTextNode(' · '+item.result),el('small','',item.status.toUpperCase()));coverage.append(row);}
-    const recoveryPanel=el('section','judge-recovery');recoveryPanel.dataset.state=recovery.state;recoveryPanel.append(el('small','','FAILURE RECOVERY / LIVE AZURE PROOF'),el('h3','',recovery.state==='complete'?'INTERRUPTED. SAVED. RECOVERED.':'SHOW THE FAILURE. KEEP THE PROOF.'),el('p','',recovery.message));if(recovery.logs.length){const log=el('ol');for(const item of recovery.logs){const li=el('li');li.append(el('span','',item.action),el('b','',item.status));log.append(li);}recoveryPanel.append(log);}recoveryPanel.append(button(recovery.state==='running'?'Recovery running…':recovery.state==='complete'?'Run another recovery rehearsal':'Run live interruption + recovery',runJudgeRecovery,recovery.state==='complete'?'outline-button':'red-button'));recoveryPanel.querySelector('button').disabled=recovery.state==='running';
+    const recoveryPanel=el('details','judge-recovery');recoveryPanel.dataset.state=recovery.state;recoveryPanel.open=recovery.state!=='ready';const recoverySummary=el('summary','',recovery.state==='complete'?'✓ FAILURE RECOVERED · inspect receipts':'Failure recovery proof +');recoveryPanel.append(recoverySummary,el('small','','FAILURE RECOVERY / LIVE AZURE PROOF'),el('h3','',recovery.state==='complete'?'INTERRUPTED. SAVED. RECOVERED.':'SHOW THE FAILURE. KEEP THE PROOF.'),el('p','',recovery.message));if(recovery.logs.length){const log=el('ol');for(const item of recovery.logs){const li=el('li');li.append(el('span','',item.action),el('b','',item.status));log.append(li);}recoveryPanel.append(log);}recoveryPanel.append(button(recovery.state==='running'?'Recovery running…':recovery.state==='complete'?'Run another recovery rehearsal':'Run live interruption + recovery',runJudgeRecovery,recovery.state==='complete'?'outline-button':'red-button'));recoveryPanel.querySelector('button').disabled=recovery.state==='running';
     content.append(
       comparison,consequences,coverage,verdict,
       button(
