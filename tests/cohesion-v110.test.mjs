@@ -10,11 +10,11 @@ test('one investigation spine connects the primary product journey',async()=>{
   assert.match(source,/btr-open-guided/);
 });
 
-test('source dossier makes measured replay the core and cinematic film optional',async()=>{
+test('source dossier leads with the cinematic film and keeps measured proof explicit',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   assert.match(source,/BTR-WIDE-67/);
-  assert.match(source,/Evidence view is the core journey/);
-  assert.match(source,/optional cinematic companion coverage/);
+  assert.match(source,/Broadcast view leads the experience/);
+  assert.match(source,/inspect the measured synthetic replay behind the story/);
 });
 
 test('proof layer states the vision and model-comparison limits',async()=>{

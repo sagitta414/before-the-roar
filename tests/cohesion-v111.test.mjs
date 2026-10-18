@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {DEFAULT_SESSION} from '../dist/match-session.js';
 
-test('the default journey opens the measured replay on a meaningful contested moment',()=>{
-  assert.equal(DEFAULT_SESSION.source,'match');
+test('the default journey opens the cinematic minute while preserving the measured moment',()=>{
+  assert.equal(DEFAULT_SESSION.source,'pitchside');
   assert.equal(DEFAULT_SESSION.scenario,'wide');
   assert.equal(DEFAULT_SESSION.time,16);
   assert.equal(DEFAULT_SESSION.corrected,false);
@@ -32,10 +32,10 @@ test('public proof distinguishes development validation, safety and independent 
   assert.equal(value.operational_capability_comparison.single_call_baseline.resume_without_repeating_completed_calls,false);
 });
 
-test('v111 assets are cache-busted and the measured replay leads the source selector',async()=>{
+test('v111 assets are cache-busted and the cinematic minute leads the source selector',async()=>{
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=126/);
   assert.match(index,/cohesion\.js\?v=126/);
-  assert.ok(index.indexOf('value="match"')<index.indexOf('value="pitchside"'));
+  assert.ok(index.indexOf('value="pitchside"')<index.indexOf('value="match"'));
 });
 

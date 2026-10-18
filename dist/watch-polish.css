@@ -1,0 +1,469 @@
+/* Watch is a broadcast first. Keep system detail available without making it compete with the film. */
+@media (min-width: 1000px) {
+  body[data-section="watch"] .masthead {
+    border-top-width: 3px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .3);
+  }
+
+  body[data-section="watch"] .match-session-bar {
+    height: 43px !important;
+    min-height: 43px !important;
+    padding: 4px 2.2% !important;
+    gap: 16px;
+    background: #0c121a;
+  }
+
+  body[data-section="watch"] .clip-session-label {
+    gap: 8px;
+    min-width: 112px;
+  }
+
+  body[data-section="watch"] .clip-session-label > span:not(.session-dot),
+  body[data-section="watch"] .clip-session-label small {
+    display: none;
+  }
+
+  body[data-section="watch"] .clip-session-label strong {
+    font-size: 15px;
+    letter-spacing: .8px;
+  }
+
+  body[data-section="watch"] .session-fixture {
+    gap: 8px;
+  }
+
+  body[data-section="watch"] .session-fixture b {
+    font-size: 14px;
+  }
+
+  body[data-section="watch"] .session-fixture strong {
+    font-size: 18px;
+  }
+
+  body[data-section="watch"] .session-fixture time {
+    font-size: 12px;
+  }
+
+  body[data-section="watch"] .match-session-bar > label {
+    gap: 7px;
+    font-size: 8px;
+  }
+
+  body[data-section="watch"] .match-session-bar select {
+    min-height: 30px;
+    margin: 0;
+    padding: 5px 28px 5px 9px;
+    font-size: 11px;
+  }
+
+  body[data-section="watch"] .session-preferences summary {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  body[data-section="watch"] .watch-source-bar {
+    top: 56px !important;
+    left: auto !important;
+    right: 205px !important;
+    width: auto;
+    min-height: 31px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 7px !important;
+    border: 0 !important;
+    z-index: 30;
+  }
+
+  body[data-section="watch"] .watch-source-bar > label {
+    gap: 0;
+    font-size: 0;
+  }
+
+  body[data-section="watch"] .watch-source-bar select {
+    max-width: 222px;
+    margin: 0;
+    padding: 6px 30px 6px 10px;
+    border-left-width: 2px;
+    font-size: 10px;
+  }
+
+  body[data-section="watch"] .watch-source-bar > p,
+  body[data-section="watch"] .watch-source-bar > a {
+    display: none;
+  }
+
+  body[data-section="watch"] .source-details {
+    margin-left: 0;
+  }
+
+  body[data-section="watch"] .source-details summary {
+    min-height: 29px;
+    padding: 7px 8px;
+    font-size: 0;
+  }
+
+  body[data-section="watch"] .source-details summary::after {
+    content: "SOURCE INFO +";
+    color: #aebed1;
+    font: 800 8px Barlow, sans-serif;
+    letter-spacing: .8px;
+  }
+
+  body[data-section="watch"] .source-details[open] {
+    top: 35px;
+    right: 0;
+    width: 390px;
+  }
+
+  body[data-section="watch"] .ai-availability {
+    min-height: 27px !important;
+    padding: 4px 2.2% !important;
+    gap: 8px 14px;
+    background: #0b1118;
+    font-size: 10px;
+  }
+
+  body[data-section="watch"] .ai-availability small {
+    display: none;
+  }
+
+  body[data-section="watch"] .ai-availability a {
+    margin-left: auto;
+    color: #9fb1c5;
+    font-size: 9px;
+  }
+
+  body[data-section="watch"] .story-spine {
+    grid-template-columns: repeat(7, minmax(82px, 1fr)) minmax(150px, .95fr);
+    min-height: 39px;
+    border-top: 1px solid #202c39;
+    box-shadow: none;
+  }
+
+  body[data-section="watch"] .story-spine__identity {
+    display: none;
+  }
+
+  body[data-section="watch"] .story-spine button {
+    min-height: 39px;
+    padding: 5px 10px;
+  }
+
+  body[data-section="watch"] .story-spine__step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  body[data-section="watch"] .story-spine__step b {
+    color: #5f6e81;
+    font-size: 8px;
+  }
+
+  body[data-section="watch"] .story-spine__step span {
+    font-size: 10px;
+  }
+
+  body[data-section="watch"] .story-spine__step small {
+    display: none;
+  }
+
+  body[data-section="watch"] .story-spine__demo {
+    font-size: 9px !important;
+  }
+
+  body[data-section="watch"] #watch {
+    max-width: 1760px;
+    padding: 10px 2.2% 0;
+  }
+
+  body[data-section="watch"] .broadcast-room {
+    grid-template-columns: minmax(0, 1.62fr) minmax(340px, .78fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  body[data-section="watch"] .screen-column,
+  body[data-section="watch"] .party {
+    border: 1px solid #2d3a4a;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0b1119;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .22);
+  }
+
+  body[data-section="watch"] .player {
+    border-radius: 7px 7px 0 0;
+  }
+
+  body[data-section="watch"] .transport {
+    min-height: 39px;
+    padding: 6px 11px;
+    gap: 9px;
+  }
+
+  body[data-section="watch"] .viewing-bar {
+    min-height: 40px;
+    padding: 6px 11px;
+    border-top: 1px solid #263445;
+  }
+
+  body[data-section="watch"] .viewing-bar label > span {
+    display: none;
+  }
+
+  body[data-section="watch"] .shared-match-facts {
+    display: none;
+  }
+
+  body[data-section="watch"] .now-playing {
+    margin: 0;
+    min-height: 45px;
+    padding: 8px 12px;
+    border-top: 1px solid #29384a;
+    background: #0d151f;
+  }
+
+  body[data-section="watch"] .now-playing p {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  body[data-section="watch"] .match-actions,
+  body[data-section="watch"] .quiet-footer,
+  body[data-section="watch"] .timeline-heading,
+  body[data-section="watch"] .beats {
+    display: none !important;
+  }
+
+  body[data-section="watch"] .party {
+    height: min(674px, calc(100dvh - 165px));
+    min-height: 555px;
+    position: sticky;
+    top: 8px;
+  }
+
+  body[data-section="watch"] .party-header {
+    min-height: 42px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #2e3a4a;
+  }
+
+  body[data-section="watch"] .party-header h2 {
+    font-size: 22px;
+  }
+
+  body[data-section="watch"] .voice-button {
+    min-height: 28px;
+    padding: 5px 8px;
+    font-size: 9px;
+  }
+
+  body[data-section="watch"] .room-tabs {
+    min-height: 35px;
+    padding: 0 12px;
+    gap: 18px;
+  }
+
+  body[data-section="watch"] .room-tabs button {
+    min-height: 35px;
+    padding: 7px 0;
+    font-size: 11px;
+  }
+
+  body[data-section="watch"] .five-specialists.crew {
+    min-height: 48px;
+    padding: 7px 10px;
+    gap: 4px;
+  }
+
+  body[data-section="watch"] .five-specialists .crew-member {
+    padding: 4px;
+  }
+
+  body[data-section="watch"] .five-specialists .crew-avatar {
+    width: 25px;
+    height: 25px;
+    font-size: 11px;
+  }
+
+  body[data-section="watch"] .crew-member b {
+    font-size: 8px;
+  }
+
+  body[data-section="watch"] .party-controls,
+  body[data-section="watch"] .party-status {
+    display: none !important;
+  }
+
+  body[data-section="watch"] .panel-request {
+    min-height: 34px;
+    padding: 5px 12px;
+    border-bottom: 1px solid #344255;
+  }
+
+  body[data-section="watch"] .panel-request button {
+    padding: 4px 0;
+    font-size: 10px;
+  }
+
+  body[data-section="watch"] .panel-request span {
+    display: none;
+  }
+
+  body[data-section="watch"] .conversation {
+    min-height: 0;
+    padding: 0 13px 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #506177 transparent;
+  }
+
+  body[data-section="watch"] .message {
+    padding: 9px 0;
+  }
+
+  body[data-section="watch"] .message-meta {
+    min-height: 25px;
+    gap: 7px;
+    padding-right: 58px;
+  }
+
+  body[data-section="watch"] .message-face {
+    width: 27px;
+    height: 27px;
+  }
+
+  body[data-section="watch"] .message-identity {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  body[data-section="watch"] .message-name {
+    font-size: 12px;
+  }
+
+  body[data-section="watch"] .message-specialty,
+  body[data-section="watch"] .message-badge {
+    font-size: 8px;
+  }
+
+  body[data-section="watch"] .message > p {
+    margin: 5px 0;
+    font-size: 12px;
+    line-height: 1.42;
+  }
+
+  body[data-section="watch"] .message > p.replay-cue,
+  body[data-section="watch"] .message .reviewed-claim {
+    margin: 4px 0;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  body[data-section="watch"] .message details.message-evidence:not([open]) > summary {
+    top: 9px;
+    font-size: 8px;
+  }
+
+  body[data-section="watch"] .message .metric-chip {
+    padding: 3px 6px;
+  }
+
+  body[data-section="watch"] .message .metric-chip b {
+    font-size: 17px;
+  }
+
+  body[data-section="watch"] .composer {
+    padding: 8px 11px 10px;
+    border-top: 1px solid #334255;
+    background: #0c141e;
+  }
+
+  body[data-section="watch"] .suggestions {
+    gap: 5px;
+    margin-bottom: 6px;
+  }
+
+  body[data-section="watch"] .suggestions button {
+    min-height: 27px;
+    padding: 5px 7px;
+    font-size: 9px;
+  }
+
+  body[data-section="watch"] #question-form input {
+    min-height: 35px;
+    font-size: 12px;
+  }
+
+  body[data-section="watch"] #send-question {
+    min-width: 39px;
+    min-height: 35px;
+  }
+
+  body[data-section="watch"] #composer-note {
+    display: none;
+  }
+
+  body[data-section="watch"] .match-dossier,
+  body[data-section="watch"] .execution-key {
+    max-width: 1760px;
+    margin-left: 2.2%;
+    margin-right: 2.2%;
+  }
+}
+
+@media (min-width: 1000px) and (max-width: 1220px) {
+  body[data-section="watch"] .broadcast-room {
+    grid-template-columns: minmax(0, 1.38fr) minmax(330px, .82fr);
+  }
+
+  body[data-section="watch"] .story-spine__step b {
+    display: none;
+  }
+
+  body[data-section="watch"] .story-spine__step {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-section="watch"] {
+    overflow-x: hidden;
+  }
+
+  body[data-section="watch"] .story-spine {
+    box-sizing: border-box;
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  body[data-section="watch"] .film-chapters {
+    box-sizing: border-box;
+    width: calc(100vw - 28px);
+    max-width: calc(100vw - 28px);
+    min-width: 0;
+  }
+
+  body[data-section="watch"] .watch-source-bar > p,
+  body[data-section="watch"] .watch-source-bar > a {
+    display: none;
+  }
+
+  body[data-section="watch"] .ai-availability small {
+    display: none;
+  }
+
+  body[data-section="watch"] .party-controls,
+  body[data-section="watch"] .party-status {
+    display: none !important;
+  }
+
+  body[data-section="watch"] .match-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px 0;
+  }
+}

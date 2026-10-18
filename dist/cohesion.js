@@ -45,7 +45,7 @@ update();
 const sourceBar=document.querySelector('.watch-source-bar');
 if(sourceBar){
   const dossier=el('div','match-dossier');
-  dossier.innerHTML=`<span>MATCH DOSSIER</span><strong>BTR-WIDE-67</strong><i></i><p><b>Evidence view is the core journey:</b> Watch, Match Centre and Truth Lab all read the same measured replay. <b>Broadcast view</b> is optional cinematic companion coverage and is labelled separately.</p><button type="button" class="evidence-bridge-open">Broadcast + proof ↗</button>`;
+  dossier.innerHTML=`<span>MATCH DOSSIER</span><strong>BTR-WIDE-67</strong><i></i><p><b>Broadcast view leads the experience.</b> Open Evidence view, Match Centre or Truth Lab whenever you want to inspect the measured synthetic replay behind the story.</p><button type="button" class="evidence-bridge-open">Film + proof ↗</button>`;
   sourceBar.after(dossier);
   const executionKey=el('details','execution-key');
   executionKey.innerHTML=`<summary>How to read execution state <span>+</span></summary><div><b data-state="live">LIVE</b><p>A fresh Azure model request completed. Receipt includes execution ID and latency.</p><b data-state="replay">REPLAY</b><p>A previously saved result was restored. No new model request.</p><b data-state="deterministic">DETERMINISTIC</b><p>Code calculated or validated the result. No model request.</p><b data-state="recovered">RECOVERED</b><p>An interruption is recorded; completed checkpoints were reused and remaining work resumed.</p></div>`;
