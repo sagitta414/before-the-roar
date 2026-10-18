@@ -34,7 +34,7 @@ test('v112 presents a concise judge dashboard and progressive disclosure',async(
   assert.match(index,/cohesion\.js\?v=121/);
   assert.match(index,/match-watch\.js\?v=114/);
   assert.match(index,/guided-tour\.css\?v=113/);
-  assert.match(index,/guided-tour\.js\?video=65&v=121/);
+  assert.match(index,/guided-tour\.js\?video=65&v=122/);
 });
 
 test('live action leads and deeper proof stays inspectable on demand',async()=>{
