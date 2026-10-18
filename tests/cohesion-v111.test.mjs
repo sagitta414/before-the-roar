@@ -29,7 +29,7 @@ test('public proof distinguishes development validation, safety and independent 
 
 test('v111 assets are cache-busted and the measured replay leads the source selector',async()=>{
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=113/);
-  assert.match(index,/cohesion\.js\?v=113/);
+  assert.match(index,/cohesion\.css\?v=114/);
+  assert.match(index,/cohesion\.js\?v=114/);
   assert.ok(index.indexOf('value="match"')<index.indexOf('value="pitchside"'));
 });

@@ -501,7 +501,7 @@ function renderReceipts(thread, list, evidence) {
   box.append(summary);
 }
 function renderPanel() {
-  $("request-panel").textContent=isClip()?"Ask the crew · 3–6 requests":"Ask the crew · 1 AI request";
+  $("request-panel").textContent=isClip()?"Ask the crew · 3–6 requests":"Ask the crew · 4 AI requests";
   const thread = activeThread(),
     discussionPacket = thread
       ? viewStory({ ...viewInput(), time: thread.cutoff })
@@ -726,7 +726,7 @@ function renderPanel() {
         follow.prepend(button);
       }
     }
-    follow.append(el('small','',isClip()?'Continue this conversation · up to 4 AI requests':'Continue this conversation · 1 AI request'));box.append(follow);
+    follow.append(el('small','',isClip()?'Continue this conversation · up to 4 AI requests':'Continue this conversation · 4 AI requests'));box.append(follow);
   } else if (thread?.complete && thread.round >= 3) box.append(el('p','conversation-progress','Three rounds complete. Choose another moment or start a fresh discussion.'));
   for (const b of document.querySelectorAll("[data-agent]")) {
     b.setAttribute("aria-pressed", String(selected === b.dataset.agent));
@@ -1052,7 +1052,7 @@ $("question-form").onsubmit = (e) => {
   }
 };
 $("request-panel").onclick = () => requestPanel();
-$("request-panel").textContent = "Ask the crew · 3–6 requests";
+$("request-panel").textContent = "Ask the crew · 4 AI requests";
 $("request-panel").title =
   "Exact saved discussions are reused. Watching and changing views make no automatic model requests.";
 for (const b of document.querySelectorAll("[data-question]")) {

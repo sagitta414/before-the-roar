@@ -25,6 +25,22 @@ test('simplification teaches a concept instead of turning a beginner request int
  }
 });
 
+test('a causal challenge gives every specialist a distinct source-bound job',()=>{
+ for(const language of ['en','es','pt']){
+  const p=matchStory({...input,language,mode:'beginner'}),c=sourceCatalog(p,localPanel(p)),posts=c.causation_test.posts;
+  assert.equal(posts.length,5);
+  assert.equal(new Set(posts.map(x=>x.summary)).size,5);
+  assert.ok(posts.every(x=>x.evidence_ids.length));
+  if(language==='en'){
+   const byRole=Object.fromEntries(posts.map(x=>[x.role,x.summary]));
+   assert.match(byRole.analyst,/not why/);
+   assert.match(byRole.guide,/Cause means/);
+   assert.match(byRole.reviewer,/counterfactual/);
+   assert.match(byRole.presenter,/comparable attack without that run/);
+  }
+ }
+});
+
 test('third-round measurements do not recycle either earlier calculation and stored history survives',async()=>{
  const p=matchStory(input),notes=localPanel(p),first=sourceCatalog(p,notes).movement.posts;
  const second=sourceCatalog(p,notes,{round:2,previous:first}).limits.posts;
