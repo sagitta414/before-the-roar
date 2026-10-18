@@ -18,6 +18,23 @@
       "physical_speeds_published": 0,
       "use": "domain safety test",
       "held_out": true
+    },
+    {
+      "domain": "frozen-detector synthetic holdout variations",
+      "detector_frozen_before_generation": true,
+      "cases": 3,
+      "frames_per_case": 600,
+      "normal_condition_expected_events": 16,
+      "normal_condition_matched_events": 16,
+      "normal_condition_event_precision": 1,
+      "normal_condition_event_recall": 1,
+      "normal_condition_mean_speed_error_kmh": 3.27,
+      "low_light_expected_events": 8,
+      "low_light_matched_events": 0,
+      "low_light_release_decision": "withhold",
+      "use": "frozen-detector robustness and failure-boundary test",
+      "held_out": true,
+      "limit": "Same procedural marker-video family with fixed camera and calibration; not independent broadcast validation."
     }
   ],
   "release_gate": {
@@ -30,5 +47,5 @@
     ],
     "publishing_rule": "Withhold identity and physical speed when enrollment or calibration is absent."
   },
-  "boundary": "Eight matched events describe one controlled development clip and are not a broadcast accuracy claim."
+  "boundary": "The development clip and three frozen-detector synthetic variations measure only the controlled fixed-camera marker domain. The normal holdouts matched 16/16 events; the low-light stress case matched 0/8 and therefore fails closed. These results are not a broadcast accuracy claim."
 }

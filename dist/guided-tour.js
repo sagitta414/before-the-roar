@@ -39,13 +39,13 @@ let active = false,
   playing = false,
   lastFrame = 0;
 let judgeRun=judgeProof(),pocketState={connected:false};
-let recovery={state:'ready',message:'Interrupt a real editorial worker, preserve its checkpoint, then resume it here.',logs:[]};
+let recovery={state:'ready',message:'Interrupt a real editorial worker, preserve its checkpoint, then resume it here.',logs:[],receipts:[]};
 const judgeApi=fetch('api-config.json').then(r=>r.json()).then(c=>['127.0.0.1','localhost'].includes(location.hostname)?'':c.baseUrl||'').catch(()=>'');
 const recordedLiveProof=fetch('assets/live-production-proof.json').then(r=>r.ok?r.json():null).catch(()=>null);
 async function judgeCall(path,body,token){const base=await judgeApi,r=await fetch(base+path,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(120000)});if(!r.ok)throw Error((await r.json().catch(()=>({}))).error||'Judge proof unavailable');return r;}
 async function injectJudgeEvent(){try{const event=await judgeCall('/api/judge-event',{},null).then(r=>r.json());judgeRun={...judgeRun,event:{...judgeRun.event,...event,id:event.evidence_id}};source.textContent='SERVER EVENT RECEIVED · THE UNSEEN RUN';}catch(error){judgeRun={...judgeRun,event:{...judgeRun.event,source:'Local authored fallback · Azure event endpoint unavailable',error:error.message}};source.textContent='LOCAL FALLBACK · THE UNSEEN RUN';}if(active&&step===0)render();}
-async function streamRecovery(session){const response=await judgeCall(`/api/production/${session.id}/run`,{},session.token),reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',paused=false;while(true){const {done,value}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});let split;while((split=buffer.indexOf('\n\n'))>=0){const block=buffer.slice(0,split);buffer=buffer.slice(split+2);const kind=block.split('\n').find(x=>x.startsWith('event:'))?.slice(6).trim();let data={};try{data=JSON.parse(block.split('\n').filter(x=>x.startsWith('data:')).map(x=>x.slice(5)).join(''));}catch{}if(kind==='trace'){recovery.logs=[...recovery.logs,{action:data.action||'tool receipt',status:data.status||data.engine||'saved'}].slice(-8);if(active&&step===3)render();}if(kind==='paused')paused=true;if(kind==='error')throw Error(data.message||'Recovery worker failed');}}return paused;}
-async function runJudgeRecovery(){if(recovery.state==='running')return;recovery={state:'running',message:'Creating an interruptible production session…',logs:[]};render();try{const session=await judgeCall('/api/production',{source:'match',scenario:'wide',time:16,corrected:false,focus:7,team:'harbor',language:'en',mode:'analyst',interrupt:true},null).then(r=>r.json());recovery.message='Worker running. Completed receipts are saved before interruption.';render();const paused=await streamRecovery(session);if(!paused)throw Error('The worker completed before the injected interruption');recovery.logs=[...recovery.logs,{action:'worker interrupted',status:'checkpoint preserved'}];recovery.message='Interruption detected. Starting a fresh worker from the saved checkpoint…';render();await streamRecovery(session);const state=await judgeCall(`/api/production/${session.id}/state`,undefined,session.token).then(r=>r.json());recovery={state:'complete',message:'Recovered without hiding the failure. Saved specialist work was reused and the final output passed through the evidence gate.',logs:[...recovery.logs,{action:'fresh worker resumed',status:state.workflow?.status||'complete'},{action:'audit ledger retained',status:`generation ${state.generation}`}].slice(-8)};}catch(error){recovery={...recovery,state:'failed',message:error.message+' The deterministic correction remains available.'};}render();document.dispatchEvent(new Event('btr-ai-finished'));}
+async function streamRecovery(session){const response=await judgeCall(`/api/production/${session.id}/run`,{},session.token),reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',paused=false;while(true){const {done,value}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});let split;while((split=buffer.indexOf('\n\n'))>=0){const block=buffer.slice(0,split);buffer=buffer.slice(split+2);const kind=block.split('\n').find(x=>x.startsWith('event:'))?.slice(6).trim();let data={};try{data=JSON.parse(block.split('\n').filter(x=>x.startsWith('data:')).map(x=>x.slice(5)).join(''));}catch{}if(kind==='trace'){recovery.logs=[...recovery.logs,{action:data.action||'tool receipt',status:data.status||data.engine||'saved'}].slice(-8);recovery.receipts=[...(recovery.receipts||[]),data];if(active&&(step===3||step===4))render();}if(kind==='paused')paused=true;if(kind==='error')throw Error(data.message||'Recovery worker failed');}}return paused;}
+async function runJudgeRecovery(){if(recovery.state==='running')return;recovery={state:'running',message:'Creating a fresh interruptible Azure production session…',logs:[],receipts:[],startedAt:new Date().toISOString()};render();try{const session=await judgeCall('/api/production',{source:'match',scenario:'wide',time:16,corrected:false,focus:7,team:'harbor',language:'en',mode:'analyst',interrupt:true},null).then(r=>r.json());recovery.sessionId=session.id;recovery.message='Azure worker running. Completed receipts are saved before interruption.';render();const paused=await streamRecovery(session);if(!paused)throw Error('The worker completed before the injected interruption');recovery.logs=[...recovery.logs,{action:'worker interrupted',status:'checkpoint preserved'}];recovery.message='Interruption detected. Starting a fresh worker from the saved checkpoint…';render();await streamRecovery(session);const state=await judgeCall(`/api/production/${session.id}/state`,undefined,session.token).then(r=>r.json()),previous=recovery;recovery={state:'complete',message:'Fresh Azure run recovered. Saved specialist work was reused and the final output passed through the evidence gate.',logs:[...previous.logs,{action:'fresh worker resumed',status:state.workflow?.status||'complete'},{action:'audit ledger retained',status:`generation ${state.generation}`}].slice(-8),receipts:previous.receipts,startedAt:previous.startedAt,sessionId:session.id};}catch(error){recovery={...recovery,state:'failed',message:error.message+' The deterministic correction remains available.'};}render();document.dispatchEvent(new Event('btr-ai-finished'));}
 document.addEventListener('btr-pocket-status',event=>{pocketState=event.detail||{connected:false};if(active&&step===4)render();});
 const tourClock = createTourClock();
 const launcher = el("section", "guided-launch"),
@@ -71,7 +71,7 @@ tour.hidden = true;
 tour.setAttribute("aria-label", "Guided match demonstration");
 launcher.after(tour);
 const top = el("div", "guided-top"),
-  badge = el("b", "", "LIVE SESSION PROOF · NO AI REQUESTS"),
+  badge = el("b", "", "GUIDED REHEARSAL · 0 MODEL REQUESTS"),
   source = el("span", "", "NEW SESSION EVENT · THE UNSEEN RUN"),
   auto = button("Play the 60-second judge cut", () => {
     const state = tourClock.read();
@@ -226,7 +226,7 @@ for (const entry of Object.values(SOURCE_LABELS)) {
 }
 document.querySelector(".watch-source-bar").after(map);
 const proof = el("details", "judge-evidence");
-proof.append(el("summary", "", "Evaluation, source code and judging evidence"));
+proof.append(el("summary", "", "Evaluation, downloadable evidence and validation limits"));
 proof.id = "judge-evidence";
 proof.setAttribute("aria-label", "Measured agent evaluation");
 proof.append(
@@ -302,7 +302,7 @@ function enter() {
   active = true;
   const startedAt=Date.now();
   judgeRun=judgeProof({runId:`judge-${startedAt.toString(36)}`,startedAt});
-  recovery={state:'ready',message:'Interrupt a real editorial worker, preserve its checkpoint, then resume it here.',logs:[]};
+  recovery={state:'ready',message:'Interrupt a real editorial worker, preserve its checkpoint, then resume it here.',logs:[],receipts:[]};
   document.body.classList.add("guided-active");
   tour.hidden = false;
   open.textContent = "Restart defining moment ↺";
@@ -528,20 +528,21 @@ function render() {
     const delivery=el('div','judge-delivery');
     delivery.append(el('article','',`WATCH PARTY\nR${snapshot.story.revision} · ${snapshot.story.clock}\nREADY NOW`),el('article','',pocketState.connected?`POCKET DIRECTOR\nSYNCED · R${pocketState.revision||snapshot.story.revision}\nROOM ${String(pocketState.room||'').slice(0,6).toUpperCase()}`:'POCKET DIRECTOR\nPAIR A PHONE TO PROVE LIVE SYNC\nREAD-ONLY LINK · AUTO UPDATE'));
     const publish=button('Publish corrected story to both screens →',()=>{options.corrected=true;sync();document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'publish',revision:2,runId:judgeRun.run_id}}));render();},'red-button');
-    const liveReceipt=el('section','judge-live-receipt');
-    liveReceipt.innerHTML='<div><small>RECORDED LIVE AZURE PROOF</small><strong>Loading verified execution receipt…</strong><p>The authored judge cut and the live model run are deliberately labeled as different execution modes.</p></div>';
-    recordedLiveProof.then(proof=>{
-      if(!proof||!liveReceipt.isConnected)return;
-      const completed=(proof.trace||[]).filter(x=>x.action==='model_handoff_completed'),foundry=(proof.trace||[]).find(x=>x.action==='independent_referee_completed');
+    const liveReceipt=el('section','judge-live-receipt'),fresh=button(recovery.state==='running'?'Fresh Azure proof running…':recovery.state==='complete'?'Run another fresh Azure proof':'Run fresh Azure interruption + recovery →',runJudgeRecovery,recovery.state==='complete'?'outline-button':'red-button');fresh.disabled=recovery.state==='running';
+    liveReceipt.innerHTML='<div><small>VERIFIED RECORDED AZURE RUN · OCT 18</small><strong>Loading saved execution receipt…</strong><p>This receipt is replayed evidence, not a model call from the guided rehearsal.</p></div>';
+    const drawReceipt=(proof,isFresh=false)=>{
+      if((!proof&&!isFresh)||!liveReceipt.isConnected)return;
+      const trace=isFresh?recovery.receipts:(proof.trace||[]),completed=trace.filter(x=>x.action==='model_handoff_completed'),foundry=trace.find(x=>x.action==='independent_referee_completed');
       liveReceipt.replaceChildren();
-      const head=el('div','judge-live-receipt__head');head.append(el('small','','LIVE AZURE RUN · '+new Date(proof.tested_at).toLocaleDateString()),el('strong','',`${completed.length} SPECIALIST REQUESTS + FOUNDRY REFEREE`),el('p','',`Interrupted after ${proof.recovery.requests_before} requests; resumed to ${proof.recovery.requests_after}. Scout and Guide were restored from checkpoints.`));liveReceipt.append(head);
+      const head=el('div','judge-live-receipt__head'),recordedDate=new Date(isFresh?recovery.startedAt:proof.tested_at).toLocaleString();head.append(el('small','',isFresh?'FRESH AZURE EXECUTION · COMPLETED NOW':'VERIFIED RECORDED AZURE RUN · '+recordedDate),el('strong','',`${completed.length} SPECIALIST REQUESTS${foundry?' + FOUNDRY REFEREE':''}`),el('p','',isFresh?`Session ${String(recovery.sessionId||'').slice(0,12)} · worker interrupted and restored from persisted checkpoints.`:`Recorded ${recordedDate}. Interrupted after ${proof.recovery.requests_before} requests; resumed to ${proof.recovery.requests_after}. Scout and Guide were restored from checkpoints.`));liveReceipt.append(head);
       const list=el('div','judge-live-receipt__list');
       for(const item of completed){const role={analyst:'SCOUT',guide:'GUIDE',reviewer:'CHECK',presenter:'HOST'}[item.role]||item.role.toUpperCase(),row=el('article');row.append(el('b','',role),el('span','',`${item.latency_ms} ms`),el('code','',item.execution_id));list.append(row);}
       if(foundry){const row=el('article','foundry');row.append(el('b','','FOUNDRY'),el('span','',`${foundry.latency_ms} ms`),el('code','',foundry.execution_id));list.append(row);}
       liveReceipt.append(list,el('p','judge-live-receipt__limit','This receipt proves execution, handoff and recovery. It does not claim the crew writes better prose than every single-model baseline.'));
-    });
+    };
+    if(recovery.state==='complete'&&recovery.receipts.length)drawReceipt(null,true);else recordedLiveProof.then(proof=>drawReceipt(proof,false));
     content.append(
-      delivery,publish,liveReceipt,
+      delivery,publish,fresh,liveReceipt,
       preferences,
       el(
         "p",
