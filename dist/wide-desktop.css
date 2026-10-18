@@ -58,9 +58,9 @@
   body[data-section="watch"] .suggestions button { min-height: 31px; padding: 6px 9px; font-size: 10px; }
   body[data-section="watch"] #question-form input { min-height: 40px; font-size: 14px; }
 
-  body[data-section="watch"] .story-spine button { min-height: 44px; padding: 7px 13px; }
-  body[data-section="watch"] .story-spine__step span { font-size: 11px; }
-  body[data-section="watch"] .story-spine__step b { font-size: 9px; }
+  body[data-section="watch"] .story-spine button { min-height: 58px; padding: 8px 11px; }
+  body[data-section="watch"] .story-spine__step span { font-size: 12px; }
+  body[data-section="watch"] .story-spine__step b { font-size: 10px; }
 
   .extension-view > .extension-heading { min-height: 64px; padding: 18px 0 14px; }
   #centre > .extension-heading h1,
