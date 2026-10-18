@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#070a0f">
   <title>BTR Pocket Director</title>
   <meta name="description" content="A synchronized, evidence-first football companion from Before the Roar.">
-  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143">
+  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -19,11 +19,11 @@
     <section class="app-screen active" data-screen="live" aria-label="Live match companion">
       <section class="match-strip" aria-label="Match status">
         <small class="competition">BTR ORIGINALS · SYNTHETIC MATCH</small>
-        <div class="scoreline"><span class="team"><i>H</i>HARBOR</span><b id="score">0 — 0</b><span class="team away">NORTHBRIDGE<i>N</i></span></div>
+        <div class="scoreline"><span class="team"><i class="club-crest harbor" aria-hidden="true"><b>H</b></i><span>HARBOR</span></span><b id="score">0 — 0</b><span class="team away"><span>NORTHBRIDGE</span><i class="club-crest northbridge" aria-hidden="true"><b>N</b></i></span></div>
         <time id="clock">67:18</time><small id="revision">R1 · SYNTHETIC</small>
       </section>
       <section class="hero" aria-labelledby="moment-title">
-        <div class="hero-image" aria-hidden="true"></div><div class="hero-shade" aria-hidden="true"></div>
+        <video class="hero-film" id="hero-film" muted playsinline loop preload="metadata" poster="assets/pitchside-poster.jpg" aria-label="Synthetic cinematic match film"><source src="assets/pitchside-minute.mp4" type="video/mp4"></video><div class="hero-image" aria-hidden="true"></div><div class="hero-shade" aria-hidden="true"></div>
         <div class="hero-broadcast"><span>LIVE</span><b id="sync-label">LIVE WITH THE MAIN SCREEN</b></div><div class="hero-tag">BTR / MOMENT 04</div>
         <div class="hero-copy"><div class="hero-topline"><span id="moment-kicker">THE MOMENT</span><b>EXPLAINED LIVE</b></div><h1 id="moment-title">Follow the run behind the pass.</h1><p id="moment-body">The phone keeps the evidence close while the match stays on the biggest screen.</p><button id="why" class="why-button"><span>WHY THIS MATTERS</span><b>↗</b></button></div>
       </section>
@@ -35,7 +35,7 @@
           <article><small>WIDE RUN</small><b id="data-width">12.4<span>m</span></b><p>Lateral movement</p></article>
           <article><small>FOCUS MOVEMENT</small><b id="data-displacement">19.8<span>m</span></b><p>Straight-line</p></article>
         </div>
-        <div class="momentum"><div class="momentum-title"><span>MATCH FLOW</span><small>REACHED PLAY ONLY</small></div><div class="momentum-chart" id="momentum-chart" aria-label="Reached match sequence"></div></div>
+        <div class="momentum"><div class="momentum-title"><span>MATCH FLOW</span><small>REACHED PLAY ONLY</small></div><div class="momentum-chart" id="momentum-chart" aria-label="Reached match sequence"></div><div class="flow-axis" id="flow-axis"><span>67:00</span><span>67:06</span><span>67:12</span><span>67:18</span></div><div class="flow-legend"><span><i></i>HARBOR IMPETUS</span><span><i></i>NORTHBRIDGE IMPETUS</span></div></div>
         <div class="event-timeline" id="event-timeline" aria-label="Match event timeline"></div>
       </section>
       <section class="live-rail" aria-label="Live intelligence">
@@ -68,7 +68,7 @@
     </section>
 
     <section class="app-screen" data-screen="players" aria-label="Player focus" hidden>
-      <section class="player-hero"><div class="player-photo"></div><div class="player-shade"></div><button class="favorite" aria-label="Favorite player">♡</button><div class="player-copy"><small id="player-number">PLAYER FOCUS / #7</small><h1 id="player-name">LUCA<br>MOREAU</h1><p id="player-role">Harbor · Left winger</p><span>LIVE NOW</span></div></section>
+      <section class="player-hero"><div class="player-photo"></div><div class="player-shade"></div><div class="player-club"><i class="club-crest harbor"><b>H</b></i><span>HARBOR<br><small>FIRST TEAM</small></span></div><button class="favorite" aria-label="Favorite player">♡</button><div class="player-copy"><small id="player-number">PLAYER FOCUS / #7</small><h1 id="player-name">LUCA<br>MOREAU</h1><p id="player-role">Harbor · Left winger</p><span>LIVE NOW</span></div></section>
       <section class="player-stats" aria-label="Player statistics"><article><small>REACHED INVOLVEMENTS</small><b id="player-involvements">0</b><p>Event records</p></article><article><small>DISPLACEMENT</small><b id="player-displacement">19.8<span>m</span></b><p>Straight-line</p></article><article><small>TOP SPEED</small><b>—</b><p>Withheld until measured</p></article></section>
       <section class="player-timeline"><div class="section-heading"><div><span>PERFORMANCE TIMELINE</span><h2>Every reached action, in context</h2></div><button>LIVE</button></div><div id="player-timeline-list"></div></section>
       <button class="primary-action" data-mode-pick="player">FOLLOW THIS PLAYER <b>↗</b></button>
@@ -87,8 +87,8 @@
       <section class="more-links"><button data-open-screen="live"><span>⌖</span><b>Inspect the live evidence map</b><em>›</em></button><a href="./"><span>↗</span><b>Return to the full studio</b><em>›</em></a></section>
     </section>
   </main>
-  <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i>⌂</i>LIVE</button><button data-screen-target="perspectives"><i>◫</i>PERSPECTIVES</button><button data-screen-target="players"><i>◎</i>PLAYERS</button><button data-screen-target="more"><i>✦</i>MORE</button></nav>
+  <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i><svg viewBox="0 0 24 24"><path d="M4 13h3l2-6 4 11 2-5h5"/></svg></i>LIVE</button><button data-screen-target="perspectives"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></i>VIEWS</button><button data-screen-target="players"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20c.6-4 2.6-6 6-6s5.4 2 6 6"/></svg></i>PLAYER</button><button data-screen-target="more"><i><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg></i>LAB</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=143"></script>
+  <script type="module" src="pocket-director.js?v=144"></script>
 </body>
 </html>
