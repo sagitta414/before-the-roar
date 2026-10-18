@@ -1,4 +1,4 @@
-import { installNavigation } from "./navigation.js?v=102";
+import { installNavigation } from "./navigation.js?v=103";
 import { aiAvailability, availabilityText } from "./ai-availability.js?v=103";
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);

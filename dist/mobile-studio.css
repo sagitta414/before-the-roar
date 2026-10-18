@@ -6,10 +6,10 @@
 }
 @media(max-width:760px){
  html{scroll-padding-top:70px;scroll-padding-bottom:95px}
- body:has(.masthead){padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+ body:has(.masthead){padding-bottom:env(safe-area-inset-bottom)}
  .masthead{position:sticky;top:0;z-index:35;background:#0b111bf7!important;backdrop-filter:none;transform:none;filter:none;min-height:58px!important;padding:8px 16px!important;border-bottom:1px solid #364359}
  .masthead .navigation-toggle{display:none!important}
- .masthead nav,.masthead.navigation-open nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;bottom:0;left:0;width:100%;margin:0!important;padding:7px 4px calc(7px + env(safe-area-inset-bottom));gap:2px!important;background:#101722f7;border-top:1px solid #455267;box-shadow:0 -8px 30px #0004;backdrop-filter:blur(18px);z-index:60}
+ .masthead nav,.masthead.navigation-open nav{display:none!important}
  .masthead .nav{display:flex!important;flex-direction:column;justify-content:center;gap:5px;border:0;border-radius:7px;padding:7px 2px!important;font:600 10px/1.2 Barlow,Arial,sans-serif!important;min-height:56px;min-width:0;white-space:normal;text-align:center;color:#b7c7dc}
  .masthead .nav::before{font:600 18px/1 Arial,sans-serif;content:'◉';color:#9bb4d0}
  #watch-nav::before{content:'▶'}#centre-nav::before{content:'◎'}#lab-nav::before{content:'▥'}#truth-nav::before{content:'◇'}#presenters-nav::before{content:'◉'}#security-nav::before{content:'⌾'}#inside-nav::before{content:'i'}

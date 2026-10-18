@@ -8,6 +8,8 @@ const stages=[
   {section:'lab',number:'03',verb:'MEASURE',detail:'Test the pattern'},
   {section:'truth',number:'04',verb:'CHALLENGE',detail:'Change the evidence'},
   {section:'inside',number:'05',verb:'PUBLISH',detail:'Inspect the proof'},
+  {section:'presenters',number:'06',verb:'ENGINEERS',detail:'Meet the team'},
+  {section:'security',number:'07',verb:'SECURE',detail:'Inspect protection'},
 ];
 function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
 
@@ -29,7 +31,7 @@ demo.type='button';demo.onclick=()=>document.dispatchEvent(new Event('btr-open-g
 rail.append(demo);
 document.querySelector('.match-session-bar')?.after(rail);
 function update(section=matchSession.get().section){
-  const mapped=stages.some(s=>s.section===section)?section:(section==='presenters'?'watch':'inside');
+  const mapped=stages.some(s=>s.section===section)?section:'watch';
   rail.querySelectorAll('[data-section]').forEach(button=>{
     const active=button.dataset.section===mapped;
     button.classList.toggle('is-active',active);
