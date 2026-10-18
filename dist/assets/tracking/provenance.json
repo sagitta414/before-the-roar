@@ -1,0 +1,21 @@
+{
+  "schema": "btr.synthetic-tracking-film-provenance.v2",
+  "asset": "training-minute.mp4",
+  "duration_seconds": 60,
+  "resolution": "1536x1024",
+  "fictional": true,
+  "source": {
+    "stadium_plate": "AI-generated fictional stadium plate created for this project",
+    "player_sprites": "AI-generated photographic fictional football player sprite atlas",
+    "motion": "Deterministic synthetic positions and event schedule generated in project code",
+    "tracking_markers": "Enrolled synthetic colour patches composited into the film",
+    "ball_marker": "Enrolled magenta patch inside a rendered white training ball"
+  },
+  "measurement_boundary": "The browser detector receives compressed video pixels, calibration and enrolled marker colours. It does not receive the event schedule or ground-truth coordinates.",
+  "limitations": [
+    "Fixed calibrated camera and controlled synthetic markers",
+    "Not face recognition or identity inference on unfamiliar players",
+    "Not validated on unfamiliar broadcast footage",
+    "Ground-plane speed only; aerial height is not measured"
+  ]
+}

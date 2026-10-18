@@ -1,14 +1,13 @@
 """Controlled synthetic football video. Ground truth stays outside the web assets.
 The browser detector receives only compressed pixels, marker enrollment and pitch calibration.
 """
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
-import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 import json, math, subprocess, shutil, random, argparse
 parser=argparse.ArgumentParser();parser.add_argument("--seed",type=int,default=0);parser.add_argument("--output",default="dist/assets/tracking");parser.add_argument("--truth",default="docs/proof/tracking-ground-truth.json");args=parser.parse_args();rng=random.Random(args.seed)
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/args.output;OUT.mkdir(parents=True,exist_ok=True)
-W,H,FPS=960,640,30
+W,H,FPS=1536,1024,30
 roster=[(6,'Amir Cole','Holding midfielder','harbor',[255,200,40],(27,38)),(8,'Mateo Silva','Central midfielder','harbor',[40,230,235],(49,29)),(10,'Rafael Costa','Attacking midfielder','harbor',[180,95,245],(67,39)),(7,'Luca Moreau','Left winger','harbor',[255,125,35],(73,15)),(9,'Theo Brooks','Striker','harbor',[125,245,55],(84,32)),(102,'Jules Laurent','Right back','north',[70,110,255],(77,22)),(104,'Alex Ross','Centre back','north',[245,60,75],(85,40)),(101,'Max Berg','Goalkeeper','north',[35,245,135],(100,34))]
 actions=[(4,5.6,6,8,'pass'),(12,13.4,8,10,'pass'),(20,21.7,10,7,'pass'),(28,29.0,7,9,'pass'),(36,36.65,9,None,'shot'),(44,45.6,6,8,'pass'),(52,53.2,8,10,'pass'),(57,58.5,10,None,'shot')]
 if args.seed:
@@ -31,50 +30,25 @@ def ball(t):
    if t<40 or start>40:return (104.4,34)
   owner=b or 6
  return (104.4,34)
-camera={'center':480,'top':160,'height':410,'farWidth':700,'nearWidth':930}
+camera={'center':768,'top':432,'height':374,'farWidth':1536,'nearWidth':1536}
 def px(p):
- x,y=p;return (480+(x/105-.5)*(700+230*y/68),160+410*y/68)
-base=Image.new('RGB',(W,H),(13,22,32));d=ImageDraw.Draw(base)
-# Stadium bowl, roof ribs and spectators. Decorative pixels stay outside the pitch.
-for y in range(25,135):
- shade=int(28+(y-25)*.19);d.line((0,y,W,y),fill=(shade,shade+7,shade+14))
-crowd=random.Random(91)
-for i in range(5500):
- x=crowd.randrange(W);y=crowd.randrange(45,126);g=crowd.randrange(45,120)
- d.ellipse((x,y,x+2,y+2),fill=(g,g+5,min(255,g+12)))
-for x in range(-100,1100,100):d.line((480,-50,x,44),fill=(110,123,136),width=2)
-d.rectangle((0,130,960,149),fill=(22,34,49))
-try:font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',13);small=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',10);bold=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',17)
+ x,y=p;return (camera['center']+(x/105-.5)*(camera['farWidth']+(camera['nearWidth']-camera['farWidth'])*y/68),camera['top']+camera['height']*y/68)
+plate=ROOT/'artwork/broadcast-stadium-plate-v141.png'
+if not plate.exists():raise RuntimeError('Missing photorealistic broadcast stadium plate')
+base=Image.open(plate).convert('RGB').resize((W,H),Image.Resampling.LANCZOS);d=ImageDraw.Draw(base)
+try:font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',20);small=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',15);bold=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',27)
 except:font=small=bold=ImageFont.load_default()
-for x in range(30,960,155):d.text((x,133),'BTR / EVERY ANGLE',font=small,fill=(203,212,226))
-for i in range(14):
- x=i*105/14;n=(i+1)*105/14;d.polygon([px((x,0)),px((n,0)),px((n,68)),px((x,68))],fill=(29,103+9*(i%2),63))
-# Natural fine turf texture replaces flat arcade stripes, without changing calibration.
-mask=Image.new('L',(W,H));ImageDraw.Draw(mask).polygon([px((0,0)),px((105,0)),px((105,68)),px((0,68))],fill=255)
-arr=np.asarray(base).astype(np.float32);noise=np.random.default_rng(67).normal(0,2.2,(H,W));yy=np.arange(H)[:,None];xx=np.arange(W)[None,:]
-shade=1-.08*((xx-W*.55)/W)**2+.045*np.sin(yy/95)
-grass=np.zeros_like(arr);grass[:,:,0]=55+noise*0.65;grass[:,:,1]=(100+noise*1.6)*shade;grass[:,:,2]=53+noise*.6
-# Subtle mowing variation follows world pitch coordinates rather than vertical screen bands.
-for y in range(160,571):
- for x in range(W):
-  wx=((x-480)/(700+230*((y-160)/410))+.5)*105
-  grass[y,x,:]*=1.035 if int(wx/7.5)%2 else .965
-arr=np.where(np.asarray(mask)[:,:,None]>0,grass,arr);base=Image.fromarray(np.uint8(np.clip(arr,0,255)));d=ImageDraw.Draw(base)
-# Defocus the distant crowd; the camera's attention stays on play.
-stands=base.crop((0,0,W,130)).filter(ImageFilter.GaussianBlur(1.2));base.paste(stands,(0,0));d=ImageDraw.Draw(base)
-line=(174,184,157)
-def path(points):d.line([px(p) for p in points],fill=line,width=2)
-path([(0,0),(105,0),(105,68),(0,68),(0,0)]);path([(52.5,0),(52.5,68)])
-path([(52.5+9.15*math.cos(i*.05),34+9.15*math.sin(i*.05)) for i in range(127)])
-for x,sign in [(0,1),(105,-1)]:
- path([(x,13.84),(x+sign*16.5,13.84),(x+sign*16.5,54.16),(x,54.16)])
- path([(x,24.84),(x+sign*5.5,24.84),(x+sign*5.5,43.16),(x,43.16)])
- gx,gy=px((x,34));d.rectangle((gx-7,gy-22,gx+7,gy+22),outline=(216,225,230),width=2)
- for yy in range(int(gy)-20,int(gy)+22,5):d.line((gx-7,yy,gx+7,yy),fill=(133,157,162))
-d.rectangle((24,25,265,59),fill=(14,21,26));d.rectangle((24,25,28,59),fill=(200,45,66))
-d.text((39,35),'HBR   /   NBR',font=font,fill=(235,237,233))
-d.text((810,30),'BTR / STUDIO',font=small,fill=(208,213,205))
-d.text((30,608),'SYNTHETIC TRAINING CAPTURE  /  CALIBRATED FIXED CAMERA',font=small,fill=(144,162,153))
+# Network-style score bug and source plate. These are presentation only; detection
+# still reads the enrolled markers and yellow ball from the compressed pixels.
+d.rounded_rectangle((34,34,405,112),radius=7,fill=(7,13,20),outline=(105,126,146),width=1)
+d.rectangle((34,34,42,112),fill=(240,47,80))
+d.text((60,51),'HARBOR',font=small,fill=(191,207,220));d.text((167,46),'0',font=bold,fill=(255,255,255))
+d.text((218,51),'NORTHBRIDGE',font=small,fill=(191,207,220));d.text((365,46),'0',font=bold,fill=(255,255,255))
+d.rounded_rectangle((1280,35,1495,104),radius=7,fill=(7,13,20),outline=(105,126,146),width=1)
+d.text((1304,51),'BTR / TACTICAL',font=small,fill=(231,235,239));d.text((1304,76),'MEASURED LIVE',font=small,fill=(205,235,92))
+d.rectangle((0,842,W,H),fill=(6,12,18))
+d.text((38,878),'PIXEL-MEASURED TRAINING MATCH',font=bold,fill=(244,247,249))
+d.text((38,922),'SYNTHETIC PLAYERS  /  CALIBRATED CAMERA  /  ENROLLED KIT PATCHES',font=small,fill=(161,183,198))
 atlas=Image.open(ROOT/'artwork/football-strides-v67.png').convert('RGBA');sprites=[]
 for row in range(2):
  group=[]
@@ -92,21 +66,22 @@ proc=subprocess.Popen([ffmpeg,'-hide_banner','-loglevel','error','-y','-f','rawv
 for frame in range(60*FPS):
  t=frame/FPS;im=base.copy();d=ImageDraw.Draw(im)
  for pid,name,role,team,color,xy in sorted(roster,key=lambda r:pos(r[0],t)[1]):
-  x,y=px(pos(pid,t));stride=math.sin(t*7+pid)*2
-  d.ellipse((x-7,y-2,x+11,y+3),fill=(20,63,43))
-  row=0 if team=='harbor' else 1;phase=int(t*3+pid)%4;height=36;key=(row,phase,height)
+  world=pos(pid,t);x,y=px(world);stride=math.sin(t*7+pid)*2
+  height=58+round(14*world[1]/68)
+  d.ellipse((x-height*.24,y-3,x+height*.28,y+6),fill=(8,26,20))
+  row=0 if team=='harbor' else 1;phase=int(t*3+pid)%4;key=(row,phase,height)
   if key not in sprite_cache:
    source=sprites[row][phase];sprite_cache[key]=source.resize((round(source.width*height/source.height),height),Image.Resampling.LANCZOS)
   sprite=sprite_cache[key];im.paste(sprite,(round(x-sprite.width/2),round(y-height+2)),sprite);d=ImageDraw.Draw(im)
-  # Small enrolled training patch; preserve exact marker-centre-to-foot calibration.
-  d.rectangle((x-3,y-18.5,x+3,y-12.5),fill=tuple(color))
- bx,by=px(ball(t));d.ellipse((bx-4,by-4,bx+4,by+4),fill=(238,245,95),outline=(213,222,99),width=1)
- d.text((840,65),f'{t:05.1f} / 60.0',font=font,fill=(220,229,237))
+  # Enrolled training patch remains large enough to survive video compression.
+  d.rounded_rectangle((x-6,y-35,x+6,y-23),radius=2,fill=tuple(color),outline=(245,248,250),width=1)
+ bx,by=px(ball(t));d.ellipse((bx-13,by-13,bx+13,by+13),fill=(242,244,239),outline=(24,32,34),width=2);d.ellipse((bx-9,by-9,bx+9,by+9),fill=(250,55,195))
+ d.rounded_rectangle((1280,118,1495,157),radius=5,fill=(7,13,20));d.text((1310,128),f'{t:05.1f} / 60.0',font=font,fill=(235,239,243))
  proc.stdin.write(im.tobytes())
  if frame==480:im.save(OUT/'poster.jpg',quality=92)
  if frame%3==0:truth.append({'t':t,'ball':ball(t),'players':{str(r[0]):pos(r[0],t) for r in roster}})
 proc.stdin.close()
 if proc.wait():raise RuntimeError('encoding failed')
 (ROOT/args.truth).write_text(json.dumps({'actions':[{'start':a,'end':b,'from':c,'to':e,'type':f,'speed':math.dist(pos(c,a),pos(e,b) if e else (104.4,34))/(b-a)*3.6} for a,b,c,e,f in actions],'frames':truth}),encoding='utf-8')
-(OUT/'calibration.json').write_text(json.dumps({'camera':camera,'width':W,'height':H,'fps':FPS,'duration':60,'pitch':{'width':105,'height':68,'x':42,'y':48,'scaleX':8.34,'scaleY':8.0},'markerFootOffset':15.5,'ballColor':[238,245,95],'roster':[{'id':r[0],'name':r[1],'role':r[2],'team':r[3],'color':r[4]} for r in roster],'source':'Controlled synthetic fixed-camera video with generated photographic player sprites; enrolled colour patches, not facial recognition.'}),encoding='utf-8')
+(OUT/'calibration.json').write_text(json.dumps({'camera':camera,'width':W,'height':H,'fps':FPS,'duration':60,'pitch':{'width':105,'height':68,'x':0,'y':432,'scaleX':14.63,'scaleY':5.5},'markerFootOffset':29,'ballColor':[250,55,195],'roster':[{'id':r[0],'name':r[1],'role':r[2],'team':r[3],'color':r[4]} for r in roster],'source':'Controlled synthetic fixed-camera video using a generated fictional stadium plate and photographic player sprites; enrolled colour patches and ball patch, not facial recognition.'}),encoding='utf-8')
 print('Created 60-second video and separate evaluation truth.')
