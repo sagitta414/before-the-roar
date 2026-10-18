@@ -48,6 +48,8 @@ if(sourceBar){
   const executionKey=el('details','execution-key');
   executionKey.innerHTML=`<summary>How to read execution state <span>+</span></summary><div><b data-state="live">LIVE</b><p>A fresh Azure model request completed. Receipt includes execution ID and latency.</p><b data-state="replay">REPLAY</b><p>A previously saved result was restored. No new model request.</p><b data-state="deterministic">DETERMINISTIC</b><p>Code calculated or validated the result. No model request.</p><b data-state="recovered">RECOVERED</b><p>An interruption is recorded; completed checkpoints were reused and remaining work resumed.</p></div>`;
   dossier.after(executionKey);
+  const liveStage=$('broadcast-room');
+  if(liveStage)liveStage.after(dossier,executionKey);
   const bridge=el('dialog','evidence-bridge');
   bridge.innerHTML=`<button type="button" class="evidence-bridge__close" aria-label="Close broadcast and proof comparison">×</button><span class="evidence-bridge__eyebrow">ONE EDITORIAL QUESTION / TWO DECLARED SOURCES</span><h2>Broadcast feeling. Measured proof.</h2><p class="evidence-bridge__intro">BTR connects the audience experience to the verification workflow without transferring measurements between unrelated footage.</p><div class="evidence-bridge__grid"><article data-layer="broadcast"><small>01 / CINEMATIC COMPANION</small><strong>What does the story feel like?</strong><p>A sixty-second, AI-generated broadcast edit with manually reviewed observations. It demonstrates timing, presentation and audience-ready narration.</p><b>OBSERVATIONS ONLY · NO TRANSFERRED METRICS</b><button type="button" data-bridge-film>Open cinematic coverage →</button></article><i>→</i><article data-layer="proof"><small>02 / MEASURED REPLAY</small><strong>Which claims survive the evidence?</strong><p>The controlled synthetic replay supplies coordinates, events, calculations, revisions and the causal boundary used by Truth Lab.</p><b>13.0 m → 0.0 m · R1 → R2</b><button type="button" data-bridge-proof>Open measured proof →</button></article></div><footer><span>SHARED EDITORIAL STANDARD</span><p>Both sources must cite what they observed, state what remains unknown and withdraw claims when their own evidence changes.</p><button type="button" data-bridge-truth>Run the correction in Truth Lab →</button></footer>`;
   document.body.append(bridge);
@@ -68,7 +70,7 @@ if(truth){
   const impact=el('section','truth-verdict-impact');
   impact.setAttribute('aria-live','polite');
   const proofValues=judgeProof();
-  impact.innerHTML=`<header><span>THE CLAIM UNDER PRESSURE</span><strong>One changed observation. Three required consequences.</strong></header><div class="truth-verdict-impact__compare"><article><small>ORIGINAL EVIDENCE · R1</small><b>${proofValues.original.measurement}</b><span>DEFENDER SHIFT</span><p>Movement claim is qualified.</p></article><i>→</i><article data-corrected><small>CORRECTED EVIDENCE · R2</small><b>${proofValues.corrected.measurement}</b><span>DEFENDER SHIFT</span><p>Movement claim is withdrawn.</p></article></div><div class="truth-verdict-impact__outcomes"><span>CALCULATION <b>${proofValues.original.measurement} → ${proofValues.corrected.measurement}</b></span><span>CLAIM <b>QUALIFIED → WITHDRAWN</b></span><span>ON-SCREEN STORY <b>REVISED</b></span></div>`;
+  impact.innerHTML=`<header><span>THE CLAIM UNDER PRESSURE</span><strong data-impact-heading>Change the evidence to reveal what the system must revise.</strong></header><div class="truth-verdict-impact__compare"><article><small>ORIGINAL EVIDENCE · R1</small><b>${proofValues.original.measurement}</b><span>DEFENDER SHIFT</span><p>Movement claim is qualified.</p></article><i>→</i><article data-corrected><small>CORRECTED EVIDENCE · R2</small><b data-corrected-measurement>?</b><span>DEFENDER SHIFT</span><p data-corrected-copy>Withheld until the tracking change is applied.</p></article></div><div class="truth-verdict-impact__outcomes"><span>CALCULATION <b data-impact-calculation>${proofValues.original.measurement} → ?</b></span><span>CLAIM <b data-impact-claim>PENDING</b></span><span>ON-SCREEN STORY <b data-impact-story>WAITING</b></span></div>`;
   path.after(impact);
   let selectedTruthStep=matchSession.get().corrected?'change':'original';
   const setTruth=(corrected,focus=false)=>{
@@ -87,7 +89,7 @@ if(truth){
     const step=button.dataset.truthStep,active=state.source==='match'&&state.time>=15.9&&state.time<=16.1&&step===selectedTruthStep;
     button.classList.toggle('is-active',active);
   });
-  const syncImpact=state=>{const corrected=state.source==='match'&&state.scenario==='wide'&&state.corrected;impact.classList.toggle('is-corrected',corrected);impact.querySelector('[data-corrected]').setAttribute('aria-current',corrected?'true':'false');};
+  const syncImpact=state=>{const corrected=state.source==='match'&&state.scenario==='wide'&&state.corrected;impact.classList.toggle('is-corrected',corrected);impact.querySelector('[data-corrected]').setAttribute('aria-current',corrected?'true':'false');impact.querySelector('[data-impact-heading]').textContent=corrected?'One changed observation. Three required consequences.':'Change the evidence to reveal what the system must revise.';impact.querySelector('[data-corrected-measurement]').textContent=corrected?proofValues.corrected.measurement:'?';impact.querySelector('[data-corrected-copy]').textContent=corrected?'Movement claim is withdrawn.':'Withheld until the tracking change is applied.';impact.querySelector('[data-impact-calculation]').textContent=corrected?`${proofValues.original.measurement} → ${proofValues.corrected.measurement}`:`${proofValues.original.measurement} → ?`;impact.querySelector('[data-impact-claim]').textContent=corrected?'QUALIFIED → WITHDRAWN':'PENDING';impact.querySelector('[data-impact-story]').textContent=corrected?'REVISED':'WAITING';};
   matchSession.subscribe(state=>{syncTruthPath(state);syncImpact(state);});syncTruthPath(matchSession.get());syncImpact(matchSession.get());
 }
 
@@ -107,20 +109,20 @@ if(inside){
   proof.setAttribute('aria-label','What the current prototype proves');
   proof.innerHTML=`
     <header><div><span>THE BTR DIFFERENCE / VERIFIED</span><h2>One story. Five kinds of proof.</h2></div><button type="button" data-open-demo>Run the defining moment →</button></header>
-    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>4 + 1</b><small>Azure requests + code calculation</small></div><div><b>240 TESTS</b><small>Passing automated checks</small></div><div><b>100 FIXTURES</b><small>Valid synthetic matches</small></div><div><b>3 LANGUAGES</b><small>EN · ES · PT</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
+    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>4 + 1</b><small>Azure requests + code calculation</small></div><div><b>241 TESTS</b><small>Passing automated checks</small></div><div><b>100 FIXTURES</b><small>Valid synthetic matches</small></div><div><b>3 LANGUAGES</b><small>EN · ES · PT</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
     <div class="cohesion-proof__grid">
       <article data-tone="live"><small>01 / AGENT EXECUTION</small><h3>Specialists really hand off.</h3><strong>4 AZURE REQUESTS + 1 CALCULATION</strong><p>Scout, Guide, Check and Host execute sequentially. Vector calculates in code. Execution IDs, latency, evidence and delivery state remain inspectable.</p><button type="button" data-jump-watch>Open the AI desk ↗</button></article>
       <article data-tone="truth"><small>02 / CORRECTION</small><h3>The story must survive the evidence.</h3><strong>CLAIM WITHDRAWN · OUTPUT REVISED</strong><p>Truth Lab changes one synthetic observation, recalculates the affected metric and publishes a narrower broadcast explanation while preserving unaffected facts.</p><button type="button" data-jump-truth>Run the evidence test ↗</button></article>
       <article data-tone="guard"><small>03 / VISION SAFETY GATE</small><h3>Unknown footage fails closed.</h3><strong>IDENTITY + SPEED WITHHELD</strong><p>An unfamiliar real training clip produced no enrolled marker matches. BTR published no player identity or physical speed. This validates withholding behavior, not broadcast detection accuracy.</p><a href="assets/external-video-results.json" download>Download the domain test ↓</a></article>
       <article data-tone="vision"><small>04 / AUTO-EVENT READINESS</small><h3>Detection has a visible release gate.</h3><strong>8/8 DEV EVENTS · BROADCAST NOT VALIDATED</strong><p>The controlled 600-frame marker clip matches eight expected development events. Unfamiliar footage is blocked from publishing identities or speeds. Production still requires annotated, held-out broadcast video.</p><a href="assets/video-readiness.json" download>Inspect the readiness gate ↓</a></article>
-      <article data-tone="value"><small>05 / COMMENTARY VALUE</small><h3>Value is tested as behavior.</h3><strong>5/5 OBJECTIVE UTILITY CHECKS PASS</strong><p>Citations resolve, corrections alter affected claims, unaffected facts survive, audience modes differ and future events stay out. Independent human preference remains pending.</p><a href="assets/commentary-value-benchmark.json" download>Inspect the value checks ↓</a></article>
+      <article data-tone="value"><small>05 / COMMENTARY VALUE</small><h3>The tradeoff is visible.</h3><strong>24/24 COMPLIANT · BOTH ARMS</strong><p>On eight unseen synthetic packets, the crew and single-call baseline both passed every catalog and citation check. The crew used 24 calls and 25.1 s; the baseline used 8 calls and 13.2 s. Human preference remains unmeasured.</p><a href="assets/tracking/heldout-commentary-summary.json" download>Inspect the bounded comparison ↓</a></article>
     </div>
     <div class="source-contract">
       <div><span>CORE EVIDENCE LAYER</span><b>Measured replay</b><p>The default source across Watch, Match Centre and Truth Lab: coordinate-backed events, movement, pass quality and claim boundaries.</p></div><i aria-hidden="true">+</i>
       <div><span>OPTIONAL BROADCAST LAYER</span><b>Cinematic minute</b><p>Audience-ready companion film with manually reviewed, time-linked observations and no transferred measurements.</p></div><i aria-hidden="true">→</i>
       <div><span>PUBLIC LAYER</span><b>One match dossier</b><p>Personalized narrative with source labels, receipts and revision history.</p></div>
     </div>
-    <div class="quality-boundary"><div><span>WHY MULTI-AGENT?</span><strong>Measured system value, with the human question left open.</strong><p>The verified advantage is role separation, inspectable disagreement, correction, audience differentiation, checkpoint recovery and a deterministic evidence gate. Five automated utility checks pass. The bounded model comparison does not establish general prose superiority; independent preference is explicitly pending.</p></div><a href="independent-review.html">Run an independent review ↗</a></div>`;
+    <div class="quality-boundary"><div><span>WHY MULTI-AGENT?</span><strong>Operational control is proven; writing preference is still an open question.</strong><p>The crew exposes specialist handoffs, disagreement, correction and checkpoint recovery. The cheaper single call matched its automated compliance on this bounded test. BTR therefore claims inspectability and recoverability—not general prose superiority.</p></div><a href="independent-review.html">Run an independent review ↗</a></div>`;
   inside.querySelector('.extension-heading')?.after(proof);
   const placeProof=()=>{
     const anchor=inside.querySelector(':scope > #judge-evidence')||inside.querySelector(':scope > .extension-heading');
@@ -128,6 +130,20 @@ if(inside){
   };
   setTimeout(placeProof,0);
   document.addEventListener('btr-section',event=>{if(event.detail==='inside')placeProof();});
+  const compactOperations=()=>{
+    if(inside.querySelector(':scope > .inside-operations'))return;
+    const nodes=[inside.querySelector(':scope > .proof-console'),inside.querySelector(':scope > .proof-dataset')].filter(Boolean);
+    if(!nodes.length)return;
+    const operations=el('details','inside-operations'),operationsSummary=el('summary');
+    operationsSummary.innerHTML='<span>LIVE OPERATIONS + BENCHMARKS</span><strong>Open execution controls, recovery proof and datasets +</strong>';
+    nodes[0].before(operations);operations.append(operationsSummary,...nodes);
+  };
+  setTimeout(compactOperations,500);
+  window.addEventListener('load',compactOperations,{once:true});
+  const operationObserver=new MutationObserver(()=>compactOperations());
+  operationObserver.observe(inside,{childList:true});
+  setTimeout(()=>operationObserver.disconnect(),5000);
+  document.addEventListener('btr-section',event=>{if(event.detail==='inside')setTimeout(compactOperations,0);});
   proof.querySelector('[data-open-demo]').onclick=()=>document.dispatchEvent(new Event('btr-open-guided'));
   proof.querySelector('[data-jump-watch]').onclick=()=>{$('watch-nav')?.click();setTimeout(()=>$('desk-tab')?.click(),0);};
   proof.querySelector('[data-jump-truth]').onclick=()=>$('truth-nav')?.click();
@@ -135,6 +151,9 @@ if(inside){
   proofTabs.setAttribute('aria-label','Choose proof to inspect');
   proofCards.forEach((card,index)=>{card.dataset.proofIndex=String(index);const label=card.querySelector('small')?.textContent?.replace(/^\d+\s*\/\s*/,'')||`Proof ${index+1}`,tab=el('button','',`${String(index+1).padStart(2,'0')} ${label}`);tab.type='button';tab.setAttribute('aria-pressed',String(index===0));tab.onclick=()=>{proofCards.forEach((item,i)=>item.classList.toggle('is-proof-active',i===index));[...proofTabs.children].forEach((item,i)=>item.setAttribute('aria-pressed',String(i===index)));};proofTabs.append(tab);card.classList.toggle('is-proof-active',index===0);});
   proofGrid.before(proofTabs);
+  const method=el('details','proof-method'),methodSummary=el('summary','','Sources, model tradeoff and validation limits +');
+  method.append(methodSummary,proof.querySelector('.source-contract'),proof.querySelector('.quality-boundary'));
+  proof.append(method);
   const deep=el('details','inside-deep-dive'),summary=el('summary');
   summary.innerHTML='<span>PRODUCTION LAB + EVIDENCE ARCHIVE</span><strong>Open the full production lab, exports and technical proof +</strong>';
   deep.append(summary);

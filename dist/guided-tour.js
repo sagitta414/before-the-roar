@@ -62,7 +62,8 @@ const open = button("Run the defining moment →", () => enter(), "red-button"),
   filmButton = button("Watch the 60-second film", () => leave("pitchside"));
 launcher.append(intro, open, filmButton);
 launcher.append(button('Change the evidence →',()=>{leave('match');openTruthDemo();}));
-watch.prepend(launcher);
+const liveStage=document.getElementById('broadcast-room');
+if(liveStage)liveStage.after(launcher);else watch.prepend(launcher);
 const tour = el("section", "guided-tour");
 tour.id = "guided-match";
 tour.hidden = true;
