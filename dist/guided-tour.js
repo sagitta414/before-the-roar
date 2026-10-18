@@ -41,6 +41,7 @@ let active = false,
 let judgeRun=judgeProof(),pocketState={connected:false};
 let recovery={state:'ready',message:'Interrupt a real editorial worker, preserve its checkpoint, then resume it here.',logs:[]};
 const judgeApi=fetch('api-config.json').then(r=>r.json()).then(c=>['127.0.0.1','localhost'].includes(location.hostname)?'':c.baseUrl||'').catch(()=>'');
+const recordedLiveProof=fetch('assets/live-production-proof.json').then(r=>r.ok?r.json():null).catch(()=>null);
 async function judgeCall(path,body,token){const base=await judgeApi,r=await fetch(base+path,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(120000)});if(!r.ok)throw Error((await r.json().catch(()=>({}))).error||'Judge proof unavailable');return r;}
 async function injectJudgeEvent(){try{const event=await judgeCall('/api/judge-event',{},null).then(r=>r.json());judgeRun={...judgeRun,event:{...judgeRun.event,...event,id:event.evidence_id}};source.textContent='SERVER EVENT RECEIVED · THE UNSEEN RUN';}catch(error){judgeRun={...judgeRun,event:{...judgeRun.event,source:'Local authored fallback · Azure event endpoint unavailable',error:error.message}};source.textContent='LOCAL FALLBACK · THE UNSEEN RUN';}if(active&&step===0)render();}
 async function streamRecovery(session){const response=await judgeCall(`/api/production/${session.id}/run`,{},session.token),reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',paused=false;while(true){const {done,value}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});let split;while((split=buffer.indexOf('\n\n'))>=0){const block=buffer.slice(0,split);buffer=buffer.slice(split+2);const kind=block.split('\n').find(x=>x.startsWith('event:'))?.slice(6).trim();let data={};try{data=JSON.parse(block.split('\n').filter(x=>x.startsWith('data:')).map(x=>x.slice(5)).join(''));}catch{}if(kind==='trace'){recovery.logs=[...recovery.logs,{action:data.action||'tool receipt',status:data.status||data.engine||'saved'}].slice(-8);if(active&&step===3)render();}if(kind==='paused')paused=true;if(kind==='error')throw Error(data.message||'Recovery worker failed');}}return paused;}
@@ -527,8 +528,20 @@ function render() {
     const delivery=el('div','judge-delivery');
     delivery.append(el('article','',`WATCH PARTY\nR${snapshot.story.revision} · ${snapshot.story.clock}\nREADY NOW`),el('article','',pocketState.connected?`POCKET DIRECTOR\nSYNCED · R${pocketState.revision||snapshot.story.revision}\nROOM ${String(pocketState.room||'').slice(0,6).toUpperCase()}`:'POCKET DIRECTOR\nPAIR A PHONE TO PROVE LIVE SYNC\nREAD-ONLY LINK · AUTO UPDATE'));
     const publish=button('Publish corrected story to both screens →',()=>{options.corrected=true;sync();document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'publish',revision:2,runId:judgeRun.run_id}}));render();},'red-button');
+    const liveReceipt=el('section','judge-live-receipt');
+    liveReceipt.innerHTML='<div><small>RECORDED LIVE AZURE PROOF</small><strong>Loading verified execution receipt…</strong><p>The authored judge cut and the live model run are deliberately labeled as different execution modes.</p></div>';
+    recordedLiveProof.then(proof=>{
+      if(!proof||!liveReceipt.isConnected)return;
+      const completed=(proof.trace||[]).filter(x=>x.action==='model_handoff_completed'),foundry=(proof.trace||[]).find(x=>x.action==='independent_referee_completed');
+      liveReceipt.replaceChildren();
+      const head=el('div','judge-live-receipt__head');head.append(el('small','','LIVE AZURE RUN · '+new Date(proof.tested_at).toLocaleDateString()),el('strong','',`${completed.length} SPECIALIST REQUESTS + FOUNDRY REFEREE`),el('p','',`Interrupted after ${proof.recovery.requests_before} requests; resumed to ${proof.recovery.requests_after}. Scout and Guide were restored from checkpoints.`));liveReceipt.append(head);
+      const list=el('div','judge-live-receipt__list');
+      for(const item of completed){const role={analyst:'SCOUT',guide:'GUIDE',reviewer:'CHECK',presenter:'HOST'}[item.role]||item.role.toUpperCase(),row=el('article');row.append(el('b','',role),el('span','',`${item.latency_ms} ms`),el('code','',item.execution_id));list.append(row);}
+      if(foundry){const row=el('article','foundry');row.append(el('b','','FOUNDRY'),el('span','',`${foundry.latency_ms} ms`),el('code','',foundry.execution_id));list.append(row);}
+      liveReceipt.append(list,el('p','judge-live-receipt__limit','This receipt proves execution, handoff and recovery. It does not claim the crew writes better prose than every single-model baseline.'));
+    });
     content.append(
-      delivery,publish,
+      delivery,publish,liveReceipt,
       preferences,
       el(
         "p",
