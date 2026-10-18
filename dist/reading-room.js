@@ -11,7 +11,19 @@ export function arrangeReadingRoom(){
  settings.querySelector('h2').after(options);
  const statusDetail=document.createElement('details');statusDetail.className='response-details';
  const statusSummary=document.createElement('summary');statusSummary.textContent='Connection & response details';statusDetail.append(statusSummary,$('party-status'),$('connection-status'),$('response-timing'));settings.append(statusDetail);
- const expand=document.createElement('button');expand.className='room-expand';expand.textContent='More reading space';expand.setAttribute('aria-pressed','false');expand.onclick=()=>{const on=document.body.classList.toggle('party-expanded');expand.setAttribute('aria-pressed',String(on));expand.textContent=on?'Standard view':'More reading space';};document.querySelector('.party-header').append(expand,$('settings'));
+ const expand=document.createElement('button');
+ expand.id='reading-space-toggle';expand.type='button';expand.className='room-expand';expand.textContent='More reading space';
+ expand.setAttribute('aria-controls','party');expand.setAttribute('aria-expanded','false');expand.setAttribute('aria-pressed','false');
+ const setReadingSpace=on=>{
+  document.body.classList.toggle('party-expanded',on);
+  expand.setAttribute('aria-expanded',String(on));expand.setAttribute('aria-pressed',String(on));
+  expand.textContent=on?'Back to match':'More reading space';
+  expand.title=on?'Restore the match-first layout':'Widen the conversation and evidence';
+  if(on&&window.matchMedia('(max-width:999px)').matches)document.querySelector('.party')?.scrollIntoView({block:'start',behavior:'smooth'});
+ };
+ expand.addEventListener('click',event=>{event.preventDefault();setReadingSpace(!document.body.classList.contains('party-expanded'));});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.body.classList.contains('party-expanded')){setReadingSpace(false);expand.focus();}});
+ document.querySelector('.party-header').append(expand,$('settings'));
  $('settings').textContent='⚙';
  document.querySelector('.party-controls').hidden=true;
  const ask=$('request-panel');ask.textContent='Discuss this moment ↗';$('suggestions').prepend(ask);document.querySelector('.panel-request').remove();
