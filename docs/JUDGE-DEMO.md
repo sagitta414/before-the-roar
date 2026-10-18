@@ -4,23 +4,31 @@
 
 Public application: https://before-the-roar.sagitta107.chatgpt.site
 
-## Current conversation demonstration — capture after live verification
+Direct judge entry: https://before-the-roar.sagitta107.chatgpt.site/?judge=1#watch
+
+Current narrated demo: `demo/before-the-roar-judge-demo-v2.mp4` (1080p, 1:45)
+
+Share copy: `demo/before-the-roar-judge-demo-v2-share.mp4` (720p)
+
+## Current conversation demonstration — verified live capture
 
 Open the guided match and choose **Try the live two-round discussion**. This hands off the original synthetic wide-run record at 67:16 without making a model request. Send the suggested opening question. Keep the streaming labels and evidence visible. When the round finishes, choose **Did the run cause it?** and inspect whether the new contribution identifies a useful distinction or specific missing evidence. The earlier round remains expandable. Export the conversation with both rounds.
 
-Capture the real request, waiting time, viewer question and next response. Do not replace a weak answer with a scripted answer or present cached playback as fresh generation. If the new insight is weak, disclose it as an evaluation finding. A fresh recording is pending adequate approved allowance; the live entry path alone does not establish quality.
+The October 18 capture used four separate Azure requests for Scout, Guide, Check and Host. Vector calculated in code. The public run completed in 3.2 seconds and exposed each response ID, source set, handoff and latency in the AI desk. The demo then changed the defender's synthetic tracking from revision R1 to R2, reducing measured displacement from 13.0 m to 0.0 m. The pass calculation remained valid, the movement claim was withdrawn, and the revised explanation reached Pocket Director.
 
-## Earlier recording plan — 105 seconds
+The recording does not replace a weak answer with a scripted answer or present cached playback as fresh generation. Its Foundry 46–45 comparison is labelled as a narrow model-scored result. Independent human review remains pending and is available through `study.html`.
 
-Use [the recording script](RECORDING-SCRIPT.txt) and the automatic guided tour. It uses authored synthetic evidence and zero fresh model calls. Record the actual browser controls; the illustrated MP4 is supplementary. The creator confirmed permission to keep the cinematic film published, but the main demonstration uses the measured synthetic source.
+## Current recording — 105 seconds
+
+The V2 recording uses fresh public browser captures, the corrected Pocket Director state, conversational Azure Speech narration and burned captions. The cinematic shots remain clearly labelled companion footage; the measured replay and tool receipts provide the evidence.
 
 | Time | Show |
 | --- | --- |
-| 0–18s | Follow the synthetic play and shared clock |
-| 18–36s | Five public contributions with distinct roles |
-| 36–52s | Passing gain with units and source event IDs |
-| 52–72s | Correct the tracking and withdraw the affected claim |
-| 72–105s | Beginner, Spanish and math captions from the same evidence |
+| 0–13s | Lead with live football action and the question BTR must prove |
+| 13–46s | Show the fresh four-request specialist run and execution receipts |
+| 46–73s | Change one tracking record; withdraw the claim and revise the story |
+| 73–92s | Deliver the correction to Pocket Director and show the Foundry comparison with its limit |
+| 92–105s | Show Azure production controls and the direct judge entry |
 
 For technical questions, open Inside BTR and replay saved recovery. Its pause illustrates the recorded handoff, without a new worker failure or model request. A live Test recovery remains a separate operation requiring available AI allowance; it uses up to four requests. Do not present receipt playback as a fresh live recovery test.
 

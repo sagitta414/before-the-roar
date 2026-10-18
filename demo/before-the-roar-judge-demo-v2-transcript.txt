@@ -1,0 +1,15 @@
+BEFORE THE ROAR — JUDGE DEMO V2
+
+Watch the run. The defender moves, and the ball travels through the centre. It looks like an easy story: the run created the space. But did it?
+
+This is a fresh BTR investigation. Scout finds the angle. Guide makes it understandable. Vector calculates 23.7 metres of forward passing gain. Check challenges the causal claim. Host publishes only what survives.
+
+Four specialists make separate Azure model requests. Vector stays deterministic. The live desk exposes response IDs, sources, handoffs, latency, and delivery time. This run finished in 3.2 seconds.
+
+Now comes the defining test. Truth Lab changes one synthetic tracking observation. The defender's measured shift falls from 13 metres to zero. The pass calculation remains. The movement claim is withdrawn. And the audience story is revised.
+
+The corrected explanation reaches the match screen and Pocket Director together. A newcomer gets the football concept. An analyst gets the positional limit. A numbers fan gets the equation. Every answer cites the same evidence revision.
+
+Microsoft Foundry provides a recorded evidence court for the crew-versus-baseline comparison. The current model-scored result is narrow: 46 to 45, with its limits shown. Human blind review remains open; BTR does not turn a test into a marketing claim.
+
+Azure Container Apps runs the service. Entra ID and role-based access protect resources. Blob Storage preserves the proof. Before the Roar turns live football data into a story that can be questioned, corrected, and trusted.
