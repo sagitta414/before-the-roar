@@ -25,8 +25,8 @@ test('proof layer states the vision and model-comparison limits',async()=>{
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   assert.match(source,/MICROSOFT FOUNDRY/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=124/);
-  assert.match(index,/cohesion\.js\?v=124/);
+  assert.match(index,/cohesion\.css\?v=125/);
+  assert.match(index,/cohesion\.js\?v=125/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });

@@ -1,8 +1,8 @@
 {
-  "schema": "btr.live-production-proof.v1",
-  "tested_at": "2026-10-18T04:33:57.168Z",
+  "schema": "btr.live-production-proof.v2",
+  "tested_at": "2026-10-18T13:49:35.871Z",
   "service": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io",
-  "health_version": "3.17.0",
+  "health_version": "3.18.0",
   "storage": "Azure Blob Storage",
   "recovery": {
     "interrupted_status": "interrupted",
@@ -12,14 +12,14 @@
       "analyst",
       "guide"
     ],
-    "resume_elapsed_ms": 4045
+    "resume_elapsed_ms": 7083
   },
   "metrics": {
     "model_calls": 4,
     "prompt_tokens": 1955,
     "completion_tokens": 26,
     "usage_missing": 0,
-    "elapsed_ms": 1711
+    "elapsed_ms": 1663
   },
   "contributions": {
     "analyst": {
@@ -46,7 +46,7 @@
         "selection": "causation_test",
         "received_roles": []
       },
-      "turn_id": "work-555024079e6db1cb329d0c33-1:analyst",
+      "turn_id": "work-bbf6133ebd16bc77d2dd7892-1:analyst",
       "round": 1,
       "sequence": 1,
       "reply_to": null
@@ -80,7 +80,7 @@
           "analyst"
         ]
       },
-      "turn_id": "work-555024079e6db1cb329d0c33-1:guide",
+      "turn_id": "work-bbf6133ebd16bc77d2dd7892-1:guide",
       "round": 1,
       "sequence": 2,
       "reply_to": "analyst"
@@ -106,7 +106,7 @@
         "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
       },
       "unchanged": false,
-      "turn_id": "work-555024079e6db1cb329d0c33-1:math",
+      "turn_id": "work-bbf6133ebd16bc77d2dd7892-1:math",
       "round": 1,
       "sequence": 3,
       "reply_to": null
@@ -142,7 +142,7 @@
         ]
       },
       "guard_engine": "evidence_rules",
-      "turn_id": "work-555024079e6db1cb329d0c33-1:reviewer",
+      "turn_id": "work-bbf6133ebd16bc77d2dd7892-1:reviewer",
       "round": 1,
       "sequence": 1,
       "reply_to": "analyst"
@@ -178,7 +178,7 @@
           "reviewer"
         ]
       },
-      "turn_id": "work-555024079e6db1cb329d0c33-1:presenter",
+      "turn_id": "work-bbf6133ebd16bc77d2dd7892-1:presenter",
       "round": 1,
       "sequence": 2,
       "reply_to": "reviewer"
@@ -187,7 +187,7 @@
   "trace": [
     {
       "seq": 1,
-      "at": 1792298031571,
+      "at": 1792331367582,
       "role": "director",
       "action": "run_started",
       "cutoff": 16,
@@ -197,7 +197,7 @@
     },
     {
       "seq": 2,
-      "at": 1792298031595,
+      "at": 1792331367597,
       "role": "director",
       "action": "handoff_catalog_ready",
       "angles": [
@@ -222,7 +222,7 @@
     },
     {
       "seq": 3,
-      "at": 1792298031642,
+      "at": 1792331367654,
       "role": "analyst",
       "action": "model_handoff_started",
       "from": [],
@@ -238,11 +238,11 @@
         "outcome"
       ],
       "execution_state": "live",
-      "correlation_id": "btr-a83817eb-f9b7-41bb-b4a8-1336053e75ef"
+      "correlation_id": "btr-5e6d0c36-e92e-48e7-a85a-5e4bc46e0b0f"
     },
     {
       "seq": 4,
-      "at": 1792298032495,
+      "at": 1792331368673,
       "role": "analyst",
       "action": "model_handoff_completed",
       "angle": "causation_test",
@@ -250,12 +250,12 @@
       "request_number": 1,
       "reservation": "committed",
       "execution_state": "live",
-      "execution_id": "chatcmpl-EaCshHffo0RqePOFkYnqCovPUnzaA",
-      "latency_ms": 874
+      "execution_id": "chatcmpl-EaLYOfHPjEj5NCBoRx7f6B4qCelSl",
+      "latency_ms": 1036
     },
     {
       "seq": 5,
-      "at": 1792298032555,
+      "at": 1792331368746,
       "role": "guide",
       "action": "model_handoff_started",
       "from": [
@@ -266,11 +266,11 @@
         "limits"
       ],
       "execution_state": "live",
-      "correlation_id": "btr-a7b0ef94-edbf-42f4-acde-7b1498bfcd0e"
+      "correlation_id": "btr-da183f9e-fda2-487f-91e0-6dc312c77ec9"
     },
     {
       "seq": 6,
-      "at": 1792298033161,
+      "at": 1792331369344,
       "role": "guide",
       "action": "model_handoff_completed",
       "angle": "limits",
@@ -280,12 +280,12 @@
       "request_number": 2,
       "reservation": "committed",
       "execution_state": "live",
-      "execution_id": "chatcmpl-EaCsiE38Xp6jVubZYkOh7mnPQkZd5",
-      "latency_ms": 638
+      "execution_id": "chatcmpl-EaLYOsochOlBTOQhsiyWAuVzNCe6q",
+      "latency_ms": 639
     },
     {
       "seq": 7,
-      "at": 1792298033205,
+      "at": 1792331369374,
       "role": "math",
       "action": "calculation_saved",
       "from": [
@@ -301,7 +301,7 @@
     },
     {
       "seq": 8,
-      "at": 1792298033228,
+      "at": 1792331369394,
       "role": "director",
       "action": "worker_interrupted",
       "saved_roles": [
@@ -314,7 +314,7 @@
     },
     {
       "seq": 9,
-      "at": 1792298033377,
+      "at": 1792331369540,
       "role": "director",
       "action": "checkpoint_resumed",
       "cutoff": 16,
@@ -324,7 +324,7 @@
     },
     {
       "seq": 10,
-      "at": 1792298033386,
+      "at": 1792331369553,
       "role": "director",
       "action": "handoff_catalog_ready",
       "angles": [
@@ -349,19 +349,19 @@
     },
     {
       "seq": 11,
-      "at": 1792298033396,
+      "at": 1792331369564,
       "role": "analyst",
       "action": "saved_model_handoff_reused",
       "angle": "causation_test",
       "from": [],
       "execution_state": "replay",
-      "execution_id": "chatcmpl-EaCshHffo0RqePOFkYnqCovPUnzaA",
-      "original_latency_ms": 874,
+      "execution_id": "chatcmpl-EaLYOfHPjEj5NCBoRx7f6B4qCelSl",
+      "original_latency_ms": 1036,
       "model_requests": 0
     },
     {
       "seq": 12,
-      "at": 1792298033406,
+      "at": 1792331369575,
       "role": "guide",
       "action": "saved_model_handoff_reused",
       "angle": "limits",
@@ -369,13 +369,13 @@
         "analyst"
       ],
       "execution_state": "replay",
-      "execution_id": "chatcmpl-EaCsiE38Xp6jVubZYkOh7mnPQkZd5",
-      "original_latency_ms": 638,
+      "execution_id": "chatcmpl-EaLYOsochOlBTOQhsiyWAuVzNCe6q",
+      "original_latency_ms": 639,
       "model_requests": 0
     },
     {
       "seq": 13,
-      "at": 1792298033418,
+      "at": 1792331369585,
       "role": "math",
       "action": "calculation_saved",
       "from": [
@@ -391,7 +391,7 @@
     },
     {
       "seq": 14,
-      "at": 1792298033452,
+      "at": 1792331369623,
       "role": "reviewer",
       "action": "model_handoff_started",
       "from": [
@@ -404,11 +404,11 @@
         "limits"
       ],
       "execution_state": "live",
-      "correlation_id": "btr-a05fa708-e78b-4a42-ac0f-7740aefc7f09"
+      "correlation_id": "btr-7285583d-f8ae-4017-948d-462f2544ffac"
     },
     {
       "seq": 15,
-      "at": 1792298034365,
+      "at": 1792331370215,
       "role": "reviewer",
       "action": "model_handoff_completed",
       "angle": "causation_test",
@@ -420,12 +420,12 @@
       "request_number": 3,
       "reservation": "committed",
       "execution_state": "live",
-      "execution_id": "chatcmpl-EaCsjdI0rjbiBu43AKSnOtkYtbB6E",
-      "latency_ms": 923
+      "execution_id": "chatcmpl-EaLYPRtaS2aFzxB5e9DukoARHOk7V",
+      "latency_ms": 611
     },
     {
       "seq": 16,
-      "at": 1792298034416,
+      "at": 1792331370264,
       "role": "presenter",
       "action": "model_handoff_started",
       "from": [
@@ -439,11 +439,11 @@
         "limits"
       ],
       "execution_state": "live",
-      "correlation_id": "btr-a64de14a-bd06-4841-bab9-1c79bdd68098"
+      "correlation_id": "btr-6de6f870-3887-4549-beef-97fa1b60e37b"
     },
     {
       "seq": 17,
-      "at": 1792298034988,
+      "at": 1792331371162,
       "role": "presenter",
       "action": "model_handoff_completed",
       "angle": "limits",
@@ -456,12 +456,12 @@
       "request_number": 4,
       "reservation": "committed",
       "execution_state": "live",
-      "execution_id": "chatcmpl-EaCskTA7f67cnjCK16erdNjls01PG",
-      "latency_ms": 590
+      "execution_id": "chatcmpl-EaLYQvJLeBDP1oJjKvNlzECtkOnuM",
+      "latency_ms": 915
     },
     {
       "seq": 18,
-      "at": 1792298035062,
+      "at": 1792331371185,
       "role": "director",
       "action": "four_model_handoff_completed",
       "reason": null,
@@ -475,16 +475,126 @@
     },
     {
       "seq": 19,
-      "at": 1792298037330,
+      "at": 1792331376487,
       "role": "foundry",
       "action": "independent_referee_completed",
       "execution_state": "live",
-      "execution_id": "resp_0538172428ea9377006ad44c33b48881908b1a69d7f45d114f",
-      "latency_ms": 2213,
+      "execution_id": "resp_0fbac21ece1cc4b8006ad4ce6c23b48193b86bb35d701f48b2",
+      "latency_ms": 5215,
       "verdict": "review",
       "reason": "completed"
     }
   ],
+  "foundry_review": {
+    "status": "completed",
+    "engine": "microsoft_foundry_responses",
+    "project": "before-the-roar",
+    "model": "texasgpt-prod",
+    "response_id": "resp_0fbac21ece1cc4b8006ad4ce6c23b48193b86bb35d701f48b2",
+    "latency_ms": 5215,
+    "usage": {
+      "input_tokens": 1472,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 547,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 2019
+    },
+    "authority": "advisory_second_line; deterministic_evidence_gate_is_final",
+    "verdict": "review",
+    "grounding_score": 8,
+    "correction_sensitivity_score": 6,
+    "audience_value_score": 7,
+    "role_distinction_score": 8,
+    "decision_usefulness_score": 7,
+    "changed_claim_ids": [],
+    "preserved_fact_ids": [
+      "editorial-reading"
+    ],
+    "claim_audit": [
+      {
+        "role": "analyst",
+        "status": "qualified",
+        "evidence_ids": [
+          "wide-football-16.0-r1"
+        ],
+        "reason": "The analyst suggests correlation without proving causation, which aligns with the evidence."
+      },
+      {
+        "role": "guide",
+        "status": "qualified",
+        "evidence_ids": [
+          "wide-evt-001",
+          "wide-evt-002",
+          "wide-track-102-400",
+          "wide-analysis-16.0"
+        ],
+        "reason": "The guide accurately explains the observed movements and their potential implications without asserting causality."
+      },
+      {
+        "role": "math",
+        "status": "supported",
+        "evidence_ids": [
+          "wide-evt-001",
+          "wide-evt-002"
+        ],
+        "reason": "The calculation is precise and verifiable, offering a quantitative assessment of play progress."
+      },
+      {
+        "role": "reviewer",
+        "status": "supported",
+        "evidence_ids": [
+          "wide-football-16.0-r1"
+        ],
+        "reason": "The review confirms the lack of causal proof and adherence to the presented evidence."
+      },
+      {
+        "role": "presenter",
+        "status": "qualified",
+        "evidence_ids": [
+          "wide-football-16.0-r1",
+          "wide-evt-001",
+          "wide-evt-002"
+        ],
+        "reason": "The presenter recommends a future comparative analysis which aligns with the uncertainty remaining in the claim."
+      }
+    ],
+    "handoff_assessment": [
+      {
+        "role": "analyst",
+        "adds_new_value": true,
+        "contribution": "Identifies correlation in play data without claiming causation."
+      },
+      {
+        "role": "guide",
+        "adds_new_value": true,
+        "contribution": "Explains movement patterns and raises questions about their impact."
+      },
+      {
+        "role": "math",
+        "adds_new_value": true,
+        "contribution": "Provides numeric calculations relevant to the play's structure."
+      },
+      {
+        "role": "reviewer",
+        "adds_new_value": true,
+        "contribution": "Challenges causal interpretations based on a lack of comparative data."
+      },
+      {
+        "role": "presenter",
+        "adds_new_value": true,
+        "contribution": "Suggests conditions for further exploration of the claim's validity."
+      }
+    ],
+    "strongest_contribution": "Reviewer: Identifies the necessity for alternate scenarios for assessing causal claims about player behavior.",
+    "release_condition": "Provide examples of similar plays with different defensive reactions to isolate causal elements.",
+    "summary": "The claim regarding the defender's movement reaction to the runner is treated with caution due to a lack of explicit causative evidence. Inputs align across roles to suggest that movements coincide, but not necessarily as cause and effect. Further comparative analysis is suggested.",
+    "limitation": "The current evidence cannot confirm causality or intent between observed movements."
+  },
   "correction": {
     "old": "Moreau pulls wide and Laurent reacts on the same side. The duel is changing shape, but the replay cannot tell us why the defender moved.",
     "current": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result. Moreau still runs wide, but the corrected tracking keeps Laurent at his starting position. The attacking movement remains visible; the claim that the defender reacted to it is withdrawn.",
