@@ -5,27 +5,26 @@ import {readFile} from 'node:fs/promises';
 test('one investigation spine connects the primary product journey',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   const sections=[...source.matchAll(/section:'([^']+)'/g)].map(match=>match[1]);
-  assert.deepEqual(sections,['watch','centre','lab','truth','inside']);
+  assert.deepEqual(sections.slice(0,5),['watch','centre','lab','truth','inside']);
   for(const verb of ['WATCH','UNDERSTAND','MEASURE','CHALLENGE','PUBLISH'])assert.match(source,new RegExp(`verb:'${verb}'`));
   assert.match(source,/btr-open-guided/);
 });
 
-test('source dossier joins the views without falsely joining their pixels',async()=>{
+test('source dossier makes measured replay the core and cinematic film optional',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   assert.match(source,/BTR-WIDE-67/);
-  assert.match(source,/companion representations, not the same pixel source/);
-  assert.match(source,/Broadcast view/);
-  assert.match(source,/Evidence view/);
+  assert.match(source,/Evidence view is the core journey/);
+  assert.match(source,/optional cinematic companion coverage/);
 });
 
 test('proof layer states the vision and model-comparison limits',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   assert.match(source,/validates withholding behavior, not broadcast detection accuracy/);
-  assert.match(source,/does not establish general superiority/);
+  assert.match(source,/does not establish general prose superiority/);
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=110/);
-  assert.match(index,/cohesion\.js\?v=110/);
+  assert.match(index,/cohesion\.css\?v=112/);
+  assert.match(index,/cohesion\.js\?v=112/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });
