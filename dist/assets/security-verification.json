@@ -1,6 +1,12 @@
 {
-  "schema": "btr.azure-security-verification.v1",
-  "verified_at": "2026-10-17T17:55:00Z",
+  "schema": "btr.azure-security-verification.v2",
+  "verified_at": "2026-10-18T18:24:00Z",
+  "deployment": {
+    "service": "Before the Roar · Azure Intelligence",
+    "revision": "before-the-roar--0000122",
+    "image": "patchhorizonacr805813.azurecr.io/before-the-roar:v139-proof-rail",
+    "ingress": "external HTTPS"
+  },
   "identity": {
     "type": "UserAssigned",
     "resource_name": "btr-runtime-jl107",
@@ -9,9 +15,38 @@
   "role_assignments": [
     {"role": "AcrPull", "scope_type": "Azure Container Registry"},
     {"role": "Cognitive Services OpenAI User", "scope_type": "Azure OpenAI resource"},
+    {"role": "Foundry User", "scope_type": "Microsoft Foundry resource"},
     {"role": "Storage Blob Data Contributor", "scope_type": "BTR Storage account"}
   ],
-  "runtime_controls": ["HTTPS ingress", "origin allowlist", "request rate limits", "read/write capability separation", "ETag checkpoint writes"],
-  "not_claimed": ["Microsoft Defender for Cloud integration", "Microsoft Sentinel integration", "Azure Key Vault integration", "Microsoft Purview integration"],
-  "method": "Read-only Azure CLI inspection of the deployed Container App identity and its role assignments. Object IDs are intentionally omitted from this public receipt."
+  "verified_service_capabilities": {
+    "tool_backed_agents": true,
+    "specialist_roles": ["analyst", "guide", "math", "reviewer", "presenter"],
+    "foundry_referee": true,
+    "durable_checkpoints": true,
+    "persistent_cache": true,
+    "streaming": true,
+    "external_broadcast": true,
+    "production_proof": true,
+    "perspectives": ["fan", "beginner", "math", "analyst", "player"]
+  },
+  "application_controls": [
+    "explicit origin allowlist",
+    "request size and rate limits",
+    "read and write capability separation",
+    "evidence cutoff and revision validation",
+    "registered agent tool allowlist",
+    "citation, number, attribution and correction gates",
+    "conditional ETag checkpoint writes",
+    "failed and recovered stage receipts"
+  ],
+  "not_connected": [
+    "Microsoft Defender for Cloud",
+    "Microsoft Sentinel",
+    "Azure Front Door WAF",
+    "Azure API Management and Defender for APIs",
+    "Microsoft Purview",
+    "Azure Key Vault",
+    "Microsoft Foundry managed virtual network or private endpoints"
+  ],
+  "method": "Read-only Azure CLI inspection of the deployed Container App identity, revision and role assignments, plus the public non-secret service health receipt. Object IDs, tokens and private configuration are intentionally omitted."
 }
