@@ -149,6 +149,9 @@ left.append(trace);
 const hostReceipt = el("article", "host-final-receipt");
 hostReceipt.hidden = true;
 left.append(hostReceipt);
+const foundryReceipt = el("article", "host-final-receipt foundry-final-receipt");
+foundryReceipt.hidden = true;
+left.append(foundryReceipt);
 const metrics = el("div", "proof-metrics");
 left.append(metrics);
 const contributions = el("details", "proof-contributions");
@@ -243,6 +246,7 @@ const pretty = (s) => s.replaceAll("_", " "),
     reviewer: "Check",
     presenter: "Host",
     director: "Director",
+    foundry: "Foundry referee",
   };
 function receipt(list, item) {
   const li = el("li"),
@@ -309,6 +313,37 @@ function renderHostReceipt(workflow, replayed = false) {
     ].filter(Boolean).join(" · ")),
   );
 }
+function renderFoundryReceipt(workflow) {
+  const review = workflow?.foundry_review;
+  foundryReceipt.hidden = !review;
+  if (!review) return;
+  foundryReceipt.replaceChildren();
+  const live = review.status === "completed",
+    top = el("div", "host-receipt-top");
+  top.append(
+    el("span", "execution-badge", live ? `FOUNDRY · ${review.verdict.toUpperCase()}` : "DETERMINISTIC GATE RETAINED"),
+    el("b", "", "INDEPENDENT EVIDENCE REFEREE"),
+  );
+  foundryReceipt.append(
+    top,
+    el("p", "", live ? review.summary : "The Foundry referee was unavailable. The source-bound deterministic check remains the release authority."),
+  );
+  if (live) {
+    const scores = el("div", "recovery-numbers");
+    for (const [value, label] of [[review.grounding_score, "GROUNDING"], [review.correction_sensitivity_score, "CORRECTION"], [review.audience_value_score, "AUDIENCE VALUE"]]) {
+      const score = el("div");
+      score.append(el("strong", "", String(value)), el("span", "", label));
+      scores.append(score);
+    }
+    foundryReceipt.append(scores);
+  }
+  foundryReceipt.append(el("small", "", [
+    live ? `Response ${review.response_id}` : review.status,
+    review.latency_ms ? `${(review.latency_ms / 1000).toFixed(2)}s` : null,
+    review.limitation,
+    "Foundry is a second-line model review; BTR's deterministic evidence gate is final.",
+  ].filter(Boolean).join(" · ")));
+}
 function setProofStep(key, state, note) {
   const step = proofSteps.querySelector(`[data-step="${key}"]`);
   if (!step) return;
@@ -373,6 +408,7 @@ function render(data) {
   trace.replaceChildren();
   for (const item of w?.trace || []) receipt(trace, item);
   renderHostReceipt(w);
+  renderFoundryReceipt(w);
   if (!trace.children.length)
     trace.append(
       el(
@@ -508,6 +544,7 @@ async function showReplay(resumed = false) {
       contributions.append(row);
     }
     renderHostReceipt({ posts: Object.fromEntries(replay.posts.map((post) => [post.role, post])), trace: replay.trace }, true);
+    renderFoundryReceipt(null);
     captionTag.textContent =
       "SAVED RECEIPT REPLAY · " + new Date(replay.recorded_at).toLocaleDateString();
     captionTitle.textContent = resumed ? "Saved handoff complete" : "Specialists saved";

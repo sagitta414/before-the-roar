@@ -211,6 +211,12 @@ export function createApp({
           validation: validateSyntheticMatch(match),
         });
       }
+      if (route === "/api/judge-event" && req.method === "POST") {
+        if (origin && !allowed.has(origin) && origin !== `https://${req.headers.host}` && origin !== `http://${req.headers.host}`)
+          return send(res, 403, { error: "Origin not allowed" });
+        const received=clock(),envelope=randomBytes(10).toString('hex');
+        return send(res,201,{schema:'btr.live-event-envelope.v1',envelope_id:`judge-${envelope}`,received_at:received,server_timestamp:new Date(received).toISOString(),scenario:'wide',sequence_second:18,match_clock:'67:18',revision:1,evidence_id:'wide-track-102-450',source:'Azure session event · authored synthetic tracking',unseen_in_session:true,limits:['The envelope is created live by the server.','The underlying football observation belongs to the authored synthetic scenario; this is not a stadium feed.']});
+      }
       if (route.startsWith("/api/production")) {
         if (
           origin &&
@@ -424,11 +430,13 @@ export function createApp({
           service: "Before the Roar · Azure Intelligence",
           model: process.env.AZURE_OPENAI_DEPLOYMENT || null,
           ai_configured: !!process.env.AZURE_OPENAI_ENDPOINT,
+          foundry_configured: !!process.env.FOUNDRY_PROJECT_ENDPOINT,
+          foundry_model: process.env.FOUNDRY_MODEL || null,
           persistent_cache: !!process.env.AZURE_STORAGE_URL,
           allowance: dailyRequestLimit(),
           active_runs: [...runs.values()].filter((r) => !r.completed && !r.stopped)
             .length,
-          version: "3.16.0",
+          version: "3.17.0",
           evidence_review: true,
           usage: (await narrator.store?.allowance?.().catch(() => null)) ?? null,
           agent_tools: true,

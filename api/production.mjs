@@ -6,6 +6,7 @@ import { broadcastInput, broadcastCue } from "./broadcast.mjs";
 import { matchStory, localPanel } from "../dist/match-story.js";
 import { pitchsideStory, pitchsidePanel } from "../dist/pitchside-story.js";
 import { claimRecord } from "./agent-tools.mjs";
+import { FoundryReferee } from "./foundry-referee.mjs";
 const hash = (s) => createHash("sha256").update(s).digest("hex");
 const claims = (input) => {
   const packet = input.source === "pitchside" ? pitchsideStory(input) : matchStory(input);
@@ -17,12 +18,17 @@ const claims = (input) => {
 export class ProductionDesk {
   constructor(
     narrator,
-    { state = new AgentState(narrator.store || {}), clock = () => Date.now() } = {},
+    {
+      state = new AgentState(narrator.store || {}),
+      clock = () => Date.now(),
+      referee = new FoundryReferee(narrator, { clock }),
+    } = {},
   ) {
     this.narrator = narrator;
     this.state = state;
     this.clock = clock;
     this.active = new Set();
+    this.referee = referee;
   }
   async create(input) {
     const normalized = broadcastInput(input),
@@ -72,7 +78,7 @@ export class ProductionDesk {
       workflow: work?.value || null,
       storage: this.state.store.base ? "Azure Blob Storage" : "local atomic files",
       limits: [
-        "Model prose is not independently semantically verified.",
+        "The Foundry model referee does not establish semantic truth or independent human preference.",
         "Fault injection stops this editorial worker, not the entire Azure service.",
         "Video playback and event calculations do not depend on this worker.",
       ],
@@ -141,6 +147,52 @@ export class ProductionDesk {
         key: this.workKey(v),
         interruptAfterSpecialists: v.interrupt,
       });
+      const saved = await this.state.read(this.workKey(v));
+      if (saved && ["complete", "degraded"].includes(saved.value.status)) {
+        if (saved.value.foundry_review?.status === "completed") {
+          emit("trace", {
+            role: "foundry",
+            action: "saved_referee_restored",
+            execution_state: "replay",
+            model_requests: 0,
+            execution_id: saved.value.foundry_review.response_id || null,
+            verdict: saved.value.foundry_review.verdict || null,
+            reason: "Previously generated Foundry verdict restored; no new model request.",
+          });
+          return;
+        }
+        let review;
+        try {
+          review = await this.referee.evaluate({
+            input: v.input,
+            workflow: saved.value,
+            previous: v.previous_runs?.at(-1) || null,
+          });
+        } catch (error) {
+          review = {
+            status: "unavailable",
+            engine: "deterministic_gate_only",
+            reason: error.message,
+            limitation: "Foundry did not override or weaken the deterministic evidence gate.",
+          };
+        }
+        const journal = await this.state.open(this.workKey(v), saved.value);
+        await journal.change((work) => {
+          work.foundry_review = review;
+          work.trace.push({
+            seq: work.trace.length + 1,
+            at: this.clock(),
+            role: "foundry",
+            action: review.status === "completed" ? "independent_referee_completed" : "independent_referee_unavailable",
+            execution_state: review.status === "completed" ? "live" : "deterministic",
+            execution_id: review.response_id || null,
+            latency_ms: review.latency_ms || 0,
+            verdict: review.verdict || null,
+            reason: review.reason || review.status,
+          });
+        });
+        emit("trace", (await this.state.read(this.workKey(v))).value.trace.at(-1));
+      }
     } catch (e) {
       if (e.code === "CHECKPOINT_INTERRUPTED") emit("paused", { message: e.message });
       else throw e;

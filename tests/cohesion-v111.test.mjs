@@ -27,11 +27,14 @@ test('public proof distinguishes development validation, safety and independent 
   const value=JSON.parse(await readFile(new URL('../dist/assets/commentary-value-benchmark.json',import.meta.url),'utf8'));
   assert.equal(value.checks.filter(check=>check.result==='pass').length,5);
   assert.equal(value.independent_human_preference.status,'pending');
+  assert.equal(value.foundry_blind_evaluation.grounding.tie,8);
+  assert.equal(value.operational_capability_comparison.crew.resume_without_repeating_completed_calls,true);
+  assert.equal(value.operational_capability_comparison.single_call_baseline.resume_without_repeating_completed_calls,false);
 });
 
 test('v111 assets are cache-busted and the measured replay leads the source selector',async()=>{
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=117/);
-  assert.match(index,/cohesion\.js\?v=117/);
+  assert.match(index,/cohesion\.js\?v=118/);
   assert.ok(index.indexOf('value="match"')<index.indexOf('value="pitchside"'));
 });

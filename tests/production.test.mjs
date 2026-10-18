@@ -7,6 +7,7 @@ import {ProductionDesk} from '../api/production.mjs';
 import {executeAgentTool} from '../api/agent-tools.mjs';
 import {generateMatch} from '../api/match.mjs';
 import {validateSyntheticMatch} from '../api/synthetic-validation.mjs';
+import {FoundryReferee,parseFoundryResponse,refereeInput} from '../api/foundry-referee.mjs';
 const input={source:'match',scenario:'wide',time:16,corrected:false,focus:7,team:'harbor',language:'en',mode:'fan'};
 
 test('a fresh worker resumes persisted contributions after a real exception without re-spending completed calls',async()=>{
@@ -43,4 +44,18 @@ test('correction persists across service replacement and reaches the reader with
 test('100 held-out seeds satisfy geometry, continuity, units and restart rules; corrupt events fail validation',()=>{
  for(let seed=1001;seed<=1100;seed++){const match=generateMatch(seed),report=validateSyntheticMatch(match);assert.equal(report.valid,true,JSON.stringify(report.failures));assert.deepEqual(match,generateMatch(seed));}
  const broken=structuredClone(generateMatch(107)),pass=broken.events.find(e=>e.type==='pass');pass.ball_speed_kmh+=20;pass.from=[-1,4];assert.equal(validateSyntheticMatch(broken).valid,false);
+});
+test('Foundry referee uses the project Responses endpoint and returns a bounded public verdict',async()=>{
+ const oldEndpoint=process.env.FOUNDRY_PROJECT_ENDPOINT,oldModel=process.env.FOUNDRY_MODEL;
+ process.env.FOUNDRY_PROJECT_ENDPOINT='https://foundry.example/api/projects/btr';process.env.FOUNDRY_MODEL='judge-model';
+ let reserved=0,requestBody;
+ const body={id:'resp_test',usage:{total_tokens:41},output:[{content:[{type:'output_text',text:JSON.stringify({verdict:'release',grounding_score:96,correction_sensitivity_score:94,audience_value_score:89,changed_claim_ids:['claim-movement'],preserved_fact_ids:['wide-evt-001'],summary:'The public line stays inside the cited record.',limitation:'This is a model review, not human preference.'})}]}]};
+ const referee=new FoundryReferee({store:{reserve:async()=>{reserved++;return true;}}},{clock:(()=>{let n=1000;return()=>n+=25;})(),token:async()=> 'token',request:async(url,options)=>{assert.equal(url,'https://foundry.example/api/projects/btr/openai/v1/responses');requestBody=JSON.parse(options.body);return new Response(JSON.stringify(body));}});
+ try{const result=await referee.evaluate({input,workflow:{claim:{status:'supported'},posts:{analyst:{role:'analyst',summary:'Observed route',evidence_ids:['wide-evt-001'],engine:'azure_openai'}}}});assert.equal(reserved,1);assert.equal(result.engine,'microsoft_foundry_responses');assert.equal(result.verdict,'release');assert.equal(result.response_id,'resp_test');assert.equal(requestBody.text.format.name,'btr_evidence_referee');assert.equal(JSON.parse(requestBody.input).public_posts.length,1);}
+ finally{for(const[k,v]of [['FOUNDRY_PROJECT_ENDPOINT',oldEndpoint],['FOUNDRY_MODEL',oldModel]])if(v===undefined)delete process.env[k];else process.env[k]=v;}
+});
+test('Foundry response and referee input expose only public bounded fields',()=>{
+ const parsed=parseFoundryResponse({output:[{content:[{type:'output_text',text:JSON.stringify({verdict:'hold',grounding_score:10,correction_sensitivity_score:20,audience_value_score:30,changed_claim_ids:[],preserved_fact_ids:[],summary:'Unsupported claim found.',limitation:'Model review only.'})}]}]});
+ assert.equal(parsed.verdict,'hold');
+ const value=refereeInput({input,workflow:{posts:{presenter:{role:'presenter',summary:'Public line',evidence_ids:['x'],engine:'azure_openai'}},trace:[{private:'omit'}]}});assert.equal(value.public_posts[0].text,'Public line');assert.equal('trace' in value,false);
 });

@@ -9,8 +9,8 @@ Use Node 22: `npm ci`, `npm test`, then `npm run studio`. Open http://127.0.0.1:
 ## Existing Azure prerequisites
 
 - A resource group, Container Apps environment and Azure Container Registry.
-- An Azure OpenAI resource with a compatible chat deployment and a private Blob container.
-- A user-assigned managed identity with **AcrPull** on the registry, **Cognitive Services OpenAI User** on the model resource, and **Storage Blob Data Contributor** on the storage scope.
+- An Azure OpenAI resource with a compatible chat deployment, a Microsoft Foundry project endpoint with a deployed evaluator model, and a private Blob container.
+- A user-assigned managed identity with **AcrPull** on the registry, **Cognitive Services OpenAI User** on the model resource, **Foundry Project Runtime User** on the isolated BTR project, and **Storage Blob Data Contributor** on the storage scope.
 - Azure CLI and Bicep installed; the operator needs deployment and registry-build access.
 
 These resources incur Azure costs. The supplied template creates only the Container App and reuses those prerequisites. It does not grant roles or provision a model, registry, environment or storage account automatically.
@@ -23,7 +23,7 @@ These resources incur Azure costs. The supplied template creates only the Contai
 4. Apply with `az deployment group create` using the same arguments. Its output is the app URL.
 5. Set `dist/api-config.json` to that URL for a separately hosted frontend; allow its origin in `allowedOrigins`. The Container App also serves the frontend itself.
 
-The default allowance is 120 requests per UTC day. A new discussion can use four requests; plain playback and the guided tour generate none. The allowance is not a currency budget. The template uses zero minimum replicas and one maximum replica.
+The default allowance is 120 requests per UTC day. A new production discussion uses four crew requests and, when configured, one Foundry referee request; plain playback and the guided tour generate none. The allowance is not a currency budget. The template uses zero minimum replicas and one maximum replica.
 
 ## Subsequent releases
 

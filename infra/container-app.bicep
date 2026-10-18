@@ -9,6 +9,8 @@ param image string
 param openAIEndpoint string
 param modelDeployment string = 'gpt-4o-mini'
 param storageContainerUrl string
+param foundryProjectEndpoint string = ''
+param foundryModel string = 'texasgpt-prod'
 param allowedOrigins string
 @minValue(1)
 @maxValue(10000)
@@ -69,6 +71,14 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'AZURE_STORAGE_URL'
               value: storageContainerUrl
+            }
+            {
+              name: 'FOUNDRY_PROJECT_ENDPOINT'
+              value: foundryProjectEndpoint
+            }
+            {
+              name: 'FOUNDRY_MODEL'
+              value: foundryModel
             }
             {
               name: 'ALLOWED_ORIGINS'

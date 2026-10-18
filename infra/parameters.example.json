@@ -11,6 +11,8 @@
     "openAIEndpoint": { "value": "https://YOUR_OPENAI_RESOURCE.openai.azure.com/" },
     "modelDeployment": { "value": "gpt-4o-mini" },
     "storageContainerUrl": { "value": "https://YOUR_STORAGE.blob.core.windows.net/intelligence/" },
+    "foundryProjectEndpoint": { "value": "https://YOUR_AI_SERVICE.services.ai.azure.com/api/projects/before-the-roar" },
+    "foundryModel": { "value": "YOUR_FOUNDRY_MODEL_DEPLOYMENT" },
     "allowedOrigins": { "value": "https://YOUR_FRONTEND_ORIGIN" },
     "dailyLimit": { "value": 120 }
   }
