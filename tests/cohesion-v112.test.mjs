@@ -25,13 +25,13 @@ test('corrected fan and tactical modes cannot retain the withdrawn defender move
 
 test('v112 presents a concise judge dashboard and progressive disclosure',async()=>{
  const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
- for(const text of ['JUDGE SNAPSHOT','246 TESTS','100 FIXTURES','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
+ for(const text of ['JUDGE SNAPSHOT','248 TESTS','100 FIXTURES','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
  const watch=await readFile(new URL('../dist/match-watch.js',import.meta.url),'utf8');
  assert.doesNotMatch(watch,/Ask the crew · 1 AI request/);
  assert.match(watch,/Ask the crew · 4 AI requests/);
  const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=121/);
-  assert.match(index,/cohesion\.js\?v=121/);
+  assert.match(index,/cohesion\.css\?v=124/);
+  assert.match(index,/cohesion\.js\?v=124/);
   assert.match(index,/match-watch\.js\?v=114/);
   assert.match(index,/guided-tour\.css\?v=113/);
   assert.match(index,/guided-tour\.js\?video=65&v=122/);
@@ -43,6 +43,6 @@ test('live action leads and deeper proof stays inspectable on demand',async()=>{
  assert.match(cohesion,/liveStage\.after\(dossier,executionKey\)/);
  assert.match(tour,/liveStage\.after\(launcher\)/);
  assert.match(cohesion,/inside-operations/);
- assert.match(cohesion,/8\/8 GROUNDING TIES · VALUE EVEN/);
+ assert.match(cohesion,/46–45 OVERALL · 45–43 GROUNDING · 47–45 DECISION/);
 });
 

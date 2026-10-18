@@ -436,7 +436,7 @@ export function createApp({
           allowance: dailyRequestLimit(),
           active_runs: [...runs.values()].filter((r) => !r.completed && !r.stopped)
             .length,
-          version: "3.17.0",
+          version: "3.18.0",
           evidence_review: true,
           usage: (await narrator.store?.allowance?.().catch(() => null)) ?? null,
           agent_tools: true,

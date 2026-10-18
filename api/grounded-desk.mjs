@@ -200,6 +200,11 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
       evidence_ids: [recordId],
     });
     Object.assign(causal.find(n => n.role === "presenter"), {
+      summary: pick(p, [
+        `No—the evidence does not prove the wide run caused the central progression. ${metric?.text || "The completed passes record central progression."} Moreau's run and Laurent's shift coincide, and Check is right to withhold cause. Replay the defender at pass release, then use a comparable attack without that run.`,
+        `${metric?.text || "Los pases completados registran avance central."} La carrera abierta de Moreau y el desplazamiento de Laurent ocurren en la misma secuencia, pero Check acierta al no afirmar causa. Repite al defensor al salir el pase y compara una jugada similar sin la carrera.`,
+        `${metric?.text || "Os passes completos registram progressão central."} A corrida aberta de Moreau e o deslocamento de Laurent aparecem na mesma sequência, mas Check acerta ao não afirmar causa. Reveja o defensor na saída do passe e compare um ataque semelhante sem a corrida.`,
+      ]),
       evidence_ids: [recordId, ...metricIds],
     });
   }
@@ -217,7 +222,7 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
   const beginnerClosing = {
     finish: ["The attack reached a shot. Its recorded result is the finish of this move; the passes before it show how the ball arrived, not a guarantee it would score.", "El ataque llegó a un disparo. Su resultado registrado cierra esta jugada; los pases anteriores muestran cómo llegó el balón, no garantizaban un gol.", "O ataque chegou a um chute. O resultado registrado fecha a jogada; os passes anteriores mostram como a bola chegou, não garantiam gol."],
     regain: ["First the team wins the ball, then completed passes carry the move on. That order is the story here. The record does not prove the approaching player forced the mistake.", "Primero el equipo recupera el balón y luego los pases completos siguen la jugada. Ese orden cuenta la historia; el registro no prueba que quien presionó forzara el error.", "Primeiro o time recupera a bola; depois passes completos seguem a jogada. Essa ordem conta a história; o registro não prova que a pressão forçou o erro."],
-    run: ["The wide runner offers another place the ball could go. Compare that option with the passes that actually happened; a runner need not touch the ball to shape what viewers watch.", "La carrera abierta ofrece otro destino posible para el balón. Compara esa opción con los pases que sí ocurrieron; quien corre no necesita tocar el balón para ser relevante.", "A corrida aberta oferece outro destino possível para a bola. Compare essa opção com os passes que aconteceram; quem corre não precisa tocar na bola para ser relevante."],
+    run: ["In plain words: one player runs wide while the ball travels through the middle. It is like offering a second doorway. The option matters, but this record does not prove the run caused the passes.", "En palabras sencillas: un jugador corre abierto mientras el balón va por el centro. Es como ofrecer una segunda puerta. La opción importa, pero el registro no prueba que causara los pases.", "Em palavras simples: um jogador corre aberto enquanto a bola vai pelo meio. É como oferecer uma segunda porta. A opção importa, mas o registro não prova que causou os passes."],
     pass: ["Follow the passer and receiver. The completed connection keeps possession moving, but the next recorded action will decide whether it becomes a chance.", "Sigue a quien pasa y a quien recibe. La conexión completa mantiene la posesión, pero la siguiente acción dirá si se convierte en ocasión.", "Acompanhe quem passa e quem recebe. A conexão completa mantém a posse, mas a próxima ação dirá se vira chance."]
   }[beginnerTopic];
   add("beginner", "Explain the reached football concept in everyday words for a newcomer. Prefer this over limits when the viewer asks for simpler language.", pick(p, beginnerClosing));
@@ -256,6 +261,28 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
     "La unidad importa: los metros indican distancia y los kilómetros por hora indican velocidad. Una distancia sola no da la velocidad sin un intervalo de tiempo.",
     "A unidade importa: metros indicam distância e quilômetros por hora indicam velocidade. Uma distância sozinha não dá a velocidade sem um intervalo de tempo."
   ]);
+  if (p.analysis.regain && p.analysis.shot && p.analysis.passes?.length) {
+    const passes=p.analysis.passes.filter(event=>event.outcome==='complete'),
+      gain=passes.reduce((sum,event)=>sum+(event.endPosition?.[0]-event.start?.[0]||0),0),
+      seconds=Math.round(p.analysis.shot.t-p.analysis.regain.end),
+      ids=[p.analysis.regain.id,...passes.map(event=>event.id),p.analysis.shot.id];
+    Object.assign(catalog.calculation.posts.find(n=>n.role==='math'),{
+      summary: pick(p,[
+        `${passes.length} completed passes gain ${gain.toFixed(1)} m toward goal in the ${seconds} seconds from regain completion to shot release. Distance explains territory; time explains tempo. This is one attack, not a team average.`,
+        `${passes.length} pases completados ganan ${gain.toFixed(1)} m hacia la portería en los ${seconds} segundos desde la recuperación hasta el disparo. La distancia explica territorio y el tiempo, ritmo. Es un ataque, no un promedio.`,
+        `${passes.length} passes completos ganham ${gain.toFixed(1)} m rumo ao gol nos ${seconds} segundos entre a recuperação e o chute. Distância explica território; tempo explica ritmo. É um ataque, não uma média.`
+      ]),
+      evidence_ids:ids,
+    });
+    Object.assign(catalog.calculation.posts.find(n=>n.role==='presenter'),{
+      summary: pick(p,[
+        `${gain.toFixed(1)} m of completed forward passing over ${seconds} seconds describes this transition in two dimensions: how far it advanced and how quickly it reached the shot. It does not rate the chance or prove why it succeeded.`,
+        `${gain.toFixed(1)} m de pases hacia delante en ${seconds} segundos describen cuánto avanzó y cuánto tardó en llegar al disparo. No valora la ocasión ni prueba por qué funcionó.`,
+        `${gain.toFixed(1)} m de passes para a frente em ${seconds} segundos descrevem quanto avançou e quanto levou até o chute. Não avalia a chance nem prova por que funcionou.`
+      ]),
+      evidence_ids:ids,
+    });
+  }
   add("next_check", "Offer a concrete replay task when asked to go deeper or what to watch next; do not repeat the observation or invent another finding.", pick(p, [
     "Replay once following the player with the ball, then again following the nearest defender. Compare their positions at the pass release and reception. That is a way to inspect the play, not a new measured finding.",
     "Repite siguiendo primero al jugador con balón y después al defensor más cercano. Compara sus posiciones al salir y al recibirse el pase. Es una forma de examinar la jugada, no un nuevo resultado medido.",

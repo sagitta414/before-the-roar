@@ -10,8 +10,42 @@ const verdictSchema = {
     grounding_score: { type: "integer", minimum: 0, maximum: 100 },
     correction_sensitivity_score: { type: "integer", minimum: 0, maximum: 100 },
     audience_value_score: { type: "integer", minimum: 0, maximum: 100 },
+    role_distinction_score: { type: "integer", minimum: 0, maximum: 100 },
+    decision_usefulness_score: { type: "integer", minimum: 0, maximum: 100 },
     changed_claim_ids: { type: "array", items: { type: "string" }, maxItems: 12 },
     preserved_fact_ids: { type: "array", items: { type: "string" }, maxItems: 12 },
+    claim_audit: {
+      type: "array",
+      maxItems: 8,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          role: { type: "string", enum: ["analyst", "guide", "math", "reviewer", "presenter"] },
+          status: { type: "string", enum: ["supported", "qualified", "withdrawn"] },
+          evidence_ids: { type: "array", items: { type: "string" }, maxItems: 8 },
+          reason: { type: "string", maxLength: 240 },
+        },
+        required: ["role", "status", "evidence_ids", "reason"],
+      },
+    },
+    handoff_assessment: {
+      type: "array",
+      minItems: 5,
+      maxItems: 5,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          role: { type: "string", enum: ["analyst", "guide", "math", "reviewer", "presenter"] },
+          adds_new_value: { type: "boolean" },
+          contribution: { type: "string", maxLength: 180 },
+        },
+        required: ["role", "adds_new_value", "contribution"],
+      },
+    },
+    strongest_contribution: { type: "string", maxLength: 240 },
+    release_condition: { type: "string", maxLength: 240 },
     summary: { type: "string", maxLength: 500 },
     limitation: { type: "string", maxLength: 500 },
   },
@@ -20,8 +54,14 @@ const verdictSchema = {
     "grounding_score",
     "correction_sensitivity_score",
     "audience_value_score",
+    "role_distinction_score",
+    "decision_usefulness_score",
     "changed_claim_ids",
     "preserved_fact_ids",
+    "claim_audit",
+    "handoff_assessment",
+    "strongest_contribution",
+    "release_condition",
     "summary",
     "limitation",
   ],
@@ -34,6 +74,8 @@ export function refereeInput({ input, workflow, previous }) {
     caution: post.caution || null,
     evidence_ids: post.evidence_ids || [],
     engine: post.engine,
+    contract: post.evidence_contract || null,
+    calculation: post.role === "math" ? { working: post.working || null, value: post.metric_value || null, label: post.metric_title || null } : null,
   }));
   return {
     source: input.source,
@@ -68,12 +110,22 @@ export function parseFoundryResponse(body) {
     "grounding_score",
     "correction_sensitivity_score",
     "audience_value_score",
+    "role_distinction_score",
+    "decision_usefulness_score",
   ])
     if (!Number.isInteger(value[key]) || value[key] < 0 || value[key] > 100)
       throw Error("Foundry referee returned an invalid score");
   for (const key of ["changed_claim_ids", "preserved_fact_ids"])
     if (!Array.isArray(value[key]) || value[key].some((item) => typeof item !== "string"))
       throw Error("Foundry referee returned invalid evidence identifiers");
+  if (!Array.isArray(value.claim_audit) || !Array.isArray(value.handoff_assessment) || value.handoff_assessment.length !== 5)
+    throw Error("Foundry referee omitted its claim or handoff audit");
+  if (value.claim_audit.some((item) => !item?.role || !["supported", "qualified", "withdrawn"].includes(item.status) || !Array.isArray(item.evidence_ids) || !item.reason?.trim()))
+    throw Error("Foundry referee returned an invalid claim audit");
+  if (value.handoff_assessment.some((item) => !item?.role || typeof item.adds_new_value !== "boolean" || !item.contribution?.trim()))
+    throw Error("Foundry referee returned an invalid handoff assessment");
+  if (!value.strongest_contribution?.trim() || !value.release_condition?.trim())
+    throw Error("Foundry referee omitted its release analysis");
   if (!value.summary?.trim() || !value.limitation?.trim())
     throw Error("Foundry referee omitted its explanation boundary");
   return value;
@@ -121,7 +173,7 @@ export class FoundryReferee {
         body: JSON.stringify({
           model: process.env.FOUNDRY_MODEL || "texasgpt-prod",
           instructions:
-            "You are BTR's independent evidence referee. Inspect only the supplied public posts, citations and deterministic claim record. Score whether the public story stays inside those records, whether a source revision changes only dependent claims, and whether the selected audience receives useful football meaning. Do not infer unseen football action. A release verdict means the model review found no unsupported public claim; BTR's deterministic gate remains final authority.",
+            "You are BTR's independent evidence court inside Microsoft Foundry. Inspect only the supplied public posts, citations, evidence contracts, deterministic calculation and claim record. Audit every public contribution against its cited evidence; score grounding, correction sensitivity, audience value, role distinction, and whether the combined answer gives the viewer a useful next decision. Mark each claim supported, qualified or withdrawn. Check that Scout observes, Guide teaches, Vector calculates, Check challenges, and Host synthesizes without repetition. A release verdict requires bounded claims, a useful five-role handoff and an explicit release condition. Do not infer unseen football action. This review is advisory; BTR's deterministic gate remains final authority.",
           input: JSON.stringify(refereeInput(context)),
           text: {
             format: {

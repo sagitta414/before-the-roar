@@ -20,13 +20,13 @@ test('source dossier makes measured replay the core and cinematic film optional'
 test('proof layer states the vision and model-comparison limits',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   assert.match(source,/validates withholding behavior, not broadcast detection accuracy/);
-  assert.match(source,/not general prose superiority/);
-  assert.match(source,/8\/8 GROUNDING TIES · VALUE EVEN/);
+  assert.match(source,/human preference remains open/);
+  assert.match(source,/46–45 OVERALL · 45–43 GROUNDING · 47–45 DECISION/);
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   assert.match(source,/MICROSOFT FOUNDRY/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=121/);
-  assert.match(index,/cohesion\.js\?v=121/);
+  assert.match(index,/cohesion\.css\?v=124/);
+  assert.match(index,/cohesion\.js\?v=124/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });

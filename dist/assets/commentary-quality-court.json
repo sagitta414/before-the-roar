@@ -1,0 +1,1882 @@
+{
+  "schema": "btr.azure-commentary-court.v1",
+  "created_at": "2026-10-18T13:39:44.707Z",
+  "project": "before-the-roar",
+  "endpoint_kind": "Azure OpenAI chat completions",
+  "deployment": "gpt-4o-mini",
+  "method": "Six preregistered synthetic football tasks. The one-model baseline is frozen from the pre-improvement run with its original Azure receipt. The production crew arm uses the current BTR source-rendered five-role output. Two blinded evaluator passes independently score both arms on anchored five-point criteria and reverse A/B order by case. No result-level retries.",
+  "cases": [
+    {
+      "id": "wide-causal",
+      "question": "Does the wide run cause the central progression?",
+      "audience": "analyst",
+      "angle": "causation_test",
+      "evidence": [
+        {
+          "record_type": "event",
+          "t": 2,
+          "end": 5,
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "id": "wide-evt-001",
+          "team": "harbor",
+          "start": [
+            44.920797070420214,
+            37.79589340054215
+          ],
+          "endPosition": [
+            58.25,
+            34.166666666666664
+          ],
+          "distance": 13.814446692640093,
+          "speed": 16.577336031168112,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 10,
+          "end": 13,
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "id": "wide-evt-002",
+          "team": "harbor",
+          "start": [
+            59.5,
+            33.333333333333336
+          ],
+          "endPosition": [
+            69.83333333333333,
+            31.666666666666668
+          ],
+          "distance": 10.466878978738384,
+          "speed": 12.56025477448606,
+          "outcome": "complete"
+        },
+        {
+          "id": "wide-football-16.0-r1",
+          "record_type": "football_context",
+          "second": 16,
+          "source": "calculated-from-synthetic-records",
+          "event_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ],
+          "pass_path_m": 24.281325671378475,
+          "net_forward_pass_gain_m": 23.662536262913108,
+          "scope": "Completed passes only; carries excluded. Progress is not chance quality.",
+          "width": {
+            "runner_id": 7,
+            "defender_id": 102,
+            "start_second": 0,
+            "end_second": 16,
+            "runner_start_m": [
+              63,
+              22
+            ],
+            "runner_end_m": [
+              77,
+              10
+            ],
+            "defender_start_m": [
+              78,
+              26
+            ],
+            "defender_end_m": [
+              81,
+              13
+            ],
+            "runner_lateral_displacement_m": 12,
+            "defender_lateral_displacement_m": 13,
+            "corrected": false
+          }
+        }
+      ],
+      "crew": [
+        {
+          "role": "analyst",
+          "text": "The runner moves wide while the defender shifts toward that side. The record captures both movements, but not why the defender moved.",
+          "evidence_ids": [
+            "wide-football-16.0-r1"
+          ]
+        },
+        {
+          "role": "guide",
+          "text": "Cause means one action made another happen. Compare when the defender starts moving with the pass release, then compare a similar attack without the run.",
+          "evidence_ids": [
+            "wide-football-16.0-r1"
+          ]
+        },
+        {
+          "role": "math",
+          "text": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "text": "The timing supports coincidence, not a counterfactual. Without a comparable play where the run changes, the causal claim must remain qualified.",
+          "evidence_ids": [
+            "wide-football-16.0-r1"
+          ]
+        },
+        {
+          "role": "presenter",
+          "text": "No—the evidence does not prove the wide run caused the central progression. 2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded. Moreau's run and Laurent's shift coincide, and Check is right to withhold cause. Replay the defender at pass release, then use a comparable attack without that run.",
+          "evidence_ids": [
+            "wide-football-16.0-r1",
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        }
+      ],
+      "baseline": [
+        {
+          "role": "Scout",
+          "text": "The winger's run toward the touchline draws the defender, allowing central passes to be completed."
+        },
+        {
+          "role": "Guide",
+          "text": "Focus on how the winger's movement can create space in the center for passes, emphasizing the importance of positioning in football."
+        },
+        {
+          "role": "Vector",
+          "text": "The completed passes traveled a total of 24.28 meters, with a net forward gain of 23.66 meters, indicating effective use of space."
+        },
+        {
+          "role": "Check",
+          "text": "The evidence does not support a direct causal link between the winger's run and the central progression; it only shows movement and completed passes."
+        },
+        {
+          "role": "Host",
+          "text": "The winger's lateral movement influences the defender's position, which may facilitate central passes, but intent and causation cannot be confirmed."
+        }
+      ]
+    },
+    {
+      "id": "wide-corrected",
+      "question": "What must change after the defender tracking is corrected?",
+      "audience": "analyst",
+      "angle": "movement",
+      "evidence": [
+        {
+          "record_type": "event",
+          "t": 2,
+          "end": 5,
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "id": "wide-evt-001",
+          "team": "harbor",
+          "start": [
+            44.920797070420214,
+            37.79589340054215
+          ],
+          "endPosition": [
+            58.25,
+            34.166666666666664
+          ],
+          "distance": 13.814446692640093,
+          "speed": 16.577336031168112,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 10,
+          "end": 13,
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "id": "wide-evt-002",
+          "team": "harbor",
+          "start": [
+            59.5,
+            33.333333333333336
+          ],
+          "endPosition": [
+            69.83333333333333,
+            31.666666666666668
+          ],
+          "distance": 10.466878978738384,
+          "speed": 12.56025477448606,
+          "outcome": "complete"
+        },
+        {
+          "id": "wide-analysis-16.0",
+          "record_type": "derived_analysis",
+          "second": 16,
+          "source": "synthetic-events-and-tracking",
+          "event_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ],
+          "forward_pass_gain_m": 23.662536262913108,
+          "completed_passes": 2,
+          "regain_to_shot_s": null,
+          "pressure": null
+        },
+        {
+          "record_type": "tracking",
+          "id": "wide-track-102-400-r2",
+          "player_id": 102,
+          "second": 16,
+          "position_m": [
+            78,
+            26
+          ],
+          "reference_position_m": [
+            78,
+            26
+          ],
+          "revision": 2
+        },
+        {
+          "id": "wide-football-16.0-r2",
+          "record_type": "football_context",
+          "second": 16,
+          "source": "calculated-from-synthetic-records",
+          "event_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ],
+          "pass_path_m": 24.281325671378475,
+          "net_forward_pass_gain_m": 23.662536262913108,
+          "scope": "Completed passes only; carries excluded. Progress is not chance quality.",
+          "width": {
+            "runner_id": 7,
+            "defender_id": 102,
+            "start_second": 0,
+            "end_second": 16,
+            "runner_start_m": [
+              63,
+              22
+            ],
+            "runner_end_m": [
+              77,
+              10
+            ],
+            "defender_start_m": [
+              78,
+              26
+            ],
+            "defender_end_m": [
+              78,
+              26
+            ],
+            "runner_lateral_displacement_m": 12,
+            "defender_lateral_displacement_m": 0,
+            "corrected": true
+          }
+        }
+      ],
+      "crew": [
+        {
+          "role": "analyst",
+          "text": "The winger still moves wide; corrected tracking keeps the defender in place. The recorded central passes remain valid.",
+          "evidence_ids": [
+            "wide-football-16.0-r2"
+          ]
+        },
+        {
+          "role": "guide",
+          "text": "An off-ball run is movement without the ball. Here the corrected record shows that the defender stayed put. Does the defender move toward the touchline with the runner, or stay in place?",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002",
+            "wide-track-102-400-r2",
+            "wide-analysis-16.0"
+          ]
+        },
+        {
+          "role": "math",
+          "text": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "text": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result.",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002",
+            "wide-track-102-400-r2",
+            "wide-analysis-16.0"
+          ]
+        },
+        {
+          "role": "presenter",
+          "text": "The correction changes the movement story. It does not erase the completed passes or establish what the defender intended.",
+          "evidence_ids": [
+            "wide-football-16.0-r2",
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        }
+      ],
+      "baseline": [
+        {
+          "role": "Scout",
+          "text": "The defender's tracking correction shows they remained in place, which validates the central passes recorded."
+        },
+        {
+          "role": "Guide",
+          "text": "After correcting the defender's position, analyze how this impacts the effectiveness of the winger's run and the central passes."
+        },
+        {
+          "role": "Vector",
+          "text": "The net forward gain remains at 23.66 meters, confirming that the central passes were still effective despite the defender's corrected position."
+        },
+        {
+          "role": "Check",
+          "text": "The records do not indicate any change in the outcome of the passes due to the defender's tracking correction; intent is not measured."
+        },
+        {
+          "role": "Host",
+          "text": "The correction of the defender's position does not alter the validity of the central passes, suggesting that the winger's movement still plays a crucial role."
+        }
+      ]
+    },
+    {
+      "id": "wide-beginner",
+      "question": "Explain the play to someone new to football.",
+      "audience": "beginner",
+      "angle": "beginner",
+      "evidence": [
+        {
+          "record_type": "event",
+          "t": 2,
+          "end": 5,
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "id": "wide-evt-001",
+          "team": "harbor",
+          "start": [
+            44.920797070420214,
+            37.79589340054215
+          ],
+          "endPosition": [
+            58.25,
+            34.166666666666664
+          ],
+          "distance": 13.814446692640093,
+          "speed": 16.577336031168112,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 10,
+          "end": 13,
+          "type": "pass",
+          "from": 8,
+          "to": 10,
+          "id": "wide-evt-002",
+          "team": "harbor",
+          "start": [
+            59.5,
+            33.333333333333336
+          ],
+          "endPosition": [
+            69.83333333333333,
+            31.666666666666668
+          ],
+          "distance": 10.466878978738384,
+          "speed": 12.56025477448606,
+          "outcome": "complete"
+        },
+        {
+          "id": "wide-analysis-16.0",
+          "record_type": "derived_analysis",
+          "second": 16,
+          "source": "synthetic-events-and-tracking",
+          "event_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ],
+          "forward_pass_gain_m": 23.662536262913108,
+          "completed_passes": 2,
+          "regain_to_shot_s": null,
+          "pressure": null
+        },
+        {
+          "record_type": "tracking",
+          "id": "wide-track-102-400",
+          "player_id": 102,
+          "second": 16,
+          "position_m": [
+            81,
+            13
+          ],
+          "reference_position_m": [
+            78,
+            26
+          ],
+          "revision": 1
+        },
+        {
+          "id": "wide-football-16.0-r1",
+          "record_type": "football_context",
+          "second": 16,
+          "source": "calculated-from-synthetic-records",
+          "event_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ],
+          "pass_path_m": 24.281325671378475,
+          "net_forward_pass_gain_m": 23.662536262913108,
+          "scope": "Completed passes only; carries excluded. Progress is not chance quality.",
+          "width": {
+            "runner_id": 7,
+            "defender_id": 102,
+            "start_second": 0,
+            "end_second": 16,
+            "runner_start_m": [
+              63,
+              22
+            ],
+            "runner_end_m": [
+              77,
+              10
+            ],
+            "defender_start_m": [
+              78,
+              26
+            ],
+            "defender_end_m": [
+              81,
+              13
+            ],
+            "runner_lateral_displacement_m": 12,
+            "defender_lateral_displacement_m": 13,
+            "corrected": false
+          }
+        }
+      ],
+      "crew": [
+        {
+          "role": "analyst",
+          "text": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+          "evidence_ids": [
+            "wide-football-16.0-r1"
+          ]
+        },
+        {
+          "role": "guide",
+          "text": "An off-ball run means moving while a teammate has the ball. Think of offering a friend another place to send it; watch the runner and the ball separately.",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002",
+            "wide-track-102-400",
+            "wide-analysis-16.0"
+          ]
+        },
+        {
+          "role": "math",
+          "text": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "text": "Seeing a runner and defender move together does not tell us why either moved. Describe their positions without guessing their thoughts.",
+          "evidence_ids": [
+            "wide-evt-001",
+            "wide-evt-002",
+            "wide-track-102-400",
+            "wide-analysis-16.0"
+          ]
+        },
+        {
+          "role": "presenter",
+          "text": "In plain words: one player runs wide while the ball travels through the middle. It is like offering a second doorway. The option matters, but this record does not prove the run caused the passes.",
+          "evidence_ids": [
+            "wide-football-16.0-r1",
+            "wide-evt-001",
+            "wide-evt-002"
+          ]
+        }
+      ],
+      "baseline": [
+        {
+          "role": "Scout",
+          "text": "The winger runs wide to create space, while the defender follows, allowing passes to be made through the center."
+        },
+        {
+          "role": "Guide",
+          "text": "In football, players often run to create space for their teammates. Here, the winger's run helps the team pass the ball effectively."
+        },
+        {
+          "role": "Vector",
+          "text": "Two passes were completed, gaining a total of 23.66 meters forward, showing how teamwork can lead to successful plays."
+        },
+        {
+          "role": "Check",
+          "text": "The evidence does not show why the passes were successful; it only describes the events without measuring intent or quality."
+        },
+        {
+          "role": "Host",
+          "text": "The play illustrates how running wide can open up opportunities for central passes, a key concept for beginners to understand."
+        }
+      ]
+    },
+    {
+      "id": "press-recovery",
+      "question": "Did the pressure create the chance?",
+      "audience": "analyst",
+      "angle": "limits",
+      "evidence": [
+        {
+          "record_type": "event",
+          "t": 2,
+          "end": 5,
+          "type": "pass",
+          "from": 108,
+          "to": 106,
+          "team": "north",
+          "id": "press-evt-001",
+          "start": [
+            63.28282646115526,
+            46.1613874892858
+          ],
+          "endPosition": [
+            65.66666666666667,
+            29.166666666666668
+          ],
+          "distance": 17.16109640915105,
+          "speed": 20.59331569098126,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 7,
+          "end": 10,
+          "type": "pass",
+          "from": 106,
+          "to": 110,
+          "team": "north",
+          "outcome": "intercepted",
+          "interceptor": 6,
+          "id": "press-evt-002",
+          "start": [
+            65.75,
+            30
+          ],
+          "endPosition": [
+            56.75,
+            33.5
+          ],
+          "distance": 9.656603957913983,
+          "speed": 11.58792474949678
+        },
+        {
+          "record_type": "event",
+          "t": 12,
+          "end": 15,
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "id": "press-evt-003",
+          "team": "harbor",
+          "start": [
+            58.44444444444444,
+            32.77777777777778
+          ],
+          "endPosition": [
+            67.1,
+            28.9
+          ],
+          "distance": 9.484503280042437,
+          "speed": 11.381403936050924,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 20,
+          "end": 23,
+          "type": "pass",
+          "from": 8,
+          "to": 9,
+          "id": "press-evt-004",
+          "team": "harbor",
+          "start": [
+            72.6,
+            28.4
+          ],
+          "endPosition": [
+            84.71428571428571,
+            34.57142857142857
+          ],
+          "distance": 13.59567758442336,
+          "speed": 16.314813101308033,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 28,
+          "end": 29,
+          "type": "shot",
+          "from": 9,
+          "target": [
+            105,
+            34
+          ],
+          "outcome": "goal",
+          "id": "press-evt-005",
+          "team": "harbor",
+          "start": [
+            91.44444444444444,
+            33.888888888888886
+          ],
+          "endPosition": [
+            105,
+            34
+          ],
+          "distance": 13.556010921313298,
+          "speed": 48.80163931672787
+        },
+        {
+          "id": "press-analysis-29.0",
+          "record_type": "derived_analysis",
+          "second": 29,
+          "source": "synthetic-events-and-tracking",
+          "event_ids": [
+            "press-evt-001",
+            "press-evt-002",
+            "press-evt-003",
+            "press-evt-004",
+            "press-evt-005"
+          ],
+          "forward_pass_gain_m": 20.769841269841265,
+          "completed_passes": 2,
+          "regain_to_shot_s": 18,
+          "pressure": {
+            "start": 5,
+            "end": 7,
+            "from": 2.4776781245530866,
+            "to": 1.1334558757279487,
+            "closed": 1.3442222488251379,
+            "samples": [
+              {
+                "second": 5,
+                "presser": [
+                  64,
+                  31
+                ],
+                "carrier": [
+                  65.66666666666667,
+                  29.166666666666668
+                ]
+              },
+              {
+                "second": 7,
+                "presser": [
+                  64.66666666666667,
+                  30.333333333333332
+                ],
+                "carrier": [
+                  65.75,
+                  30
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "record_type": "tracking",
+          "id": "press-track-8-150",
+          "second": 6,
+          "player_id": 8,
+          "position_m": [
+            64.333,
+            30.667
+          ]
+        },
+        {
+          "id": "press-football-29.0-r1",
+          "record_type": "football_context",
+          "second": 29,
+          "source": "calculated-from-synthetic-records",
+          "event_ids": [
+            "press-evt-003",
+            "press-evt-004"
+          ],
+          "pass_path_m": 23.080180864465795,
+          "net_forward_pass_gain_m": 20.769841269841265,
+          "scope": "Completed passes only; carries excluded. Progress is not chance quality."
+        }
+      ],
+      "crew": [
+        {
+          "role": "analyst",
+          "text": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+          "evidence_ids": [
+            "press-football-29.0-r1"
+          ]
+        },
+        {
+          "role": "guide",
+          "text": "A transition is the change from defending to attacking. After the recovery, is the next receiver ahead of the ball or beside it?",
+          "evidence_ids": [
+            "press-evt-001",
+            "press-evt-002",
+            "press-evt-003",
+            "press-evt-004",
+            "press-evt-005",
+            "press-track-8-150",
+            "press-analysis-29.0"
+          ]
+        },
+        {
+          "role": "math",
+          "text": "18 seconds from the completed regain to shot release, with 2 completed passes in between. This measures one attack, not a team average.",
+          "evidence_ids": [
+            "press-evt-002",
+            "press-evt-005"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "text": "Pressure precedes the interception. These records cannot prove it forced the mistake.",
+          "evidence_ids": [
+            "press-evt-001",
+            "press-evt-002",
+            "press-evt-003",
+            "press-evt-004",
+            "press-evt-005",
+            "press-track-8-150",
+            "press-analysis-29.0"
+          ]
+        },
+        {
+          "role": "presenter",
+          "text": "The next useful test is a comparison with similar plays where the movement differs. This single sequence cannot isolate its effect; the calculation describes what happened.",
+          "evidence_ids": [
+            "press-football-29.0-r1",
+            "press-evt-002",
+            "press-evt-005"
+          ]
+        }
+      ],
+      "baseline": [
+        {
+          "role": "Scout",
+          "text": "The pressure from the defending team led to an interception, which then transitioned into a forward play."
+        },
+        {
+          "role": "Guide",
+          "text": "Teach how pressing the opponent can lead to regaining possession and creating scoring opportunities, as seen in this sequence."
+        },
+        {
+          "role": "Vector",
+          "text": "The forward pass gain after the pressure was 20.77 meters, indicating effective transition from defense to attack."
+        },
+        {
+          "role": "Check",
+          "text": "The evidence does not confirm that the pressure directly created the chance; it only shows a sequence of events leading to a goal attempt."
+        },
+        {
+          "role": "Host",
+          "text": "The sequence demonstrates how effective pressing can lead to regained possession and subsequent scoring opportunities, highlighting the importance of defensive tactics."
+        }
+      ]
+    },
+    {
+      "id": "counter-math",
+      "question": "What number best explains the transition?",
+      "audience": "math",
+      "angle": "calculation",
+      "evidence": [
+        {
+          "record_type": "event",
+          "t": 1,
+          "end": 4,
+          "type": "pass",
+          "from": 110,
+          "to": 109,
+          "team": "north",
+          "id": "counter-evt-001",
+          "start": [
+            53.7988329173836,
+            38.20729684275825
+          ],
+          "endPosition": [
+            42,
+            35.57142857142857
+          ],
+          "distance": 12.089675750661689,
+          "speed": 14.507610900794026,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 7,
+          "end": 7,
+          "type": "tackle",
+          "from": 6,
+          "to": 109,
+          "id": "counter-evt-002",
+          "team": "harbor",
+          "start": [
+            42,
+            36
+          ],
+          "endPosition": [
+            42,
+            36
+          ],
+          "distance": 0,
+          "speed": null,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 9,
+          "end": 12,
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "id": "counter-evt-003",
+          "team": "harbor",
+          "start": [
+            44,
+            35.6
+          ],
+          "endPosition": [
+            58.42857142857143,
+            28.857142857142858
+          ],
+          "distance": 15.926386781639062,
+          "speed": 19.111664137966876,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 19,
+          "end": 22,
+          "type": "pass",
+          "from": 8,
+          "to": 9,
+          "id": "counter-evt-004",
+          "team": "harbor",
+          "start": [
+            68.88888888888889,
+            28.88888888888889
+          ],
+          "endPosition": [
+            87.11111111111111,
+            32.44444444444444
+          ],
+          "distance": 18.565865399293713,
+          "speed": 22.279038479152458,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 27,
+          "end": 28,
+          "type": "shot",
+          "from": 9,
+          "target": [
+            102,
+            34
+          ],
+          "outcome": "saved",
+          "id": "counter-evt-005",
+          "team": "harbor",
+          "start": [
+            93,
+            32.5
+          ],
+          "endPosition": [
+            102,
+            34
+          ],
+          "distance": 9.124143795447328,
+          "speed": 32.846917663610384
+        },
+        {
+          "id": "counter-analysis-28.0",
+          "record_type": "derived_analysis",
+          "second": 28,
+          "source": "synthetic-events-and-tracking",
+          "event_ids": [
+            "counter-evt-001",
+            "counter-evt-002",
+            "counter-evt-003",
+            "counter-evt-004",
+            "counter-evt-005"
+          ],
+          "forward_pass_gain_m": 32.65079365079366,
+          "completed_passes": 2,
+          "regain_to_shot_s": 20,
+          "pressure": null
+        },
+        {
+          "record_type": "tracking",
+          "id": "counter-track-9-700",
+          "second": 28,
+          "player_id": 9,
+          "position_m": [
+            94,
+            32.667
+          ]
+        },
+        {
+          "id": "counter-football-28.0-r1",
+          "record_type": "football_context",
+          "second": 28,
+          "source": "calculated-from-synthetic-records",
+          "event_ids": [
+            "counter-evt-003",
+            "counter-evt-004"
+          ],
+          "pass_path_m": 34.49225218093277,
+          "net_forward_pass_gain_m": 32.65079365079366,
+          "scope": "Completed passes only; carries excluded. Progress is not chance quality."
+        }
+      ],
+      "crew": [
+        {
+          "role": "analyst",
+          "text": "The recovery is followed by a completed pass to a teammate farther upfield. The ball now has a forward route.",
+          "evidence_ids": [
+            "counter-football-28.0-r1"
+          ]
+        },
+        {
+          "role": "guide",
+          "text": "The unit matters: metres tell us how far, while kilometres per hour tell us how fast. A distance alone cannot tell us the speed without a time interval.",
+          "evidence_ids": [
+            "counter-evt-001",
+            "counter-evt-002",
+            "counter-evt-003",
+            "counter-evt-004",
+            "counter-evt-005",
+            "counter-track-9-700",
+            "counter-analysis-28.0"
+          ]
+        },
+        {
+          "role": "math",
+          "text": "2 completed passes gain 32.7 m toward goal in the 20 seconds from regain completion to shot release. Distance explains territory; time explains tempo. This is one attack, not a team average.",
+          "evidence_ids": [
+            "counter-evt-002",
+            "counter-evt-003",
+            "counter-evt-004",
+            "counter-evt-005"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "text": "Interpretation, not proof of cause.",
+          "evidence_ids": [
+            "counter-evt-001",
+            "counter-evt-002",
+            "counter-evt-003",
+            "counter-evt-004",
+            "counter-evt-005",
+            "counter-track-9-700",
+            "counter-analysis-28.0"
+          ]
+        },
+        {
+          "role": "presenter",
+          "text": "32.7 m of completed forward passing over 20 seconds describes this transition in two dimensions: how far it advanced and how quickly it reached the shot. It does not rate the chance or prove why it succeeded.",
+          "evidence_ids": [
+            "counter-evt-002",
+            "counter-evt-003",
+            "counter-evt-004",
+            "counter-evt-005"
+          ]
+        }
+      ],
+      "baseline": [
+        {
+          "role": "Scout",
+          "text": "The sequence of passes shows a transition from defense to attack, with a total forward gain of 32.65 meters."
+        },
+        {
+          "role": "Guide",
+          "text": "In football, understanding the distance gained through passes can help analyze the effectiveness of an attack; here, the total gain is significant."
+        },
+        {
+          "role": "Vector",
+          "text": "The total distance of completed passes leading to the shot was 32.65 meters, illustrating the efficiency of the counter-attack."
+        },
+        {
+          "role": "Check",
+          "text": "The evidence does not provide a clear mathematical explanation for the transition; it only presents distances without context."
+        },
+        {
+          "role": "Host",
+          "text": "The analysis of distance gained through passes highlights the importance of effective transitions in football, showcasing how teams can capitalize on counter-attacks."
+        }
+      ]
+    },
+    {
+      "id": "counter-outcome",
+      "question": "Did the attack result in a goal?",
+      "audience": "beginner",
+      "angle": "outcome",
+      "evidence": [
+        {
+          "record_type": "event",
+          "t": 1,
+          "end": 4,
+          "type": "pass",
+          "from": 110,
+          "to": 109,
+          "team": "north",
+          "id": "counter-evt-001",
+          "start": [
+            53.7988329173836,
+            38.20729684275825
+          ],
+          "endPosition": [
+            42,
+            35.57142857142857
+          ],
+          "distance": 12.089675750661689,
+          "speed": 14.507610900794026,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 7,
+          "end": 7,
+          "type": "tackle",
+          "from": 6,
+          "to": 109,
+          "id": "counter-evt-002",
+          "team": "harbor",
+          "start": [
+            42,
+            36
+          ],
+          "endPosition": [
+            42,
+            36
+          ],
+          "distance": 0,
+          "speed": null,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 9,
+          "end": 12,
+          "type": "pass",
+          "from": 6,
+          "to": 8,
+          "id": "counter-evt-003",
+          "team": "harbor",
+          "start": [
+            44,
+            35.6
+          ],
+          "endPosition": [
+            58.42857142857143,
+            28.857142857142858
+          ],
+          "distance": 15.926386781639062,
+          "speed": 19.111664137966876,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 19,
+          "end": 22,
+          "type": "pass",
+          "from": 8,
+          "to": 9,
+          "id": "counter-evt-004",
+          "team": "harbor",
+          "start": [
+            68.88888888888889,
+            28.88888888888889
+          ],
+          "endPosition": [
+            87.11111111111111,
+            32.44444444444444
+          ],
+          "distance": 18.565865399293713,
+          "speed": 22.279038479152458,
+          "outcome": "complete"
+        },
+        {
+          "record_type": "event",
+          "t": 27,
+          "end": 28,
+          "type": "shot",
+          "from": 9,
+          "target": [
+            102,
+            34
+          ],
+          "outcome": "saved",
+          "id": "counter-evt-005",
+          "team": "harbor",
+          "start": [
+            93,
+            32.5
+          ],
+          "endPosition": [
+            102,
+            34
+          ],
+          "distance": 9.124143795447328,
+          "speed": 32.846917663610384
+        },
+        {
+          "id": "counter-analysis-28.0",
+          "record_type": "derived_analysis",
+          "second": 28,
+          "source": "synthetic-events-and-tracking",
+          "event_ids": [
+            "counter-evt-001",
+            "counter-evt-002",
+            "counter-evt-003",
+            "counter-evt-004",
+            "counter-evt-005"
+          ],
+          "forward_pass_gain_m": 32.65079365079366,
+          "completed_passes": 2,
+          "regain_to_shot_s": 20,
+          "pressure": null
+        },
+        {
+          "record_type": "tracking",
+          "id": "counter-track-9-700",
+          "second": 28,
+          "player_id": 9,
+          "position_m": [
+            94,
+            32.667
+          ]
+        }
+      ],
+      "crew": [
+        {
+          "role": "analyst",
+          "text": "The shot event records a save, not a goal.",
+          "evidence_ids": [
+            "counter-evt-005"
+          ]
+        },
+        {
+          "role": "guide",
+          "text": "A shot is an attempt; a goal is one possible result. Read the completed event before calling the finish. A good build-up can still end in a save.",
+          "evidence_ids": [
+            "counter-evt-001",
+            "counter-evt-002",
+            "counter-evt-003",
+            "counter-evt-004",
+            "counter-evt-005",
+            "counter-track-9-700",
+            "counter-analysis-28.0"
+          ]
+        },
+        {
+          "role": "math",
+          "text": "20 seconds from the completed regain to shot release, with 2 completed passes in between. This measures one attack, not a team average.",
+          "evidence_ids": [
+            "counter-evt-002",
+            "counter-evt-005"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "text": "Report only the recorded shot outcome. Do not infer scoring probability or intent.",
+          "evidence_ids": [
+            "counter-evt-005"
+          ]
+        },
+        {
+          "role": "presenter",
+          "text": "The completed shot was saved. No goal came from this shot. The recovery and completed passes remain valid parts of the build-up.",
+          "evidence_ids": [
+            "counter-evt-005"
+          ]
+        }
+      ],
+      "baseline": [
+        {
+          "role": "Scout",
+          "text": "The attack culminated in a shot that was saved, indicating a near goal opportunity after a series of passes."
+        },
+        {
+          "role": "Guide",
+          "text": "Explain that in football, not every attack results in a goal, but creating chances is crucial; here, the shot was saved after a good build-up."
+        },
+        {
+          "role": "Vector",
+          "text": "The sequence included two completed passes leading to a shot, but ultimately, the outcome was a save, showing the importance of execution."
+        },
+        {
+          "role": "Check",
+          "text": "The evidence confirms that the attack did not result in a goal, but it does not measure the quality of the chance created."
+        },
+        {
+          "role": "Host",
+          "text": "The sequence illustrates the process of building an attack, emphasizing that while not every attempt results in a goal, creating opportunities is essential."
+        }
+      ]
+    }
+  ],
+  "baseline_receipts": [
+    {
+      "scope": "six_case_batch",
+      "response_id": "chatcmpl-EaLFwLUHVgQDBIBRdriKLBsxzSzUW",
+      "usage": {
+        "completion_tokens": 847,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 8,
+          "engine_ttft_ms": 154,
+          "engine_ttlt_ms": 6662,
+          "pre_inference_ms": 88,
+          "service_tbt_ms": 8,
+          "service_ttft_ms": 391,
+          "service_ttlt_ms": 6893,
+          "user_visible_ttft_ms": 303
+        },
+        "prompt_tokens": 4046,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        },
+        "total_tokens": 4893
+      },
+      "reused_from": "2026-10-18T13:36:19.634Z"
+    }
+  ],
+  "evaluator_passes": [
+    {
+      "response_id": "chatcmpl-EaLOcPS15RvRVz4eq3XejFMad6OT7",
+      "usage": {
+        "completion_tokens": 687,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 7,
+          "engine_ttft_ms": 350,
+          "engine_ttlt_ms": 5324,
+          "pre_inference_ms": 102,
+          "service_tbt_ms": 7,
+          "service_ttft_ms": 831,
+          "service_ttlt_ms": 5815,
+          "user_visible_ttft_ms": 729
+        },
+        "prompt_tokens": 6999,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        },
+        "total_tokens": 7686
+      },
+      "method_limit": "None",
+      "cases": [
+        {
+          "case_id": "wide-causal",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 3
+          },
+          "B": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B provide reasonable analysis, but B offers a slightly better audience fit and decision usefulness, making it more actionable for the audience.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 3
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "wide-corrected",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B are equally strong in all metrics, providing clear and actionable insights.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "wide-beginner",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B are equally effective in conveying the concepts to beginners, with no significant differences.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "press-recovery",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B provide strong insights and are equally effective in their analysis.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "counter-math",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B are equally effective in their mathematical analysis, providing clear insights.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "counter-outcome",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B provide clear and actionable insights regarding the outcome of the attack.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        }
+      ]
+    },
+    {
+      "response_id": "chatcmpl-EaLOsYdEonTVOdhNVMBKVcLz6V4yg",
+      "usage": {
+        "completion_tokens": 746,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 7,
+          "engine_ttft_ms": 393,
+          "engine_ttlt_ms": 5373,
+          "pre_inference_ms": 90,
+          "service_tbt_ms": 7,
+          "service_ttft_ms": 865,
+          "service_ttlt_ms": 5839,
+          "user_visible_ttft_ms": 775
+        },
+        "prompt_tokens": 6999,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        },
+        "total_tokens": 7745
+      },
+      "method_limit": "The evaluation is based on the provided responses and their adherence to the specified metrics.",
+      "cases": [
+        {
+          "case_id": "wide-causal",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Response A provides a reasonable analysis but lacks a strong causal link and is somewhat generic. Response B offers a clearer analysis with better grounding and decision usefulness, making it more effective overall.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "wide-corrected",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both responses provide a solid analysis of the corrected tracking and its implications. They are equally effective in grounding and audience fit, leading to the same overall score.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "wide-beginner",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "B": {
+            "grounding": 3,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "reason": "Both responses are similar in quality, providing a basic explanation suitable for beginners but lacking depth in grounding and decision usefulness.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 3,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "press-recovery",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both responses effectively analyze the sequence of events and their implications, providing a balanced view with no significant differences.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "counter-math",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 3,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 3,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Response A lacks depth in grounding and decision usefulness, while Response B provides a clearer mathematical explanation, leading to a higher overall score.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 3,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 3,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "counter-outcome",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both responses effectively communicate the outcome of the attack and its implications, resulting in equal scores.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        }
+      ]
+    }
+  ],
+  "score": {
+    "grounding": {
+      "crew_points": 45,
+      "baseline_points": 43,
+      "crew_wins": 2,
+      "baseline_wins": 0,
+      "ties": 10
+    },
+    "correction_sensitivity": {
+      "crew_points": 48,
+      "baseline_points": 48,
+      "crew_wins": 0,
+      "baseline_wins": 0,
+      "ties": 12
+    },
+    "audience_fit": {
+      "crew_points": 48,
+      "baseline_points": 48,
+      "crew_wins": 1,
+      "baseline_wins": 1,
+      "ties": 10
+    },
+    "role_distinction": {
+      "crew_points": 60,
+      "baseline_points": 60,
+      "crew_wins": 0,
+      "baseline_wins": 0,
+      "ties": 12
+    },
+    "decision_usefulness": {
+      "crew_points": 47,
+      "baseline_points": 45,
+      "crew_wins": 2,
+      "baseline_wins": 0,
+      "ties": 10
+    },
+    "overall": {
+      "crew_points": 46,
+      "baseline_points": 45,
+      "crew_wins": 2,
+      "baseline_wins": 1,
+      "ties": 9
+    }
+  },
+  "position_bias_check": {
+    "A_points": 44,
+    "B_points": 47
+  },
+  "evidence_limit": "Model-scored comparison over six synthetic cases. It tests this release on correction, audience fit, role distinction and decision usefulness; it is not an independent human study or proof across all football commentary. Microsoft Foundry remains the separate live release referee."
+}
