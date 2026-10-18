@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#090d15">
+  <meta name="theme-color" content="#070a0f">
   <title>BTR Pocket Director</title>
   <meta name="description" content="A synchronized, evidence-first football companion from Before the Roar.">
-  <link rel="stylesheet" href="pocket-director.css?v=97">
+  <link rel="stylesheet" href="pocket-director.css?v=142">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -16,69 +16,68 @@
   </header>
 
   <main>
-    <section class="match-strip" aria-label="Match status">
-      <div><span>HARBOR</span><b id="score">0 — 0</b><span>NORTHBRIDGE</span></div>
-      <time id="clock">67:18</time>
-      <small id="revision">R1 · SYNTHETIC</small>
+    <section class="app-screen active" data-screen="live" aria-label="Live match companion">
+      <section class="match-strip" aria-label="Match status">
+        <div><span>HARBOR</span><b id="score">0 — 0</b><span>NORTHBRIDGE</span></div>
+        <time id="clock">67:18</time>
+        <small id="revision">R1 · SYNTHETIC</small>
+      </section>
+      <section class="hero" aria-labelledby="moment-title">
+        <div class="hero-image" aria-hidden="true"></div><div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-broadcast"><span>LIVE</span><b id="sync-label">LIVE WITH THE MAIN SCREEN</b></div><div class="hero-tag">BTR / MOMENT 04</div>
+        <div class="hero-copy"><div class="hero-topline"><span id="moment-kicker">THE MOMENT</span><b>EXPLAINED LIVE</b></div><h1 id="moment-title">Follow the run behind the pass.</h1><p id="moment-body">The phone keeps the evidence close while the match stays on the biggest screen.</p><button id="why" class="why-button"><span>WHY THIS MATTERS</span><b>↗</b></button></div>
+      </section>
+      <section class="live-rail" aria-label="Live intelligence">
+        <article><span class="rail-icon">⌁</span><div><small>LIVE SIGNAL</small><b>High press trigger</b><p>Pressure narrows the next passing lane.</p></div><strong>LIVE</strong></article>
+        <button class="crew-entry" data-open-screen="more"><span class="crew-stack"><i>S</i><i>V</i><i>C</i><i>H</i></span><span><small>AI CREW</small><b>Five specialists are reviewing this play</b></span><em>›</em></button>
+      </section>
+      <section class="pitch-card" aria-labelledby="pitch-title">
+        <div class="section-heading"><div><span>LIVE EVIDENCE MAP</span><h2 id="pitch-title">What the explanation sees</h2></div><button id="focus-toggle">FOLLOW 7</button></div>
+        <div class="pitch-shell"><svg id="pitch" viewBox="0 0 105 68" role="img" aria-label="Synthetic player positions and movement evidence"></svg><div class="pitch-watermark">SYNTHETIC TRACKING</div></div>
+        <div class="evidence-caption"><span id="evidence-count">0 SOURCES</span><p id="pitch-caption">The exact players and source records behind this claim.</p></div>
+        <div class="pitch-legend"><span><i class="home"></i>HARBOR</span><span><i class="away"></i>NORTHBRIDGE</span><span><i class="focus"></i>FOCUS</span></div>
+      </section>
+      <section class="proof-sheet" id="proof-sheet" aria-labelledby="proof-title" hidden>
+        <div class="section-heading"><div><span>WHY THIS CLAIM APPEARS</span><h2 id="proof-title">From source to screen</h2></div><button id="close-proof" aria-label="Close evidence">×</button></div>
+        <div class="proof-flow"><article><small>OBSERVED</small><b id="proof-observed"></b><p id="proof-source"></p></article><article><small>CALCULATED</small><b id="proof-calculated"></b><p>Math is shown separately from interpretation.</p></article><article><small>INTERPRETED</small><b id="proof-interpreted"></b><p id="proof-limit"></p></article></div>
+        <details><summary>Inspect source records <span>+</span></summary><div id="source-list"></div></details>
+      </section>
     </section>
 
-    <section class="hero" aria-labelledby="moment-title">
-      <div class="hero-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="hero-topline"><span id="moment-kicker">THE MOMENT</span><b id="sync-label">LIVE WITH THE MAIN SCREEN</b></div>
-      <h1 id="moment-title">Follow the run behind the pass.</h1>
-      <p id="moment-body">The phone keeps the evidence close while the match stays on the biggest screen.</p>
-      <button id="why" class="why-button"><span>SHOW ME WHY</span><b>↗</b></button>
+    <section class="app-screen" data-screen="perspectives" aria-label="Viewing perspectives" hidden>
+      <header class="screen-intro perspectives-intro"><span>MAKE THE MATCH YOURS</span><h1>Five ways to see<br>the same play.</h1><p>Every view uses the same evidence. Choose how BTR should explain it.</p></header>
+      <section class="mode-rack" aria-label="Choose your explanation">
+        <button data-mode="fan"><span class="mode-art fan-art"></span><small>01 / FAN MODE</small><b>The match story</b><p>Emotion, momentum and the moment that matters.</p><em>Choose view ↗</em></button>
+        <button data-mode="beginner"><span class="mode-art beginner-art"></span><small>02 / NEW TO FOOTBALL</small><b>Learn as you watch</b><p>Plain language and the rule or concept behind the play.</p><em>Choose view ↗</em></button>
+        <button data-mode="math"><span class="mode-art math-art"></span><small>03 / SHOW THE MATH</small><b>See the numbers</b><p>Inputs, calculation, units and what the result can prove.</p><em>Choose view ↗</em></button>
+        <button data-mode="analyst" class="selected"><span class="mode-art analyst-art"></span><small>04 / TACTICAL VIEW</small><b>See it like a coach</b><p>Positioning, pressure, space and the limits of the interpretation.</p><em>Selected ✓</em></button>
+        <button data-mode="player"><span class="mode-art player-art"></span><small>05 / PLAYER FOCUS</small><b>Follow one performance</b><p>Only the chosen player’s reached actions and measured movement.</p><em>Choose view ↗</em></button>
+      </section>
+      <article class="shared-proof"><span>ONE PLAY / ONE SOURCE</span><b>Change perspective, not the facts.</b><p>Mode changes the explanation. Scores, events, corrections and evidence IDs remain fixed.</p></article>
     </section>
 
-    <section class="mode-rack" aria-label="Choose your explanation">
-      <button data-mode="beginner"><small>01</small><b>NEW TO<br>FOOTBALL</b></button>
-      <button data-mode="math"><small>02</small><b>SHOW THE<br>MATH</b></button>
-      <button data-mode="analyst" class="selected"><small>03</small><b>TACTICAL<br>VIEW</b></button>
-      <button data-mode="player"><small>04</small><b>PLAYER<br>FOCUS</b></button>
+    <section class="app-screen" data-screen="players" aria-label="Player focus" hidden>
+      <section class="player-hero"><div class="player-photo"></div><div class="player-shade"></div><button class="favorite" aria-label="Favorite player">♡</button><div class="player-copy"><small>PLAYER FOCUS / #7</small><h1>LUCA<br>MOREAU</h1><p>Harbor · Left winger</p><span>LIVE NOW</span></div></section>
+      <section class="player-stats" aria-label="Player statistics"><article><small>REACHED EVENTS</small><b>2</b><p>At this evidence cutoff</p></article><article><small>FORWARD GAIN</small><b>23.7<span>m</span></b><p>Completed passes only</p></article><article><small>TOP SPEED</small><b>—</b><p>Withheld until measured</p></article></section>
+      <section class="player-timeline"><div class="section-heading"><div><span>PERFORMANCE TIMELINE</span><h2>Every involvement, in context</h2></div><button>LIVE</button></div><article><time>67:12</time><span class="action-frame wide"></span><div><small>OFF-BALL RUN</small><b>Creates the next question</b><p>Did the movement affect the defender, or only coincide with the pass?</p></div></article><article><time>67:19</time><span class="action-frame press"></span><div><small>PASS RECEIVED</small><b>Progression continues</b><p>The event is recorded. Intention remains an interpretation.</p></div></article></section>
+      <button class="primary-action" data-mode-pick="player">FOLLOW THIS PLAYER <b>↗</b></button>
     </section>
 
-    <section class="pitch-card" aria-labelledby="pitch-title">
-      <div class="section-heading"><div><span>LIVE MOMENT MAP</span><h2 id="pitch-title">Who matters right now</h2></div><button id="focus-toggle">FOLLOW 7</button></div>
-      <div class="pitch-shell">
-        <svg id="pitch" viewBox="0 0 105 68" role="img" aria-label="Synthetic player positions and movement evidence"></svg>
-        <div class="pitch-watermark">SYNTHETIC TRACKING</div>
-      </div>
-      <div class="evidence-caption"><span id="evidence-count">0 SOURCES</span><p id="pitch-caption">The exact players and source records behind this claim.</p></div>
-      <div class="pitch-legend"><span><i class="home"></i>HARBOR</span><span><i class="away"></i>NORTHBRIDGE</span><span><i class="focus"></i>FOCUS</span></div>
-    </section>
-
-    <section class="proof-sheet" id="proof-sheet" aria-labelledby="proof-title" hidden>
-      <div class="section-heading"><div><span>WHY THIS CLAIM APPEARS</span><h2 id="proof-title">From source to screen</h2></div><button id="close-proof" aria-label="Close evidence">×</button></div>
-      <div class="proof-flow">
-        <article><small>OBSERVED</small><b id="proof-observed"></b><p id="proof-source"></p></article>
-        <article><small>CALCULATED</small><b id="proof-calculated"></b><p>Math is shown separately from interpretation.</p></article>
-        <article><small>INTERPRETED</small><b id="proof-interpreted"></b><p id="proof-limit"></p></article>
-      </div>
-      <details><summary>Inspect source records <span>+</span></summary><div id="source-list"></div></details>
-    </section>
-
-    <section class="truth-card" aria-labelledby="truth-title">
-      <div class="truth-icon"><span></span></div>
-      <div><span>TRUTH LAB / WHAT IF?</span><h2 id="truth-title">Change one fact. Test the story.</h2><p id="truth-copy">See which explanation survives when the evidence changes.</p></div>
-      <button id="challenge">CHANGE THE EVIDENCE <b>↗</b></button>
-      <div id="change-result" class="change-result" hidden aria-live="polite"></div>
-    </section>
-
-    <section class="ask-card" aria-labelledby="ask-title">
-      <div class="section-heading"><div><span>ASK THE CREW</span><h2 id="ask-title">Ask the next question.</h2></div><span class="stream-mark"><i></i> LIVE</span></div>
-      <div id="crew-stream" class="crew-stream"><p class="ask-empty">What did I miss? What does the number mean? What can’t the evidence prove?</p></div>
-      <form id="ask-form">
-        <button type="button" id="voice" aria-label="Ask by voice">⌁</button>
-        <input id="question" maxlength="180" placeholder="Ask about this moment…" autocomplete="off">
-        <button type="submit" id="send" aria-label="Send question">↑</button>
-      </form>
-      <div class="quick-asks"><button>What did I miss?</button><button>Did the run cause it?</button><button>Explain the number.</button></div>
-      <p class="ask-note">AI answers cite the current synthetic evidence cutoff. Voice availability depends on your browser.</p>
+    <section class="app-screen" data-screen="more" aria-label="Evidence and AI tools" hidden>
+      <header class="screen-intro more-intro"><span>GO BEHIND THE ANSWER</span><h1>Question the story.</h1><p>Inspect the sources, challenge one assumption, or ask the specialist crew.</p></header>
+      <section class="truth-card" aria-labelledby="truth-title"><div class="truth-icon"><span></span></div><div><span>TRUTH LAB / WHAT IF?</span><h2 id="truth-title">Change one fact. Test the story.</h2><p id="truth-copy">See which explanation survives when the evidence changes.</p></div><button id="challenge">CHANGE THE EVIDENCE <b>↗</b></button><div id="change-result" class="change-result" hidden aria-live="polite"></div></section>
+      <section class="ask-card" aria-labelledby="ask-title">
+        <div class="section-heading"><div><span>ASK THE AI CREW</span><h2 id="ask-title">One question. Distinct expertise.</h2></div><span class="stream-mark"><i></i> LIVE</span></div>
+        <div class="crew-roster"><span><i>S</i>SCOUT</span><span><i>G</i>GUIDE</span><span><i>V</i>VECTOR</span><span><i>C</i>CHECK</span><span><i>H</i>HOST</span></div>
+        <div id="crew-stream" class="crew-stream"><p class="ask-empty">Scout observes. Guide explains. Vector calculates. Check challenges. Host publishes the evidence-bounded answer.</p></div>
+        <form id="ask-form"><button type="button" id="voice" aria-label="Ask by voice">⌁</button><input id="question" maxlength="180" placeholder="Ask about this moment…" autocomplete="off"><button type="submit" id="send" aria-label="Send question">↑</button></form>
+        <div class="quick-asks"><button>What did I miss?</button><button>Did the run cause it?</button><button>Explain the number.</button></div><p class="ask-note">AI answers cite the current synthetic evidence cutoff. Voice availability depends on your browser.</p>
+      </section>
+      <section class="more-links"><button data-open-screen="live"><span>⌖</span><b>Inspect the live evidence map</b><em>›</em></button><a href="./"><span>↗</span><b>Return to the full studio</b><em>›</em></a></section>
     </section>
   </main>
-
-  <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-scroll="top"><i>●</i>LIVE</button><button data-scroll="pitch"><i>⌖</i>EVIDENCE</button><button data-scroll="truth-title"><i>◇</i>WHAT IF</button><button data-scroll="ask-title"><i>✦</i>ASK</button></nav>
+  <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i>⌂</i>LIVE</button><button data-screen-target="perspectives"><i>◫</i>PERSPECTIVES</button><button data-screen-target="players"><i>◎</i>PLAYERS</button><button data-screen-target="more"><i>✦</i>MORE</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=97"></script>
+  <script type="module" src="pocket-director.js?v=142"></script>
 </body>
 </html>
