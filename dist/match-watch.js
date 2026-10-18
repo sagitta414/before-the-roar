@@ -47,6 +47,7 @@ let state = matchSession.get(),
   started = false,
   selected = null,
   narrativeOnly = false,
+  chainOnly = false,
   deskOnly = false,
   voices = false,
   speechKey = "",
@@ -1058,13 +1059,15 @@ $("all-agents").onclick = () => {
   selected = null;
   renderPanel();
 };
-const roomViews = ["room", "narrative", "desk"];
+const roomViews = ["room", "narrative", "chain", "desk"];
 for (const view of roomViews)
   $(view + "-tab").onclick = () => {
     narrativeOnly = view === "narrative";
+    chainOnly = view === "chain";
     deskOnly = view === "desk";
     selected = null;
     document.querySelector(".party").classList.toggle("desk-view", deskOnly);
+    document.querySelector(".party").classList.toggle("chain-view", chainOnly);
     for (const tab of roomViews) {
       const on = tab === view;
       $(tab + "-tab").setAttribute("aria-selected", String(on));
