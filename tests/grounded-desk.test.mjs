@@ -25,6 +25,22 @@ test('simplification teaches a concept instead of turning a beginner request int
  }
 });
 
+test('a causal challenge gives every specialist a distinct source-bound job',()=>{
+ for(const language of ['en','es','pt']){
+  const p=matchStory({...input,language,mode:'beginner'}),c=sourceCatalog(p,localPanel(p)),posts=c.causation_test.posts;
+  assert.equal(posts.length,5);
+  assert.equal(new Set(posts.map(x=>x.summary)).size,5);
+  assert.ok(posts.every(x=>x.evidence_ids.length));
+  if(language==='en'){
+   const byRole=Object.fromEntries(posts.map(x=>[x.role,x.summary]));
+   assert.match(byRole.analyst,/not why/);
+   assert.match(byRole.guide,/Cause means/);
+   assert.match(byRole.reviewer,/counterfactual/);
+   assert.match(byRole.presenter,/comparable attack without that run/);
+  }
+ }
+});
+
 test('third-round measurements do not recycle either earlier calculation and stored history survives',async()=>{
  const p=matchStory(input),notes=localPanel(p),first=sourceCatalog(p,notes).movement.posts;
  const second=sourceCatalog(p,notes,{round:2,previous:first}).limits.posts;
@@ -102,7 +118,7 @@ test('four specialist requests hand off in order, cache the round, and fail clos
  Object.assign(process.env,{BTR_GROUNDED_DESK:'1',AZURE_OPENAI_ENDPOINT:'https://example.test',AZURE_ACCESS_TOKEN:'test'});
  let count=0,reserved=0;const state=testState({}),desk=new MatchDesk({busy:0,store:{reserve:async()=>{reserved++;return true;}}},{state});
  global.fetch=async()=>{count++;const decision=count<=4?{angle:count===1?'movement':'limits'}:{angle:'invented'};return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(decision)}}]}));};
- try{const events=[],posts=await desk.discuss(input,(t,d)=>events.push({t,d}));assert.equal(count,4);assert.equal(reserved,4);assert.equal(posts.filter(p=>p.engine==='azure_openai').length,4);assert.equal(posts.find(p=>p.role==='math').engine,'calculated');assert.deepEqual(events.filter(e=>e.t==='post').map(e=>e.d.role),['analyst','guide','math','reviewer','presenter']);assert.ok(!events.some(e=>e.t==='draft'));const traces=events.filter(e=>e.t==='trace'&&e.d.action==='model_handoff_completed');assert.deepEqual(traces.map(e=>e.d.role),['analyst','guide','reviewer','presenter']);await desk.discuss(input,()=>{});assert.equal(count,4);
+ try{const events=[],posts=await desk.discuss(input,(t,d)=>events.push({t,d}));assert.equal(count,4);assert.equal(reserved,4);assert.equal(posts.filter(p=>p.engine==='azure_openai').length,4);assert.equal(posts.find(p=>p.role==='math').engine,'calculated');assert.deepEqual(events.filter(e=>e.t==='post').map(e=>e.d.role),['analyst','guide','math','reviewer','presenter']);assert.ok(!events.some(e=>e.t==='draft'));const traces=events.filter(e=>e.t==='trace'&&e.d.action==='model_handoff_completed');assert.deepEqual(traces.map(e=>e.d.role),['analyst','guide','reviewer','presenter']);assert.ok(traces.every(e=>e.d.execution_id&&Number.isFinite(e.d.latency_ms)&&e.d.execution_state==='live'));await desk.discuss(input,()=>{});assert.equal(count,4);
  const parentKey=events.find(e=>e.t==='conversation').d.id,next=await desk.discuss({...input,parentKey,question:'Did it cause the move?'},()=>{});assert.equal(count,5);assert.equal(next.filter(p=>p.engine==='reviewed_fallback').length,4);assert.ok(next.every(p=>!p.summary.includes('Invented goal')));
  }finally{global.fetch=original;for(const[k,v]of Object.entries(saved))if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });

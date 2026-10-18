@@ -4,6 +4,7 @@ import { DeskInterrupted } from "./agent-state.mjs";
 import { accessToken } from "./azure.mjs";
 import { followUpMetric } from "./conversation.mjs";
 import { PLAYERS } from "../dist/engine.js";
+import { randomUUID } from "node:crypto";
 
 export const GROUNDED_POLICY = "v103-four-model-handoff";
 const pick = (p, a) => a[["en", "es", "pt"].indexOf(p.language)] || a[0];
@@ -161,6 +162,47 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
       "O próximo teste útil compara jogadas semelhantes com movimentos diferentes. Esta sequência não isola seu efeito; o cálculo descreve o ocorrido.",
     ]),
   );
+  if (p.football.record.width) {
+    add(
+      "causation_test",
+      "Answer a causal question directly. Separate simultaneous movement from proof of influence, then name the missing comparison.",
+      pick(p, [
+        "Central progression is recorded. Crediting the wide run for it requires a comparable attack without that run, which this source does not contain.",
+        "El avance central está registrado. Atribuirlo a la carrera abierta exige una jugada comparable sin esa carrera, que esta fuente no contiene.",
+        "A progressão central está registrada. Atribuí-la à corrida aberta exige uma jogada comparável sem essa corrida, que esta fonte não contém.",
+      ]),
+    );
+    const causal = catalog.causation_test.posts,
+      recordId = p.football.record.id,
+      metricIds = metric?.evidence_ids || [];
+    Object.assign(causal.find(n => n.role === "analyst"), {
+      summary: pick(p, [
+        "The runner moves wide while the defender shifts toward that side. The record captures both movements, but not why the defender moved.",
+        "El atacante corre abierto mientras el defensor se desplaza hacia ese lado. El registro capta ambos movimientos, pero no por qué se movió el defensor.",
+        "O atacante corre aberto enquanto o defensor se desloca para esse lado. O registro capta os dois movimentos, mas não por que o defensor se moveu.",
+      ]),
+      evidence_ids: [recordId],
+    });
+    Object.assign(causal.find(n => n.role === "guide"), {
+      summary: pick(p, [
+        "Cause means one action made another happen. Compare when the defender starts moving with the pass release, then compare a similar attack without the run.",
+        "Causa significa que una acción produjo otra. Compara cuándo empieza a moverse el defensor con la salida del pase y luego una jugada similar sin la carrera.",
+        "Causa significa que uma ação fez outra acontecer. Compare quando o defensor começa a se mover com a saída do passe e depois uma jogada semelhante sem a corrida.",
+      ]),
+      evidence_ids: [recordId],
+    });
+    Object.assign(causal.find(n => n.role === "reviewer"), {
+      summary: pick(p, [
+        "The timing supports coincidence, not a counterfactual. Without a comparable play where the run changes, the causal claim must remain qualified.",
+        "El tiempo respalda coincidencia, no un contrafactual. Sin una jugada comparable donde cambie la carrera, la afirmación causal debe quedar limitada.",
+        "O tempo sustenta coincidência, não um contrafactual. Sem uma jogada comparável em que a corrida mude, a afirmação causal deve continuar limitada.",
+      ]),
+      evidence_ids: [recordId],
+    });
+    Object.assign(causal.find(n => n.role === "presenter"), {
+      evidence_ids: [recordId, ...metricIds],
+    });
+  }
   add(
     "outside_scope",
     "The viewer asks for facts not present in this source, real-world knowledge, or an unsupported prediction.",
@@ -335,7 +377,8 @@ export async function groundedRound({
   start,
   options = {},
 }) {
-  const catalog = sourceCatalog(packet, notes, conversation);
+  const catalog = sourceCatalog(packet, notes, conversation),
+    causalQuestion = /\b(?:cause|caused|causing|because|opened|created)\b|caus|provoc|por qu[eê]/i.test(input.question || "");
   await trace("director", "handoff_catalog_ready", {
     angles: Object.keys(catalog),
     policy: GROUNDED_POLICY,
@@ -350,6 +393,8 @@ export async function groundedRound({
     await trace("math", "calculation_saved", {
       from: ["analyst", "guide"],
       evidence_ids: math.evidence_ids,
+      execution_state: "deterministic",
+      model_requests: 0,
     });
   };
 
@@ -368,6 +413,10 @@ export async function groundedRound({
       await trace(role, "saved_model_handoff_reused", {
         angle: saved.angle,
         from: handoffPosts.map((p) => p.role),
+        execution_state: "replay",
+        execution_id: saved.execution_id,
+        original_latency_ms: saved.latency_ms,
+        model_requests: 0,
       });
       return saved;
     }
@@ -380,6 +429,8 @@ export async function groundedRound({
     }
     narrator.busy++;
     let reserved = false;
+    const correlationId = `btr-${randomUUID()}`,
+      requestStarted = performance.now();
     try {
       if (!(await narrator.store.reserve())) throw Error("Daily allowance reached");
       reserved = true;
@@ -388,6 +439,8 @@ export async function groundedRound({
       await trace(role, "model_handoff_started", {
         from: handoffPosts.map((p) => p.role),
         choices,
+        execution_state: "live",
+        correlation_id: correlationId,
       });
       const schema = {
         type: "object",
@@ -401,7 +454,7 @@ export async function groundedRound({
           Authorization: `Bearer ${await accessToken("https://cognitiveservices.azure.com/")}`,
           "Content-Type": "application/json",
         },
-        signal: AbortSignal.timeout(20000),
+        signal: AbortSignal.timeout(45000),
         body: JSON.stringify({
           messages: [
             {
@@ -441,8 +494,11 @@ export async function groundedRound({
         throw Error(`${ROLE_HANDOFFS[role].label} model HTTP ${response.status}`);
       }
       const data = await response.json();
-      const decision = JSON.parse(data.choices?.[0]?.message?.content || "{}");
+      const decision = JSON.parse(data.choices?.[0]?.message?.content || "{}"),
+        latencyMs = Math.round(performance.now() - requestStarted),
+        executionId = data.id || correlationId;
       if (!choices.includes(decision.angle)) throw Error(`${ROLE_HANDOFFS[role].label} selected an unbounded angle`);
+      Object.assign(decision, { execution_id: executionId, latency_ms: latencyMs });
       await journal.change((v) => {
         v.raw_outputs ||= {};
         v.raw_outputs[role] = decision;
@@ -455,6 +511,9 @@ export async function groundedRound({
         from: handoffPosts.map((p) => p.role),
         request_number: journal.value.metrics.model_calls,
         reservation: reserved ? "committed" : "missing",
+        execution_state: "live",
+        execution_id: executionId,
+        latency_ms: latencyMs,
       });
       return decision;
     } finally {
@@ -479,17 +538,14 @@ export async function groundedRound({
   let failure = null;
   const completed = {};
   try {
-    const scoutDecision = await runSpecialist("analyst", Object.keys(catalog));
+    const scoutDecision = await runSpecialist("analyst", causalQuestion && catalog.causation_test ? ["causation_test"] : Object.keys(catalog));
     completed.analyst = journal.value.posts.analyst || postFor(scoutDecision.angle, "analyst", scoutDecision, []);
     if (!journal.value.posts.analyst) await publish(completed.analyst);
     else emit("post", { ...completed.analyst, cached: true });
 
-    const guideChoices = uniqueAngles(catalog, [
-      scoutDecision.angle,
-      packet.mode === "beginner" ? "beginner" : null,
-      conversation.round > 1 ? "next_check" : null,
-      "limits",
-    ]);
+    const guideChoices = uniqueAngles(catalog, causalQuestion && catalog.causation_test
+      ? ["causation_test", "next_check"]
+      : [scoutDecision.angle, packet.mode === "beginner" ? "beginner" : null, conversation.round > 1 ? "next_check" : null, "limits"]);
     const guideDecision = await runSpecialist("guide", guideChoices, [completed.analyst]);
     completed.guide = journal.value.posts.guide || postFor(guideDecision.angle, "guide", guideDecision, [completed.analyst]);
     if (!journal.value.posts.guide) await publish(completed.guide);
@@ -505,13 +561,16 @@ export async function groundedRound({
       await trace("director", "worker_interrupted", {
         saved_roles: ["analyst", "guide", "math"],
         saved_model_requests: journal.value.metrics.model_calls,
+        execution_state: "failed_recovered",
       });
       throw new DeskInterrupted();
     }
 
     const checkDecision = await runSpecialist(
       "reviewer",
-      [scoutDecision.angle, "limits", packet.analysis.shot ? "outcome" : null],
+      causalQuestion && catalog.causation_test
+        ? ["causation_test"]
+        : [scoutDecision.angle, "limits", packet.analysis.shot ? "outcome" : null],
       [completed.analyst, completed.guide, math],
     );
     completed.reviewer = journal.value.posts.reviewer || postFor(checkDecision.angle, "reviewer", checkDecision, [completed.analyst, completed.guide, math]);

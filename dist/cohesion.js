@@ -43,11 +43,20 @@ update();
 const sourceBar=document.querySelector('.watch-source-bar');
 if(sourceBar){
   const dossier=el('div','match-dossier');
-  dossier.innerHTML=`<span>MATCH DOSSIER</span><strong>BTR-WIDE-67</strong><i></i><p><b>Evidence view is the core journey:</b> Watch, Match Centre and Truth Lab all read the same measured replay. <b>Broadcast view</b> is optional cinematic companion coverage and is labelled separately.</p>`;
+  dossier.innerHTML=`<span>MATCH DOSSIER</span><strong>BTR-WIDE-67</strong><i></i><p><b>Evidence view is the core journey:</b> Watch, Match Centre and Truth Lab all read the same measured replay. <b>Broadcast view</b> is optional cinematic companion coverage and is labelled separately.</p><button type="button" class="evidence-bridge-open">Broadcast + proof ↗</button>`;
   sourceBar.after(dossier);
   const executionKey=el('details','execution-key');
   executionKey.innerHTML=`<summary>How to read execution state <span>+</span></summary><div><b data-state="live">LIVE</b><p>A fresh Azure model request completed. Receipt includes execution ID and latency.</p><b data-state="replay">REPLAY</b><p>A previously saved result was restored. No new model request.</p><b data-state="deterministic">DETERMINISTIC</b><p>Code calculated or validated the result. No model request.</p><b data-state="recovered">RECOVERED</b><p>An interruption is recorded; completed checkpoints were reused and remaining work resumed.</p></div>`;
   dossier.after(executionKey);
+  const bridge=el('dialog','evidence-bridge');
+  bridge.innerHTML=`<button type="button" class="evidence-bridge__close" aria-label="Close broadcast and proof comparison">×</button><span class="evidence-bridge__eyebrow">ONE EDITORIAL QUESTION / TWO DECLARED SOURCES</span><h2>Broadcast feeling. Measured proof.</h2><p class="evidence-bridge__intro">BTR connects the audience experience to the verification workflow without transferring measurements between unrelated footage.</p><div class="evidence-bridge__grid"><article data-layer="broadcast"><small>01 / CINEMATIC COMPANION</small><strong>What does the story feel like?</strong><p>A sixty-second, AI-generated broadcast edit with manually reviewed observations. It demonstrates timing, presentation and audience-ready narration.</p><b>OBSERVATIONS ONLY · NO TRANSFERRED METRICS</b><button type="button" data-bridge-film>Open cinematic coverage →</button></article><i>→</i><article data-layer="proof"><small>02 / MEASURED REPLAY</small><strong>Which claims survive the evidence?</strong><p>The controlled synthetic replay supplies coordinates, events, calculations, revisions and the causal boundary used by Truth Lab.</p><b>13.0 m → 0.0 m · R1 → R2</b><button type="button" data-bridge-proof>Open measured proof →</button></article></div><footer><span>SHARED EDITORIAL STANDARD</span><p>Both sources must cite what they observed, state what remains unknown and withdraw claims when their own evidence changes.</p><button type="button" data-bridge-truth>Run the correction in Truth Lab →</button></footer>`;
+  document.body.append(bridge);
+  dossier.querySelector('.evidence-bridge-open').onclick=()=>bridge.showModal();
+  bridge.querySelector('.evidence-bridge__close').onclick=()=>bridge.close();
+  bridge.addEventListener('click',event=>{if(event.target===bridge)bridge.close();});
+  bridge.querySelector('[data-bridge-film]').onclick=()=>{bridge.close();matchSession.set({source:'pitchside',clipTime:16,section:'watch'},'evidence-bridge');$('watch-nav')?.click();};
+  bridge.querySelector('[data-bridge-proof]').onclick=()=>{bridge.close();matchSession.set({source:'match',scenario:'wide',time:16,corrected:false,section:'watch'},'evidence-bridge');$('watch-nav')?.click();};
+  bridge.querySelector('[data-bridge-truth]').onclick=()=>{bridge.close();matchSession.set({source:'match',scenario:'wide',time:16,corrected:false,section:'truth'},'evidence-bridge');$('truth-nav')?.click();};
 }
 
 const truth=$('truth');
@@ -98,7 +107,7 @@ if(inside){
   proof.setAttribute('aria-label','What the current prototype proves');
   proof.innerHTML=`
     <header><div><span>THE BTR DIFFERENCE / VERIFIED</span><h2>One story. Five kinds of proof.</h2></div><button type="button" data-open-demo>Run the defining moment →</button></header>
-    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>4 + 1</b><small>Azure requests + code calculation</small></div><div><b>239 TESTS</b><small>Passing automated checks</small></div><div><b>100 FIXTURES</b><small>Valid synthetic matches</small></div><div><b>3 LANGUAGES</b><small>EN · ES · PT</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
+    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>4 + 1</b><small>Azure requests + code calculation</small></div><div><b>240 TESTS</b><small>Passing automated checks</small></div><div><b>100 FIXTURES</b><small>Valid synthetic matches</small></div><div><b>3 LANGUAGES</b><small>EN · ES · PT</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
     <div class="cohesion-proof__grid">
       <article data-tone="live"><small>01 / AGENT EXECUTION</small><h3>Specialists really hand off.</h3><strong>4 AZURE REQUESTS + 1 CALCULATION</strong><p>Scout, Guide, Check and Host execute sequentially. Vector calculates in code. Execution IDs, latency, evidence and delivery state remain inspectable.</p><button type="button" data-jump-watch>Open the AI desk ↗</button></article>
       <article data-tone="truth"><small>02 / CORRECTION</small><h3>The story must survive the evidence.</h3><strong>CLAIM WITHDRAWN · OUTPUT REVISED</strong><p>Truth Lab changes one synthetic observation, recalculates the affected metric and publishes a narrower broadcast explanation while preserving unaffected facts.</p><button type="button" data-jump-truth>Run the evidence test ↗</button></article>
