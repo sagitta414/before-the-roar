@@ -6,10 +6,12 @@ test('one source revision updates the number, withdraws the claim and changes th
  const proof=judgeProof({runId:'test-run',startedAt:100});
  assert.equal(proof.run_id,'test-run');
  assert.deepEqual(proof.outcomes,{calculation_updated:true,claim_withdrawn:true,narrative_changed:true,unaffected_facts_preserved:true});
- assert.equal(proof.original.measurement,'13.2 m');
+ assert.equal(proof.original.measurement,'13.0 m');
  assert.equal(proof.corrected.measurement,'0.0 m');
  assert.equal(proof.corrected.status,'withdrawn');
  assert.equal(proof.preserved.passes,'2');
+ assert.equal(proof.event.match_clock,'67:16');
+ assert.equal(proof.event.id,proof.original.evidence_id);
 });
 
 test('the judge proof shows an evidence-backed disagreement and corrected Host output',()=>{

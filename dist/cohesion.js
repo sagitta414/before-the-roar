@@ -1,4 +1,5 @@
 import {matchSession} from './match-session.js';
+import {judgeProof} from './judge-mode-model.js';
 
 const $=id=>document.getElementById(id);
 const stages=[
@@ -57,7 +58,8 @@ if(truth){
   truth.querySelector('.truth-intro')?.after(path);
   const impact=el('section','truth-verdict-impact');
   impact.setAttribute('aria-live','polite');
-  impact.innerHTML=`<header><span>THE CLAIM UNDER PRESSURE</span><strong>One changed observation. Three required consequences.</strong></header><div class="truth-verdict-impact__compare"><article><small>ORIGINAL EVIDENCE · R1</small><b>13.0 m</b><span>DEFENDER SHIFT</span><p>Movement claim is qualified.</p></article><i>→</i><article data-corrected><small>CORRECTED EVIDENCE · R2</small><b>0.0 m</b><span>DEFENDER SHIFT</span><p>Movement claim is withdrawn.</p></article></div><div class="truth-verdict-impact__outcomes"><span>CALCULATION <b>13.0 → 0.0 m</b></span><span>CLAIM <b>QUALIFIED → WITHDRAWN</b></span><span>ON-SCREEN STORY <b>REVISED</b></span></div>`;
+  const proofValues=judgeProof();
+  impact.innerHTML=`<header><span>THE CLAIM UNDER PRESSURE</span><strong>One changed observation. Three required consequences.</strong></header><div class="truth-verdict-impact__compare"><article><small>ORIGINAL EVIDENCE · R1</small><b>${proofValues.original.measurement}</b><span>DEFENDER SHIFT</span><p>Movement claim is qualified.</p></article><i>→</i><article data-corrected><small>CORRECTED EVIDENCE · R2</small><b>${proofValues.corrected.measurement}</b><span>DEFENDER SHIFT</span><p>Movement claim is withdrawn.</p></article></div><div class="truth-verdict-impact__outcomes"><span>CALCULATION <b>${proofValues.original.measurement} → ${proofValues.corrected.measurement}</b></span><span>CLAIM <b>QUALIFIED → WITHDRAWN</b></span><span>ON-SCREEN STORY <b>REVISED</b></span></div>`;
   path.after(impact);
   let selectedTruthStep=matchSession.get().corrected?'change':'original';
   const setTruth=(corrected,focus=false)=>{
@@ -96,7 +98,7 @@ if(inside){
   proof.setAttribute('aria-label','What the current prototype proves');
   proof.innerHTML=`
     <header><div><span>THE BTR DIFFERENCE / VERIFIED</span><h2>One story. Five kinds of proof.</h2></div><button type="button" data-open-demo>Run the defining moment →</button></header>
-    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>4 + 1</b><small>Azure requests + code calculation</small></div><div><b>238 TESTS</b><small>Passing automated checks</small></div><div><b>100 FIXTURES</b><small>Valid synthetic matches</small></div><div><b>3 LANGUAGES</b><small>EN · ES · PT</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
+    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>4 + 1</b><small>Azure requests + code calculation</small></div><div><b>239 TESTS</b><small>Passing automated checks</small></div><div><b>100 FIXTURES</b><small>Valid synthetic matches</small></div><div><b>3 LANGUAGES</b><small>EN · ES · PT</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
     <div class="cohesion-proof__grid">
       <article data-tone="live"><small>01 / AGENT EXECUTION</small><h3>Specialists really hand off.</h3><strong>4 AZURE REQUESTS + 1 CALCULATION</strong><p>Scout, Guide, Check and Host execute sequentially. Vector calculates in code. Execution IDs, latency, evidence and delivery state remain inspectable.</p><button type="button" data-jump-watch>Open the AI desk ↗</button></article>
       <article data-tone="truth"><small>02 / CORRECTION</small><h3>The story must survive the evidence.</h3><strong>CLAIM WITHDRAWN · OUTPUT REVISED</strong><p>Truth Lab changes one synthetic observation, recalculates the affected metric and publishes a narrower broadcast explanation while preserving unaffected facts.</p><button type="button" data-jump-truth>Run the evidence test ↗</button></article>
@@ -120,6 +122,10 @@ if(inside){
   proof.querySelector('[data-open-demo]').onclick=()=>document.dispatchEvent(new Event('btr-open-guided'));
   proof.querySelector('[data-jump-watch]').onclick=()=>{$('watch-nav')?.click();setTimeout(()=>$('desk-tab')?.click(),0);};
   proof.querySelector('[data-jump-truth]').onclick=()=>$('truth-nav')?.click();
+  const proofGrid=proof.querySelector('.cohesion-proof__grid'),proofCards=[...proofGrid.children],proofTabs=el('nav','proof-focus-tabs');
+  proofTabs.setAttribute('aria-label','Choose proof to inspect');
+  proofCards.forEach((card,index)=>{card.dataset.proofIndex=String(index);const label=card.querySelector('small')?.textContent?.replace(/^\d+\s*\/\s*/,'')||`Proof ${index+1}`,tab=el('button','',`${String(index+1).padStart(2,'0')} ${label}`);tab.type='button';tab.setAttribute('aria-pressed',String(index===0));tab.onclick=()=>{proofCards.forEach((item,i)=>item.classList.toggle('is-proof-active',i===index));[...proofTabs.children].forEach((item,i)=>item.setAttribute('aria-pressed',String(i===index)));};proofTabs.append(tab);card.classList.toggle('is-proof-active',index===0);});
+  proofGrid.before(proofTabs);
   const deep=el('details','inside-deep-dive'),summary=el('summary');
   summary.innerHTML='<span>PRODUCTION LAB + EVIDENCE ARCHIVE</span><strong>Open the full production lab, exports and technical proof +</strong>';
   deep.append(summary);

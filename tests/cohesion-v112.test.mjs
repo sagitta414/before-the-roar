@@ -15,10 +15,19 @@ test('fan and tactical modes answer different audience needs',()=>{
  assert.match(player.body,/Moreau|m /i);
 });
 
+test('corrected fan and tactical modes cannot retain the withdrawn defender movement',()=>{
+ for(const language of ['en','es','pt'])for(const mode of ['fan','analyst']){
+  const story=matchStory({...base,corrected:true,language,mode});
+  assert.match(story.body,/0[.,]0 m|starting position|posición inicial|posição inicial/i);
+  assert.doesNotMatch(story.body,/Laurent shifts laterally|Laurent se desplaza lateralmente|Laurent se desloca lateralmente/i);
+ }
+});
+
 test('v112 presents a concise judge dashboard and progressive disclosure',async()=>{
  const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
- for(const text of ['JUDGE SNAPSHOT','238 TESTS','100 FIXTURES','Open the full production lab','Lineups +'])assert.match(source,new RegExp(text));
+ for(const text of ['JUDGE SNAPSHOT','239 TESTS','100 FIXTURES','Open the full production lab','Lineups +'])assert.match(source,new RegExp(text));
  const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
- assert.match(index,/cohesion\.css\?v=112/);
- assert.match(index,/cohesion\.js\?v=112/);
+  assert.match(index,/cohesion\.css\?v=113/);
+  assert.match(index,/cohesion\.js\?v=113/);
+  assert.match(index,/guided-tour\.css\?v=113/);
 });

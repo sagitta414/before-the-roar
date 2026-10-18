@@ -15,7 +15,7 @@ test('guided UI opens without a model, navigates every stage, corrects the visib
   assert.ok(document.body.classList.contains('guided-active'));
   assert.equal(document.getElementById('guided-match').hidden,false);
   const stages=[...document.querySelectorAll('.guided-steps button')];assert.equal(stages.length,5);
-  stages[1].click();assert.equal(document.querySelectorAll('.guided-role').length,5);
+  stages[1].click();assert.equal(document.querySelectorAll('.guided-role').length,5);assert.match(document.querySelector('.guided-content').textContent,/Moreau runs wide/);assert.match(document.querySelector('.guided-content').textContent,/does not prove/);
   stages[2].click();assert.match(document.querySelector('.guided-content').textContent,/23.7/);
   stages[3].click();const correct=[...document.querySelectorAll('.guided-content button')].find(b=>b.textContent==='Apply corrected tracking');assert.ok(correct);correct.click();
   assert.match(document.querySelector('.guided-verdict').textContent,/WITHDRAWN/);assert.match(document.querySelector('.guided-caption').textContent,/R2/);assert.match(document.querySelector('.guided-caption').textContent,/corrected/i);
