@@ -330,12 +330,24 @@ function renderFoundryReceipt(workflow) {
   );
   if (live) {
     const scores = el("div", "recovery-numbers");
-    for (const [value, label] of [[review.grounding_score, "GROUNDING"], [review.correction_sensitivity_score, "CORRECTION"], [review.audience_value_score, "AUDIENCE VALUE"]]) {
+    for (const [value, label] of [[review.grounding_score, "GROUNDING"], [review.correction_sensitivity_score, "CORRECTION"], [review.audience_value_score, "AUDIENCE VALUE"], [review.role_distinction_score, "ROLE VALUE"], [review.decision_usefulness_score, "DECISION VALUE"]]) {
       const score = el("div");
       score.append(el("strong", "", String(value)), el("span", "", label));
       scores.append(score);
     }
     foundryReceipt.append(scores);
+    const audit = el("div", "foundry-audit");
+    audit.append(el("b", "", "CLAIM-BY-CLAIM AUDIT"));
+    for (const item of review.claim_audit || []) {
+      const row = el("div", "");
+      row.dataset.status = item.status;
+      row.append(el("span", "", `${roles[item.role] || item.role} · ${item.status}`), el("p", "", item.reason));
+      audit.append(row);
+    }
+    const handoff = el("div", "foundry-handoff");
+    handoff.append(el("b", "", "FIVE-ROLE VALUE CHECK"));
+    for (const item of review.handoff_assessment || []) handoff.append(el("span", item.adds_new_value ? "adds-value" : "repeats", `${roles[item.role] || item.role}: ${item.adds_new_value ? "adds value" : "repeats"}`));
+    foundryReceipt.append(audit, handoff, el("p", "foundry-release-condition", `Release condition · ${review.release_condition}`));
   }
   foundryReceipt.append(el("small", "", [
     live ? `Response ${review.response_id}` : review.status,
