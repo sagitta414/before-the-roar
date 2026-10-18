@@ -21,6 +21,8 @@ test('judge finale exposes real specialist and Foundry receipts with their limit
   assert.match(tour,/This receipt proves execution, handoff and recovery/);
   assert.match(tour,/GUIDED REHEARSAL · 0 MODEL REQUESTS/);
   assert.match(tour,/Run fresh Azure interruption \+ recovery/);
+  assert.match(tour,/state\.workflow\?\.trace/);
+  assert.doesNotMatch(tour,/liveReceipt\.isConnected/);
 });
 
 test('video readiness publishes frozen holdout success and the low-light failure',async()=>{
