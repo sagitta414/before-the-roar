@@ -4,13 +4,16 @@ import {readFile} from 'node:fs/promises';
 
 const read=name=>readFile(new URL('../dist/'+name,import.meta.url),'utf8');
 
-test('primary navigation keeps four core destinations and groups supporting pages',async()=>{
+test('one play-to-proof navigation exposes every destination without a competing menu',async()=>{
   const source=await read('navigation.js');
-  assert.match(source,/\['watch','centre','lab','truth'\]/);
-  assert.match(source,/\['presenters','security','inside'\]/);
-  assert.match(source,/nav-more-toggle/);
+  assert.match(source,/journey-navigation-only/);
+  assert.match(source,/nav\.hidden=true/);
+  assert.doesNotMatch(source,/nav-more-toggle/);
+  const cohesion=await read('cohesion.js');
+  assert.match(cohesion,/verb:'ENGINEERS',detail:'Meet the team'/);
+  assert.match(cohesion,/verb:'SECURE',detail:'Inspect protection'/);
   const mobile=await read('mobile-studio.css');
-  assert.match(mobile,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+  assert.match(mobile,/\.masthead nav,.masthead\.navigation-open nav\{display:none!important\}/);
 });
 
 test('judge finale exposes real specialist and Foundry receipts with their limits',async()=>{

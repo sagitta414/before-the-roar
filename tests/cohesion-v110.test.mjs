@@ -5,8 +5,8 @@ import {readFile} from 'node:fs/promises';
 test('one investigation spine connects the primary product journey',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   const sections=[...source.matchAll(/section:'([^']+)'/g)].map(match=>match[1]);
-  assert.deepEqual(sections.slice(0,5),['watch','centre','lab','truth','inside']);
-  for(const verb of ['WATCH','UNDERSTAND','MEASURE','CHALLENGE','PUBLISH'])assert.match(source,new RegExp(`verb:'${verb}'`));
+  assert.deepEqual(sections.slice(0,7),['watch','centre','lab','truth','inside','presenters','security']);
+  for(const verb of ['WATCH','UNDERSTAND','MEASURE','CHALLENGE','PUBLISH','ENGINEERS','SECURE'])assert.match(source,new RegExp(`verb:'${verb}'`));
   assert.match(source,/btr-open-guided/);
 });
 
@@ -25,8 +25,8 @@ test('proof layer states the vision and model-comparison limits',async()=>{
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   assert.match(source,/MICROSOFT FOUNDRY/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=125/);
-  assert.match(index,/cohesion\.js\?v=125/);
+  assert.match(index,/cohesion\.css\?v=126/);
+  assert.match(index,/cohesion\.js\?v=126/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });

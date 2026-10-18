@@ -27,7 +27,7 @@ test('all seven application routes and the guided story initialize together with
   document.querySelectorAll('#centre .review-scenes button')[1].click();assert.ok(matchSession.get().clipTime>=8);
   assert.equal(document.querySelectorAll('.agent-instructions').length,5);
   document.dispatchEvent(new Event('btr-open-guided'));assert.equal(document.getElementById('guided-match').hidden,false);
-  const menu=document.querySelector('.navigation-toggle');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'true');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'false');
+  assert.equal(document.getElementById('main-navigation').hidden,true);assert.equal(document.querySelector('.navigation-toggle'),null);
   document.getElementById('inside-nav').click();
   const findButton=text=>[...document.querySelectorAll('.proof-actions button')].find(b=>b.textContent===text);
   findButton('Run live recovery proof').click();await new Promise(r=>setTimeout(r,50));

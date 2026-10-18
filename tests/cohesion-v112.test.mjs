@@ -30,8 +30,8 @@ test('v112 presents a concise judge dashboard and progressive disclosure',async(
  assert.doesNotMatch(watch,/Ask the crew · 1 AI request/);
  assert.match(watch,/Ask the crew · 4 AI requests/);
  const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=125/);
-  assert.match(index,/cohesion\.js\?v=125/);
+  assert.match(index,/cohesion\.css\?v=126/);
+  assert.match(index,/cohesion\.js\?v=126/);
   assert.match(index,/match-watch\.js\?v=114/);
   assert.match(index,/guided-tour\.css\?v=113/);
   assert.match(index,/guided-tour\.js\?video=65&v=122/);
