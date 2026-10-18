@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#070a0f">
   <title>BTR Pocket Director</title>
   <meta name="description" content="A synchronized, evidence-first football companion from Before the Roar.">
-  <link rel="stylesheet" href="pocket-director.css?v=142">
+  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -18,14 +18,25 @@
   <main>
     <section class="app-screen active" data-screen="live" aria-label="Live match companion">
       <section class="match-strip" aria-label="Match status">
-        <div><span>HARBOR</span><b id="score">0 — 0</b><span>NORTHBRIDGE</span></div>
-        <time id="clock">67:18</time>
-        <small id="revision">R1 · SYNTHETIC</small>
+        <small class="competition">BTR ORIGINALS · SYNTHETIC MATCH</small>
+        <div class="scoreline"><span class="team"><i>H</i>HARBOR</span><b id="score">0 — 0</b><span class="team away">NORTHBRIDGE<i>N</i></span></div>
+        <time id="clock">67:18</time><small id="revision">R1 · SYNTHETIC</small>
       </section>
       <section class="hero" aria-labelledby="moment-title">
         <div class="hero-image" aria-hidden="true"></div><div class="hero-shade" aria-hidden="true"></div>
         <div class="hero-broadcast"><span>LIVE</span><b id="sync-label">LIVE WITH THE MAIN SCREEN</b></div><div class="hero-tag">BTR / MOMENT 04</div>
         <div class="hero-copy"><div class="hero-topline"><span id="moment-kicker">THE MOMENT</span><b>EXPLAINED LIVE</b></div><h1 id="moment-title">Follow the run behind the pass.</h1><p id="moment-body">The phone keeps the evidence close while the match stays on the biggest screen.</p><button id="why" class="why-button"><span>WHY THIS MATTERS</span><b>↗</b></button></div>
+      </section>
+      <section class="match-dashboard" aria-label="Live match data">
+        <div class="dashboard-head"><div><span>LIVE MATCH DATA</span><b id="data-scope">EVIDENCE THROUGH 67:18</b></div><em>MEASURED</em></div>
+        <div class="metric-grid">
+          <article><small>COMPLETED PASSES</small><b id="data-passes">2</b><p>Reached events</p></article>
+          <article><small>FORWARD GAIN</small><b id="data-forward">23.7<span>m</span></b><p>Completed passes</p></article>
+          <article><small>WIDE RUN</small><b id="data-width">12.4<span>m</span></b><p>Lateral movement</p></article>
+          <article><small>FOCUS MOVEMENT</small><b id="data-displacement">19.8<span>m</span></b><p>Straight-line</p></article>
+        </div>
+        <div class="momentum"><div class="momentum-title"><span>MATCH FLOW</span><small>REACHED PLAY ONLY</small></div><div class="momentum-chart" id="momentum-chart" aria-label="Reached match sequence"></div></div>
+        <div class="event-timeline" id="event-timeline" aria-label="Match event timeline"></div>
       </section>
       <section class="live-rail" aria-label="Live intelligence">
         <article><span class="rail-icon">⌁</span><div><small>LIVE SIGNAL</small><b>High press trigger</b><p>Pressure narrows the next passing lane.</p></div><strong>LIVE</strong></article>
@@ -57,9 +68,9 @@
     </section>
 
     <section class="app-screen" data-screen="players" aria-label="Player focus" hidden>
-      <section class="player-hero"><div class="player-photo"></div><div class="player-shade"></div><button class="favorite" aria-label="Favorite player">♡</button><div class="player-copy"><small>PLAYER FOCUS / #7</small><h1>LUCA<br>MOREAU</h1><p>Harbor · Left winger</p><span>LIVE NOW</span></div></section>
-      <section class="player-stats" aria-label="Player statistics"><article><small>REACHED EVENTS</small><b>2</b><p>At this evidence cutoff</p></article><article><small>FORWARD GAIN</small><b>23.7<span>m</span></b><p>Completed passes only</p></article><article><small>TOP SPEED</small><b>—</b><p>Withheld until measured</p></article></section>
-      <section class="player-timeline"><div class="section-heading"><div><span>PERFORMANCE TIMELINE</span><h2>Every involvement, in context</h2></div><button>LIVE</button></div><article><time>67:12</time><span class="action-frame wide"></span><div><small>OFF-BALL RUN</small><b>Creates the next question</b><p>Did the movement affect the defender, or only coincide with the pass?</p></div></article><article><time>67:19</time><span class="action-frame press"></span><div><small>PASS RECEIVED</small><b>Progression continues</b><p>The event is recorded. Intention remains an interpretation.</p></div></article></section>
+      <section class="player-hero"><div class="player-photo"></div><div class="player-shade"></div><button class="favorite" aria-label="Favorite player">♡</button><div class="player-copy"><small id="player-number">PLAYER FOCUS / #7</small><h1 id="player-name">LUCA<br>MOREAU</h1><p id="player-role">Harbor · Left winger</p><span>LIVE NOW</span></div></section>
+      <section class="player-stats" aria-label="Player statistics"><article><small>REACHED INVOLVEMENTS</small><b id="player-involvements">0</b><p>Event records</p></article><article><small>DISPLACEMENT</small><b id="player-displacement">19.8<span>m</span></b><p>Straight-line</p></article><article><small>TOP SPEED</small><b>—</b><p>Withheld until measured</p></article></section>
+      <section class="player-timeline"><div class="section-heading"><div><span>PERFORMANCE TIMELINE</span><h2>Every reached action, in context</h2></div><button>LIVE</button></div><div id="player-timeline-list"></div></section>
       <button class="primary-action" data-mode-pick="player">FOLLOW THIS PLAYER <b>↗</b></button>
     </section>
 
@@ -78,6 +89,6 @@
   </main>
   <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i>⌂</i>LIVE</button><button data-screen-target="perspectives"><i>◫</i>PERSPECTIVES</button><button data-screen-target="players"><i>◎</i>PLAYERS</button><button data-screen-target="more"><i>✦</i>MORE</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=142"></script>
+  <script type="module" src="pocket-director.js?v=143"></script>
 </body>
 </html>
