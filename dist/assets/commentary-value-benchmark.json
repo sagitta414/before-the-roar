@@ -11,6 +11,36 @@
     {"id": "no_future_leakage", "result": "pass", "value": "The evidence cutoff prevents later events from entering the current story."}
   ],
   "comparison_boundary": "These checks measure useful product behavior, not writing preference or general model superiority.",
+  "operational_capability_comparison": {
+    "scope": "Architecture and recovery behavior, not prose quality",
+    "crew": {
+      "persisted_stage_handoffs": true,
+      "deterministic_calculation": true,
+      "claim_level_source_revision": true,
+      "resume_without_repeating_completed_calls": true,
+      "project_scoped_foundry_referee": true
+    },
+    "single_call_baseline": {
+      "persisted_stage_handoffs": false,
+      "deterministic_calculation": false,
+      "claim_level_source_revision": false,
+      "resume_without_repeating_completed_calls": false,
+      "project_scoped_foundry_referee": false
+    },
+    "evidence": [
+      "tests/production.test.mjs",
+      "docs/proof/live-production-proof.json",
+      "docs/proof/foundry-evaluation.json"
+    ]
+  },
+  "foundry_blind_evaluation": {
+    "cases": 8,
+    "grounding": {"crew": 0, "baseline": 0, "tie": 8},
+    "usefulness": {"crew": 2, "baseline": 2, "tie": 4},
+    "role_distinction": {"crew": 2, "baseline": 2, "tie": 4},
+    "result": "No general writing winner in this one model-judge pass",
+    "artifact": "foundry-evaluation.json"
+  },
   "independent_human_preference": {
     "status": "pending",
     "review_path": "../independent-review.html",

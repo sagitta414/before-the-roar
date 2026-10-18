@@ -1,0 +1,13 @@
+{
+  "schema": "btr.asset-rights.v1",
+  "reviewed_on": "2026-10-18",
+  "owner_review_required_before_submission": true,
+  "assets": [
+    {"group":"synthetic_match","source":"BTR procedural generator","publication":"project-authored","redistribution":"project-authored","claim_boundary":"No real Premier League match data"},
+    {"group":"measured_training_replay","source":"BTR coordinates and fictional roster","publication":"project-authored","redistribution":"project-authored","claim_boundary":"Controlled development footage, not photoreal broadcast"},
+    {"group":"cinematic_minute","source":"Eight Google Flow / Veo generated shots edited by creator","publication":"creator confirmed current demo publication on 2026-10-15","redistribution":"source clips omitted; no third-party redistribution grant","provenance":"pitchside-minute-provenance.json"},
+    {"group":"presenter_portraits","source":"AI-generated fictional people","publication":"fictional project artwork","redistribution":"project package only","claim_boundary":"No real broadcaster or player represented"},
+    {"group":"brand_and_interface","source":"project-authored","publication":"project-authored","redistribution":"repository license","claim_boundary":"No league or broadcaster affiliation"},
+    {"group":"audio","source":"embedded in creator-approved generated edit","publication":"current demo only","redistribution":"no separate grant recorded","claim_boundary":"Measured route can be demonstrated muted"}
+  ]
+}

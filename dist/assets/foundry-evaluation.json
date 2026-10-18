@@ -1,0 +1,110 @@
+{
+  "schema": "btr.foundry-blind-evaluation.v1",
+  "created_at": "2026-10-18T04:07:15.127Z",
+  "source_trial": "docs/proof/heldout-commentary.json",
+  "cases": 8,
+  "project": "before-the-roar",
+  "endpoint_kind": "Microsoft Foundry project Responses API",
+  "deployment": "texasgpt-prod",
+  "response_id": "resp_0a9b7bf844026da9006ad445f0a66c81909446478602620ad1",
+  "usage": {
+    "input_tokens": 2559,
+    "input_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "output_tokens": 347,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 2906
+  },
+  "blind_order": "Alternating A/B assignment; arm identity decoded only after the response",
+  "metrics": {
+    "grounding": {
+      "crew": 0,
+      "baseline": 0,
+      "tie": 8
+    },
+    "usefulness": {
+      "crew": 2,
+      "baseline": 2,
+      "tie": 4
+    },
+    "role_distinction": {
+      "crew": 2,
+      "baseline": 2,
+      "tie": 4
+    }
+  },
+  "results": [
+    {
+      "case_id": "unseen-1",
+      "reason": "The sequence highlights nuances that guide viewers on analyzing patterns of play and transitions effectively.",
+      "grounding": "tie",
+      "usefulness": "baseline",
+      "role_distinction": "baseline"
+    },
+    {
+      "case_id": "unseen-2",
+      "reason": "The reasoning outlined distinctly promotes the understanding of pass outcomes and subsequent actions.",
+      "grounding": "tie",
+      "usefulness": "baseline",
+      "role_distinction": "baseline"
+    },
+    {
+      "case_id": "unseen-3",
+      "reason": "Both answers present identical observations and evaluations in response to the given case.",
+      "grounding": "tie",
+      "usefulness": "tie",
+      "role_distinction": "tie"
+    },
+    {
+      "case_id": "unseen-4",
+      "reason": "It provides a clearer prioritization of what the learner should analyze after the pass is completed.",
+      "grounding": "tie",
+      "usefulness": "crew",
+      "role_distinction": "crew"
+    },
+    {
+      "case_id": "unseen-5",
+      "reason": "Both answers provide identical insights and guidance regarding the evidence and lacking confirmation.",
+      "grounding": "tie",
+      "usefulness": "tie",
+      "role_distinction": "tie"
+    },
+    {
+      "case_id": "unseen-6",
+      "reason": "The responses are verbatim and equally effective in addressing the need for evaluation of evidence.",
+      "grounding": "tie",
+      "usefulness": "tie",
+      "role_distinction": "tie"
+    },
+    {
+      "case_id": "unseen-7",
+      "reason": "Response A provides a structured learning perspective better tailored for beginners analyzing passes.",
+      "grounding": "tie",
+      "usefulness": "crew",
+      "role_distinction": "crew"
+    },
+    {
+      "case_id": "unseen-8",
+      "reason": "Responses are identical in presenting observations and limitations of confirming event outcomes.",
+      "grounding": "tie",
+      "usefulness": "tie",
+      "role_distinction": "tie"
+    }
+  ],
+  "evaluator_limit": "tie",
+  "evidence_limit": "One model-judge pass over recorded synthetic cases. This supplements automated checks; it is not an independent human study or proof of general superiority.",
+  "runtime_referee": {
+    "purpose": "Second-line review of completed public agent work",
+    "scores": [
+      "grounding",
+      "correction_sensitivity",
+      "audience_value"
+    ],
+    "release_authority": "BTR deterministic evidence gate",
+    "privacy_boundary": "Public posts, citations and deterministic claim status only"
+  }
+}
