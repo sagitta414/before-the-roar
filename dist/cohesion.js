@@ -44,6 +44,9 @@ if(sourceBar){
   const dossier=el('div','match-dossier');
   dossier.innerHTML=`<span>MATCH DOSSIER</span><strong>BTR-WIDE-67</strong><i></i><p><b>Evidence view is the core journey:</b> Watch, Match Centre and Truth Lab all read the same measured replay. <b>Broadcast view</b> is optional cinematic companion coverage and is labelled separately.</p>`;
   sourceBar.after(dossier);
+  const executionKey=el('details','execution-key');
+  executionKey.innerHTML=`<summary>How to read execution state <span>+</span></summary><div><b data-state="live">LIVE</b><p>A fresh Azure model request completed. Receipt includes execution ID and latency.</p><b data-state="replay">REPLAY</b><p>A previously saved result was restored. No new model request.</p><b data-state="deterministic">DETERMINISTIC</b><p>Code calculated or validated the result. No model request.</p><b data-state="recovered">RECOVERED</b><p>An interruption is recorded; completed checkpoints were reused and remaining work resumed.</p></div>`;
+  dossier.after(executionKey);
 }
 
 const truth=$('truth');
@@ -52,6 +55,10 @@ if(truth){
   path.setAttribute('aria-label','Three-step evidence correction');
   path.innerHTML=`<header><span>THE DEFINING TEST / THREE STEPS</span><strong>One claim. One changed record. One corrected story.</strong></header><div><button type="button" data-truth-step="original"><b>01</b><span>ORIGINAL CLAIM<small>Inspect the claim at 67:16</small></span></button><i>→</i><button type="button" data-truth-step="change"><b>02</b><span>CHANGE EVIDENCE<small>Hold one defender in place</small></span></button><i>→</i><button type="button" data-truth-step="corrected"><b>03</b><span>CORRECTED OUTPUT<small>See what the audience receives</small></span></button></div><button type="button" class="truth-more-toggle" aria-expanded="false">More evidence tools +</button>`;
   truth.querySelector('.truth-intro')?.after(path);
+  const impact=el('section','truth-verdict-impact');
+  impact.setAttribute('aria-live','polite');
+  impact.innerHTML=`<header><span>THE CLAIM UNDER PRESSURE</span><strong>One changed observation. Three required consequences.</strong></header><div class="truth-verdict-impact__compare"><article><small>ORIGINAL EVIDENCE · R1</small><b>13.0 m</b><span>DEFENDER SHIFT</span><p>Movement claim is qualified.</p></article><i>→</i><article data-corrected><small>CORRECTED EVIDENCE · R2</small><b>0.0 m</b><span>DEFENDER SHIFT</span><p>Movement claim is withdrawn.</p></article></div><div class="truth-verdict-impact__outcomes"><span>CALCULATION <b>13.0 → 0.0 m</b></span><span>CLAIM <b>QUALIFIED → WITHDRAWN</b></span><span>ON-SCREEN STORY <b>REVISED</b></span></div>`;
+  path.after(impact);
   let selectedTruthStep=matchSession.get().corrected?'change':'original';
   const setTruth=(corrected,focus=false)=>{
     selectedTruthStep=focus?'corrected':corrected?'change':'original';
@@ -69,7 +76,18 @@ if(truth){
     const step=button.dataset.truthStep,active=state.source==='match'&&state.time>=15.9&&state.time<=16.1&&step===selectedTruthStep;
     button.classList.toggle('is-active',active);
   });
-  matchSession.subscribe(syncTruthPath);syncTruthPath(matchSession.get());
+  const syncImpact=state=>{const corrected=state.source==='match'&&state.scenario==='wide'&&state.corrected;impact.classList.toggle('is-corrected',corrected);impact.querySelector('[data-corrected]').setAttribute('aria-current',corrected?'true':'false');};
+  matchSession.subscribe(state=>{syncTruthPath(state);syncImpact(state);});syncTruthPath(matchSession.get());syncImpact(matchSession.get());
+}
+
+const centre=$('centre');
+if(centre){
+  const formation=centre.querySelector('.formation-layout'),lineupToggle=el('button','centre-lineup-toggle','Lineups +');
+  lineupToggle.type='button';lineupToggle.setAttribute('aria-expanded','false');lineupToggle.onclick=()=>{const shown=centre.classList.toggle('show-lineups');lineupToggle.setAttribute('aria-expanded',String(shown));lineupToggle.textContent=shown?'Hide lineups −':'Lineups +';};
+  formation?.before(lineupToggle);
+  const deep=el('details','centre-deep-dive'),summary=el('summary','','Open event wire, pass network, shot map and evidence detail +');deep.append(summary);
+  const first=centre.querySelector('.briefing');
+  if(first){let node=first;while(node){const next=node.nextSibling;deep.append(node);node=next;}centre.append(deep);}
 }
 
 const inside=$('inside');
@@ -78,6 +96,7 @@ if(inside){
   proof.setAttribute('aria-label','What the current prototype proves');
   proof.innerHTML=`
     <header><div><span>THE BTR DIFFERENCE / VERIFIED</span><h2>One story. Five kinds of proof.</h2></div><button type="button" data-open-demo>Run the defining moment →</button></header>
+    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>4 + 1</b><small>Azure requests + code calculation</small></div><div><b>238 TESTS</b><small>Passing automated checks</small></div><div><b>100 FIXTURES</b><small>Valid synthetic matches</small></div><div><b>3 LANGUAGES</b><small>EN · ES · PT</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
     <div class="cohesion-proof__grid">
       <article data-tone="live"><small>01 / AGENT EXECUTION</small><h3>Specialists really hand off.</h3><strong>4 AZURE REQUESTS + 1 CALCULATION</strong><p>Scout, Guide, Check and Host execute sequentially. Vector calculates in code. Execution IDs, latency, evidence and delivery state remain inspectable.</p><button type="button" data-jump-watch>Open the AI desk ↗</button></article>
       <article data-tone="truth"><small>02 / CORRECTION</small><h3>The story must survive the evidence.</h3><strong>CLAIM WITHDRAWN · OUTPUT REVISED</strong><p>Truth Lab changes one synthetic observation, recalculates the affected metric and publishes a narrower broadcast explanation while preserving unaffected facts.</p><button type="button" data-jump-truth>Run the evidence test ↗</button></article>
@@ -101,4 +120,9 @@ if(inside){
   proof.querySelector('[data-open-demo]').onclick=()=>document.dispatchEvent(new Event('btr-open-guided'));
   proof.querySelector('[data-jump-watch]').onclick=()=>{$('watch-nav')?.click();setTimeout(()=>$('desk-tab')?.click(),0);};
   proof.querySelector('[data-jump-truth]').onclick=()=>$('truth-nav')?.click();
+  const deep=el('details','inside-deep-dive'),summary=el('summary');
+  summary.innerHTML='<span>PRODUCTION LAB + EVIDENCE ARCHIVE</span><strong>Open the full production lab, exports and technical proof +</strong>';
+  deep.append(summary);
+  const first=inside.querySelector('.extra-studies');
+  if(first){let node=first;while(node){const next=node.nextSibling;if(node!==proof)deep.append(node);node=next;}inside.append(deep);}
 }

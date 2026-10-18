@@ -23,8 +23,8 @@ test('proof layer states the vision and model-comparison limits',async()=>{
   assert.match(source,/does not establish general prose superiority/);
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=111/);
-  assert.match(index,/cohesion\.js\?v=111/);
+  assert.match(index,/cohesion\.css\?v=112/);
+  assert.match(index,/cohesion\.js\?v=112/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });

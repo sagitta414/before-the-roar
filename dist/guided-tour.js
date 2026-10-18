@@ -328,6 +328,12 @@ function leave(source) {
 }
 function setStep(index) {
   step = Math.max(0, Math.min(4, index));
+  // Publish is a proof of the corrected story. Never let direct stage navigation
+  // or the Next button carry an R1 claim into the final judge screen.
+  if (step === 4 && !options.corrected) {
+    options.corrected = true;
+    document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'correction',revision:2,runId:judgeRun.run_id}}));
+  }
   playing = false;
   options.time = 16;
   render();
@@ -358,7 +364,7 @@ function render() {
   }
   back.disabled = step === 0;
   next.textContent =
-    step === 4 ? "Continue exploring →" : `Next: ${GUIDE_STEPS[step + 1].label} →`;
+    step === 4 ? "Continue exploring →" : step === 3 && !options.corrected ? "Apply correction + publish →" : `Next: ${GUIDE_STEPS[step + 1].label} →`;
   stateLabel.textContent = `${step + 1} of 5 · ${snapshot.story.clock} · Source R${snapshot.story.revision}`;
   provenance.textContent = snapshot.saved
     ? `Saved Azure run · ${new Date(snapshot.recordedAt).toLocaleDateString()} · Replayed instantly, with no new AI generation. Each contribution identifies its engine.`
