@@ -1,0 +1,98 @@
+/* Wide desktop resilience: browser display scaling must not turn BTR into a fixed-width postage stamp. */
+@media (min-width: 1800px) {
+  body[data-section="watch"] #watch,
+  .extension-view {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none !important;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  body[data-section="watch"] .match-dossier,
+  body[data-section="watch"] .execution-key,
+  .extension-view + .match-dossier,
+  .extension-view + .execution-key {
+    max-width: none;
+  }
+}
+
+/* At a very wide CSS viewport, the browser is commonly zoomed out on a laptop.
+   Increase information size and use the extra canvas instead of adding dead space. */
+@media (min-width: 2200px) {
+  body[data-section="watch"] #watch,
+  .extension-view {
+    padding-left: 2% !important;
+    padding-right: 2% !important;
+  }
+
+  body[data-section="watch"] .broadcast-room {
+    grid-template-columns: minmax(0, 1.5fr) minmax(610px, .9fr);
+    gap: 20px;
+  }
+
+  body.party-expanded[data-section="watch"] .broadcast-room {
+    grid-template-columns: minmax(440px, .58fr) minmax(760px, 1.42fr) !important;
+  }
+
+  body[data-section="watch"] .party {
+    height: min(790px, calc(100dvh - 150px));
+    min-height: 650px;
+  }
+
+  body[data-section="watch"] .party-header { min-height: 52px; padding: 10px 15px; }
+  body[data-section="watch"] .party-header h2 { font-size: 27px; }
+  body[data-section="watch"] .room-expand { min-height: 32px; padding: 7px 10px; font-size: 11px; }
+  body[data-section="watch"] .room-tabs { min-height: 41px; padding: 0 15px; }
+  body[data-section="watch"] .room-tabs button { min-height: 41px; font-size: 13px; }
+  body[data-section="watch"] .five-specialists.crew { min-height: 58px; padding: 8px 13px; }
+  body[data-section="watch"] .five-specialists .crew-avatar { width: 31px; height: 31px; }
+  body[data-section="watch"] .crew-member b { font-size: 10px; }
+  body[data-section="watch"] .conversation { padding: 4px 16px 14px; }
+  body[data-section="watch"] .message { padding: 12px 13px 12px 15px; }
+  body[data-section="watch"] .message-face { width: 32px; height: 32px; }
+  body[data-section="watch"] .message-name { font-size: 14px; }
+  body[data-section="watch"] .message-specialty { font-size: 10px; }
+  body[data-section="watch"] .message > p,
+  body[data-section="watch"] .why-sentence { font-size: 15px; line-height: 1.55; }
+  body[data-section="watch"] .suggestions button { min-height: 31px; padding: 6px 9px; font-size: 10px; }
+  body[data-section="watch"] #question-form input { min-height: 40px; font-size: 14px; }
+
+  body[data-section="watch"] .story-spine button { min-height: 44px; padding: 7px 13px; }
+  body[data-section="watch"] .story-spine__step span { font-size: 11px; }
+  body[data-section="watch"] .story-spine__step b { font-size: 9px; }
+
+  .extension-view > .extension-heading { min-height: 64px; padding: 18px 0 14px; }
+  #centre > .extension-heading h1,
+  #truth > .extension-heading h1,
+  #presenters > .extension-heading h1,
+  #inside > .extension-heading h1,
+  #security > .extension-heading h1 { font-size: 40px !important; }
+  .extension-view > .extension-heading > p { max-width: 430px; font-size: 14px; }
+
+  #centre .review-scenes { gap: 10px; }
+  #centre .review-scenes button { min-height: 75px; padding: 12px 14px; }
+  #centre .review-scenes button span { font-size: 11px; }
+  #centre .review-scenes button strong { font-size: 15px; }
+  #centre .review-scenes button small { font-size: 10px; }
+  #centre .review-feedback { min-height: 30px; font-size: 12px; }
+  #centre .centre-workspace > .film-study-grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(480px, .8fr);
+    gap: 22px;
+  }
+  #centre .centre-workspace .film-study-screen video { max-height: 360px; }
+  #centre .centre-workspace .study-label { padding: 12px 17px; font-size: 11px; }
+  #centre .centre-workspace .study-caption { padding: 16px 19px; }
+  #centre .centre-workspace .study-caption h2 { font-size: 28px; }
+  #centre .centre-workspace .study-caption p { font-size: 15px; line-height: 1.6; }
+  #centre .football-breakdown { padding: 20px 24px; }
+  #centre .football-breakdown h2 { font-size: 31px; }
+  #centre .number-hero strong { font-size: 74px; }
+  #centre .football-breakdown .numbers-story { font-size: 16px; line-height: 1.6; }
+  #centre .football-breakdown code { font-size: 14px; }
+  #centre .football-breakdown .numbers-scope { font-size: 12px; }
+  #centre .centre-workspace .film-study-bottom { gap: 18px; }
+  #centre .centre-workspace .film-lens { padding: 17px 20px; }
+  #centre .centre-workspace .film-lens h3 { font-size: 25px; }
+  #centre .centre-workspace .film-lens p { font-size: 15px; }
+}
