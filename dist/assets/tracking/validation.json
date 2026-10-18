@@ -1,11 +1,11 @@
 {
-  "version": "controlled-pixel-tracking-v1",
+  "version": "adaptive-pixel-tracking-v2",
   "source": "Decoded compressed MP4 pixels at 10 fps, 480×320. Detector receives calibration and enrolled colour identities only. Event schedule and coordinates are read solely by this evaluator.",
   "limits": [
     "Fixed camera, known ground-plane scale, visible enrolled markers and high-visibility ball.",
-    "Classical colour segmentation and temporal rules; not a learned general football-video detector.",
+    "Adaptive chromatic classification and temporal rules; not a learned general football-video detector.",
     "This controlled fixture is not independent evidence of performance on broadcast footage.",
-    "Shot speeds assume a ground-plane ball; aerial balls and camera motion are unsupported."
+    "Shot speeds assume a ground-plane ball; aerial balls and moving cameras are unsupported."
   ],
   "frames": 600,
   "playerDetectionRate": 0.9954166666666666,
@@ -19,8 +19,11 @@
   "matchedEvents": 8,
   "eventPrecision": 1,
   "eventRecall": 1,
-  "medianComputeMs": 1.5105999999998403,
-  "p95ComputeMs": 2.449800000000039,
+  "averageFrameConfidence": 0.9587488979296599,
+  "adaptiveFrameRate": 0,
+  "degradedFrameRate": 0,
+  "medianComputeMs": 1.6288999999999305,
+  "p95ComputeMs": 2.567099999999982,
   "events": [
     {
       "id": "video-1",
@@ -39,6 +42,8 @@
         "difficulty": 9,
         "label": "Routine"
       },
+      "confidence": 0.9175992647058824,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 120,
         "lastFrame": 171
@@ -71,6 +76,8 @@
         "difficulty": 8,
         "label": "Routine"
       },
+      "confidence": 0.9061397058823524,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 360,
         "lastFrame": 405
@@ -103,6 +110,8 @@
         "difficulty": 21,
         "label": "Demanding"
       },
+      "confidence": 0.9031260504201676,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 600,
         "lastFrame": 654
@@ -135,6 +144,8 @@
         "difficulty": 22,
         "label": "Demanding"
       },
+      "confidence": 0.9142478991596633,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 840,
         "lastFrame": 876
@@ -160,6 +171,8 @@
       "distance": 17.23468882877473,
       "speed": 97.22337637653798,
       "quality": null,
+      "confidence": 0.8424803921568627,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 1080,
         "lastFrame": 1098
@@ -192,6 +205,8 @@
         "difficulty": 9,
         "label": "Routine"
       },
+      "confidence": 0.9225955882352957,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 1320,
         "lastFrame": 1371
@@ -224,6 +239,8 @@
         "difficulty": 8,
         "label": "Routine"
       },
+      "confidence": 0.9065052521008377,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 1560,
         "lastFrame": 1599
@@ -249,6 +266,8 @@
       "distance": 35.18794300738551,
       "speed": 83.27484504898487,
       "quality": null,
+      "confidence": 0.9333986928104576,
+      "confidenceLabel": "HIGH",
       "evidence": {
         "firstFrame": 1710,
         "lastFrame": 1755

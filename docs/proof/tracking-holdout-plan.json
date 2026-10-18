@@ -1,23 +1,33 @@
 {
-  "version": "v64-frozen-detector",
-  "detector_sha256": "f39bd8aa306b61c467d3c161c038903cc667704b44363a5941bbbb0247d2327f",
-  "created_at": "2026-10-17T02:26:14.577Z",
-  "method": "Detector frozen before generating three new synthetic seeds. New positions and timings; fixed calibration and enrolled roster. Final case deliberately tests lighting outside normal conditions. No tuning or reruns after results. Same procedural family, not independent real-world validation.",
+  "version": "v145-final-frozen-detector",
+  "detector_sha256": "2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb",
+  "created_at": "2026-10-18T22:49:27.458Z",
+  "method": "Adaptive detector frozen before generating five unseen synthetic seeds. Every case changes positions and timings; four also change exposure, saturation, compression or noise after rendering. The final case deliberately exceeds the supported lighting envelope. No tuning or reruns after results. Same procedural family, not independent real-world validation.",
   "cases": [],
   "plan": [
     {
-      "id": "new-positions-and-timing",
-      "seed": 9101
+      "id": "unseen-standard",
+      "seed": 9301
     },
     {
-      "id": "new-positions-compressed",
-      "seed": 9102,
-      "filter": "eq=brightness=-0.03:saturation=0.95"
+      "id": "unseen-compressed-dim",
+      "seed": 9302,
+      "filter": "eq=brightness=-0.06:saturation=0.85"
     },
     {
-      "id": "low-light-stress",
-      "seed": 9103,
+      "id": "unseen-low-light",
+      "seed": 9303,
       "filter": "eq=brightness=-0.18:saturation=0.7"
+    },
+    {
+      "id": "unseen-noisy-floodlights",
+      "seed": 9304,
+      "filter": "eq=brightness=-0.08:saturation=0.82,noise=alls=4:allf=t"
+    },
+    {
+      "id": "severe-darkness-boundary",
+      "seed": 9305,
+      "filter": "eq=brightness=-0.30:saturation=0.45"
     }
   ]
 }
