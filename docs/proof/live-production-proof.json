@@ -1,27 +1,90 @@
 {
   "schema": "btr.live-production-proof.v1",
-  "tested_at": "2026-10-16T01:29:38.238Z",
+  "tested_at": "2026-10-18T04:33:57.168Z",
   "service": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io",
-  "health_version": "3.8.0",
+  "health_version": "3.17.0",
   "storage": "Azure Blob Storage",
   "recovery": {
     "interrupted_status": "interrupted",
-    "requests_before": 3,
+    "requests_before": 2,
     "requests_after": 4,
     "reused_roles": [
       "analyst",
       "guide"
     ],
-    "resume_elapsed_ms": 1919
+    "resume_elapsed_ms": 4045
   },
   "metrics": {
     "model_calls": 4,
-    "prompt_tokens": 7245,
-    "completion_tokens": 256,
+    "prompt_tokens": 1955,
+    "completion_tokens": 26,
     "usage_missing": 0,
-    "elapsed_ms": 1844
+    "elapsed_ms": 1711
   },
   "contributions": {
+    "analyst": {
+      "engine": "azure_openai",
+      "evidence_ids": [
+        "wide-football-16.0-r1"
+      ],
+      "cutoff": 16,
+      "revision": 1,
+      "role": "analyst",
+      "summary": "The runner moves wide while the defender shifts toward that side. The record captures both movements, but not why the defender moved.",
+      "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+      "evidence_contract": {
+        "kind": "source_bound_composition",
+        "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+        "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+        "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+      },
+      "unchanged": false,
+      "editorial_angle": "causation_test",
+      "composition_policy": "v103-four-model-handoff",
+      "model_execution": {
+        "specialist": "Scout",
+        "selection": "causation_test",
+        "received_roles": []
+      },
+      "turn_id": "work-555024079e6db1cb329d0c33-1:analyst",
+      "round": 1,
+      "sequence": 1,
+      "reply_to": null
+    },
+    "guide": {
+      "engine": "azure_openai",
+      "evidence_ids": [
+        "wide-evt-001",
+        "wide-evt-002",
+        "wide-track-102-400",
+        "wide-analysis-16.0"
+      ],
+      "cutoff": 16,
+      "revision": 1,
+      "role": "guide",
+      "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place?",
+      "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+      "evidence_contract": {
+        "kind": "teaching_prompt",
+        "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+        "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+        "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+      },
+      "unchanged": false,
+      "editorial_angle": "limits",
+      "composition_policy": "v103-four-model-handoff",
+      "model_execution": {
+        "specialist": "Guide",
+        "selection": "limits",
+        "received_roles": [
+          "analyst"
+        ]
+      },
+      "turn_id": "work-555024079e6db1cb329d0c33-1:guide",
+      "round": 1,
+      "sequence": 2,
+      "reply_to": "analyst"
+    },
     "math": {
       "engine": "calculated",
       "evidence_ids": [
@@ -34,251 +97,397 @@
       "summary": "2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
       "working": "(58.25 − 44.92) + (69.83 − 59.50) = 23.66 m",
       "metric_value": "23.7 m",
-      "metric_title": "Forward passing gain"
-    },
-    "guide": {
-      "summary": "An off-ball run is movement without the ball; it can offer a teammate another route. Does the defender move toward the touchline with the runner, or stay in place?",
-      "title": "Run and Pass Contrast",
-      "caution": "The defender's movement may not directly relate to the run.",
-      "evidence_ids": [
-        "wide-football-16.0-r1"
-      ],
-      "role": "guide",
-      "engine": "azure_openai",
-      "cutoff": 16,
-      "revision": 1,
-      "latency_ms": 3163,
-      "first_text_ms": 3163
-    },
-    "analyst": {
-      "summary": "The winger's run toward the touchline contrasts with the central path of the completed passes, indicating different roles in the attack.",
-      "title": "Winger's run versus pass route",
-      "caution": "Recorded movement and event order do not establish why a defender acted. No intent or technique is measured.",
-      "evidence_ids": [
-        "wide-football-16.0-r1"
-      ],
-      "role": "analyst",
-      "engine": "azure_openai",
-      "cutoff": 16,
-      "revision": 1,
-      "latency_ms": 3739,
-      "first_text_ms": 3387
+      "metric_title": "Forward passing gain",
+      "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+      "evidence_contract": {
+        "kind": "calculation",
+        "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+        "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+        "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+      },
+      "unchanged": false,
+      "turn_id": "work-555024079e6db1cb329d0c33-1:math",
+      "round": 1,
+      "sequence": 3,
+      "reply_to": null
     },
     "reviewer": {
-      "engine": "evidence_rules",
+      "engine": "azure_openai",
       "evidence_ids": [
-        "wide-evt-001",
-        "wide-evt-002",
-        "wide-track-102-400",
-        "wide-analysis-16.0"
+        "wide-football-16.0-r1"
       ],
       "cutoff": 16,
       "revision": 1,
       "role": "reviewer",
-      "summary": "The movements coincide. Tracking alone cannot prove that one caused the other.",
+      "summary": "The timing supports coincidence, not a counterfactual. Without a comparable play where the run changes, the causal claim must remain qualified.",
       "decision": "qualify",
       "target_claim": "The run caused the defender to follow.",
-      "target_role": "analyst",
-      "reviewed_contribution": "The winger's run toward the touchline contrasts with the central path of the completed passes, indicating different roles in the attack."
+      "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+      "evidence_contract": {
+        "kind": "source_check",
+        "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+        "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+        "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+      },
+      "unchanged": false,
+      "editorial_angle": "causation_test",
+      "composition_policy": "v103-four-model-handoff",
+      "model_execution": {
+        "specialist": "Check",
+        "selection": "causation_test",
+        "received_roles": [
+          "analyst",
+          "guide",
+          "math"
+        ]
+      },
+      "guard_engine": "evidence_rules",
+      "turn_id": "work-555024079e6db1cb329d0c33-1:reviewer",
+      "round": 1,
+      "sequence": 1,
+      "reply_to": "analyst"
     },
     "presenter": {
-      "summary": "Passing progress and off-ball movement indicate distinct roles in the attack. The winger's run does not directly influence the defender's actions.",
-      "title": "Winger's Run and Pass Route",
-      "caution": "The defender's movement may not directly relate to the run.",
-      "evidence_ids": [
-        "wide-football-16.0-r1"
-      ],
-      "replay_cue": "Replay the winger's run toward the touchline.",
-      "role": "presenter",
       "engine": "azure_openai",
+      "evidence_ids": [
+        "wide-football-16.0-r1",
+        "wide-evt-001",
+        "wide-evt-002"
+      ],
       "cutoff": 16,
       "revision": 1,
-      "latency_ms": 1744,
-      "first_text_ms": 1539
+      "role": "presenter",
+      "summary": "The next useful test is a comparison with similar plays where the movement differs. This single sequence cannot isolate its effect; the calculation describes what happened.",
+      "caution": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+      "evidence_contract": {
+        "kind": "source_bound_composition",
+        "observation": "The winger runs toward the touchline while the defender shifts the same way; the completed passes travel through the centre.",
+        "limitation": "These records describe movement and completed events. They do not measure intent, causal influence or chance quality.",
+        "validation": "AI selects a source-bound angle; public wording and arithmetic are rendered by code."
+      },
+      "unchanged": false,
+      "editorial_angle": "limits",
+      "composition_policy": "v103-four-model-handoff",
+      "model_execution": {
+        "specialist": "Host",
+        "selection": "limits",
+        "received_roles": [
+          "analyst",
+          "guide",
+          "math",
+          "reviewer"
+        ]
+      },
+      "turn_id": "work-555024079e6db1cb329d0c33-1:presenter",
+      "round": 1,
+      "sequence": 2,
+      "reply_to": "reviewer"
     }
   },
   "trace": [
     {
       "seq": 1,
-      "at": 1792114172521,
+      "at": 1792298031571,
       "role": "director",
       "action": "run_started",
       "cutoff": 16,
       "revision": 1,
-      "storage": "azure_blob"
+      "storage": "azure_blob",
+      "execution_state": "deterministic"
     },
     {
       "seq": 2,
-      "at": 1792114172544,
-      "role": "math",
-      "action": "calculation_saved",
-      "evidence_ids": [
-        "wide-evt-001",
-        "wide-evt-002"
-      ]
+      "at": 1792298031595,
+      "role": "director",
+      "action": "handoff_catalog_ready",
+      "angles": [
+        "progression",
+        "movement",
+        "limits",
+        "causation_test",
+        "outside_scope",
+        "beginner",
+        "calculation",
+        "next_check",
+        "outcome"
+      ],
+      "policy": "v103-four-model-handoff",
+      "model_roles": [
+        "analyst",
+        "guide",
+        "reviewer",
+        "presenter"
+      ],
+      "deterministic_role": "math"
     },
     {
       "seq": 3,
-      "at": 1792114173357,
-      "role": "guide",
-      "action": "context_prepared",
-      "source": "verified_glossary_and_evidence",
-      "evidence_ids": [
-        "wide-evt-001",
-        "wide-evt-002",
-        "wide-analysis-16.0",
-        "wide-obs-run-8",
-        "wide-obs-space-16",
-        "wide-track-102-400",
-        "wide-football-16.0-r1",
-        "wide-window-16.0"
+      "at": 1792298031642,
+      "role": "analyst",
+      "action": "model_handoff_started",
+      "from": [],
+      "choices": [
+        "progression",
+        "movement",
+        "limits",
+        "causation_test",
+        "outside_scope",
+        "beginner",
+        "calculation",
+        "next_check",
+        "outcome"
       ],
-      "model_tool_selection": false
+      "execution_state": "live",
+      "correlation_id": "btr-a83817eb-f9b7-41bb-b4a8-1336053e75ef"
     },
     {
       "seq": 4,
-      "at": 1792114174898,
+      "at": 1792298032495,
       "role": "analyst",
-      "action": "tool_completed",
-      "tool": "read_evidence",
-      "evidence_ids": [
-        "wide-evt-001",
-        "wide-evt-002",
-        "wide-analysis-16.0",
-        "wide-obs-run-8",
-        "wide-obs-space-16",
-        "wide-track-102-400",
-        "wide-football-16.0-r1",
-        "wide-window-16.0"
-      ],
-      "duration_ms": 2343
+      "action": "model_handoff_completed",
+      "angle": "causation_test",
+      "from": [],
+      "request_number": 1,
+      "reservation": "committed",
+      "execution_state": "live",
+      "execution_id": "chatcmpl-EaCshHffo0RqePOFkYnqCovPUnzaA",
+      "latency_ms": 874
     },
     {
       "seq": 5,
-      "at": 1792114175730,
+      "at": 1792298032555,
       "role": "guide",
-      "action": "contribution_saved",
-      "evidence_ids": [
-        "wide-football-16.0-r1"
+      "action": "model_handoff_started",
+      "from": [
+        "analyst"
       ],
-      "latency_ms": 3163,
-      "first_text_ms": 3163
+      "choices": [
+        "causation_test",
+        "limits"
+      ],
+      "execution_state": "live",
+      "correlation_id": "btr-a7b0ef94-edbf-42f4-acde-7b1498bfcd0e"
     },
     {
       "seq": 6,
-      "at": 1792114176304,
-      "role": "analyst",
-      "action": "contribution_saved",
-      "evidence_ids": [
-        "wide-football-16.0-r1"
+      "at": 1792298033161,
+      "role": "guide",
+      "action": "model_handoff_completed",
+      "angle": "limits",
+      "from": [
+        "analyst"
       ],
-      "latency_ms": 3739,
-      "first_text_ms": 3387
+      "request_number": 2,
+      "reservation": "committed",
+      "execution_state": "live",
+      "execution_id": "chatcmpl-EaCsiE38Xp6jVubZYkOh7mnPQkZd5",
+      "latency_ms": 638
     },
     {
       "seq": 7,
-      "at": 1792114176325,
-      "role": "director",
-      "action": "worker_interrupted",
-      "saved_roles": [
-        "math",
-        "guide",
-        "analyst"
-      ]
+      "at": 1792298033205,
+      "role": "math",
+      "action": "calculation_saved",
+      "from": [
+        "analyst",
+        "guide"
+      ],
+      "evidence_ids": [
+        "wide-evt-001",
+        "wide-evt-002"
+      ],
+      "execution_state": "deterministic",
+      "model_requests": 0
     },
     {
       "seq": 8,
-      "at": 1792114176452,
+      "at": 1792298033228,
+      "role": "director",
+      "action": "worker_interrupted",
+      "saved_roles": [
+        "analyst",
+        "guide",
+        "math"
+      ],
+      "saved_model_requests": 2,
+      "execution_state": "failed_recovered"
+    },
+    {
+      "seq": 9,
+      "at": 1792298033377,
       "role": "director",
       "action": "checkpoint_resumed",
       "cutoff": 16,
       "revision": 1,
-      "storage": "azure_blob"
-    },
-    {
-      "seq": 9,
-      "at": 1792114176475,
-      "role": "math",
-      "action": "calculation_saved",
-      "evidence_ids": [
-        "wide-evt-001",
-        "wide-evt-002"
-      ]
+      "storage": "azure_blob",
+      "execution_state": "failed_recovered"
     },
     {
       "seq": 10,
-      "at": 1792114176485,
-      "role": "analyst",
-      "action": "saved_contribution_reused"
+      "at": 1792298033386,
+      "role": "director",
+      "action": "handoff_catalog_ready",
+      "angles": [
+        "progression",
+        "movement",
+        "limits",
+        "causation_test",
+        "outside_scope",
+        "beginner",
+        "calculation",
+        "next_check",
+        "outcome"
+      ],
+      "policy": "v103-four-model-handoff",
+      "model_roles": [
+        "analyst",
+        "guide",
+        "reviewer",
+        "presenter"
+      ],
+      "deterministic_role": "math"
     },
     {
       "seq": 11,
-      "at": 1792114176495,
-      "role": "guide",
-      "action": "saved_contribution_reused"
+      "at": 1792298033396,
+      "role": "analyst",
+      "action": "saved_model_handoff_reused",
+      "angle": "causation_test",
+      "from": [],
+      "execution_state": "replay",
+      "execution_id": "chatcmpl-EaCshHffo0RqePOFkYnqCovPUnzaA",
+      "original_latency_ms": 874,
+      "model_requests": 0
     },
     {
       "seq": 12,
-      "at": 1792114176515,
-      "role": "reviewer",
-      "action": "claim_checked",
-      "claim": {
-        "id": "editorial-reading",
-        "revision": 1,
-        "cutoff": 16,
-        "status": "bounded",
-        "claim": "The run caused the defender to follow.",
-        "explanation": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
-        "evidence_ids": [
-          "wide-evt-001",
-          "wide-evt-002",
-          "wide-track-102-400",
-          "wide-analysis-16.0"
-        ],
-        "check": "The movements coincide. Tracking alone cannot prove that one caused the other.",
-        "method": "Deterministic source and revision rules; not a semantic proof of model prose"
-      }
+      "at": 1792298033406,
+      "role": "guide",
+      "action": "saved_model_handoff_reused",
+      "angle": "limits",
+      "from": [
+        "analyst"
+      ],
+      "execution_state": "replay",
+      "execution_id": "chatcmpl-EaCsiE38Xp6jVubZYkOh7mnPQkZd5",
+      "original_latency_ms": 638,
+      "model_requests": 0
     },
     {
       "seq": 13,
-      "at": 1792114176525,
-      "role": "presenter",
-      "action": "context_prepared",
-      "source": "saved_public_contributions",
+      "at": 1792298033418,
+      "role": "math",
+      "action": "calculation_saved",
+      "from": [
+        "analyst",
+        "guide"
+      ],
       "evidence_ids": [
         "wide-evt-001",
-        "wide-evt-002",
-        "wide-analysis-16.0",
-        "wide-obs-run-8",
-        "wide-obs-space-16",
-        "wide-track-102-400",
-        "wide-football-16.0-r1",
-        "wide-window-16.0"
+        "wide-evt-002"
       ],
-      "model_tool_selection": false
+      "execution_state": "deterministic",
+      "model_requests": 0
     },
     {
       "seq": 14,
-      "at": 1792114178278,
-      "role": "presenter",
-      "action": "contribution_saved",
-      "evidence_ids": [
-        "wide-football-16.0-r1"
+      "at": 1792298033452,
+      "role": "reviewer",
+      "action": "model_handoff_started",
+      "from": [
+        "analyst",
+        "guide",
+        "math"
       ],
-      "latency_ms": 1744,
-      "first_text_ms": 1539
+      "choices": [
+        "causation_test",
+        "limits"
+      ],
+      "execution_state": "live",
+      "correlation_id": "btr-a05fa708-e78b-4a42-ac0f-7740aefc7f09"
     },
     {
       "seq": 15,
-      "at": 1792114178297,
+      "at": 1792298034365,
+      "role": "reviewer",
+      "action": "model_handoff_completed",
+      "angle": "causation_test",
+      "from": [
+        "analyst",
+        "guide",
+        "math"
+      ],
+      "request_number": 3,
+      "reservation": "committed",
+      "execution_state": "live",
+      "execution_id": "chatcmpl-EaCsjdI0rjbiBu43AKSnOtkYtbB6E",
+      "latency_ms": 923
+    },
+    {
+      "seq": 16,
+      "at": 1792298034416,
+      "role": "presenter",
+      "action": "model_handoff_started",
+      "from": [
+        "analyst",
+        "guide",
+        "math",
+        "reviewer"
+      ],
+      "choices": [
+        "causation_test",
+        "limits"
+      ],
+      "execution_state": "live",
+      "correlation_id": "btr-a64de14a-bd06-4841-bab9-1c79bdd68098"
+    },
+    {
+      "seq": 17,
+      "at": 1792298034988,
+      "role": "presenter",
+      "action": "model_handoff_completed",
+      "angle": "limits",
+      "from": [
+        "analyst",
+        "guide",
+        "math",
+        "reviewer"
+      ],
+      "request_number": 4,
+      "reservation": "committed",
+      "execution_state": "live",
+      "execution_id": "chatcmpl-EaCskTA7f67cnjCK16erdNjls01PG",
+      "latency_ms": 590
+    },
+    {
+      "seq": 18,
+      "at": 1792298035062,
       "role": "director",
-      "action": "broadcast_ready",
-      "revision": 1
+      "action": "four_model_handoff_completed",
+      "reason": null,
+      "model_requests": 4,
+      "completed_model_roles": [
+        "analyst",
+        "guide",
+        "reviewer",
+        "presenter"
+      ]
+    },
+    {
+      "seq": 19,
+      "at": 1792298037330,
+      "role": "foundry",
+      "action": "independent_referee_completed",
+      "execution_state": "live",
+      "execution_id": "resp_0538172428ea9377006ad44c33b48881908b1a69d7f45d114f",
+      "latency_ms": 2213,
+      "verdict": "review",
+      "reason": "completed"
     }
   ],
   "correction": {
-    "old": "Moreau moves wide while Laurent shifts toward the same side. Their movement coincides; it does not prove the run caused the defender’s decision.",
-    "current": "The corrected record keeps Laurent in place. The defender-movement claim is withdrawn; the recorded passes and shot remain unchanged.",
+    "old": "Moreau pulls wide and Laurent reacts on the same side. The duel is changing shape, but the replay cannot tell us why the defender moved.",
+    "current": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result. Moreau still runs wide, but the corrected tracking keeps Laurent at his starting position. The attacking movement remains visible; the claim that the defender reacted to it is withdrawn.",
     "revision": 2,
     "status": "withdrawn"
   },
@@ -287,7 +496,7 @@
     {
       "language": "es",
       "mode": "beginner",
-      "body": "El registro corregido mantiene a Laurent en su sitio. Se retira la afirmación de movimiento; los pases y el disparo no cambian.",
+      "body": "El registro corregido mantiene a Laurent en su sitio. Retira la afirmación de movimiento; conserva los pases y el resultado del disparo. Un desmarque es moverse sin balón. Moreau sigue corriendo hacia la banda, pero el registro corregido mantiene a Laurent en su sitio. Mira a cada uno por separado: esta repetición ya no muestra al defensor siguiéndolo.",
       "evidence_ids": [
         "wide-evt-001",
         "wide-evt-002",
@@ -676,7 +885,7 @@
     {
       "language": "en",
       "mode": "math",
-      "body": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result. 2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
+      "body": "Corrected tracking keeps Laurent in place. Withdraw the movement claim; retain the passes and shot result. The corrected record changes Laurent’s movement, not the pass endpoints. Recompute displacement from the revised track; forward passing gain still uses the completed passes only. 2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded.",
       "evidence_ids": [
         "wide-evt-001",
         "wide-evt-002",
@@ -1089,10 +1298,5 @@
       "pressures": 72
     },
     "calibration": "Internal invariants and declared design targets. Not calibrated against real Premier League matches."
-  },
-  "editorial_review": {
-    "policy": "v42.1 before final guard repair",
-    "approved": false,
-    "finding": "Host asserted no direct influence despite only having evidence of coincident movement. This receipt demonstrates recovery, not approved editorial quality. The final guard now rejects this phrasing and invalidates previous cached discussions."
   }
 }

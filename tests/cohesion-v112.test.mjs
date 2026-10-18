@@ -31,7 +31,7 @@ test('v112 presents a concise judge dashboard and progressive disclosure',async(
  assert.match(watch,/Ask the crew · 4 AI requests/);
  const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=117/);
-  assert.match(index,/cohesion\.js\?v=118/);
+  assert.match(index,/cohesion\.js\?v=119/);
   assert.match(index,/match-watch\.js\?v=114/);
   assert.match(index,/guided-tour\.css\?v=113/);
   assert.match(index,/guided-tour\.js\?video=65&v=116/);
@@ -45,3 +45,4 @@ test('live action leads and deeper proof stays inspectable on demand',async()=>{
  assert.match(cohesion,/inside-operations/);
  assert.match(cohesion,/8\/8 GROUNDING TIES · VALUE EVEN/);
 });
+

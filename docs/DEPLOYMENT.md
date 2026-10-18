@@ -10,7 +10,7 @@ Use Node 22: `npm ci`, `npm test`, then `npm run studio`. Open http://127.0.0.1:
 
 - A resource group, Container Apps environment and Azure Container Registry.
 - An Azure OpenAI resource with a compatible chat deployment, a Microsoft Foundry project endpoint with a deployed evaluator model, and a private Blob container.
-- A user-assigned managed identity with **AcrPull** on the registry, **Cognitive Services OpenAI User** on the model resource, **Foundry Project Runtime User** on the isolated BTR project, and **Storage Blob Data Contributor** on the storage scope.
+- A user-assigned managed identity with **AcrPull** on the registry, **Cognitive Services OpenAI User** on the model resource, **Foundry User** on the parent Foundry resource (the Responses call targets the isolated BTR project endpoint), and **Storage Blob Data Contributor** on the storage scope.
 - Azure CLI and Bicep installed; the operator needs deployment and registry-build access.
 
 These resources incur Azure costs. The supplied template creates only the Container App and reuses those prerequisites. It does not grant roles or provision a model, registry, environment or storage account automatically.
