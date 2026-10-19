@@ -1,6 +1,6 @@
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
-import {copyFile, mkdir, readFile, writeFile} from 'node:fs/promises';
+import {access, copyFile, mkdir, readFile, writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
 
@@ -10,6 +10,11 @@ const FROZEN_SOURCE =
 const EXPECTED_HASH = '394e7ac1888be14502e0abccde7090f09f7a79c56235721d10734a49b97e31c2';
 const args = new Set(process.argv.slice(2));
 const publish = args.has('--publish');
+const publishTargets = [
+  'docs/proof/tracking-holdout-v146-plan.json',
+  'docs/proof/tracking-holdout-v146.json',
+  'dist/assets/tracking/holdout-current.json'
+];
 const runRoot = resolve(
   process.env.BTR_HOLDOUT_OUTPUT || join(tmpdir(), `btr-tracking-holdout-${Date.now()}`)
 );
@@ -69,6 +74,23 @@ if (sha256(currentSource) !== EXPECTED_HASH || sha256(frozenSource) !== EXPECTED
   throw new Error('The shipping detector does not match its immutable source artifact.');
 }
 
+if (publish) {
+  const existing = [];
+  for (const target of publishTargets) {
+    try {
+      await access(target);
+      existing.push(target);
+    } catch (error) {
+      if (error?.code !== 'ENOENT') throw error;
+    }
+  }
+  if (existing.length) {
+    throw new Error(
+      `Refusing to overwrite immutable holdout evidence: ${existing.join(', ')}`
+    );
+  }
+}
+
 const python = resolvePython();
 const ffmpeg = process.env.BTR_FFMPEG || 'ffmpeg';
 if (!commandWorks(ffmpeg, [], '-version')) {
@@ -88,7 +110,7 @@ const report = {
 const plan = {...report, plan: cases};
 const planPath = join(runRoot, 'tracking-holdout-v146-plan.json');
 await writeFile(planPath, JSON.stringify(plan, null, 2));
-if (publish) await writeFile('docs/proof/tracking-holdout-v146-plan.json', JSON.stringify(plan, null, 2));
+if (publish) await writeFile(publishTargets[0], JSON.stringify(plan, null, 2));
 
 for (const item of cases) {
   const folder = join(runRoot, `case-${item.seed}`);
@@ -141,7 +163,7 @@ if (sha256(canonical(await readFile(CURRENT_SOURCE))) !== EXPECTED_HASH) {
 const resultPath = join(runRoot, 'tracking-holdout-v146.json');
 await writeFile(resultPath, JSON.stringify(report, null, 2));
 if (publish) {
-  await writeFile('docs/proof/tracking-holdout-v146.json', JSON.stringify(report, null, 2));
-  await writeFile('dist/assets/tracking/holdout-current.json', JSON.stringify(report, null, 2));
+  await writeFile(publishTargets[1], JSON.stringify(report, null, 2));
+  await writeFile(publishTargets[2], JSON.stringify(report, null, 2));
 }
 console.log(JSON.stringify({runRoot, planPath, resultPath, published: publish}));

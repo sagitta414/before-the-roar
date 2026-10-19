@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 
 const read = relative => readFileSync(new URL(`../${relative}`, import.meta.url), 'utf8');
@@ -75,6 +76,15 @@ test('current detector has a separate reproducible holdout on new cases', () => 
   assert.ok(totals.expected > 0);
   assert.ok(totals.detected >= totals.matched);
   assert.ok(totals.expected >= totals.matched);
+});
+
+test('published holdout evidence is immutable by default', () => {
+  const attempt = spawnSync(process.execPath, ['scripts/tracking-holdout.mjs', '--publish'], {
+    cwd: new URL('..', import.meta.url),
+    encoding: 'utf8'
+  });
+  assert.notEqual(attempt.status, 0);
+  assert.match(attempt.stderr, /Refusing to overwrite immutable holdout evidence/);
 });
 
 test('public proof distinguishes deterministic detection from optional AI editing', () => {

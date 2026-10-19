@@ -1,1 +1,2 @@
 docs/proof/detectors/*.js binary
+*.mjs text eol=lf
