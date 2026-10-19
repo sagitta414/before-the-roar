@@ -1,13 +1,16 @@
 {
   "schema": "btr.cinematic-submission-demo.v1",
-  "created_at": "2026-10-18T16:06:13.032Z",
+  "created_at": "2026-10-19T03:45:30.808Z",
   "duration_seconds": 105,
-  "visual_strategy": "AI-generated fictional companion film remains visible for the complete demo; evidence and application proof appear as broadcast overlays.",
+  "visual_strategy": "Eight independently generated fictional shots remain visible as cinematic companion footage; evidence and application proof appear as broadcast overlays.",
   "film": {
     "source": "dist/assets/pitchside-minute.mp4",
     "real_match_data": false,
     "measurement_source": false,
-    "label_visible": true
+    "label_visible": true,
+    "independently_generated_shots": 8,
+    "continuous_observed_play": false,
+    "identity_continuity_guaranteed": false
   },
   "fresh_execution": {
     "azure_model_requests": 4,

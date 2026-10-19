@@ -12,11 +12,11 @@ Direct judge entry: https://before-the-roar.sagitta107.chatgpt.site/?judge=1#wat
 
 Public copy: https://before-the-roar.sagitta107.chatgpt.site/assets/btr-judge-demo.mp4
 
-The AI-generated football action remains visible for the complete cinematic cut. Agent execution, calculation, correction, Pocket Director and Foundry proof appear as broadcast overlays around it.
+The AI-generated football action remains visible for the complete cinematic cut. Agent execution, calculation, correction, Pocket Director and Foundry proof appear as broadcast overlays around it. The film is visibly labelled as an edit of generated shots rather than continuous measured play.
 
 The 1080p master remains at `demo/before-the-roar-cinematic-judge-demo.mp4`. Earlier cuts are development history and must not be linked from the application, README or submission.
 
-**Verified prototype snapshot:** 268 passing tests · 39/40 controlled detector events · four Azure specialist requests plus deterministic Vector · one separate Foundry referee · three languages · five audience views · Watch and Pocket Director.
+**Verified prototype snapshot:** 269 passing tests · 39/40 events in a fixed-camera synthetic marker holdout · four Azure specialist requests plus deterministic Vector · one separate Foundry referee · three languages · five audience views · Watch and Pocket Director.
 
 ## Current conversation demonstration — verified live capture
 

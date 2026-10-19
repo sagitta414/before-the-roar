@@ -25,7 +25,7 @@ test('corrected fan and tactical modes cannot retain the withdrawn defender move
 
 test('v112 presents a concise judge dashboard and progressive disclosure',async()=>{
  const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
- for(const text of ['JUDGE SNAPSHOT','268 TESTS','39 / 40','2 SCREENS','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
+ for(const text of ['JUDGE SNAPSHOT','269 TESTS','39 / 40','Fixed-camera synthetic holdout','2 SCREENS','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
  const watch=await readFile(new URL('../dist/match-watch.js',import.meta.url),'utf8');
  assert.doesNotMatch(watch,/Ask the crew · 1 AI request/);
  assert.match(watch,/Ask the crew · 4 AI requests/);
@@ -49,5 +49,22 @@ test('live action leads and deeper proof stays inspectable on demand',async()=>{
  assert.match(tour,/liveStage\.after\(launcher\)/);
  assert.match(cohesion,/inside-operations/);
  assert.match(cohesion,/46–45 OVERALL · 45–43 GROUNDING · 47–45 DECISION/);
+});
+
+test('judge evidence uses current results and publishes visual limits',async()=>{
+ const room=await readFile(new URL('../dist/evidence-room.html',import.meta.url),'utf8');
+ const roomScript=await readFile(new URL('../dist/evidence-room.js',import.meta.url),'utf8');
+ const tour=await readFile(new URL('../dist/guided-tour.js',import.meta.url),'utf8');
+ const demo=await readFile(new URL('../scripts/create-cinematic-judge-demo.mjs',import.meta.url),'utf8');
+ assert.match(room,/39 of 40 events found\. In a controlled fixture\./);
+ assert.match(room,/fixed camera, known pitch calibration, enrolled colour markers/i);
+ assert.match(room,/eight independently generated shots/i);
+ assert.match(room,/not presented as one continuously observed play/i);
+ assert.doesNotMatch(room,/retained comparison below predates|new photorealistic film has not been rendered/i);
+ assert.match(roomScript,/assets\/tracking\/holdout-current\.json/);
+ assert.match(roomScript,/assets\/commentary-quality-court\.json/);
+ assert.match(tour,/fixed-camera synthetic holdout/);
+ assert.match(demo,/EDITED GENERATED SHOTS · NOT CONTINUOUS PLAY/);
+ assert.match(demo,/FontSize=13/);
 });
 

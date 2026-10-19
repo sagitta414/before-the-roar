@@ -1,1 +1,147 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BTR | Evidence room</title><link rel="stylesheet" href="research.css"></head><body><main><header><a class="brand" href="./#lab">BTR<span>›</span></a><a href="independent-review.html">Take the blind review ↗</a></header><p class="eyebrow">THE EVIDENCE ROOM</p><h1>Show the work.<br><em>Keep the limits.</em></h1><p class="intro">A live record of what BTR has tested, what failed, and what still needs independent evidence. No blended score conceals an unfinished test.</p><div class="proof-grid"><article class="proof-card"><span class="tag">RENDER HANDOFF READY · FOOTAGE PENDING</span><h2>A believable minute with measurable movement.</h2><p>The production pack fixes every player and ball position over 1,800 frames. An authored return replaces the old ball reset. A renderer must preserve those coordinates and export its camera matrices.</p><p>This is an eight-player training scene. A new photorealistic film has not been rendered or approved. Existing cinematic footage remains uncalibrated.</p><a class="button secondary" href="assets/tracking/render-production-pack.json" download>Download the production pack ↓</a></article><article class="proof-card"><span class="tag">HUMAN RATINGS PENDING</span><h2>Let people judge the commentary.</h2><p>Eight previously unused event packets. Anonymous paired explanations. Grounding, clarity and usefulness scored separately. Equal scores are valid.</p><p>Ratings stay on the reviewer's device until exported. No generated judges or automated scores count as independent human evidence.</p><a class="button" href="independent-review.html">Start the blind review →</a></article></div><section class="panel"><span class="eyebrow">FROZEN DETECTOR / UNFAMILIAR FOOTAGE</span><h2>What happens outside the training scene?</h2><div id="external-results">Loading retained results…</div><p>The real clip is training footage, not a professional broadcast match. Neither clip has independent pass annotations. Event precision and recall are therefore unscored. Physical speeds and player identities are withheld.</p><p><a href="https://commons.wikimedia.org/wiki/File:Footballers.webm" target="_blank" rel="noopener">Footballers by Evworo</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>. Downloaded for separate evaluation; not substituted into the synthetic match. No real footage is redistributed here.</p><a href="assets/tracking/external-video-results.json">Inspect source hashes and raw counts ↗</a></section><section class="panel"><span class="eyebrow">COMPARISON / AUTOMATIC CHECKS ONLY</span><h2>Does extra orchestration earn its cost?</h2><div id="comparison-results">Waiting for the retained run…</div><p>Catalog and citation checks measure response compliance. They are not accuracy or usefulness scores. The live synthetic discussion now uses four sequential model executions. The retained comparison below predates that change, so it does not establish that the new handoff improves quality.</p><a href="assets/tracking/heldout-commentary-summary.json">Download measured run summary ↗</a></section><section class="panel"><span class="eyebrow">LIVE RECEIPT / ONE SYNTHETIC PLAY</span><h2>Watch the explanation change as new events arrive.</h2><p>Inspect three retained Azure rounds: a wide run before the next pass, the completed pass, then the shot. Each role has a separate contribution and a source citation. This saved demonstration opens without spending an AI request.</p><a class="button" href="conversation-proof.html">Explore the three-round conversation →</a></section><section class="panel"><h2>What would close the remaining gaps?</h2><p><strong>Footage:</strong> render the production pack with licensed realistic characters; inspect contact and continuity; validate pixel tracking against withheld coordinates.</p><p><strong>Broadcast validation:</strong> independently annotate unfamiliar licensed match clips, including moving cameras, occlusion and different kits. Freeze the detector before testing; report misses and false events.</p><p><strong>Commentary:</strong> ask 3–5 people who did not build the system to complete all eight cases. Return exported ratings to the organizer. Independence must be checked outside this anonymous page.</p></section></main><script type="module" src="evidence-room.js?v=88"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BTR | Evidence room</title>
+    <link rel="stylesheet" href="research.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="brand" href="./#lab">BTR<span>›</span></a>
+        <a href="independent-review.html">Take the blind review ↗</a>
+      </header>
+
+      <p class="eyebrow">THE EVIDENCE ROOM</p>
+      <h1>Show the work.<br /><em>Keep the limits.</em></h1>
+      <p class="intro">
+        A current release record of what BTR has measured, what it has corrected, and what still needs
+        independent evidence. Every headline result appears beside its boundary.
+      </p>
+
+      <div class="proof-grid">
+        <article class="proof-card">
+          <span class="tag">CURRENT RELEASE · CONTROLLED AUTO-EVENTING</span>
+          <h2>39 of 40 events found. In a controlled fixture.</h2>
+          <p>
+            The frozen shipping detector matched 39 of 40 expected events across five previously unused
+            procedural seeds: 97.5% recall and 100% precision inside this study. The low-light miss remains
+            in the published result.
+          </p>
+          <p>
+            This uses a fixed camera, known pitch calibration, enrolled colour markers and a visible ball.
+            It is not validation on moving-camera professional broadcast footage or unmarked players.
+          </p>
+          <a class="button secondary" href="assets/tracking/holdout-current.json">
+            Inspect the frozen holdout ↗
+          </a>
+        </article>
+
+        <article class="proof-card">
+          <span class="tag">HUMAN RATINGS PENDING</span>
+          <h2>Let people judge the commentary.</h2>
+          <p>
+            The current model-scored court tests six preregistered synthetic cases twice with reversed A/B
+            order. Its 46–45 result is narrow evidence, not independent human preference.
+          </p>
+          <p>
+            The blind review keeps ratings on each reviewer’s device until export. Equal scores are valid;
+            no generated judge counts as an independent person.
+          </p>
+          <a class="button" href="independent-review.html">Start the blind review →</a>
+        </article>
+      </div>
+
+      <section class="panel">
+        <span class="eyebrow">CURRENT DETECTOR / FROZEN BEFORE HOLDOUT</span>
+        <h2>What did automatic eventing establish?</h2>
+        <div id="detector-results">Loading current holdout…</div>
+        <p>
+          The detector consumes decoded pixels and emits candidate passes, shots, identities, distances and
+          speeds. Ground truth is visible only to the evaluator. The result establishes controlled synthetic
+          performance for this exact source hash; it does not establish broadcast-match accuracy.
+        </p>
+        <a href="assets/tracking/holdout-current.json">Inspect all five cases, errors and limits ↗</a>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">UNFAMILIAR REAL TRAINING CLIP / NO EVENT LABELS</span>
+        <h2>What happens outside the controlled fixture?</h2>
+        <div id="external-results">Loading retained results…</div>
+        <p>
+          The real clip is training footage rather than a professional broadcast match, and it has no
+          independent pass annotations. BTR therefore withholds precision, recall, physical speeds and player
+          identities for this clip instead of converting raw colour matches into an accuracy claim.
+        </p>
+        <p>
+          <a href="https://commons.wikimedia.org/wiki/File:Footballers.webm" target="_blank" rel="noopener">
+            Footballers by Evworo
+          </a>
+          ·
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">
+            CC BY-SA 3.0
+          </a>
+          . Downloaded for separate evaluation; not substituted into the synthetic match. No real footage is
+          redistributed here.
+        </p>
+        <a href="assets/tracking/external-video-results.json">Inspect source hashes and raw counts ↗</a>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">CURRENT COMMENTARY COURT / MODEL-SCORED</span>
+        <h2>Does extra orchestration improve the explanation?</h2>
+        <div id="comparison-results">Loading the current court…</div>
+        <p>
+          This release shows a small model-scored edge plus capabilities the single-call baseline does not
+          provide: persisted handoffs, deterministic calculation, source-revision correction, partial recovery
+          and a separate Foundry referee. It does not prove a broad prose advantage or human preference.
+        </p>
+        <a href="assets/commentary-quality-court.json">Inspect cases, scores and model receipts ↗</a>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">CINEMATIC COMPANION / SEPARATE PROVENANCE</span>
+        <h2>The film communicates the story. It does not supply the measurements.</h2>
+        <p>
+          The published 105-second demo uses an edited minute made from eight independently generated shots.
+          Character and ball continuity can vary between cuts. It is labelled as fictional companion film and
+          is not presented as one continuously observed play.
+        </p>
+        <p>
+          BTR’s measurements come from the separately labelled synthetic event and tracking records. A fully
+          measured, photoreal, continuous 22-player match remains future work.
+        </p>
+        <a class="button secondary" href="assets/btr-judge-demo.mp4">Watch the canonical demo ↗</a>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">LIVE RECEIPT / ONE SYNTHETIC PLAY</span>
+        <h2>Watch the explanation change when the evidence changes.</h2>
+        <p>
+          Inspect retained Azure rounds, deterministic calculations and source citations. Then compare revision
+          R1 with corrected revision R2: the pass evidence survives while the unsupported movement claim is
+          withdrawn. This saved proof opens without spending an AI request.
+        </p>
+        <a class="button" href="conversation-proof.html">Explore the retained conversation →</a>
+      </section>
+
+      <section class="panel">
+        <h2>What would close the remaining gaps?</h2>
+        <p>
+          <strong>Broadcast validation:</strong> freeze the detector, independently annotate unfamiliar licensed
+          match clips with moving cameras, occlusion and varied kits, then publish misses and false events.
+        </p>
+        <p>
+          <strong>Continuous measured film:</strong> render licensed realistic characters from the frozen tracking
+          pack, preserve identity and contact through every frame, and retain camera calibration.
+        </p>
+        <p>
+          <strong>Commentary:</strong> collect complete blind ratings from people who did not build BTR and publish
+          the result even if the baseline wins.
+        </p>
+      </section>
+    </main>
+    <script type="module" src="evidence-room.js?v=127"></script>
+  </body>
+</html>
