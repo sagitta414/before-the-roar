@@ -1,10 +1,10 @@
 import {matchStory,localPanel,matchExport} from './match-story.js';
 import {editorialIssues} from './editorial-quality.js';
 export const GUIDE_STEPS=[
- {id:'watch',label:'Inject',title:'The run you didn’t see enters the room.',copy:'A synthetic tracking observation arrives at 67:18. The match state, evidence cutoff and source revision are shared across the experience.'},
+ {id:'watch',label:'Watch',title:'The defender moved. Or did he?',copy:'Watch the football first. A synthetic tracking observation appears to support the obvious story, but BTR will not publish that conclusion until the evidence survives a challenge.'},
  {id:'discuss',label:'Investigate',title:'The crew disagrees with a purpose.',copy:'Scout observes. Vector measures. Check challenges the inference. Host can publish only what survives the evidence gate.'},
  {id:'evidence',label:'Calculate',title:'Numbers with football meaning.',copy:'Vector calculates from the reached event records and exposes every input. The result advances the story without pretending to prove intent.'},
- {id:'correct',label:'Correct',title:'One revision. Three visible consequences.',copy:'Compare the original and corrected tracking side by side. The calculation updates, the unsupported claim is withdrawn and the broadcast line changes.'},
+ {id:'correct',label:'Correct',title:'Change one record. Force three corrections.',copy:'Original and corrected tracking appear side by side. The affected calculation updates, the unsupported claim is withdrawn and the public line changes while valid pass evidence remains.'},
  {id:'audience',label:'Publish',title:'One trusted story. Every screen.',copy:'Publish the corrected state to Watch and a paired Pocket Director, then personalize its language and level without changing the evidence.'}
 ];
 export const SOURCE_LABELS={

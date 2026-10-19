@@ -52,16 +52,18 @@ const launcher = el("section", "guided-launch"),
   intro = el("div");
 intro.append(
   el("span", "eyebrow", "JUDGE MODE / THE DEFINING BTR MOMENT"),
-  el("strong", "", "One event. Five specialists. One correction every screen can trust."),
+  el("strong", "", "The defender moved. Or did he?"),
   el(
     "p",
     "",
-    "Inject a new synthetic observation, watch the crew challenge it, revise the evidence and publish the corrected explanation.",
+    "Watch the play, challenge one tracking observation and see the calculation, claim and public story correct themselves.",
   ),
 );
 const open = button("Run the defining moment →", () => enter(), "red-button"),
   filmButton = button("Watch the 60-second film", () => leave("pitchside"));
-launcher.append(intro, open, filmButton);
+const canonicalDemo=el('a','outline-button','Watch the canonical 105-second demo ↗');
+canonicalDemo.href='assets/btr-judge-demo.mp4';canonicalDemo.target='_blank';canonicalDemo.rel='noopener';
+launcher.append(intro, open, canonicalDemo);
 launcher.append(button('Change the evidence →',()=>{leave('match');openTruthDemo();}));
 const liveStage=document.getElementById('broadcast-room');
 if(liveStage)liveStage.after(launcher);else watch.prepend(launcher);
@@ -88,6 +90,17 @@ tour.append(top);
 const progress = el("output", "tour-progress", "Ready · 0 / 60 seconds");
 progress.setAttribute("aria-label", "Tour progress");
 tour.append(progress);
+const proofStrip=el('section','judge-proof-strip');
+proofStrip.setAttribute('aria-label','Verified prototype snapshot');
+for(const [value,label,detail] of [
+  ['268','TESTS','passing locally'],
+  ['39 / 40','CONTROLLED EVENTS','frozen detector holdout'],
+  ['4 + 1','AI + CODE','Azure specialists + Vector'],
+  ['1','FOUNDRY REFEREE','separate evidence review'],
+  ['3 × 5','LANGUAGES × VIEWS','personalized explanations'],
+  ['2','LIVE SCREENS','Watch + Pocket Director'],
+]){const item=el('div');item.append(el('b','',value),el('span','',label),el('small','',detail));proofStrip.append(item);}
+tour.append(proofStrip);
 function renderTourProgress() {
   const t = tourClock.read();
   auto.textContent = {
@@ -136,7 +149,10 @@ const clock = el("span", "", "67:16 · R1");
 score.append(clock);
 screen.append(score);
 const pitchNode = el("div", "guided-pitch");
-screen.append(pitchNode);
+const visual=el('div','guided-visual'),actionFilm=el('video','guided-action-film');
+actionFilm.src='assets/pitchside-minute.mp4';actionFilm.poster='assets/pitchside-minute-poster.jpg';actionFilm.muted=true;actionFilm.loop=true;actionFilm.playsInline=true;actionFilm.preload='metadata';actionFilm.setAttribute('aria-label','AI-generated fictional football companion film');
+const filmScope=el('span','guided-visual-scope','FICTIONAL COMPANION FILM · OBSERVATIONS ONLY');
+visual.append(actionFilm,pitchNode,filmScope);screen.append(visual);
 const pitch = createMatchPitch(pitchNode, () => {});
 const caption = el("div", "guided-caption"),
   captionMeta = el("small", "", "ON SCREEN · SYNTHETIC EVIDENCE"),
@@ -311,6 +327,8 @@ function enter() {
   options.time = 16;
   step = 0;
   options.corrected = false;
+  actionFilm.currentTime=0;
+  Promise.resolve(actionFilm.play()).catch(()=>{});
   document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'ingest',revision:1,runId:judgeRun.run_id}}));
   injectJudgeEvent();
   render();
@@ -319,6 +337,7 @@ function leave(source) {
   stopTour();
   playing = false;
   active = false;
+  actionFilm.pause();
   tour.hidden = true;
   document.body.classList.remove("guided-active");
   open.textContent = "Run the defining moment →";
@@ -356,6 +375,10 @@ function render() {
   const snapshot = guidedSnapshot(options, pack);
   renderPitch(snapshot);
   const s = GUIDE_STEPS[step];
+  const showMeasured=step===2||step===3;
+  visual.classList.toggle('show-measured',showMeasured);
+  filmScope.textContent=showMeasured?'MEASURED SYNTHETIC REPLAY · SOURCE R'+snapshot.story.revision:'FICTIONAL COMPANION FILM · OBSERVATIONS ONLY';
+  if(showMeasured)actionFilm.pause();else if(active)Promise.resolve(actionFilm.play()).catch(()=>{});
   kicker.textContent = `${String(step + 1).padStart(2, "0")} / ${s.label.toUpperCase()}`;
   heading.textContent = s.title;
   description.textContent = s.copy;

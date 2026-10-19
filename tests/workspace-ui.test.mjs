@@ -13,7 +13,7 @@ test('all seven application routes and the guided story initialize together with
   await new Promise(r=>setTimeout(r,50));
   assert.equal(document.getElementById('receipt-run').textContent,'SOURCE PREVIEW · ASK AI TO RUN');
   assert.doesNotMatch(document.getElementById('desk-panel').textContent,/NO MODEL REQUEST/);
-  assert.ok(document.body.classList.contains('guided-active'));assert.match(document.querySelector('.guided-copy').textContent,/run you didn’t see/);
+  assert.ok(document.body.classList.contains('guided-active'));assert.match(document.querySelector('.guided-copy').textContent,/defender moved/i);
   for(const id of ['centre','lab','truth','presenters','security','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
   const {matchSession}=await import('../dist/match-session.js');
   matchSession.set({source:'match',section:'truth',time:16,corrected:true});

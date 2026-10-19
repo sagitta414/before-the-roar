@@ -25,7 +25,7 @@ test('corrected fan and tactical modes cannot retain the withdrawn defender move
 
 test('v112 presents a concise judge dashboard and progressive disclosure',async()=>{
  const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
- for(const text of ['JUDGE SNAPSHOT','249 TESTS','100 FIXTURES','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
+ for(const text of ['JUDGE SNAPSHOT','268 TESTS','39 / 40','2 SCREENS','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
  const watch=await readFile(new URL('../dist/match-watch.js',import.meta.url),'utf8');
  assert.doesNotMatch(watch,/Ask the crew · 1 AI request/);
  assert.match(watch,/Ask the crew · 4 AI requests/);

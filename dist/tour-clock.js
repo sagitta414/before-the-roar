@@ -16,9 +16,9 @@ export function createTourClock(now = () => performance.now()) {
       seconds,
       status,
       step:
-        seconds >= 44 ? 4 : seconds >= 32 ? 3 : seconds >= 20 ? 2 : seconds >= 10 ? 1 : 0,
+        seconds >= 42 ? 4 : seconds >= 25 ? 3 : seconds >= 18 ? 2 : seconds >= 8 ? 1 : 0,
       time: Math.min(16, seconds),
-      corrected: seconds >= 38,
+      corrected: seconds >= 30,
       mode: seconds >= 53 ? "math" : seconds >= 44 ? "beginner" : "analyst",
       language: seconds >= 49 ? "es" : "en",
     };

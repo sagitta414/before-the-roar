@@ -10,11 +10,15 @@ The connected-match release places beginner, math and tactical readings beside t
 
 **Start the guided match:** https://before-the-roar.sagitta107.chatgpt.site/?tour=1#watch
 
+**Direct judge route:** https://before-the-roar.sagitta107.chatgpt.site/?judge=1#watch
+
+**Canonical 105-second demo:** https://before-the-roar.sagitta107.chatgpt.site/assets/btr-judge-demo.mp4
+
 **Current changes and measured limits:** [CHANGELOG.md](CHANGELOG.md) · [verification record](docs/proof/v44-verification.json)
 
 **Earlier reviewer fixes:** [docs/SCAN-3-FIXES.md](docs/SCAN-3-FIXES.md)
 
-**Judge demonstration and scope:** [docs/JUDGE-DEMO.md](docs/JUDGE-DEMO.md) · [current commentary and proof limits](docs/V90-COMMENTARY-READINESS.md)
+**Judge demonstration and scope:** [docs/JUDGE-DEMO.md](docs/JUDGE-DEMO.md)
 
 ## Run and verify
 

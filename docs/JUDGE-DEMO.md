@@ -6,13 +6,17 @@ Public application: https://before-the-roar.sagitta107.chatgpt.site
 
 Direct judge entry: https://before-the-roar.sagitta107.chatgpt.site/?judge=1#watch
 
-Recommended cinematic demo: `demo/before-the-roar-cinematic-judge-demo.mp4` (1080p, 1:45)
+## Canonical submission demo
+
+**Use this video everywhere:** `demo/before-the-roar-cinematic-judge-demo-share.mp4` (720p, 1:45)
+
+Public copy: https://before-the-roar.sagitta107.chatgpt.site/assets/btr-judge-demo.mp4
 
 The AI-generated football action remains visible for the complete cinematic cut. Agent execution, calculation, correction, Pocket Director and Foundry proof appear as broadcast overlays around it.
 
-Evidence-led alternate cut: `demo/before-the-roar-judge-demo-v2.mp4` (1080p, 1:45)
+The 1080p master remains at `demo/before-the-roar-cinematic-judge-demo.mp4`. Earlier cuts are development history and must not be linked from the application, README or submission.
 
-Share copy: `demo/before-the-roar-cinematic-judge-demo-share.mp4` (720p)
+**Verified prototype snapshot:** 268 passing tests · 39/40 controlled detector events · four Azure specialist requests plus deterministic Vector · one separate Foundry referee · three languages · five audience views · Watch and Pocket Director.
 
 ## Current conversation demonstration — verified live capture
 
@@ -22,7 +26,7 @@ The October 18 capture used four separate Azure requests for Scout, Guide, Check
 
 The recording does not replace a weak answer with a scripted answer or present cached playback as fresh generation. Its Foundry 46–45 comparison is labelled as a narrow model-scored result. Independent human review remains pending and is available through `study.html`.
 
-## Current recording — 105 seconds
+## Canonical recording — 105 seconds
 
 The V2 recording uses fresh public browser captures, the corrected Pocket Director state, conversational Azure Speech narration and burned captions. The cinematic shots remain clearly labelled companion footage; the measured replay and tool receipts provide the evidence.
 
