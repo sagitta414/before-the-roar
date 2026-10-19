@@ -323,8 +323,9 @@ export function presentNarrative(value, packet) {
   };
 }
 export class Narrator {
-  constructor(store = new ResultStore()) {
+  constructor(store = new ResultStore(), { token = accessToken } = {}) {
     this.store = store;
+    this.token = token;
     this.pending = new Map();
     this.busy = 0;
     this.calls = 0;
@@ -384,8 +385,8 @@ export class Narrator {
       if (this.busy >= 2) return fallback(packet, "capacity");
       this.busy++;
       try {
+        const token = await this.token("https://cognitiveservices.azure.com/");
         if (!(await this.store.reserve())) return fallback(packet, "daily_allowance");
-        const token = await accessToken("https://cognitiveservices.azure.com/");
         const deployment = process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4o-mini";
         const url = new URL(
           `openai/deployments/${encodeURIComponent(deployment)}/chat/completions?api-version=2024-10-21`,

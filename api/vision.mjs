@@ -34,8 +34,9 @@ export function validateVision(value, window) {
   };
 }
 export class VisionDesk {
-  constructor(narrator) {
+  constructor(narrator, { token = accessToken } = {}) {
     this.narrator = narrator;
+    this.token = token;
     this.pending = new Map();
   }
   async inspect(input) {
@@ -98,6 +99,7 @@ export class VisionDesk {
           },
         );
       }
+      const token = await this.token("https://cognitiveservices.azure.com/");
       if (!(await narrator.store.reserve()))
         throw Error(
           "Daily AI allowance reached. Reviewed observations remain available.",
@@ -109,8 +111,7 @@ export class VisionDesk {
       const r = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization:
-            "Bearer " + (await accessToken("https://cognitiveservices.azure.com/")),
+          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
         signal: AbortSignal.timeout(30000),

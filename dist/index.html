@@ -115,6 +115,16 @@
       <p>The AI Desk distinguishes a live model request from a restored replay, deterministic calculation, or failed-and-recovered stage.</p>
       <ul><li>Execution IDs, tools, evidence IDs and latency remain visible.</li><li>Rejected drafts do not become audience output.</li><li>Saved work is labeled instead of imitating fresh generation.</li></ul>
     </article>
+    <article class="security-card" data-security-group="implemented" data-status="implemented">
+      <small>IMPLEMENTED · INGRESS + RESOURCE GUARDS</small><h2>Anonymous traffic stays bounded.</h2>
+      <p>The API derives its rate identity from the verified proxy side of the forwarding chain. Capacity is reserved before request bodies are read and released when validation or a client connection fails.</p>
+      <ul><li>Rate identities expire independently and the in-memory table has a fixed ceiling.</li><li>Live match streams have per-run and service-wide subscriber limits.</li><li>Disconnected editorial streams cancel ordinary model work and release capacity.</li></ul>
+    </article>
+    <article class="security-card" data-security-group="implemented" data-status="implemented">
+      <small>IMPLEMENTED · DATA RETENTION</small><h2>Checkpoints have an end date.</h2>
+      <p>Agent records carry application retention deadlines. Expired records are deleted when encountered, while the Azure Storage lifecycle policy removes the remaining agent blobs after two days.</p>
+      <ul><li>Production proof authorization deletes an expired session record.</li><li>Ordinary AI checkpoints expire after twenty-four hours.</li><li>The lifecycle rule is declared as deployable Azure infrastructure.</li></ul>
+    </article>
 
     <article class="security-card" data-security-group="roadmap" data-status="proposed">
       <small>COULD BE USED · MICROSOFT DEFENDER FOR CLOUD</small><h2>Continuously assess the cloud workload.</h2>

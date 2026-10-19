@@ -2,18 +2,19 @@ import {createHash} from 'node:crypto';
 import {normalizeStudio,studioInsight,choose} from '../dist/studio-insight.js';
 import {auditEvidence} from '../dist/evidence-audit.js';
 import {PLAN_POLICY,proposePlan,verifyPlan} from './review-planner.mjs';
+import {accessToken} from './azure.mjs';
 export class EvidenceDesk{
  constructor(narrator,{select}={}){this.narrator=narrator;this.select=select;this.pending=new Map();}
- async review(raw){
+ async review(raw,options={}){
   const input=normalizeStudio(raw),previous=raw.previous?normalizeStudio(raw.previous):null;
   if(previous&&previous.scenario!==input.scenario)throw Error('Previous evidence belongs to another scenario');
   const intent=raw.intent||'opening';if(!['opening','challenge','math'].includes(intent))throw Error('Invalid review intent');
   const key=createHash('sha256').update(JSON.stringify({policy:PLAN_POLICY,input,previous,intent})).digest('hex');
   const saved=await this.narrator.store.read(key).catch(()=>null);if(saved?.engine==='azure_selection')return {...saved,cached:true};
   if(this.pending.has(key))return this.pending.get(key);
-  const run=this.run(input,previous,key,intent);this.pending.set(key,run);try{return await run;}finally{this.pending.delete(key);}
+   const run=this.run(input,previous,key,intent,options);this.pending.set(key,run);try{return await run;}finally{this.pending.delete(key);}
  }
- async run(input,previous,key,intent='opening'){
+ async run(input,previous,key,intent='opening',options={}){
   const now=studioInsight(input),before=previous?studioInsight(previous):null,start=performance.now();
   const audit=auditEvidence(input,previous);let plan=null,usage=null,validation=null;
   let focus='change',engine='azure_selection',error=null,acquired=false;
@@ -21,10 +22,11 @@ export class EvidenceDesk{
    if(!this.select&&!process.env.AZURE_OPENAI_ENDPOINT)throw Error('AI unavailable');
    if((this.narrator.busy||0)>=2)throw Error('AI desk is busy');
    this.narrator.busy=(this.narrator.busy||0)+1;acquired=true;
-   if(!await this.narrator.store.reserve())throw Error('Daily allowance reached');
+    const token=this.select?null:await accessToken('https://cognitiveservices.azure.com/');
+    if(!await this.narrator.store.reserve())throw Error('Daily allowance reached');
    const packet={current:now.receipt,previous:before?.receipt||null,intent};
    if(this.select)focus=await this.select(packet);
-   else{const proposal=await proposePlan(packet);plan=proposal.plan;usage=proposal.usage;validation=verifyPlan(plan,packet);if(!validation.accepted)throw Error('Plan rejected: '+validation.errors.join('; '));focus=plan.tool==='pass_progression'?'measurement':'change';}
+    else{const proposal=await proposePlan(packet,{token,signal:options.signal});plan=proposal.plan;usage=proposal.usage;validation=verifyPlan(plan,packet);if(!validation.accepted)throw Error('Plan rejected: '+validation.errors.join('; '));focus=plan.tool==='pass_progression'?'measurement':'change';}
    if(!['change','measurement','learning'].includes(focus))throw Error('Invalid editorial selection');
   }catch(e){engine='reviewed_fallback';error=e.message;plan=null;}finally{if(acquired)this.narrator.busy--;}
   const posts=now.roles.map(p=>({...p,engine:['math','reviewer'].includes(p.role)?'evidence_rules':engine}));

@@ -6,6 +6,7 @@ import { readCompletion, draftInterpretations } from "./streaming.mjs";
 import { normalizeQuestion } from "../dist/party-state.js";
 import { PRESENTER_PROFILES, PRESENTER_IDS } from "../dist/presenter-profiles.js";
 import { specialistTools } from "./desk-tools.mjs";
+import { combinedSignal } from "./request-guard.mjs";
 
 export const DESK_ROLES = PRESENTER_PROFILES.map((p) => ({
   ...p,
@@ -199,12 +200,14 @@ export function deskFallback(role, language) {
   };
 }
 export class DiscussionDesk {
-  constructor(narrator) {
+  constructor(narrator, { token = accessToken } = {}) {
     this.narrator = narrator;
     this.store = narrator.store;
     this.jobs = new Map();
+    this.token = token;
   }
-  async discuss({ language = "en", mode = "fan", question = "" }, listener) {
+  async discuss({ language = "en", mode = "fan", question = "" }, listener, options = {}) {
+    if (options.signal?.aborted) throw new DOMException("Discussion cancelled", "AbortError");
     question = normalizeQuestion(question);
     const key = createHash("sha256")
       .update(
@@ -222,15 +225,26 @@ export class DiscussionDesk {
     let job = this.jobs.get(key);
     if (job) {
       job.listeners.add(listener);
+      const cancel = () => {
+        job.listeners.delete(listener);
+        if (!job.listeners.size) job.controller.abort();
+      };
+      options.signal?.addEventListener("abort", cancel, { once: true });
       for (const frame of job.history) listener(frame.type, frame.data);
       try {
         return await job.promise;
       } finally {
+        options.signal?.removeEventListener("abort", cancel);
         job.listeners.delete(listener);
       }
     }
-    job = { listeners: new Set([listener]), history: [] };
+    job = { listeners: new Set([listener]), history: [], controller: new AbortController() };
     this.jobs.set(key, job);
+    const cancel = () => {
+      job.listeners.delete(listener);
+      if (!job.listeners.size) job.controller.abort();
+    };
+    options.signal?.addEventListener("abort", cancel, { once: true });
     const emit = (type, data) => {
       const f = { type, data };
       if (type === "draft") {
@@ -250,14 +264,15 @@ export class DiscussionDesk {
         } catch {}
       }
     };
-    job.promise = this.generate(key, { language, mode, question }, emit);
+    job.promise = this.generate(key, { language, mode, question }, emit, job.controller.signal);
     try {
       return await job.promise;
     } finally {
+      options.signal?.removeEventListener("abort", cancel);
       this.jobs.delete(key);
     }
   }
-  async generate(key, { language, mode, question }, emit) {
+  async generate(key, { language, mode, question }, emit, signal) {
     const posts = [];
     try {
       const cached = await this.store.read(key);
@@ -284,8 +299,8 @@ export class DiscussionDesk {
           throw Error("AI unavailable or busy");
         this.narrator.busy++;
         acquired = true;
+        const token = await this.token("https://cognitiveservices.azure.com/");
         if (!(await this.store.reserve())) throw Error("Daily allowance reached");
-        const token = await accessToken("https://cognitiveservices.azure.com/");
         const audience = {
           fan: "A curious football fan.",
           beginner:
@@ -307,7 +322,7 @@ export class DiscussionDesk {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          signal: AbortSignal.timeout(30000),
+          signal: combinedSignal(signal, 30000),
           body: JSON.stringify({
             messages: [
               { role: "system", content: system },

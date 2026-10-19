@@ -5,6 +5,7 @@ import { accessToken } from "./azure.mjs";
 import { followUpMetric } from "./conversation.mjs";
 import { PLAYERS } from "../dist/engine.js";
 import { randomUUID } from "node:crypto";
+import { combinedSignal } from "./request-guard.mjs";
 
 export const GROUNDED_POLICY = "v103-four-model-handoff";
 const pick = (p, a) => a[["en", "es", "pt"].indexOf(p.language)] || a[0];
@@ -459,6 +460,7 @@ export async function groundedRound({
     const correlationId = `btr-${randomUUID()}`,
       requestStarted = performance.now();
     try {
+      const token = await accessToken("https://cognitiveservices.azure.com/");
       if (!(await narrator.store.reserve())) throw Error("Daily allowance reached");
       reserved = true;
       await journal.change((v) => v.metrics.model_calls++);
@@ -478,10 +480,10 @@ export async function groundedRound({
       const response = await fetch(modelUrl(), {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${await accessToken("https://cognitiveservices.azure.com/")}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        signal: AbortSignal.timeout(45000),
+        signal: combinedSignal(options.signal, 45000),
         body: JSON.stringify({
           messages: [
             {

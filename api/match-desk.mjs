@@ -17,6 +17,7 @@ import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
 import { conversationContext, followUpMetric } from "./conversation.mjs";
 import { claimBoundaryIssues } from "./claim-boundary.mjs";
 import { groundedRound, reconcileCachedNextEventMath } from "./grounded-desk.mjs";
+import { combinedSignal } from "./request-guard.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary, previous = []) {
@@ -250,6 +251,7 @@ export class MatchDesk {
     this.clip = clip;
   }
   async discuss(input, emit, options = {}) {
+    if (options.signal?.aborted) throw new DOMException("Discussion cancelled", "AbortError");
     const key =
       options.key ||
       createHash("sha256")
@@ -268,22 +270,34 @@ export class MatchDesk {
       const task = this.pending.get(key);
       for (const [type, item] of task.history) emit(type, item);
       task.listeners.add(emit);
+      const cancel = () => {
+        task.listeners.delete(emit);
+        if (!task.listeners.size) task.controller.abort();
+      };
+      options.signal?.addEventListener("abort", cancel, { once: true });
       try {
         return await task.promise;
       } finally {
+        options.signal?.removeEventListener("abort", cancel);
         task.listeners.delete(emit);
       }
     }
-    const task = { history: [], listeners: new Set([emit]) };
+    const task = { history: [], listeners: new Set([emit]), controller: new AbortController() };
     this.pending.set(key, task);
+    const cancel = () => {
+      task.listeners.delete(emit);
+      if (!task.listeners.size) task.controller.abort();
+    };
+    options.signal?.addEventListener("abort", cancel, { once: true });
     const publish = (type, item) => {
       task.history.push([type, item]);
       for (const fn of task.listeners) fn(type, item);
     };
-    task.promise = this.generate(key, input, publish, options);
+    task.promise = this.generate(key, input, publish, { ...options, signal: task.controller.signal });
     try {
       return await task.promise;
     } finally {
+      options.signal?.removeEventListener("abort", cancel);
       this.pending.delete(key);
     }
   }
@@ -575,7 +589,7 @@ export class MatchDesk {
             const response = await fetch(url, {
             method: "POST",
             headers,
-            signal: AbortSignal.timeout(20000),
+             signal: combinedSignal(options.signal, 20000),
             body: JSON.stringify({
               messages: toolMessages,
               tools: TOOL_DEFINITIONS,
@@ -628,7 +642,7 @@ export class MatchDesk {
         const res = await fetch(url, {
           method: "POST",
           headers,
-          signal: AbortSignal.timeout(30000),
+           signal: combinedSignal(options.signal, 30000),
           body: JSON.stringify({
             messages: [
               { role: "system", content: editorialPrompt },
@@ -760,7 +774,7 @@ export class MatchDesk {
                 ? "Host: synthesize Check's limit and offer a concrete replay test, without a quality rating or a claim about defender influence. A supported example is: A local outlet is confirmed, but the wider defensive line remains outside this shot; the receiver's first touch can test the exit. Keep the observation, boundary and test in separate clauses. Do not repeat Scout's account of the reception."
                 : "Host: state a specific new football implication or the precise next-touch replay test. Do not repeat Scout, give an unmeasured quality rating or claim an unseen outcome.";
           const repairedResponse=await fetch(url,{
-            method:"POST",headers,signal:AbortSignal.timeout(30000),
+            method:"POST",headers,signal:combinedSignal(options.signal,30000),
             body:JSON.stringify({
               messages:[
                 {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. '+repairTask+' Avoid generic praise. Keep the same evidence cutoff, language and citations.'},

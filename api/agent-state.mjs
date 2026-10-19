@@ -1,5 +1,5 @@
 // Durable agent checkpoints with atomic local writes and Azure Blob compare-and-swap.
-import { readFile, writeFile, mkdir, rename } from "node:fs/promises";
+import { readFile, writeFile, mkdir, rename, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { randomBytes } from "node:crypto";
@@ -9,10 +9,11 @@ import { randomBytes } from "node:crypto";
 export class AgentState {
   constructor(
     store = {},
-    { directory = process.env.BTR_STATE_DIR || join(tmpdir(), "btr-agent-state") } = {},
+    { directory = process.env.BTR_STATE_DIR || join(tmpdir(), "btr-agent-state"), clock = () => Date.now() } = {},
   ) {
     this.store = store;
     this.directory = directory;
+    this.clock = clock;
     this.localLocks = new Map();
   }
   path(key) {
@@ -25,12 +26,21 @@ export class AgentState {
       const res = await this.store.blob(path);
       if (res.status === 404) return null;
       if (!res.ok) throw Error("Checkpoint storage unavailable");
-      return { value: await res.json(), etag: res.headers.get("etag") };
+      const value = await res.json();
+      if ((value.retention_until || Infinity) <= this.clock()) {
+        await this.delete(key).catch(() => {});
+        return null;
+      }
+      return { value, etag: res.headers.get("etag") };
     }
     try {
       const value = JSON.parse(
         await readFile(join(this.directory, key + ".json"), "utf8"),
       );
+      if ((value.retention_until || Infinity) <= this.clock()) {
+        await this.delete(key).catch(() => {});
+        return null;
+      }
       return { value, etag: String(value.version) };
     } catch (e) {
       if (e.code === "ENOENT") return null;
@@ -38,11 +48,15 @@ export class AgentState {
     }
   }
   async write(key, value, etag = null) {
+    const retentionHours = Math.min(168, Math.max(1, Number(process.env.BTR_AGENT_RETENTION_HOURS) || 24));
     const path = this.path(key),
       next = {
         ...value,
         version: (value.version || 0) + 1,
-        updated_at: Date.now(),
+        updated_at: this.clock(),
+        retention_until:
+          value.retention_until ||
+          this.clock() + retentionHours * 60 * 60 * 1000,
       };
     if (this.store.base) {
       const r = await this.store.blob(path, {
@@ -81,6 +95,16 @@ export class AgentState {
       release();
       if (this.localLocks.get(key) === lock) this.localLocks.delete(key);
     }
+  }
+  async delete(key) {
+    const path = this.path(key);
+    if (this.store.base) {
+      const response = await this.store.blob(path, { method: "DELETE" });
+      if (![202, 404].includes(response.status) && !response.ok)
+        throw Error("Checkpoint could not be deleted");
+      return;
+    }
+    await rm(join(this.directory, key + ".json"), { force: true });
   }
   async open(key, initial) {
     return new Journal(

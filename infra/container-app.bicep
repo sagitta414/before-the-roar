@@ -88,6 +88,10 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
               name: 'AI_DAILY_LIMIT'
               value: string(dailyLimit)
             }
+            {
+              name: 'BTR_AGENT_RETENTION_HOURS'
+              value: '24'
+            }
           ]
         }
       ]

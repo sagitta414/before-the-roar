@@ -25,6 +25,7 @@ import { PITCHSIDE } from "../dist/pitchside-story.js";
 import { BroadcastRooms } from "./broadcast.mjs";
 import { ProductionDesk } from "./production.mjs";
 import { validateSyntheticMatch } from "./synthetic-validation.mjs";
+import { clientIdentity, RateTable } from "./request-guard.mjs";
 const types = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css",
@@ -43,13 +44,15 @@ export function createApp({
 } = {}) {
   const root = resolve("dist"),
     runs = new Map(),
-    rates = new Map(),
+    rates = new RateTable({ clock }),
     evidenceDesk = new EvidenceDesk(narrator),
     videoDesk = new VideoDesk(narrator),
     matchDesk = new MatchDesk(narrator),
     clipDesk = new MatchDesk(narrator, { clip: true });
   let created = 0;
   let deskStreams = 0;
+  let pendingRuns = 0;
+  let runSubscribers = 0;
   const broadcasts = new BroadcastRooms({ clock }),
     vision = new VisionDesk(narrator),
     production = new ProductionDesk(narrator, { clock });
@@ -71,13 +74,12 @@ export function createApp({
       priority: run.audience,
     };
     emit(run, "thinking", { cutoff: second, recap: second === 5400 });
-    narrator
-      .explain(packet, (draft) => {
+    run.explanationQueue = run.explanationQueue.then(async () => {
+      if (!runs.has(run.id) || run.stopped || run.completed) return;
+      const result = await narrator.explain(packet, (draft) => {
         if (runs.has(run.id) && !run.stopped && !run.completed)
           emit(run, "dialogue", { ...draft, cutoff: second });
-      })
-      .catch(() => fallback(packet))
-      .then((result) => {
+      }).catch(() => fallback(packet));
         if (!runs.has(run.id) || run.stopped || run.completed) return;
         const item = {
           ...result,
@@ -99,7 +101,8 @@ export function createApp({
           for (const c of run.clients) c.end();
           run.clients.clear();
         }
-      });
+    });
+    return run.explanationQueue;
   }
   function tick() {
     for (const run of runs.values()) {
@@ -154,6 +157,7 @@ export function createApp({
     for (const r of runs.values()) r.tickStart = performance.now();
     tick();
     broadcasts.prune();
+    rates.prune();
   }, 500);
   timer.unref();
   const send = (res, status, value) => {
@@ -233,33 +237,32 @@ export function createApp({
           }
           return JSON.parse(body || "{}");
         };
-        const ip =
-            "production:" +
-            (req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress),
-          rate = rates.get(ip) || { n: 0, until: clock() + 600000 };
-        if (rate.until < clock()) {
-          rate.n = 0;
-          rate.until = clock() + 600000;
-        }
+        const ip = "production:" + clientIdentity(req);
+        let rateReservation = null;
         if (req.method === "POST") {
-          if (rate.n >= 12)
+          rateReservation = rates.reserve(ip, 12);
+          if (!rateReservation)
             return send(res, 429, {
               error: "Please wait before starting more proof actions",
             });
-          rate.n++;
-          rates.set(ip, rate);
         }
         if (route === "/api/production" && req.method === "POST") {
           try {
-            return send(res, 201, await production.create(await readInput()));
+            const result = await production.create(await readInput());
+            rateReservation.commit();
+            return send(res, 201, result);
           } catch (e) {
+            rateReservation.release();
             return send(res, 400, { error: e.message });
           }
         }
         const found = route.match(
           /^\/api\/production\/([a-f0-9]{24})\/(state|run|revise|cue)$/,
         );
-        if (!found) return send(res, 404, { error: "Production run not found" });
+        if (!found) {
+          rateReservation?.release();
+          return send(res, 404, { error: "Production run not found" });
+        }
         let record;
         try {
           record = await production.authorized(
@@ -268,6 +271,7 @@ export function createApp({
             found[2] === "cue",
           );
         } catch (e) {
+          rateReservation?.release();
           return send(res, 403, { error: e.message });
         }
         if (req.method === "GET" && found[2] === "state")
@@ -276,21 +280,27 @@ export function createApp({
           return send(res, 200, production.cue(record));
         if (req.method === "POST" && found[2] === "revise") {
           try {
+            const input = await readInput();
+            rateReservation.commit();
             return send(
               res,
               200,
-              await production.export(await production.revise(record, await readInput())),
+              await production.export(await production.revise(record, input)),
             );
           } catch (e) {
+            rateReservation?.release();
             return send(res, 409, { error: e.message });
           }
         }
         if (req.method === "POST" && found[2] === "run") {
-          if (deskStreams >= 6 || production.active.has(found[1]))
+          if (deskStreams >= 6 || production.active.has(found[1])) {
+            rateReservation.release();
             return send(res, 429, {
               error: "This desk is busy. Reconnect shortly.",
             });
+          }
           deskStreams++;
+          rateReservation.commit();
           res.writeHead(200, {
             "Content-Type": "text/event-stream",
             "Cache-Control": "no-cache, no-transform",
@@ -315,6 +325,7 @@ export function createApp({
           }
           return;
         }
+        rateReservation?.release();
         return send(res, 405, { error: "Method not allowed" });
       }
       if (route === "/api/vision-check" && req.method === "POST") {
@@ -325,31 +336,24 @@ export function createApp({
           origin !== `http://${req.headers.host}`
         )
           return send(res, 403, { error: "Origin not allowed" });
-        const ip =
-            "vision:" +
-            (req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress),
-          rate = rates.get(ip) || { n: 0, until: clock() + 600000 };
-        if (rate.until < clock()) {
-          rate.n = 0;
-          rate.until = clock() + 600000;
-        }
-        if (rate.n >= 6)
+        const reservation = rates.reserve("vision:" + clientIdentity(req), 6);
+        if (!reservation)
           return send(res, 429, {
             error: "Please wait before checking more frames.",
           });
         let body = "";
         for await (const c of req) {
           body += c;
-          if (body.length > 1024) return send(res, 413, { error: "Request too large" });
+          if (body.length > 1024) { reservation.release(); return send(res, 413, { error: "Request too large" }); }
         }
         let input;
         try {
           input = JSON.parse(body);
         } catch {
+          reservation.release();
           return send(res, 400, { error: "Invalid JSON" });
         }
-        rate.n++;
-        rates.set(ip, rate);
+        reservation.commit();
         try {
           return send(res, 200, await vision.inspect(input));
         } catch (error) {
@@ -376,24 +380,17 @@ export function createApp({
           return JSON.parse(body);
         };
         if (route === "/api/broadcast" && req.method === "POST") {
-          const ip =
-              "broadcast:" +
-              (req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress),
-            rate = rates.get(ip) || { n: 0, until: clock() + 600000 };
-          if (rate.until < clock()) {
-            rate.n = 0;
-            rate.until = clock() + 600000;
-          }
-          if (rate.n >= 6)
+          const reservation = rates.reserve("broadcast:" + clientIdentity(req), 6);
+          if (!reservation)
             return send(res, 429, {
               error: "Please wait before creating another broadcast.",
             });
           try {
             const result = broadcasts.create(await readInput());
-            rate.n++;
-            rates.set(ip, rate);
+            reservation.commit();
             return send(res, 201, result);
           } catch (error) {
+            reservation.release();
             return send(res, 400, { error: error.message });
           }
         }
@@ -436,7 +433,9 @@ export function createApp({
           allowance: dailyRequestLimit(),
           active_runs: [...runs.values()].filter((r) => !r.completed && !r.stopped)
             .length,
-          version: "3.18.0",
+          active_run_subscribers: runSubscribers,
+          rate_identity_count: rates.size,
+          version: "3.19.0",
           evidence_review: true,
           usage: (await narrator.store?.allowance?.().catch(() => null)) ?? null,
           agent_tools: true,
@@ -466,41 +465,50 @@ export function createApp({
           return send(res, 429, {
             error: "The AI desk is busy. Try again shortly.",
           });
-        const ip =
-            "desk:" +
-            (req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress),
-          rate = rates.get(ip) || { n: 0, until: clock() + 600000 };
-        if (rate.until < clock()) {
-          rate.n = 0;
-          rate.until = clock() + 600000;
-        }
-        if (rate.n >= 6)
+        const rateReservation = rates.reserve("desk:" + clientIdentity(req), 6);
+        if (!rateReservation)
           return send(res, 429, {
             error: "Please wait before requesting another discussion.",
           });
+        deskStreams++;
+        let deskReleased = false;
+        const releaseDesk = () => {
+          if (deskReleased) return;
+          deskReleased = true;
+          deskStreams--;
+        };
+        const rejectDesk = (status, value) => {
+          rateReservation.release();
+          releaseDesk();
+          return send(res, status, value);
+        };
+        req.once("aborted", () => {
+          rateReservation.release();
+          releaseDesk();
+        });
         let body = "";
         for await (const c of req) {
           body += c;
-          if (body.length > 2048) return send(res, 413, { error: "Request too large" });
+          if (body.length > 2048) return rejectDesk(413, { error: "Request too large" });
         }
         let input;
         try {
           input = JSON.parse(body);
         } catch {
-          return send(res, 400, { error: "Invalid JSON" });
+          return rejectDesk(400, { error: "Invalid JSON" });
         }
         const { language = "en", mode = "fan" } = input;
         if (!["en", "es", "pt"].includes(language) || !MODES.includes(mode))
-          return send(res, 400, {
+          return rejectDesk(400, {
             error: "Choose a supported audience and language.",
           });
         let question;
         if (input.parentKey !== undefined && !/^[a-f0-9]{64}$/.test(input.parentKey))
-          return send(res, 400, { error: "Invalid discussion reference" });
+          return rejectDesk(400, { error: "Invalid discussion reference" });
         try {
           question = normalizeQuestion(input.question);
         } catch (error) {
-          return send(res, 400, { error: error.message });
+          return rejectDesk(400, { error: error.message });
         }
         if (
           route === "/api/match-desk" &&
@@ -512,7 +520,7 @@ export function createApp({
             !["harbor", "north", "neutral"].includes(input.team) ||
             typeof input.corrected !== "boolean")
         )
-          return send(res, 400, { error: "Invalid match session." });
+          return rejectDesk(400, { error: "Invalid match session." });
         if (
           route === "/api/clip-desk" &&
           (input.clip_id !== PITCHSIDE.id ||
@@ -520,12 +528,15 @@ export function createApp({
             input.time < 0 ||
             input.time > PITCHSIDE.duration)
         )
-          return send(res, 400, { error: "Invalid clip or evidence cutoff." });
-        if(route==='/api/video-desk'){try{validateVideoInput(input);}catch{return send(res,400,{error:'Invalid measured-video request'});}}
-        if(route==='/api/evidence-review'){try{normalizeStudio(input);if(input.previous){normalizeStudio(input.previous);if(input.previous.scenario!==input.scenario)throw Error('Different scenario');}if(input.intent&&!['opening','challenge','math'].includes(input.intent))throw Error('Invalid intent');}catch{return send(res,400,{error:'Invalid evidence snapshot'});}}
-        rate.n++;
-        rates.set(ip, rate);
-        deskStreams++;
+          return rejectDesk(400, { error: "Invalid clip or evidence cutoff." });
+        if(route==='/api/video-desk'){try{validateVideoInput(input);}catch{return rejectDesk(400,{error:'Invalid measured-video request'});}}
+        if(route==='/api/evidence-review'){try{normalizeStudio(input);if(input.previous){normalizeStudio(input.previous);if(input.previous.scenario!==input.scenario)throw Error('Different scenario');}if(input.intent&&!['opening','challenge','math'].includes(input.intent))throw Error('Invalid intent');}catch{return rejectDesk(400,{error:'Invalid evidence snapshot'});}}
+        rateReservation.commit();
+        const controller = new AbortController();
+        res.once("close", () => {
+          controller.abort();
+          releaseDesk();
+        });
         res.writeHead(200, {
           "Content-Type": "text/event-stream",
           "Cache-Control": "no-cache, no-transform",
@@ -550,9 +561,9 @@ export function createApp({
           mode,
         });
         try {
-          if(route==='/api/video-desk'){await videoDesk.discuss(input,emit);}
+          if(route==='/api/video-desk'){await videoDesk.discuss(input,emit,{signal:controller.signal});}
           else if(route==='/api/evidence-review'){
-            const result=await evidenceDesk.review(input);
+            const result=await evidenceDesk.review(input,{signal:controller.signal});
             emit('receipt',{...result,posts:undefined});
             for(const post of result.posts)emit('post',post);
             emit('complete',{cached:result.cached,engine:result.engine,elapsed_ms:result.elapsed_ms});
@@ -567,17 +578,18 @@ export function createApp({
                 parentKey: input.parentKey,
               },
               emit,
+              { signal: controller.signal },
             );
           else if (route === "/api/match-desk")
-            await matchDesk.discuss({ ...input, language, mode, question }, emit);
-          else await desk.discuss({ language, mode, question }, emit);
+            await matchDesk.discuss({ ...input, language, mode, question }, emit, { signal: controller.signal });
+          else await desk.discuss({ language, mode, question }, emit, { signal: controller.signal });
         } catch {
           emit("error", {
             message: "The discussion could not finish. Please retry.",
           });
         } finally {
-          deskStreams--;
-          res.end();
+          releaseDesk();
+          if (!res.destroyed) res.end();
         }
         return;
       }
@@ -589,33 +601,41 @@ export function createApp({
           origin !== `http://${req.headers.host}`
         )
           return send(res, 403, { error: "Origin not allowed" });
-        if ([...runs.values()].filter((r) => !r.completed && !r.stopped).length >= 6)
+        if ([...runs.values()].filter((r) => !r.completed && !r.stopped).length + pendingRuns >= 6)
           return send(res, 429, {
             error: "The studio is busy. Try again in a minute.",
           });
-        const ip =
-          req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
-        const rate = rates.get(ip) || { n: 0, until: clock() + 600000 };
-        if (rate.until < clock()) {
-          rate.n = 0;
-          rate.until = clock() + 600000;
-        }
-        if (rate.n >= 6)
+        const rateReservation = rates.reserve("match:" + clientIdentity(req), 6);
+        if (!rateReservation)
           return send(res, 429, {
             error: "Please wait before starting another match.",
           });
-        if (rates.size > 1000)
-          for (const [k, v] of rates) if (v.until < clock()) rates.delete(k);
+        pendingRuns++;
+        let pendingReleased = false;
+        const releasePending = () => {
+          if (pendingReleased) return;
+          pendingReleased = true;
+          pendingRuns--;
+        };
+        const rejectRun = (status, value) => {
+          rateReservation.release();
+          releasePending();
+          return send(res, status, value);
+        };
+        req.once("aborted", () => {
+          rateReservation.release();
+          releasePending();
+        });
         let body = "";
         for await (const c of req) {
           body += c;
-          if (body.length > 2048) return send(res, 413, { error: "Request too large" });
+          if (body.length > 2048) return rejectRun(413, { error: "Request too large" });
         }
         let input;
         try {
           input = JSON.parse(body);
         } catch {
-          return send(res, 400, { error: "Invalid JSON" });
+          return rejectRun(400, { error: "Invalid JSON" });
         }
         const { seed = 7, language = "en", speed = 90, audience = "fan" } = input;
         if (
@@ -626,11 +646,11 @@ export function createApp({
           ![30, 90].includes(speed) ||
           !MODES.includes(audience)
         )
-          return send(res, 400, {
+          return rejectRun(400, {
             error: "Choose a supported seed, language, perspective and replay speed.",
           });
-        rate.n++;
-        rates.set(ip, rate);
+        rateReservation.commit();
+        releasePending();
         created++;
         const id = randomBytes(12).toString("hex"),
           token = randomBytes(24).toString("hex"),
@@ -652,6 +672,7 @@ export function createApp({
           started: null,
           nextCheckpoint: 900,
           current: 0,
+          explanationQueue: Promise.resolve(),
         };
         runs.set(id, run);
         return send(res, 201, {
@@ -714,6 +735,17 @@ export function createApp({
               : null,
           });
         if (found[2] === "stream" && req.method === "GET") {
+          if (run.clients.size >= 3 || runSubscribers >= 12)
+            return send(res, 429, { error: "Too many live match subscribers" });
+          runSubscribers++;
+          let subscriberReleased = false;
+          const releaseSubscriber = () => {
+            if (subscriberReleased) return;
+            subscriberReleased = true;
+            runSubscribers--;
+            run.clients.delete(res);
+            if (!run.clients.size) run.disconnected = clock();
+          };
           res.writeHead(200, {
             "Content-Type": "text/event-stream",
             "Cache-Control": "no-cache, no-transform",
@@ -728,14 +760,12 @@ export function createApp({
               `id: ${item.id}\nevent: ${item.type}\ndata: ${JSON.stringify(item.data)}\n\n`,
             );
           if (run.completed || run.stopped) {
+            releaseSubscriber();
             res.end();
             return;
           }
           run.clients.add(res);
-          res.on("close", () => {
-            run.clients.delete(res);
-            if (!run.clients.size) run.disconnected = clock();
-          });
+          res.once("close", releaseSubscriber);
           return;
         }
         return send(res, 405, { error: "Method not allowed" });
@@ -798,7 +828,18 @@ export function createApp({
     broadcasts.close();
     for (const run of runs.values()) for (const c of run.clients) c.end();
   });
-  return { server, runs, tick, broadcasts };
+  return {
+    server,
+    runs,
+    tick,
+    broadcasts,
+    limits: {
+      get deskStreams() { return deskStreams; },
+      get pendingRuns() { return pendingRuns; },
+      get runSubscribers() { return runSubscribers; },
+      get rateIdentities() { return rates.size; },
+    },
+  };
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const { server } = createApp();

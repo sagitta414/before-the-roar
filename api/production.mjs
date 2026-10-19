@@ -54,8 +54,11 @@ export class ProductionDesk {
     if (!/^[a-f0-9]{24}$/.test(id) || !/^[a-f0-9]{48}$/.test(token))
       throw Error("Production authorization required");
     const record = await this.state.read("production-" + id);
-    if (!record || record.value.expires_at < this.clock())
+    if (!record) throw Error("Production run expired");
+    if (record.value.expires_at < this.clock()) {
+      await this.state.delete("production-" + id).catch(() => {});
       throw Error("Production run expired");
+    }
     const expected = readOnly ? record.value.reader_hash : record.value.token_hash;
     if (!timingSafeEqual(Buffer.from(hash(token)), Buffer.from(expected)))
       throw Error("Production authorization required");
