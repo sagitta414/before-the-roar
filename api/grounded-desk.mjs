@@ -271,9 +271,9 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
       "Explain the wide run and defender displacement, including any correction.",
       p.revision === 2
         ? pick(p, [
-            "The correction changes the movement story. It does not erase the completed passes or establish what the defender intended.",
-            "La corrección cambia la historia del movimiento. No borra los pases completados ni establece la intención del defensor.",
-            "A correção muda a história do movimento. Não apaga os passes completos nem estabelece a intenção do defensor.",
+            `Publish the corrected line: the defender remained in place. The correction does not erase this calculation: ${metric?.text || "the completed passes remain recorded"} Withdraw the movement claim. On replay, judge the passer and receiver without crediting the wide run.`,
+            `Publica la versión corregida: el defensor permaneció en su sitio. La corrección no borra este cálculo: ${metric?.text || "los pases completados siguen registrados"} Retira la afirmación de movimiento. En la repetición, evalúa a pasador y receptor sin atribuirlo a la carrera abierta.`,
+            `Publique a versão corrigida: o defensor permaneceu no lugar. A correção não apaga este cálculo: ${metric?.text || "os passes completos continuam registrados"} Retire a afirmação de movimento. No replay, avalie passador e recebedor sem atribuir à corrida aberta.`,
           ])
         : pick(p, [
             "The central passing route and the wide run are both recorded. Crediting the run for the defender’s decision would require evidence beyond these positions.",
@@ -310,6 +310,14 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
       "O próximo teste útil compara jogadas semelhantes com movimentos diferentes. Esta sequência não isola seu efeito; o cálculo descreve o ocorrido.",
     ]),
   );
+  if (p.analysis.pressure && catalog.limits) {
+    const host = catalog.limits.posts.find((n) => n.role === "presenter");
+    host.summary = pick(p, [
+      `No—the record does not prove pressure created the chance. ${metric?.text || "The sequence records the recovery and what followed."} To test the pressure claim, compare a similar possession with more space or inspect whether the opponent loses control before contact.`,
+      `No: el registro no prueba que la presión creara la ocasión. ${metric?.text || "La secuencia registra la recuperación y lo que siguió."} Para comprobarlo, compara una posesión similar con más espacio o revisa si el rival pierde el control antes del contacto.`,
+      `Não: o registro não prova que a pressão criou a chance. ${metric?.text || "A sequência registra a recuperação e o que veio depois."} Para testar, compare uma posse semelhante com mais espaço ou verifique se o adversário perde o controle antes do contato.`,
+    ]);
+  }
   if (p.football.record.width) {
     add(
       "causation_test",
@@ -397,9 +405,9 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
       "Primeiro o time recupera a bola; depois passes completos seguem a jogada. Essa ordem conta a história; o registro não prova que a pressão forçou o erro.",
     ],
     run: [
-      "In plain words: one player runs wide while the ball travels through the middle. It is like offering a second doorway. The option matters, but this record does not prove the run caused the passes.",
-      "En palabras sencillas: un jugador corre abierto mientras el balón va por el centro. Es como ofrecer una segunda puerta. La opción importa, pero el registro no prueba que causara los pases.",
-      "Em palavras simples: um jogador corre aberto enquanto a bola vai pelo meio. É como oferecer uma segunda porta. A opção importa, mas o registro não prova que causou os passes.",
+      "In plain words: one player offers a wide doorway while the ball uses the middle one. On replay, watch the runner first, then the ball: that separates an available option from the passes that actually happened. The record does not prove the run caused them.",
+      "En palabras sencillas: un jugador ofrece una puerta abierta mientras el balón usa la del centro. En la repetición, mira primero al corredor y luego al balón: así separas una opción disponible de los pases que ocurrieron. El registro no prueba que la carrera los causara.",
+      "Em palavras simples: um jogador oferece uma porta aberta enquanto a bola usa a do meio. No replay, veja primeiro o corredor e depois a bola: assim você separa uma opção disponível dos passes que aconteceram. O registro não prova que a corrida os causou.",
     ],
     pass: [
       "Follow the passer and receiver. The completed connection keeps possession moving, but the next recorded action will decide whether it becomes a chance.",

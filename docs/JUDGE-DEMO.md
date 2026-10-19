@@ -16,7 +16,7 @@ The AI-generated football action remains visible for the complete cinematic cut.
 
 The 1080p master remains at `demo/before-the-roar-cinematic-judge-demo.mp4`. Earlier cuts are development history and must not be linked from the application, README or submission.
 
-**Verified prototype snapshot:** 269 passing tests · 39/40 events in a fixed-camera synthetic marker holdout · four Azure specialist requests plus deterministic Vector · one separate Foundry referee · three languages · five audience views · Watch and Pocket Director.
+**Verified prototype snapshot:** 273 passing tests · 39/40 events in a fixed-camera synthetic marker holdout · four Azure specialist requests plus deterministic Vector · one separate Foundry referee · three languages · five audience views · Watch and Pocket Director.
 
 ## Current conversation demonstration — verified live capture
 
@@ -24,7 +24,7 @@ Open the guided match and choose **Try the live two-round discussion**. This han
 
 The October 18 capture used four separate Azure requests for Scout, Guide, Check and Host. Vector calculated in code. The public run completed in 3.2 seconds and exposed each response ID, source set, handoff and latency in the AI desk. The demo then changed the defender's synthetic tracking from revision R1 to R2, reducing measured displacement from 13.0 m to 0.0 m. The pass calculation remained valid, the movement claim was withdrawn, and the revised explanation reached Pocket Director.
 
-The recording does not replace a weak answer with a scripted answer or present cached playback as fresh generation. Its Foundry 46–45 comparison is labelled as a narrow model-scored result. Independent human review remains pending and is available through `study.html`.
+The recording does not replace a weak answer with a scripted answer or present cached playback as fresh generation. Its Azure 94–90 commentary comparison is labelled as a narrow model-scored result across 24 blinded, order-reversed pairings. Independent human review remains pending and is available through `study.html`.
 
 ## Canonical recording — 105 seconds
 

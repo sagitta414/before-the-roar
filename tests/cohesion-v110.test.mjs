@@ -21,7 +21,7 @@ test('proof layer states the vision and model-comparison limits',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   assert.match(source,/validates withholding behavior, not broadcast detection accuracy/);
   assert.match(source,/human preference remains open/);
-  assert.match(source,/46–45 OVERALL · 45–43 GROUNDING · 47–45 DECISION/);
+  assert.match(source,/94–90 OVERALL · 91–87 GROUNDING · 96–92 DECISION/);
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   assert.match(source,/MICROSOFT FOUNDRY/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');

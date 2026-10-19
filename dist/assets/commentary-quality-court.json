@@ -1,10 +1,10 @@
 {
-  "schema": "btr.azure-commentary-court.v1",
-  "created_at": "2026-10-18T13:39:44.707Z",
+  "schema": "btr.azure-commentary-court.v2",
+  "created_at": "2026-10-19T12:53:43.793Z",
   "project": "before-the-roar",
   "endpoint_kind": "Azure OpenAI chat completions",
   "deployment": "gpt-4o-mini",
-  "method": "Six preregistered synthetic football tasks. The one-model baseline is frozen from the pre-improvement run with its original Azure receipt. The production crew arm uses the current BTR source-rendered five-role output. Two blinded evaluator passes independently score both arms on anchored five-point criteria and reverse A/B order by case. No result-level retries.",
+  "method": "Six preregistered synthetic football tasks. The one-model baseline is frozen from the pre-improvement run with its original Azure receipt. The production crew arm uses the current BTR source-rendered five-role output. Four blinded evaluator passes independently score both arms on anchored five-point criteria and reverse A/B order by case. Each published artifact contains one complete scoring set; technical recaptures must be disclosed beside the artifact.",
   "cases": [
     {
       "id": "wide-causal",
@@ -310,7 +310,7 @@
         },
         {
           "role": "presenter",
-          "text": "The correction changes the movement story. It does not erase the completed passes or establish what the defender intended.",
+          "text": "Publish the corrected line: the defender remained in place. The correction does not erase this calculation: 2 completed passes move the ball 23.7 m toward goal, counting each pass’s end x minus start x. Carries are excluded. Withdraw the movement claim. On replay, judge the passer and receiver without crediting the wide run.",
           "evidence_ids": [
             "wide-football-16.0-r2",
             "wide-evt-001",
@@ -495,7 +495,7 @@
         },
         {
           "role": "presenter",
-          "text": "In plain words: one player runs wide while the ball travels through the middle. It is like offering a second doorway. The option matters, but this record does not prove the run caused the passes.",
+          "text": "In plain words: one player offers a wide doorway while the ball uses the middle one. On replay, watch the runner first, then the ball: that separates an available option from the passes that actually happened. The record does not prove the run caused them.",
           "evidence_ids": [
             "wide-football-16.0-r1",
             "wide-evt-001",
@@ -756,7 +756,7 @@
         },
         {
           "role": "presenter",
-          "text": "The next useful test is a comparison with similar plays where the movement differs. This single sequence cannot isolate its effect; the calculation describes what happened.",
+          "text": "No—the record does not prove pressure created the chance. 18 seconds from the completed regain to shot release, with 2 completed passes in between. This measures one attack, not a team average. To test the pressure claim, compare a similar possession with more space or inspect whether the opponent loses control before contact.",
           "evidence_ids": [
             "press-football-29.0-r1",
             "press-evt-002",
@@ -1259,14 +1259,14 @@
         },
         "total_tokens": 4893
       },
-      "reused_from": "2026-10-18T13:36:19.634Z"
+      "reused_from": "2026-10-18T13:39:44.707Z"
     }
   ],
   "evaluator_passes": [
     {
-      "response_id": "chatcmpl-EaLOcPS15RvRVz4eq3XejFMad6OT7",
+      "response_id": "chatcmpl-Eah9DLgyMVckB7oiVPXGo3DmJsdHx",
       "usage": {
-        "completion_tokens": 687,
+        "completion_tokens": 783,
         "completion_tokens_details": {
           "accepted_prediction_tokens": 0,
           "audio_tokens": 0,
@@ -1274,23 +1274,23 @@
           "rejected_prediction_tokens": 0
         },
         "latency_checkpoint": {
-          "engine_tbt_ms": 7,
-          "engine_ttft_ms": 350,
-          "engine_ttlt_ms": 5324,
-          "pre_inference_ms": 102,
-          "service_tbt_ms": 7,
-          "service_ttft_ms": 831,
-          "service_ttlt_ms": 5815,
-          "user_visible_ttft_ms": 729
+          "engine_tbt_ms": 9,
+          "engine_ttft_ms": 360,
+          "engine_ttlt_ms": 7564,
+          "pre_inference_ms": 87,
+          "service_tbt_ms": 9,
+          "service_ttft_ms": 858,
+          "service_ttlt_ms": 8017,
+          "user_visible_ttft_ms": 771
         },
-        "prompt_tokens": 6999,
+        "prompt_tokens": 7093,
         "prompt_tokens_details": {
           "audio_tokens": 0,
           "cached_tokens": 0
         },
-        "total_tokens": 7686
+        "total_tokens": 7876
       },
-      "method_limit": "None",
+      "method_limit": "The evaluation method is limited to the provided metrics and does not account for qualitative aspects beyond the defined criteria.",
       "cases": [
         {
           "case_id": "wide-causal",
@@ -1305,12 +1305,12 @@
           "B": {
             "grounding": 3,
             "correction_sensitivity": 4,
-            "audience_fit": 4,
+            "audience_fit": 3,
             "role_distinction": 5,
             "decision_usefulness": 4,
-            "overall": 4
+            "overall": 3
           },
-          "reason": "Both A and B provide reasonable analysis, but B offers a slightly better audience fit and decision usefulness, making it more actionable for the audience.",
+          "reason": "Both A and B provide similar levels of grounding and audience fit, with clear distinctions in roles and decision usefulness. However, neither fully establishes causation, leading to an overall score of 3 for both.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1324,10 +1324,10 @@
           "baseline": {
             "grounding": 3,
             "correction_sensitivity": 4,
-            "audience_fit": 4,
+            "audience_fit": 3,
             "role_distinction": 5,
             "decision_usefulness": 4,
-            "overall": 4
+            "overall": 3
           },
           "slot_map": {
             "A": "crew",
@@ -1341,18 +1341,18 @@
             "correction_sensitivity": 5,
             "audience_fit": 4,
             "role_distinction": 5,
-            "decision_usefulness": 4,
-            "overall": 4
+            "decision_usefulness": 5,
+            "overall": 5
           },
           "B": {
             "grounding": 4,
             "correction_sensitivity": 5,
             "audience_fit": 4,
             "role_distinction": 5,
-            "decision_usefulness": 4,
-            "overall": 4
+            "decision_usefulness": 5,
+            "overall": 5
           },
-          "reason": "Both A and B are equally strong in all metrics, providing clear and actionable insights.",
+          "reason": "Both A and B excel in grounding, correction sensitivity, audience fit, role distinction, and decision usefulness, leading to a perfect score of 5 for both.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1360,16 +1360,16 @@
             "correction_sensitivity": 5,
             "audience_fit": 4,
             "role_distinction": 5,
-            "decision_usefulness": 4,
-            "overall": 4
+            "decision_usefulness": 5,
+            "overall": 5
           },
           "baseline": {
             "grounding": 4,
             "correction_sensitivity": 5,
             "audience_fit": 4,
             "role_distinction": 5,
-            "decision_usefulness": 4,
-            "overall": 4
+            "decision_usefulness": 5,
+            "overall": 5
           },
           "slot_map": {
             "A": "baseline",
@@ -1380,35 +1380,35 @@
           "case_id": "wide-beginner",
           "A": {
             "grounding": 3,
-            "correction_sensitivity": 4,
-            "audience_fit": 4,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
             "role_distinction": 5,
             "decision_usefulness": 4,
             "overall": 4
           },
           "B": {
             "grounding": 3,
-            "correction_sensitivity": 4,
-            "audience_fit": 4,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
             "role_distinction": 5,
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Both A and B are equally effective in conveying the concepts to beginners, with no significant differences.",
+          "reason": "Both A and B effectively cater to a beginner audience with clear explanations and distinct roles, resulting in an overall score of 4 for both.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
             "grounding": 3,
-            "correction_sensitivity": 4,
-            "audience_fit": 4,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
             "role_distinction": 5,
             "decision_usefulness": 4,
             "overall": 4
           },
           "baseline": {
             "grounding": 3,
-            "correction_sensitivity": 4,
-            "audience_fit": 4,
+            "correction_sensitivity": 3,
+            "audience_fit": 5,
             "role_distinction": 5,
             "decision_usefulness": 4,
             "overall": 4
@@ -1436,7 +1436,7 @@
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Both A and B provide strong insights and are equally effective in their analysis.",
+          "reason": "Both A and B provide solid grounding and role distinction, with good audience fit and decision usefulness, leading to an overall score of 4 for both.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1478,7 +1478,7 @@
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Both A and B are equally effective in their mathematical analysis, providing clear insights.",
+          "reason": "Both A and B present a clear mathematical analysis with good grounding and role distinction, resulting in an overall score of 4 for both.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1520,7 +1520,7 @@
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Both A and B provide clear and actionable insights regarding the outcome of the attack.",
+          "reason": "Both A and B effectively communicate the outcome of the attack with clear grounding and role distinction, leading to an overall score of 4 for both.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1547,9 +1547,9 @@
       ]
     },
     {
-      "response_id": "chatcmpl-EaLOsYdEonTVOdhNVMBKVcLz6V4yg",
+      "response_id": "chatcmpl-Eah9ROgOShchwjl14RNBIRvtSqnH0",
       "usage": {
-        "completion_tokens": 746,
+        "completion_tokens": 708,
         "completion_tokens_details": {
           "accepted_prediction_tokens": 0,
           "audio_tokens": 0,
@@ -1557,23 +1557,23 @@
           "rejected_prediction_tokens": 0
         },
         "latency_checkpoint": {
-          "engine_tbt_ms": 7,
-          "engine_ttft_ms": 393,
-          "engine_ttlt_ms": 5373,
-          "pre_inference_ms": 90,
-          "service_tbt_ms": 7,
-          "service_ttft_ms": 865,
-          "service_ttlt_ms": 5839,
-          "user_visible_ttft_ms": 775
+          "engine_tbt_ms": 10,
+          "engine_ttft_ms": 404,
+          "engine_ttlt_ms": 7709,
+          "pre_inference_ms": 313,
+          "service_tbt_ms": 10,
+          "service_ttft_ms": 1237,
+          "service_ttlt_ms": 8440,
+          "user_visible_ttft_ms": 925
         },
-        "prompt_tokens": 6999,
+        "prompt_tokens": 7093,
         "prompt_tokens_details": {
           "audio_tokens": 0,
           "cached_tokens": 0
         },
-        "total_tokens": 7745
+        "total_tokens": 7801
       },
-      "method_limit": "The evaluation is based on the provided responses and their adherence to the specified metrics.",
+      "method_limit": "None.",
       "cases": [
         {
           "case_id": "wide-causal",
@@ -1593,7 +1593,573 @@
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Response A provides a reasonable analysis but lacks a strong causal link and is somewhat generic. Response B offers a clearer analysis with better grounding and decision usefulness, making it more effective overall.",
+          "reason": "Response A provides a reasonable analysis but lacks strong grounding and decision usefulness, while Response B offers a clearer causal analysis and actionable insights.",
+          "critical_failure_A": "Lacks strong grounding for causal claims.",
+          "critical_failure_B": "None.",
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "wide-corrected",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both responses are strong, but Response B has slightly better audience fit due to its clarity for analysts.",
+          "critical_failure_A": "None.",
+          "critical_failure_B": "None.",
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "wide-beginner",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both responses are equally effective for beginners, providing clear explanations and maintaining strong role distinction.",
+          "critical_failure_A": "None.",
+          "critical_failure_B": "None.",
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "press-recovery",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Response B has a slight edge in audience fit, making it more accessible for analysts.",
+          "critical_failure_A": "None.",
+          "critical_failure_B": "None.",
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "counter-math",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Response A lacks clarity in mathematical explanation, while Response B provides a more thorough analysis.",
+          "critical_failure_A": "Lacks clarity in mathematical explanation.",
+          "critical_failure_B": "None.",
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "counter-outcome",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both responses effectively communicate the outcome of the attack, maintaining strong clarity and role distinction.",
+          "critical_failure_A": "None.",
+          "critical_failure_B": "None.",
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        }
+      ]
+    },
+    {
+      "response_id": "chatcmpl-Eah9eGMBXkQ53LSNupd4QZzZP4Mgv",
+      "usage": {
+        "completion_tokens": 787,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 9,
+          "engine_ttft_ms": 203,
+          "engine_ttlt_ms": 7576,
+          "pre_inference_ms": 169,
+          "service_tbt_ms": 9,
+          "service_ttft_ms": 756,
+          "service_ttlt_ms": 8142,
+          "user_visible_ttft_ms": 587
+        },
+        "prompt_tokens": 7093,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 7040
+        },
+        "total_tokens": 7880
+      },
+      "method_limit": "None",
+      "cases": [
+        {
+          "case_id": "wide-causal",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 3
+          },
+          "B": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 3
+          },
+          "reason": "Both A and B provide acceptable grounding and correction sensitivity, but neither fully establishes causation. They both have distinct roles and provide useful next steps, but the overall analysis lacks depth in causal explanation.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 3
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 3
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "wide-corrected",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B effectively address the correction of the defender's tracking and its implications on the analysis. They provide clear roles and actionable insights, maintaining a high level of grounding and sensitivity to corrections.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 5,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "wide-beginner",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B are well-suited for a beginner audience, providing clear explanations and distinct roles. They maintain grounding and sensitivity to corrections, but the overall depth of analysis could be improved.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "press-recovery",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B provide a solid analysis of the sequence, maintaining grounding and sensitivity to corrections. They effectively communicate the importance of pressing and its potential outcomes.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        },
+        {
+          "case_id": "counter-math",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B effectively analyze the transition using mathematical insights, maintaining grounding and sensitivity to corrections. They provide distinct roles and actionable insights.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "crew",
+            "B": "baseline"
+          }
+        },
+        {
+          "case_id": "counter-outcome",
+          "A": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Both A and B clearly explain the outcome of the attack, maintaining grounding and sensitivity to corrections. They effectively communicate the importance of creating chances, even if they do not result in goals.",
+          "critical_failure_A": null,
+          "critical_failure_B": null,
+          "crew": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "baseline": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 5,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "slot_map": {
+            "A": "baseline",
+            "B": "crew"
+          }
+        }
+      ]
+    },
+    {
+      "response_id": "chatcmpl-Eah9sijLXRv4d7Cr97tcc3fcBxeVY",
+      "usage": {
+        "completion_tokens": 733,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 9,
+          "engine_ttft_ms": 203,
+          "engine_ttlt_ms": 6721,
+          "pre_inference_ms": 240,
+          "service_tbt_ms": 9,
+          "service_ttft_ms": 856,
+          "service_ttlt_ms": 7370,
+          "user_visible_ttft_ms": 616
+        },
+        "prompt_tokens": 7093,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 7040
+        },
+        "total_tokens": 7826
+      },
+      "method_limit": "Responses were evaluated based on their adherence to the five-point scale across various metrics.",
+      "cases": [
+        {
+          "case_id": "wide-causal",
+          "A": {
+            "grounding": 3,
+            "correction_sensitivity": 4,
+            "audience_fit": 3,
+            "role_distinction": 5,
+            "decision_usefulness": 3,
+            "overall": 3
+          },
+          "B": {
+            "grounding": 4,
+            "correction_sensitivity": 4,
+            "audience_fit": 4,
+            "role_distinction": 5,
+            "decision_usefulness": 4,
+            "overall": 4
+          },
+          "reason": "Response A provides a reasonable analysis but lacks strong grounding in causation, while Response B offers a clearer understanding of the evidence and its implications, making it more useful overall.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1635,7 +2201,7 @@
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Both responses provide a solid analysis of the corrected tracking and its implications. They are equally effective in grounding and audience fit, leading to the same overall score.",
+          "reason": "Both responses effectively address the correction of the defender's position and its implications for the analysis, providing clear and useful insights.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1677,7 +2243,7 @@
             "decision_usefulness": 3,
             "overall": 3
           },
-          "reason": "Both responses are similar in quality, providing a basic explanation suitable for beginners but lacking depth in grounding and decision usefulness.",
+          "reason": "Both responses are suitable for beginners, but they lack depth in grounding and decision usefulness, making them somewhat generic.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1719,7 +2285,7 @@
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Both responses effectively analyze the sequence of events and their implications, providing a balanced view with no significant differences.",
+          "reason": "Both responses provide a solid analysis of the pressure and its effects, maintaining clarity and relevance throughout.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1755,18 +2321,18 @@
           },
           "B": {
             "grounding": 4,
-            "correction_sensitivity": 3,
+            "correction_sensitivity": 4,
             "audience_fit": 4,
             "role_distinction": 5,
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Response A lacks depth in grounding and decision usefulness, while Response B provides a clearer mathematical explanation, leading to a higher overall score.",
+          "reason": "Response A lacks depth in mathematical explanation, while Response B provides a clearer understanding of the transition, making it more effective.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
             "grounding": 4,
-            "correction_sensitivity": 3,
+            "correction_sensitivity": 4,
             "audience_fit": 4,
             "role_distinction": 5,
             "decision_usefulness": 4,
@@ -1803,7 +2369,7 @@
             "decision_usefulness": 4,
             "overall": 4
           },
-          "reason": "Both responses effectively communicate the outcome of the attack and its implications, resulting in equal scores.",
+          "reason": "Both responses effectively communicate the outcome of the attack and its implications, providing clear and useful insights.",
           "critical_failure_A": null,
           "critical_failure_B": null,
           "crew": {
@@ -1832,51 +2398,66 @@
   ],
   "score": {
     "grounding": {
-      "crew_points": 45,
-      "baseline_points": 43,
-      "crew_wins": 2,
+      "crew_points": 91,
+      "baseline_points": 87,
+      "crew_wins": 4,
       "baseline_wins": 0,
-      "ties": 10
+      "ties": 20
     },
     "correction_sensitivity": {
-      "crew_points": 48,
-      "baseline_points": 48,
-      "crew_wins": 0,
+      "crew_points": 98,
+      "baseline_points": 97,
+      "crew_wins": 1,
       "baseline_wins": 0,
-      "ties": 12
+      "ties": 23
     },
     "audience_fit": {
-      "crew_points": 48,
-      "baseline_points": 48,
-      "crew_wins": 1,
-      "baseline_wins": 1,
-      "ties": 10
+      "crew_points": 97,
+      "baseline_points": 96,
+      "crew_wins": 3,
+      "baseline_wins": 2,
+      "ties": 19
     },
     "role_distinction": {
-      "crew_points": 60,
-      "baseline_points": 60,
+      "crew_points": 120,
+      "baseline_points": 120,
       "crew_wins": 0,
       "baseline_wins": 0,
-      "ties": 12
+      "ties": 24
     },
     "decision_usefulness": {
-      "crew_points": 47,
-      "baseline_points": 45,
-      "crew_wins": 2,
+      "crew_points": 96,
+      "baseline_points": 92,
+      "crew_wins": 4,
       "baseline_wins": 0,
-      "ties": 10
+      "ties": 20
     },
     "overall": {
-      "crew_points": 46,
-      "baseline_points": 45,
-      "crew_wins": 2,
-      "baseline_wins": 1,
-      "ties": 9
+      "crew_points": 94,
+      "baseline_points": 90,
+      "crew_wins": 4,
+      "baseline_wins": 0,
+      "ties": 20
     }
   },
   "position_bias_check": {
-    "A_points": 44,
-    "B_points": 47
+    "A_points": 90,
+    "B_points": 94
   },
-  "evidence_limit": "Model-scored comparison over six synthetic cases. It tests this release on correction, audience fit, role distinction and decision usefulness; it is not an independent human study or proof across all football commentary. Microsoft Foundry remains the separate live release referee."
+  "evidence_limit": "Model-scored comparison over six synthetic cases and twenty-four order-reversed paired decisions. It tests this release on correction, audience fit, role distinction and decision usefulness; it is not an independent human study or proof across all football commentary. Microsoft Foundry remains the separate live release referee.",
+  "capture_note": "The first successful execution printed to an output-limited terminal and could not be retained in full. It scored 93–90 overall, 93–89 grounding and 95–91 decision usefulness. The same unchanged image and procedure were run once more solely to capture this complete artifact; the recapture scored 94–90, 91–87 and 96–92. Both aggregates favor the crew, but neither is an independent human study.",
+  "prior_truncated_run_aggregate": {
+    "overall": {
+      "crew_points": 93,
+      "baseline_points": 90
+    },
+    "grounding": {
+      "crew_points": 93,
+      "baseline_points": 89
+    },
+    "decision_usefulness": {
+      "crew_points": 95,
+      "baseline_points": 91
+    }
+  }
 }

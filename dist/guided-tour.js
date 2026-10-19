@@ -93,7 +93,7 @@ tour.append(progress);
 const proofStrip=el('section','judge-proof-strip');
 proofStrip.setAttribute('aria-label','Verified prototype snapshot');
 for(const [value,label,detail] of [
-  ['269','TESTS','passing locally'],
+  ['273','TESTS','passing locally'],
   ['39 / 40','CONTROLLED EVENTS','fixed-camera synthetic holdout'],
   ['4 + 1','AI + CODE','Azure specialists + Vector'],
   ['1','FOUNDRY REFEREE','separate evidence review'],

@@ -63,7 +63,7 @@ try {
   root.replaceChildren(
     el(
       "p",
-      `${report.cases.length} preregistered synthetic cases · two blinded model-evaluator passes · reversed A/B order.`,
+      `${report.cases.length} preregistered synthetic cases · ${report.evaluator_passes.length} blinded model-evaluator passes · ${report.evaluator_passes.length * report.cases.length} order-reversed paired decisions.`,
     ),
     el(
       "p",

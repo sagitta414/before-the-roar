@@ -25,7 +25,7 @@ test('corrected fan and tactical modes cannot retain the withdrawn defender move
 
 test('v112 presents a concise judge dashboard and progressive disclosure',async()=>{
  const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
- for(const text of ['JUDGE SNAPSHOT','269 TESTS','39 / 40','Fixed-camera synthetic holdout','2 SCREENS','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
+ for(const text of ['JUDGE SNAPSHOT','273 TESTS','39 / 40','Fixed-camera synthetic holdout','2 SCREENS','Open the full production lab','Lineups +','Broadcast feeling. Measured proof.','NO TRANSFERRED METRICS','MICROSOFT FOUNDRY'])assert.match(source,new RegExp(text));
  const watch=await readFile(new URL('../dist/match-watch.js',import.meta.url),'utf8');
  assert.doesNotMatch(watch,/Ask the crew · 1 AI request/);
  assert.match(watch,/Ask the crew · 4 AI requests/);
@@ -48,7 +48,7 @@ test('live action leads and deeper proof stays inspectable on demand',async()=>{
  assert.match(cohesion,/liveStage\.after\(dossier,executionKey\)/);
  assert.match(tour,/liveStage\.after\(launcher\)/);
  assert.match(cohesion,/inside-operations/);
- assert.match(cohesion,/46–45 OVERALL · 45–43 GROUNDING · 47–45 DECISION/);
+ assert.match(cohesion,/94–90 OVERALL · 91–87 GROUNDING · 96–92 DECISION/);
 });
 
 test('judge evidence uses current results and publishes visual limits',async()=>{

@@ -21,12 +21,12 @@ test('the causal Host combines observation, calculation, challenge and a next re
 
 test('the public quality claim matches the blinded order-reversed score artifact',async()=>{
   const artifact=JSON.parse(await readFile(new URL('../dist/assets/commentary-quality-court.json',import.meta.url),'utf8'));
-  assert.equal(artifact.evaluator_passes.length,2);
-  assert.equal(artifact.score.overall.crew_points,46);
-  assert.equal(artifact.score.overall.baseline_points,45);
-  assert.equal(artifact.score.grounding.crew_points,45);
-  assert.equal(artifact.score.grounding.baseline_points,43);
-  assert.equal(artifact.score.decision_usefulness.crew_points,47);
-  assert.equal(artifact.score.decision_usefulness.baseline_points,45);
+  assert.equal(artifact.evaluator_passes.length,4);
+  assert.equal(artifact.score.overall.crew_points,94);
+  assert.equal(artifact.score.overall.baseline_points,90);
+  assert.equal(artifact.score.grounding.crew_points,91);
+  assert.equal(artifact.score.grounding.baseline_points,87);
+  assert.equal(artifact.score.decision_usefulness.crew_points,96);
+  assert.equal(artifact.score.decision_usefulness.baseline_points,92);
   assert.ok(artifact.evaluator_passes.every(pass=>pass.response_id));
 });
