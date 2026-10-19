@@ -81,7 +81,9 @@ export function broadcastCue(input, sequence, now) {
     explanation: {
       observation: s.analysis?.summary || s.title,
       calculation: s.equation || null,
-      review: s.review?.reason || "The visible evidence supports this wording through the stated cutoff.",
+      review:
+        s.review?.reason ||
+        "The visible evidence supports this wording through the stated cutoff.",
       decision: s.review?.decision || "retain",
     },
     placement: "lower-left",

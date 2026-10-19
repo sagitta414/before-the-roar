@@ -24,13 +24,14 @@ export function followUpMetric(packet, previous = []) {
       equation: `|${end} − ${start}| = ${n} m`,
       evidence_ids: [packet.football.record.id],
     };
-    if (!previous.some(p=>p.role==='math' && p.summary===metric.text)) return metric;
+    if (!previous.some((p) => p.role === "math" && p.summary === metric.text))
+      return metric;
   }
   return packet.analysis?.calculations?.find(
     (c) =>
       c.value !== "—" &&
       c.evidence_ids.length &&
-      !previous.some(p=>p.role==='math' && p.summary===c.text),
+      !previous.some((p) => p.role === "math" && p.summary === c.text),
   );
 }
 export function sameConversation(a, b, clip = false) {

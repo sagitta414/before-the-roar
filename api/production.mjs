@@ -160,7 +160,8 @@ export class ProductionDesk {
             model_requests: 0,
             execution_id: saved.value.foundry_review.response_id || null,
             verdict: saved.value.foundry_review.verdict || null,
-            reason: "Previously generated Foundry verdict restored; no new model request.",
+            reason:
+              "Previously generated Foundry verdict restored; no new model request.",
           });
           return;
         }
@@ -176,7 +177,8 @@ export class ProductionDesk {
             status: "unavailable",
             engine: "deterministic_gate_only",
             reason: error.message,
-            limitation: "Foundry did not override or weaken the deterministic evidence gate.",
+            limitation:
+              "Foundry did not override or weaken the deterministic evidence gate.",
           };
         }
         const journal = await this.state.open(this.workKey(v), saved.value);
@@ -186,7 +188,10 @@ export class ProductionDesk {
             seq: work.trace.length + 1,
             at: this.clock(),
             role: "foundry",
-            action: review.status === "completed" ? "independent_referee_completed" : "independent_referee_unavailable",
+            action:
+              review.status === "completed"
+                ? "independent_referee_completed"
+                : "independent_referee_unavailable",
             execution_state: review.status === "completed" ? "live" : "deterministic",
             execution_id: review.response_id || null,
             latency_ms: review.latency_ms || 0,

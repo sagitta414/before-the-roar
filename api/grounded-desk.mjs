@@ -79,44 +79,191 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
   );
   // A follow-up can advance the shared playhead. In that case the editorial
   // answer must compare the newly reached record with the earlier reading.
-  const previousCutoff = Math.max(-1, ...conversation.previous.map(n => Number(n.cutoff) || 0));
-  const reached = follow ? p.brief.state.seen.filter(e => e.end > previousCutoff + .01 && e.end <= p.cutoff) : [];
+  const previousCutoff = Math.max(
+    -1,
+    ...conversation.previous.map((n) => Number(n.cutoff) || 0),
+  );
+  const reached = follow
+    ? p.brief.state.seen.filter((e) => e.end > previousCutoff + 0.01 && e.end <= p.cutoff)
+    : [];
   if (reached.length) {
-    const event = reached.at(-1), actor = PLAYERS.find(player => player.id === event.from)?.name || 'A player';
-    const receiver = PLAYERS.find(player => player.id === (event.to || event.interceptor))?.name;
+    const event = reached.at(-1),
+      actor = PLAYERS.find((player) => player.id === event.from)?.name || "A player";
+    const receiver = PLAYERS.find(
+      (player) => player.id === (event.to || event.interceptor),
+    )?.name;
     const observed = pick(p, [
-      event.type === 'shot' ? `${actor}'s shot ${event.outcome === 'goal' ? 'ends in a recorded goal' : 'is recorded as saved'}.` : event.type === 'pass' ? `${actor}'s pass ${event.outcome === 'complete' ? `reaches ${receiver || 'a teammate'}` : `ends ${event.outcome}`}.` : `${actor} records a ${event.type === 'tackle' ? 'recovery' : event.type}.`,
-      event.type === 'shot' ? `El disparo de ${actor} termina como ${event.outcome === 'goal' ? 'gol' : 'parada'}.` : event.type === 'pass' ? `El pase de ${actor} ${event.outcome === 'complete' ? `llega a ${receiver || 'un compañero'}` : 'no se completa'}.` : `${actor} recupera el balón.`,
-      event.type === 'shot' ? `O chute de ${actor} termina em ${event.outcome === 'goal' ? 'gol' : 'defesa'}.` : event.type === 'pass' ? `O passe de ${actor} ${event.outcome === 'complete' ? `chega a ${receiver || 'um companheiro'}` : 'não é completado'}.` : `${actor} recupera a bola.`
+      event.type === "shot"
+        ? `${actor}'s shot ${event.outcome === "goal" ? "ends in a recorded goal" : "is recorded as saved"}.`
+        : event.type === "pass"
+          ? `${actor}'s pass ${event.outcome === "complete" ? `reaches ${receiver || "a teammate"}` : `ends ${event.outcome}`}.`
+          : `${actor} records a ${event.type === "tackle" ? "recovery" : event.type}.`,
+      event.type === "shot"
+        ? `El disparo de ${actor} termina como ${event.outcome === "goal" ? "gol" : "parada"}.`
+        : event.type === "pass"
+          ? `El pase de ${actor} ${event.outcome === "complete" ? `llega a ${receiver || "un compañero"}` : "no se completa"}.`
+          : `${actor} recupera el balón.`,
+      event.type === "shot"
+        ? `O chute de ${actor} termina em ${event.outcome === "goal" ? "gol" : "defesa"}.`
+        : event.type === "pass"
+          ? `O passe de ${actor} ${event.outcome === "complete" ? `chega a ${receiver || "um companheiro"}` : "não é completado"}.`
+          : `${actor} recupera a bola.`,
     ]);
-    add('next_event', 'Compare the next completed event with the previous round. Answer what changed, what was confirmed, and what remains unproven.',
-      observed + ' ' + pick(p, ['This answers what happened next; it does not establish that the earlier movement caused it.', 'Esto responde qué pasó después; no demuestra que el movimiento anterior lo causara.', 'Isso responde o que aconteceu depois; não prova que o movimento anterior o causou.']));
+    add(
+      "next_event",
+      "Compare the next completed event with the previous round. Answer what changed, what was confirmed, and what remains unproven.",
+      observed +
+        " " +
+        pick(p, [
+          "This answers what happened next; it does not establish that the earlier movement caused it.",
+          "Esto responde qué pasó después; no demuestra que el movimiento anterior lo causara.",
+          "Isso responde o que aconteceu depois; não prova que o movimento anterior o causou.",
+        ]),
+    );
     const posts = catalog.next_event.posts;
-    const set = (role, summary, ids = [event.id]) => Object.assign(posts.find(n => n.role === role), { summary, evidence_ids: ids });
-    set('analyst', pick(p, [`Since the previous reading, ${observed} The earlier tactical cause remains a separate question.`, `Desde la lectura anterior, ${observed} La causa táctica anterior sigue siendo otra pregunta.`, `Desde a leitura anterior, ${observed} A causa tática anterior ainda é outra questão.`]));
-    const concept = event.type === 'shot'
-      ? pick(p, ['A shot is the attempt; the recorded outcome says whether this one became a goal or a save. The build-up cannot decide that outcome in advance.', 'Un disparo es el intento; el resultado registrado dice si acabó en gol o parada. La jugada previa no determina ese resultado.', 'Um chute é a tentativa; o resultado registrado diz se terminou em gol ou defesa. A construção não determina esse resultado.'])
-      : event.outcome === 'intercepted' || event.type === 'tackle'
-        ? pick(p, ['An interception stops a pass before its intended receiver gets it. Possession changes at that touch; watch the first outlet after the win.', 'Una intercepción corta un pase antes de que llegue a su receptor. La posesión cambia en ese toque; sigue la primera salida.', 'Uma interceptação corta o passe antes de chegar ao receptor. A posse muda nesse toque; acompanhe a primeira saída.'])
-        : pick(p, ['A completed pass records a connection, not a chance. Compare the receiver’s position and next action before calling it dangerous.', 'Un pase completo registra una conexión, no una ocasión. Compara la posición y la siguiente acción del receptor antes de llamarlo peligroso.', 'Um passe completo registra uma conexão, não uma chance. Compare a posição e a próxima ação de quem recebeu antes de chamá-lo perigoso.']);
-    set('guide', concept);
-    const speed = ['pass','shot'].includes(event.type) && event.distance != null && event.end > event.t ? event.distance / (event.end-event.t) * 3.6 : null;
-    const speedKind = event.type === 'shot' ? pick(p, ['speed along the shot path', 'velocidad media del disparo', 'velocidade média do chute']) : pick(p, ['ball speed', 'velocidad media del balón', 'velocidade média da bola']);
-    set('math', speed === null ? pick(p, ['No timed ball path is available for this new event.', 'Este evento nuevo no contiene un trayecto de balón cronometrado.', 'Este novo evento não contém um trajeto cronometrado da bola.']) : pick(p, [`${event.distance.toFixed(1)} m ÷ ${(event.end-event.t).toFixed(1)} s × 3.6 = ${speed.toFixed(1)} km/h average ${speedKind}, not peak speed.`, `${event.distance.toFixed(1)} m ÷ ${(event.end-event.t).toFixed(1)} s × 3,6 = ${speed.toFixed(1)} km/h de ${speedKind}, no la máxima.`, `${event.distance.toFixed(1)} m ÷ ${(event.end-event.t).toFixed(1)} s × 3,6 = ${speed.toFixed(1)} km/h de ${speedKind}, não a máxima.`]));
-    Object.assign(posts.find(n => n.role === 'math'), {
-      working: speed === null ? pick(p, ['No timed ball path in the new record.', 'No hay trayecto de balón cronometrado en el nuevo registro.', 'Não há trajeto cronometrado da bola no novo registro.']) : `${event.distance.toFixed(2)} m ÷ ${(event.end-event.t).toFixed(2)} s × 3.6 = ${speed.toFixed(1)} km/h`,
-      metric_value: speed === null ? '—' : `${speed.toFixed(1)} km/h`,
-      metric_title: speed === null ? pick(p, ['No timed ball path', 'Sin trayecto de balón cronometrado', 'Sem trajeto cronometrado da bola']) : event.type === 'shot' ? pick(p, ['Average shot-path speed', 'Velocidad media del disparo', 'Velocidade média do chute']) : pick(p, ['Average ball speed', 'Velocidad media del balón', 'Velocidade média da bola'])
-    });
-    set('reviewer', event.type === 'shot' ? pick(p, ['The finish is recorded. It does not prove which earlier movement caused the chance or how likely the shot was to score.', 'El final está registrado. No prueba qué movimiento previo causó la ocasión ni su probabilidad de gol.', 'O desfecho está registrado. Não prova qual movimento anterior causou a chance nem a probabilidade de gol.']) : pick(p, ['The new touch establishes sequence order and possession, not why a player chose that action or whether the earlier movement caused it.', 'El nuevo toque establece orden y posesión, no por qué un jugador actuó así ni si lo causó el movimiento anterior.', 'O novo toque estabelece a ordem e a posse, não por que o jogador agiu assim nem se o movimento anterior o causou.']));
-    const beforePasses = p.brief.state.seen.filter(e => e.end <= previousCutoff && e.type === 'pass' && e.outcome === 'complete').length;
-    const afterPasses = p.brief.state.seen.filter(e => e.type === 'pass' && e.outcome === 'complete').length;
-    const synthesis = afterPasses > beforePasses
-      ? pick(p, [`The build-up now contains ${afterPasses} completed passes, up from ${beforePasses}. Follow ${receiver || 'the receiver'}’s next touch to learn whether this connection becomes a chance.`, `La jugada ya suma ${afterPasses} pases completos, frente a ${beforePasses}. Sigue el siguiente toque de ${receiver || 'quien recibió'} para saber si la conexión se convierte en ocasión.`, `A jogada agora soma ${afterPasses} passes completos, antes ${beforePasses}. Acompanhe o próximo toque de ${receiver || 'quem recebeu'} para saber se a conexão vira chance.`])
-      : event.type === 'shot'
-        ? pick(p, [`The build-up reached a recorded ${event.outcome === 'goal' ? 'goal' : 'save'}. Replay the last completed connection to see how the shot was supplied; the earlier causal claim remains open.`, `La jugada terminó en ${event.outcome === 'goal' ? 'gol' : 'parada'} registrado. Repite la última conexión para ver cómo llegó el disparo; la causa anterior sigue abierta.`, `A jogada terminou em ${event.outcome === 'goal' ? 'gol' : 'defesa'} registrada. Reveja a última conexão para ver como surgiu o chute; a causa anterior continua em aberto.`])
-        : pick(p, ['Possession changes at this event. The next completed outlet will show whether the recovery becomes an attack; none is assumed here.', 'La posesión cambia aquí. La próxima salida completada mostrará si la recuperación se convierte en ataque; aún no se supone ninguna.', 'A posse muda aqui. A próxima saída completa mostrará se a recuperação vira ataque; nenhuma é presumida agora.']);
-    set('presenter', synthesis, [event.id, ...p.brief.state.seen.filter(e => e.end <= previousCutoff && e.type === 'pass' && e.outcome === 'complete').slice(-1).map(e=>e.id)]);
+    const set = (role, summary, ids = [event.id]) =>
+      Object.assign(
+        posts.find((n) => n.role === role),
+        { summary, evidence_ids: ids },
+      );
+    set(
+      "analyst",
+      pick(p, [
+        `Since the previous reading, ${observed} The earlier tactical cause remains a separate question.`,
+        `Desde la lectura anterior, ${observed} La causa táctica anterior sigue siendo otra pregunta.`,
+        `Desde a leitura anterior, ${observed} A causa tática anterior ainda é outra questão.`,
+      ]),
+    );
+    const concept =
+      event.type === "shot"
+        ? pick(p, [
+            "A shot is the attempt; the recorded outcome says whether this one became a goal or a save. The build-up cannot decide that outcome in advance.",
+            "Un disparo es el intento; el resultado registrado dice si acabó en gol o parada. La jugada previa no determina ese resultado.",
+            "Um chute é a tentativa; o resultado registrado diz se terminou em gol ou defesa. A construção não determina esse resultado.",
+          ])
+        : event.outcome === "intercepted" || event.type === "tackle"
+          ? pick(p, [
+              "An interception stops a pass before its intended receiver gets it. Possession changes at that touch; watch the first outlet after the win.",
+              "Una intercepción corta un pase antes de que llegue a su receptor. La posesión cambia en ese toque; sigue la primera salida.",
+              "Uma interceptação corta o passe antes de chegar ao receptor. A posse muda nesse toque; acompanhe a primeira saída.",
+            ])
+          : pick(p, [
+              "A completed pass records a connection, not a chance. Compare the receiver’s position and next action before calling it dangerous.",
+              "Un pase completo registra una conexión, no una ocasión. Compara la posición y la siguiente acción del receptor antes de llamarlo peligroso.",
+              "Um passe completo registra uma conexão, não uma chance. Compare a posição e a próxima ação de quem recebeu antes de chamá-lo perigoso.",
+            ]);
+    set("guide", concept);
+    const speed =
+      ["pass", "shot"].includes(event.type) &&
+      event.distance != null &&
+      event.end > event.t
+        ? (event.distance / (event.end - event.t)) * 3.6
+        : null;
+    const speedKind =
+      event.type === "shot"
+        ? pick(p, [
+            "speed along the shot path",
+            "velocidad media del disparo",
+            "velocidade média do chute",
+          ])
+        : pick(p, [
+            "ball speed",
+            "velocidad media del balón",
+            "velocidade média da bola",
+          ]);
+    set(
+      "math",
+      speed === null
+        ? pick(p, [
+            "No timed ball path is available for this new event.",
+            "Este evento nuevo no contiene un trayecto de balón cronometrado.",
+            "Este novo evento não contém um trajeto cronometrado da bola.",
+          ])
+        : pick(p, [
+            `${event.distance.toFixed(1)} m ÷ ${(event.end - event.t).toFixed(1)} s × 3.6 = ${speed.toFixed(1)} km/h average ${speedKind}, not peak speed.`,
+            `${event.distance.toFixed(1)} m ÷ ${(event.end - event.t).toFixed(1)} s × 3,6 = ${speed.toFixed(1)} km/h de ${speedKind}, no la máxima.`,
+            `${event.distance.toFixed(1)} m ÷ ${(event.end - event.t).toFixed(1)} s × 3,6 = ${speed.toFixed(1)} km/h de ${speedKind}, não a máxima.`,
+          ]),
+    );
+    Object.assign(
+      posts.find((n) => n.role === "math"),
+      {
+        working:
+          speed === null
+            ? pick(p, [
+                "No timed ball path in the new record.",
+                "No hay trayecto de balón cronometrado en el nuevo registro.",
+                "Não há trajeto cronometrado da bola no novo registro.",
+              ])
+            : `${event.distance.toFixed(2)} m ÷ ${(event.end - event.t).toFixed(2)} s × 3.6 = ${speed.toFixed(1)} km/h`,
+        metric_value: speed === null ? "—" : `${speed.toFixed(1)} km/h`,
+        metric_title:
+          speed === null
+            ? pick(p, [
+                "No timed ball path",
+                "Sin trayecto de balón cronometrado",
+                "Sem trajeto cronometrado da bola",
+              ])
+            : event.type === "shot"
+              ? pick(p, [
+                  "Average shot-path speed",
+                  "Velocidad media del disparo",
+                  "Velocidade média do chute",
+                ])
+              : pick(p, [
+                  "Average ball speed",
+                  "Velocidad media del balón",
+                  "Velocidade média da bola",
+                ]),
+      },
+    );
+    set(
+      "reviewer",
+      event.type === "shot"
+        ? pick(p, [
+            "The finish is recorded. It does not prove which earlier movement caused the chance or how likely the shot was to score.",
+            "El final está registrado. No prueba qué movimiento previo causó la ocasión ni su probabilidad de gol.",
+            "O desfecho está registrado. Não prova qual movimento anterior causou a chance nem a probabilidade de gol.",
+          ])
+        : pick(p, [
+            "The new touch establishes sequence order and possession, not why a player chose that action or whether the earlier movement caused it.",
+            "El nuevo toque establece orden y posesión, no por qué un jugador actuó así ni si lo causó el movimiento anterior.",
+            "O novo toque estabelece a ordem e a posse, não por que o jogador agiu assim nem se o movimento anterior o causou.",
+          ]),
+    );
+    const beforePasses = p.brief.state.seen.filter(
+      (e) => e.end <= previousCutoff && e.type === "pass" && e.outcome === "complete",
+    ).length;
+    const afterPasses = p.brief.state.seen.filter(
+      (e) => e.type === "pass" && e.outcome === "complete",
+    ).length;
+    const synthesis =
+      afterPasses > beforePasses
+        ? pick(p, [
+            `The build-up now contains ${afterPasses} completed passes, up from ${beforePasses}. Follow ${receiver || "the receiver"}’s next touch to learn whether this connection becomes a chance.`,
+            `La jugada ya suma ${afterPasses} pases completos, frente a ${beforePasses}. Sigue el siguiente toque de ${receiver || "quien recibió"} para saber si la conexión se convierte en ocasión.`,
+            `A jogada agora soma ${afterPasses} passes completos, antes ${beforePasses}. Acompanhe o próximo toque de ${receiver || "quem recebeu"} para saber se a conexão vira chance.`,
+          ])
+        : event.type === "shot"
+          ? pick(p, [
+              `The build-up reached a recorded ${event.outcome === "goal" ? "goal" : "save"}. Replay the last completed connection to see how the shot was supplied; the earlier causal claim remains open.`,
+              `La jugada terminó en ${event.outcome === "goal" ? "gol" : "parada"} registrado. Repite la última conexión para ver cómo llegó el disparo; la causa anterior sigue abierta.`,
+              `A jogada terminou em ${event.outcome === "goal" ? "gol" : "defesa"} registrada. Reveja a última conexão para ver como surgiu o chute; a causa anterior continua em aberto.`,
+            ])
+          : pick(p, [
+              "Possession changes at this event. The next completed outlet will show whether the recovery becomes an attack; none is assumed here.",
+              "La posesión cambia aquí. La próxima salida completada mostrará si la recuperación se convierte en ataque; aún no se supone ninguna.",
+              "A posse muda aqui. A próxima saída completa mostrará se a recuperação vira ataque; nenhuma é presumida agora.",
+            ]);
+    set("presenter", synthesis, [
+      event.id,
+      ...p.brief.state.seen
+        .filter(
+          (e) => e.end <= previousCutoff && e.type === "pass" && e.outcome === "complete",
+        )
+        .slice(-1)
+        .map((e) => e.id),
+    ]);
   }
   if (p.football.record.width)
     add(
@@ -176,38 +323,50 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
     const causal = catalog.causation_test.posts,
       recordId = p.football.record.id,
       metricIds = metric?.evidence_ids || [];
-    Object.assign(causal.find(n => n.role === "analyst"), {
-      summary: pick(p, [
-        "The runner moves wide while the defender shifts toward that side. The record captures both movements, but not why the defender moved.",
-        "El atacante corre abierto mientras el defensor se desplaza hacia ese lado. El registro capta ambos movimientos, pero no por qué se movió el defensor.",
-        "O atacante corre aberto enquanto o defensor se desloca para esse lado. O registro capta os dois movimentos, mas não por que o defensor se moveu.",
-      ]),
-      evidence_ids: [recordId],
-    });
-    Object.assign(causal.find(n => n.role === "guide"), {
-      summary: pick(p, [
-        "Cause means one action made another happen. Compare when the defender starts moving with the pass release, then compare a similar attack without the run.",
-        "Causa significa que una acción produjo otra. Compara cuándo empieza a moverse el defensor con la salida del pase y luego una jugada similar sin la carrera.",
-        "Causa significa que uma ação fez outra acontecer. Compare quando o defensor começa a se mover com a saída do passe e depois uma jogada semelhante sem a corrida.",
-      ]),
-      evidence_ids: [recordId],
-    });
-    Object.assign(causal.find(n => n.role === "reviewer"), {
-      summary: pick(p, [
-        "The timing supports coincidence, not a counterfactual. Without a comparable play where the run changes, the causal claim must remain qualified.",
-        "El tiempo respalda coincidencia, no un contrafactual. Sin una jugada comparable donde cambie la carrera, la afirmación causal debe quedar limitada.",
-        "O tempo sustenta coincidência, não um contrafactual. Sem uma jogada comparável em que a corrida mude, a afirmação causal deve continuar limitada.",
-      ]),
-      evidence_ids: [recordId],
-    });
-    Object.assign(causal.find(n => n.role === "presenter"), {
-      summary: pick(p, [
-        `No—the evidence does not prove the wide run caused the central progression. ${metric?.text || "The completed passes record central progression."} Moreau's run and Laurent's shift coincide, and Check is right to withhold cause. Replay the defender at pass release, then use a comparable attack without that run.`,
-        `${metric?.text || "Los pases completados registran avance central."} La carrera abierta de Moreau y el desplazamiento de Laurent ocurren en la misma secuencia, pero Check acierta al no afirmar causa. Repite al defensor al salir el pase y compara una jugada similar sin la carrera.`,
-        `${metric?.text || "Os passes completos registram progressão central."} A corrida aberta de Moreau e o deslocamento de Laurent aparecem na mesma sequência, mas Check acerta ao não afirmar causa. Reveja o defensor na saída do passe e compare um ataque semelhante sem a corrida.`,
-      ]),
-      evidence_ids: [recordId, ...metricIds],
-    });
+    Object.assign(
+      causal.find((n) => n.role === "analyst"),
+      {
+        summary: pick(p, [
+          "The runner moves wide while the defender shifts toward that side. The record captures both movements, but not why the defender moved.",
+          "El atacante corre abierto mientras el defensor se desplaza hacia ese lado. El registro capta ambos movimientos, pero no por qué se movió el defensor.",
+          "O atacante corre aberto enquanto o defensor se desloca para esse lado. O registro capta os dois movimentos, mas não por que o defensor se moveu.",
+        ]),
+        evidence_ids: [recordId],
+      },
+    );
+    Object.assign(
+      causal.find((n) => n.role === "guide"),
+      {
+        summary: pick(p, [
+          "Cause means one action made another happen. Compare when the defender starts moving with the pass release, then compare a similar attack without the run.",
+          "Causa significa que una acción produjo otra. Compara cuándo empieza a moverse el defensor con la salida del pase y luego una jugada similar sin la carrera.",
+          "Causa significa que uma ação fez outra acontecer. Compare quando o defensor começa a se mover com a saída do passe e depois uma jogada semelhante sem a corrida.",
+        ]),
+        evidence_ids: [recordId],
+      },
+    );
+    Object.assign(
+      causal.find((n) => n.role === "reviewer"),
+      {
+        summary: pick(p, [
+          "The timing supports coincidence, not a counterfactual. Without a comparable play where the run changes, the causal claim must remain qualified.",
+          "El tiempo respalda coincidencia, no un contrafactual. Sin una jugada comparable donde cambie la carrera, la afirmación causal debe quedar limitada.",
+          "O tempo sustenta coincidência, não um contrafactual. Sem uma jogada comparável em que a corrida mude, a afirmação causal deve continuar limitada.",
+        ]),
+        evidence_ids: [recordId],
+      },
+    );
+    Object.assign(
+      causal.find((n) => n.role === "presenter"),
+      {
+        summary: pick(p, [
+          `No—the evidence does not prove the wide run caused the central progression. ${metric?.text || "The completed passes record central progression."} Moreau's run and Laurent's shift coincide, and Check is right to withhold cause. Replay the defender at pass release, then use a comparable attack without that run.`,
+          `${metric?.text || "Los pases completados registran avance central."} La carrera abierta de Moreau y el desplazamiento de Laurent ocurren en la misma secuencia, pero Check acierta al no afirmar causa. Repite al defensor al salir el pase y compara una jugada similar sin la carrera.`,
+          `${metric?.text || "Os passes completos registram progressão central."} A corrida aberta de Moreau e o deslocamento de Laurent aparecem na mesma sequência, mas Check acerta ao não afirmar causa. Reveja o defensor na saída do passe e compare um ataque semelhante sem a corrida.`,
+        ]),
+        evidence_ids: [recordId, ...metricIds],
+      },
+    );
   }
   add(
     "outside_scope",
@@ -219,110 +378,254 @@ export function sourceCatalog(packet, notes, conversation = { round: 1, previous
     ]),
   );
   // A newcomer gets the concept in this play, not the same off-ball lesson for every scenario.
-  const beginnerTopic = p.analysis.shot ? 'finish' : p.analysis.regain ? 'regain' : p.football.record.width ? 'run' : 'pass';
+  const beginnerTopic = p.analysis.shot
+    ? "finish"
+    : p.analysis.regain
+      ? "regain"
+      : p.football.record.width
+        ? "run"
+        : "pass";
   const beginnerClosing = {
-    finish: ["The attack reached a shot. Its recorded result is the finish of this move; the passes before it show how the ball arrived, not a guarantee it would score.", "El ataque llegó a un disparo. Su resultado registrado cierra esta jugada; los pases anteriores muestran cómo llegó el balón, no garantizaban un gol.", "O ataque chegou a um chute. O resultado registrado fecha a jogada; os passes anteriores mostram como a bola chegou, não garantiam gol."],
-    regain: ["First the team wins the ball, then completed passes carry the move on. That order is the story here. The record does not prove the approaching player forced the mistake.", "Primero el equipo recupera el balón y luego los pases completos siguen la jugada. Ese orden cuenta la historia; el registro no prueba que quien presionó forzara el error.", "Primeiro o time recupera a bola; depois passes completos seguem a jogada. Essa ordem conta a história; o registro não prova que a pressão forçou o erro."],
-    run: ["In plain words: one player runs wide while the ball travels through the middle. It is like offering a second doorway. The option matters, but this record does not prove the run caused the passes.", "En palabras sencillas: un jugador corre abierto mientras el balón va por el centro. Es como ofrecer una segunda puerta. La opción importa, pero el registro no prueba que causara los pases.", "Em palavras simples: um jogador corre aberto enquanto a bola vai pelo meio. É como oferecer uma segunda porta. A opção importa, mas o registro não prova que causou os passes."],
-    pass: ["Follow the passer and receiver. The completed connection keeps possession moving, but the next recorded action will decide whether it becomes a chance.", "Sigue a quien pasa y a quien recibe. La conexión completa mantiene la posesión, pero la siguiente acción dirá si se convierte en ocasión.", "Acompanhe quem passa e quem recebe. A conexão completa mantém a posse, mas a próxima ação dirá se vira chance."]
+    finish: [
+      "The attack reached a shot. Its recorded result is the finish of this move; the passes before it show how the ball arrived, not a guarantee it would score.",
+      "El ataque llegó a un disparo. Su resultado registrado cierra esta jugada; los pases anteriores muestran cómo llegó el balón, no garantizaban un gol.",
+      "O ataque chegou a um chute. O resultado registrado fecha a jogada; os passes anteriores mostram como a bola chegou, não garantiam gol.",
+    ],
+    regain: [
+      "First the team wins the ball, then completed passes carry the move on. That order is the story here. The record does not prove the approaching player forced the mistake.",
+      "Primero el equipo recupera el balón y luego los pases completos siguen la jugada. Ese orden cuenta la historia; el registro no prueba que quien presionó forzara el error.",
+      "Primeiro o time recupera a bola; depois passes completos seguem a jogada. Essa ordem conta a história; o registro não prova que a pressão forçou o erro.",
+    ],
+    run: [
+      "In plain words: one player runs wide while the ball travels through the middle. It is like offering a second doorway. The option matters, but this record does not prove the run caused the passes.",
+      "En palabras sencillas: un jugador corre abierto mientras el balón va por el centro. Es como ofrecer una segunda puerta. La opción importa, pero el registro no prueba que causara los pases.",
+      "Em palavras simples: um jogador corre aberto enquanto a bola vai pelo meio. É como oferecer uma segunda porta. A opção importa, mas o registro não prova que causou os passes.",
+    ],
+    pass: [
+      "Follow the passer and receiver. The completed connection keeps possession moving, but the next recorded action will decide whether it becomes a chance.",
+      "Sigue a quien pasa y a quien recibe. La conexión completa mantiene la posesión, pero la siguiente acción dirá si se convierte en ocasión.",
+      "Acompanhe quem passa e quem recebe. A conexão completa mantém a posse, mas a próxima ação dirá se vira chance.",
+    ],
   }[beginnerTopic];
-  add("beginner", "Explain the reached football concept in everyday words for a newcomer. Prefer this over limits when the viewer asks for simpler language.", pick(p, beginnerClosing));
+  add(
+    "beginner",
+    "Explain the reached football concept in everyday words for a newcomer. Prefer this over limits when the viewer asks for simpler language.",
+    pick(p, beginnerClosing),
+  );
   const simple = catalog.beginner.posts;
-  simple.find(n=>n.role==='guide').summary = pick(p, ({
-    finish: ["A shot is an attempt to score; a goal or a save is its result. Watch the last pass and then the shot as two separate actions.", "Un disparo es un intento de marcar; gol o parada es su resultado. Mira el último pase y luego el disparo como dos acciones.", "Um chute é uma tentativa de marcar; gol ou defesa é o resultado. Observe o último passe e depois o chute como duas ações."],
-    regain: ["A recovery means winning possession back. A transition is what the team does next when it changes from defending to attacking.", "Recuperar significa volver a ganar el balón. La transición es lo que hace el equipo al pasar de defender a atacar.", "Recuperar significa ganhar a bola de volta. A transição é o que o time faz ao passar de defender para atacar."],
-    run: ["An off-ball run means moving while a teammate has the ball. Think of offering a friend another place to send it; watch the runner and the ball separately.", "Correr sin balón es moverse mientras lo tiene un compañero. Es ofrecer otro lugar al que enviarlo; mira al corredor y al balón por separado.", "Correr sem a bola é se mover enquanto um companheiro a tem. É oferecer outro lugar para enviá-la; observe corredor e bola separadamente."],
-    pass: ["A completed pass means a teammate received the ball. It does not tell us what the team will do with the next touch.", "Un pase completo significa que un compañero recibió el balón. No dice qué hará el equipo en el siguiente toque.", "Um passe completo significa que um companheiro recebeu a bola. Não diz o que o time fará no próximo toque."]
-  })[beginnerTopic]);
-  simple.find(n=>n.role==='reviewer').summary = pick(p, ({
-    finish: ["The recorded finish tells us the outcome, not the shot’s scoring probability or what caused the chance.", "El final registrado dice el resultado, no la probabilidad de gol ni qué causó la ocasión.", "O desfecho registrado diz o resultado, não a probabilidade de gol nem o que causou a chance."],
-    regain: ["The approach comes before the recovery, but order alone does not prove that pressure forced the mistake.", "El acercamiento precede a la recuperación, pero ese orden no prueba que la presión forzara el error.", "A aproximação vem antes da recuperação, mas a ordem não prova que a pressão forçou o erro."],
-    run: ["Seeing a runner and defender move together does not tell us why either moved. Describe their positions without guessing their thoughts.", "Ver al corredor y al defensor moverse juntos no dice por qué lo hicieron. Describe sus posiciones sin adivinar sus pensamientos.", "Ver corredor e defensor se moverem juntos não diz por quê. Descreva as posições sem adivinhar pensamentos."],
-    pass: ["A pass reaching a teammate does not establish a chance. The next action must be recorded before we describe it.", "Que un pase llegue a un compañero no demuestra una ocasión. La siguiente acción debe quedar registrada antes de describirla.", "Um passe chegar a um companheiro não estabelece uma chance. A próxima ação precisa ser registrada antes de ser descrita."]
-  })[beginnerTopic]);
+  simple.find((n) => n.role === "guide").summary = pick(
+    p,
+    {
+      finish: [
+        "A shot is an attempt to score; a goal or a save is its result. Watch the last pass and then the shot as two separate actions.",
+        "Un disparo es un intento de marcar; gol o parada es su resultado. Mira el último pase y luego el disparo como dos acciones.",
+        "Um chute é uma tentativa de marcar; gol ou defesa é o resultado. Observe o último passe e depois o chute como duas ações.",
+      ],
+      regain: [
+        "A recovery means winning possession back. A transition is what the team does next when it changes from defending to attacking.",
+        "Recuperar significa volver a ganar el balón. La transición es lo que hace el equipo al pasar de defender a atacar.",
+        "Recuperar significa ganhar a bola de volta. A transição é o que o time faz ao passar de defender para atacar.",
+      ],
+      run: [
+        "An off-ball run means moving while a teammate has the ball. Think of offering a friend another place to send it; watch the runner and the ball separately.",
+        "Correr sin balón es moverse mientras lo tiene un compañero. Es ofrecer otro lugar al que enviarlo; mira al corredor y al balón por separado.",
+        "Correr sem a bola é se mover enquanto um companheiro a tem. É oferecer outro lugar para enviá-la; observe corredor e bola separadamente.",
+      ],
+      pass: [
+        "A completed pass means a teammate received the ball. It does not tell us what the team will do with the next touch.",
+        "Un pase completo significa que un compañero recibió el balón. No dice qué hará el equipo en el siguiente toque.",
+        "Um passe completo significa que um companheiro recebeu a bola. Não diz o que o time fará no próximo toque.",
+      ],
+    }[beginnerTopic],
+  );
+  simple.find((n) => n.role === "reviewer").summary = pick(
+    p,
+    {
+      finish: [
+        "The recorded finish tells us the outcome, not the shot’s scoring probability or what caused the chance.",
+        "El final registrado dice el resultado, no la probabilidad de gol ni qué causó la ocasión.",
+        "O desfecho registrado diz o resultado, não a probabilidade de gol nem o que causou a chance.",
+      ],
+      regain: [
+        "The approach comes before the recovery, but order alone does not prove that pressure forced the mistake.",
+        "El acercamiento precede a la recuperación, pero ese orden no prueba que la presión forzara el error.",
+        "A aproximação vem antes da recuperação, mas a ordem não prova que a pressão forçou o erro.",
+      ],
+      run: [
+        "Seeing a runner and defender move together does not tell us why either moved. Describe their positions without guessing their thoughts.",
+        "Ver al corredor y al defensor moverse juntos no dice por qué lo hicieron. Describe sus posiciones sin adivinar sus pensamientos.",
+        "Ver corredor e defensor se moverem juntos não diz por quê. Descreva as posições sem adivinhar pensamentos.",
+      ],
+      pass: [
+        "A pass reaching a teammate does not establish a chance. The next action must be recorded before we describe it.",
+        "Que un pase llegue a un compañero no demuestra una ocasión. La siguiente acción debe quedar registrada antes de describirla.",
+        "Um passe chegar a um companheiro não estabelece uma chance. A próxima ação precisa ser registrada antes de ser descrita.",
+      ],
+    }[beginnerTopic],
+  );
   if (follow) {
-    if (beginnerTopic === 'run') simple.find(n=>n.role==='guide').summary = pick(p, [
-      "Off-ball simply means without the ball. The runner moves while a teammate has it. That offers another place to pass; the teammate does not have to use it.",
-      "Sin balón significa que otro tiene la pelota. El corredor se mueve mientras la tiene un compañero. Ofrece otro lugar al que pasar; el compañero no tiene que usarlo.",
-      "Sem a bola significa que outro está com ela. O corredor se move enquanto um companheiro a tem. Oferece outro lugar para passar; o companheiro não precisa usá-lo."
-    ]);
-    if (beginnerTopic === 'run') simple.find(n=>n.role==='presenter').summary = pick(p, [
-      "The simple distinction: an option is somewhere the ball could go. A completed pass is where it actually went. Follow the ball to tell the difference.",
-      "La diferencia sencilla: una opción es adónde podría ir el balón. Un pase completado es adónde fue. Sigue el balón para distinguirlos.",
-      "A diferença simples: uma opção é para onde a bola poderia ir. Um passe completo é para onde ela foi. Siga a bola para distinguir os dois."
-    ]);
+    if (beginnerTopic === "run")
+      simple.find((n) => n.role === "guide").summary = pick(p, [
+        "Off-ball simply means without the ball. The runner moves while a teammate has it. That offers another place to pass; the teammate does not have to use it.",
+        "Sin balón significa que otro tiene la pelota. El corredor se mueve mientras la tiene un compañero. Ofrece otro lugar al que pasar; el compañero no tiene que usarlo.",
+        "Sem a bola significa que outro está com ela. O corredor se move enquanto um companheiro a tem. Oferece outro lugar para passar; o companheiro não precisa usá-lo.",
+      ]);
+    if (beginnerTopic === "run")
+      simple.find((n) => n.role === "presenter").summary = pick(p, [
+        "The simple distinction: an option is somewhere the ball could go. A completed pass is where it actually went. Follow the ball to tell the difference.",
+        "La diferencia sencilla: una opción es adónde podría ir el balón. Un pase completado es adónde fue. Sigue el balón para distinguirlos.",
+        "A diferença simples: uma opção é para onde a bola poderia ir. Um passe completo é para onde ela foi. Siga a bola para distinguir os dois.",
+      ]);
   }
-  add("calculation", "Answer how a number is calculated, or a request for the math. Explain units and what this metric does not measure.", pick(p, [
-    "Read the working alongside the number. Distance describes movement; it is not a scoring probability or a rating of the player's decision.",
-    "Lee el cálculo junto al número. La distancia describe movimiento; no es una probabilidad de gol ni una nota de la decisión del jugador.",
-    "Leia o cálculo junto ao número. A distância descreve movimento; não é uma probabilidade de gol nem uma nota para a decisão do jogador."
-  ]));
-  catalog.calculation.posts.find(n=>n.role==='guide').summary = pick(p, [
+  add(
+    "calculation",
+    "Answer how a number is calculated, or a request for the math. Explain units and what this metric does not measure.",
+    pick(p, [
+      "Read the working alongside the number. Distance describes movement; it is not a scoring probability or a rating of the player's decision.",
+      "Lee el cálculo junto al número. La distancia describe movimiento; no es una probabilidad de gol ni una nota de la decisión del jugador.",
+      "Leia o cálculo junto ao número. A distância descreve movimento; não é uma probabilidade de gol nem uma nota para a decisão do jogador.",
+    ]),
+  );
+  catalog.calculation.posts.find((n) => n.role === "guide").summary = pick(p, [
     "The unit matters: metres tell us how far, while kilometres per hour tell us how fast. A distance alone cannot tell us the speed without a time interval.",
     "La unidad importa: los metros indican distancia y los kilómetros por hora indican velocidad. Una distancia sola no da la velocidad sin un intervalo de tiempo.",
-    "A unidade importa: metros indicam distância e quilômetros por hora indicam velocidade. Uma distância sozinha não dá a velocidade sem um intervalo de tempo."
+    "A unidade importa: metros indicam distância e quilômetros por hora indicam velocidade. Uma distância sozinha não dá a velocidade sem um intervalo de tempo.",
   ]);
   if (p.analysis.regain && p.analysis.shot && p.analysis.passes?.length) {
-    const passes=p.analysis.passes.filter(event=>event.outcome==='complete'),
-      gain=passes.reduce((sum,event)=>sum+(event.endPosition?.[0]-event.start?.[0]||0),0),
-      seconds=Math.round(p.analysis.shot.t-p.analysis.regain.end),
-      ids=[p.analysis.regain.id,...passes.map(event=>event.id),p.analysis.shot.id];
-    Object.assign(catalog.calculation.posts.find(n=>n.role==='math'),{
-      summary: pick(p,[
-        `${passes.length} completed passes gain ${gain.toFixed(1)} m toward goal in the ${seconds} seconds from regain completion to shot release. Distance explains territory; time explains tempo. This is one attack, not a team average.`,
-        `${passes.length} pases completados ganan ${gain.toFixed(1)} m hacia la portería en los ${seconds} segundos desde la recuperación hasta el disparo. La distancia explica territorio y el tiempo, ritmo. Es un ataque, no un promedio.`,
-        `${passes.length} passes completos ganham ${gain.toFixed(1)} m rumo ao gol nos ${seconds} segundos entre a recuperação e o chute. Distância explica território; tempo explica ritmo. É um ataque, não uma média.`
-      ]),
-      evidence_ids:ids,
-    });
-    Object.assign(catalog.calculation.posts.find(n=>n.role==='presenter'),{
-      summary: pick(p,[
-        `${gain.toFixed(1)} m of completed forward passing over ${seconds} seconds describes this transition in two dimensions: how far it advanced and how quickly it reached the shot. It does not rate the chance or prove why it succeeded.`,
-        `${gain.toFixed(1)} m de pases hacia delante en ${seconds} segundos describen cuánto avanzó y cuánto tardó en llegar al disparo. No valora la ocasión ni prueba por qué funcionó.`,
-        `${gain.toFixed(1)} m de passes para a frente em ${seconds} segundos descrevem quanto avançou e quanto levou até o chute. Não avalia a chance nem prova por que funcionou.`
-      ]),
-      evidence_ids:ids,
-    });
+    const passes = p.analysis.passes.filter((event) => event.outcome === "complete"),
+      gain = passes.reduce(
+        (sum, event) => sum + (event.endPosition?.[0] - event.start?.[0] || 0),
+        0,
+      ),
+      seconds = Math.round(p.analysis.shot.t - p.analysis.regain.end),
+      ids = [
+        p.analysis.regain.id,
+        ...passes.map((event) => event.id),
+        p.analysis.shot.id,
+      ];
+    Object.assign(
+      catalog.calculation.posts.find((n) => n.role === "math"),
+      {
+        summary: pick(p, [
+          `${passes.length} completed passes gain ${gain.toFixed(1)} m toward goal in the ${seconds} seconds from regain completion to shot release. Distance explains territory; time explains tempo. This is one attack, not a team average.`,
+          `${passes.length} pases completados ganan ${gain.toFixed(1)} m hacia la portería en los ${seconds} segundos desde la recuperación hasta el disparo. La distancia explica territorio y el tiempo, ritmo. Es un ataque, no un promedio.`,
+          `${passes.length} passes completos ganham ${gain.toFixed(1)} m rumo ao gol nos ${seconds} segundos entre a recuperação e o chute. Distância explica território; tempo explica ritmo. É um ataque, não uma média.`,
+        ]),
+        evidence_ids: ids,
+      },
+    );
+    Object.assign(
+      catalog.calculation.posts.find((n) => n.role === "presenter"),
+      {
+        summary: pick(p, [
+          `${gain.toFixed(1)} m of completed forward passing over ${seconds} seconds describes this transition in two dimensions: how far it advanced and how quickly it reached the shot. It does not rate the chance or prove why it succeeded.`,
+          `${gain.toFixed(1)} m de pases hacia delante en ${seconds} segundos describen cuánto avanzó y cuánto tardó en llegar al disparo. No valora la ocasión ni prueba por qué funcionó.`,
+          `${gain.toFixed(1)} m de passes para a frente em ${seconds} segundos descrevem quanto avançou e quanto levou até o chute. Não avalia a chance nem prova por que funcionou.`,
+        ]),
+        evidence_ids: ids,
+      },
+    );
   }
-  add("next_check", "Offer a concrete replay task when asked to go deeper or what to watch next; do not repeat the observation or invent another finding.", pick(p, [
-    "Replay once following the player with the ball, then again following the nearest defender. Compare their positions at the pass release and reception. That is a way to inspect the play, not a new measured finding.",
-    "Repite siguiendo primero al jugador con balón y después al defensor más cercano. Compara sus posiciones al salir y al recibirse el pase. Es una forma de examinar la jugada, no un nuevo resultado medido.",
-    "Reveja seguindo primeiro o jogador com a bola e depois o defensor mais próximo. Compare as posições na saída e na recepção do passe. É uma forma de examinar a jogada, não uma nova conclusão medida."
-  ]));
-  catalog.next_check.posts.find(n=>n.role==='guide').summary = pick(p, [
+  add(
+    "next_check",
+    "Offer a concrete replay task when asked to go deeper or what to watch next; do not repeat the observation or invent another finding.",
+    pick(p, [
+      "Replay once following the player with the ball, then again following the nearest defender. Compare their positions at the pass release and reception. That is a way to inspect the play, not a new measured finding.",
+      "Repite siguiendo primero al jugador con balón y después al defensor más cercano. Compara sus posiciones al salir y al recibirse el pase. Es una forma de examinar la jugada, no un nuevo resultado medido.",
+      "Reveja seguindo primeiro o jogador com a bola e depois o defensor mais próximo. Compare as posições na saída e na recepção do passe. É uma forma de examinar a jogada, não uma nova conclusão medida.",
+    ]),
+  );
+  catalog.next_check.posts.find((n) => n.role === "guide").summary = pick(p, [
     "Pause just before the pass. Which teammate offers another route? Then resume and check where the ball actually goes. Keep the available option separate from the action that happened.",
     "Pausa antes del pase. ¿Qué compañero ofrece otra ruta? Continúa y observa adónde va el balón. Distingue una opción disponible de la acción que ocurrió.",
-    "Pause antes do passe. Qual companheiro oferece outro caminho? Continue e veja para onde vai a bola. Separe uma opção disponível da ação que aconteceu."
+    "Pause antes do passe. Qual companheiro oferece outro caminho? Continue e veja para onde vai a bola. Separe uma opção disponível da ação que aconteceu.",
   ]);
-  const shot=p.analysis.shot;
-  const outcome=shot?pick(p,shot.outcome==='goal'?[
-    'The completed shot is recorded as a goal. The build-up remains in the record; the goal does not prove which movement caused it.',
-    'El disparo completado figura como gol. La jugada previa sigue registrada; el gol no demuestra qué movimiento lo causó.',
-    'O chute completo está registrado como gol. A construção continua registrada; o gol não prova qual movimento o causou.'
-  ]:[
-    'The completed shot was saved. No goal came from this shot. The recovery and completed passes remain valid parts of the build-up.',
-    'El disparo completado fue detenido. Este disparo no produjo gol. La recuperación y los pases completados siguen siendo válidos.',
-    'O chute completo foi defendido. Este chute não produziu gol. A recuperação e os passes completos continuam válidos.'
-  ]):pick(p,[
-    'No completed shot is available at this evidence cutoff. A goal or save cannot yet be reported. The earlier completed events remain supported.',
-    'No hay un disparo completado en este corte. Aún no se puede anunciar un gol ni una parada. Los eventos anteriores siguen respaldados.',
-    'Não há chute completo neste corte. Ainda não se pode anunciar gol ou defesa. Os eventos anteriores continuam sustentados.'
+  const shot = p.analysis.shot;
+  const outcome = shot
+    ? pick(
+        p,
+        shot.outcome === "goal"
+          ? [
+              "The completed shot is recorded as a goal. The build-up remains in the record; the goal does not prove which movement caused it.",
+              "El disparo completado figura como gol. La jugada previa sigue registrada; el gol no demuestra qué movimiento lo causó.",
+              "O chute completo está registrado como gol. A construção continua registrada; o gol não prova qual movimento o causou.",
+            ]
+          : [
+              "The completed shot was saved. No goal came from this shot. The recovery and completed passes remain valid parts of the build-up.",
+              "El disparo completado fue detenido. Este disparo no produjo gol. La recuperación y los pases completados siguen siendo válidos.",
+              "O chute completo foi defendido. Este chute não produziu gol. A recuperação e os passes completos continuam válidos.",
+            ],
+      )
+    : pick(p, [
+        "No completed shot is available at this evidence cutoff. A goal or save cannot yet be reported. The earlier completed events remain supported.",
+        "No hay un disparo completado en este corte. Aún no se puede anunciar un gol ni una parada. Los eventos anteriores siguen respaldados.",
+        "Não há chute completo neste corte. Ainda não se pode anunciar gol ou defesa. Os eventos anteriores continuam sustentados.",
+      ]);
+  add(
+    "outcome",
+    "Answer whether a shot was a goal, saved, or still pending. Prefer this for direct result questions, including before the outcome arrives.",
+    outcome,
+  );
+  const outcomeIds = shot
+    ? [shot.id]
+    : [p.evidence.find((e) => e.record_type === "coverage").id];
+  for (const role of ["analyst", "presenter"])
+    Object.assign(
+      catalog.outcome.posts.find((n) => n.role === role),
+      { summary: outcome, evidence_ids: outcomeIds },
+    );
+  catalog.outcome.posts.find((n) => n.role === "analyst").summary = pick(
+    p,
+    shot
+      ? shot.outcome === "goal"
+        ? [
+            "The shot event records a goal.",
+            "El evento registra un gol.",
+            "O evento registra um gol.",
+          ]
+        : [
+            "The shot event records a save, not a goal.",
+            "El evento registra una parada, no un gol.",
+            "O evento registra uma defesa, não um gol.",
+          ]
+      : [
+          "The evidence window contains no completed shot.",
+          "La ventana de evidencia no contiene un disparo completado.",
+          "A janela de evidência não contém chute completo.",
+        ],
+  );
+  catalog.outcome.posts.find((n) => n.role === "guide").summary = pick(p, [
+    "A shot is an attempt; a goal is one possible result. Read the completed event before calling the finish. A good build-up can still end in a save.",
+    "Un disparo es un intento; el gol es un resultado posible. Lee el evento completado antes de anunciar el desenlace. Una buena jugada puede acabar en parada.",
+    "Um chute é uma tentativa; o gol é um resultado possível. Leia o evento completo antes de anunciar o desfecho. Uma boa jogada pode acabar em defesa.",
   ]);
-  add('outcome','Answer whether a shot was a goal, saved, or still pending. Prefer this for direct result questions, including before the outcome arrives.',outcome);
-  const outcomeIds=shot?[shot.id]:[p.evidence.find(e=>e.record_type==='coverage').id];
-  for(const role of ['analyst','presenter'])Object.assign(catalog.outcome.posts.find(n=>n.role===role),{summary:outcome,evidence_ids:outcomeIds});
-  catalog.outcome.posts.find(n=>n.role==='analyst').summary=pick(p,shot?(shot.outcome==='goal'?['The shot event records a goal.','El evento registra un gol.','O evento registra um gol.']:['The shot event records a save, not a goal.','El evento registra una parada, no un gol.','O evento registra uma defesa, não um gol.']):['The evidence window contains no completed shot.','La ventana de evidencia no contiene un disparo completado.','A janela de evidência não contém chute completo.']);
-  catalog.outcome.posts.find(n=>n.role==='guide').summary=pick(p,[
-    'A shot is an attempt; a goal is one possible result. Read the completed event before calling the finish. A good build-up can still end in a save.',
-    'Un disparo es un intento; el gol es un resultado posible. Lee el evento completado antes de anunciar el desenlace. Una buena jugada puede acabar en parada.',
-    'Um chute é uma tentativa; o gol é um resultado possível. Leia o evento completo antes de anunciar o desfecho. Uma boa jogada pode acabar em defesa.'
-  ]);
-  Object.assign(catalog.outcome.posts.find(n=>n.role==='reviewer'),{summary:shot?pick(p,['Report only the recorded shot outcome. Do not infer scoring probability or intent.','Informa solo del resultado registrado. No infieras probabilidad de gol ni intención.','Informe apenas o resultado registrado. Não infira probabilidade de gol ou intenção.']):pick(p,['Hold the result until the shot completes.','Espera a que termine el disparo.','Espere o chute terminar.']),evidence_ids:outcomeIds});
+  Object.assign(
+    catalog.outcome.posts.find((n) => n.role === "reviewer"),
+    {
+      summary: shot
+        ? pick(p, [
+            "Report only the recorded shot outcome. Do not infer scoring probability or intent.",
+            "Informa solo del resultado registrado. No infieras probabilidad de gol ni intención.",
+            "Informe apenas o resultado registrado. Não infira probabilidade de gol ou intenção.",
+          ])
+        : pick(p, [
+            "Hold the result until the shot completes.",
+            "Espera a que termine el disparo.",
+            "Espere o chute terminar.",
+          ]),
+      evidence_ids: outcomeIds,
+    },
+  );
   // Mark unchanged facts explicitly. The UI retains them in history, instead of
   // pretending that every role has discovered something new at the same cutoff.
-  for (const entry of Object.values(catalog)) for (const post of entry.posts) {
-    post.unchanged = follow && conversation.previous.some(old => old.role === post.role && old.summary === post.summary);
-  }
+  for (const entry of Object.values(catalog))
+    for (const post of entry.posts) {
+      post.unchanged =
+        follow &&
+        conversation.previous.some(
+          (old) => old.role === post.role && old.summary === post.summary,
+        );
+    }
   return catalog;
 }
 export function selectSourcePosts(selection, catalog, packet) {
@@ -347,9 +650,16 @@ export function selectSourcePosts(selection, catalog, packet) {
 }
 export function reconcileCachedNextEventMath(packet, notes, conversation, post) {
   if (!post || conversation.round <= 1) return post;
-  const current = sourceCatalog(packet, notes, conversation).next_event?.posts.find(p => p.role === 'math');
+  const current = sourceCatalog(packet, notes, conversation).next_event?.posts.find(
+    (p) => p.role === "math",
+  );
   if (!current || current.summary !== post.summary) return post;
-  return { ...post, working: current.working, metric_value: current.metric_value, metric_title: current.metric_title };
+  return {
+    ...post,
+    working: current.working,
+    metric_value: current.metric_value,
+    metric_title: current.metric_title,
+  };
 }
 export const ROLE_HANDOFFS = {
   analyst: {
@@ -379,12 +689,17 @@ function uniqueAngles(catalog, values) {
 }
 
 function fallbackAngle(catalog, packet, conversation, input) {
-  if (catalog.next_event && /next|what happened|qué pasó|aconteceu/i.test(input.question || ""))
+  if (
+    catalog.next_event &&
+    /next|what happened|qué pasó|aconteceu/i.test(input.question || "")
+  )
     return "next_event";
   if (packet.revision === 2 && catalog.movement) return "movement";
   if (
     packet.mode === "beginner" ||
-    /simple|everyday|never watched|plain words|sencill|simples/i.test(input.question || "")
+    /simple|everyday|never watched|plain words|sencill|simples/i.test(
+      input.question || "",
+    )
   )
     return "beginner";
   if (packet.mode === "math" && catalog.calculation) return "calculation";
@@ -406,7 +721,10 @@ export async function groundedRound({
   options = {},
 }) {
   const catalog = sourceCatalog(packet, notes, conversation),
-    causalQuestion = /\b(?:cause|caused|causing|because|opened|created)\b|caus|provoc|por qu[eê]/i.test(input.question || "");
+    causalQuestion =
+      /\b(?:cause|caused|causing|because|opened|created)\b|caus|provoc|por qu[eê]/i.test(
+        input.question || "",
+      );
   await trace("director", "handoff_catalog_ready", {
     angles: Object.keys(catalog),
     policy: GROUNDED_POLICY,
@@ -414,7 +732,9 @@ export async function groundedRound({
     deterministic_role: "math",
   });
 
-  const math = (catalog.next_event || catalog.progression).posts.find((p) => p.role === "math");
+  const math = (catalog.next_event || catalog.progression).posts.find(
+    (p) => p.role === "math",
+  );
   const publishMath = async () => {
     if (!journal.value.posts.math) await publish(math);
     else emit("post", { ...journal.value.posts.math, cached: true });
@@ -437,7 +757,8 @@ export async function groundedRound({
     if (!choices.length) throw Error(`No bounded ${role} choices`);
     const saved = journal.value.raw_outputs?.[role];
     if (saved) {
-      if (!choices.includes(saved.angle)) throw Error(`Saved ${role} choice is outside the current source`);
+      if (!choices.includes(saved.angle))
+        throw Error(`Saved ${role} choice is outside the current source`);
       await trace(role, "saved_model_handoff_reused", {
         angle: saved.angle,
         from: handoffPosts.map((p) => p.role),
@@ -499,7 +820,9 @@ export async function groundedRound({
                 round: conversation.round,
                 cutoff: packet.cutoff,
                 revision: packet.revision,
-                available: Object.fromEntries(choices.map((id) => [id, catalog[id].description])),
+                available: Object.fromEntries(
+                  choices.map((id) => [id, catalog[id].description]),
+                ),
                 handoff: handoffPosts.map((p) => ({
                   role: p.role,
                   summary: p.summary,
@@ -526,7 +849,8 @@ export async function groundedRound({
       const decision = JSON.parse(data.choices?.[0]?.message?.content || "{}"),
         latencyMs = Math.round(performance.now() - requestStarted),
         executionId = data.id || correlationId;
-      if (!choices.includes(decision.angle)) throw Error(`${ROLE_HANDOFFS[role].label} selected an unbounded angle`);
+      if (!choices.includes(decision.angle))
+        throw Error(`${ROLE_HANDOFFS[role].label} selected an unbounded angle`);
       Object.assign(decision, { execution_id: executionId, latency_ms: latencyMs });
       await journal.change((v) => {
         v.raw_outputs ||= {};
@@ -551,7 +875,9 @@ export async function groundedRound({
   };
 
   const postFor = (angle, role, decision, handoffPosts) => {
-    const post = { ...selectSourcePosts({ angle }, catalog, packet).find((p) => p.role === role) };
+    const post = {
+      ...selectSourcePosts({ angle }, catalog, packet).find((p) => p.role === role),
+    };
     post.engine = "azure_openai";
     post.editorial_angle = angle;
     post.composition_policy = GROUNDED_POLICY;
@@ -567,16 +893,33 @@ export async function groundedRound({
   let failure = null;
   const completed = {};
   try {
-    const scoutDecision = await runSpecialist("analyst", causalQuestion && catalog.causation_test ? ["causation_test"] : Object.keys(catalog));
-    completed.analyst = journal.value.posts.analyst || postFor(scoutDecision.angle, "analyst", scoutDecision, []);
+    const scoutDecision = await runSpecialist(
+      "analyst",
+      causalQuestion && catalog.causation_test
+        ? ["causation_test"]
+        : Object.keys(catalog),
+    );
+    completed.analyst =
+      journal.value.posts.analyst ||
+      postFor(scoutDecision.angle, "analyst", scoutDecision, []);
     if (!journal.value.posts.analyst) await publish(completed.analyst);
     else emit("post", { ...completed.analyst, cached: true });
 
-    const guideChoices = uniqueAngles(catalog, causalQuestion && catalog.causation_test
-      ? ["causation_test", "next_check"]
-      : [scoutDecision.angle, packet.mode === "beginner" ? "beginner" : null, conversation.round > 1 ? "next_check" : null, "limits"]);
+    const guideChoices = uniqueAngles(
+      catalog,
+      causalQuestion && catalog.causation_test
+        ? ["causation_test", "next_check"]
+        : [
+            scoutDecision.angle,
+            packet.mode === "beginner" ? "beginner" : null,
+            conversation.round > 1 ? "next_check" : null,
+            "limits",
+          ],
+    );
     const guideDecision = await runSpecialist("guide", guideChoices, [completed.analyst]);
-    completed.guide = journal.value.posts.guide || postFor(guideDecision.angle, "guide", guideDecision, [completed.analyst]);
+    completed.guide =
+      journal.value.posts.guide ||
+      postFor(guideDecision.angle, "guide", guideDecision, [completed.analyst]);
     if (!journal.value.posts.guide) await publish(completed.guide);
     else emit("post", { ...completed.guide, cached: true });
 
@@ -602,7 +945,13 @@ export async function groundedRound({
         : [scoutDecision.angle, "limits", packet.analysis.shot ? "outcome" : null],
       [completed.analyst, completed.guide, math],
     );
-    completed.reviewer = journal.value.posts.reviewer || postFor(checkDecision.angle, "reviewer", checkDecision, [completed.analyst, completed.guide, math]);
+    completed.reviewer =
+      journal.value.posts.reviewer ||
+      postFor(checkDecision.angle, "reviewer", checkDecision, [
+        completed.analyst,
+        completed.guide,
+        math,
+      ]);
     if (!journal.value.posts.reviewer) await publish(completed.reviewer);
     else emit("post", { ...completed.reviewer, cached: true });
 
@@ -611,7 +960,14 @@ export async function groundedRound({
       [scoutDecision.angle, guideDecision.angle, checkDecision.angle],
       [completed.analyst, completed.guide, math, completed.reviewer],
     );
-    completed.presenter = journal.value.posts.presenter || postFor(hostDecision.angle, "presenter", hostDecision, [completed.analyst, completed.guide, math, completed.reviewer]);
+    completed.presenter =
+      journal.value.posts.presenter ||
+      postFor(hostDecision.angle, "presenter", hostDecision, [
+        completed.analyst,
+        completed.guide,
+        math,
+        completed.reviewer,
+      ]);
     if (!journal.value.posts.presenter) await publish(completed.presenter);
     else emit("post", { ...completed.presenter, cached: true });
   } catch (error) {

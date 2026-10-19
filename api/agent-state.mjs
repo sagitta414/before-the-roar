@@ -9,7 +9,10 @@ import { randomBytes } from "node:crypto";
 export class AgentState {
   constructor(
     store = {},
-    { directory = process.env.BTR_STATE_DIR || join(tmpdir(), "btr-agent-state"), clock = () => Date.now() } = {},
+    {
+      directory = process.env.BTR_STATE_DIR || join(tmpdir(), "btr-agent-state"),
+      clock = () => Date.now(),
+    } = {},
   ) {
     this.store = store;
     this.directory = directory;
@@ -48,15 +51,17 @@ export class AgentState {
     }
   }
   async write(key, value, etag = null) {
-    const retentionHours = Math.min(168, Math.max(1, Number(process.env.BTR_AGENT_RETENTION_HOURS) || 24));
+    const retentionHours = Math.min(
+      168,
+      Math.max(1, Number(process.env.BTR_AGENT_RETENTION_HOURS) || 24),
+    );
     const path = this.path(key),
       next = {
         ...value,
         version: (value.version || 0) + 1,
         updated_at: this.clock(),
         retention_until:
-          value.retention_until ||
-          this.clock() + retentionHours * 60 * 60 * 1000,
+          value.retention_until || this.clock() + retentionHours * 60 * 60 * 1000,
       };
     if (this.store.base) {
       const r = await this.store.blob(path, {

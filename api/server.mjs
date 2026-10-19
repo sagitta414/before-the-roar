@@ -1,6 +1,6 @@
-import {VideoDesk,validateVideoInput} from './video-desk.mjs';
-import {EvidenceDesk} from './evidence-desk.mjs';
-import {normalizeStudio} from '../dist/studio-insight.js';
+import { VideoDesk, validateVideoInput } from "./video-desk.mjs";
+import { EvidenceDesk } from "./evidence-desk.mjs";
+import { normalizeStudio } from "../dist/studio-insight.js";
 // HTTP routing, input validation, origin/rate controls and synthetic match stream ownership.
 import { VisionDesk } from "./vision.mjs";
 import http from "node:http";
@@ -76,31 +76,33 @@ export function createApp({
     emit(run, "thinking", { cutoff: second, recap: second === 5400 });
     run.explanationQueue = run.explanationQueue.then(async () => {
       if (!runs.has(run.id) || run.stopped || run.completed) return;
-      const result = await narrator.explain(packet, (draft) => {
-        if (runs.has(run.id) && !run.stopped && !run.completed)
-          emit(run, "dialogue", { ...draft, cutoff: second });
-      }).catch(() => fallback(packet));
-        if (!runs.has(run.id) || run.stopped || run.completed) return;
-        const item = {
-          ...result,
-          cutoff: second,
-          recap: second === 5400,
-          evidence: packet.facts,
-          stats: packet.stats,
-          match_id: run.match.id,
-        };
-        run.insights.push(item);
-        emit(run, second === 5400 ? "recap" : "insight", item);
-        if (second === 5400) {
-          run.completed = true;
-          emit(run, "complete", {
-            duration: 5400,
-            events: run.state.count,
-            score: run.state.score,
-          });
-          for (const c of run.clients) c.end();
-          run.clients.clear();
-        }
+      const result = await narrator
+        .explain(packet, (draft) => {
+          if (runs.has(run.id) && !run.stopped && !run.completed)
+            emit(run, "dialogue", { ...draft, cutoff: second });
+        })
+        .catch(() => fallback(packet));
+      if (!runs.has(run.id) || run.stopped || run.completed) return;
+      const item = {
+        ...result,
+        cutoff: second,
+        recap: second === 5400,
+        evidence: packet.facts,
+        stats: packet.stats,
+        match_id: run.match.id,
+      };
+      run.insights.push(item);
+      emit(run, second === 5400 ? "recap" : "insight", item);
+      if (second === 5400) {
+        run.completed = true;
+        emit(run, "complete", {
+          duration: 5400,
+          events: run.state.count,
+          score: run.state.score,
+        });
+        for (const c of run.clients) c.end();
+        run.clients.clear();
+      }
     });
     return run.explanationQueue;
   }
@@ -216,10 +218,32 @@ export function createApp({
         });
       }
       if (route === "/api/judge-event" && req.method === "POST") {
-        if (origin && !allowed.has(origin) && origin !== `https://${req.headers.host}` && origin !== `http://${req.headers.host}`)
+        if (
+          origin &&
+          !allowed.has(origin) &&
+          origin !== `https://${req.headers.host}` &&
+          origin !== `http://${req.headers.host}`
+        )
           return send(res, 403, { error: "Origin not allowed" });
-        const received=clock(),envelope=randomBytes(10).toString('hex');
-        return send(res,201,{schema:'btr.live-event-envelope.v1',envelope_id:`judge-${envelope}`,received_at:received,server_timestamp:new Date(received).toISOString(),scenario:'wide',sequence_second:18,match_clock:'67:18',revision:1,evidence_id:'wide-track-102-450',source:'Azure session event · authored synthetic tracking',unseen_in_session:true,limits:['The envelope is created live by the server.','The underlying football observation belongs to the authored synthetic scenario; this is not a stadium feed.']});
+        const received = clock(),
+          envelope = randomBytes(10).toString("hex");
+        return send(res, 201, {
+          schema: "btr.live-event-envelope.v1",
+          envelope_id: `judge-${envelope}`,
+          received_at: received,
+          server_timestamp: new Date(received).toISOString(),
+          scenario: "wide",
+          sequence_second: 18,
+          match_clock: "67:18",
+          revision: 1,
+          evidence_id: "wide-track-102-450",
+          source: "Azure session event · authored synthetic tracking",
+          unseen_in_session: true,
+          limits: [
+            "The envelope is created live by the server.",
+            "The underlying football observation belongs to the authored synthetic scenario; this is not a stadium feed.",
+          ],
+        });
       }
       if (route.startsWith("/api/production")) {
         if (
@@ -344,7 +368,10 @@ export function createApp({
         let body = "";
         for await (const c of req) {
           body += c;
-          if (body.length > 1024) { reservation.release(); return send(res, 413, { error: "Request too large" }); }
+          if (body.length > 1024) {
+            reservation.release();
+            return send(res, 413, { error: "Request too large" });
+          }
         }
         let input;
         try {
@@ -451,7 +478,13 @@ export function createApp({
           perspectives: MODES,
         });
       if (
-        ["/api/desk", "/api/match-desk", "/api/clip-desk", "/api/evidence-review", "/api/video-desk"].includes(route) &&
+        [
+          "/api/desk",
+          "/api/match-desk",
+          "/api/clip-desk",
+          "/api/evidence-review",
+          "/api/video-desk",
+        ].includes(route) &&
         req.method === "POST"
       ) {
         if (
@@ -529,8 +562,27 @@ export function createApp({
             input.time > PITCHSIDE.duration)
         )
           return rejectDesk(400, { error: "Invalid clip or evidence cutoff." });
-        if(route==='/api/video-desk'){try{validateVideoInput(input);}catch{return rejectDesk(400,{error:'Invalid measured-video request'});}}
-        if(route==='/api/evidence-review'){try{normalizeStudio(input);if(input.previous){normalizeStudio(input.previous);if(input.previous.scenario!==input.scenario)throw Error('Different scenario');}if(input.intent&&!['opening','challenge','math'].includes(input.intent))throw Error('Invalid intent');}catch{return rejectDesk(400,{error:'Invalid evidence snapshot'});}}
+        if (route === "/api/video-desk") {
+          try {
+            validateVideoInput(input);
+          } catch {
+            return rejectDesk(400, { error: "Invalid measured-video request" });
+          }
+        }
+        if (route === "/api/evidence-review") {
+          try {
+            normalizeStudio(input);
+            if (input.previous) {
+              normalizeStudio(input.previous);
+              if (input.previous.scenario !== input.scenario)
+                throw Error("Different scenario");
+            }
+            if (input.intent && !["opening", "challenge", "math"].includes(input.intent))
+              throw Error("Invalid intent");
+          } catch {
+            return rejectDesk(400, { error: "Invalid evidence snapshot" });
+          }
+        }
         rateReservation.commit();
         const controller = new AbortController();
         res.once("close", () => {
@@ -552,7 +604,11 @@ export function createApp({
         };
         emit("connected", {
           source:
-            route === "/api/evidence-review" ? "evidence-studio" : route === "/api/match-desk" ? "shared-match-session" : "reviewed-ai-video",
+            route === "/api/evidence-review"
+              ? "evidence-studio"
+              : route === "/api/match-desk"
+                ? "shared-match-session"
+                : "reviewed-ai-video",
           discussion_scope: route === "/api/desk" ? "full-clip" : "evidence-cutoff",
           ...(route === "/api/clip-desk"
             ? { clip_id: input.clip_id, cutoff: input.time }
@@ -561,13 +617,20 @@ export function createApp({
           mode,
         });
         try {
-          if(route==='/api/video-desk'){await videoDesk.discuss(input,emit,{signal:controller.signal});}
-          else if(route==='/api/evidence-review'){
-            const result=await evidenceDesk.review(input,{signal:controller.signal});
-            emit('receipt',{...result,posts:undefined});
-            for(const post of result.posts)emit('post',post);
-            emit('complete',{cached:result.cached,engine:result.engine,elapsed_ms:result.elapsed_ms});
-          }else if (route === "/api/clip-desk")
+          if (route === "/api/video-desk") {
+            await videoDesk.discuss(input, emit, { signal: controller.signal });
+          } else if (route === "/api/evidence-review") {
+            const result = await evidenceDesk.review(input, {
+              signal: controller.signal,
+            });
+            emit("receipt", { ...result, posts: undefined });
+            for (const post of result.posts) emit("post", post);
+            emit("complete", {
+              cached: result.cached,
+              engine: result.engine,
+              elapsed_ms: result.elapsed_ms,
+            });
+          } else if (route === "/api/clip-desk")
             await clipDesk.discuss(
               {
                 time: input.time,
@@ -581,8 +644,13 @@ export function createApp({
               { signal: controller.signal },
             );
           else if (route === "/api/match-desk")
-            await matchDesk.discuss({ ...input, language, mode, question }, emit, { signal: controller.signal });
-          else await desk.discuss({ language, mode, question }, emit, { signal: controller.signal });
+            await matchDesk.discuss({ ...input, language, mode, question }, emit, {
+              signal: controller.signal,
+            });
+          else
+            await desk.discuss({ language, mode, question }, emit, {
+              signal: controller.signal,
+            });
         } catch {
           emit("error", {
             message: "The discussion could not finish. Please retry.",
@@ -601,7 +669,11 @@ export function createApp({
           origin !== `http://${req.headers.host}`
         )
           return send(res, 403, { error: "Origin not allowed" });
-        if ([...runs.values()].filter((r) => !r.completed && !r.stopped).length + pendingRuns >= 6)
+        if (
+          [...runs.values()].filter((r) => !r.completed && !r.stopped).length +
+            pendingRuns >=
+          6
+        )
           return send(res, 429, {
             error: "The studio is busy. Try again in a minute.",
           });
@@ -834,10 +906,18 @@ export function createApp({
     tick,
     broadcasts,
     limits: {
-      get deskStreams() { return deskStreams; },
-      get pendingRuns() { return pendingRuns; },
-      get runSubscribers() { return runSubscribers; },
-      get rateIdentities() { return rates.size; },
+      get deskStreams() {
+        return deskStreams;
+      },
+      get pendingRuns() {
+        return pendingRuns;
+      },
+      get runSubscribers() {
+        return runSubscribers;
+      },
+      get rateIdentities() {
+        return rates.size;
+      },
     },
   };
 }

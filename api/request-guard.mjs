@@ -24,7 +24,9 @@ export function trustedProxy(ip, configured = process.env.BTR_TRUSTED_PROXY_IPS 
   if (!ip) return false;
   if (configured.split(",").map(cleanIp).filter(Boolean).includes(ip)) return true;
   if (isIP(ip) === 4) return privateV4(ip);
-  return ip === "::1" || ip.startsWith("fc") || ip.startsWith("fd") || ip.startsWith("fe80:");
+  return (
+    ip === "::1" || ip.startsWith("fc") || ip.startsWith("fd") || ip.startsWith("fe80:")
+  );
 }
 
 // Container Apps appends the verified hop to the right of any caller-supplied

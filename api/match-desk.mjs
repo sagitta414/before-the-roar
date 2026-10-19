@@ -33,39 +33,96 @@ export function repeatsContribution(summary, previous = []) {
   });
 }
 export function repeatsInsight(summary, previous = []) {
-  const stop = new Set('the a an to is and or while from this that yet overall be been of its however single alone can cannot does not in on for with as at by it their'.split(' '));
-  const words = s => new Set((s.toLocaleLowerCase().match(/[\p{L}]+/gu)||[]).filter(w=>w.length>2&&!stop.has(w)));
-  const mine=words(summary);
-  return previous.some(p=>{
-    const other=words(p.summary||'');
-    if(mine.size<5||other.size<5)return false;
-    const shared=[...mine].filter(w=>other.has(w)).length;
-    return shared/mine.size>=.55&&mine.size-shared<5;
+  const stop = new Set(
+    "the a an to is and or while from this that yet overall be been of its however single alone can cannot does not in on for with as at by it their".split(
+      " ",
+    ),
+  );
+  const words = (s) =>
+    new Set(
+      (s.toLocaleLowerCase().match(/[\p{L}]+/gu) || []).filter(
+        (w) => w.length > 2 && !stop.has(w),
+      ),
+    );
+  const mine = words(summary);
+  return previous.some((p) => {
+    const other = words(p.summary || "");
+    if (mine.size < 5 || other.size < 5) return false;
+    const shared = [...mine].filter((w) => other.has(w)).length;
+    return shared / mine.size >= 0.55 && mine.size - shared < 5;
   });
 }
-export function repeatsFilmUncertainty(summary, previous=[]) {
-  return /pass|connection/i.test(summary) && /defender/i.test(summary) && /(?:unverified|unknown|not (?:known|confirmed|established)|remains unclear)/i.test(summary) && !/(?:next touch|next pass|turn|release|exit|wider line|continuous|unbroken)/i.test(summary) && previous.some(p=>p.role==='analyst'&&/pass|passes|connection/i.test(p.summary)&&/defender/i.test(p.summary));
+export function repeatsFilmUncertainty(summary, previous = []) {
+  return (
+    /pass|connection/i.test(summary) &&
+    /defender/i.test(summary) &&
+    /(?:unverified|unknown|not (?:known|confirmed|established)|remains unclear)/i.test(
+      summary,
+    ) &&
+    !/(?:next touch|next pass|turn|release|exit|wider line|continuous|unbroken)/i.test(
+      summary,
+    ) &&
+    previous.some(
+      (p) =>
+        p.role === "analyst" &&
+        /pass|passes|connection/i.test(p.summary) &&
+        /defender/i.test(p.summary),
+    )
+  );
 }
 export function filmHostSkipsCheck(summary, packet) {
-  if(!['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id))return false;
-  const boundary=/(?:wider (?:defensive )?line|defensive line|line (?:is|remains) (?:outside|unverified|unknown)|line break|beyond (?:the|this) (?:shot|frame)|línea defensiva|línea más amplia|linha defensiva|linha mais ampla)/i.test(summary);
-  const nextTest=/(?:next|first|following) (?:touch|turn|pass|release)|(?:touch|turn|pass|release|exit) (?:after|at) (?:reception|receiving)|siguiente toque|próximo toque|primer toque|primeiro toque|próxima ação|siguiente acción|salida tras|saída após/i.test(summary);
-  return !boundary||!nextTest;
+  if (!["01-pass", "07-blue"].includes(packet.evidence.at(-1)?.shot_id)) return false;
+  const boundary =
+    /(?:wider (?:defensive )?line|defensive line|line (?:is|remains) (?:outside|unverified|unknown)|line break|beyond (?:the|this) (?:shot|frame)|línea defensiva|línea más amplia|linha defensiva|linha mais ampla)/i.test(
+      summary,
+    );
+  const nextTest =
+    /(?:next|first|following) (?:touch|turn|pass|release)|(?:touch|turn|pass|release|exit) (?:after|at) (?:reception|receiving)|siguiente toque|próximo toque|primer toque|primeiro toque|próxima ação|siguiente acción|salida tras|saída após/i.test(
+      summary,
+    );
+  return !boundary || !nextTest;
 }
-function reviewedClipChallenge(packet,role){
-  const pass=['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id),l=['en','es','pt'].indexOf(packet.language);
-  const lines=pass?{
-    analyst:['The reviewed shot shows a nearby defender and a received pass. It does not track the defender’s complete route.','La toma revisada muestra un defensor cercano y un pase recibido. No sigue toda la trayectoria del defensor.','A tomada revisada mostra um defensor próximo e um passe recebido. Não acompanha todo o trajeto do defensor.'],
-    guide:['Which continuous angle would show the defender’s route during the pass and the receiver’s next touch?','¿Qué toma continua mostraría la trayectoria del defensor durante el pase y el siguiente toque del receptor?','Qual tomada contínua mostraria o trajeto do defensor durante o passe e o próximo toque de quem recebeu?'],
-    presenter:['A continuous view of the defender through the pass could change the defensive reading. This shot confirms the outlet, not a break in the wider line.','Una toma continua del defensor durante el pase podría cambiar la lectura defensiva. Esta toma confirma la salida, no una ruptura de la línea.','Uma tomada contínua do defensor durante o passe poderia mudar a leitura defensiva. Esta tomada confirma a saída, não a ruptura da linha.']
-  }:{
-    analyst:['The reviewed notes describe the visible action in this shot. They do not establish what changed beyond the frame.','Las notas revisadas describen la acción visible en esta toma. No establecen qué cambió fuera del encuadre.','As notas revisadas descrevem a ação visível nesta tomada. Não estabelecem o que mudou fora do quadro.'],
-    guide:['Which continuous angle would let us compare this action with the next visible touch?','¿Qué toma continua permitiría comparar esta acción con el siguiente toque visible?','Qual tomada contínua permitiria comparar esta ação com o próximo toque visível?'],
-    presenter:['An unbroken view of the next action could change this reading. The current shot supports only the reached observation.','Una toma sin cortes de la siguiente acción podría cambiar esta lectura. La toma actual solo respalda la observación alcanzada.','Uma tomada sem cortes da próxima ação poderia mudar esta leitura. A tomada atual só sustenta a observação alcançada.']
-  };
-  return lines[role]?.[Math.max(0,l)];
+function reviewedClipChallenge(packet, role) {
+  const pass = ["01-pass", "07-blue"].includes(packet.evidence.at(-1)?.shot_id),
+    l = ["en", "es", "pt"].indexOf(packet.language);
+  const lines = pass
+    ? {
+        analyst: [
+          "The reviewed shot shows a nearby defender and a received pass. It does not track the defender’s complete route.",
+          "La toma revisada muestra un defensor cercano y un pase recibido. No sigue toda la trayectoria del defensor.",
+          "A tomada revisada mostra um defensor próximo e um passe recebido. Não acompanha todo o trajeto do defensor.",
+        ],
+        guide: [
+          "Which continuous angle would show the defender’s route during the pass and the receiver’s next touch?",
+          "¿Qué toma continua mostraría la trayectoria del defensor durante el pase y el siguiente toque del receptor?",
+          "Qual tomada contínua mostraria o trajeto do defensor durante o passe e o próximo toque de quem recebeu?",
+        ],
+        presenter: [
+          "A continuous view of the defender through the pass could change the defensive reading. This shot confirms the outlet, not a break in the wider line.",
+          "Una toma continua del defensor durante el pase podría cambiar la lectura defensiva. Esta toma confirma la salida, no una ruptura de la línea.",
+          "Uma tomada contínua do defensor durante o passe poderia mudar a leitura defensiva. Esta tomada confirma a saída, não a ruptura da linha.",
+        ],
+      }
+    : {
+        analyst: [
+          "The reviewed notes describe the visible action in this shot. They do not establish what changed beyond the frame.",
+          "Las notas revisadas describen la acción visible en esta toma. No establecen qué cambió fuera del encuadre.",
+          "As notas revisadas descrevem a ação visível nesta tomada. Não estabelecem o que mudou fora do quadro.",
+        ],
+        guide: [
+          "Which continuous angle would let us compare this action with the next visible touch?",
+          "¿Qué toma continua permitiría comparar esta acción con el siguiente toque visible?",
+          "Qual tomada contínua permitiria comparar esta ação com o próximo toque visível?",
+        ],
+        presenter: [
+          "An unbroken view of the next action could change this reading. The current shot supports only the reached observation.",
+          "Una toma sin cortes de la siguiente acción podría cambiar esta lectura. La toma actual solo respalda la observación alcanzada.",
+          "Uma tomada sem cortes da próxima ação poderia mudar esta leitura. A tomada atual só sustenta a observação alcançada.",
+        ],
+      };
+  return lines[role]?.[Math.max(0, l)];
 }
-export function validateMatchPost(raw, packet, role, context={}) {
+export function validateMatchPost(raw, packet, role, context = {}) {
   const p = {
       ...raw?.post,
       interpretation:
@@ -121,14 +178,38 @@ export function validateMatchPost(raw, packet, role, context={}) {
     p.replay_cue,
     p.viewing_question,
   ].join(" ");
-  if (packet.review?.scope === 'manually-reviewed-ai-video' && /\b(?:does not|doesn't|did not|didn't|never)\s+(?:change|move|shift)|\b(?:remains|stays)\s+(?:still|stationary|in place|at (?:the|his|its) (?:same|starting) position)|\b(?:no|without)\s+(?:significant\s+)?(?:movement|change in position)/i.test(prose))
-    throw Error('The reviewed film does not establish unchanged defender movement');
-  if (packet.review?.scope === 'manually-reviewed-ai-video' && /\b(?:readiness|preparedness|ready to|prepared to)\b|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? (?:intent|attention)/i.test(prose))
-    throw Error('The reviewed film does not establish player readiness or advantage');
-  if (packet.review?.scope === 'manually-reviewed-ai-video' && role==='guide' && /receiver.{0,45}(?:making|made|sends|sent) (?:the|a) pass/i.test(p.interpretation))
-    throw Error('The receiver is not the recorded passer');
-  if (packet.review?.scope === 'manually-reviewed-ai-video' && context.round>1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(context.question||'') && role==='guide' && !/(?:continuous|unbroken|sequence|sequential|continua|continua|contínua|sin cortes|sem cortes).*(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada)|(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada).*(?:continuous|unbroken|sequence|sequential|continua|contínua|sin cortes|sem cortes)/i.test(p.interpretation))
-    throw Error('Guide must identify a concrete evidence comparison for this challenge');
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    /\b(?:does not|doesn't|did not|didn't|never)\s+(?:change|move|shift)|\b(?:remains|stays)\s+(?:still|stationary|in place|at (?:the|his|its) (?:same|starting) position)|\b(?:no|without)\s+(?:significant\s+)?(?:movement|change in position)/i.test(
+      prose,
+    )
+  )
+    throw Error("The reviewed film does not establish unchanged defender movement");
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    /\b(?:readiness|preparedness|ready to|prepared to)\b|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? (?:intent|attention)/i.test(
+      prose,
+    )
+  )
+    throw Error("The reviewed film does not establish player readiness or advantage");
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    role === "guide" &&
+    /receiver.{0,45}(?:making|made|sends|sent) (?:the|a) pass/i.test(p.interpretation)
+  )
+    throw Error("The receiver is not the recorded passer");
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    context.round > 1 &&
+    /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(
+      context.question || "",
+    ) &&
+    role === "guide" &&
+    !/(?:continuous|unbroken|sequence|sequential|continua|continua|contínua|sin cortes|sem cortes).*(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada)|(?:camera|frame|angle|shot|view|cámara|encuadre|toma|vista|câmera|quadro|tomada).*(?:continuous|unbroken|sequence|sequential|continua|contínua|sin cortes|sem cortes)/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error("Guide must identify a concrete evidence comparison for this challenge");
   if (packet.synthetic) {
     const boundary = [
       p.interpretation,
@@ -251,7 +332,8 @@ export class MatchDesk {
     this.clip = clip;
   }
   async discuss(input, emit, options = {}) {
-    if (options.signal?.aborted) throw new DOMException("Discussion cancelled", "AbortError");
+    if (options.signal?.aborted)
+      throw new DOMException("Discussion cancelled", "AbortError");
     const key =
       options.key ||
       createHash("sha256")
@@ -282,7 +364,11 @@ export class MatchDesk {
         task.listeners.delete(emit);
       }
     }
-    const task = { history: [], listeners: new Set([emit]), controller: new AbortController() };
+    const task = {
+      history: [],
+      listeners: new Set([emit]),
+      controller: new AbortController(),
+    };
     this.pending.set(key, task);
     const cancel = () => {
       task.listeners.delete(emit);
@@ -293,7 +379,10 @@ export class MatchDesk {
       task.history.push([type, item]);
       for (const fn of task.listeners) fn(type, item);
     };
-    task.promise = this.generate(key, input, publish, { ...options, signal: task.controller.signal });
+    task.promise = this.generate(key, input, publish, {
+      ...options,
+      signal: task.controller.signal,
+    });
     try {
       return await task.promise;
     } finally {
@@ -371,11 +460,26 @@ export class MatchDesk {
     };
     for (const item of journal.value.trace) emit("trace", { ...item, replayed: true });
     if (journal.value.status === "complete") {
-      if (!this.clip && process.env.BTR_GROUNDED_DESK === '1' && journal.value.posts.math) {
+      if (
+        !this.clip &&
+        process.env.BTR_GROUNDED_DESK === "1" &&
+        journal.value.posts.math
+      ) {
         const previous = journal.value.posts.math;
-        const repaired = reconcileCachedNextEventMath(packet, notes, conversation, previous);
-        if (repaired.metric_title !== previous.metric_title || repaired.metric_value !== previous.metric_value || repaired.working !== previous.working)
-          await journal.change(v => { v.posts.math = repaired; });
+        const repaired = reconcileCachedNextEventMath(
+          packet,
+          notes,
+          conversation,
+          previous,
+        );
+        if (
+          repaired.metric_title !== previous.metric_title ||
+          repaired.metric_value !== previous.metric_value ||
+          repaired.working !== previous.working
+        )
+          await journal.change((v) => {
+            v.posts.math = repaired;
+          });
       }
       for (const p of Object.values(journal.value.posts))
         emit("post", { ...p, cached: true });
@@ -395,7 +499,9 @@ export class MatchDesk {
         cutoff: packet.cutoff,
         revision: packet.revision,
         storage: this.store.base ? "azure_blob" : "local_file",
-        execution_state: journal.value.trace.length ? "failed_recovered" : "deterministic",
+        execution_state: journal.value.trace.length
+          ? "failed_recovered"
+          : "deterministic",
       },
     );
     let sequence = 0;
@@ -587,17 +693,17 @@ export class MatchDesk {
           } else {
             await reserve();
             const response = await fetch(url, {
-            method: "POST",
-            headers,
-             signal: combinedSignal(options.signal, 20000),
-            body: JSON.stringify({
-              messages: toolMessages,
-              tools: TOOL_DEFINITIONS,
-              tool_choice: "required",
-              parallel_tool_calls: false,
-              max_tokens: 160,
-              temperature: 0,
-            }),
+              method: "POST",
+              headers,
+              signal: combinedSignal(options.signal, 20000),
+              body: JSON.stringify({
+                messages: toolMessages,
+                tools: TOOL_DEFINITIONS,
+                tool_choice: "required",
+                parallel_tool_calls: false,
+                max_tokens: 160,
+                temperature: 0,
+              }),
             });
             if (!response.ok) throw modelFailure(response, "Evidence tool selection");
             const selection = await response.json();
@@ -607,10 +713,10 @@ export class MatchDesk {
             call = calls[0];
           }
           const output = executeAgentTool(
-              call.function.name,
-              JSON.parse(call.function.arguments),
-              toolContext,
-            );
+            call.function.name,
+            JSON.parse(call.function.arguments),
+            toolContext,
+          );
           toolReceipt = { call, output };
           await journal.change((v) => {
             v.tools ??= {};
@@ -642,7 +748,7 @@ export class MatchDesk {
         const res = await fetch(url, {
           method: "POST",
           headers,
-           signal: combinedSignal(options.signal, 30000),
+          signal: combinedSignal(options.signal, 30000),
           body: JSON.stringify({
             messages: [
               { role: "system", content: editorialPrompt },
@@ -743,52 +849,121 @@ export class MatchDesk {
         });
         await usage(result.usage);
         let raw = JSON.parse(result.content);
-        const accept = candidate => {
-          const validated = validateMatchPost(candidate, packet, role,{round:conversation.round,question:input.question});
+        const accept = (candidate) => {
+          const validated = validateMatchPost(candidate, packet, role, {
+            round: conversation.round,
+            question: input.question,
+          });
           if (role === "guide" && conversation.round > 1)
             validated.summary = candidate.post.viewing_question;
-          if (conversation.round > 1 && repeatsContribution(validated.summary,conversation.previous.filter(p=>p.role===role)))
+          if (
+            conversation.round > 1 &&
+            repeatsContribution(
+              validated.summary,
+              conversation.previous.filter((p) => p.role === role),
+            )
+          )
             throw Error("Follow-up repeats the previous contribution");
-          const filmPass = this.clip && ['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id);
-          if (role === "presenter" && (repeatsContribution(validated.summary,previous) || (!filmPass && repeatsInsight(validated.summary,previous.filter(p=>p.role==='analyst'))) || (this.clip && (repeatsFilmUncertainty(validated.summary,previous) || filmHostSkipsCheck(validated.summary,packet))) || editorialIssues(role,validated.summary,previous).length))
+          const filmPass =
+            this.clip && ["01-pass", "07-blue"].includes(packet.evidence.at(-1)?.shot_id);
+          if (
+            role === "presenter" &&
+            (repeatsContribution(validated.summary, previous) ||
+              (!filmPass &&
+                repeatsInsight(
+                  validated.summary,
+                  previous.filter((p) => p.role === "analyst"),
+                )) ||
+              (this.clip &&
+                (repeatsFilmUncertainty(validated.summary, previous) ||
+                  filmHostSkipsCheck(validated.summary, packet))) ||
+              editorialIssues(role, validated.summary, previous).length)
+          )
             throw Error("Repeated contribution; using the reviewed closing cue");
           return validated;
         };
         let validated;
-        try { validated=accept(raw); }
-        catch (firstError) {
+        try {
+          validated = accept(raw);
+        } catch (firstError) {
           if (!this.clip) throw firstError;
-          await journal.change(v=>{v.rejected_outputs??={};v.rejected_outputs[role]=raw;});
-          await trace(role,"editorial_revision_requested",{reason:firstError.message});
+          await journal.change((v) => {
+            v.rejected_outputs ??= {};
+            v.rejected_outputs[role] = raw;
+          });
+          await trace(role, "editorial_revision_requested", {
+            reason: firstError.message,
+          });
           await reserve();
-          const challengeRepair = conversation.round > 1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(input.question || "");
-          const repairTask = challengeRepair && role === "guide"
-            ? "Guide: the answer MUST be a question naming a continuous camera angle or unbroken view, the defender's route during the pass, and the receiver's next touch. Example of the required comparison: Which continuous angle would show the defender's route through the pass and the receiver's first touch? Do not ask only about the defender's position."
-            : challengeRepair && role === "presenter"
-              ? "Host: answer what evidence could change the reading, not another summary of Scout. State that an unbroken view from pass release through the receiver's first touch could test the defender's route. State that this shot confirms a local outlet, not a break in the wider defensive line. Put the replay instruction only in replay_cue."
-          : role === "analyst"
-            ? "Scout: describe only the reached observation. Answer the viewer's question by naming the visible touch or pass and the specific missing view. Do not infer defender movement between cuts, player readiness, an advantage, or a wider tactical outcome."
-            : role === "guide"
-              ? "Guide: ask one short, concrete viewing question that teaches the football concept and follows Scout's observation. The application supplies the definition. Do not claim what a defender did between cuts or what the receiver accomplished after the touch."
-              : ['01-pass','07-blue'].includes(packet.evidence.at(-1)?.shot_id)
-                ? "Host: synthesize Check's limit and offer a concrete replay test, without a quality rating or a claim about defender influence. A supported example is: A local outlet is confirmed, but the wider defensive line remains outside this shot; the receiver's first touch can test the exit. Keep the observation, boundary and test in separate clauses. Do not repeat Scout's account of the reception."
-                : "Host: state a specific new football implication or the precise next-touch replay test. Do not repeat Scout, give an unmeasured quality rating or claim an unseen outcome.";
-          const repairedResponse=await fetch(url,{
-            method:"POST",headers,signal:combinedSignal(options.signal,30000),
-            body:JSON.stringify({
-              messages:[
-                {role:"system",content:editorialPrompt+' This is a revision after an editorial rejection. '+repairTask+' Avoid generic praise. Keep the same evidence cutoff, language and citations.'},
-                {role:"user",content:JSON.stringify({question:input.question,clock:packet.clock,revision:packet.revision,evidence,review:packet.review,football_context:packet.football,guide_definition:packet.guideDefinition,role_brief:notes.find(p=>p.role===role),calculated:packet.stats,previous_public_contributions:previous,prior_round:conversation.previous,editorial_rejection:firstError.message})},
-              ],temperature:0,max_tokens:450,stream:false,
-              response_format:{type:"json_schema",json_schema:{name:"match_editor",strict:true,schema}},
+          const challengeRepair =
+            conversation.round > 1 &&
+            /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(
+              input.question || "",
+            );
+          const repairTask =
+            challengeRepair && role === "guide"
+              ? "Guide: the answer MUST be a question naming a continuous camera angle or unbroken view, the defender's route during the pass, and the receiver's next touch. Example of the required comparison: Which continuous angle would show the defender's route through the pass and the receiver's first touch? Do not ask only about the defender's position."
+              : challengeRepair && role === "presenter"
+                ? "Host: answer what evidence could change the reading, not another summary of Scout. State that an unbroken view from pass release through the receiver's first touch could test the defender's route. State that this shot confirms a local outlet, not a break in the wider defensive line. Put the replay instruction only in replay_cue."
+                : role === "analyst"
+                  ? "Scout: describe only the reached observation. Answer the viewer's question by naming the visible touch or pass and the specific missing view. Do not infer defender movement between cuts, player readiness, an advantage, or a wider tactical outcome."
+                  : role === "guide"
+                    ? "Guide: ask one short, concrete viewing question that teaches the football concept and follows Scout's observation. The application supplies the definition. Do not claim what a defender did between cuts or what the receiver accomplished after the touch."
+                    : ["01-pass", "07-blue"].includes(packet.evidence.at(-1)?.shot_id)
+                      ? "Host: synthesize Check's limit and offer a concrete replay test, without a quality rating or a claim about defender influence. A supported example is: A local outlet is confirmed, but the wider defensive line remains outside this shot; the receiver's first touch can test the exit. Keep the observation, boundary and test in separate clauses. Do not repeat Scout's account of the reception."
+                      : "Host: state a specific new football implication or the precise next-touch replay test. Do not repeat Scout, give an unmeasured quality rating or claim an unseen outcome.";
+          const repairedResponse = await fetch(url, {
+            method: "POST",
+            headers,
+            signal: combinedSignal(options.signal, 30000),
+            body: JSON.stringify({
+              messages: [
+                {
+                  role: "system",
+                  content:
+                    editorialPrompt +
+                    " This is a revision after an editorial rejection. " +
+                    repairTask +
+                    " Avoid generic praise. Keep the same evidence cutoff, language and citations.",
+                },
+                {
+                  role: "user",
+                  content: JSON.stringify({
+                    question: input.question,
+                    clock: packet.clock,
+                    revision: packet.revision,
+                    evidence,
+                    review: packet.review,
+                    football_context: packet.football,
+                    guide_definition: packet.guideDefinition,
+                    role_brief: notes.find((p) => p.role === role),
+                    calculated: packet.stats,
+                    previous_public_contributions: previous,
+                    prior_round: conversation.previous,
+                    editorial_rejection: firstError.message,
+                  }),
+                },
+              ],
+              temperature: 0,
+              max_tokens: 450,
+              stream: false,
+              response_format: {
+                type: "json_schema",
+                json_schema: { name: "match_editor", strict: true, schema },
+              },
             }),
           });
-          if(!repairedResponse.ok)throw modelFailure(repairedResponse,"Editorial revision");
-          const repaired=await repairedResponse.json();await usage(repaired.usage);
-          raw=JSON.parse(repaired.choices?.[0]?.message?.content||'null');
-          validated=accept(raw);
+          if (!repairedResponse.ok)
+            throw modelFailure(repairedResponse, "Editorial revision");
+          const repaired = await repairedResponse.json();
+          await usage(repaired.usage);
+          raw = JSON.parse(repaired.choices?.[0]?.message?.content || "null");
+          validated = accept(raw);
         }
-        await journal.change(v=>{v.raw_outputs??={};v.raw_outputs[role]=raw;});
+        await journal.change((v) => {
+          v.raw_outputs ??= {};
+          v.raw_outputs[role] = raw;
+        });
         const post = {
           ...validated,
           role,
@@ -816,10 +991,20 @@ export class MatchDesk {
         const p = {
           ...notes.find((p) => p.role === role),
           engine: "reviewed_fallback",
-          ...(this.clip && conversation.round>1 && /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(input.question||'')?{summary:reviewedClipChallenge(packet,role)}:{}),
+          ...(this.clip &&
+          conversation.round > 1 &&
+          /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(
+            input.question || "",
+          )
+            ? { summary: reviewedClipChallenge(packet, role) }
+            : {}),
           caution: input.question
             ? this.clip
-              ? {en:'AI wording did not pass the editorial check. This is a reviewed evidence note.',es:'El texto de IA no pasó la revisión editorial. Esta es una nota revisada.',pt:'O texto da IA não passou na revisão editorial. Esta é uma nota revisada.'}[packet.language]
+              ? {
+                  en: "AI wording did not pass the editorial check. This is a reviewed evidence note.",
+                  es: "El texto de IA no pasó la revisión editorial. Esta es una nota revisada.",
+                  pt: "O texto da IA não passou na revisão editorial. Esta é uma nota revisada.",
+                }[packet.language]
               : {
                   en: "AI could not answer this question. Showing the recorded match briefing.",
                   es: "La IA no pudo responder. Se muestra el resumen registrado.",

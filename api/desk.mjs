@@ -206,8 +206,13 @@ export class DiscussionDesk {
     this.jobs = new Map();
     this.token = token;
   }
-  async discuss({ language = "en", mode = "fan", question = "" }, listener, options = {}) {
-    if (options.signal?.aborted) throw new DOMException("Discussion cancelled", "AbortError");
+  async discuss(
+    { language = "en", mode = "fan", question = "" },
+    listener,
+    options = {},
+  ) {
+    if (options.signal?.aborted)
+      throw new DOMException("Discussion cancelled", "AbortError");
     question = normalizeQuestion(question);
     const key = createHash("sha256")
       .update(
@@ -238,7 +243,11 @@ export class DiscussionDesk {
         job.listeners.delete(listener);
       }
     }
-    job = { listeners: new Set([listener]), history: [], controller: new AbortController() };
+    job = {
+      listeners: new Set([listener]),
+      history: [],
+      controller: new AbortController(),
+    };
     this.jobs.set(key, job);
     const cancel = () => {
       job.listeners.delete(listener);
@@ -264,7 +273,12 @@ export class DiscussionDesk {
         } catch {}
       }
     };
-    job.promise = this.generate(key, { language, mode, question }, emit, job.controller.signal);
+    job.promise = this.generate(
+      key,
+      { language, mode, question },
+      emit,
+      job.controller.signal,
+    );
     try {
       return await job.promise;
     } finally {

@@ -21,7 +21,10 @@ const verdictSchema = {
         type: "object",
         additionalProperties: false,
         properties: {
-          role: { type: "string", enum: ["analyst", "guide", "math", "reviewer", "presenter"] },
+          role: {
+            type: "string",
+            enum: ["analyst", "guide", "math", "reviewer", "presenter"],
+          },
           status: { type: "string", enum: ["supported", "qualified", "withdrawn"] },
           evidence_ids: { type: "array", items: { type: "string" }, maxItems: 8 },
           reason: { type: "string", maxLength: 240 },
@@ -37,7 +40,10 @@ const verdictSchema = {
         type: "object",
         additionalProperties: false,
         properties: {
-          role: { type: "string", enum: ["analyst", "guide", "math", "reviewer", "presenter"] },
+          role: {
+            type: "string",
+            enum: ["analyst", "guide", "math", "reviewer", "presenter"],
+          },
           adds_new_value: { type: "boolean" },
           contribution: { type: "string", maxLength: 180 },
         },
@@ -75,7 +81,14 @@ export function refereeInput({ input, workflow, previous }) {
     evidence_ids: post.evidence_ids || [],
     engine: post.engine,
     contract: post.evidence_contract || null,
-    calculation: post.role === "math" ? { working: post.working || null, value: post.metric_value || null, label: post.metric_title || null } : null,
+    calculation:
+      post.role === "math"
+        ? {
+            working: post.working || null,
+            value: post.metric_value || null,
+            label: post.metric_title || null,
+          }
+        : null,
   }));
   return {
     source: input.source,
@@ -118,11 +131,30 @@ export function parseFoundryResponse(body) {
   for (const key of ["changed_claim_ids", "preserved_fact_ids"])
     if (!Array.isArray(value[key]) || value[key].some((item) => typeof item !== "string"))
       throw Error("Foundry referee returned invalid evidence identifiers");
-  if (!Array.isArray(value.claim_audit) || !Array.isArray(value.handoff_assessment) || value.handoff_assessment.length !== 5)
+  if (
+    !Array.isArray(value.claim_audit) ||
+    !Array.isArray(value.handoff_assessment) ||
+    value.handoff_assessment.length !== 5
+  )
     throw Error("Foundry referee omitted its claim or handoff audit");
-  if (value.claim_audit.some((item) => !item?.role || !["supported", "qualified", "withdrawn"].includes(item.status) || !Array.isArray(item.evidence_ids) || !item.reason?.trim()))
+  if (
+    value.claim_audit.some(
+      (item) =>
+        !item?.role ||
+        !["supported", "qualified", "withdrawn"].includes(item.status) ||
+        !Array.isArray(item.evidence_ids) ||
+        !item.reason?.trim(),
+    )
+  )
     throw Error("Foundry referee returned an invalid claim audit");
-  if (value.handoff_assessment.some((item) => !item?.role || typeof item.adds_new_value !== "boolean" || !item.contribution?.trim()))
+  if (
+    value.handoff_assessment.some(
+      (item) =>
+        !item?.role ||
+        typeof item.adds_new_value !== "boolean" ||
+        !item.contribution?.trim(),
+    )
+  )
     throw Error("Foundry referee returned an invalid handoff assessment");
   if (!value.strongest_contribution?.trim() || !value.release_condition?.trim())
     throw Error("Foundry referee omitted its release analysis");
@@ -158,7 +190,8 @@ export class FoundryReferee {
       return {
         status: "allowance_reached",
         engine: "deterministic_gate_only",
-        limitation: "No Foundry request was made; the saved deterministic verdict remains available.",
+        limitation:
+          "No Foundry request was made; the saved deterministic verdict remains available.",
       };
     const began = this.clock();
     const response = await this.request(
