@@ -27,7 +27,7 @@ These are development-fixture measurements. They are not a general broadcast ben
 
 ## Frozen unfamiliar-condition study
 
-The detector source was frozen at SHA-256 `2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb` before five fresh synthetic seeds were generated. The cases changed player positions and event timings; four also changed exposure, saturation, compression or noise. There was no tuning or rerun after these results.
+The detector source was frozen at SHA-256 `2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb` before five fresh synthetic seeds were generated. The exact CRLF byte snapshot is now preserved at `docs/proof/detectors/sha256-2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb.js`. GitHub stores the same source with LF line endings and therefore gives it a different byte digest; the historical assertion hashes the archived artifact rather than a platform-dependent checkout. The cases changed player positions and event timings; four also changed exposure, saturation, compression or noise. There was no tuning or rerun after these results.
 
 | Unfamiliar condition | Matched | Precision | Recall | Mean frame support | Speed MAE |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -49,7 +49,8 @@ It does not establish accuracy on independent real-world or Premier League foota
 ## Reproducibility and cost
 
 - Development evaluator: `node scripts/evaluate-tracking.mjs`
-- Frozen-condition study: `node scripts/tracking-holdout.mjs`
+- Historical frozen-condition result: `docs/proof/tracking-holdout.json`
+- Current-release study and portable runner: `node scripts/tracking-holdout.mjs --publish` (requires Python 3 and ffmpeg; `BTR_PYTHON` and `BTR_FFMPEG` may specify their paths)
 - Machine-readable development result: `dist/assets/tracking/validation.json`
 - Machine-readable frozen result: `dist/assets/tracking/holdout.json`
 - Detector tests: `node --test tests/tracking-model.test.mjs tests/auto-eventing-v145.test.mjs`

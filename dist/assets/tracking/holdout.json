@@ -1453,5 +1453,6 @@
         }
       ]
     }
-  ]
+  ],
+  "detector_source": "docs/proof/detectors/sha256-2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb.js"
 }
