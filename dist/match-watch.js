@@ -10,7 +10,7 @@ import {
   clipClock,
   clipDiscussionMatches,
   clipEditorialCutoff,
-} from "./pitchside-story.js";
+} from "./pitchside-story.js?v=149";
 import { SCENARIOS, PLAYERS, clock, events } from "./engine.js";
 import { matchSession } from "./match-session.js";
 import {
@@ -27,7 +27,7 @@ import { arrangeReadingRoom } from "./reading-room.js";
 import { ROLE_LABELS } from "./editorial-roles.js";
 import { samePlayWindow } from "./play-analysis.js";
 import { FILM_SCENES, scenePlayback } from "./film-math.js";
-import { mediaPlan, bindMedia, localMediaTime } from "./film-media.js";
+import { mediaPlan, bindMedia, localMediaTime } from "./film-media.js?v=149";
 arrangeReadingRoom();
 const $ = (id) => document.getElementById(id),
   el = (tag, cls, text) => {
@@ -224,6 +224,12 @@ const media = bindMedia(film, (status) => {
       error: "Playback could not start. Retry the film; the evidence is still available.",
     }[status] || "";
   retryMedia.hidden = !["slow", "error"].includes(status);
+  if (status === "ready")
+    document.dispatchEvent(new CustomEvent("btr-premiere-ready"));
+  if (status === "error")
+    document.dispatchEvent(
+      new CustomEvent("btr-premiere-ready", { detail: { fallback: true } }),
+    );
 });
 retryMedia.onclick = () => media.retry();
 function seek(t) {
@@ -245,6 +251,19 @@ async function play() {
   loadVideo();
   await media.play();
 }
+async function startPremiere() {
+  try {
+    sessionStorage.removeItem("btr-premiere-play");
+  } catch {}
+  document.dispatchEvent(new CustomEvent("btr-section", { detail: "watch" }));
+  if (state.source !== "pitchside" || state.studyScene || state.clipTime !== 0)
+    matchSession.set(
+      { source: "pitchside", studyScene: false, clipTime: 0, section: "watch" },
+      "premiere",
+    );
+  await play();
+}
+document.addEventListener("btr-premiere-play", startPremiere);
 const captionButton = el("button", "caption-toggle", "Descriptions off");
 captionButton.type = "button";
 captionButton.setAttribute("aria-pressed", "false");
@@ -1311,4 +1330,8 @@ render();
 $("hero-play").disabled = false;
 $("play").disabled = false;
 put("connection-status", "Checking AI availability");
+try {
+  if (sessionStorage.getItem("btr-premiere-play") === "1")
+    queueMicrotask(startPremiere);
+} catch {}
 // Initial location and browser history are restored by navigation.js after all views initialize.

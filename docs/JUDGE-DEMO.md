@@ -16,7 +16,7 @@ The AI-generated football action remains visible for the complete cinematic cut.
 
 The 1080p master remains at `demo/before-the-roar-cinematic-judge-demo.mp4`. Earlier cuts are development history and must not be linked from the application, README or submission.
 
-**Verified prototype snapshot:** 273 passing tests · 39/40 events in a fixed-camera synthetic marker holdout · four Azure specialist requests plus deterministic Vector · one separate Foundry referee · three languages · five audience views · Watch and Pocket Director.
+**Verified prototype snapshot:** 274 passing tests · 39/40 events in a fixed-camera synthetic marker holdout · four Azure specialist requests plus deterministic Vector · one separate Foundry referee · three languages · five audience views · Watch and Pocket Director.
 
 ## Current conversation demonstration — verified live capture
 
