@@ -9,7 +9,7 @@ test('all seven application routes and the guided story initialize together with
   for(const key of ['addEventListener','removeEventListener','getComputedStyle','matchMedia'])set(key,w[key].bind(w));
   set('requestAnimationFrame',()=>0);set('cancelAnimationFrame',()=>{});set('ResizeObserver',class{observe(){}disconnect(){}});set('BroadcastChannel',class{postMessage(){}close(){}addEventListener(){}});set('setInterval',(fn,ms)=>{const id=setTimeout(()=>{},ms);id.unref();intervals.push(id);return id;});
   set('fetch',async url=>{requests.push(String(url));if(String(url).includes('/api/health'))return Response.json({ai_configured:false,usage:{day:new Date().toISOString().slice(0,10),used:120,limit:120}});if(String(url)==='api-config.json')return Response.json({baseUrl:''});try{return new Response(await readFile(new URL('../dist/'+url,import.meta.url)));}catch{return new Response('{}',{status:404});}});
-  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js'])await import('../dist/'+file);
+  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','understand.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js'])await import('../dist/'+file);
   await new Promise(r=>setTimeout(r,50));
   assert.equal(document.getElementById('receipt-run').textContent,'SOURCE PREVIEW · ASK AI TO RUN');
   assert.doesNotMatch(document.getElementById('desk-panel').textContent,/NO MODEL REQUEST/);
@@ -19,6 +19,10 @@ test('all seven application routes and the guided story initialize together with
   matchSession.set({source:'match',section:'truth',time:16,corrected:true});
   const ledger=document.querySelector('.truth-quality');assert.ok(ledger);assert.equal(ledger.closest('details'),null,'claim audit must not be buried in an evidence drawer');assert.match(ledger.textContent,/Withdraw the original claim/);const audience=ledger.querySelector('details');audience.open=true;matchSession.set({time:17});assert.equal(ledger.querySelector('details').open,true,'open audience comparison survives a replay tick');
   matchSession.set({source:'pitchside',section:'centre',clipTime:0});
+  const decoder=document.querySelector('#centre .understand-now');assert.ok(decoder);assert.match(decoder.textContent,/play has not established an event/i);assert.match(decoder.textContent,/what happened/i);assert.match(decoder.textContent,/why it matters/i);assert.match(decoder.textContent,/watch next/i);
+  [...decoder.querySelectorAll('.understand-modes button')].find(button=>button.dataset.mode==='math').click();assert.equal(matchSession.get().mode,'math');assert.match(decoder.textContent,/record can calculate/i);
+  decoder.querySelector('[data-action="replay"]').click();assert.ok(matchSession.get().clipTime>.25,'decoder replay must reveal the first reviewed observation');assert.equal(decoder.dataset.ready,'true');
+  matchSession.set({clipTime:0,mode:'beginner'});
   document.querySelector('#centre .scene-brief button').click();
   const reached=matchSession.get().clipTime;assert.ok(reached>.25,'first-moment action must move beyond the boundary into the reviewed observation');
   const video=document.querySelector('#centre .film-workspace video');video.currentTime=0;video.dispatchEvent(new Event('seeked'));
