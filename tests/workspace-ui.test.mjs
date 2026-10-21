@@ -9,7 +9,7 @@ test('all seven application routes and the guided story initialize together with
   for(const key of ['addEventListener','removeEventListener','getComputedStyle','matchMedia'])set(key,w[key].bind(w));
   set('requestAnimationFrame',()=>0);set('cancelAnimationFrame',()=>{});set('ResizeObserver',class{observe(){}disconnect(){}});set('BroadcastChannel',class{postMessage(){}close(){}addEventListener(){}});set('setInterval',(fn,ms)=>{const id=setTimeout(()=>{},ms);id.unref();intervals.push(id);return id;});
   set('fetch',async url=>{requests.push(String(url));if(String(url).includes('/api/health'))return Response.json({ai_configured:false,usage:{day:new Date().toISOString().slice(0,10),used:120,limit:120}});if(String(url)==='api-config.json')return Response.json({baseUrl:''});try{return new Response(await readFile(new URL('../dist/'+url,import.meta.url)));}catch{return new Response('{}',{status:404});}});
-  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','understand.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js'])await import('../dist/'+file);
+  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','understand.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js','publish-studio.js'])await import('../dist/'+file);
   await new Promise(r=>setTimeout(r,50));
   assert.equal(document.getElementById('receipt-run').textContent,'SOURCE PREVIEW · ASK AI TO RUN');
   assert.doesNotMatch(document.getElementById('desk-panel').textContent,/NO MODEL REQUEST/);
@@ -33,6 +33,7 @@ test('all seven application routes and the guided story initialize together with
   document.dispatchEvent(new Event('btr-open-guided'));assert.equal(document.getElementById('guided-match').hidden,false);
   assert.equal(document.getElementById('main-navigation').hidden,true);assert.equal(document.querySelector('.navigation-toggle'),null);
   document.getElementById('inside-nav').click();
+  const publisher=document.querySelector('.publish-studio');assert.ok(publisher);assert.match(publisher.textContent,/Three decisions\. One release/i);assert.match(publisher.textContent,/Facts do not change between screens/i);publisher.querySelector('.publish-release').click();assert.match(publisher.querySelector('[data-publish-state]').textContent,/Released to BTR screens/i);
   const findButton=text=>[...document.querySelectorAll('.proof-actions button')].find(b=>b.textContent===text);
   findButton('Run live recovery proof').click();await new Promise(r=>setTimeout(r,50));
   assert.match(document.querySelector('.proof-status').textContent,/REPLAYING SAVED RECEIPTS/);

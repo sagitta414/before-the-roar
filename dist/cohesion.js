@@ -7,7 +7,7 @@ const stages=[
   {section:'centre',number:'02',verb:'UNDERSTAND',detail:'Read the play'},
   {section:'lab',number:'03',verb:'MEASURE',detail:'Test the pattern'},
   {section:'truth',number:'04',verb:'CHALLENGE',detail:'Change the evidence'},
-  {section:'inside',number:'05',verb:'PUBLISH',detail:'Inspect the proof'},
+  {section:'inside',number:'05',verb:'PUBLISH',detail:'Release the story'},
   {section:'presenters',number:'06',verb:'ENGINEERS',detail:'Meet the team'},
   {section:'security',number:'07',verb:'SECURE',detail:'Inspect protection'},
 ];
