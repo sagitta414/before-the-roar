@@ -12,8 +12,20 @@ test('one play-to-proof navigation exposes every destination without a competing
   const cohesion=await read('cohesion.js');
   assert.match(cohesion,/verb:'ENGINEERS',detail:'Meet the team'/);
   assert.match(cohesion,/verb:'SECURE',detail:'Inspect protection'/);
+  assert.match(cohesion,/is-complete/);
+  assert.match(cohesion,/is-next/);
+  assert.match(cohesion,/ArrowLeft/);
+  assert.match(cohesion,/MEET YOUR <em>AI ENGINEERS/);
   const mobile=await read('mobile-studio.css');
   assert.match(mobile,/\.masthead nav,.masthead\.navigation-open nav\{display:none!important\}/);
+});
+
+test('the desktop journey uses the same language at the route and destination',async()=>{
+  const index=await read('index.html');
+  assert.match(index,/03 \/ MEASURE · LIVE ANALYTICS/);
+  assert.match(index,/MEASURE <em>THE MATCH\.<\/em>/);
+  assert.match(index,/cohesion\.css\?v=165/);
+  assert.match(index,/cohesion\.js\?v=165/);
 });
 
 test('judge finale exposes real specialist and Foundry receipts with their limits',async()=>{

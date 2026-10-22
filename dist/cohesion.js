@@ -15,6 +15,7 @@ function el(tag,className,text){const node=document.createElement(tag);if(classN
 
 const rail=el('nav','story-spine');
 rail.setAttribute('aria-label','Follow the BTR investigation');
+rail.setAttribute('aria-roledescription','seven-step play-to-proof journey');
 const identity=el('div','story-spine__identity');
 identity.append(el('span','','ONE MOMENT · ONE EVIDENCE CHAIN'),el('strong','','From play to proof.'));
 rail.append(identity);
@@ -26,6 +27,12 @@ for(const stage of stages){
   button.onclick=()=>$(stage.section+'-nav')?.click();
   rail.append(button);
 }
+rail.addEventListener('keydown',event=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+  const buttons=[...rail.querySelectorAll('.story-spine__step')],current=Math.max(0,buttons.indexOf(document.activeElement));
+  const target=event.key==='Home'?0:event.key==='End'?buttons.length-1:event.key==='ArrowLeft'?Math.max(0,current-1):Math.min(buttons.length-1,current+1);
+  event.preventDefault();buttons[target].focus();
+});
 const demo=el('button','story-spine__demo','▶ 60s defining moment');
 demo.type='button';demo.onclick=()=>document.dispatchEvent(new Event('btr-open-guided'));
 rail.append(demo);
@@ -33,10 +40,15 @@ document.querySelector('.match-session-bar')?.after(rail);
 function update(section=matchSession.get().section){
   const route=(document.body.dataset.section||location.hash.replace(/^#/,'' )||section);
   const mapped=stages.some(s=>s.section===route)?route:'watch';
-  rail.querySelectorAll('[data-section]').forEach(button=>{
+  const activeIndex=stages.findIndex(stage=>stage.section===mapped);
+  rail.dataset.activeStage=String(activeIndex+1);
+  rail.querySelectorAll('[data-section]').forEach((button,index)=>{
     const active=button.dataset.section===mapped;
     button.classList.toggle('is-active',active);
+    button.classList.toggle('is-complete',index<activeIndex);
+    button.classList.toggle('is-next',index===activeIndex+1);
     if(active)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');
+    button.setAttribute('aria-label',`${index+1} of ${stages.length}: ${stages[index].verb}. ${stages[index].detail}.${index===activeIndex+1?' Next step.':''}`);
   });
 }
 document.addEventListener('btr-section',event=>update(event.detail));
@@ -44,6 +56,14 @@ matchSession.subscribe(state=>update(state.section));
 new MutationObserver(()=>update(document.body.dataset.section)).observe(document.body,{attributes:true,attributeFilter:['data-section']});
 addEventListener('hashchange',()=>update(location.hash.replace(/^#/,'')));
 update();
+
+const presentersHeading=$('presenters')?.querySelector('.extension-heading');
+if(presentersHeading){
+  presentersHeading.querySelector('.eyebrow').textContent='06 / ENGINEERS · THE EDITORIAL DESK';
+  presentersHeading.querySelector('h1').innerHTML='MEET YOUR <em>AI ENGINEERS.</em>';
+  presentersHeading.querySelector('p').innerHTML="Inspect each specialist's expertise and instructions.<br><strong>Five accountable roles. One evidence chain.</strong>";
+  $('presenters').setAttribute('aria-label','The AI engineers');
+}
 
 const sourceBar=document.querySelector('.watch-source-bar');
 if(sourceBar){
