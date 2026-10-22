@@ -35,7 +35,16 @@ test('public proof distinguishes development validation, safety and independent 
 test('v111 assets are cache-busted and the cinematic minute leads the source selector',async()=>{
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=126/);
-  assert.match(index,/cohesion\.js\?v=126/);
+  assert.match(index,/cohesion\.js\?v=159/);
   assert.ok(index.indexOf('value="pitchside"')<index.indexOf('value="match"'));
+});
+
+test('judge-facing proof reports evaluation and video boundaries without superiority claims',async()=>{
+  const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
+  assert.match(source,/EARLY COMMENTARY EVALUATION/);
+  assert.match(source,/does not claim better writing/);
+  assert.match(source,/UNKNOWN: BROADCAST/);
+  assert.match(source,/not general broadcast accuracy/);
+  assert.match(source,/MutationObserver/);
 });
 

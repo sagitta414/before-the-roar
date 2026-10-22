@@ -31,7 +31,8 @@ demo.type='button';demo.onclick=()=>document.dispatchEvent(new Event('btr-open-g
 rail.append(demo);
 document.querySelector('.match-session-bar')?.after(rail);
 function update(section=matchSession.get().section){
-  const mapped=stages.some(s=>s.section===section)?section:'watch';
+  const route=(document.body.dataset.section||location.hash.replace(/^#/,'' )||section);
+  const mapped=stages.some(s=>s.section===route)?route:'watch';
   rail.querySelectorAll('[data-section]').forEach(button=>{
     const active=button.dataset.section===mapped;
     button.classList.toggle('is-active',active);
@@ -40,6 +41,8 @@ function update(section=matchSession.get().section){
 }
 document.addEventListener('btr-section',event=>update(event.detail));
 matchSession.subscribe(state=>update(state.section));
+new MutationObserver(()=>update(document.body.dataset.section)).observe(document.body,{attributes:true,attributeFilter:['data-section']});
+addEventListener('hashchange',()=>update(location.hash.replace(/^#/,'')));
 update();
 
 const sourceBar=document.querySelector('.watch-source-bar');
@@ -115,9 +118,9 @@ if(inside){
     <div class="cohesion-proof__grid">
       <article data-tone="live"><small>01 / AGENT EXECUTION</small><h3>Specialists really hand off.</h3><strong>4 AZURE REQUESTS + 1 CALCULATION</strong><p>Scout, Guide, Check and Host execute sequentially. Vector calculates in code. Execution IDs, latency, evidence and delivery state remain inspectable.</p><button type="button" data-jump-watch>Open the AI desk ↗</button></article>
       <article data-tone="truth"><small>02 / CORRECTION</small><h3>The story must survive the evidence.</h3><strong>CLAIM WITHDRAWN · OUTPUT REVISED</strong><p>Truth Lab changes one synthetic observation, recalculates the affected metric and publishes a narrower broadcast explanation while preserving unaffected facts.</p><button type="button" data-jump-truth>Run the evidence test ↗</button></article>
-      <article data-tone="guard"><small>03 / VISION SAFETY GATE</small><h3>Unknown footage fails closed.</h3><strong>IDENTITY + SPEED WITHHELD</strong><p>An unfamiliar real training clip produced no enrolled marker matches. BTR published no player identity or physical speed. This validates withholding behavior, not broadcast detection accuracy.</p><a href="assets/external-video-results.json" download>Download the domain test ↓</a></article>
-      <article data-tone="vision"><small>04 / AUTO-EVENT READINESS</small><h3>The current detector is frozen, hashed and tested on new cases.</h3><strong>39/40 MATCHED · 100% CONTROLLED PRECISION</strong><p>Five new procedural cases were generated after the detector source was archived. One low-light event miss is retained. The study covers fixed-camera synthetic marker footage and does not claim broadcast accuracy.</p><a href="assets/tracking/holdout-current.json" download>Inspect the current holdout ↓</a></article>
-      <article data-tone="value"><small>05 / COMMENTARY VALUE</small><h3>The crew now earns a measured edge.</h3><strong>94–90 OVERALL · 91–87 GROUNDING · 96–92 DECISION</strong><p>Across six preregistered cases and 24 blinded, order-reversed comparisons, the current crew edged the frozen one-model baseline on overall quality, grounding and decision usefulness. It won four overall pairings and tied twenty; the baseline won none. This is a scoped Azure model-score, not a human preference study.</p><a href="assets/commentary-quality-court.json" download>Inspect cases, scores + model receipts ↓</a></article>
+      <article data-tone="guard"><small>03 / VISION SAFETY GATE</small><h3>Unknown footage fails closed.</h3><strong>IDENTITY + SPEED WITHHELD</strong><p>An unfamiliar real training clip produced misleading colour-marker hits, but ball continuity failed the compatibility gate. BTR routed it to reviewed cues and published no identity, speed or automatic events. This validates withholding behavior, not broadcast detection accuracy.</p><a href="assets/external-video-results.json" download>Download the domain test ↓</a></article>
+      <article data-tone="vision"><small>04 / AUTO-EVENT BOUNDARY</small><h3>Detect where calibrated. Withhold where unknown.</h3><strong>SUPPORTED: FIXED CAMERA · UNKNOWN: BROADCAST</strong><p>The frozen detector matched 39 of 40 events across five unseen procedural cases using enrolled fictional markers. A separate unfamiliar-video gate publishes no identity or speed when calibration is absent. This proves controlled detection and safe withholding—not general broadcast accuracy.</p><a href="assets/tracking/holdout-current.json" download>Inspect the frozen study + limits ↓</a></article>
+      <article data-tone="value"><small>05 / EARLY COMMENTARY EVALUATION</small><h3>A promising result. Not a superiority claim.</h3><strong>6 CASES · 24 ORDER-REVERSED PAIRS · MODEL-SCORED</strong><p>The current crew narrowly outscored a frozen one-call baseline in an early controlled evaluation. Human preference has not been measured, so BTR does not claim better writing. The proven advantage is operational: inspectable handoffs, deterministic calculation, correction and recovery.</p><a href="assets/commentary-quality-court.json" download>Inspect cases, scores + limitations ↓</a></article>
       <article data-tone="live"><small>06 / MICROSOFT FOUNDRY</small><h3>An evidence court cross-examines the crew.</h3><strong>5 SCORES · CLAIM AUDIT · RELEASE CONDITION</strong><p>After the crew finishes, a Foundry Responses evaluator audits each claim, tests whether every role adds value, identifies the strongest contribution and states the condition for release. Its verdict is advisory; the deterministic evidence gate keeps final authority.</p><a href="assets/live-production-proof.json" download>Download the live Foundry receipt ↓</a></article>
     </div>
     <div class="source-contract">
@@ -125,7 +128,7 @@ if(inside){
       <div><span>OPTIONAL BROADCAST LAYER</span><b>Cinematic minute</b><p>Audience-ready companion film with manually reviewed, time-linked observations and no transferred measurements.</p></div><i aria-hidden="true">→</i>
       <div><span>PUBLIC LAYER</span><b>One match dossier</b><p>Personalized narrative with source labels, receipts and revision history.</p></div>
     </div>
-    <div class="quality-boundary"><div><span>WHY MULTI-AGENT?</span><strong>A measured editorial edge, plus control under change and failure.</strong><p>The current crew scored 94–90 over the frozen one-model baseline across 24 blinded, order-reversed comparisons, with four wins, no losses and twenty ties overall. Its clearest gains are grounding and useful next decisions. It also adds persisted handoffs, deterministic calculation, claim-level correction, partial recovery and a Foundry second-line review. The sample is narrow and model-scored; human preference remains open.</p></div><a href="independent-review.html">Run an independent human review ↗</a></div>`;
+    <div class="quality-boundary"><div><span>WHY MULTI-AGENT?</span><strong>Because the work can be challenged, corrected and recovered.</strong><p>A narrow model-scored evaluation is encouraging, but does not establish superior prose. BTR's demonstrated advantage is structural: persisted specialist handoffs, deterministic calculation, claim-level correction, partial recovery and a Foundry second-line review. Independent human preference remains open.</p></div><a href="independent-review.html">Run an independent human review ↗</a></div>`;
   inside.querySelector('.extension-heading')?.after(proof);
   const placeProof=()=>{
     const anchor=inside.querySelector(':scope > #judge-evidence')||inside.querySelector(':scope > .extension-heading');

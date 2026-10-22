@@ -1,8 +1,13 @@
 {
-  "version": "v66-domain-challenge",
-  "detector_sha256": "f39bd8aa306b61c467d3c161c038903cc667704b44363a5941bbbb0247d2327f",
-  "created_at": "2026-10-17T03:17:31.945Z",
-  "protocol": "Frozen colour detector; 10 fps at 480×320. Retain raw marker matches on unfamiliar footage. These are not verified identities. No target-domain enrolment or calibration: withhold all names and physical speed. No pass annotations: precision and recall remain unscored. No tuning or selective reruns.",
+  "version": "v161-unfamiliar-domain-gate",
+  "detector_sha256": "2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb",
+  "created_at": "2026-10-22T10:08:33.523Z",
+  "protocol": "Detector source frozen before this rerun. Sample every unfamiliar clip at 10 fps and 480×320. Apply the same conservative marker and ball-coverage thresholds used by upload preflight. These clips have no target-domain enrollment, calibration or event annotations, so identities, physical speed, event precision and event recall remain withheld. No tuning or selective reruns.",
+  "gate_thresholds": {
+    "mean_enrolled_players": 5,
+    "ball_frame_coverage": 0.5,
+    "note": "The browser also checks calibrated 3:2 framing and mean frame confidence. This offline legacy detector report can verify marker and ball coverage only."
+  },
   "clips": [
     {
       "id": "unfamiliar-real-practice",
@@ -17,14 +22,23 @@
       "sha256": "6d01ea60dc27c5bf3abc00db0c6158b62527c874505b2a16d80249ba37f0e5f7",
       "frames": 306,
       "seconds_sampled": 30.6,
-      "raw_frames_with_marker_matches": 0,
-      "raw_marker_matches": 0,
-      "raw_frames_with_ball_colour": 0,
+      "raw_frames_with_marker_matches": 305,
+      "raw_marker_matches": 2060,
+      "raw_frames_with_ball_colour": 6,
+      "compatibility_gate": {
+        "passed": false,
+        "mean_enrolled_players": 6.73202614379085,
+        "ball_frame_coverage": 0.0196078431372549,
+        "reasons": [
+          "Enrolled-marker coverage or ball continuity stayed below the controlled-measurement threshold."
+        ]
+      },
       "published_player_identities": 0,
       "published_physical_speeds": 0,
+      "published_automatic_events": 0,
       "pass_precision": null,
       "pass_recall": null,
-      "decision": "Unsupported domain: marker matches cannot establish identity; physical metrics withheld."
+      "decision": "Compatibility failed: route to reviewed cues; withhold identity, speed and automatic events."
     },
     {
       "id": "cinematic-generated-minute",
@@ -36,15 +50,24 @@
       "sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25",
       "frames": 600,
       "seconds_sampled": 60,
-      "raw_frames_with_marker_matches": 283,
-      "raw_marker_matches": 366,
+      "raw_frames_with_marker_matches": 255,
+      "raw_marker_matches": 330,
       "raw_frames_with_ball_colour": 0,
+      "compatibility_gate": {
+        "passed": false,
+        "mean_enrolled_players": 0.55,
+        "ball_frame_coverage": 0,
+        "reasons": [
+          "Enrolled-marker coverage or ball continuity stayed below the controlled-measurement threshold."
+        ]
+      },
       "published_player_identities": 0,
       "published_physical_speeds": 0,
+      "published_automatic_events": 0,
       "pass_precision": null,
       "pass_recall": null,
-      "decision": "Unsupported domain: marker matches cannot establish identity; physical metrics withheld."
+      "decision": "Compatibility failed: route to reviewed cues; withhold identity, speed and automatic events."
     }
   ],
-  "conclusion": "The controlled marker tracker is not validated for broadcast use. This test measures domain mismatch, not football event accuracy. One unfamiliar real practice clip and one previously used cinematic montage do not constitute a representative benchmark."
+  "conclusion": "Both unfamiliar sources failed the controlled-measurement compatibility gate and were routed to reviewed cues with identity, speed and automatic events withheld. This reproduces safe domain rejection; it does not measure football event accuracy. One unfamiliar practice clip and one existing cinematic montage are not a representative broadcast benchmark."
 }

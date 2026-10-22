@@ -1,0 +1,13 @@
+{
+  "schema": "btr.independent-review-status.v1",
+  "trial": "btr-unseen-editorial-v66",
+  "trial_hash": "8102dd01b6f5803ac9eec0add220cf433cb8ad864c7b35423d7f2389abc2783a",
+  "status": "open",
+  "cases_per_reviewer": 8,
+  "minimum_reviewers": 3,
+  "target_reviewers": 5,
+  "completed_reviewers": 0,
+  "result": null,
+  "claim": "No independent human preference result yet.",
+  "instructions": "Share independent-review.html with uninvolved reviewers. Aggregate only complete exports with the frozen trial hash and private arm key."
+}

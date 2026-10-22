@@ -1,0 +1,5 @@
+const CACHE='btr-pocket-v156';
+const SHELL=['pocket-director.html','pocket-director.css','pocket-data.css','pocket-polish.css','pocket-next.css','pocket-director.js','engine.js','match-story.js','pitchside-story.js','assets/pocket-icon.svg','assets/pitchside-poster.jpg'];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('btr-pocket-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.pathname.includes('/api/'))return;event.respondWith(fetch(event.request).then(response=>{if(response.ok&&url.origin===location.origin)caches.open(CACHE).then(cache=>cache.put(event.request,response.clone()));return response;}).catch(()=>caches.match(event.request).then(hit=>hit||caches.match('pocket-director.html'))));});

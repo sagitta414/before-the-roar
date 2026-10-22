@@ -4,9 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#070a0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BTR Pocket">
   <title>BTR Pocket Director</title>
   <meta name="description" content="A synchronized, evidence-first football companion from Before the Roar.">
-  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144">
+  <link rel="manifest" href="pocket-manifest.webmanifest">
+  <link rel="icon" href="assets/pocket-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/pocket-icon.svg">
+  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144"><link rel="stylesheet" href="pocket-next.css?v=159">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -27,8 +33,21 @@
         <div class="hero-broadcast"><span>LIVE</span><b id="sync-label">LIVE WITH THE MAIN SCREEN</b></div><div class="hero-tag">BTR / MOMENT 04</div>
         <div class="hero-copy"><div class="hero-topline"><span id="moment-kicker">THE MOMENT</span><b>EXPLAINED LIVE</b></div><h1 id="moment-title">Follow the run behind the pass.</h1><p id="moment-body">The phone keeps the evidence close while the match stays on the biggest screen.</p><button id="why" class="why-button"><span>WHY THIS MATTERS</span><b>↗</b></button></div>
       </section>
+      <section class="director-console" aria-labelledby="director-title">
+        <header><div><small>BTR / LIVE DIRECTOR</small><h2 id="director-title">Stay with the moment.</h2></div><span class="director-live"><i></i>SYNCED</span><button id="director-expand" type="button" aria-expanded="false">MORE +</button></header>
+        <div class="director-cues">
+          <article class="active"><small>NOW</small><b id="director-now">The ball is moving through midfield.</b><p>What the current evidence establishes.</p></article>
+          <article><small>NEXT</small><b id="director-next">Watch the runner and defender together.</b><p>The next visual clue to follow.</p></article>
+          <article><small>PROOF</small><b id="director-proof">Sources through the live cutoff.</b><p>No future event enters this explanation.</p></article>
+        </div>
+        <div class="director-tools" aria-label="Mobile match controls">
+          <button id="stay-awake" type="button"><span>◉</span><b>KEEP LIVE</b><small>Screen awake</small></button>
+          <button id="share-moment" type="button"><span>↗</span><b>SHARE</b><small>This moment</small></button>
+          <button id="picture-in-picture" type="button"><span>▣</span><b>FLOAT FILM</b><small>Picture in picture</small></button>
+        </div>
+      </section>
       <section class="match-dashboard" aria-label="Live match data">
-        <div class="dashboard-head"><div><span>LIVE MATCH DATA</span><b id="data-scope">EVIDENCE THROUGH 67:18</b></div><em>MEASURED</em></div>
+        <div class="dashboard-head"><div><span>LIVE MATCH DATA</span><b id="data-scope">EVIDENCE THROUGH 67:18</b></div><em>MEASURED</em><button id="data-expand" type="button" aria-expanded="false">OPEN +</button></div>
         <div class="metric-grid">
           <article><small>COMPLETED PASSES</small><b id="data-passes">2</b><p>Reached events</p></article>
           <article><small>FORWARD GAIN</small><b id="data-forward">23.7<span>m</span></b><p>Completed passes</p></article>
@@ -70,13 +89,14 @@
     <section class="app-screen" data-screen="players" aria-label="Player focus" hidden>
       <section class="player-hero"><div class="player-photo"></div><div class="player-shade"></div><div class="player-club"><i class="club-crest harbor"><b>H</b></i><span>HARBOR<br><small>FIRST TEAM</small></span></div><button class="favorite" aria-label="Favorite player">♡</button><div class="player-copy"><small id="player-number">PLAYER FOCUS / #7</small><h1 id="player-name">LUCA<br>MOREAU</h1><p id="player-role">Harbor · Left winger</p><span>LIVE NOW</span></div></section>
       <section class="player-stats" aria-label="Player statistics"><article><small>REACHED INVOLVEMENTS</small><b id="player-involvements">0</b><p>Event records</p></article><article><small>DISPLACEMENT</small><b id="player-displacement">19.8<span>m</span></b><p>Straight-line</p></article><article><small>TOP SPEED</small><b>—</b><p>Withheld until measured</p></article></section>
+      <section class="player-switcher" aria-labelledby="player-switcher-title"><div class="section-heading"><div><span>LIVE SQUAD</span><h2 id="player-switcher-title">Choose who to follow</h2></div><small>Same cutoff · new focus</small></div><div id="player-options" class="player-options" role="listbox" aria-label="Select player focus"></div></section>
       <section class="player-timeline"><div class="section-heading"><div><span>PERFORMANCE TIMELINE</span><h2>Every reached action, in context</h2></div><button>LIVE</button></div><div id="player-timeline-list"></div></section>
       <button class="primary-action" data-mode-pick="player">FOLLOW THIS PLAYER <b>↗</b></button>
     </section>
 
     <section class="app-screen" data-screen="more" aria-label="Evidence and AI tools" hidden>
       <header class="screen-intro more-intro"><span>GO BEHIND THE ANSWER</span><h1>Question the story.</h1><p>Inspect the sources, challenge one assumption, or ask the specialist crew.</p></header>
-      <section class="truth-card" aria-labelledby="truth-title"><div class="truth-icon"><span></span></div><div><span>TRUTH LAB / WHAT IF?</span><h2 id="truth-title">Change one fact. Test the story.</h2><p id="truth-copy">See which explanation survives when the evidence changes.</p></div><button id="challenge">CHANGE THE EVIDENCE <b>↗</b></button><div id="change-result" class="change-result" hidden aria-live="polite"></div></section>
+      <section class="truth-card" aria-labelledby="truth-title"><div class="truth-icon"><span></span></div><div><span>TRUTH LAB / WHAT IF?</span><h2 id="truth-title">Change one fact. Test the story.</h2><p id="truth-copy">See which explanation survives when the evidence changes.</p></div><div class="truth-compare" aria-label="Original and tested evidence"><article><small>RECORDED</small><b id="truth-recorded">Defender shifts with the run</b><span>Original observation</span></article><i>→</i><article><small>TEST</small><b id="truth-tested">Hold the defender in place</b><span>Simulated correction</span></article></div><button id="challenge">CHANGE THE EVIDENCE <b>↗</b></button><div id="change-result" class="change-result" hidden aria-live="polite"></div></section>
       <section class="ask-card" aria-labelledby="ask-title">
         <div class="section-heading"><div><span>ASK THE AI CREW</span><h2 id="ask-title">One question. Distinct expertise.</h2></div><span class="stream-mark"><i></i> LIVE</span></div>
         <div class="crew-roster"><span><i>S</i>SCOUT</span><span><i>G</i>GUIDE</span><span><i>V</i>VECTOR</span><span><i>C</i>CHECK</span><span><i>H</i>HOST</span></div>
@@ -84,11 +104,11 @@
         <form id="ask-form"><button type="button" id="voice" aria-label="Ask by voice">⌁</button><input id="question" maxlength="180" placeholder="Ask about this moment…" autocomplete="off"><button type="submit" id="send" aria-label="Send question">↑</button></form>
         <div class="quick-asks"><button>What did I miss?</button><button>Did the run cause it?</button><button>Explain the number.</button></div><p class="ask-note">AI answers cite the current synthetic evidence cutoff. Voice availability depends on your browser.</p>
       </section>
-      <section class="more-links"><button data-open-screen="live"><span>⌖</span><b>Inspect the live evidence map</b><em>›</em></button><a href="./"><span>↗</span><b>Return to the full studio</b><em>›</em></a></section>
+      <section class="more-links"><button id="install-app" hidden><span>↓</span><b>Install Pocket Director</b><em>›</em></button><button data-open-screen="live"><span>⌖</span><b>Inspect the live evidence map</b><em>›</em></button><a href="./"><span>↗</span><b>Return to the full studio</b><em>›</em></a></section>
     </section>
   </main>
   <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i><svg viewBox="0 0 24 24"><path d="M4 13h3l2-6 4 11 2-5h5"/></svg></i>LIVE</button><button data-screen-target="perspectives"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></i>VIEWS</button><button data-screen-target="players"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20c.6-4 2.6-6 6-6s5.4 2 6 6"/></svg></i>PLAYER</button><button data-screen-target="more"><i><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg></i>LAB</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=144"></script>
+  <script type="module" src="pocket-director.js?v=159"></script>
 </body>
 </html>

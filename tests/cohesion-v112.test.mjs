@@ -32,7 +32,7 @@ test('v112 presents a concise judge dashboard and progressive disclosure',async(
  const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=126/);
   assert.match(index,/wide-desktop\.css\?v=135/);
-  assert.match(index,/cohesion\.js\?v=126/);
+  assert.match(index,/cohesion\.js\?v=159/);
   assert.match(index,/match-watch\.js\?v=149/);
   assert.match(index,/watch-evidence-chain\.css\?v=133/);
   assert.match(index,/watch-evidence-chain\.js\?v=132/);
@@ -48,7 +48,8 @@ test('live action leads and deeper proof stays inspectable on demand',async()=>{
  assert.match(cohesion,/liveStage\.after\(dossier,executionKey\)/);
  assert.match(tour,/liveStage\.after\(launcher\)/);
  assert.match(cohesion,/inside-operations/);
- assert.match(cohesion,/94–90 OVERALL · 91–87 GROUNDING · 96–92 DECISION/);
+ assert.match(cohesion,/6 CASES · 24 ORDER-REVERSED PAIRS · MODEL-SCORED/);
+ assert.match(cohesion,/Because the work can be challenged, corrected and recovered/);
 });
 
 test('judge evidence uses current results and publishes visual limits',async()=>{

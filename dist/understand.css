@@ -16,3 +16,17 @@
 @media(max-width:1080px){.understand-stage{grid-template-columns:1fr}.understand-moment{border-right:0;border-bottom:1px solid var(--u-line)}.understand-frame{min-height:430px}.understand-explainer{display:grid;grid-template-columns:1fr 1fr}.understand-story,.understand-actions{grid-column:1/-1}.understand-answer[data-step=next]{border-left:1px solid var(--u-line)}.understand-proof-body{grid-template-columns:1fr 1fr}.understand-limit{grid-column:1/-1}}
 @media(max-width:720px){#centre .understand-now{margin-inline:-2px}.understand-head{display:block;padding:23px 17px 17px}.understand-head h2{font-size:42px}.understand-live{margin-top:15px;width:max-content}.understand-level{display:block}.understand-level>span{display:block;padding:10px 13px 6px}.understand-modes button{padding:11px 5px;font-size:7px}.understand-modes button:before{display:none}.understand-stage{min-height:0}.understand-moment{padding:10px}.understand-frame{min-height:390px}.understand-frame-caption{width:94%;padding:15px}.understand-frame-caption h3{font-size:31px}.understand-frame-caption p{font-size:11px}.understand-explainer{display:block}.understand-answer[data-step=next]{border-left:0}.understand-actions{grid-template-columns:1fr}.understand-actions button{width:100%}.understand-proof summary{align-items:flex-start;gap:10px}.understand-proof summary span{align-items:flex-start;flex-direction:column;gap:6px}.understand-proof summary em{text-align:right}.understand-proof-body{grid-template-columns:1fr;padding:0 12px 12px}.understand-limit{grid-column:auto}.understand-deep-dive>summary{align-items:flex-start;flex-direction:column}.understand-deep-dive>summary>b{width:100%;text-align:center}.understand-deep-body{padding:10px}}
 @media(prefers-reduced-motion:reduce){.understand-now *{scroll-behavior:auto!important;animation:none!important}}
+
+/* v159 — keep the live play dominant and the teaching layer readable. */
+.understand-head{align-items:center;padding:24px 28px 20px}
+.understand-head h2{max-width:660px;font-size:clamp(32px,3.5vw,48px);line-height:.96;letter-spacing:-.55px;text-wrap:balance}
+.understand-head p{max-width:610px;color:#b6c7d5}
+.understand-stage{grid-template-columns:minmax(0,1.28fr) minmax(340px,.72fr);min-height:510px}
+.understand-moment{padding:15px}
+.understand-frame{min-height:420px}
+.understand-frame-caption h3{font-size:clamp(25px,2.35vw,35px);line-height:1;text-wrap:balance}
+.understand-story strong{font-size:clamp(22px,1.8vw,29px);line-height:1.05;text-wrap:balance}
+.understand-answer{grid-template-columns:34px 1fr;gap:12px;padding:19px 20px}
+.understand-answer h3{font-size:20px;line-height:1.08;text-wrap:balance}
+@media(max-width:1080px){.understand-stage{grid-template-columns:1fr}.understand-frame{min-height:400px}}
+@media(max-width:720px){.understand-head{padding:20px 16px 16px}.understand-head h2{font-size:34px;line-height:1}.understand-frame{min-height:330px}.understand-frame-caption h3{font-size:26px}.understand-story{padding:17px}.understand-story strong{font-size:23px}.understand-answer{padding:17px 16px}}

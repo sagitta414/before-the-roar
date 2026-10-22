@@ -1,8 +1,13 @@
 {
-  "version": "v66-domain-challenge",
-  "detector_sha256": "f39bd8aa306b61c467d3c161c038903cc667704b44363a5941bbbb0247d2327f",
-  "created_at": "2026-10-17T03:17:31.945Z",
-  "protocol": "Frozen colour detector; 10 fps at 480×320. Retain raw marker matches on unfamiliar footage. These are not verified identities. No target-domain enrolment or calibration: withhold all names and physical speed. No pass annotations: precision and recall remain unscored. No tuning or selective reruns.",
+  "version": "v161-unfamiliar-domain-gate",
+  "detector_sha256": "2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb",
+  "created_at": "2026-10-22T10:08:33.523Z",
+  "protocol": "Detector source frozen before this rerun. Sample every unfamiliar clip at 10 fps and 480×320. Apply the same conservative marker and ball-coverage thresholds used by upload preflight. These clips have no target-domain enrollment, calibration or event annotations, so identities, physical speed, event precision and event recall remain withheld. No tuning or selective reruns.",
+  "gate_thresholds": {
+    "mean_enrolled_players": 5,
+    "ball_frame_coverage": 0.5,
+    "note": "The browser also checks calibrated 3:2 framing and mean frame confidence. This offline legacy detector report can verify marker and ball coverage only."
+  },
   "clips": [
     {
       "id": "unfamiliar-real-practice",

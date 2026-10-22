@@ -20,13 +20,14 @@ test('source dossier leads with the cinematic film and keeps measured proof expl
 test('proof layer states the vision and model-comparison limits',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
   assert.match(source,/validates withholding behavior, not broadcast detection accuracy/);
-  assert.match(source,/human preference remains open/);
-  assert.match(source,/94–90 OVERALL · 91–87 GROUNDING · 96–92 DECISION/);
+  assert.match(source,/human preference remains open/i);
+  assert.match(source,/6 CASES · 24 ORDER-REVERSED PAIRS · MODEL-SCORED/);
+  assert.match(source,/does not claim better writing/);
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   assert.match(source,/MICROSOFT FOUNDRY/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=126/);
-  assert.match(index,/cohesion\.js\?v=126/);
+  assert.match(index,/cohesion\.js\?v=159/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });

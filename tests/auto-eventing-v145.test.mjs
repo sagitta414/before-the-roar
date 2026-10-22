@@ -13,7 +13,7 @@ test('automatic event studio ships detector health UI and cache-busted assets', 
   const html = read('dist/index.html');
   const ui = read('dist/video-tracking.js');
   assert.match(html, /auto-eventing\.css\?v=147/);
-  assert.match(html, /video-tracking\.js\?v=147/);
+  assert.match(html, /video-tracking\.js\?v=161/);
   assert.match(ui, /LIVE DETECTOR HEALTH/);
   assert.match(ui, /MEASUREMENT ASSURANCE/);
   assert.match(ui, /holdout-current\.json/);
