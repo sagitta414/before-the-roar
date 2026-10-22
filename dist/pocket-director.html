@@ -12,7 +12,7 @@
   <link rel="manifest" href="pocket-manifest.webmanifest">
   <link rel="icon" href="assets/pocket-icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/pocket-icon.svg">
-  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144"><link rel="stylesheet" href="pocket-next.css?v=159"><link rel="stylesheet" href="pocket-accessibility.css?v=163">
+  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144"><link rel="stylesheet" href="pocket-next.css?v=159"><link rel="stylesheet" href="pocket-accessibility.css?v=163"><link rel="stylesheet" href="pocket-flow.css?v=164">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -47,10 +47,13 @@
         </div>
       </section>
       <section class="feel-match" id="feel-match" aria-labelledby="feel-title">
-        <div class="feel-head"><div><small>ACCESSIBILITY / FEEL THE MATCH</small><h2 id="feel-title">Follow the game without chasing the screen.</h2><p>Verified events become distinct haptics, stereo direction cues and short spoken descriptions.</p></div><button class="feel-toggle" id="feel-toggle" type="button" aria-pressed="false">TURN ON</button></div>
-        <div class="feel-status" aria-live="polite"><i></i><div><b id="feel-status-title">READY TO PREVIEW</b><span id="feel-status-copy">Off until you choose to enable sound and vibration.</span></div></div>
-        <div class="cue-legend" aria-label="Preview sensory match cues"><button type="button" data-cue-preview="pressure"><span>≋</span>PRESSURE</button><button type="button" data-cue-preview="possession"><span>←</span>POSSESSION</button><button type="button" data-cue-preview="shot"><span>!</span>SHOT</button><button type="button" data-cue-preview="correction"><span>×2</span>CORRECTION</button></div>
-        <small class="feel-note">Cue previews are labelled demonstrations. Live cues fire only when the reached evidence contains the matching event. Device support varies.</small>
+        <div class="feel-head"><div><small>ACCESSIBILITY / FEEL THE MATCH</small><h2 id="feel-title">Hear and feel verified match changes.</h2><p id="feel-summary">Off · no sound or vibration</p></div><button class="feel-toggle" id="feel-toggle" type="button" aria-pressed="false">TURN ON</button></div>
+        <button class="feel-details-toggle" id="feel-details-toggle" type="button" aria-expanded="false">LEARN THE FOUR CUES <span>＋</span></button>
+        <div class="feel-details" id="feel-details" hidden>
+          <div class="feel-status" aria-live="polite"><i></i><div><b id="feel-status-title">READY TO PREVIEW</b><span id="feel-status-copy">Off until you choose to enable sound and vibration.</span></div></div>
+          <div class="cue-legend" aria-label="Preview sensory match cues"><button type="button" data-cue-preview="pressure"><span>≋</span>PRESSURE</button><button type="button" data-cue-preview="possession"><span>←</span>POSSESSION</button><button type="button" data-cue-preview="shot"><span>!</span>SHOT</button><button type="button" data-cue-preview="correction"><span>×2</span>CORRECTION</button></div>
+          <small class="feel-note">These are labelled previews. Live cues fire only when matching evidence reaches the current cutoff. Device support varies.</small>
+        </div>
       </section>
       <section class="match-dashboard" aria-label="Live match data">
         <div class="dashboard-head"><div><span>LIVE MATCH DATA</span><b id="data-scope">EVIDENCE THROUGH 67:18</b></div><em>MEASURED</em><button id="data-expand" type="button" aria-expanded="false">OPEN +</button></div>
@@ -81,7 +84,7 @@
     </section>
 
     <section class="app-screen" data-screen="perspectives" aria-label="Viewing perspectives" hidden>
-      <header class="screen-intro perspectives-intro"><span>MAKE THE MATCH YOURS</span><h1>Five ways to see<br>the same play.</h1><p>Every view uses the same evidence. Choose how BTR should explain it.</p></header>
+      <header class="screen-intro perspectives-intro"><span>MAKE THE MATCH YOURS</span><h1>Direct your recap.</h1><p>Choose the story you want. Every cut stays tied to the same reached evidence.</p></header>
       <section class="mode-rack" aria-label="Choose your explanation">
         <button data-mode="fan"><span class="mode-art fan-art"></span><small>01 / FAN MODE</small><b>The match story</b><p>Emotion, momentum and the moment that matters.</p><em>Choose view ↗</em></button>
         <button data-mode="beginner"><span class="mode-art beginner-art"></span><small>02 / NEW TO FOOTBALL</small><b>Learn as you watch</b><p>Plain language and the rule or concept behind the play.</p><em>Choose view ↗</em></button>
@@ -93,7 +96,7 @@
       <section class="perspective-director" aria-labelledby="recap-title">
         <div class="recap-head"><div><small>PERSPECTIVE DIRECTOR / EVIDENCE-LINKED RECAPS</small><h2 id="recap-title">Ask for the cut you need.</h2><p>BTR assembles timestamps, overlays, narration, source IDs and correction status from the reached play.</p></div><span class="recap-badge">NO NEW CLAIMS</span></div>
         <div class="recap-prompts" aria-label="Create a perspective recap">
-          <button type="button" data-recap-preset="player"><small>PLAYER</small><b>Show Moreau’s reached window</b></button>
+          <button type="button" data-recap-preset="player"><small>PLAYER</small><b>Moreau’s reached window</b></button>
           <button type="button" data-recap-preset="tactical"><small>TACTICAL</small><b>Explain only the tactical changes</b></button>
           <button type="button" data-recap-preset="beginner"><small>BEGINNER</small><b>Give me the beginner version</b></button>
           <button type="button" data-recap-preset="disputed"><small>CHECK</small><b>Show every disputed claim</b></button>
@@ -126,6 +129,6 @@
   </main>
   <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i><svg viewBox="0 0 24 24"><path d="M4 13h3l2-6 4 11 2-5h5"/></svg></i>LIVE</button><button data-screen-target="perspectives"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></i>VIEWS</button><button data-screen-target="players"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20c.6-4 2.6-6 6-6s5.4 2 6 6"/></svg></i>PLAYER</button><button data-screen-target="more"><i><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg></i>LAB</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=163"></script>
+  <script type="module" src="pocket-director.js?v=164"></script>
 </body>
 </html>
