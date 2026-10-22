@@ -18,6 +18,8 @@ test('Pocket Director presents one mobile task per tab and preserves the evidenc
  assert.equal(doc.querySelectorAll('#flow-axis span').length,4);
  assert.ok(doc.getElementById('event-timeline'));
  assert.ok(doc.querySelector('.director-console'));
+ assert.ok(doc.getElementById('feel-match'));
+ assert.equal(doc.querySelectorAll('[data-cue-preview]').length,4);
  assert.ok(doc.getElementById('director-expand'));
  assert.ok(doc.getElementById('data-expand'));
  assert.deepEqual(['stay-awake','share-moment','picture-in-picture'].map(id=>Boolean(doc.getElementById(id))),[true,true,true]);
@@ -25,6 +27,9 @@ test('Pocket Director presents one mobile task per tab and preserves the evidenc
  assert.ok(doc.getElementById('player-options'));
  assert.ok(doc.querySelector('[data-screen="more"] #challenge'));
  assert.equal(doc.querySelectorAll('.truth-compare article').length,2);
+ assert.ok(doc.querySelector('.perspective-director'));
+ assert.equal(doc.querySelectorAll('[data-recap-preset]').length,5);
+ assert.ok(doc.getElementById('download-recap'));
  assert.ok(doc.querySelector('[data-screen="more"] #crew-stream'));
  assert.ok(doc.querySelector('link[rel="manifest"]'));
  const manifest=await readFile(new URL('../dist/pocket-manifest.webmanifest',import.meta.url),'utf8');
@@ -39,6 +44,13 @@ test('Pocket Director presents one mobile task per tab and preserves the evidenc
  assert.match(script,/serviceWorker\.register/);
  assert.match(script,/director-expanded/);
  assert.match(script,/data-expanded/);
+ assert.match(script,/detectMatchSignals/);
+ assert.match(script,/SpeechSynthesisUtterance/);
+ assert.match(script,/createStereoPanner/);
+ assert.match(script,/btr-.*-recap\.json/);
+ const accessibility=await readFile(new URL('../dist/pocket-accessibility.js',import.meta.url),'utf8');
+ assert.match(accessibility,/btr\.perspective-recap\.v1/);
+ assert.match(accessibility,/Uses only records at or before/);
  const progressive=await readFile(new URL('../dist/pocket-next.css',import.meta.url),'utf8');
  assert.match(progressive,/body:not\(\.director-expanded\)/);
  assert.match(progressive,/body:not\(\.data-expanded\)/);
