@@ -1,5 +1,6 @@
 const LIMIT_BYTES = 150 * 1024 * 1024;
 const ALLOWED = new Set(["video/mp4", "video/webm", "video/quicktime"]);
+const SAMPLE_URL = "assets/tracking/training-minute.mp4?v=161";
 
 const text = (root, selector, value) => {
   const target = root.querySelector(selector);
@@ -41,6 +42,7 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
   let sourceKind = "";
   let compatibility = null;
   let cues = [];
+  let sourceOrigin = "user-file";
 
   const open = () => {
     video.pause();
@@ -57,6 +59,7 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
     sourceHash = "";
     sourceKind = "";
     compatibility = null;
+    sourceOrigin = "user-file";
     metadata = null;
     fileInput.value = "";
     preview.removeAttribute("src");
@@ -83,8 +86,9 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
       probe.onerror = () => reject(new Error("This browser could not decode the video."));
       probe.src = url;
     });
-  const accept = async (file) => {
+  const accept = async (file, origin = "user-file") => {
     reset();
+    sourceOrigin = origin;
     const extensionAllowed = /\.(mp4|webm|mov)$/i.test(file.name);
     if ((!ALLOWED.has(file.type) && !extensionAllowed) || file.size > LIMIT_BYTES) {
       status.textContent = file.size > LIMIT_BYTES ? "That file is larger than 150 MB." : "Choose an MP4, WebM or MOV video.";
@@ -117,6 +121,25 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
     } finally {
       ingest.querySelector(".vt-upload-progress").hidden = true;
       updateReady();
+    }
+  };
+
+  const loadSample = async () => {
+    status.textContent = "Loading BTR's fictional evaluation minute…";
+    ingest.querySelector(".vt-upload-progress").hidden = false;
+    try {
+      const response = await fetch(SAMPLE_URL);
+      if (!response.ok) throw new Error("The fictional evaluation clip is temporarily unavailable.");
+      const file = new File([await response.blob()], "btr-fictional-evaluation-minute.mp4", { type: "video/mp4" });
+      await accept(file, "bundled-fictional-evaluation");
+      ingest.querySelector('input[name="upload-kind"][value="marked"]').checked = true;
+      rights.checked = true;
+      updateReady();
+      status.textContent = "Fictional sample ready. Running the same compatibility gate used for uploaded clips…";
+      prepare.click();
+    } catch (error) {
+      status.textContent = error.message;
+      ingest.querySelector(".vt-upload-progress").hidden = true;
     }
   };
 
@@ -166,7 +189,7 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
     text(dock, '[data-dock="name"]', source.name);
     text(dock, '[data-dock="scope"]', measured ? "COMPATIBILITY PASSED · EXPERIMENTAL MEASUREMENT" : kind === "marked-rejected" ? "COMPATIBILITY FAILED · REVIEWED CUES ONLY" : "REVIEWED CUES · IDENTITY, DISTANCE + SPEED WITHHELD");
     onPrepare({ file: source, url: sourceUrl, kind, declaredKind, measured, metadata, hash: sourceHash, compatibility });
-    document.dispatchEvent(new CustomEvent("btr-upload-source", { detail: { name: source.name, url: sourceUrl, kind, declaredKind, measured, metadata, hash: sourceHash, compatibility } }));
+    document.dispatchEvent(new CustomEvent("btr-upload-source", { detail: { name: source.name, url: sourceUrl, kind, declaredKind, measured, metadata, hash: sourceHash, compatibility, sourceOrigin, synthetic: sourceOrigin === "bundled-fictional-evaluation" } }));
     close();
     panel.querySelector(".vt-screen").scrollIntoView({ behavior: "smooth", block: "center" });
   };
@@ -181,6 +204,9 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
       duration_seconds: metadata?.duration,
       frame: metadata ? { width: metadata.width, height: metadata.height } : null,
       declared_source_type: sourceKind,
+      source_origin: sourceOrigin,
+      synthetic: sourceOrigin === "bundled-fictional-evaluation",
+      source_license: sourceOrigin === "bundled-fictional-evaluation" ? "BTR-generated fictional evaluation media" : "User-attested authorization",
       permission_attested: true,
       transfer: "none-browser-local",
       analysis_scope: sourceKind === "marked" ? "experimental-controlled-marker-tracking" : "human-reviewed-visible-cues-only",
@@ -218,10 +244,26 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
   uploadButton.className = "vt-upload-open";
   uploadButton.textContent = "Upload video +";
   uploadButton.onclick = open;
-  lab.querySelector(".vt-modes")?.prepend(uploadButton);
+  const sampleButton = document.createElement("button");
+  sampleButton.type = "button";
+  sampleButton.className = "vt-sample-open";
+  sampleButton.textContent = "Try fictional sample ▶";
+  sampleButton.setAttribute("aria-label", "Load the fictional BTR evaluation video and run its compatibility gate");
+  sampleButton.onclick = () => { open(); loadSample(); };
+  lab.querySelector(".vt-modes")?.prepend(uploadButton, sampleButton);
+  const watchUpload = document.getElementById("open-video-upload");
+  const watchSampleButton = document.createElement("button");
+  watchSampleButton.type = "button";
+  watchSampleButton.id = "try-video-sample";
+  watchSampleButton.textContent = "Try fictional sample ▶";
+  watchSampleButton.onclick = () => {
+    document.getElementById("lab-nav")?.click();
+    setTimeout(() => { open(); loadSample(); }, 50);
+  };
+  watchUpload?.insertAdjacentElement("afterend", watchSampleButton);
   document.getElementById("open-video-upload")?.addEventListener("click", () => {
     document.getElementById("lab-nav")?.click();
     setTimeout(open, 50);
   });
-  return { open, reset, getReceipt: () => ({ name: source?.name, hash: sourceHash, metadata, kind: sourceKind, cues }) };
+  return { open, reset, getReceipt: () => ({ name: source?.name, hash: sourceHash, metadata, kind: sourceKind, sourceOrigin, cues }) };
 }

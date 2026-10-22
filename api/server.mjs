@@ -463,7 +463,7 @@ export function createApp({
             .length,
           active_run_subscribers: runSubscribers,
           rate_identity_count: rates.size,
-          version: "3.20.0",
+          version: "3.21.0",
           git_revision: process.env.BTR_GIT_SHA || null,
           image_tag: process.env.BTR_IMAGE_TAG || null,
           evidence_review: true,

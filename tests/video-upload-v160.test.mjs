@@ -7,9 +7,11 @@ const read=path=>readFile(new URL('../'+path,import.meta.url),'utf8');
 test('video ingest is discoverable from Watch and loaded by Match Lab',async()=>{
   const [html,tracking]=await Promise.all([read('dist/index.html'),read('dist/video-tracking.js')]);
   assert.match(html,/id="open-video-upload"[^>]*>Upload video \+/);
-  assert.match(html,/video-upload\.css\?v=160/);
-  assert.match(html,/video-tracking\.js\?v=161/);
+  assert.match(html,/video-upload\.css\?v=162/);
+  assert.match(html,/video-tracking\.js\?v=162/);
   assert.match(tracking,/createVideoUpload/);
+  assert.match(await read('dist/video-upload.js'),/Try fictional sample/);
+  assert.match(await read('dist/video-upload.js'),/id = "try-video-sample"/);
 });
 
 test('upload preflight preserves the capability boundary',async()=>{
@@ -23,6 +25,8 @@ test('upload preflight preserves the capability boundary',async()=>{
   assert.match(source,/150 \* 1024 \* 1024/);
   assert.match(source,/btr\.local-video-source\.v1/);
   assert.match(source,/none-browser-local/);
+  assert.match(source,/bundled-fictional-evaluation/);
+  assert.match(source,/BTR-generated fictional evaluation media/);
 });
 
 test('non-compatible clips cannot enter automatic tracking',async()=>{
@@ -32,5 +36,6 @@ test('non-compatible clips cannot enter automatic tracking',async()=>{
   assert.match(upload,/COMPATIBILITY FAILED · REVIEWED CUES ONLY/);
   assert.match(tracking,/uploadReviewOnly\|\|!tracker/);
   assert.match(tracking,/REVIEWED CUES ONLY/);
+  assert.match(tracking,/result\.diagnostics\?\.frameConfidence/);
   assert.match(tracking,/automatic identity, distance, speed and event claims are withheld/);
 });
