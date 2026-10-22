@@ -1,0 +1,76 @@
+/* The application shell never changes with page content. Route styles may shape
+   their own workspaces, but they cannot resize or relocate primary navigation. */
+@media (min-width: 761px) {
+  .masthead.journey-navigation-only {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 50px !important;
+    min-height: 50px !important;
+  }
+
+  .story-spine {
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: minmax(165px, 1.08fr) repeat(7, minmax(88px, .72fr)) minmax(150px, .92fr) !important;
+    width: 100% !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 90 !important;
+    overflow: visible !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid #344052 !important;
+    background: linear-gradient(90deg,#0a0f16 0%,#111925 55%,#0a0f16 100%) !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.26) !important;
+  }
+
+  .story-spine__identity {
+    box-sizing: border-box !important;
+    display: flex !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 7px 17px !important;
+  }
+
+  .story-spine__identity strong { font-size: 15px !important; }
+
+  .story-spine button {
+    box-sizing: border-box !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    padding: 7px 9px !important;
+  }
+
+  .story-spine__step {
+    display: grid !important;
+    grid-template-columns: auto minmax(0,1fr) !important;
+    column-gap: 6px !important;
+    align-content: center !important;
+  }
+
+  .story-spine__step b {
+    grid-row: 1 / 3 !important;
+    font-size: 9px !important;
+  }
+
+  .story-spine__step span { font-size: 10px !important; }
+  .story-spine__step small { display: block !important; font-size: 8px !important; }
+  .story-spine__demo { font-size: 9px !important; text-align: center !important; }
+}
+
+@media (min-width: 761px) and (max-width: 1180px) {
+  .story-spine {
+    grid-template-columns: repeat(7, minmax(80px, 1fr)) minmax(138px, .95fr) !important;
+  }
+  .story-spine__identity { display: none !important; }
+  .story-spine__step small { display: none !important; }
+}
+
+@media (min-width: 2200px) {
+  .story-spine {
+    grid-template-columns: minmax(185px, 1.05fr) repeat(7, minmax(112px, .72fr)) minmax(175px, .9fr) !important;
+  }
+}

@@ -36,7 +36,7 @@ rail.addEventListener('keydown',event=>{
 const demo=el('button','story-spine__demo','▶ 60s defining moment');
 demo.type='button';demo.onclick=()=>document.dispatchEvent(new Event('btr-open-guided'));
 rail.append(demo);
-document.querySelector('.match-session-bar')?.after(rail);
+document.querySelector('.masthead')?.after(rail);
 function update(section=matchSession.get().section){
   const route=(document.body.dataset.section||location.hash.replace(/^#/,'' )||section);
   const mapped=stages.some(s=>s.section===route)?route:'watch';

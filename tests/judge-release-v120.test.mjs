@@ -25,7 +25,18 @@ test('the desktop journey uses the same language at the route and destination',a
   assert.match(index,/03 \/ MEASURE · LIVE ANALYTICS/);
   assert.match(index,/MEASURE <em>THE MATCH\.<\/em>/);
   assert.match(index,/cohesion\.css\?v=165/);
-  assert.match(index,/cohesion\.js\?v=165/);
+  assert.match(index,/cohesion\.js\?v=166/);
+  assert.match(index,/universal-shell\.css\?v=166/);
+});
+
+test('the evidence chain is a route-independent application shell',async()=>{
+  const shell=await read('universal-shell.css');
+  const cohesion=await read('cohesion.js');
+  assert.match(shell,/height: 52px !important/);
+  assert.match(shell,/grid-template-columns: minmax\(165px/);
+  assert.doesNotMatch(shell,/data-section/);
+  assert.match(cohesion,/querySelector\('\.masthead'\)\?\.after\(rail\)/);
+  assert.doesNotMatch(cohesion,/match-session-bar'\)\?\.after\(rail\)/);
 });
 
 test('judge finale exposes real specialist and Foundry receipts with their limits',async()=>{

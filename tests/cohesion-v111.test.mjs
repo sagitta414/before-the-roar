@@ -35,7 +35,7 @@ test('public proof distinguishes development validation, safety and independent 
 test('v111 assets are cache-busted and the cinematic minute leads the source selector',async()=>{
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=165/);
-  assert.match(index,/cohesion\.js\?v=165/);
+  assert.match(index,/cohesion\.js\?v=166/);
   assert.ok(index.indexOf('value="pitchside"')<index.indexOf('value="match"'));
 });
 
