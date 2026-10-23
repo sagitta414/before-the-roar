@@ -1,0 +1,36 @@
+/* Execution identity keeps model work, verified code and independent review distinct. */
+#presenters .execution-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin:0 0 14px;border:1px solid #46546a;background:#46546a}
+#presenters .execution-legend>div{position:relative;min-width:0;padding:12px 15px 12px 18px;background:linear-gradient(145deg,#131d2a,#0d151f)}
+#presenters .execution-legend>div:before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:#5ea9e9}
+#presenters .execution-legend>div[data-execution=calculation]:before{background:#d8ef64}
+#presenters .execution-legend>div[data-execution=referee]:before{background:#c58cff}
+#presenters .execution-legend span{display:block;color:#81c7ff;font:800 9px Barlow,sans-serif;letter-spacing:1.1px}
+#presenters .execution-legend [data-execution=calculation] span{color:#d8ef64}
+#presenters .execution-legend [data-execution=referee] span{color:#d1a7ff}
+#presenters .execution-legend strong{display:block;margin:5px 0 3px;color:#f5f8fc;font:900 18px/1 'Barlow Condensed',Impact,sans-serif}
+#presenters .execution-legend small{display:block;color:#94a6ba;font-size:10px;line-height:1.35}
+#presenters .agent-execution-badge{display:inline-grid;grid-template-columns:auto auto;align-items:center;gap:8px;width:max-content;max-width:100%;margin:12px 0 1px;padding:7px 9px;border:1px solid #4a6680;background:#101c28}
+#presenters .agent-execution-badge:before{content:'●';color:#69bdf1;font-size:9px;text-shadow:0 0 9px currentColor}
+#presenters .agent-execution-badge[data-execution=calculation]{border-color:#677844;background:#192016}
+#presenters .agent-execution-badge[data-execution=calculation]:before{color:#d8ef64}
+#presenters .agent-execution-badge span{color:#e9f4fd;font:800 9px Barlow,sans-serif;letter-spacing:.9px}
+#presenters .agent-execution-badge small{grid-column:2;color:#91a5b8;font-size:9px;line-height:1.25}
+
+/* The five-node trust path stays in the first Security viewport. */
+.security-compact-architecture{margin-top:18px;padding:11px;border:1px solid #41566b;background:linear-gradient(90deg,#0b1721,#101c27)}
+.security-compact-label{display:block;margin-bottom:8px;color:#8fa7ba;font:800 7px Barlow,sans-serif;letter-spacing:1.15px}
+.security-compact-architecture ol{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin:0;padding:0;list-style:none}
+.security-compact-architecture li{position:relative;min-width:0;padding:9px 8px 8px 11px;border:1px solid #3b5265;background:#0c1520}
+.security-compact-architecture li:not(:last-child):after{content:'→';position:absolute;right:-15px;top:50%;color:#ff526e;font:900 13px Barlow,sans-serif;transform:translateY(-50%)}
+.security-compact-architecture li:before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:#d8ef64}
+.security-compact-architecture li[data-status=running]:before{box-shadow:0 0 12px rgba(216,239,100,.48)}
+.security-compact-architecture small{display:block;color:#d8ef64;font:800 6px Barlow,sans-serif;letter-spacing:.8px}
+.security-compact-architecture li[data-status=implemented] small{color:#8dc8ed}
+.security-compact-architecture li[data-status=implemented]:before{background:#5eaddf}
+.security-compact-architecture li[data-status=roadmap]{border-style:dashed;opacity:.75}
+.security-compact-architecture li[data-status=roadmap] small{color:#c4a1e7}
+.security-compact-architecture li[data-status=roadmap]:before{background:#a477cb}
+.security-compact-architecture strong{display:block;margin-top:4px;overflow:hidden;color:#f2f7fb;font:900 13px/1 'Barlow Condensed',Impact,sans-serif;text-overflow:ellipsis;white-space:nowrap}
+
+@media(max-width:900px){#presenters .execution-legend{grid-template-columns:1fr}.security-compact-architecture ol{grid-template-columns:1fr;gap:7px}.security-compact-architecture li:not(:last-child):after{content:'↓';right:10px;top:auto;bottom:-9px;transform:none}.security-compact-architecture strong{white-space:normal}}
+@media(max-width:760px){#presenters .execution-legend>div{padding:10px 13px 10px 16px}#presenters .execution-legend strong{font-size:17px}#presenters .agent-execution-badge{grid-column:1/-1}}
