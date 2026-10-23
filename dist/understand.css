@@ -30,3 +30,27 @@
 .understand-answer h3{font-size:20px;line-height:1.08;text-wrap:balance}
 @media(max-width:1080px){.understand-stage{grid-template-columns:1fr}.understand-frame{min-height:400px}}
 @media(max-width:720px){.understand-head{padding:20px 16px 16px}.understand-head h2{font-size:34px;line-height:1}.understand-frame{min-height:330px}.understand-frame-caption h3{font-size:26px}.understand-story{padding:17px}.understand-story strong{font-size:23px}.understand-answer{padding:17px 16px}}
+
+/* v168 — distinct visual languages and an always-visible evidence boundary. */
+.understand-now{--mode-accent:#f3c75e;--mode-soft:rgba(243,199,94,.13)}
+.understand-now[data-mode=analyst]{--mode-accent:#d8ef64;--mode-soft:rgba(216,239,100,.12)}
+.understand-now[data-mode=math]{--mode-accent:#59b9ec;--mode-soft:rgba(89,185,236,.13)}
+.understand-evidence-boundary{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 20px;border-bottom:1px solid #3d5366;background:linear-gradient(90deg,var(--mode-soft),#071018 58%)}
+.understand-evidence-boundary span{flex:none;color:var(--mode-accent);font:900 8px Barlow,sans-serif;letter-spacing:1.2px}.understand-evidence-boundary i{display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:var(--mode-accent);box-shadow:0 0 12px var(--mode-accent)}
+.understand-evidence-boundary strong{color:#d7e2ec;font-size:10px;line-height:1.45;text-align:right}
+.understand-modes button[aria-pressed=true]:after{background:var(--mode-accent)}
+.understand-modes button[aria-pressed=true]:before{border-color:var(--mode-accent);background:var(--mode-soft)}
+.understand-frame{border-color:color-mix(in srgb,var(--mode-accent) 55%,#536a79)}
+.understand-frame:before{position:absolute;z-index:3;right:14px;top:51px;padding:7px 9px;border:1px solid var(--mode-accent);background:rgba(4,11,17,.9);color:var(--mode-accent);font:900 8px Barlow,sans-serif;letter-spacing:1px}
+.understand-now[data-mode=beginner] .understand-frame:before{content:'BEGINNER / WHAT IT MEANS'}
+.understand-now[data-mode=analyst] .understand-frame:before{content:'TACTICAL / SPACE + SHAPE'}
+.understand-now[data-mode=math] .understand-frame:before{content:'MATH / INPUTS + LIMITS'}
+.understand-frame-caption{border-left-color:var(--mode-accent)}
+.understand-frame-caption small,.understand-story small,.understand-answer small{color:var(--mode-accent)}
+.understand-story{background:linear-gradient(100deg,var(--mode-soft),transparent 68%)}
+.understand-answer[data-step=why]{box-shadow:inset 4px 0 var(--mode-accent);background:linear-gradient(140deg,var(--mode-soft),transparent 72%)}
+.understand-now[data-mode=beginner] .understand-frame-caption h3{font-family:Barlow,sans-serif;font-size:clamp(23px,2vw,31px);line-height:1.08}
+.understand-now[data-mode=analyst] .understand-frame:after{background:linear-gradient(180deg,rgba(14,42,28,.08),rgba(2,7,11,.9) 86%),repeating-linear-gradient(90deg,transparent 0 12.4%,rgba(216,239,100,.035) 12.5% 12.7%)}
+.understand-now[data-mode=math] .understand-explainer{background-color:#071521;background-image:linear-gradient(rgba(89,185,236,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(89,185,236,.045) 1px,transparent 1px);background-size:22px 22px}
+.understand-now[data-mode=math] .understand-answer>span{border-radius:50%;border-color:#59b9ec;color:#8ed5f7}
+@media(max-width:720px){.understand-evidence-boundary{align-items:flex-start;flex-direction:column;gap:6px;padding:10px 13px}.understand-evidence-boundary strong{text-align:left}.understand-frame:before{right:10px;top:47px;font-size:7px}}

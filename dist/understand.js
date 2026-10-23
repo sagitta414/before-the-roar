@@ -33,6 +33,7 @@ if(root){
  const panel=el('section','understand-now');panel.setAttribute('aria-label','Current play explanation');panel.innerHTML=`
   <header class="understand-head"><div><span class="eyebrow" data-u="eyebrow"></span><h2 data-u="title"></h2><p data-u="intro"></p></div><div class="understand-live"><i></i><span data-u="source"></span><time data-u="clock"></time></div></header>
   <div class="understand-level"><span data-u="level-label"></span><nav class="understand-modes" aria-label="Choose how to understand this play"></nav></div>
+  <div class="understand-evidence-boundary" role="status"><span><i></i> EVIDENCE BOUNDARY</span><strong data-u="status"></strong></div>
   <div class="understand-stage">
    <section class="understand-moment">
     <div class="understand-frame" aria-label="Current source preview"><div class="understand-pitch-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="understand-frame-top"><span data-u="source"></span><time data-u="clock"></time></div><div class="understand-frame-caption"><small data-u="what-label"></small><h3 data-u="what"></h3><p data-u="what-detail"></p></div></div>

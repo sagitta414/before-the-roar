@@ -11,6 +11,8 @@ test('welcome keeps its premiere action available while the cinematic minute pre
   let premieres=0;w.document.addEventListener('btr-premiere-play',()=>premieres++);
   w.eval(await readFile(new URL('../dist/splash.js',import.meta.url),'utf8'));
   const dialog=w.document.querySelector('dialog'),enter=dialog.querySelector('.btr-enter');
+  assert.equal(dialog.querySelector('[aria-label="Enter Watch"]'),null,'The cinematic action is the single Watch entry');
+  assert.equal(dialog.querySelectorAll('.btr-entry-paths button').length,2);
   assert.equal(dialog.open,true);assert.equal(pending.length,0,'There must be no automatic dismissal timer');
   assert.equal(enter.disabled,false);assert.match(enter.textContent,/Start the cinematic minute/);assert.equal(enter.getAttribute('aria-busy'),'true');
   w.document.dispatchEvent(new w.CustomEvent('btr-premiere-ready'));

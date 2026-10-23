@@ -45,7 +45,7 @@ test('judge finale exposes real specialist and Foundry receipts with their limit
   assert.match(tour,/model_handoff_completed/);
   assert.match(tour,/independent_referee_completed/);
   assert.match(tour,/This receipt proves execution, handoff and recovery/);
-  assert.match(tour,/GUIDED REHEARSAL · 0 MODEL REQUESTS/);
+  assert.match(tour,/PRELOADED STORY · READY TO PLAY/);
   assert.match(tour,/Run fresh Azure interruption \+ recovery/);
   assert.match(tour,/state\.workflow\?\.trace/);
   assert.doesNotMatch(tour,/liveReceipt\.isConnected/);

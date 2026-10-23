@@ -38,8 +38,8 @@ test('v112 presents a concise judge dashboard and progressive disclosure',async(
   assert.match(index,/watch-evidence-chain\.js\?v=132/);
   assert.match(index,/id="chain-tab"/);
   assert.match(index,/id="chain-panel"/);
-  assert.match(index,/guided-tour\.css\?v=113/);
-  assert.match(index,/guided-tour\.js\?video=65&v=122/);
+  assert.match(index,/guided-tour\.css\?v=168/);
+  assert.match(index,/guided-tour\.js\?video=65&v=168/);
 });
 
 test('live action leads and deeper proof stays inspectable on demand',async()=>{

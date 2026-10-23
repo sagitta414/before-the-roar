@@ -1,7 +1,6 @@
 import {mountViewerStudy} from './viewer-study.js';
 import { createTourClock } from "./tour-clock.js";
 import { GUIDE_STEPS, SOURCE_LABELS, guidedSnapshot } from "./guided-model.js";
-import {openTruthDemo} from './truth-spotlight.js';
 import { createMatchPitch } from "./match-pitch.js";
 import { matchSession } from "./match-session.js";
 import { SCENARIOS } from "./engine.js";
@@ -59,12 +58,8 @@ intro.append(
     "Watch the play, challenge one tracking observation and see the calculation, claim and public story correct themselves.",
   ),
 );
-const open = button("Run the defining moment →", () => enter(), "red-button"),
-  filmButton = button("Watch the 60-second film", () => leave("pitchside"));
-const canonicalDemo=el('a','outline-button','Watch the canonical 105-second demo ↗');
-canonicalDemo.href='assets/btr-judge-demo.mp4';canonicalDemo.target='_blank';canonicalDemo.rel='noopener';
-launcher.append(intro, open, canonicalDemo);
-launcher.append(button('Change the evidence →',()=>{leave('match');openTruthDemo();}));
+const open = button("Play the defining moment →", () => enter(), "red-button");
+launcher.append(intro, open);
 const liveStage=document.getElementById('broadcast-room');
 if(liveStage)liveStage.after(launcher);else watch.prepend(launcher);
 const tour = el("section", "guided-tour");
@@ -73,9 +68,9 @@ tour.hidden = true;
 tour.setAttribute("aria-label", "Guided match demonstration");
 launcher.after(tour);
 const top = el("div", "guided-top"),
-  badge = el("b", "", "GUIDED REHEARSAL · 0 MODEL REQUESTS"),
+  badge = el("b", "", "PRELOADED STORY · READY TO PLAY"),
   source = el("span", "", "NEW SESSION EVENT · THE UNSEEN RUN"),
-  auto = button("Play the 60-second judge cut", () => {
+  auto = button("Play the defining moment", () => {
     const state = tourClock.read();
     playing = false;
     if (state.status === "running") tourClock.pause();
@@ -83,31 +78,30 @@ const top = el("div", "guided-top"),
     else tourClock.start();
     tickTour();
     render();
-  }),
-  exit = button("Explore the app ↗", () => leave("match"));
-top.append(badge, source, auto, exit);
+  });
+top.append(badge, source, auto);
 tour.append(top);
 const progress = el("output", "tour-progress", "Ready · 0 / 60 seconds");
 progress.setAttribute("aria-label", "Tour progress");
 tour.append(progress);
-const proofStrip=el('section','judge-proof-strip');
+const overviewProof=el('details','judge-proof'),proofSummary=el('summary','','Why this demonstration is credible'),proofStrip=el('section','judge-proof-strip');
 proofStrip.setAttribute('aria-label','Verified prototype snapshot');
 for(const [value,label,detail] of [
-  ['274','TESTS','passing locally'],
+  ['291','TESTS','passing locally'],
   ['39 / 40','CONTROLLED EVENTS','fixed-camera synthetic holdout'],
   ['4 + 1','AI + CODE','Azure specialists + Vector'],
   ['1','FOUNDRY REFEREE','separate evidence review'],
   ['3 × 5','LANGUAGES × VIEWS','personalized explanations'],
   ['2','LIVE SCREENS','Watch + Pocket Director'],
 ]){const item=el('div');item.append(el('b','',value),el('span','',label),el('small','',detail));proofStrip.append(item);}
-tour.append(proofStrip);
+overviewProof.append(proofSummary,proofStrip);tour.append(overviewProof);
 function renderTourProgress() {
   const t = tourClock.read();
   auto.textContent = {
     running: "Pause tour",
     paused: "Resume tour",
-    complete: "Replay the 60-second judge cut",
-    idle: "Play the 60-second judge cut",
+    complete: "Replay the defining moment",
+    idle: "Play the defining moment",
   }[t.status];
   progress.dataset.status = t.status;
   progress.textContent =
@@ -121,8 +115,6 @@ function renderTourProgress() {
     Math.floor(t.seconds) +
     " / 60 seconds";
 }
-const topFilm = button("Watch the film", () => leave("pitchside"));
-top.insertBefore(topFilm, exit);
 const steps = el("nav", "guided-steps");
 steps.setAttribute("aria-label", "Guided match stages");
 for (const [index, s] of GUIDE_STEPS.entries())
@@ -193,6 +185,9 @@ heading.tabIndex = -1;
 copy.append(kicker, heading, description, content);
 grid.append(copy);
 tour.append(grid);
+// Keep the football above the inspection controls. The proof remains one click
+// away without competing with the first view of the play.
+tour.append(steps,overviewProof);
 const nextRow = el("div", "guided-next"),
   stateLabel = el("span", "guided-note"),
   back = button("← Back", () => {
@@ -722,10 +717,6 @@ fetch("media-availability.json")
   .then((r) => (r.ok ? r.json() : null))
   .then((media) => {
     if (media?.pitchside !== false) return;
-    for (const b of [filmButton, topFilm]) {
-      b.disabled = true;
-      b.textContent = "Optional film not included";
-    }
     document.querySelector('#watch-source option[value="pitchside"]').disabled = true;
     document.querySelector(".source-details a")?.setAttribute("hidden", "");
     if (matchSession.get().source === "pitchside") matchSession.set({ source: "match" });
