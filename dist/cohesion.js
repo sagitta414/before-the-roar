@@ -164,7 +164,7 @@ if(inside){
   proof.setAttribute('aria-label','What the current prototype proves');
   proof.innerHTML=`
     <header><div><span>THE BTR DIFFERENCE / VERIFIED</span><h2>One story. Six kinds of proof.</h2></div><button type="button" data-open-demo>Run the defining moment →</button></header>
-    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>274 TESTS</b><small>Passing automated checks</small></div><div><b>39 / 40</b><small>Fixed-camera synthetic holdout</small></div><div><b>4 + 1</b><small>Azure specialists + code calculation</small></div><div><b>1 FOUNDRY</b><small>Separate evidence referee</small></div><div><b>3 × 5</b><small>Languages × audience views</small></div><div><b>2 SCREENS</b><small>Watch + Pocket Director</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
+    <div class="judge-snapshot" aria-label="Judge snapshot"><div><span>JUDGE SNAPSHOT</span><strong>ONE CORRECTABLE STORY</strong></div><div><b>301 TESTS</b><small>Passing automated checks</small></div><div><b>39 / 40</b><small>Fixed-camera synthetic holdout</small></div><div><b>4 + 1</b><small>Azure specialists + code calculation</small></div><div><b>1 FOUNDRY</b><small>Separate evidence referee</small></div><div><b>3 × 5</b><small>Languages × audience views</small></div><div><b>2 SCREENS</b><small>Watch + Pocket Director</small></div><div><b>R1 → R2</b><small>Visible evidence correction</small></div></div>
     <div class="cohesion-proof__grid">
       <article data-tone="live"><small>01 / AGENT EXECUTION</small><h3>Specialists really hand off.</h3><strong>4 AZURE REQUESTS + 1 CALCULATION</strong><p>Scout, Guide, Check and Host execute sequentially. Vector calculates in code. Execution IDs, latency, evidence and delivery state remain inspectable.</p><button type="button" data-jump-watch>Open the AI desk ↗</button></article>
       <article data-tone="truth"><small>02 / CORRECTION</small><h3>The story must survive the evidence.</h3><strong>CLAIM WITHDRAWN · OUTPUT REVISED</strong><p>Truth Lab changes one synthetic observation, recalculates the affected metric and publishes a narrower broadcast explanation while preserving unaffected facts.</p><button type="button" data-jump-truth>Run the evidence test ↗</button></article>
@@ -216,3 +216,4 @@ if(inside){
   const first=inside.querySelector('.extra-studies');
   if(first){let node=first;while(node){const next=node.nextSibling;if(node!==proof)deep.append(node);node=next;}inside.append(deep);}
 }
+

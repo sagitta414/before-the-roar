@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:04,000
+Did the run create the space?
+
+2
+00:00:04,000 --> 00:00:13,000
+The movement looks convincing. BTR asks whether the evidence proves the story.
+
+3
+00:00:13,000 --> 00:00:27,000
+Four Azure specialists investigate while Vector calculates from the match record.
+
+4
+00:00:27,000 --> 00:00:46,000
+The AI desk exposes evidence, response IDs, handoffs, latency and delivery state.
+
+5
+00:00:46,000 --> 00:01:00,000
+Truth Lab changes one tracking observation: 13.0 metres becomes 0.0.
+
+6
+00:01:00,000 --> 00:01:13,000
+The passing calculation survives. The movement claim is withdrawn. The story is revised.
+
+7
+00:01:13,000 --> 00:01:22,000
+Pocket Director receives the corrected story in personalized views.
+
+8
+00:01:22,000 --> 00:01:31,000
+Accessibility Director changes delivery while preserving the evidence.
+
+9
+00:01:31,000 --> 00:01:40,000
+Foundry audits the public trace and publishes the evaluation limit.
+
+10
+00:01:40,000 --> 00:01:47,000
+Azure secures the service and preserves the proof.
+
+11
+00:01:47,000 --> 00:01:53,000
+Every claim earned.

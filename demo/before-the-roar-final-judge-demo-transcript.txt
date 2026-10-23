@@ -1,0 +1,17 @@
+BEFORE THE ROAR — FINAL JUDGE DEMO
+
+Watch the runner. The defender shifts, and the ball goes through the middle. It feels obvious: the run created the space. But the picture alone cannot prove that.
+
+Before the Roar starts a fresh investigation. Scout identifies the movement. Guide makes it clear. Vector measures 23.7 metres of forward passing gain. Check challenges the causal claim. Then Host publishes only what survives.
+
+These are real handoffs. Four specialists make separate Azure model requests, while Vector calculates in code. The AI desk keeps the response IDs, evidence, latency, and delivery state visible.
+
+Truth Lab changes one synthetic tracking observation. The defender's measured shift falls from 13 metres to zero. The passing calculation remains. The movement claim is withdrawn. The broadcast line corrects itself.
+
+That revision reaches the match screen and Pocket Director. New fans, analysts, and numbers fans receive different explanations grounded in the same facts.
+
+Accessibility Director changes how the moment is delivered, not what happened. Descriptive narration, captions, visual signals, reduced motion, clear language, voice control, and a time-linked transcript all follow the same evidence.
+
+Microsoft Foundry audits the public trace. The current crew-versus-baseline result is narrow, and BTR says so. The proven advantage is operational: inspectable roles, deterministic math, correction, and recovery.
+
+Azure Container Apps runs the experience. Entra ID protects access. Blob Storage preserves the proof. Before the Roar turns one football moment into a story every fan can understand, question, and trust.

@@ -1,0 +1,53 @@
+{
+  "schema": "btr.submission-demo.v3",
+  "created_at": "2026-10-23T02:44:48.657Z",
+  "duration_seconds": 113,
+  "judge_entry": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/?verify=170#watch",
+  "fresh_execution": {
+    "azure_model_requests": 4,
+    "deterministic_roles": [
+      "Vector"
+    ],
+    "delivery_seconds": 3.2,
+    "receipt_capture": "tmp/live-demo-capture/live-receipts.jpg"
+  },
+  "correction": {
+    "original_revision": "R1",
+    "corrected_revision": "R2",
+    "defender_shift_m": [
+      13,
+      0
+    ],
+    "surviving_evidence": "2 completed passes / 23.7m forward gain",
+    "withdrawn_claim": "defender movement"
+  },
+  "evaluation": {
+    "kind": "recorded model-scored comparison",
+    "cases": 6,
+    "crew_points": 46,
+    "baseline_points": 45,
+    "independent_human_review": "pending"
+  },
+  "accessibility": {
+    "profiles": 6,
+    "formal_wcag_audit": false,
+    "disabled_user_testing": false
+  },
+  "visual_sources": {
+    "application": "Recorded public application captures",
+    "cinematic": "AI-generated fictional companion footage, labelled in-video",
+    "mobile": "Paired Pocket Director capture on corrected revision R2"
+  },
+  "narration": {
+    "provider": "Azure AI Speech",
+    "voice": "en-US-GuyNeural",
+    "style": "newscast-casual",
+    "burned_captions": true
+  },
+  "claims": {
+    "real_match_data": false,
+    "cinematic_is_measurement_source": false,
+    "independent_human_superiority_proven": false,
+    "formal_accessibility_certification": false
+  }
+}
