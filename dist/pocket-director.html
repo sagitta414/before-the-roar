@@ -47,10 +47,19 @@
         </div>
       </section>
       <section class="feel-match" id="feel-match" aria-labelledby="feel-title">
-        <div class="feel-head"><div><small>ACCESSIBILITY / FEEL THE MATCH</small><h2 id="feel-title">Hear and feel verified match changes.</h2><p id="feel-summary">Off · no sound or vibration</p></div><button class="feel-toggle" id="feel-toggle" type="button" aria-pressed="false">TURN ON</button></div>
-        <button class="feel-details-toggle" id="feel-details-toggle" type="button" aria-expanded="false">LEARN THE FOUR CUES <span>＋</span></button>
+        <div class="feel-head"><div><small>ACCESSIBILITY DIRECTOR</small><h2 id="feel-title">Experience the match your way.</h2><p id="feel-summary">Profiles, description, sound and vibration</p></div><button class="feel-toggle" id="feel-toggle" type="button" aria-pressed="false">TURN ON</button></div>
+        <button class="feel-details-toggle" id="feel-details-toggle" type="button" aria-expanded="false">CUSTOMIZE YOUR EXPERIENCE <span>＋</span></button>
         <div class="feel-details" id="feel-details" hidden>
           <div class="feel-status" aria-live="polite"><i></i><div><b id="feel-status-title">READY TO PREVIEW</b><span id="feel-status-copy">Off until you choose to enable sound and vibration.</span></div></div>
+          <div class="access-profile-head"><span>CHOOSE HOW YOU FOLLOW THE MATCH</span><small>Same evidence · different delivery</small></div>
+          <div class="access-profile-grid" role="group" aria-label="Accessibility profiles">
+            <button type="button" data-access-profile="vision"><b>◉</b><span>LOW VISION<small>Spoken play · larger type</small></span></button>
+            <button type="button" data-access-profile="hearing"><b>CC</b><span>CAPTIONS<small>Visual cues · transcript</small></span></button>
+            <button type="button" data-access-profile="cognitive"><b>A</b><span>CLEAR & CALM<small>Plain language · less motion</small></span></button>
+            <button type="button" data-access-profile="sensory"><b>—</b><span>SENSORY SAFE<small>Quiet · no flashes</small></span></button>
+          </div>
+          <div class="access-live-card"><div><small>LIVE DESCRIPTION</small><time id="access-clock">67:00</time></div><b id="access-title">The duel begins</b><p id="access-copy">A Harbor attacker controls the ball while a defender closes the space.</p><button id="access-speak" type="button">HEAR THIS MOMENT ▶</button></div>
+          <details class="access-transcript"><summary>DESCRIPTIVE MATCH TRANSCRIPT <span>＋</span></summary><ol id="access-transcript-list"></ol></details>
           <div class="cue-legend" aria-label="Preview sensory match cues"><button type="button" data-cue-preview="pressure"><span>≋</span>PRESSURE</button><button type="button" data-cue-preview="possession"><span>←</span>POSSESSION</button><button type="button" data-cue-preview="shot"><span>!</span>SHOT</button><button type="button" data-cue-preview="correction"><span>×2</span>CORRECTION</button></div>
           <small class="feel-note">These are labelled previews. Live cues fire only when matching evidence reaches the current cutoff. Device support varies.</small>
         </div>
@@ -129,6 +138,6 @@
   </main>
   <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i><svg viewBox="0 0 24 24"><path d="M4 13h3l2-6 4 11 2-5h5"/></svg></i>LIVE</button><button data-screen-target="perspectives"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></i>VIEWS</button><button data-screen-target="players"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20c.6-4 2.6-6 6-6s5.4 2 6 6"/></svg></i>PLAYER</button><button data-screen-target="more"><i><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg></i>LAB</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=164"></script>
+  <script type="module" src="pocket-director.js?v=170"></script>
 </body>
 </html>

@@ -27,7 +27,7 @@ export function createTruthLab({seek,toggleCorrection,pause}){
  document.addEventListener('btr-section',e=>{if(e.detail!=='truth')silence();});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)silence();});
  $('truth-audience').addEventListener('change',()=>{audience=$('truth-audience').value;matchSession.set({mode:audience});render(scenario,time,corrected,language,audience);});
- $('reveal-truth').addEventListener('click',()=>{silence();toggleCorrection();});
+ $('reveal-truth').addEventListener('click',()=>{silence();const applying=!corrected;toggleCorrection();if(applying)document.dispatchEvent(new CustomEvent('btr-evidence-corrected',{detail:{scenario:scenario?.id||'wide'}}));});
  $('export-audit').addEventListener('click',()=>save(`btr-truth-${scenario.id}-r${narrative.revision}.json`,truthStoryPacket(scenario,time,corrected,audience,language)));
  $('truth-open-centre').addEventListener('click',()=>$('centre-nav').click());
 

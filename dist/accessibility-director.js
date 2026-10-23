@@ -1,0 +1,50 @@
+import {ACCESSIBILITY_MOMENTS,ACCESSIBILITY_PROFILES,accessibleStatus,defaultAccessibilitySettings,descriptiveLine,momentAt,settingsForProfile} from './accessibility-core.js';
+
+const storeKey='btr-accessibility-v1';
+const labels={captions:['CC','Rich captions','Speech and meaningful sound'],narration:['AD','Audio description','Spoken action and corrections'],transcript:['TXT','Live transcript','Jump through the reached play'],visualSignals:['◎','Visual signals','Visible pressure and possession cues'],plainLanguage:['A','Plain language','Shorter football explanations'],quiet:['—','Quiet match','One update at a time'],reducedMotion:['≈','Reduced motion','No decorative motion or flashes'],largeText:['T+','Larger text','More readable match intelligence'],highContrast:['◐','High contrast','Stronger text and boundaries'],largeTargets:['□','Large controls','Keyboard and motor support'],voice:['◉','Voice commands','Say explain, repeat or quiet'],lowAudio:['♫','Lower ambience','Keep narration easy to hear']};
+let settings=load(),lastMoment='';
+const film=()=>document.getElementById('film');
+
+function load(){try{return {...defaultAccessibilitySettings(),...JSON.parse(localStorage.getItem(storeKey)||'{}')};}catch{return defaultAccessibilitySettings();}}
+function save(){try{localStorage.setItem(storeKey,JSON.stringify(settings));}catch{}}
+function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
+function speak(text){if(!('speechSynthesis'in window)||!text)return;window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang=document.documentElement.lang==='es'?'es-ES':document.documentElement.lang==='pt'?'pt-BR':'en-US';utterance.rate=settings.plainLanguage?.94:1.02;window.speechSynthesis.speak(utterance);}
+function currentSecond(){return Number(film()?.currentTime||0);}
+function apply(){
+  const root=document.documentElement,map={largeText:'a11y-large-text',highContrast:'a11y-high-contrast',largeTargets:'a11y-large-targets',quiet:'a11y-quiet',reducedMotion:'a11y-reduced-motion',visualSignals:'a11y-visual-signals'};
+  Object.entries(map).forEach(([key,name])=>root.classList.toggle(name,Boolean(settings[key])));
+  if(film())film().volume=settings.lowAudio?.28:1;
+  document.querySelectorAll('.a11y-profile').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.profile===settings.profile)));
+  document.querySelectorAll('.a11y-toggle').forEach(button=>button.setAttribute('aria-pressed',String(Boolean(settings[button.dataset.setting]))));
+  const launcher=document.querySelector('.accessibility-launcher b'),status=document.querySelector('[data-a11y-status]'),transcript=document.querySelector('.a11y-transcript');
+  if(launcher)launcher.textContent=accessibleStatus(settings).replace(' accessibility tools active',' ACTIVE');if(status)status.textContent=accessibleStatus(settings).toUpperCase();if(transcript)transcript.dataset.enabled=String(Boolean(settings.transcript));
+  const captionButton=document.querySelector('.caption-toggle');if(settings.captions&&captionButton?.getAttribute('aria-pressed')!=='true')captionButton.click();
+  save();updateMoment(true);
+}
+function updateMoment(force=false){
+  const second=currentSecond(),moment=momentAt(second),key=moment.clock,title=document.querySelector('[data-a11y-title]'),copy=document.querySelector('[data-a11y-copy]'),clock=document.querySelector('[data-a11y-clock]');if(!title||!copy||!clock)return;
+  clock.textContent=moment.clock;title.textContent=moment.title;copy.textContent=settings.plainLanguage?moment.plain:moment.detail;
+  document.querySelectorAll('.a11y-transcript-list li').forEach(item=>{const at=Number(item.dataset.at);item.classList.toggle('reached',at<=second);item.classList.toggle('current',item.dataset.clock===moment.clock);});
+  if(settings.transcript)document.querySelector('.a11y-transcript-list li.current')?.scrollIntoView({block:'nearest'});
+  if(settings.narration&&key!==lastMoment&&!force)speak(descriptiveLine(moment,{plainLanguage:settings.plainLanguage}));
+  if(key!==lastMoment){const live=document.querySelector('[data-a11y-live]');if(live)live.textContent=`${moment.clock}. ${moment.title}. ${settings.plainLanguage?moment.plain:moment.detail}`;lastMoment=key;}
+}
+function startVoice(){
+  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition,status=document.querySelector('[data-a11y-status]');if(!Recognition){status.textContent='VOICE INPUT IS NOT AVAILABLE IN THIS BROWSER';return;}
+  const recognition=new Recognition();recognition.lang='en-US';recognition.interimResults=false;status.textContent='LISTENING · SAY EXPLAIN, REPEAT, QUIET, CAPTIONS OR CLOSE';
+  recognition.onresult=event=>{const command=event.results[0][0].transcript.toLowerCase();if(command.includes('explain')||command.includes('repeat'))speak(descriptiveLine(momentAt(currentSecond()),{plainLanguage:settings.plainLanguage}));if(command.includes('quiet')){settings=settingsForProfile('cognitive',settings);apply();}if(command.includes('caption')){settings.captions=true;settings.transcript=true;apply();}if(command.includes('close'))document.querySelector('.accessibility-director').close();};
+  recognition.onerror=()=>status.textContent='VOICE COMMAND WAS NOT HEARD · KEYBOARD CONTROLS REMAIN AVAILABLE';recognition.start();
+}
+function build(){
+  const launcher=el('button','accessibility-launcher');launcher.type='button';launcher.innerHTML='<span>ACCESSIBILITY</span><b>READY</b>';launcher.setAttribute('aria-haspopup','dialog');launcher.setAttribute('aria-keyshortcuts','Alt+A');
+  const dialog=el('dialog','accessibility-director');dialog.setAttribute('aria-labelledby','a11y-title');dialog.innerHTML=`<header class="a11y-head"><div><small>ACCESSIBILITY DIRECTOR / SAME EVIDENCE · YOUR WAY</small><h2 id="a11y-title">Feel every moment.</h2><p>Choose how BTR communicates the match. Visual, spoken, captioned and simplified outputs remain tied to the same synthetic evidence.</p></div><button class="a11y-close" type="button" aria-label="Close Accessibility Director">×</button></header><div class="a11y-body"><section class="a11y-controls"><span class="a11y-section-label">CHOOSE A STARTING PROFILE</span><div class="a11y-profiles"></div><span class="a11y-section-label">FINE-TUNE YOUR EXPERIENCE</span><div class="a11y-tools"></div></section><section class="a11y-stage"><article class="a11y-live"><div class="a11y-live-top"><span class="a11y-live-status" data-a11y-status>STANDARD BROADCAST PRESENTATION</span><time data-a11y-clock>67:00</time></div><h3 data-a11y-title>The duel begins</h3><p data-a11y-copy></p><div class="a11y-live-actions"><button type="button" data-a11y-speak>HEAR THIS MOMENT ▶</button><button type="button" data-a11y-voice>USE VOICE COMMAND</button></div></article><section class="a11y-transcript"><div class="a11y-transcript-head"><span class="a11y-section-label">INTERACTIVE DESCRIPTIVE TRANSCRIPT</span><button type="button" data-a11y-download>DOWNLOAD .TXT ↓</button></div><ol class="a11y-transcript-list"></ol></section></section></div><footer class="a11y-foot">Alt+A opens this panel · Escape closes it · Settings stay on this device · No accessibility mode changes the underlying evidence.</footer>`;
+  const profiles=dialog.querySelector('.a11y-profiles');for(const [key,profile] of Object.entries(ACCESSIBILITY_PROFILES)){const button=el('button','a11y-profile');button.type='button';button.dataset.profile=key;button.innerHTML=`<span>${String(Object.keys(ACCESSIBILITY_PROFILES).indexOf(key)+1).padStart(2,'0')}</span><strong>${profile.label}</strong><small>${profile.description}</small>`;button.onclick=()=>{settings=settingsForProfile(key,settings);apply();};profiles.append(button);}
+  const tools=dialog.querySelector('.a11y-tools');for(const [key,[icon,title,description]] of Object.entries(labels)){const button=el('button','a11y-toggle');button.type='button';button.dataset.setting=key;button.innerHTML=`<i>${icon}</i><span><strong>${title}</strong><small>${description}</small></span><b class="a11y-switch" aria-hidden="true"></b>`;button.onclick=()=>{settings[key]=!settings[key];settings.profile='custom';apply();};tools.append(button);}
+  const list=dialog.querySelector('.a11y-transcript-list');for(const moment of ACCESSIBILITY_MOMENTS){const item=el('li');item.dataset.at=moment.at;item.dataset.clock=moment.clock;item.innerHTML=`<time>${moment.clock}</time><div><b>${moment.title}</b><p>${moment.detail}</p></div>`;item.onclick=()=>{if(film()){film().currentTime=moment.at;film().play().catch(()=>{});}updateMoment(true);};list.append(item);}
+  launcher.onclick=()=>dialog.showModal();dialog.querySelector('.a11y-close').onclick=()=>dialog.close();dialog.querySelector('[data-a11y-speak]').onclick=()=>speak(descriptiveLine(momentAt(currentSecond()),{plainLanguage:settings.plainLanguage}));dialog.querySelector('[data-a11y-voice]').onclick=startVoice;
+  dialog.querySelector('[data-a11y-download]').onclick=()=>{const body=ACCESSIBILITY_MOMENTS.map(moment=>`${moment.clock} — ${moment.title}\n${moment.detail}`).join('\n\n'),url=URL.createObjectURL(new Blob([body],{type:'text/plain'})),link=document.createElement('a');link.href=url;link.download='btr-descriptive-transcript.txt';link.click();URL.revokeObjectURL(url);};
+  const live=el('div','a11y-sr-live');live.dataset.a11yLive='';live.setAttribute('aria-live','polite');live.setAttribute('aria-atomic','true');document.body.append(launcher,dialog,live);film()?.addEventListener('timeupdate',()=>updateMoment());
+  addEventListener('keydown',event=>{if(event.altKey&&event.key.toLowerCase()==='a'){event.preventDefault();dialog.open?dialog.close():dialog.showModal();}});document.addEventListener('btr-evidence-corrected',()=>{const line=descriptiveLine(null,{correction:true});if(settings.narration)speak(line);live.textContent=line;});apply();
+}
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
