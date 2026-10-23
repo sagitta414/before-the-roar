@@ -15,7 +15,8 @@ test('Truth Lab presents one primary three-step correction path',async()=>{
   for(const label of ['ORIGINAL CLAIM','CHANGE EVIDENCE','CORRECTED OUTPUT'])assert.match(source,new RegExp(label));
   assert.match(source,/time:16,corrected/);
   assert.match(source,/More evidence tools/);
-  assert.match(source,/Withheld until the tracking change is applied/);
+  assert.match(source,/WITHDRAWN IF APPLIED/);
+  assert.match(source,/Preview the complete consequence/);
   assert.match(source,/data-impact-calculation/);
 });
 
@@ -34,8 +35,8 @@ test('public proof distinguishes development validation, safety and independent 
 
 test('v111 assets are cache-busted and the cinematic minute leads the source selector',async()=>{
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=165/);
-  assert.match(index,/cohesion\.js\?v=166/);
+  assert.match(index,/cohesion\.css\?v=169/);
+  assert.match(index,/cohesion\.js\?v=169/);
   assert.ok(index.indexOf('value="pitchside"')<index.indexOf('value="match"'));
 });
 

@@ -30,16 +30,16 @@ test('v112 presents a concise judge dashboard and progressive disclosure',async(
  assert.doesNotMatch(watch,/Ask the crew · 1 AI request/);
  assert.match(watch,/Ask the crew · 4 AI requests/);
  const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=165/);
+  assert.match(index,/cohesion\.css\?v=169/);
   assert.match(index,/wide-desktop\.css\?v=135/);
-  assert.match(index,/cohesion\.js\?v=166/);
+  assert.match(index,/cohesion\.js\?v=169/);
   assert.match(index,/match-watch\.js\?v=149/);
   assert.match(index,/watch-evidence-chain\.css\?v=133/);
   assert.match(index,/watch-evidence-chain\.js\?v=132/);
   assert.match(index,/id="chain-tab"/);
   assert.match(index,/id="chain-panel"/);
   assert.match(index,/guided-tour\.css\?v=168/);
-  assert.match(index,/guided-tour\.js\?video=65&v=168/);
+  assert.match(index,/guided-tour\.js\?video=65&v=169/);
 });
 
 test('live action leads and deeper proof stays inspectable on demand',async()=>{

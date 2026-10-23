@@ -8,14 +8,16 @@ const stages=[
   {section:'lab',number:'03',verb:'MEASURE',detail:'Test the pattern'},
   {section:'truth',number:'04',verb:'CHALLENGE',detail:'Change the evidence'},
   {section:'inside',number:'05',verb:'PUBLISH',detail:'Release the story'},
-  {section:'presenters',number:'06',verb:'ENGINEERS',detail:'Meet the team'},
-  {section:'security',number:'07',verb:'SECURE',detail:'Inspect protection'},
+];
+const proofDestinations=[
+  {section:'presenters',verb:'ENGINEERS',detail:'Meet the team'},
+  {section:'security',verb:'SECURE',detail:'Inspect protection'},
 ];
 function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
 
 const rail=el('nav','story-spine');
 rail.setAttribute('aria-label','Follow the BTR investigation');
-rail.setAttribute('aria-roledescription','seven-step play-to-proof journey');
+rail.setAttribute('aria-roledescription','five-stage play-to-proof journey with supporting proof destinations');
 const identity=el('div','story-spine__identity');
 identity.append(el('span','','ONE MOMENT · ONE EVIDENCE CHAIN'),el('strong','','From play to proof.'));
 rail.append(identity);
@@ -27,9 +29,20 @@ for(const stage of stages){
   button.onclick=()=>$(stage.section+'-nav')?.click();
   rail.append(button);
 }
+const proofNav=el('div','story-spine__proof');
+proofNav.append(el('small','','SUPPORTING PROOF'));
+for(const destination of proofDestinations){
+  const button=el('button','story-spine__support');
+  button.type='button';button.dataset.section=destination.section;
+  button.setAttribute('aria-label',`${destination.verb}: ${destination.detail}`);
+  button.append(el('span','',destination.verb),el('small','',destination.detail));
+  button.onclick=()=>$(destination.section+'-nav')?.click();
+  proofNav.append(button);
+}
+rail.append(proofNav);
 rail.addEventListener('keydown',event=>{
   if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
-  const buttons=[...rail.querySelectorAll('.story-spine__step')],current=Math.max(0,buttons.indexOf(document.activeElement));
+  const buttons=[...rail.querySelectorAll('.story-spine__step,.story-spine__support')],current=Math.max(0,buttons.indexOf(document.activeElement));
   const target=event.key==='Home'?0:event.key==='End'?buttons.length-1:event.key==='ArrowLeft'?Math.max(0,current-1):Math.min(buttons.length-1,current+1);
   event.preventDefault();buttons[target].focus();
 });
@@ -39,16 +52,23 @@ rail.append(demo);
 document.querySelector('.masthead')?.after(rail);
 function update(section=matchSession.get().section){
   const route=(document.body.dataset.section||location.hash.replace(/^#/,'' )||section);
-  const mapped=stages.some(s=>s.section===route)?route:'watch';
-  const activeIndex=stages.findIndex(stage=>stage.section===mapped);
+  const journeyIndex=stages.findIndex(stage=>stage.section===route);
+  const proofIndex=proofDestinations.findIndex(stage=>stage.section===route);
+  const activeIndex=journeyIndex>=0?journeyIndex:proofIndex>=0?stages.length-1:0;
   rail.dataset.activeStage=String(activeIndex+1);
-  rail.querySelectorAll('[data-section]').forEach((button,index)=>{
-    const active=button.dataset.section===mapped;
+  rail.querySelectorAll('.story-spine__step').forEach((button,index)=>{
+    const active=button.dataset.section===route;
     button.classList.toggle('is-active',active);
-    button.classList.toggle('is-complete',index<activeIndex);
-    button.classList.toggle('is-next',index===activeIndex+1);
+    button.classList.toggle('is-complete',index<activeIndex||(proofIndex>=0&&index<=activeIndex));
+    button.classList.toggle('is-next',journeyIndex>=0&&index===activeIndex+1);
     if(active)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');
     button.setAttribute('aria-label',`${index+1} of ${stages.length}: ${stages[index].verb}. ${stages[index].detail}.${index===activeIndex+1?' Next step.':''}`);
+  });
+  rail.querySelectorAll('.story-spine__support').forEach((button,index)=>{
+    const active=button.dataset.section===route;
+    button.classList.toggle('is-active',active);
+    if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');
+    button.setAttribute('aria-label',`${proofDestinations[index].verb}: ${proofDestinations[index].detail}. Supporting proof destination.`);
   });
 }
 document.addEventListener('btr-section',event=>update(event.detail));
@@ -59,7 +79,7 @@ update();
 
 const presentersHeading=$('presenters')?.querySelector('.extension-heading');
 if(presentersHeading){
-  presentersHeading.querySelector('.eyebrow').textContent='06 / ENGINEERS · THE EDITORIAL DESK';
+  presentersHeading.querySelector('.eyebrow').textContent='SUPPORTING PROOF / ENGINEERS · THE EDITORIAL DESK';
   presentersHeading.querySelector('h1').innerHTML='MEET YOUR <em>AI ENGINEERS.</em>';
   presentersHeading.querySelector('p').innerHTML="Inspect each specialist's expertise and instructions.<br><strong>Five accountable roles. One evidence chain.</strong>";
   $('presenters').setAttribute('aria-label','The AI engineers');
@@ -91,12 +111,22 @@ if(truth){
   const path=el('section','truth-primary-path');
   path.setAttribute('aria-label','Three-step evidence correction');
   path.innerHTML=`<header><span>THE DEFINING TEST / THREE STEPS</span><strong>One claim. One changed record. One corrected story.</strong></header><div><button type="button" data-truth-step="original"><b>01</b><span>ORIGINAL CLAIM<small>Inspect the claim at 67:16</small></span></button><i>→</i><button type="button" data-truth-step="change"><b>02</b><span>CHANGE EVIDENCE<small>Hold one defender in place</small></span></button><i>→</i><button type="button" data-truth-step="corrected"><b>03</b><span>CORRECTED OUTPUT<small>See what the audience receives</small></span></button></div><button type="button" class="truth-more-toggle" aria-expanded="false">More evidence tools +</button>`;
-  truth.querySelector('.truth-intro')?.after(path);
+  truth.querySelector('.extension-heading')?.after(path);
   const impact=el('section','truth-verdict-impact');
   impact.setAttribute('aria-live','polite');
   const proofValues=judgeProof();
-  impact.innerHTML=`<header><span>THE CLAIM UNDER PRESSURE</span><strong data-impact-heading>Change the evidence to reveal what the system must revise.</strong></header><div class="truth-verdict-impact__compare"><article><small>ORIGINAL EVIDENCE · R1</small><b>${proofValues.original.measurement}</b><span>DEFENDER SHIFT</span><p>Movement claim is qualified.</p></article><i>→</i><article data-corrected><small>CORRECTED EVIDENCE · R2</small><b data-corrected-measurement>?</b><span>DEFENDER SHIFT</span><p data-corrected-copy>Withheld until the tracking change is applied.</p></article></div><div class="truth-verdict-impact__outcomes"><span>CALCULATION <b data-impact-calculation>${proofValues.original.measurement} → ?</b></span><span>CLAIM <b data-impact-claim>PENDING</b></span><span>ON-SCREEN STORY <b data-impact-story>WAITING</b></span></div>`;
+  impact.innerHTML=`<header><span>THE COMPLETE CORRECTION / ONE VIEW</span><strong data-impact-heading>See the consequence before you run the test.</strong></header><div class="truth-verdict-impact__compare"><article><small>01 / ORIGINAL CLAIM · R1</small><b>${proofValues.original.measurement}</b><span>DEFENDER SHIFT</span><p>The defender was pulled wide by the run.</p></article><i>→</i><article data-corrected><small>02 / CHANGED OBSERVATION · R2</small><b data-corrected-measurement>${proofValues.corrected.measurement}</b><span>DEFENDER HELD IN PLACE</span><p data-corrected-copy>The same tracking record is changed at one observation.</p></article></div><div class="truth-verdict-impact__outcomes"><span>03 / CALCULATION <b data-impact-calculation>${proofValues.original.measurement} → ${proofValues.corrected.measurement}</b></span><span>04 / CLAIM STATUS <b data-impact-claim>WITHDRAWN IF APPLIED</b></span><span>05 / REVISED BROADCAST <b data-impact-story>The attack progresses, but this evidence no longer supports the defender being drawn away.</b></span></div>`;
   path.after(impact);
+  const placeTruthProof=()=>{
+    const heading=truth.querySelector(':scope > .extension-heading');
+    if(heading&&heading.nextElementSibling!==path)heading.after(path,impact);
+  };
+  setTimeout(placeTruthProof,0);
+  window.addEventListener('load',placeTruthProof,{once:true});
+  document.addEventListener('btr-section',event=>{if(event.detail==='truth')setTimeout(placeTruthProof,0);});
+  const truthPlacementObserver=new MutationObserver(()=>placeTruthProof());
+  truthPlacementObserver.observe(truth,{childList:true});
+  setTimeout(()=>truthPlacementObserver.disconnect(),5000);
   let selectedTruthStep=matchSession.get().corrected?'change':'original';
   const setTruth=(corrected,focus=false)=>{
     selectedTruthStep=focus?'corrected':corrected?'change':'original';
@@ -114,7 +144,7 @@ if(truth){
     const step=button.dataset.truthStep,active=state.source==='match'&&state.time>=15.9&&state.time<=16.1&&step===selectedTruthStep;
     button.classList.toggle('is-active',active);
   });
-  const syncImpact=state=>{const corrected=state.source==='match'&&state.scenario==='wide'&&state.corrected;impact.classList.toggle('is-corrected',corrected);impact.querySelector('[data-corrected]').setAttribute('aria-current',corrected?'true':'false');impact.querySelector('[data-impact-heading]').textContent=corrected?'One changed observation. Three required consequences.':'Change the evidence to reveal what the system must revise.';impact.querySelector('[data-corrected-measurement]').textContent=corrected?proofValues.corrected.measurement:'?';impact.querySelector('[data-corrected-copy]').textContent=corrected?'Movement claim is withdrawn.':'Withheld until the tracking change is applied.';impact.querySelector('[data-impact-calculation]').textContent=corrected?`${proofValues.original.measurement} → ${proofValues.corrected.measurement}`:`${proofValues.original.measurement} → ?`;impact.querySelector('[data-impact-claim]').textContent=corrected?'QUALIFIED → WITHDRAWN':'PENDING';impact.querySelector('[data-impact-story]').textContent=corrected?'REVISED':'WAITING';};
+  const syncImpact=state=>{const corrected=state.source==='match'&&state.scenario==='wide'&&state.corrected;impact.classList.toggle('is-corrected',corrected);impact.querySelector('[data-corrected]').setAttribute('aria-current',corrected?'true':'false');impact.querySelector('[data-impact-heading]').textContent=corrected?'Correction applied. The calculation, claim and broadcast line changed together.':'Preview the complete consequence, then apply the evidence change.';impact.querySelector('[data-corrected-measurement]').textContent=proofValues.corrected.measurement;impact.querySelector('[data-corrected-copy]').textContent=corrected?'Applied: the defender remains at the starting position.':'Preview: hold the defender at the starting position.';impact.querySelector('[data-impact-calculation]').textContent=`${proofValues.original.measurement} → ${proofValues.corrected.measurement}`;impact.querySelector('[data-impact-claim]').textContent=corrected?'QUALIFIED → WITHDRAWN':'WITHDRAWN IF APPLIED';impact.querySelector('[data-impact-story]').textContent=corrected?'REVISED · ATTACK PROGRESSES; CAUSAL DEFENDER CLAIM REMOVED':'PREVIEW · ATTACK PROGRESSES; CAUSAL DEFENDER CLAIM REMOVED';};
   matchSession.subscribe(state=>{syncTruthPath(state);syncImpact(state);});syncTruthPath(matchSession.get());syncImpact(matchSession.get());
 }
 

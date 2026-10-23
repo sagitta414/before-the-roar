@@ -4,8 +4,10 @@ import {readFile} from 'node:fs/promises';
 
 test('one investigation spine connects the primary product journey',async()=>{
   const source=await readFile(new URL('../dist/cohesion.js',import.meta.url),'utf8');
-  const sections=[...source.matchAll(/section:'([^']+)'/g)].map(match=>match[1]);
-  assert.deepEqual(sections.slice(0,7),['watch','centre','lab','truth','inside','presenters','security']);
+  const journey=source.slice(source.indexOf('const stages=['),source.indexOf('const proofDestinations=['));
+  const support=source.slice(source.indexOf('const proofDestinations=['),source.indexOf('function el('));
+  assert.deepEqual([...journey.matchAll(/section:'([^']+)'/g)].map(match=>match[1]),['watch','centre','lab','truth','inside']);
+  assert.deepEqual([...support.matchAll(/section:'([^']+)'/g)].map(match=>match[1]),['presenters','security']);
   for(const verb of ['WATCH','UNDERSTAND','MEASURE','CHALLENGE','PUBLISH','ENGINEERS','SECURE'])assert.match(source,new RegExp(`verb:'${verb}'`));
   assert.match(source,/btr-open-guided/);
 });
@@ -26,8 +28,8 @@ test('proof layer states the vision and model-comparison limits',async()=>{
   assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
   assert.match(source,/MICROSOFT FOUNDRY/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-  assert.match(index,/cohesion\.css\?v=165/);
-  assert.match(index,/cohesion\.js\?v=166/);
+  assert.match(index,/cohesion\.css\?v=169/);
+  assert.match(index,/cohesion\.js\?v=169/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });

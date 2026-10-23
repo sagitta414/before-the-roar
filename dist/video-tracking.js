@@ -14,7 +14,7 @@ const assuranceBar=node('section',undefined,'vt-assurance');assuranceBar.setAttr
 const research=node('a','Evidence room · tests & blind review ↗');research.href='evidence-room.html';research.className='outline-button';modes.append(research);lab.querySelector('.lab-banner').after(modes,panel);
 const returnFilm=node('button','Watch the cinematic minute ↗');returnFilm.type='button';returnFilm.onclick=()=>{matchSession.set({source:'pitchside',section:'watch'},'measured-to-film');document.getElementById('watch-nav')?.click();};modes.append(returnFilm);
 const sim=document.getElementById('simulation'),frameStatus=document.getElementById('lab-frame-status'),banner=lab.querySelector('.lab-banner p'),originalCopy=banner.textContent;
-for(const[id,label]of [['video','Video tracking'],['fixture','Full-match simulator']]){const b=node('button',label);b.setAttribute('aria-pressed',String(id==='video'));b.onclick=()=>{lab.classList.toggle('video-mode',id==='video');panel.hidden=id!=='video';sim.hidden=id==='video';frameStatus.hidden=id==='video';banner.textContent=id==='video'?'Analyze a controlled video or generate a full synthetic fixture. Every measurement declares its source.':originalCopy;modes.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));if(id!=='video')video.pause();updateScope();};modes.append(b);}sim.hidden=true;frameStatus.hidden=true;banner.textContent='Analyze a controlled video or generate a full synthetic fixture. Every measurement declares its source.';
+for(const[id,label]of [['video','Video tracking'],['fixture','Full-match simulator']]){const b=node('button',label);b.dataset.labMode=id;b.setAttribute('aria-pressed',String(id==='video'));b.onclick=()=>{lab.classList.toggle('video-mode',id==='video');panel.hidden=id!=='video';sim.hidden=id==='video';frameStatus.hidden=id==='video';banner.textContent=id==='video'?'Analyze the included fictional evaluation clip. Every measurement declares its source.':originalCopy;modes.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));if(id!=='video')video.pause();updateScope();};modes.append(b);}sim.hidden=true;frameStatus.hidden=true;banner.textContent='Analyze the included fictional evaluation clip. Every measurement declares its source.';
 const video=panel.querySelector('video'),overlay=panel.querySelector('canvas'),ctx=overlay.getContext('2d'),pixels=document.createElement('canvas');pixels.width=480;pixels.height=320;const pc=pixels.getContext('2d',{willReadFrequently:true});
 let holdout,cal,model,validation,detector,tracker,identityLedger,holdoutSummary,current=null,tab='story',lastTime=-1,lastPaint=-1,eventCount=-1,busy=false,hasRun=false,analysisStarted=false,programmaticSeek=false,challenged=false,aiPosts=[],aiState="",aiBusy=false,aiAbort=null,aiEpoch=0,uploadReviewOnly=false,uploadObjectUrl='';
 const options=()=>Object.fromEntries([...panel.querySelectorAll('[data-option]')].map(n=>[n.dataset.option,n.checked]));
@@ -68,6 +68,27 @@ async function checkUploadCompatibility(url,metadata){
  return assessVideoCompatibility(frames,metadata);
 }
 createVideoUpload({panel,lab,video,checkCompatibility:checkUploadCompatibility,onPrepare:({url,measured,metadata})=>{video.pause();clear();uploadObjectUrl=url;uploadReviewOnly=!measured;panel.classList.toggle('vt-review-mode',!measured);video.src=url;video.controls=!measured;video.load();const start=panel.querySelector('[data-action="start"]'),source=panel.querySelector('.vt-source');source.textContent=measured?'USER VIDEO · COMPATIBILITY PASSED':'USER VIDEO · REVIEWED CUES ONLY';start.disabled=false;if(measured){start.textContent='▶ Analyze uploaded video';start.onclick=startAnalysis;panel.querySelector('.vt-status').textContent=`Ready to test ${metadata.duration.toFixed(1)} seconds against the controlled marker detector. The compatibility gate passed; every published event still requires observed frame support.`;}else{start.textContent='▶ Play for human review';start.onclick=()=>video.paused?video.play():video.pause();panel.querySelector('.vt-status').textContent='Review mode ready · automatic identity, distance, speed and event claims are withheld.';}},onRestore:()=>{video.pause();clear();uploadReviewOnly=false;uploadObjectUrl='';panel.classList.remove('vt-review-mode');video.removeAttribute('src');video.controls=false;video.load();const start=panel.querySelector('[data-action="start"]');start.disabled=false;start.textContent='▶ Analyze the full minute';start.onclick=startAnalysis;panel.querySelector('.vt-source').textContent='CALIBRATED BROADCAST CAMERA';panel.querySelector('.vt-status').textContent='Training film restored · ready for a new measured run';}});
+
+// Keep one unmistakable first action. The other workspaces remain available,
+// but they no longer compete with the included evaluation clip.
+const sampleAction=modes.querySelector('.vt-sample-open');
+if(sampleAction){
+ const videoMode=modes.querySelector('[data-lab-mode="video"]'),openSample=sampleAction.onclick;
+ sampleAction.onclick=()=>{videoMode?.click();openSample?.();};
+ sampleAction.textContent='▶ Analyze the included fictional sample';
+ sampleAction.classList.add('vt-primary-sample');
+ const primary=node('div',undefined,'vt-primary-path');
+ primary.append(node('span','START HERE · NO UPLOAD NEEDED'),sampleAction,node('small','A one-minute synthetic match with enrolled fictional players, known calibration and reviewable event receipts.'));
+ const secondary=node('details',undefined,'vt-secondary-tools');
+ secondary.append(node('summary','Other ways to measure +'));
+ const secondaryBody=node('div',undefined,'vt-secondary-tools__body');
+ const upload=modes.querySelector('.vt-upload-open'),fixture=modes.querySelector('[data-lab-mode="fixture"]');
+ if(upload)secondaryBody.append(upload);
+ if(fixture)secondaryBody.append(fixture);
+ secondaryBody.append(research,returnFilm);
+ secondary.append(secondaryBody);
+ modes.replaceChildren(primary,secondary);
+}
 
 // Opening Match Lab is itself the viewer's playback gesture. Start the measured
 // minute immediately so the evidence desk never looks like a broken empty panel.

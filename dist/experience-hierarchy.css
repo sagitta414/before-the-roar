@@ -1,0 +1,87 @@
+/* v169 — one clear audience journey, with operational proof available on demand. */
+@media (min-width:761px){
+  .story-spine{
+    grid-template-columns:minmax(160px,1.05fr) repeat(5,minmax(94px,.72fr)) minmax(178px,1.25fr) minmax(148px,.9fr)!important;
+  }
+  .story-spine__step span{font-size:11px!important}
+  .story-spine__step small{font-size:9px!important}
+  .story-spine__proof{position:relative;display:grid;grid-template-columns:1fr 1fr;height:52px;padding-top:12px;border-right:1px solid #344052}
+  .story-spine__proof>small{position:absolute;top:3px;left:9px;color:#8291a5;font:800 7px/1 Barlow,sans-serif;letter-spacing:1.1px}
+  .story-spine__proof button{height:40px!important;min-height:40px!important;max-height:40px!important;padding:4px 8px!important;border-top:1px solid #263343!important}
+  .story-spine__support span{display:block;color:#d5dde8;font:800 9px/1 Barlow,sans-serif;letter-spacing:.5px}
+  .story-spine__support small{display:block;margin-top:4px;color:#8291a5;font-size:8px}
+  .story-spine__support.is-active{background:#172331!important;box-shadow:inset 0 -3px #78c9ff;color:#fff}
+}
+
+/* Operational evidence remains accessible without making audience pages feel like a console. */
+body:not([data-section="watch"]):not([data-section="lab"]) .source-map{display:none!important}
+body:not([data-section="watch"]) .watch-source-bar{display:none!important}
+body[data-section="centre"] .ai-availability,
+body[data-section="truth"] .ai-availability,
+body[data-section="inside"] .ai-availability,
+body[data-section="presenters"] .ai-availability,
+body[data-section="security"] .ai-availability{display:none!important}
+
+/* Measure begins with the included sample; every alternative lives in one disclosure. */
+.vt-modes{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(210px,.28fr);align-items:stretch;gap:10px!important;margin:0 0 14px!important}
+.vt-primary-path{display:grid;grid-template-columns:auto minmax(260px,.48fr) 1fr;align-items:center;gap:13px;padding:10px 12px;border:1px solid #42556b;background:linear-gradient(110deg,#172431,#0d151f)}
+.vt-primary-path>span{color:#d9ef63;font:800 10px Barlow,sans-serif;letter-spacing:1.1px;white-space:nowrap}
+.vt-primary-path>small{color:#aebed0;font-size:11px;line-height:1.35}
+.vt-primary-sample{min-height:46px!important;border-color:#ff4665!important;background:#ee3150!important;color:#fff!important;font-size:12px!important;text-align:center!important}
+.vt-secondary-tools{position:relative;border:1px solid #3a495d;background:#0d151f}
+.vt-secondary-tools>summary{display:flex;align-items:center;justify-content:center;min-height:100%;padding:12px;color:#d7e0eb;font:800 11px Barlow,sans-serif;cursor:pointer;list-style:none}
+.vt-secondary-tools>summary::-webkit-details-marker{display:none}
+.vt-secondary-tools[open]>summary{min-height:44px;border-bottom:1px solid #354357;color:#fff}
+.vt-secondary-tools__body{position:absolute;z-index:35;right:-1px;top:100%;display:grid;width:min(360px,85vw);padding:9px;border:1px solid #46566b;background:#101925;box-shadow:0 20px 50px #0009}
+.vt-secondary-tools__body>*{width:100%;margin:0!important;text-align:left;text-decoration:none}
+#lab.video-mode .lab-banner{min-height:38px!important;padding:6px 0!important}
+
+/* Truth Lab exposes the complete correction before secondary scene controls. */
+#truth>.truth-primary-path{margin:4px 0 8px;padding:10px 12px}
+#truth>.truth-primary-path>header{margin-bottom:7px}
+#truth>.truth-primary-path button[data-truth-step]{min-height:48px;padding:7px 9px}
+#truth>.truth-verdict-impact{margin:0 0 10px;padding:11px 12px}
+#truth>.truth-verdict-impact header{margin-bottom:7px}
+#truth .truth-verdict-impact__compare article{padding:9px 11px}
+#truth .truth-verdict-impact__compare b{margin-top:4px;font-size:24px}
+#truth .truth-verdict-impact__compare p{margin-top:4px;font-size:11px;line-height:1.3}
+#truth .truth-verdict-impact__outcomes{grid-template-columns:.72fr .8fr 2fr;margin-top:7px}
+#truth .truth-verdict-impact__outcomes span{padding:7px 9px;font-size:9px}
+#truth .truth-verdict-impact__outcomes b{font-size:11px;line-height:1.3}
+
+/* Provenance is visible by choice after the football explanation. */
+.judge-ingest{display:block!important;padding:0!important;margin:7px 0 10px!important;box-shadow:none!important;background:#0e1722!important}
+.judge-ingest>summary{min-height:36px;padding:10px 12px;color:#b7c7d9;font:800 11px Barlow,sans-serif;cursor:pointer;list-style:none}
+.judge-ingest>summary::-webkit-details-marker{display:none}
+.judge-ingest>summary:after{content:'PROVENANCE';float:right;color:#72859a;font-size:8px;letter-spacing:1px}
+.judge-ingest[open]{display:grid!important;grid-template-columns:auto 1fr!important;gap:7px 12px!important;padding:11px!important}
+.judge-ingest[open]>summary{grid-column:1/-1;margin:-11px -11px 5px;border-bottom:1px solid #34445a}
+
+/* Qualification and source language must survive ordinary laptop scaling. */
+.scope-note,.truth-caveat,.truth-change-note,.truth-lens-caption,.source-contract p,.quality-boundary p,
+.cohesion-proof article p,.vt-event small,.vt-player small,.execution-legend small,.presenter-card small,
+.security-architecture small,.publish-studio small{font-size:11px!important;line-height:1.5!important}
+
+@media(max-width:1180px) and (min-width:761px){
+  .story-spine{grid-template-columns:repeat(5,minmax(86px,1fr)) minmax(170px,1.25fr) minmax(140px,.9fr)!important}
+  .story-spine__identity{display:none!important}
+  .story-spine__step small,.story-spine__support small{display:none!important}
+}
+@media(max-width:760px){
+  .story-spine{grid-template-columns:repeat(5,minmax(76px,1fr)) minmax(145px,1.4fr)!important}
+  .story-spine__proof{display:grid;grid-template-columns:1fr 1fr;min-width:145px}
+  .story-spine__proof>small{display:none}
+  .story-spine__support{display:flex!important;align-items:center;justify-content:center;min-height:49px!important;padding:7px 4px!important}
+  .story-spine__support span{font-size:8px;font-weight:800}
+  .story-spine__support small{display:none}
+  .vt-modes{grid-template-columns:1fr!important}
+  .vt-primary-path{grid-template-columns:1fr;padding:11px}
+  .vt-primary-path>span{white-space:normal}
+  .vt-primary-path>small{font-size:12px}
+  .vt-secondary-tools>summary{min-height:44px}
+  #truth>.truth-primary-path,#truth>.truth-verdict-impact{margin-left:12px;margin-right:12px}
+  #truth .truth-verdict-impact__outcomes{grid-template-columns:1fr}
+  #truth .truth-verdict-impact:not(.is-corrected) [data-corrected],
+  #truth .truth-verdict-impact:not(.is-corrected) .truth-verdict-impact__compare>i,
+  #truth .truth-verdict-impact:not(.is-corrected) .truth-verdict-impact__outcomes{display:block!important}
+}

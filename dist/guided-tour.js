@@ -394,8 +394,8 @@ function render() {
     if (options.time < 16)
       description.textContent =
         "Follow the ball, winger and defender as the recorded play arrives. The caption uses only evidence through the current playhead.";
-    const receipt=el('div','judge-ingest');
-    receipt.append(el('span','','● EVENT RECEIVED'),el('strong','',judgeRun.event.envelope_id||judgeRun.event.id),el('code','',new Date(judgeRun.event.received_at).toISOString()),el('small','',judgeRun.event.source+' · evidence '+judgeRun.event.id+' · '+judgeRun.event.match_clock+' · SOURCE R1'));
+    const receipt=el('details','judge-ingest');
+    receipt.append(el('summary','','Inspect event evidence +'),el('span','','● EVENT RECEIVED'),el('strong','',judgeRun.event.envelope_id||judgeRun.event.id),el('code','',new Date(judgeRun.event.received_at).toISOString()),el('small','',judgeRun.event.source+' · evidence '+judgeRun.event.id+' · '+judgeRun.event.match_clock+' · SOURCE R1'));
     const fact = el("div", "guided-verdict");
     fact.append(
       el("strong", "", "WATCH THE WIDE CHANNEL"),
