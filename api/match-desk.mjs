@@ -174,6 +174,15 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     throw Error(
       "The annotations do not establish restricted options, passing lanes or a causal effect on the defender",
     );
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    /\b(?:has|have|had)(?: not|n't) (?:escaped|beaten|won|lost)|\b(?:did|does)(?: not|n't) (?:escape|beat|win|lose)/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error(
+      "An unverified outcome is not proof of failure: say escape is not established, not that the attacker has not escaped",
+    );
   const quality = editorialIssues(role, p.interpretation);
   if (quality.length) throw Error(quality.join("; "));
   if (
@@ -371,7 +380,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v179d:" +
+            ? "pitchside-tools-v179e:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")

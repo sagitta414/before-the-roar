@@ -78,3 +78,8 @@ test('film commentary cannot turn proximity into a measured tactical restriction
   assert.throws(()=>validateMatchPost({post:{interpretation,headline:'Read the pass',caution:'No calibrated tracking.',evidence_ids:{primary:packet.evidence.at(-1).id}}},packet,'analyst'),/annotations do not establish/);
  }
 });
+test('uncertain film outcomes cannot become definite failures',()=>{
+ const packet=pitchsideStory({time:22,language:'en'}),post={headline:'Judge the next action',caution:'Outcome unverified.',evidence_ids:{primary:packet.evidence.at(-1).id},replay_cue:'Replay the next controlled touch.'};
+ assert.throws(()=>validateMatchPost({post:{...post,takeaway:'The attacker has not escaped yet. Watch the next controlled touch.'}},packet,'presenter',{round:2}),/unverified outcome is not proof/);
+ assert.doesNotThrow(()=>validateMatchPost({post:{...post,takeaway:'An escape is not established. Judge who makes the next controlled touch.'}},packet,'presenter',{round:2}));
+});
