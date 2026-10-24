@@ -12,3 +12,5 @@ Scope: preserve existing layouts, CSS, navigation, and controls. Correct source 
 Verification: focused source/cutoff, Spanish recap, and intent rejection regressions; full suite; syntax and API formatting checks; local browser Publish and Pocket checks. No CSS changes.
 
 Still pending: independent human commentary ratings, annotated unfamiliar-broadcast detection accuracy, a fresh live two-round quality evaluation, and a refreshed demo recording. This patch does not establish commentary superiority or general broadcast detection. The existing demonstration video is unchanged.
+
+Final validation: 323 tests passed, zero failed/skipped. Local browser confirmed Spanish event narration and overlay agree. Fresh deployed v178 opening: three Azure model contributions; follow-up: two Azure model contributions and one explicitly labelled Guide fallback. Host explicitly withheld intent. This is one smoke case, not independent quality evidence. Guide repair instructions were subsequently made more concrete; their live quality remains unmeasured.

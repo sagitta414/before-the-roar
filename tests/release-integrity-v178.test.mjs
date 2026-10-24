@@ -21,3 +21,10 @@ test('film guard rejects inferred intent even when qualified',()=>{
  const raw={post:{interpretation:'The close stance suggests an attempt to challenge the attacker.',headline:'Close stance',caution:'The outcome is unknown.',evidence_ids:{primary:packet.evidence.at(-1).id}}};
  assert.throws(()=>validateMatchPost(raw,packet,'analyst'),/intent/);
 });
+
+test('Spanish event narration and overlay use the same localized label',()=>{
+ const story={cutoff:20,language:'es',body:'Resumen de las acciones registradas.',title:'Pases',review:{decision:'qualify'},evidence:[{id:'a',second:4,record_type:'event',type:'pass',outcome:'complete'},{id:'b',second:12,record_type:'event',type:'pass',outcome:'complete'}]};
+ const recap=buildPerspectiveRecap({preset:'spanish20',story});
+ assert.equal(recap.entries[1].narration,recap.entries[1].overlay);
+ assert.match(recap.entries[1].narration,/Pase completado/);
+});

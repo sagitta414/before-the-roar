@@ -65,7 +65,7 @@ export function buildPerspectiveRecap({preset,story,alternateStory,focusName='Se
  const entries=(records.length?records:[{id:'scope',record_type:'coverage',second:cutoff,description:'No matching event record has reached this cutoff.'}]).map((record,index)=>({
   timestamp_s:evidenceTime(record,cutoff),
   overlay:index===0?(alternateStory?.title||story?.title||spec.title(focusName)):evidenceLabel(record,language),
-  narration:index===0?narration:evidenceLabel(record),
+  narration:index===0?narration:evidenceLabel(record,language),
   evidence_ids:index===0?records.map(item=>item.id).filter(Boolean):record.id?[record.id]:[],
   correction_status:corrected?'corrected':review.decision||'reviewed'
  }));
