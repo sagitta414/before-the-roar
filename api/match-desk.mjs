@@ -17,7 +17,7 @@ import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
 import { conversationContext, followUpMetric } from "./conversation.mjs";
 import { claimBoundaryIssues } from "./claim-boundary.mjs";
 import { groundedRound, reconcileCachedNextEventMath } from "./grounded-desk.mjs";
-import { filmEvidence, followupBrief } from "./film-followup.mjs";
+import { filmEvidence, followupBrief, changesGuideComparison } from "./film-followup.mjs";
 import { combinedSignal } from "./request-guard.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
@@ -164,6 +164,16 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     )
   )
     throw Error("Player intent is not established by the reviewed film");
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    role !== "guide" &&
+    /(?:limits?|restricts?|reduces?) (?:immediate |the receiver.s |the attacker.s )?(?:passing |movement )?options|(?:provides?|creates?) (?:alternative )?passing lanes|prevents? the defender from|(?:touch|control).{0,30}(?:influences?|forces?) the defender/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error(
+      "The annotations do not establish restricted options, passing lanes or a causal effect on the defender",
+    );
   const quality = editorialIssues(role, p.interpretation);
   if (quality.length) throw Error(quality.join("; "));
   if (
@@ -361,7 +371,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v179b:" +
+            ? "pitchside-tools-v179c:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")
@@ -889,10 +899,18 @@ export class MatchDesk {
               validated.summary,
               conversation.previous.filter((p) => p.role === role),
             ) ||
-              repeatsInsight(
-                validated.summary,
-                conversation.previous.filter((p) => p.role === role),
-              ))
+              (!(
+                this.clip &&
+                role === "guide" &&
+                changesGuideComparison(
+                  validated.summary,
+                  conversation.previous.filter((p) => p.role === role),
+                )
+              ) &&
+                repeatsInsight(
+                  validated.summary,
+                  conversation.previous.filter((p) => p.role === role),
+                )))
           )
             throw Error("Follow-up repeats the previous contribution");
           const filmPass =
@@ -901,6 +919,7 @@ export class MatchDesk {
             role === "presenter" &&
             (repeatsContribution(validated.summary, previous) ||
               (!filmPass &&
+                conversation.round === 1 &&
                 repeatsInsight(
                   validated.summary,
                   previous.filter((p) => p.role === "analyst"),

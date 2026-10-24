@@ -65,3 +65,16 @@ test('film editorial repair retains the saved round, distinct task and current-s
   for(const data of captured){assert.equal(data.conversation.round,2);assert.equal(data.prior_round.length,3);assert.ok(data.followup_brief.task);assert.equal(data.guide_definition,undefined);assert.ok(data.evidence.every(e=>e.second>=24&&e.second<=25));assert.deepEqual(data.followup_brief.new_evidence_ids,[]);}
  }finally{global.fetch=oldFetch;for(const[k,v]of [['AZURE_OPENAI_ENDPOINT',oldEndpoint],['AZURE_ACCESS_TOKEN',oldToken]])if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });
+import {changesGuideComparison} from '../api/film-followup.mjs';
+test('a different replay comparison is not rejected for sharing football vocabulary',()=>{
+ const prior=[{summary:'How does the attacker’s next touch affect the defender’s position?'}];
+ assert.equal(changesGuideComparison('Is the ball closer to the attacker’s feet or the defender’s feet for the next touch?',prior),true);
+ assert.equal(changesGuideComparison('How does the defender’s position change after the next touch?',prior),false);
+ assert.equal(changesGuideComparison('Which feet can reach the next touch?',[{summary:'Is the next touch within the attacker’s reach or the defender’s?'}]),false);
+});
+test('film commentary cannot turn proximity into a measured tactical restriction',()=>{
+ const packet=pitchsideStory({time:12,language:'en'});
+ for(const interpretation of ['The defender limits immediate passing options.','The nearby teammates provide alternative passing lanes.','Close control prevents the defender from committing fully.']){
+  assert.throws(()=>validateMatchPost({post:{interpretation,headline:'Read the pass',caution:'No calibrated tracking.',evidence_ids:{primary:packet.evidence.at(-1).id}}},packet,'analyst'),/annotations do not establish/);
+ }
+});
