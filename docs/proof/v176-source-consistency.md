@@ -4,7 +4,7 @@ This release fixes a reproduced local-source correction failure. The measured-vi
 
 ## Verification
 
-- 309 automated tests pass; syntax and API formatting checks pass.
+- 310 automated tests pass; syntax and API formatting checks pass.
 - New behavioral regression exercises source ingestion, detection, measured Truth Lab withdrawal, Publish packet inspection, repeated detection, and source exit.
 - Browser walkthrough on localhost: load included fictional sample → compatibility passed → analyze → first detected pass → Truth Lab → withdraw → Publish displays **No cue released**, **Claim withdrawn**. Accessibility output announces the withdrawal. Leaving the local source restores the cinematic workspace.
 - Playback element identity is retained when new evidence arrives; a detector tick no longer remounts the local video.

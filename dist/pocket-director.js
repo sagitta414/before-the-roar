@@ -69,7 +69,7 @@ function applyAccessSettings(){
  feelEnabled=Boolean(accessSettings.narration||accessSettings.visualSignals||feelEnabled);$('feel-toggle').setAttribute('aria-pressed',String(feelEnabled));$('feel-toggle').textContent=feelEnabled?'ON':'TURN ON';$('feel-match').classList.toggle('enabled',feelEnabled);$('feel-summary').textContent=feelEnabled?'On · personalized verified cues':'Off · no sound or vibration';
  saveAccessSettings();updateAccessMoment(true);
 }
-function updateAccessMoment(force=false){
+function updateAccessMoment(force=false){if(!cue)return;
  const second=Number(cue?.cutoff||0),moment=sourceDescription(cueInput()),copy=accessSettings.plainLanguage?moment.plain:moment.detail;
  $('access-clock').textContent=moment.clock;$('access-title').textContent=moment.title;$('access-copy').textContent=copy;
  document.querySelectorAll('#access-transcript-list li').forEach(item=>{const at=Number(item.dataset.at);item.classList.toggle('reached',at<=second);item.classList.toggle('current',item.dataset.clock===moment.clock);});
