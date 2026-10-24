@@ -1,0 +1,59 @@
+[
+  {
+    "id": "opening",
+    "kind": "opening",
+    "duration": 4,
+    "text": "Before the Roar. Every play has a why."
+  },
+  {
+    "id": "watch",
+    "kind": "watch",
+    "duration": 22,
+    "text": "This is BTR. The match takes centre stage. Alongside it, the Watch Party follows each moment: the observation, the football lesson, the numbers, and the challenge. These are reviewed notes changing with the playhead. Ask the crew when you want a fresh AI discussion. Watch the touch. Follow the defender. See what changes next."
+  },
+  {
+    "id": "understand",
+    "kind": "capture",
+    "frame": "understand.png",
+    "duration": 12,
+    "text": "Now open Understand. The same play becomes a lesson you can follow. What happened? Why might it matter? What should you watch next? Choose the beginner explanation, or look at the tactical detail."
+  },
+  {
+    "id": "measure",
+    "kind": "capture",
+    "frame": "measure.png",
+    "duration": 15,
+    "text": "In Measure, analyze the included fictional sample. See identified players, detected passes, distance and speed. Upload your own compatible clip through the same gate. These measurements come from controlled synthetic footage, separate from the cinematic film."
+  },
+  {
+    "id": "correction",
+    "kind": "correction",
+    "duration": 16,
+    "text": "Here is the moment that changes the story. Correct one tracking observation. Thirteen metres becomes zero. The movement claim is withdrawn, while the valid passes remain. You're watching the actual deterministic correction, without a cut. The explanation changes because the evidence changed."
+  },
+  {
+    "id": "phone",
+    "kind": "phone",
+    "duration": 11,
+    "text": "Put that explanation in your pocket. Pocket Director receives the corrected revision. Choose your player, your language, and your level of football knowledge. The experience changes. The facts stay together."
+  },
+  {
+    "id": "publish",
+    "kind": "capture",
+    "frame": "publish.png",
+    "duration": 12,
+    "text": "Publish turns the investigation into a broadcast story. Review the narrative, inspect its evidence, and prepare timed outputs for another screen. Every correction stays attached to the version you're sharing."
+  },
+  {
+    "id": "architecture",
+    "kind": "architecture",
+    "duration": 15,
+    "text": "And this is the system behind it. Container Apps. Entra identity. Azure OpenAI specialists. A Foundry advisory referee. Blob checkpoints and an evidence ledger. Follow the path all the way to Watch, Pocket Director, and the broadcast overlay."
+  },
+  {
+    "id": "closing",
+    "kind": "closing",
+    "duration": 7,
+    "text": "One match. Every perspective. Before the Roar. Every play has a why."
+  }
+]

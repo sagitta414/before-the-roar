@@ -1,0 +1,100 @@
+{
+  "version": 175,
+  "duration_seconds": 218.842667,
+  "sha256": "93561dc3e130815169c0f10e69388a64b53a067fd03104c6059c8cbedd31a911",
+  "bytes": 33098322,
+  "timings": [
+    {
+      "id": "opening",
+      "start": 0,
+      "duration": 4
+    },
+    {
+      "id": "watch",
+      "start": 4,
+      "duration": 22
+    },
+    {
+      "id": "live-3",
+      "start": 26,
+      "duration": 11.137
+    },
+    {
+      "id": "live-4",
+      "start": 37.137,
+      "duration": 8.375
+    },
+    {
+      "id": "live-5",
+      "start": 45.512,
+      "duration": 14.266667
+    },
+    {
+      "id": "live-6",
+      "start": 59.778667,
+      "duration": 15.6
+    },
+    {
+      "id": "understand",
+      "start": 75.378667,
+      "duration": 12
+    },
+    {
+      "id": "measure",
+      "start": 87.378667,
+      "duration": 15
+    },
+    {
+      "id": "live-9",
+      "start": 102.378667,
+      "duration": 13.8
+    },
+    {
+      "id": "live-10",
+      "start": 116.17866699999999,
+      "duration": 12.966667
+    },
+    {
+      "id": "correction",
+      "start": 129.145334,
+      "duration": 16
+    },
+    {
+      "id": "phone",
+      "start": 145.145334,
+      "duration": 11
+    },
+    {
+      "id": "live-13",
+      "start": 156.145334,
+      "duration": 15.466667
+    },
+    {
+      "id": "publish",
+      "start": 171.612001,
+      "duration": 12
+    },
+    {
+      "id": "live-15",
+      "start": 183.612001,
+      "duration": 13.2
+    },
+    {
+      "id": "architecture",
+      "start": 196.81200099999998,
+      "duration": 15
+    },
+    {
+      "id": "closing",
+      "start": 211.81200099999998,
+      "duration": 7
+    }
+  ],
+  "product_seconds": 207.81200099999998,
+  "portrait_card_seconds": 0,
+  "watch": "New timestamp-preserving screen recording of playback and reviewed notes. No fresh model requests claimed.",
+  "live_ai": "Full tour retains actual v173 AI response captures and visible Host failure; demo voices are added in editing.",
+  "correction": "Uncut deterministic correction from v174. Phone output captured after reconnect; no uninterrupted sync claim.",
+  "architecture": "Actual app animation, not fresh Azure service requests.",
+  "evaluation": "Early comparison only; independent superiority not established."
+}

@@ -1,0 +1,179 @@
+1
+00:00:00,100 --> 00:00:01,279
+Before the Roar.
+
+2
+00:00:01,279 --> 00:00:02,900
+Every play has a why.
+
+3
+00:00:04,100 --> 00:00:04,878
+This is BTR.
+
+4
+00:00:04,878 --> 00:00:06,823
+The match takes centre stage.
+
+5
+00:00:06,823 --> 00:00:14,668
+Alongside it, the Watch Party follows each moment: the observation, the football lesson, the numbers, and the challenge.
+
+6
+00:00:14,668 --> 00:00:18,104
+These are reviewed notes changing with the playhead.
+
+7
+00:00:18,104 --> 00:00:21,345
+Ask the crew when you want a fresh AI discussion.
+
+8
+00:00:21,345 --> 00:00:22,447
+Watch the touch.
+
+9
+00:00:22,447 --> 00:00:23,809
+Follow the defender.
+
+10
+00:00:23,809 --> 00:00:25,300
+See what changes next.
+
+11
+00:00:26,100 --> 00:00:27,294
+Now open Understand.
+
+12
+00:00:27,294 --> 00:00:30,099
+The same play becomes a lesson you can follow.
+
+13
+00:00:30,099 --> 00:00:30,995
+What happened?
+
+14
+00:00:30,995 --> 00:00:32,248
+Why might it matter?
+
+15
+00:00:32,248 --> 00:00:33,920
+What should you watch next?
+
+16
+00:00:33,920 --> 00:00:37,800
+Choose the beginner explanation, or look at the tactical detail.
+
+17
+00:00:38,100 --> 00:00:40,938
+In Measure, analyze the included fictional sample.
+
+18
+00:00:40,938 --> 00:00:44,400
+See identified players, detected passes, distance and speed.
+
+19
+00:00:44,400 --> 00:00:47,522
+Upload your own compatible clip through the same gate.
+
+20
+00:00:47,522 --> 00:00:52,800
+These measurements come from controlled synthetic footage, separate from the cinematic film.
+
+21
+00:00:53,100 --> 00:00:55,358
+Here is the moment that changes the story.
+
+22
+00:00:55,358 --> 00:00:57,186
+Correct one tracking observation.
+
+23
+00:00:57,186 --> 00:00:58,799
+Thirteen metres becomes zero.
+
+24
+00:00:58,799 --> 00:01:02,240
+The movement claim is withdrawn, while the valid passes remain.
+
+25
+00:01:02,240 --> 00:01:05,897
+You're watching the actual deterministic correction, without a cut.
+
+26
+00:01:05,897 --> 00:01:08,800
+The explanation changes because the evidence changed.
+
+27
+00:01:09,100 --> 00:01:10,961
+Put that explanation in your pocket.
+
+28
+00:01:10,961 --> 00:01:13,494
+Pocket Director receives the corrected revision.
+
+29
+00:01:13,494 --> 00:01:17,267
+Choose your player, your language, and your level of football knowledge.
+
+30
+00:01:17,267 --> 00:01:18,508
+The experience changes.
+
+31
+00:01:18,508 --> 00:01:19,800
+The facts stay together.
+
+32
+00:01:20,100 --> 00:01:23,022
+Publish turns the investigation into a broadcast story.
+
+33
+00:01:23,022 --> 00:01:27,803
+Review the narrative, inspect its evidence, and prepare timed outputs for another screen.
+
+34
+00:01:27,803 --> 00:01:31,150
+Every correction stays attached to the version you're sharing.
+
+35
+00:01:32,100 --> 00:01:34,105
+And this is the system behind it.
+
+36
+00:01:34,105 --> 00:01:35,076
+Container Apps.
+
+37
+00:01:35,076 --> 00:01:36,048
+Entra identity.
+
+38
+00:01:36,048 --> 00:01:37,628
+Azure OpenAI specialists.
+
+39
+00:01:37,628 --> 00:01:39,329
+A Foundry advisory referee.
+
+40
+00:01:39,329 --> 00:01:41,819
+Blob checkpoints and an evidence ledger.
+
+41
+00:01:41,819 --> 00:01:46,800
+Follow the path all the way to Watch, Pocket Director, and the broadcast overlay.
+
+42
+00:01:47,100 --> 00:01:48,019
+One match.
+
+43
+00:01:48,019 --> 00:01:49,765
+Every perspective.
+
+44
+00:01:49,765 --> 00:01:51,328
+Before the Roar.
+
+45
+00:01:51,328 --> 00:01:53,350
+Every play has a why.

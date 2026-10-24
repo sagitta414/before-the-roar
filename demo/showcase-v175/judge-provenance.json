@@ -1,0 +1,60 @@
+{
+  "version": 175,
+  "duration_seconds": 114.1,
+  "sha256": "dfeaca6d9001a9b19b472ede4b5cf8e2ff2b451c1ce88fefc75837dccac6624c",
+  "bytes": 21251217,
+  "timings": [
+    {
+      "id": "opening",
+      "start": 0,
+      "duration": 4
+    },
+    {
+      "id": "watch",
+      "start": 4,
+      "duration": 22
+    },
+    {
+      "id": "understand",
+      "start": 26,
+      "duration": 12
+    },
+    {
+      "id": "measure",
+      "start": 38,
+      "duration": 15
+    },
+    {
+      "id": "correction",
+      "start": 53,
+      "duration": 16
+    },
+    {
+      "id": "phone",
+      "start": 69,
+      "duration": 11
+    },
+    {
+      "id": "publish",
+      "start": 80,
+      "duration": 12
+    },
+    {
+      "id": "architecture",
+      "start": 92,
+      "duration": 15
+    },
+    {
+      "id": "closing",
+      "start": 107,
+      "duration": 7
+    }
+  ],
+  "product_seconds": 103,
+  "portrait_card_seconds": 0,
+  "watch": "New timestamp-preserving screen recording of playback and reviewed notes. No fresh model requests claimed.",
+  "live_ai": "Full tour retains actual v173 AI response captures and visible Host failure; demo voices are added in editing.",
+  "correction": "Uncut deterministic correction from v174. Phone output captured after reconnect; no uninterrupted sync claim.",
+  "architecture": "Actual app animation, not fresh Azure service requests.",
+  "evaluation": "Early comparison only; independent superiority not established."
+}

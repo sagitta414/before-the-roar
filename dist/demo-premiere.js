@@ -5,8 +5,76 @@ const openButton = document.getElementById("open-final-demo");
 const closeButton = document.getElementById("close-final-demo");
 const copyButton = document.getElementById("copy-final-demo-link");
 const cuts = {
-  showcase: { src: "assets/before-the-roar-showcase-v174.mp4", poster: "assets/demo-v174-poster.jpg", label: "4:16 · FULL PRODUCT TOUR · CAPTIONED · FIVE VOICES + ARCHITECTURE", chapters: [[0,"The question"],[12,"The crew"],[48,"Live Watch responses"],[163.495334,"The correction"],[179.495334,"Your phone"],[229.528668,"Architecture"]] },
-  short: { src: "assets/before-the-roar-judge-v174.mp4", poster: "assets/demo-v174-poster.jpg", label: "1:55 · JUDGE CUT · CAPTIONED", chapters: [[0,"The question"],[12,"The crew"],[48,"The correction"],[64,"Your phone"],[89,"Architecture"]] },
+  "showcase": {
+    "src": "assets/before-the-roar-showcase-v175.mp4",
+    "poster": "assets/demo-v175-poster.jpg",
+    "label": "3:38 · FULL PRODUCT TOUR · CAPTIONED",
+    "chapters": [
+      [
+        4,
+        "Watch Party"
+      ],
+      [
+        75.378667,
+        "Understand"
+      ],
+      [
+        87.378667,
+        "Measure"
+      ],
+      [
+        129.145334,
+        "The correction"
+      ],
+      [
+        145.145334,
+        "Your phone"
+      ],
+      [
+        171.612001,
+        "Publish"
+      ],
+      [
+        196.81200099999998,
+        "Architecture"
+      ]
+    ]
+  },
+  "short": {
+    "src": "assets/before-the-roar-judge-v175.mp4",
+    "poster": "assets/demo-v175-poster.jpg",
+    "label": "1:54 · JUDGE CUT · CAPTIONED",
+    "chapters": [
+      [
+        4,
+        "Watch Party"
+      ],
+      [
+        26,
+        "Understand"
+      ],
+      [
+        38,
+        "Measure"
+      ],
+      [
+        53,
+        "The correction"
+      ],
+      [
+        69,
+        "Your phone"
+      ],
+      [
+        80,
+        "Publish"
+      ],
+      [
+        92,
+        "Architecture"
+      ]
+    ]
+  }
 };
 const chapters = document.createElement("nav");
 chapters.className = "demo-chapters";
