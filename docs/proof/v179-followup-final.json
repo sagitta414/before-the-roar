@@ -1,0 +1,2652 @@
+{
+  "schema": "btr.followup-verification.v1",
+  "kind": "Targeted developer verification after iterative fixes; not an independent benchmark",
+  "runtime_revision": "ea67a6587f1c928559a4c42847e9122a9eb0f1bc",
+  "azure_revision": "before-the-roar--0000161",
+  "image": "patchhorizonacr805813.azurecr.io/before-the-roar:v179-bounded",
+  "image_digest": "sha256:60e2a028af303eddb407d236b6d2d2bd8c4e8a09e9b3839402d04ab44ff9b25a",
+  "parent_mode": "previously executed opening; fresh follow-up",
+  "cases": [
+    {
+      "id": "escape",
+      "time": 22,
+      "opening_question": "Explain this close-control moment using only this shot.",
+      "followup_question": "Does the defender following prove the attacker beat him? Tell me what conclusion survives and one concrete comparison to watch.",
+      "opening": {
+        "events": [
+          {
+            "type": "connected",
+            "data": {
+              "source": "reviewed-ai-video",
+              "discussion_scope": "evidence-cutoff",
+              "clip_id": "pitchside-minute-veo-quality-v1",
+              "cutoff": 22,
+              "language": "en",
+              "mode": "analyst"
+            }
+          },
+          {
+            "type": "conversation",
+            "data": {
+              "id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b",
+              "round": 1,
+              "parent": null,
+              "max_rounds": 3
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 1,
+              "at": 1792875607379,
+              "role": "director",
+              "action": "run_started",
+              "cutoff": 22,
+              "revision": 4,
+              "storage": "azure_blob",
+              "execution_state": "deterministic"
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "role": "math",
+              "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+              "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+              "metric_value": "1 v 1",
+              "metric_title": "The numbers around the ball",
+              "evidence_ids": [
+                "pitchside-control"
+              ],
+              "engine": "calculated",
+              "title": "Into the next stride",
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "cutoff": 22,
+              "revision": 4,
+              "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:math",
+              "round": 1,
+              "sequence": 1,
+              "reply_to": null
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 2,
+              "at": 1792875607397,
+              "role": "math",
+              "action": "calculation_saved",
+              "evidence_ids": [
+                "pitchside-control"
+              ]
+            }
+          },
+          {
+            "type": "speaker",
+            "data": {
+              "role": "analyst"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 3,
+              "at": 1792875607417,
+              "role": "analyst",
+              "action": "tool_completed",
+              "tool": "read_evidence",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "duration_ms": 9
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirt",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame,",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position to",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position to follow",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position to follow.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position to follow.",
+              "title": "Attacker's close control observed",
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "evidence_contract": {
+                "kind": "interpretation",
+                "observation": null,
+                "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "validation": "Citation and editorial checks only; not semantic proof"
+              },
+              "role": "analyst",
+              "engine": "azure_openai",
+              "cutoff": 22,
+              "revision": 4,
+              "latency_ms": 1790,
+              "first_text_ms": 1037,
+              "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:analyst",
+              "round": 1,
+              "sequence": 2,
+              "reply_to": null
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 4,
+              "at": 1792875609209,
+              "role": "analyst",
+              "action": "contribution_saved",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "latency_ms": 1790,
+              "first_text_ms": 1037
+            }
+          },
+          {
+            "type": "speaker",
+            "data": {
+              "role": "guide"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 5,
+              "at": 1792875609219,
+              "role": "guide",
+              "action": "context_prepared",
+              "source": "verified_glossary_and_evidence",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "model_tool_selection": false
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender's",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender's position",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender's position?",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 6,
+              "at": 1792875611942,
+              "role": "guide",
+              "action": "editorial_revision_requested",
+              "reason": "Invalid editorial text"
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender’s position?",
+              "title": "Attacker maintains close control while moving forward.",
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "evidence_contract": {
+                "kind": "viewing_question",
+                "observation": null,
+                "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "validation": "Citation and editorial checks only; not semantic proof"
+              },
+              "role": "guide",
+              "engine": "azure_openai",
+              "cutoff": 22,
+              "revision": 4,
+              "latency_ms": 4626,
+              "first_text_ms": 4520,
+              "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:guide",
+              "round": 1,
+              "sequence": 3,
+              "reply_to": "analyst"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 7,
+              "at": 1792875613856,
+              "role": "guide",
+              "action": "contribution_saved",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "latency_ms": 4626,
+              "first_text_ms": 4520
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "role": "reviewer",
+              "summary": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+              "decision": "qualify",
+              "target_claim": "The attacker has escaped the defender.",
+              "engine": "evidence_rules",
+              "title": "Into the next stride",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "cutoff": 22,
+              "revision": 4,
+              "target_role": "analyst",
+              "reviewed_contribution": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position to follow.",
+              "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:reviewer",
+              "round": 1,
+              "sequence": 4,
+              "reply_to": "analyst"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 8,
+              "at": 1792875613877,
+              "role": "reviewer",
+              "action": "claim_checked",
+              "claim": {
+                "id": "editorial-reading",
+                "revision": 4,
+                "cutoff": 22,
+                "status": "bounded",
+                "claim": "The attacker has escaped the defender.",
+                "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+              }
+            }
+          },
+          {
+            "type": "speaker",
+            "data": {
+              "role": "presenter"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 9,
+              "at": 1792875613886,
+              "role": "presenter",
+              "action": "context_prepared",
+              "source": "saved_public_contributions",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "model_tool_selection": false
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control,",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The defender's",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The defender's adjustment",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The defender's adjustment indicates",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The defender's adjustment indicates ongoing",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The defender's adjustment indicates ongoing pressure",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker maintains close control, keeping the defender in pursuit without establishing a clear advantage. The defender's adjustment indicates ongoing pressure.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 10,
+              "at": 1792875617073,
+              "role": "presenter",
+              "action": "editorial_revision_requested",
+              "reason": "The reviewed film does not establish player readiness or advantage"
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "summary": "The attacker maintains close control, which prevents the defender from committing fully. This moment highlights the ongoing challenge without confirming an escape.",
+              "title": "Close control keeps the defender engaged",
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "evidence_contract": {
+                "kind": "interpretation",
+                "observation": null,
+                "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "validation": "Citation and editorial checks only; not semantic proof"
+              },
+              "replay_cue": "Replay the space between the touch and the defender.",
+              "role": "presenter",
+              "engine": "azure_openai",
+              "cutoff": 22,
+              "revision": 4,
+              "latency_ms": 5393,
+              "first_text_ms": 9185,
+              "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:presenter",
+              "round": 1,
+              "sequence": 5,
+              "reply_to": "reviewer"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 11,
+              "at": 1792875619292,
+              "role": "presenter",
+              "action": "contribution_saved",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "latency_ms": 5393,
+              "first_text_ms": 9185
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 12,
+              "at": 1792875619312,
+              "role": "director",
+              "action": "broadcast_ready",
+              "revision": 4
+            }
+          },
+          {
+            "type": "complete",
+            "data": {
+              "cached": false,
+              "model_calls": 5,
+              "prompt_tokens": 12342,
+              "completion_tokens": 456,
+              "usage_missing": 0,
+              "elapsed_ms": 12011,
+              "claim": {
+                "id": "editorial-reading",
+                "revision": 4,
+                "cutoff": 22,
+                "status": "bounded",
+                "claim": "The attacker has escaped the defender.",
+                "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+              },
+              "status": "complete"
+            }
+          }
+        ],
+        "conversation": {
+          "id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b",
+          "round": 1,
+          "parent": null,
+          "max_rounds": 3
+        },
+        "posts": [
+          {
+            "role": "math",
+            "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+            "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+            "metric_value": "1 v 1",
+            "metric_title": "The numbers around the ball",
+            "evidence_ids": [
+              "pitchside-control"
+            ],
+            "engine": "calculated",
+            "title": "Into the next stride",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 22,
+            "revision": 4,
+            "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:math",
+            "round": 1,
+            "sequence": 1,
+            "reply_to": null
+          },
+          {
+            "summary": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position to follow.",
+            "title": "Attacker's close control observed",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "evidence_contract": {
+              "kind": "interpretation",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 22,
+            "revision": 4,
+            "latency_ms": 1790,
+            "first_text_ms": 1037,
+            "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:analyst",
+            "round": 1,
+            "sequence": 2,
+            "reply_to": null
+          },
+          {
+            "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender’s position?",
+            "title": "Attacker maintains close control while moving forward.",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "evidence_contract": {
+              "kind": "viewing_question",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 22,
+            "revision": 4,
+            "latency_ms": 4626,
+            "first_text_ms": 4520,
+            "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:guide",
+            "round": 1,
+            "sequence": 3,
+            "reply_to": "analyst"
+          },
+          {
+            "role": "reviewer",
+            "summary": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+            "decision": "qualify",
+            "target_claim": "The attacker has escaped the defender.",
+            "engine": "evidence_rules",
+            "title": "Into the next stride",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 22,
+            "revision": 4,
+            "target_role": "analyst",
+            "reviewed_contribution": "The lime-shirted attacker is seen executing close control by touching the ball just ahead of the blue defender. In the next frame, the attacker continues to move with the ball while the defender adjusts his position to follow.",
+            "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:reviewer",
+            "round": 1,
+            "sequence": 4,
+            "reply_to": "analyst"
+          },
+          {
+            "summary": "The attacker maintains close control, which prevents the defender from committing fully. This moment highlights the ongoing challenge without confirming an escape.",
+            "title": "Close control keeps the defender engaged",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "evidence_contract": {
+              "kind": "interpretation",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "replay_cue": "Replay the space between the touch and the defender.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 22,
+            "revision": 4,
+            "latency_ms": 5393,
+            "first_text_ms": 9185,
+            "turn_id": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b:presenter",
+            "round": 1,
+            "sequence": 5,
+            "reply_to": "reviewer"
+          }
+        ],
+        "complete": {
+          "cached": false,
+          "model_calls": 5,
+          "prompt_tokens": 12342,
+          "completion_tokens": 456,
+          "usage_missing": 0,
+          "elapsed_ms": 12011,
+          "claim": {
+            "id": "editorial-reading",
+            "revision": 4,
+            "cutoff": 22,
+            "status": "bounded",
+            "claim": "The attacker has escaped the defender.",
+            "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+            "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+          },
+          "status": "complete"
+        }
+      },
+      "followup": {
+        "events": [
+          {
+            "type": "connected",
+            "data": {
+              "source": "reviewed-ai-video",
+              "discussion_scope": "evidence-cutoff",
+              "clip_id": "pitchside-minute-veo-quality-v1",
+              "cutoff": 22,
+              "language": "en",
+              "mode": "analyst"
+            }
+          },
+          {
+            "type": "conversation",
+            "data": {
+              "id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4",
+              "round": 2,
+              "parent": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b",
+              "max_rounds": 3
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 1,
+              "at": 1792877296331,
+              "role": "director",
+              "action": "run_started",
+              "cutoff": 22,
+              "revision": 4,
+              "storage": "azure_blob",
+              "execution_state": "deterministic"
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "role": "math",
+              "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+              "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+              "metric_value": "1 v 1",
+              "metric_title": "The numbers around the ball",
+              "evidence_ids": [
+                "pitchside-control"
+              ],
+              "engine": "calculated",
+              "title": "Into the next stride",
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "cutoff": 22,
+              "revision": 4,
+              "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:math",
+              "round": 2,
+              "sequence": 1,
+              "reply_to": null
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 2,
+              "at": 1792877296354,
+              "role": "math",
+              "action": "calculation_saved",
+              "evidence_ids": [
+                "pitchside-control"
+              ]
+            }
+          },
+          {
+            "type": "speaker",
+            "data": {
+              "role": "analyst"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 3,
+              "at": 1792877296527,
+              "role": "analyst",
+              "action": "tool_completed",
+              "tool": "read_evidence",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "duration_ms": 162
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit,",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attack",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to that",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to that movement",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "analyst",
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to that movement.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to that movement.",
+              "title": "Defender still in pursuit",
+              "caution": "Reviewed annotations, not automatic tracking.",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "evidence_contract": {
+                "kind": "interpretation",
+                "observation": null,
+                "limitation": "Reviewed annotations, not automatic tracking.",
+                "validation": "Citation and editorial checks only; not semantic proof"
+              },
+              "role": "analyst",
+              "engine": "azure_openai",
+              "cutoff": 22,
+              "revision": 4,
+              "latency_ms": 2471,
+              "first_text_ms": 1560,
+              "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:analyst",
+              "round": 2,
+              "sequence": 2,
+              "reply_to": null
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 4,
+              "at": 1792877298846,
+              "role": "analyst",
+              "action": "contribution_saved",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "latency_ms": 2471,
+              "first_text_ms": 1560
+            }
+          },
+          {
+            "type": "speaker",
+            "data": {
+              "role": "guide"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 5,
+              "at": 1792877298856,
+              "role": "guide",
+              "action": "context_prepared",
+              "source": "verified_glossary_and_evidence",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "model_tool_selection": false
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attack",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender's",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender's feet",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender's feet for",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender's feet for the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender's feet for the next",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender's feet for the next touch",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "guide",
+              "summary": "Is the ball closer to the attacker's feet or the defender's feet for the next touch?",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "summary": "Is the ball closer to the attacker's feet or the defender's feet for the next touch?",
+              "title": "Ball Position Comparison",
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "evidence_contract": {
+                "kind": "viewing_question",
+                "observation": null,
+                "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "validation": "Citation and editorial checks only; not semantic proof"
+              },
+              "role": "guide",
+              "engine": "azure_openai",
+              "cutoff": 22,
+              "revision": 4,
+              "latency_ms": 2191,
+              "first_text_ms": 4409,
+              "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:guide",
+              "round": 2,
+              "sequence": 3,
+              "reply_to": "analyst"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 6,
+              "at": 1792877301056,
+              "role": "guide",
+              "action": "contribution_saved",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "latency_ms": 2191,
+              "first_text_ms": 4409
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "role": "reviewer",
+              "summary": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+              "decision": "qualify",
+              "target_claim": "The attacker has escaped the defender.",
+              "engine": "evidence_rules",
+              "title": "Into the next stride",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "cutoff": 22,
+              "revision": 4,
+              "target_role": "analyst",
+              "reviewed_contribution": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to that movement.",
+              "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:reviewer",
+              "round": 2,
+              "sequence": 4,
+              "reply_to": "analyst"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 7,
+              "at": 1792877301077,
+              "role": "reviewer",
+              "action": "claim_checked",
+              "claim": {
+                "id": "editorial-reading",
+                "revision": 4,
+                "cutoff": 22,
+                "status": "bounded",
+                "claim": "The attacker has escaped the defender.",
+                "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+              }
+            }
+          },
+          {
+            "type": "speaker",
+            "data": {
+              "role": "presenter"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 8,
+              "at": 1792877301087,
+              "role": "presenter",
+              "action": "context_prepared",
+              "source": "saved_public_contributions",
+              "evidence_ids": [
+                "pitchside-control",
+                "pitchside-carry"
+              ],
+              "model_tool_selection": false
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attack",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch to",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch to clarify",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch to clarify the",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch to clarify the situation",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "draft",
+            "data": {
+              "role": "presenter",
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch to clarify the situation.",
+              "cutoff": 22,
+              "revision": 4,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "post",
+            "data": {
+              "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch to clarify the situation.",
+              "title": "Defender's Pursuit Unresolved",
+              "caution": "Reviewed annotations, not automatic tracking.",
+              "evidence_ids": [
+                "pitchside-control"
+              ],
+              "evidence_contract": {
+                "kind": "interpretation",
+                "observation": null,
+                "limitation": "Reviewed annotations, not automatic tracking.",
+                "validation": "Citation and editorial checks only; not semantic proof"
+              },
+              "replay_cue": "Replay the sequence to observe the next touch and its impact on the defender's position.",
+              "role": "presenter",
+              "engine": "azure_openai",
+              "cutoff": 22,
+              "revision": 4,
+              "latency_ms": 3467,
+              "first_text_ms": 7290,
+              "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:presenter",
+              "round": 2,
+              "sequence": 5,
+              "reply_to": "reviewer"
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 9,
+              "at": 1792877304564,
+              "role": "presenter",
+              "action": "contribution_saved",
+              "evidence_ids": [
+                "pitchside-control"
+              ],
+              "latency_ms": 3467,
+              "first_text_ms": 7290
+            }
+          },
+          {
+            "type": "trace",
+            "data": {
+              "seq": 10,
+              "at": 1792877304583,
+              "role": "director",
+              "action": "broadcast_ready",
+              "revision": 4
+            }
+          },
+          {
+            "type": "complete",
+            "data": {
+              "cached": false,
+              "model_calls": 3,
+              "prompt_tokens": 7055,
+              "completion_tokens": 245,
+              "usage_missing": 0,
+              "elapsed_ms": 8344,
+              "claim": {
+                "id": "editorial-reading",
+                "revision": 4,
+                "cutoff": 22,
+                "status": "bounded",
+                "claim": "The attacker has escaped the defender.",
+                "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+              },
+              "status": "complete"
+            }
+          }
+        ],
+        "conversation": {
+          "id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4",
+          "round": 2,
+          "parent": "67aa3dc7532c091213ec1122c024f588fee0048df46dee7d40e0415fe69a387b",
+          "max_rounds": 3
+        },
+        "posts": [
+          {
+            "role": "math",
+            "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+            "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+            "metric_value": "1 v 1",
+            "metric_title": "The numbers around the ball",
+            "evidence_ids": [
+              "pitchside-control"
+            ],
+            "engine": "calculated",
+            "title": "Into the next stride",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 22,
+            "revision": 4,
+            "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:math",
+            "round": 2,
+            "sequence": 1,
+            "reply_to": null
+          },
+          {
+            "summary": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to that movement.",
+            "title": "Defender still in pursuit",
+            "caution": "Reviewed annotations, not automatic tracking.",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "evidence_contract": {
+              "kind": "interpretation",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "analyst",
+            "engine": "azure_openai",
+            "cutoff": 22,
+            "revision": 4,
+            "latency_ms": 2471,
+            "first_text_ms": 1560,
+            "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:analyst",
+            "round": 2,
+            "sequence": 2,
+            "reply_to": null
+          },
+          {
+            "summary": "Is the ball closer to the attacker's feet or the defender's feet for the next touch?",
+            "title": "Ball Position Comparison",
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "evidence_contract": {
+              "kind": "viewing_question",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "role": "guide",
+            "engine": "azure_openai",
+            "cutoff": 22,
+            "revision": 4,
+            "latency_ms": 2191,
+            "first_text_ms": 4409,
+            "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:guide",
+            "round": 2,
+            "sequence": 3,
+            "reply_to": "analyst"
+          },
+          {
+            "role": "reviewer",
+            "summary": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+            "decision": "qualify",
+            "target_claim": "The attacker has escaped the defender.",
+            "engine": "evidence_rules",
+            "title": "Into the next stride",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+            "cutoff": 22,
+            "revision": 4,
+            "target_role": "analyst",
+            "reviewed_contribution": "The defender is still in pursuit, which does not confirm the attacker has beaten him. The distinction to watch is the attacker's ball control versus the defender's response to that movement.",
+            "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:reviewer",
+            "round": 2,
+            "sequence": 4,
+            "reply_to": "analyst"
+          },
+          {
+            "summary": "The attacker's ball control does not confirm a successful escape from the defender. Watch for the next controlled touch to clarify the situation.",
+            "title": "Defender's Pursuit Unresolved",
+            "caution": "Reviewed annotations, not automatic tracking.",
+            "evidence_ids": [
+              "pitchside-control"
+            ],
+            "evidence_contract": {
+              "kind": "interpretation",
+              "observation": null,
+              "limitation": "Reviewed annotations, not automatic tracking.",
+              "validation": "Citation and editorial checks only; not semantic proof"
+            },
+            "replay_cue": "Replay the sequence to observe the next touch and its impact on the defender's position.",
+            "role": "presenter",
+            "engine": "azure_openai",
+            "cutoff": 22,
+            "revision": 4,
+            "latency_ms": 3467,
+            "first_text_ms": 7290,
+            "turn_id": "c2cb62c348bd80265207ac36eba668ff271151a863e97c1c51cb7591f5d922f4:presenter",
+            "round": 2,
+            "sequence": 5,
+            "reply_to": "reviewer"
+          }
+        ],
+        "complete": {
+          "cached": false,
+          "model_calls": 3,
+          "prompt_tokens": 7055,
+          "completion_tokens": 245,
+          "usage_missing": 0,
+          "elapsed_ms": 8344,
+          "claim": {
+            "id": "editorial-reading",
+            "revision": 4,
+            "cutoff": 22,
+            "status": "bounded",
+            "claim": "The attacker has escaped the defender.",
+            "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+            "evidence_ids": [
+              "pitchside-control",
+              "pitchside-carry"
+            ],
+            "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+            "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+          },
+          "status": "complete"
+        }
+      }
+    }
+  ],
+  "changed_runtime_file_sha256": {
+    "api/film-followup.mjs": "b9e45f413d77ca37bb328f334994bbd31b4620c61b39158b6e09e1833c58cac0",
+    "api/match-desk.mjs": "e98bad366b00ed192306002061187713f4b31f2d68939bcf8b79b999661022eb",
+    "api/conversation.mjs": "66632f405915a979f639a2e262b9e355188bb081982225172e4e9e10f3eb0a6d",
+    "api/editorial-policy.mjs": "71c7145d1f11c64a9dc9c952feeb11f0b768007daf9130e35ad6fe0d3f923887",
+    "dist/cohesion.js": "1036f40055e3799074a2392077569d5db2fd0d9d95e088256b2ca4983bcfa235",
+    "dist/execution-profile.js": "16dfa8b688d98b4a5ae384a1a371272e4a6d1bec40e0408366a0c2bd99c6988e",
+    "dist/match-watch.js": "0318eff32116f26afcc60d0412376ad29236d1f5a13a80466391c468247a90f3",
+    "dist/index.html": "c82e89122659d04a1768a4ad4d95cac3d34f246a91024c4d558a6e593395cd30"
+  }
+}

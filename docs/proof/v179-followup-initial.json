@@ -1,0 +1,277 @@
+{
+  "schema": "btr.followup-verification.v1",
+  "kind": "Developer verification; not independent commentary evaluation",
+  "revision": "d75d686",
+  "cases": [
+    {
+      "id": "intent",
+      "time": 25,
+      "opening": [
+        {
+          "role": "math",
+          "engine": "calculated",
+          "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position."
+        },
+        {
+          "role": "analyst",
+          "engine": "azure_openai",
+          "summary": "A blue defender is positioned face-to-face with a lime-shirted attacker, both near the ball. This proximity suggests a potential challenge, but the shot does not confirm any tackle or interception attempt."
+        },
+        {
+          "role": "guide",
+          "engine": "azure_openai",
+          "summary": "Marking means staying close enough to challenge an opponent. How does the defender’s position change after the next touch by the attacker?"
+        },
+        {
+          "role": "reviewer",
+          "engine": "evidence_rules",
+          "summary": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction."
+        },
+        {
+          "role": "presenter",
+          "engine": "azure_openai",
+          "summary": "The defender's positioning indicates a potential challenge, but the current frame does not confirm any action taken. The next touch will clarify the dynamics of this duel."
+        }
+      ],
+      "followup": [
+        {
+          "role": "math",
+          "engine": "calculated",
+          "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+          "evidence_ids": [
+            "pitchside-stance"
+          ]
+        },
+        {
+          "role": "analyst",
+          "engine": "azure_openai",
+          "summary": "The blue defender's stance indicates proximity to the attacker but does not confirm any intent to challenge. Intent is not established from the available evidence.",
+          "evidence_ids": [
+            "pitchside-stance"
+          ]
+        },
+        {
+          "role": "guide",
+          "engine": "reviewed_fallback",
+          "summary": "Watch the visible movement separately from its purpose: can the next touch show what actually happens?",
+          "evidence_ids": [
+            "pitchside-stance"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "engine": "evidence_rules",
+          "summary": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction.",
+          "evidence_ids": [
+            "pitchside-stance"
+          ]
+        },
+        {
+          "role": "presenter",
+          "engine": "azure_openai",
+          "summary": "The visible duel can be described, but intent is not established. Watch how the next touch affects the defender's position.",
+          "replay_cue": "Replay the next touch to see how the defender reacts.",
+          "evidence_ids": [
+            "pitchside-stance"
+          ]
+        }
+      ],
+      "model_calls": 4,
+      "limitations": [
+        {
+          "role": "guide",
+          "action": "editorial_revision_requested",
+          "reason": "Follow-up repeats the previous contribution"
+        },
+        {
+          "role": "guide",
+          "action": "fallback_published",
+          "reason": "Follow-up repeats the previous contribution"
+        }
+      ]
+    },
+    {
+      "id": "outlet",
+      "time": 12,
+      "opening": [
+        {
+          "role": "math",
+          "engine": "calculated",
+          "summary": "One reviewed pass reaches a teammate in this scene. A single completion cannot establish a team pass-accuracy rate."
+        },
+        {
+          "role": "analyst",
+          "engine": "azure_openai",
+          "summary": "The receiver is positioned to receive a pass from a nearby teammate, with one defender closely marking. The local situation shows a clear receiving option, but the overall team shape and movement remain unverified."
+        },
+        {
+          "role": "guide",
+          "engine": "azure_openai",
+          "summary": "A pass sends the ball to a teammate. What options does the receiver have as the defender approaches?"
+        },
+        {
+          "role": "reviewer",
+          "engine": "evidence_rules",
+          "summary": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified."
+        },
+        {
+          "role": "presenter",
+          "engine": "reviewed_fallback",
+          "summary": "A short outlet is useful only if the receiver can use the next touch. Look for the exit, not just the completed pass."
+        }
+      ],
+      "followup": [
+        {
+          "role": "math",
+          "engine": "calculated",
+          "summary": "One reviewed pass reaches a teammate in this scene. A single completion cannot establish a team pass-accuracy rate.",
+          "evidence_ids": [
+            "pitchside-outlet",
+            "pitchside-reception"
+          ]
+        },
+        {
+          "role": "analyst",
+          "engine": "azure_openai",
+          "summary": "The nearby teammates create a potential outlet. The defender's proximity may limit the receiver's options after the pass. Future analysis should focus on the receiver's next touch and movement options.",
+          "evidence_ids": [
+            "pitchside-outlet",
+            "pitchside-reception"
+          ]
+        },
+        {
+          "role": "guide",
+          "engine": "azure_openai",
+          "summary": "How does the ball's position change from when the teammates are near it to when the receiver meets it?",
+          "evidence_ids": [
+            "pitchside-outlet",
+            "pitchside-reception"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "engine": "evidence_rules",
+          "summary": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+          "evidence_ids": [
+            "pitchside-outlet",
+            "pitchside-reception"
+          ]
+        },
+        {
+          "role": "presenter",
+          "engine": "azure_openai",
+          "summary": "The reception confirms a connection, but the defensive line's status remains unclear. Future analysis should focus on the receiver's next touch and movement options.",
+          "replay_cue": "Replay the receiver's next touch to assess options.",
+          "evidence_ids": [
+            "pitchside-outlet",
+            "pitchside-reception"
+          ]
+        }
+      ],
+      "model_calls": 4,
+      "limitations": [
+        {
+          "role": "presenter",
+          "action": "editorial_revision_requested",
+          "reason": "Repeated contribution; using the reviewed closing cue"
+        }
+      ]
+    },
+    {
+      "id": "escape",
+      "time": 22,
+      "opening": [
+        {
+          "role": "math",
+          "engine": "calculated",
+          "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position."
+        },
+        {
+          "role": "analyst",
+          "engine": "azure_openai",
+          "summary": "The attacker maintains close control of the ball, with a touch recorded just before the defender adjusts their position to follow. This suggests an immediate challenge as the attacker progresses."
+        },
+        {
+          "role": "guide",
+          "engine": "azure_openai",
+          "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender's position?"
+        },
+        {
+          "role": "reviewer",
+          "engine": "evidence_rules",
+          "summary": "The defender is still following. This shot does not establish a completed escape or the next possession."
+        },
+        {
+          "role": "presenter",
+          "engine": "azure_openai",
+          "summary": "The attacker’s close control maintains pressure on the defender, but it does not confirm a successful escape. The defender remains engaged as the attacker progresses."
+        }
+      ],
+      "followup": [
+        {
+          "role": "math",
+          "engine": "calculated",
+          "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+          "evidence_ids": [
+            "pitchside-control"
+          ]
+        },
+        {
+          "role": "analyst",
+          "engine": "azure_openai",
+          "summary": "The defender's ongoing pursuit does not confirm the attacker has successfully beaten him. Observe how the attacker’s next touch influences the defender's position, indicating ongoing engagement.",
+          "evidence_ids": [
+            "pitchside-control",
+            "pitchside-carry"
+          ]
+        },
+        {
+          "role": "guide",
+          "engine": "reviewed_fallback",
+          "summary": "Dribbling means moving with the ball using repeated touches. Is the next touch within the attacker’s reach or the defender’s?",
+          "evidence_ids": [
+            "pitchside-control",
+            "pitchside-carry"
+          ]
+        },
+        {
+          "role": "reviewer",
+          "engine": "evidence_rules",
+          "summary": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+          "evidence_ids": [
+            "pitchside-control",
+            "pitchside-carry"
+          ]
+        },
+        {
+          "role": "presenter",
+          "engine": "reviewed_fallback",
+          "summary": "Close control can keep a challenge alive without creating an escape. Judge the room for the next action.",
+          "replay_cue": "Replay the space between the touch and the defender.",
+          "evidence_ids": [
+            "pitchside-control",
+            "pitchside-carry"
+          ]
+        }
+      ],
+      "model_calls": 4,
+      "limitations": [
+        {
+          "role": "guide",
+          "action": "editorial_revision_requested",
+          "reason": "Follow-up repeats the previous contribution"
+        },
+        {
+          "role": "guide",
+          "action": "fallback_published",
+          "reason": "Follow-up repeats the previous contribution"
+        },
+        {
+          "role": "presenter",
+          "action": "fallback_published",
+          "reason": "Model response HTTP 429"
+        }
+      ]
+    }
+  ]
+}
