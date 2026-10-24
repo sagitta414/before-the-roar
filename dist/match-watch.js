@@ -457,7 +457,7 @@ function renderReceipts(thread, list, evidence) {
   if (!box) return;
   const evidenceCount = evidence?.length || 0,
     run = $("receipt-run");
-  const completedRequests = (thread?.trace || []).filter((item) => item.action === "model_handoff_completed"),
+  const completedRequests = (thread?.trace || []).filter((item) => ["model_handoff_completed", "contribution_saved"].includes(item.action)),
     executionState = !thread
       ? "SOURCE PREVIEW · ASK AI TO RUN"
       : thread.pending
@@ -482,9 +482,9 @@ function renderReceipts(thread, list, evidence) {
       identity = el("div"),
       route = el("div", "receipt-route"),
       meta = el("div", "receipt-meta"),
-      execution = [...(thread?.trace || [])].reverse().find((item) => item.role === profile.id && item.action === "model_handoff_completed"),
-      reused = [...(thread?.trace || [])].reverse().find((item) => item.role === profile.id && item.action === "saved_model_handoff_reused"),
-      stateLabel = status === "preview" ? "PREVIEW" : status === "complete" ? (reused ? "REPLAY" : execution ? "LIVE" : post?.engine === "calculated" || post?.engine === "evidence_rules" ? "DETERMINISTIC" : thread?.fallback ? "FALLBACK" : "RECEIPT") : status === "working" ? "RUNNING" : "STANDBY";
+      execution = [...(thread?.trace || [])].reverse().find((item) => item.role === profile.id && ["model_handoff_completed", "contribution_saved"].includes(item.action)),
+      reused = [...(thread?.trace || [])].reverse().find((item) => item.role === profile.id && ["saved_model_handoff_reused", "saved_contribution_reused"].includes(item.action)),
+      stateLabel = status === "preview" ? "PREVIEW" : status === "complete" ? (reused ? "REPLAY" : execution ? "LIVE" : post?.engine === "calculated" || post?.engine === "evidence_rules" ? "DETERMINISTIC" : post?.engine === "reviewed_fallback" ? "FALLBACK" : "RECEIPT") : status === "working" ? "RUNNING" : "STANDBY";
     identity.append(el("b", "", profile.name.toUpperCase()), el("small", "", tool));
     head.append(el("span", "receipt-index", String(index + 1).padStart(2, "0")), identity, el("span", "receipt-state", stateLabel));
     route.append(el("span", "", input), el("i", "", "→"), el("span", "", output));

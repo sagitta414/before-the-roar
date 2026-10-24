@@ -33,7 +33,7 @@ test('v112 presents a concise judge dashboard and progressive disclosure',async(
   assert.match(index,/cohesion\.css\?v=169/);
   assert.match(index,/wide-desktop\.css\?v=135/);
   assert.match(index,/cohesion\.js\?v=169/);
-  assert.match(index,/match-watch\.js\?v=149/);
+  assert.match(index,/match-watch\.js\?v=178/);
   assert.match(index,/watch-evidence-chain\.css\?v=133/);
   assert.match(index,/watch-evidence-chain\.js\?v=132/);
   assert.match(index,/id="chain-tab"/);

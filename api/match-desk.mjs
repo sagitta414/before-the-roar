@@ -146,6 +146,23 @@ export function validateMatchPost(raw, packet, role, context = {}) {
   );
   if (!evidence_ids.length || evidence_ids.some((id) => !ids.has(id)))
     throw Error("Citation outside the evidence cutoff");
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    /\b(?:attempt(?:s|ing)? to|trying to|intends? to|aims? to|wants? to|in order to)\b/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error(
+      "Visible movement does not establish player intent; describe the movement only",
+    );
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    /\bintent\b/i.test(p.interpretation) &&
+    !/\b(?:cannot|can't|does not|doesn't|not established|unverified|unknown)\b/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error("Player intent is not established by the reviewed film");
   const quality = editorialIssues(role, p.interpretation);
   if (quality.length) throw Error(quality.join("; "));
   if (
@@ -187,7 +204,7 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     throw Error("The reviewed film does not establish unchanged defender movement");
   if (
     packet.review?.scope === "manually-reviewed-ai-video" &&
-    /\b(?:readiness|preparedness|ready to|prepared to)\b|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? (?:intent|attention)/i.test(
+    /\b(?:readiness|preparedness|ready to|prepared to)\b|(?:potential|clear|decisive) (?:moment of )?advantage|well.positioned to control|defender(?:'s)? attention/i.test(
       prose,
     )
   )
@@ -339,7 +356,10 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v13:" + pitchsideKey(input) + ":" + (input.parentKey || "")
+            ? "pitchside-tools-v178:" +
+                pitchsideKey(input) +
+                ":" +
+                (input.parentKey || "")
             : (process.env.BTR_GROUNDED_DESK === "1"
                 ? "cohesive-handoff-v103:"
                 : "cohesive-tools-v13:") +
@@ -780,6 +800,8 @@ export class MatchDesk {
                       : notes.find((p) => p.role === role),
                   evidence,
                   review: packet.review,
+                  intent_boundary:
+                    "Describe visible movement only. A stance does not establish trying, attempting, wanting or intending. If challenged about intent, explicitly retract the inference. If no new evidence has arrived, say so instead of inventing an observation.",
                   previous_public_contributions: previous,
                   conversation: { round: conversation.round, max_rounds: 3 },
                   prior_round: conversation.previous,
@@ -1001,6 +1023,20 @@ export class MatchDesk {
             input.question || "",
           )
             ? { summary: reviewedClipChallenge(packet, role) }
+            : {}),
+          ...(this.clip && /intent|trying|attempt/i.test(input.question || "")
+            ? {
+                summary: {
+                  en:
+                    role === "guide"
+                      ? "Watch the visible movement separately from its purpose: can the next touch show what actually happens?"
+                      : role === "analyst"
+                        ? "The reached notes establish visible movement only. They do not establish the player's purpose, and no new observation has arrived at this cutoff."
+                        : "Correction: withdraw the inference about intent. The current shot supports visible movement only; the next touch remains the test.",
+                  es: "Corrección: la toma revisada muestra movimiento visible, no la intención del jugador. No ha llegado una nueva observación en este punto.",
+                  pt: "Correção: a tomada revisada mostra movimento visível, não a intenção do jogador. Nenhuma nova observação chegou neste ponto.",
+                }[packet.language],
+              }
             : {}),
           caution: input.question
             ? this.clip

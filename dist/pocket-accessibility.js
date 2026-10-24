@@ -46,26 +46,27 @@ const presetCopy={
 };
 
 function evidenceTime(record,fallback){return Number(record?.end??record?.t??record?.second??fallback??0);}
-function evidenceLabel(record){
+function evidenceLabel(record,language='en'){
+ if(language==='es'&&record.record_type==='event'){const type={pass:'Pase',shot:'Disparo',tackle:'Entrada',interception:'Intercepción'}[record.type],outcome={complete:'completado',completed:'completado',intercepted:'interceptado',goal:'gol',saved:'detenido',missed:'fuera'}[record.outcome];return type&&outcome?`${type} ${outcome}. Acción registrada en la evidencia sintética.`:'';}
  if(record.record_type==='event')return `${String(record.type||'event').replaceAll('_',' ')} · ${record.outcome||'recorded'}`;
- return record.description||record.detail||record.observation||String(record.record_type||record.type||'source').replaceAll('_',' ');
+ return record.description||record.detail||record.observation||'';
 }
 
 export function buildPerspectiveRecap({preset,story,alternateStory,focusName='Selected player',corrected=false}){
  const spec=presetCopy[preset]||presetCopy.tactical,cutoff=Number(story?.cutoff||0),all=(story?.evidence||[]).filter(record=>evidenceTime(record,cutoff)<=cutoff);
- let records=all.filter(record=>record.record_type==='event'||record.record_type==='observation'||record.record_type==='derived_analysis'||record.record_type==='football_context');
+ let records=all.filter(record=>record.record_type==='reviewed_frame'||record.record_type==='event'||record.record_type==='observation'||record.record_type==='derived_analysis'||record.record_type==='football_context');
  if(preset==='player')records=records.filter(record=>[record.player,record.player_id,record.from,record.to].includes(story?.brief?.player?.id));
  if(preset==='disputed')records=records.filter(record=>(story?.review?.evidence_ids||[]).includes(record.id));
- records=records.slice(-4);
+ records=records.filter(record=>evidenceLabel(record,spec.language||story.language)).slice(-4);
  const language=spec.language||story?.brief?.language||'en',isSpanish=language==='es',review=story?.review||{};
  const narration=preset==='disputed'
   ?(corrected?(isSpanish?'La afirmación fue retirada después de corregir la evidencia.':'The claim was withdrawn after the evidence correction.'):(review.reason||'The interpretation is qualified because the available evidence does not establish cause.'))
   :(alternateStory?.body||story?.body||story?.title||'The reached play is ready for review.');
  const entries=(records.length?records:[{id:'scope',record_type:'coverage',second:cutoff,description:'No matching event record has reached this cutoff.'}]).map((record,index)=>({
   timestamp_s:evidenceTime(record,cutoff),
-  overlay:index===0?(alternateStory?.title||story?.title||spec.title(focusName)):evidenceLabel(record),
+  overlay:index===0?(alternateStory?.title||story?.title||spec.title(focusName)):evidenceLabel(record,language),
   narration:index===0?narration:evidenceLabel(record),
-  evidence_ids:record.id?[record.id]:[],
+  evidence_ids:index===0?records.map(item=>item.id).filter(Boolean):record.id?[record.id]:[],
   correction_status:corrected?'corrected':review.decision||'reviewed'
  }));
  return {schema:'btr.perspective-recap.v1',synthetic:true,preset,language,target_duration_s:spec.duration,title:spec.title(focusName),source_cutoff_s:cutoff,source_clock:story?.clock,correction_status:corrected?'corrected':review.decision||'reviewed',entries,limitations:['Uses only records at or before the displayed evidence cutoff.','Target duration is an editorial package length, not a claim that more source footage exists.']};
