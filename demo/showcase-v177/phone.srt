@@ -1,0 +1,15 @@
+1
+00:00:00,100 --> 00:00:03,100
+Now the uploaded clip reaches your phone.
+
+2
+00:00:03,100 --> 00:00:05,400
+The video stays on the computer.
+
+3
+00:00:05,400 --> 00:00:09,400
+Withdraw its observation, and the phone removes the claim and its numbers.
+
+4
+00:00:09,400 --> 00:00:13,300
+The source receipt remains. One correction, shared across both screens.

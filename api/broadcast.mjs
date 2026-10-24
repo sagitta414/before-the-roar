@@ -1,3 +1,4 @@
+import { localInput, localCue } from "../dist/local-cue.js";
 // Short-lived broadcast sessions, reader/writer separation and expiring overlay cues.
 import { randomBytes, timingSafeEqual } from "node:crypto";
 import { matchStory } from "../dist/match-story.js";
@@ -5,6 +6,7 @@ import { pitchsideStory, PITCHSIDE } from "../dist/pitchside-story.js";
 import { PLAYERS } from "../dist/engine.js";
 
 export function broadcastInput(input) {
+  if (input?.source === "upload") return localInput(input);
   if (
     !input ||
     !["pitchside", "match"].includes(input.source) ||
@@ -45,6 +47,7 @@ export function broadcastInput(input) {
   };
 }
 export function broadcastCue(input, sequence, now) {
+  if (input.source === "upload") return localCue(input, sequence, now);
   const s = input.source === "pitchside" ? pitchsideStory(input) : matchStory(input);
   const evidence = s.evidence.slice(-6).map((record) => ({
     id: record.id,
@@ -141,7 +144,15 @@ export class BroadcastRooms {
     if (room.closed) throw Error("Broadcast has stopped.");
     const now = this.clock();
     if (now - room.lastUpdate < 250) throw Error("Updates are too frequent.");
-    room.cue = broadcastCue(broadcastInput(input), ++room.sequence, now);
+    const state = broadcastInput(input);
+    if (
+      state.source === "upload" &&
+      room.cue.source === "upload" &&
+      state.hash === room.cue.source_id &&
+      state.revision < room.cue.revision
+    )
+      throw Error("Stale evidence revision.");
+    room.cue = broadcastCue(state, ++room.sequence, now);
     room.lastUpdate = now;
     this.publish(room, "cue", room.cue);
     return room.cue;

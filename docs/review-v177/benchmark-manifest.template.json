@@ -1,0 +1,9 @@
+{
+  "schema": "btr.external-benchmark-input.v1",
+  "status": "awaiting-unseen-clips-and-human-labels",
+  "frozen_at": "2026-10-24",
+  "source_revision": "90300cacb7f512201a0109a30b054e1497e4e5e8",
+  "detector_source": "docs/proof/detectors/sha256-2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb.js",
+  "detector_sha256": "2e5e6c168c3444e593a072d8d37b1e85e004f2afbf04556fe80331f2a954cedb",
+  "clips": []
+}

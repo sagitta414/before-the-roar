@@ -16,8 +16,8 @@ test('the demo preserves the chosen cut in its player, download and share URL', 
   assert.match(w.document.getElementById('final-demo-video').src,/judge-v175/);
   assert.equal(new URL(w.demoUrl()).searchParams.get('cut'),'short');
   w.document.querySelector('[data-demo-cut="showcase"]').click();
-  assert.match(w.document.getElementById('final-demo-video').src,/showcase-v175/);
-  assert.match(w.document.querySelector('.final-demo-actions a').href,/showcase-v175/);
+  assert.match(w.document.getElementById('final-demo-video').src,/showcase-v177/);
+  assert.match(w.document.querySelector('.final-demo-actions a').href,/showcase-v177/);
   assert.equal(new URL(w.demoUrl()).searchParams.get('cut'),'showcase');
   assert.equal(w.document.querySelector('[data-demo-cut="showcase"]').getAttribute('aria-pressed'),'true');
   dom.window.close();

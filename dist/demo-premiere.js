@@ -6,9 +6,9 @@ const closeButton = document.getElementById("close-final-demo");
 const copyButton = document.getElementById("copy-final-demo-link");
 const cuts = {
   "showcase": {
-    "src": "assets/before-the-roar-showcase-v175.mp4",
+    "src": "assets/before-the-roar-showcase-v177.mp4",
     "poster": "assets/demo-v175-poster.jpg",
-    "label": "3:38 · FULL PRODUCT TOUR · CAPTIONED",
+    "label": "3:53 · FULL PRODUCT TOUR · CAPTIONED",
     "chapters": [
       [
         4,
@@ -35,7 +35,11 @@ const cuts = {
         "Publish"
       ],
       [
-        196.81200099999998,
+        196.812001,
+        "Local clip sync"
+      ],
+      [
+        210.812001,
         "Architecture"
       ]
     ]

@@ -1,0 +1,16 @@
+{
+  "version": 177,
+  "recorded_at": "2026-10-24",
+  "file": "dist/assets/before-the-roar-showcase-v177.mp4",
+  "sha256": "3c77575cd1f2d1df83f1909d73b8c2360ba4ac62150bfdf7b85ff137e95b83b7",
+  "bytes": 33492500,
+  "new_segment": {
+    "start": 196.812001,
+    "duration": 14,
+    "source": "Actual localhost app with integrated API; mobile-width browser capture (375x812 pixels). Phone updates from revision 5 to 6 without reload. Desktop image is an earlier reference capture, not synchronized footage.",
+    "audio": "Azure AI Speech HD narration added in editing; not agent output.",
+    "requests": 0
+  },
+  "retained": "Full v175 product tour, including its recorded model responses and declared limitations. See demo/showcase-v175/showcase-provenance.json. Architecture and closing retained at end.",
+  "independent_results": "Not supplied; no superiority or unfamiliar-video accuracy claim."
+}
