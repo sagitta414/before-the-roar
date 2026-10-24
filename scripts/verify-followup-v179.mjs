@@ -1,6 +1,7 @@
-import {writeFile,mkdir} from 'node:fs/promises';
+import {writeFile,mkdir,readFile} from 'node:fs/promises';
 const base=process.argv[2];
 if(!base)throw Error('Supply the API base URL; this explicitly runs paid model requests.');
+const savedParents=process.argv[3]?JSON.parse(await readFile(process.argv[3],'utf8')):null;
 const cases=[
  {id:'intent',time:25,opening:'Describe the visible duel and distinguish observation from interpretation.',followup:'Can the evidence establish the defender’s intent? Correct any intent inference and add a new observation only if one has arrived.'},
  {id:'outlet',time:12,opening:'What does this received pass establish, and what remains outside the shot?',followup:'What specific evidence would change that reading? Give a different contribution from each specialist, without inventing new action.'},
@@ -13,14 +14,14 @@ async function run(input){
  const failure=events.find(e=>e.type==='error');if(failure)throw Error(failure.data.message);
  return {events,conversation:events.find(e=>e.type==='conversation')?.data,posts:events.filter(e=>e.type==='post').map(e=>e.data),complete:events.find(e=>e.type==='complete')?.data};
 }
-const report={version:'v179',kind:'developer live smoke; not independent quality evaluation',started_at:new Date().toISOString(),cases:[]};
+const report={version:'v179',kind:'developer live smoke; not independent quality evaluation',parent_mode:savedParents?'previously executed opening; fresh follow-up':'fresh opening and follow-up',started_at:new Date().toISOString(),cases:[]};
 await mkdir('tmp',{recursive:true});
-for(const c of cases){
- const opening=await run({time:c.time,question:c.opening});
+for(const c of cases.filter(c=>!process.argv[4]||c.id===process.argv[4])){
+ const opening=savedParents?.cases.find(saved=>saved.id===c.id)?.opening || await run({time:c.time,question:c.opening});
  if(!opening.conversation?.id)throw Error('No conversation receipt; refusing disconnected follow-up.');
  const followup=await run({time:c.time,question:c.followup,parentKey:opening.conversation.id});
  report.cases.push({id:c.id,time:c.time,opening_question:c.opening,followup_question:c.followup,opening,followup});
  await writeFile('tmp/followup-v179-live.json',JSON.stringify(report,null,2));
  console.log(JSON.stringify({case:c.id,openingCalls:opening.complete?.model_calls,followupCalls:followup.complete?.model_calls,cached:followup.complete?.cached,posts:followup.posts.map(({role,engine,summary,replay_cue,evidence_ids})=>({role,engine,summary,replay_cue,evidence_ids})),rejections:followup.events.filter(e=>e.type==='trace'&&/fallback|revision/.test(e.data.action))},null,2));
- if(c!==cases.at(-1))await new Promise(resolve=>setTimeout(resolve,45000));
+ if(!process.argv[4]&&c!==cases.at(-1))await new Promise(resolve=>setTimeout(resolve,45000));
 }

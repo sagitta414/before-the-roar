@@ -371,7 +371,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v179c:" +
+            ? "pitchside-tools-v179d:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")

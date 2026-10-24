@@ -43,6 +43,10 @@ export function followupBrief(packet, conversation, question, role) {
     tasks.presenter =
       "Give the viewer a conditional decision rule, not another reception summary: a continuous wider view showing the receiver beyond the defensive line would support a line-break claim; this shot cannot establish that. Put checking the receiver's next touch in replay_cue. Never imply that the wider view has already been supplied.";
   }
+  if (current.at(-1)?.shot_id === "02-turn" && !intent) {
+    tasks.presenter =
+      "Give the viewer a decision rule, not Scout's conclusion: do not judge a dribble from body position alone; compare who makes the next controlled touch before calling it successful. Keep the current outcome unresolved. Do not repeat the phrases defender following, ongoing challenge or clear escape. Put the replay instruction in replay_cue.";
+  }
   return {
     task: tasks[role],
     evidence_change: added.length

@@ -19,6 +19,7 @@ test('all seven application routes and the guided story initialize together with
   const {matchSession}=await import('../dist/match-session.js');
   matchSession.set({source:'pitchside'});assert.match(document.querySelector('[data-execution-proof] strong').textContent,/3 MODEL ROLES/);assert.match(document.querySelector('.execution-legend [data-execution="model"] strong').textContent,/Scout · Guide · Host/);
   matchSession.set({source:'match'});assert.match(document.querySelector('[data-execution-proof] strong').textContent,/4 MODEL ROLES/);
+  const {setWorkspaceSource}=await import('../dist/source-workspace.js');setWorkspaceSource({id:'verification-upload'});assert.match(document.querySelector('[data-execution-proof] strong').textContent,/LOCAL DETECTION/);assert.doesNotMatch(document.querySelector('.editorial-flow p').textContent,/Guide reads Scout/);setWorkspaceSource(null);assert.match(document.querySelector('[data-execution-proof] strong').textContent,/4 MODEL ROLES/);
 
   matchSession.set({source:'match',section:'truth',time:16,corrected:true});
   const ledger=document.querySelector('.truth-quality');assert.ok(ledger);assert.equal(ledger.closest('details'),null,'claim audit must not be buried in an evidence drawer');assert.match(ledger.textContent,/Withdraw the original claim/);const audience=ledger.querySelector('details');audience.open=true;matchSession.set({time:17});assert.equal(ledger.querySelector('details').open,true,'open audience comparison survives a replay tick');
