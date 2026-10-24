@@ -1,0 +1,98 @@
+{
+  "version": 4,
+  "duration_seconds": 98.715367,
+  "voice": {
+    "provider": "Azure AI Speech",
+    "generated_at": "2026-10-24T03:52:02.0726225Z",
+    "voice": "en-US-Andrew2:DragonHDLatestNeural"
+  },
+  "timings": [
+    {
+      "scene": 0,
+      "frame": "opening",
+      "start": 0,
+      "duration": 4.866016,
+      "speech_seconds": 4.4
+    },
+    {
+      "scene": 1,
+      "frame": "film",
+      "start": 4.866016,
+      "duration": 9.366667,
+      "speech_seconds": 8.9
+    },
+    {
+      "scene": 2,
+      "frame": "01-inject.png",
+      "start": 14.232683,
+      "duration": 9.866667,
+      "speech_seconds": 9.4
+    },
+    {
+      "scene": 3,
+      "frame": "03-receipts.png",
+      "start": 24.09935,
+      "duration": 9.6,
+      "speech_seconds": 9.15
+    },
+    {
+      "scene": 4,
+      "frame": "04-proof.png",
+      "start": 33.69935,
+      "duration": 9.766667,
+      "speech_seconds": 9.3
+    },
+    {
+      "scene": 5,
+      "frame": "05-compare.png",
+      "start": 43.466017,
+      "duration": 10.15,
+      "speech_seconds": 9.7
+    },
+    {
+      "scene": 6,
+      "frame": "06-watch.png",
+      "start": 53.616017,
+      "duration": 6.5,
+      "speech_seconds": 6.05
+    },
+    {
+      "scene": 7,
+      "frame": "07-phone.png",
+      "start": 60.116017,
+      "duration": 9.9,
+      "speech_seconds": 9.45
+    },
+    {
+      "scene": 8,
+      "frame": "08-accessibility.png",
+      "start": 70.016017,
+      "duration": 8.266667,
+      "speech_seconds": 7.8
+    },
+    {
+      "scene": 9,
+      "frame": "09-foundry.png",
+      "start": 78.282684,
+      "duration": 6.766667,
+      "speech_seconds": 6.3
+    },
+    {
+      "scene": 10,
+      "frame": "10-secure.png",
+      "start": 85.049351,
+      "duration": 8,
+      "speech_seconds": 7.55
+    },
+    {
+      "scene": 11,
+      "frame": "closing",
+      "start": 93.049351,
+      "duration": 5.666016,
+      "speech_seconds": 5.2
+    }
+  ],
+  "visuals": "Edited recorded app captures and labelled fictional AI footage. Not a continuous live recording.",
+  "captions": "Sentence timings proportional within measured scene audio; scene boundaries synchronized to recorded narration.",
+  "evaluation": "Early model-scored comparison; independent human superiority remains unproven."
+}

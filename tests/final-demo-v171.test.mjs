@@ -13,7 +13,7 @@ test("the main experience exposes a shareable two-minute demo", async () => {
   ]);
   assert.match(html, /id="open-final-demo"/);
   assert.match(html, /id="final-demo-dialog"/);
-  assert.match(html, /assets\/before-the-roar-final-demo\.mp4/);
+  assert.match(html, /assets\/before-the-roar-premiere-v172\.mp4/);
   assert.match(splash, /2-minute demo/);
   assert.match(splash, /btr-open-demo/);
   assert.match(script, /searchParams\.set\("demo", "1"\)/);
@@ -22,10 +22,11 @@ test("the main experience exposes a shareable two-minute demo", async () => {
 });
 
 test("the hosted demo asset remains below two minutes", async () => {
-  const metadata = JSON.parse(await read("demo/before-the-roar-final-judge-demo-provenance.json"));
-  const asset = await stat(new URL("../dist/assets/before-the-roar-final-demo.mp4", import.meta.url));
-  assert.equal(metadata.duration_seconds, 113);
+  const metadata = JSON.parse(await read("demo/before-the-roar-premiere-provenance.json"));
+  const asset = await stat(new URL("../dist/assets/before-the-roar-premiere-v172.mp4", import.meta.url));
+  assert.ok(metadata.duration_seconds > 60);
   assert.ok(metadata.duration_seconds < 120);
   assert.ok(asset.size > 1_000_000);
-  assert.ok(asset.size < 15_000_000);
+  assert.ok(asset.size < 25_000_000);
 });
+

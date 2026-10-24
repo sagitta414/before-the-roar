@@ -1,0 +1,14 @@
+[
+  {"frame":"opening","text":"Before the Roar. One match. Every perspective."},
+  {"frame":"film","text":"Watch the runner. The defender shifts. A passing lane opens. Did that run create the space? It looks convincing. Let's check."},
+  {"frame":"01-inject.png","text":"A fresh synthetic event starts the investigation. Scout observes the play. Guide explains it. Vector calculates twenty-three point seven metres of forward passing gain."},
+  {"frame":"03-receipts.png","text":"Then Check asks the difficult question: does the evidence actually support the story? Host brings the answer together. Each handoff leaves an inspectable receipt."},
+  {"frame":"04-proof.png","text":"Four separate Azure model requests. One deterministic calculation. These are recorded execution results, with sources and timings you can inspect in the app."},
+  {"frame":"05-compare.png","text":"Now change one observation. In Truth Lab, the defender's shift falls from thirteen metres to zero. The passing calculation survives. The movement claim does not."},
+  {"frame":"06-watch.png","text":"The unsupported claim is withdrawn. The broadcast line changes. You can see what changed, and why."},
+  {"frame":"07-phone.png","text":"That correction reaches Pocket Director too. A new fan gets the concept. An analyst gets the tactical detail. Same evidence. A different way into the game."},
+  {"frame":"08-accessibility.png","text":"Make the match easier to follow with captions, descriptions, clear language, reduced motion, and optional sound and vibration cues."},
+  {"frame":"09-foundry.png","text":"Foundry helps evaluate the explanations. The early comparison is narrow, and we publish that limit alongside the result."},
+  {"frame":"10-secure.png","text":"Azure Container Apps runs the experience. Managed identity protects service access. Blob Storage preserves the evidence."},
+  {"frame":"closing","text":"Before the Roar. Follow the play. Question the story. See the proof."}
+]

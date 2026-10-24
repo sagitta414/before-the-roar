@@ -14,6 +14,11 @@ export function finalDemoShareUrl() {
 export function openFinalDemo() {
   if (!dialog || dialog.open) return;
   status.textContent = "";
+  // Avoid decoding the background match and the premiere at the same time.
+  document.querySelectorAll("video").forEach((player) => {
+    if (player !== video) player.pause();
+  });
+  video.preload = "auto";
   dialog.showModal();
   closeButton.focus();
 }
@@ -47,6 +52,13 @@ async function copyShareLink() {
 openButton?.addEventListener("click", openFinalDemo);
 closeButton?.addEventListener("click", closeFinalDemo);
 copyButton?.addEventListener("click", copyShareLink);
+video?.addEventListener("waiting", () => {
+  status.textContent = "Buffering the demo… playback will resume automatically.";
+});
+video?.addEventListener("playing", () => { status.textContent = ""; });
+video?.addEventListener("error", () => {
+  status.textContent = "The video could not load. Use Open video to try the direct player.";
+});
 document.addEventListener("btr-open-demo", openFinalDemo);
 dialog?.addEventListener("click", (event) => {
   if (event.target === dialog) closeFinalDemo();

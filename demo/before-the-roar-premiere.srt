@@ -1,0 +1,163 @@
+1
+00:00:00,150 --> 00:00:01,680
+Before the Roar.
+
+2
+00:00:01,680 --> 00:00:02,733
+One match.
+
+3
+00:00:02,733 --> 00:00:04,550
+Every perspective.
+
+4
+00:00:05,016 --> 00:00:06,226
+Watch the runner.
+
+5
+00:00:06,226 --> 00:00:07,722
+The defender shifts.
+
+6
+00:00:07,722 --> 00:00:09,288
+A passing lane opens.
+
+7
+00:00:09,288 --> 00:00:11,495
+Did that run create the space?
+
+8
+00:00:11,495 --> 00:00:12,990
+It looks convincing.
+
+9
+00:00:12,990 --> 00:00:13,916
+Let's check.
+
+10
+00:00:14,383 --> 00:00:17,124
+A fresh synthetic event starts the investigation.
+
+11
+00:00:17,124 --> 00:00:18,523
+Scout observes the play.
+
+12
+00:00:18,523 --> 00:00:19,586
+Guide explains it.
+
+13
+00:00:19,586 --> 00:00:23,783
+Vector calculates twenty-three point seven metres of forward passing gain.
+
+14
+00:00:24,249 --> 00:00:29,050
+Then Check asks the difficult question: does the evidence actually support the story?
+
+15
+00:00:29,050 --> 00:00:30,914
+Host brings the answer together.
+
+16
+00:00:30,914 --> 00:00:33,399
+Each handoff leaves an inspectable receipt.
+
+17
+00:00:33,849 --> 00:00:35,923
+Four separate Azure model requests.
+
+18
+00:00:35,923 --> 00:00:37,759
+One deterministic calculation.
+
+19
+00:00:37,759 --> 00:00:43,149
+These are recorded execution results, with sources and timings you can inspect in the app.
+
+20
+00:00:43,616 --> 00:00:45,243
+Now change one observation.
+
+21
+00:00:45,243 --> 00:00:49,520
+In Truth Lab, the defender's shift falls from thirteen metres to zero.
+
+22
+00:00:49,520 --> 00:00:51,569
+The passing calculation survives.
+
+23
+00:00:51,569 --> 00:00:53,316
+The movement claim does not.
+
+24
+00:00:53,766 --> 00:00:55,927
+The unsupported claim is withdrawn.
+
+25
+00:00:55,927 --> 00:00:57,655
+The broadcast line changes.
+
+26
+00:00:57,655 --> 00:00:59,816
+You can see what changed, and why.
+
+27
+00:01:00,266 --> 00:01:02,949
+That correction reaches Pocket Director too.
+
+28
+00:01:02,949 --> 00:01:04,656
+A new fan gets the concept.
+
+29
+00:01:04,656 --> 00:01:06,912
+An analyst gets the tactical detail.
+
+30
+00:01:06,912 --> 00:01:07,826
+Same evidence.
+
+31
+00:01:07,826 --> 00:01:09,716
+A different way into the game.
+
+32
+00:01:10,166 --> 00:01:17,966
+Make the match easier to follow with captions, descriptions, clear language, reduced motion, and optional sound and vibration cues.
+
+33
+00:01:18,433 --> 00:01:20,533
+Foundry helps evaluate the explanations.
+
+34
+00:01:20,533 --> 00:01:24,733
+The early comparison is narrow, and we publish that limit alongside the result.
+
+35
+00:01:25,199 --> 00:01:27,779
+Azure Container Apps runs the experience.
+
+36
+00:01:27,779 --> 00:01:30,421
+Managed identity protects service access.
+
+37
+00:01:30,421 --> 00:01:32,749
+Blob Storage preserves the evidence.
+
+38
+00:01:33,199 --> 00:01:34,423
+Before the Roar.
+
+39
+00:01:34,423 --> 00:01:35,723
+Follow the play.
+
+40
+00:01:35,723 --> 00:01:37,252
+Question the story.
+
+41
+00:01:37,252 --> 00:01:38,399
+See the proof.
