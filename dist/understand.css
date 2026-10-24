@@ -54,3 +54,10 @@
 .understand-now[data-mode=math] .understand-explainer{background-color:#071521;background-image:linear-gradient(rgba(89,185,236,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(89,185,236,.045) 1px,transparent 1px);background-size:22px 22px}
 .understand-now[data-mode=math] .understand-answer>span{border-radius:50%;border-color:#59b9ec;color:#8ed5f7}
 @media(max-width:720px){.understand-evidence-boundary{align-items:flex-start;flex-direction:column;gap:6px;padding:10px 13px}.understand-evidence-boundary strong{text-align:left}.understand-frame:before{right:10px;top:47px;font-size:7px}}
+
+/* Reading-first hierarchy: keep the teaching layer beside the play. */
+.understand-now h2{font-size:clamp(26px,2.5vw,38px);line-height:1.08}
+.understand-frame-caption h3,.understand-story h3{font-size:clamp(21px,2vw,30px);line-height:1.12}
+.understand-answer p{font-size:15px;line-height:1.5}
+.understand-now small{font-size:11px}
+@media(max-width:720px){.understand-now h2{font-size:27px}.understand-answer p{font-size:16px}}

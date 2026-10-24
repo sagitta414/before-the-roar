@@ -222,11 +222,12 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
     anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+  document.addEventListener('btr-upload-clear',()=>{review.hidden=true;dock.hidden=true;reset();onRestore();});
   dock.querySelector('[data-dock-action="restore"]').onclick = () => {
     review.hidden = true;
     dock.hidden = true;
     reset();
-    onRestore();
+    document.dispatchEvent(new CustomEvent('btr-upload-clear'));
   };
   review.querySelectorAll("[data-cue]").forEach((button) => {
     button.onclick = () => {

@@ -12,7 +12,7 @@
   <link rel="manifest" href="pocket-manifest.webmanifest">
   <link rel="icon" href="assets/pocket-icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/pocket-icon.svg">
-  <link rel="stylesheet" href="pocket-director.css?v=142"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144"><link rel="stylesheet" href="pocket-next.css?v=159"><link rel="stylesheet" href="pocket-accessibility.css?v=163"><link rel="stylesheet" href="pocket-flow.css?v=164">
+  <link rel="stylesheet" href="pocket-director.css?v=142&r=176"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144"><link rel="stylesheet" href="pocket-next.css?v=159"><link rel="stylesheet" href="pocket-accessibility.css?v=163"><link rel="stylesheet" href="pocket-flow.css?v=164">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -65,7 +65,7 @@
         </div>
       </section>
       <section class="match-dashboard" aria-label="Live match data">
-        <div class="dashboard-head"><div><span>LIVE MATCH DATA</span><b id="data-scope">EVIDENCE THROUGH 67:18</b></div><em>MEASURED</em><button id="data-expand" type="button" aria-expanded="false">OPEN +</button></div>
+        <div class="dashboard-head"><div><span>LIVE MATCH DATA</span><b id="data-scope">EVIDENCE THROUGH 67:18</b></div><em id="data-kind">AWAITING EVIDENCE</em><button id="data-expand" type="button" aria-expanded="false">OPEN +</button></div>
         <div class="metric-grid">
           <article><small>COMPLETED PASSES</small><b id="data-passes">2</b><p>Reached events</p></article>
           <article><small>FORWARD GAIN</small><b id="data-forward">23.7<span>m</span></b><p>Completed passes</p></article>
@@ -76,8 +76,8 @@
         <div class="event-timeline" id="event-timeline" aria-label="Match event timeline"></div>
       </section>
       <section class="live-rail" aria-label="Live intelligence">
-        <article><span class="rail-icon">⌁</span><div><small>LIVE SIGNAL</small><b>High press trigger</b><p>Pressure narrows the next passing lane.</p></div><strong>LIVE</strong></article>
-        <button class="crew-entry" data-open-screen="more"><span class="crew-stack"><i>S</i><i>V</i><i>C</i><i>H</i></span><span><small>AI CREW</small><b>Five specialists are reviewing this play</b></span><em>›</em></button>
+        <article><span class="rail-icon">⌁</span><div><small>LIVE SIGNAL</small><b id="live-signal-title">Awaiting evidence</b><p id="live-signal-copy">No event has reached this source.</p></div><strong id="live-signal-status">WAITING</strong></article>
+        <button class="crew-entry" data-open-screen="more"><span class="crew-stack"><i>S</i><i>V</i><i>C</i><i>H</i></span><span><small>AI CREW</small><b>Open the crew discussion</b></span><em>›</em></button>
       </section>
       <section class="pitch-card" aria-labelledby="pitch-title">
         <div class="section-heading"><div><span>LIVE EVIDENCE MAP</span><h2 id="pitch-title">What the explanation sees</h2></div><button id="focus-toggle">FOLLOW 7</button></div>
@@ -138,6 +138,6 @@
   </main>
   <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i><svg viewBox="0 0 24 24"><path d="M4 13h3l2-6 4 11 2-5h5"/></svg></i>LIVE</button><button data-screen-target="perspectives"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></i>VIEWS</button><button data-screen-target="players"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20c.6-4 2.6-6 6-6s5.4 2 6 6"/></svg></i>PLAYER</button><button data-screen-target="more"><i><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg></i>LAB</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=170"></script>
+  <script type="module" src="pocket-director.js?v=170&r=176"></script>
 </body>
 </html>

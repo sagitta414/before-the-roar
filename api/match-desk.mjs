@@ -339,10 +339,10 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v12:" + pitchsideKey(input) + ":" + (input.parentKey || "")
+            ? "pitchside-tools-v13:" + pitchsideKey(input) + ":" + (input.parentKey || "")
             : (process.env.BTR_GROUNDED_DESK === "1"
                 ? "cohesive-handoff-v103:"
-                : "cohesive-tools-v12:") +
+                : "cohesive-tools-v13:") +
                 editorialKey(input) +
                 ":" +
                 (input.parentKey || ""),
@@ -858,10 +858,14 @@ export class MatchDesk {
             validated.summary = candidate.post.viewing_question;
           if (
             conversation.round > 1 &&
-            repeatsContribution(
+            (repeatsContribution(
               validated.summary,
               conversation.previous.filter((p) => p.role === role),
-            )
+            ) ||
+              repeatsInsight(
+                validated.summary,
+                conversation.previous.filter((p) => p.role === role),
+              ))
           )
             throw Error("Follow-up repeats the previous contribution");
           const filmPass =

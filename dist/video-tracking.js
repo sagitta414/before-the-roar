@@ -98,3 +98,5 @@ for(const button of panel.querySelectorAll('[data-evidence]'))button.onclick=()=
 
 
 
+
+document.addEventListener('btr-upload-clear',()=>{clearVideoEvidence();video.pause();});

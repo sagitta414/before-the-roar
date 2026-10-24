@@ -1,5 +1,5 @@
 const $ = (id) => document.getElementById(id);
-const state = { source: null, cues: [], events: [], players: [], detectorHealth: null, corrected: false, revision: 1 };
+import {workspace as state,setWorkspaceSource,updateWorkspace,withdrawWorkspaceEvent,subscribeWorkspace} from './source-workspace.js';
 const panels = {};
 const cueNames = { pass: "possible pass", shot: "shot candidate", duel: "duel" };
 
@@ -43,6 +43,8 @@ function packet() {
     source_sha256: state.source?.hash,
     source_name: state.source?.name,
     synthetic_or_authorized: true,
+    synthetic: state.source?.synthetic===true,
+    withdrawn_event_ids: [...state.withdrawn],
     revision: state.revision,
     corrected: state.corrected,
     audience: { mode: mode(), language: language() },
@@ -58,7 +60,8 @@ function savePacket() {
 }
 function basePanel(stage, title, copy) {
   const panel = document.createElement("section"); panel.className = `uploaded-dossier uploaded-dossier--${stage}`; panel.hidden = true;
-  panel.innerHTML = `<header><div><span>UPLOADED CLIP DOSSIER / ${stage.toUpperCase()}</span><h2>${title}</h2><p>${copy}</p></div><b data-upload-state>LOCAL SOURCE</b></header><div data-upload-body></div><nav><button type="button" data-route="watch">01 Watch</button><button type="button" data-route="centre">02 Understand</button><button type="button" data-route="lab">03 Measure</button><button type="button" data-route="truth">04 Challenge</button><button type="button" data-route="inside">05 Publish</button></nav>`;
+  panel.innerHTML = `<header><div><span>UPLOADED CLIP DOSSIER / ${({watch:"WATCH",centre:"UNDERSTAND",truth:"CHALLENGE",inside:"PUBLISH"})[stage]}</span><h2>${title}</h2><p>${copy}</p></div><b data-upload-state>LOCAL SOURCE</b></header><div data-upload-body></div><nav><button type="button" data-route="watch">01 Watch</button><button type="button" data-route="centre">02 Understand</button><button type="button" data-route="lab">03 Measure</button><button type="button" data-route="truth">04 Challenge</button><button type="button" data-route="inside">05 Publish</button></nav>`;
+  const exit=document.createElement('button');exit.type='button';exit.className='uploaded-exit';exit.textContent='Leave local clip · return to cinematic film';exit.onclick=()=>{document.dispatchEvent(new CustomEvent('btr-upload-clear'));go('watch');};panel.append(exit);
   panel.querySelectorAll("[data-route]").forEach((button) => button.onclick = () => go(button.dataset.route));
   return panel;
 }
@@ -80,8 +83,9 @@ function render() {
   for (const panel of Object.values(panels)) { panel.hidden = !state.source; if (state.source) panel.querySelector("[data-upload-state]").textContent = state.source.measured ? "COMPATIBILITY PASSED" : "REVIEWED CUES ONLY"; }
   if (!state.source) return;
   const watch = panels.watch.querySelector("[data-upload-body]");
+  const previousVideo=watch.querySelector('video');
   watch.innerHTML = '<div class="uploaded-watch"><div class="uploaded-video"><video controls playsinline></video><span>AUTHORIZED LOCAL VIDEO · ORIGINAL BYTES NOT UPLOADED</span></div><div class="uploaded-now"><small>CURRENT EVIDENCE</small><h3></h3><p></p><div class="uploaded-facts"></div><button type="button">Explain this play →</button></div></div>';
-  watch.querySelector("video").src = state.source.url; watch.querySelector("h3").textContent = state.source.name; watch.querySelector("p").textContent = claim;
+  if(previousVideo?.getAttribute('src')===state.source.url)watch.querySelector('video').replaceWith(previousVideo);else watch.querySelector("video").src = state.source.url; watch.querySelector("h3").textContent = state.source.name; watch.querySelector("p").textContent = claim;
   const facts = watch.querySelector(".uploaded-facts"); facts.textContent = `${state.source.metadata.duration.toFixed(1)} s · ${state.source.metadata.width}×${state.source.metadata.height} · SHA ${state.source.hash.slice(0, 10)}…`;
   watch.querySelector("button").onclick = () => go("centre");
   const centre = panels.centre.querySelector("[data-upload-body]"); centre.innerHTML = '<div class="uploaded-explain"><small>THE EXPLANATION</small><h3></h3><p></p><div><button data-mode="beginner">New to football</button><button data-mode="math">Show the math</button><button data-mode="analyst">Tactical</button><button data-mode="player">Player focus</button></div><button class="uploaded-next">Challenge this claim →</button></div>';
@@ -89,13 +93,17 @@ function render() {
   centre.querySelectorAll("[data-mode]").forEach((button) => { button.setAttribute("aria-pressed", String(mode() === button.dataset.mode)); button.onclick = () => { $("session-mode").value = button.dataset.mode; $("session-mode").dispatchEvent(new Event("change", { bubbles: true })); render(); }; }); centre.querySelector(".uploaded-next").onclick = () => go("truth");
   const truth = panels.truth.querySelector("[data-upload-body]"); truth.innerHTML = '<div class="uploaded-truth"><article><small>ORIGINAL EVIDENCE</small><strong></strong><p></p></article><i>→</i><article><small>CURRENT REVISION</small><strong></strong><p></p></article></div><button class="uploaded-correct"></button>';
   truth.querySelector("article:first-child strong").textContent = item ? "ACTIVE CUE" : "NO CUE"; truth.querySelector("article:first-child p").textContent = claim; truth.querySelector("article:last-of-type strong").textContent = state.corrected ? "CLAIM WITHDRAWN" : "CLAIM RETAINED"; truth.querySelector("article:last-of-type p").textContent = state.corrected ? "The current publish packet contains no overlay cue. The source receipt and revision remain available." : story;
-  const correct = truth.querySelector(".uploaded-correct"); correct.textContent = state.corrected ? "Restore original evidence ↺" : "Withdraw this observation →"; correct.disabled = !item; correct.onclick = () => { state.corrected = !state.corrected; state.revision++; render(); };
-  const publish = panels.inside.querySelector("[data-upload-body]"); publish.innerHTML = '<div class="uploaded-publish"><div><small>PUBLIC OUTPUT</small><h3></h3><p></p><button>Download overlay + evidence ↓</button></div><pre></pre></div>';
-  publish.querySelector("h3").textContent = state.corrected ? "No cue released" : item ? "Timed cue ready" : "Waiting for evidence"; publish.querySelector("p").textContent = state.corrected ? "The corrected revision prevents the withdrawn explanation from reaching the audience." : "The same evidence is now packaged for a screen, stream or mobile companion."; publish.querySelector("pre").textContent = JSON.stringify(packet(), null, 2); publish.querySelector("button").onclick = savePacket;
+  const correct = truth.querySelector(".uploaded-correct"); correct.textContent = state.corrected ? "Restore original evidence ↺" : "Withdraw this observation →"; correct.disabled = !item; correct.onclick = () => { withdrawWorkspaceEvent(item.id,!state.corrected); };
+  const publish = panels.inside.querySelector("[data-upload-body]"); publish.innerHTML = '<div class="uploaded-publish"><div><small>PUBLIC OUTPUT</small><h3></h3><p></p><button>Download overlay + evidence ↓</button></div><div class="uploaded-output-preview"><small>ON-SCREEN PREVIEW</small><h3 data-cue-title></h3><p data-cue-copy></p><details><summary>Inspect packet + evidence</summary><pre></pre></details></div></div>';
+  publish.querySelector('[data-cue-title]').textContent=state.corrected?'Claim withdrawn':item?'The observed play':'Awaiting evidence';publish.querySelector('[data-cue-copy]').textContent=story;
+  publish.querySelector("h3").textContent = state.corrected ? "No cue released" : item ? "Timed cue ready" : "Waiting for evidence"; publish.querySelector("p").textContent = state.corrected ? "The corrected revision prevents the withdrawn explanation from reaching the audience." : "The same evidence is now packaged for a screen, stream with its source receipt. Local clips currently stay on this device."; publish.querySelector("pre").textContent = JSON.stringify(packet(), null, 2); publish.querySelector("button").onclick = savePacket;
 }
 
 mount();
-document.addEventListener("btr-upload-source", (event) => { state.source = event.detail; state.cues = []; state.events = []; state.corrected = false; state.revision = 1; render(); setTimeout(() => go("watch"), 0); });
-document.addEventListener("btr-upload-cues", (event) => { state.cues = event.detail.cues || []; state.corrected = false; state.revision++; render(); });
-document.addEventListener("btr-upload-detection", (event) => { state.events = event.detail.events || []; state.players = event.detail.players || []; state.detectorHealth = event.detail.detectorHealth; state.corrected = false; state.revision++; render(); });
+subscribeWorkspace(render);
+document.addEventListener("btr-upload-source", (event) => { setWorkspaceSource(event.detail); });
+document.addEventListener("btr-upload-cues", (event) => { updateWorkspace({cues:event.detail.cues||[]}); });
+document.addEventListener("btr-upload-detection", (event) => { updateWorkspace({events:event.detail.events||[],players:event.detail.players||[],detectorHealth:event.detail.detectorHealth}); });
 for (const id of ["session-mode", "session-language"]) $(id)?.addEventListener("change", render);
+
+document.addEventListener('btr-upload-clear',()=>setWorkspaceSource(null));
