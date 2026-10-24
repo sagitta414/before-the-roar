@@ -1,0 +1,129 @@
+{
+  "version": 174,
+  "duration_seconds": 255.616,
+  "sha256": "3f06953a7472710d0fa378c47d72c1c052b86b0892334359cc05ed755c2d3d1d",
+  "bytes": 30860445,
+  "timings": [
+    {
+      "id": "hook",
+      "start": 0,
+      "duration": 5
+    },
+    {
+      "id": "intro",
+      "start": 5,
+      "duration": 7
+    },
+    {
+      "id": "scout",
+      "start": 12,
+      "duration": 7
+    },
+    {
+      "id": "guide",
+      "start": 19,
+      "duration": 7
+    },
+    {
+      "id": "vector",
+      "start": 26,
+      "duration": 7
+    },
+    {
+      "id": "check",
+      "start": 33,
+      "duration": 7
+    },
+    {
+      "id": "host",
+      "start": 40,
+      "duration": 8
+    },
+    {
+      "id": "old-2",
+      "start": 48,
+      "duration": 13.3
+    },
+    {
+      "id": "old-3",
+      "start": 61.3,
+      "duration": 11.137
+    },
+    {
+      "id": "old-4",
+      "start": 72.437,
+      "duration": 8.375
+    },
+    {
+      "id": "old-5",
+      "start": 80.812,
+      "duration": 14.266667
+    },
+    {
+      "id": "old-6",
+      "start": 95.078667,
+      "duration": 15.6
+    },
+    {
+      "id": "old-7",
+      "start": 110.67866699999999,
+      "duration": 13.5
+    },
+    {
+      "id": "old-8",
+      "start": 124.17866699999999,
+      "duration": 12.55
+    },
+    {
+      "id": "old-9",
+      "start": 136.728667,
+      "duration": 13.8
+    },
+    {
+      "id": "old-10",
+      "start": 150.528667,
+      "duration": 12.966667
+    },
+    {
+      "id": "correction",
+      "start": 163.495334,
+      "duration": 16
+    },
+    {
+      "id": "phone",
+      "start": 179.495334,
+      "duration": 8
+    },
+    {
+      "id": "old-13",
+      "start": 187.495334,
+      "duration": 15.466667
+    },
+    {
+      "id": "old-14",
+      "start": 202.96200100000001,
+      "duration": 13.366667
+    },
+    {
+      "id": "old-15",
+      "start": 216.32866800000002,
+      "duration": 13.2
+    },
+    {
+      "id": "architecture",
+      "start": 229.528668,
+      "duration": 17
+    },
+    {
+      "id": "closing",
+      "start": 246.528668,
+      "duration": 9
+    }
+  ],
+  "voices": "Azure AI Speech. Crew scene is explicitly scripted from synthetic evidence, not a fresh five-agent execution.",
+  "correction": "Continuous timestamp-preserving browser capture of deterministic correction. Frozen final frame pads the scene; no internal edits or acceleration.",
+  "mobile": "Paired R2 output captured after connection reload; not evidence of uninterrupted automatic delivery.",
+  "architecture": "Recorded interactive architecture animation, not a new Azure execution trace.",
+  "sound": "Original synthesized three-note BTR signature, no third-party music.",
+  "evaluation": "No claim of independent commentary superiority."
+}

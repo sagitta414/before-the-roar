@@ -1,4 +1,4 @@
-param([string]$Voice = 'en-US-Andrew2:DragonHDLatestNeural', [string]$SceneFile='scripts/demo-v4-scenes.json', [string]$OutputFolder='tmp/submission-demo-v4')
+param([string]$Voice = 'en-US-Andrew2:DragonHDLatestNeural', [string]$SceneFile='scripts/demo-v4-scenes.json', [string]$OutputFolder='tmp/submission-demo-v4', [string]$OnlyScenes='')
 $ErrorActionPreference = 'Stop'
 $key = az cognitiveservices account keys list --resource-group rg-lsds-demo --name lsds-ai-foundry-jl --query key1 --output tsv
 if (-not $key) { throw 'Speech credentials unavailable.' }
@@ -7,6 +7,7 @@ New-Item -ItemType Directory -Path $folder -Force | Out-Null
 $scenes = Get-Content $SceneFile -Raw | ConvertFrom-Json
 $headers = @{'Ocp-Apim-Subscription-Key'=$key; 'Content-Type'='application/ssml+xml'; 'X-Microsoft-OutputFormat'='riff-48khz-16bit-mono-pcm'}
 for ($i=0; $i -lt $scenes.Count; $i++) {
+  if ($OnlyScenes -and "$i" -notin $OnlyScenes.Split(',')) { continue }
   $text = [Security.SecurityElement]::Escape($scenes[$i].text)
   $sceneVoice = if ($scenes[$i].voice) { $scenes[$i].voice } else { $Voice }
   $ssml = "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'><voice name='$sceneVoice'>$text</voice></speak>"

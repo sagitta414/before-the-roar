@@ -1,0 +1,79 @@
+{
+  "version": 174,
+  "duration_seconds": 115.098,
+  "sha256": "df2efe2ff32eb0c64780cf02b43c81718ebcdd68a48b1cb0c3d3ca19759b6e7e",
+  "bytes": 16904136,
+  "timings": [
+    {
+      "id": "hook",
+      "start": 0,
+      "duration": 5
+    },
+    {
+      "id": "intro",
+      "start": 5,
+      "duration": 7
+    },
+    {
+      "id": "scout",
+      "start": 12,
+      "duration": 7
+    },
+    {
+      "id": "guide",
+      "start": 19,
+      "duration": 7
+    },
+    {
+      "id": "vector",
+      "start": 26,
+      "duration": 7
+    },
+    {
+      "id": "check",
+      "start": 33,
+      "duration": 7
+    },
+    {
+      "id": "host",
+      "start": 40,
+      "duration": 8
+    },
+    {
+      "id": "correction",
+      "start": 48,
+      "duration": 16
+    },
+    {
+      "id": "phone",
+      "start": 64,
+      "duration": 8
+    },
+    {
+      "id": "measure",
+      "start": 72,
+      "duration": 8
+    },
+    {
+      "id": "receipts",
+      "start": 80,
+      "duration": 9
+    },
+    {
+      "id": "architecture",
+      "start": 89,
+      "duration": 17
+    },
+    {
+      "id": "closing",
+      "start": 106,
+      "duration": 9
+    }
+  ],
+  "voices": "Azure AI Speech. Crew scene is explicitly scripted from synthetic evidence, not a fresh five-agent execution.",
+  "correction": "Continuous timestamp-preserving browser capture of deterministic correction. Frozen final frame pads the scene; no internal edits or acceleration.",
+  "mobile": "Paired R2 output captured after connection reload; not evidence of uninterrupted automatic delivery.",
+  "architecture": "Recorded interactive architecture animation, not a new Azure execution trace.",
+  "sound": "Original synthesized three-note BTR signature, no third-party music.",
+  "evaluation": "No claim of independent commentary superiority."
+}

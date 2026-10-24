@@ -1,0 +1,155 @@
+1
+00:00:00,150 --> 00:00:01,448
+The defender moved.
+
+2
+00:00:01,448 --> 00:00:02,200
+Or did he?
+
+3
+00:00:05,150 --> 00:00:06,075
+Before the Roar.
+
+4
+00:00:06,075 --> 00:00:11,450
+Five specialists investigate the play, then show you what the evidence can actually support.
+
+5
+00:00:12,150 --> 00:00:13,628
+The winger moves wide.
+
+6
+00:00:13,628 --> 00:00:16,449
+The defender shifts toward the same side.
+
+7
+00:00:16,449 --> 00:00:18,800
+There may be space opening inside.
+
+8
+00:00:19,150 --> 00:00:22,009
+An off-ball run means moving without the ball.
+
+9
+00:00:22,009 --> 00:00:25,800
+Watch whether the defender follows, or holds their position.
+
+10
+00:00:26,150 --> 00:00:29,844
+Two completed passes move the ball twenty-three point seven metres forward.
+
+11
+00:00:29,844 --> 00:00:32,800
+That calculation does not explain the defender's intention.
+
+12
+00:00:33,150 --> 00:00:36,160
+Coinciding movements don't prove causation.
+
+13
+00:00:36,160 --> 00:00:39,800
+Change the observation, and this claim must change.
+
+14
+00:00:40,150 --> 00:00:41,705
+The passes stand.
+
+15
+00:00:41,705 --> 00:00:45,363
+The interpretation remains conditional.
+
+16
+00:00:45,363 --> 00:00:47,650
+Let's test the evidence.
+
+17
+00:00:48,150 --> 00:00:50,981
+Here is the actual correction, without a cut.
+
+18
+00:00:50,981 --> 00:00:52,932
+Apply the revised observation.
+
+19
+00:00:52,932 --> 00:00:54,819
+Thirteen metres becomes zero.
+
+20
+00:00:54,819 --> 00:00:56,895
+The movement claim is withdrawn.
+
+21
+00:00:56,895 --> 00:00:58,405
+The two passes survive.
+
+22
+00:00:58,405 --> 00:01:03,250
+This demonstration runs deterministic checks; it makes no new model request.
+
+23
+00:01:04,150 --> 00:01:06,470
+The corrected revision reaches Pocket Director.
+
+24
+00:01:06,470 --> 00:01:09,085
+The same evidence, explained for a different viewer.
+
+25
+00:01:09,085 --> 00:01:11,800
+Football knowledge should never be the price of entry.
+
+26
+00:01:12,150 --> 00:01:15,159
+Measure the fictional sample, or upload compatible footage.
+
+27
+00:01:15,159 --> 00:01:19,800
+These measurements come from controlled synthetic video, separate from the cinematic film.
+
+28
+00:01:20,150 --> 00:01:25,824
+Inspect the receipts: model requests, calculations, restored stages, and failures.
+
+29
+00:01:25,824 --> 00:01:28,800
+More voices don't prove better commentary.
+
+30
+00:01:29,150 --> 00:01:31,458
+Container Apps receives the event.
+
+31
+00:01:31,458 --> 00:01:32,951
+Entra secures access.
+
+32
+00:01:32,951 --> 00:01:35,191
+Azure OpenAI powers specialists.
+
+33
+00:01:35,191 --> 00:01:36,345
+Foundry advises.
+
+34
+00:01:36,345 --> 00:01:38,789
+Blob Storage preserves checkpoints.
+
+35
+00:01:38,789 --> 00:01:41,300
+The evidence gate controls delivery.
+
+36
+00:01:46,150 --> 00:01:47,346
+Watch the play.
+
+37
+00:01:47,346 --> 00:01:48,941
+Question the story.
+
+38
+00:01:48,941 --> 00:01:50,296
+Before the Roar.
+
+39
+00:01:50,296 --> 00:01:52,050
+Every play has a why.

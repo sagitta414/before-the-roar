@@ -13,11 +13,11 @@ test('the demo preserves the chosen cut in its player, download and share URL', 
   w.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
   w.eval(script.replaceAll('export function','function')+'\nwindow.demoUrl=finalDemoShareUrl;');
   w.document.getElementById('open-final-demo').click();
-  assert.match(w.document.getElementById('final-demo-video').src,/premiere-v172/);
+  assert.match(w.document.getElementById('final-demo-video').src,/judge-v174/);
   assert.equal(new URL(w.demoUrl()).searchParams.get('cut'),'short');
   w.document.querySelector('[data-demo-cut="showcase"]').click();
-  assert.match(w.document.getElementById('final-demo-video').src,/showcase-v173/);
-  assert.match(w.document.querySelector('.final-demo-actions a').href,/showcase-v173/);
+  assert.match(w.document.getElementById('final-demo-video').src,/showcase-v174/);
+  assert.match(w.document.querySelector('.final-demo-actions a').href,/showcase-v174/);
   assert.equal(new URL(w.demoUrl()).searchParams.get('cut'),'showcase');
   assert.equal(w.document.querySelector('[data-demo-cut="showcase"]').getAttribute('aria-pressed'),'true');
   dom.window.close();

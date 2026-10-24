@@ -13,7 +13,7 @@ test("the main experience exposes a shareable two-minute demo", async () => {
   ]);
   assert.match(html, /id="open-final-demo"/);
   assert.match(html, /id="final-demo-dialog"/);
-  assert.match(html, /assets\/before-the-roar-showcase-v173\.mp4/);
+  assert.match(html, /assets\/before-the-roar-showcase-v174\.mp4/);
   assert.match(splash, /2-minute demo/);
   assert.match(splash, /btr-open-demo/);
   assert.match(script, /searchParams\.set\("demo", "1"\)/);

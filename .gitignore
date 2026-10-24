@@ -5,3 +5,4 @@ tmp/
 .env*
 
 infra/parameters.local.json
+demo/showcase-v174/*-master.mp4

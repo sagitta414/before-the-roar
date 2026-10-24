@@ -1,0 +1,97 @@
+[
+  {
+    "id": "hook",
+    "kind": "hook",
+    "duration": 5,
+    "text": "The defender moved. Or did he?"
+  },
+  {
+    "id": "intro",
+    "kind": "film",
+    "duration": 7,
+    "text": "Before the Roar. Five specialists investigate the play, then show you what the evidence can actually support."
+  },
+  {
+    "id": "scout",
+    "kind": "crew",
+    "role": "SCOUT",
+    "accent": "62caff",
+    "duration": 7,
+    "voice": "en-US-BrianMultilingualNeural",
+    "text": "The winger moves wide. The defender shifts toward the same side. There may be space opening inside."
+  },
+  {
+    "id": "guide",
+    "kind": "crew",
+    "role": "GUIDE",
+    "accent": "c5ef47",
+    "duration": 7,
+    "voice": "en-US-JasonNeural",
+    "text": "An off-ball run means moving without the ball. Watch whether the defender follows, or holds their position."
+  },
+  {
+    "id": "vector",
+    "kind": "crew",
+    "role": "VECTOR",
+    "accent": "ffca67",
+    "duration": 7,
+    "voice": "en-US-Andrew2:DragonHDLatestNeural",
+    "text": "Two completed passes move the ball twenty-three point seven metres forward. That calculation does not explain the defender's intention."
+  },
+  {
+    "id": "check",
+    "kind": "crew",
+    "role": "CHECK",
+    "accent": "ff4169",
+    "duration": 7,
+    "voice": "en-US-DavisNeural",
+    "text": "Coinciding movements don't prove causation. Change the observation, and this claim must change."
+  },
+  {
+    "id": "host",
+    "kind": "crew",
+    "role": "HOST",
+    "accent": "ffffff",
+    "duration": 8,
+    "voice": "en-US-GuyNeural",
+    "text": "The passes stand. The interpretation remains conditional. Let's test the evidence."
+  },
+  {
+    "id": "correction",
+    "kind": "correction",
+    "duration": 16,
+    "text": "Here is the actual correction, without a cut. Apply the revised observation. Thirteen metres becomes zero. The movement claim is withdrawn. The two passes survive. This demonstration runs deterministic checks; it makes no new model request."
+  },
+  {
+    "id": "phone",
+    "kind": "phone",
+    "duration": 8,
+    "text": "The corrected revision reaches Pocket Director. The same evidence, explained for a different viewer. Football knowledge should never be the price of entry."
+  },
+  {
+    "id": "measure",
+    "kind": "capture",
+    "frame": "measure.png",
+    "duration": 8,
+    "text": "Measure the fictional sample, or upload compatible footage. These measurements come from controlled synthetic video, separate from the cinematic film."
+  },
+  {
+    "id": "receipts",
+    "kind": "capture",
+    "frame": "03-receipts.png",
+    "duration": 9,
+    "text": "Inspect the receipts: model requests, calculations, restored stages, and failures. More voices don't prove better commentary."
+  },
+  {
+    "id": "architecture",
+    "kind": "architecture",
+    "duration": 17,
+    "text": "Container Apps receives the event. Entra secures access. Azure OpenAI powers specialists. Foundry advises. Blob Storage preserves checkpoints. The evidence gate controls delivery."
+  },
+  {
+    "id": "closing",
+    "kind": "closing",
+    "duration": 9,
+    "text": "Watch the play. Question the story. Before the Roar. Every play has a why."
+  }
+]

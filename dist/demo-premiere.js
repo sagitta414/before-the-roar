@@ -5,9 +5,28 @@ const openButton = document.getElementById("open-final-demo");
 const closeButton = document.getElementById("close-final-demo");
 const copyButton = document.getElementById("copy-final-demo-link");
 const cuts = {
-  showcase: { src: "assets/before-the-roar-showcase-v173.mp4", poster: "assets/demo-showcase-poster.jpg", label: "3:57 · FULL PRODUCT TOUR · AI PLAY-BY-PLAY + ARCHITECTURE" },
-  short: { src: "assets/before-the-roar-premiere-v172.mp4", poster: "assets/demo-premiere-poster.jpg", label: "1:39 · HACKATHON CUT · CAPTIONED" },
+  showcase: { src: "assets/before-the-roar-showcase-v174.mp4", poster: "assets/demo-v174-poster.jpg", label: "4:16 · FULL PRODUCT TOUR · CAPTIONED · FIVE VOICES + ARCHITECTURE", chapters: [[0,"The question"],[12,"The crew"],[48,"Live Watch responses"],[163.495334,"The correction"],[179.495334,"Your phone"],[229.528668,"Architecture"]] },
+  short: { src: "assets/before-the-roar-judge-v174.mp4", poster: "assets/demo-v174-poster.jpg", label: "1:55 · JUDGE CUT · CAPTIONED", chapters: [[0,"The question"],[12,"The crew"],[48,"The correction"],[64,"Your phone"],[89,"Architecture"]] },
 };
+const chapters = document.createElement("nav");
+chapters.className = "demo-chapters";
+chapters.setAttribute("aria-label", "Demo chapters");
+dialog?.querySelector(".final-demo-player")?.after(chapters);
+function renderChapters() {
+  chapters.replaceChildren();
+  for (const [time, title] of cuts[selectedCut].chapters) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = title;
+    button.setAttribute("aria-label", `Jump to ${title}`);
+    button.addEventListener("click", () => {
+      // Seek into the first frame of the chapter, past encoder boundary padding.
+      video.currentTime = time === 0 ? 0 : time + 0.25;
+      status.textContent = `${title}. Press play to continue.`;
+    });
+    chapters.append(button);
+  }
+}
 let selectedCut = new URLSearchParams(location.search).get("cut") === "short" ? "short" : "showcase";
 function selectCut(name) {
   if (!cuts[name] || !video) return;
@@ -22,6 +41,7 @@ function selectCut(name) {
   const label = dialog.querySelector(".final-demo-player > span");
   if (label) label.textContent = cuts[name].label;
   document.querySelectorAll("[data-demo-cut]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.demoCut === name)));
+  renderChapters();
   status.textContent = "";
 }
 document.querySelectorAll("[data-demo-cut]").forEach(button => button.addEventListener("click", () => selectCut(button.dataset.demoCut)));

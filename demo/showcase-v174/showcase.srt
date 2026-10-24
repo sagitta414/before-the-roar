@@ -1,0 +1,323 @@
+1
+00:00:00,150 --> 00:00:01,448
+The defender moved.
+
+2
+00:00:01,448 --> 00:00:02,200
+Or did he?
+
+3
+00:00:05,150 --> 00:00:06,075
+Before the Roar.
+
+4
+00:00:06,075 --> 00:00:11,450
+Five specialists investigate the play, then show you what the evidence can actually support.
+
+5
+00:00:12,150 --> 00:00:13,628
+The winger moves wide.
+
+6
+00:00:13,628 --> 00:00:16,449
+The defender shifts toward the same side.
+
+7
+00:00:16,449 --> 00:00:18,800
+There may be space opening inside.
+
+8
+00:00:19,150 --> 00:00:22,009
+An off-ball run means moving without the ball.
+
+9
+00:00:22,009 --> 00:00:25,800
+Watch whether the defender follows, or holds their position.
+
+10
+00:00:26,150 --> 00:00:29,844
+Two completed passes move the ball twenty-three point seven metres forward.
+
+11
+00:00:29,844 --> 00:00:32,800
+That calculation does not explain the defender's intention.
+
+12
+00:00:33,150 --> 00:00:36,160
+Coinciding movements don't prove causation.
+
+13
+00:00:36,160 --> 00:00:39,800
+Change the observation, and this claim must change.
+
+14
+00:00:40,150 --> 00:00:41,705
+The passes stand.
+
+15
+00:00:41,705 --> 00:00:45,363
+The interpretation remains conditional.
+
+16
+00:00:45,363 --> 00:00:47,650
+Let's test the evidence.
+
+17
+00:00:48,150 --> 00:00:49,047
+Start in Watch.
+
+18
+00:00:49,047 --> 00:00:53,354
+The football stays centre stage, with the specialist crew alongside it.
+
+19
+00:00:53,354 --> 00:00:56,165
+As you reach a new play, the evidence changes.
+
+20
+00:00:56,165 --> 00:00:58,199
+Ask the crew for a fresh reading.
+
+21
+00:00:58,199 --> 00:01:00,950
+Here is Scout's actual response to this duel.
+
+22
+00:01:01,450 --> 00:01:08,774
+The attacker touches the ball and begins to move along the sideline while the defender adjusts his position to follow closely.
+
+23
+00:01:08,774 --> 00:01:12,087
+This shows a direct interaction between their movements.
+
+24
+00:01:12,587 --> 00:01:15,748
+A duel is a contest between an attacker and a defender.
+
+25
+00:01:15,748 --> 00:01:20,462
+How does the defender's position change as the attacker moves along the sideline?
+
+26
+00:01:20,962 --> 00:01:24,760
+Move to the receiving touch, and the discussion changes with it.
+
+27
+00:01:24,760 --> 00:01:30,397
+Vector keeps the numbers honest: one completed pass does not establish a team's accuracy rate.
+
+28
+00:01:30,397 --> 00:01:34,729
+Check asks whether the camera can actually show a broken defensive line.
+
+29
+00:01:35,229 --> 00:01:39,335
+The scene, the explanation, and the evidence share a playhead.
+
+30
+00:01:39,335 --> 00:01:42,448
+In this recorded round, Host did not complete.
+
+31
+00:01:42,448 --> 00:01:46,554
+BTR keeps that failure visible and labels its reference note.
+
+32
+00:01:46,554 --> 00:01:50,329
+Saved notes are never passed off as fresh model results.
+
+33
+00:01:50,829 --> 00:01:53,593
+Understand turns the same moment into a lesson.
+
+34
+00:01:53,593 --> 00:01:54,476
+What happened?
+
+35
+00:01:54,476 --> 00:01:55,711
+Why might it matter?
+
+36
+00:01:55,711 --> 00:01:57,358
+What should you watch next?
+
+37
+00:01:57,358 --> 00:01:59,770
+The beginner view explains the football.
+
+38
+00:01:59,770 --> 00:02:03,829
+The tactical view focuses on positioning and the limits of the shot.
+
+39
+00:02:04,329 --> 00:02:08,533
+Measure lets you analyze the included fictional sample or bring a compatible clip.
+
+40
+00:02:08,533 --> 00:02:12,430
+The compatibility gate checks whether the footage can support the detector.
+
+41
+00:02:12,430 --> 00:02:16,379
+Controlled synthetic measurements are kept separate from the cinematic film.
+
+42
+00:02:16,879 --> 00:02:20,851
+For the measured match, a synthetic event starts a new investigation.
+
+43
+00:02:20,851 --> 00:02:21,773
+Scout observes.
+
+44
+00:02:21,773 --> 00:02:22,694
+Guide explains.
+
+45
+00:02:22,694 --> 00:02:27,012
+Vector calculates twenty-three point seven metres of forward passing gain.
+
+46
+00:02:27,012 --> 00:02:30,179
+Check challenges the conclusion before Host publishes.
+
+47
+00:02:30,679 --> 00:02:32,875
+Open the AI desk to see the handoffs.
+
+48
+00:02:32,875 --> 00:02:38,218
+Model execution, deterministic calculation, replay, and recovery have different receipts.
+
+49
+00:02:38,218 --> 00:02:43,145
+You can inspect which source supported an answer and which specialist produced it.
+
+50
+00:02:43,645 --> 00:02:46,477
+Here is the actual correction, without a cut.
+
+51
+00:02:46,477 --> 00:02:48,427
+Apply the revised observation.
+
+52
+00:02:48,427 --> 00:02:50,315
+Thirteen metres becomes zero.
+
+53
+00:02:50,315 --> 00:02:52,391
+The movement claim is withdrawn.
+
+54
+00:02:52,391 --> 00:02:53,901
+The two passes survive.
+
+55
+00:02:53,901 --> 00:02:58,745
+This demonstration runs deterministic checks; it makes no new model request.
+
+56
+00:02:59,645 --> 00:03:01,965
+The corrected revision reaches Pocket Director.
+
+57
+00:03:01,965 --> 00:03:04,581
+The same evidence, explained for a different viewer.
+
+58
+00:03:04,581 --> 00:03:07,295
+Football knowledge should never be the price of entry.
+
+59
+00:03:07,645 --> 00:03:10,769
+Accessibility changes how the match reaches you.
+
+60
+00:03:10,769 --> 00:03:12,461
+Captions and visual cues.
+
+61
+00:03:12,461 --> 00:03:13,957
+Descriptive narration.
+
+62
+00:03:13,957 --> 00:03:16,235
+Clear language and reduced motion.
+
+63
+00:03:16,235 --> 00:03:18,187
+Optional sound and vibration.
+
+64
+00:03:18,187 --> 00:03:22,612
+The presentation adapts while the underlying facts stay consistent.
+
+65
+00:03:23,112 --> 00:03:25,642
+Publish brings the story together for delivery.
+
+66
+00:03:25,642 --> 00:03:30,003
+Inspect the narrative, its evidence, and its correction status before exporting.
+
+67
+00:03:30,003 --> 00:03:35,979
+The broadcast output is timed and machine-readable, so another screen can render the same checked explanation.
+
+68
+00:03:36,479 --> 00:03:38,503
+The evaluation stays visible too.
+
+69
+00:03:38,503 --> 00:03:40,896
+Foundry helps review the public trace.
+
+70
+00:03:40,896 --> 00:03:46,725
+Our early crew comparison is narrow; it does not establish superior commentary across matches.
+
+71
+00:03:46,725 --> 00:03:49,179
+BTR shows that limit beside the result.
+
+72
+00:03:49,679 --> 00:03:51,986
+Container Apps receives the event.
+
+73
+00:03:51,986 --> 00:03:53,480
+Entra secures access.
+
+74
+00:03:53,480 --> 00:03:55,720
+Azure OpenAI powers specialists.
+
+75
+00:03:55,720 --> 00:03:56,874
+Foundry advises.
+
+76
+00:03:56,874 --> 00:03:59,317
+Blob Storage preserves checkpoints.
+
+77
+00:03:59,317 --> 00:04:01,829
+The evidence gate controls delivery.
+
+78
+00:04:06,679 --> 00:04:07,875
+Watch the play.
+
+79
+00:04:07,875 --> 00:04:09,469
+Question the story.
+
+80
+00:04:09,469 --> 00:04:10,825
+Before the Roar.
+
+81
+00:04:10,825 --> 00:04:12,579
+Every play has a why.
