@@ -1,0 +1,56 @@
+ROUND 1 · Evidence through 00:13 · REVIEWED FILM
+
+Live AI did not complete this round. Reviewed notes are shown; your follow-up may remain unanswered.
+
+Scout
+The observation
+AI
+
+The recorded positions show two lime-shirted attackers close to the ball, with one receiving a pass while a blue defender is nearby. This indicates a direct passing option was available in a tight space.
+
+Interpretation · not a measured fact
+Evidence
+Guide
+The explanation
+AI
+↳ Scout
+
+A pass sends the ball to a teammate. Where could the receiver move next as the defender approaches?
+
+Viewing question
+Evidence
+Vector
+The calculation
+MATH
+2 v 1
+
+One reviewed pass reaches a teammate in this scene. A single completion cannot establish a team pass-accuracy rate.
+
+Calculated from records
+Evidence
+Check
+The challenge
+CHECK
+↳ Scout
+QUALIFY
+
+A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.
+
+Rule-based evidence check
+Evidence
+Host
+The takeaway
+NOTES
+↳ Check
+
+A short outlet is useful only if the receiver can use the next touch. Look for the exit, not just the completed pass.
+
+Reviewed reference note
+
+Replay the receiver’s first touch.
+
+Evidence
+Go deeper ↗
+Challenge it ↗
+Make it simple ↗
+Continue this conversation · up to 4 AI requests

@@ -1,0 +1,54 @@
+ROUND 1 · Evidence through 00:05 · REVIEWED FILM
+
+Scout
+The observation
+AI
+
+The attacker touches the ball and begins to move along the sideline while the defender adjusts his position to follow closely. This shows a direct interaction between their movements.
+
+Interpretation · not a measured fact
+Evidence
+Guide
+The explanation
+AI
+↳ Scout
+
+A duel is a contest between an attacker and a defender. How does the defender's position change as the attacker moves along the sideline?
+
+Viewing question
+Evidence
+Vector
+The calculation
+MATH
+1 v 1
+
+The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.
+
+Calculated from records
+Evidence
+Check
+The challenge
+CHECK
+↳ Scout
+QUALIFY
+
+Position alone does not settle possession. Check the next visible touch before awarding a won duel.
+
+Rule-based evidence check
+Evidence
+Host
+The takeaway
+AI
+↳ Check
+
+The attacker’s movement along the sideline forces the defender to adjust his position, indicating a competitive interaction in the duel.
+
+Interpretation · not a measured fact
+
+Replay the ball beside the attacker’s feet.
+
+Evidence
+Go deeper ↗
+Challenge it ↗
+Make it simple ↗
+Continue this conversation · up to 4 AI requests

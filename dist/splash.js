@@ -20,7 +20,7 @@
  splash.querySelector('.btr-splash-bottom').innerHTML='<div class="btr-welcome-footer"><span role="status"><i></i> PREPARING YOUR CINEMATIC MINUTE</span><small>HIGH-QUALITY FILM / AI FOOTBALL STUDIO</small></div><div class="btr-crew-preview"><div class="btr-crew-faces">'+['scout','guide','vector','check','host'].map(name=>'<img src="assets/'+name+'-portrait.webp" alt="" width="38" height="38">').join('')+'</div><div><strong>FIVE VOICES. ONE WATCH PARTY.</strong><span>Observation · explanation · calculation · challenge · synthesis</span></div></div>';
  const paths=document.createElement('div');paths.className='btr-entry-paths';paths.setAttribute('role','group');paths.setAttribute('aria-label','Choose your starting experience');
  for(const [id,label,description]of [['centre','Understand','Read the play'],['truth','Truth Lab','Challenge the claim']]){const button=document.createElement('button');button.type='button';button.setAttribute('aria-label','Enter '+label);const title=document.createElement('strong'),detail=document.createElement('span');title.textContent=label;detail.textContent=description;button.append(title,detail);button.addEventListener('click',()=>{location.hash=id;dismiss();});paths.append(button);}entry.append(paths);
- const demo=document.createElement('button');demo.type='button';demo.className='btr-demo-entry';demo.setAttribute('aria-label','Watch the two-minute Before the Roar demo');demo.innerHTML='<strong>2-minute demo</strong><span>See the full story</span>';demo.addEventListener('click',()=>document.dispatchEvent(new Event('btr-open-demo')));paths.append(demo);
+ const demo=document.createElement('button');demo.type='button';demo.className='btr-demo-entry';demo.setAttribute('aria-label','Watch the two-minute Before the Roar demo');demo.innerHTML='<strong>2-minute demo</strong><span>See the full story</span>';demo.addEventListener('click',()=>document.dispatchEvent(new CustomEvent('btr-open-demo',{detail:{cut:'short'}})));paths.append(demo);
  document.body.append(splash);
  const help=document.createElement('button');help.type='button';help.textContent='New here?';help.addEventListener('click',()=>document.dispatchEvent(new Event('btr-open-guide')));splash.querySelector('.btr-splash-top').insertBefore(help,motion);
  if(typeof splash.showModal!=='function'){splash.remove();return;}
@@ -35,3 +35,4 @@
  splash.addEventListener('cancel',e=>{e.preventDefault();splash.querySelector('.btr-enter').focus();});
  try{splash.showModal();enter.focus();}catch{splash.remove();}
 })();
+

@@ -1,0 +1,287 @@
+1
+00:00:00,150 --> 00:00:01,645
+Before the Roar.
+
+2
+00:00:01,645 --> 00:00:03,700
+Every play has a why.
+
+3
+00:00:04,150 --> 00:00:05,458
+Football moves fast.
+
+4
+00:00:05,458 --> 00:00:06,046
+A touch.
+
+5
+00:00:06,046 --> 00:00:06,504
+A run.
+
+6
+00:00:06,504 --> 00:00:08,531
+A defender changing direction.
+
+7
+00:00:08,531 --> 00:00:15,200
+Before the Roar helps you follow the moment, understand the detail, and question the story behind it.
+
+8
+00:00:15,650 --> 00:00:16,551
+Start in Watch.
+
+9
+00:00:16,551 --> 00:00:20,874
+The football stays centre stage, with the specialist crew alongside it.
+
+10
+00:00:20,874 --> 00:00:23,696
+As you reach a new play, the evidence changes.
+
+11
+00:00:23,696 --> 00:00:25,738
+Ask the crew for a fresh reading.
+
+12
+00:00:25,738 --> 00:00:28,500
+Here is Scout's actual response to this duel.
+
+13
+00:00:28,950 --> 00:00:36,309
+The attacker touches the ball and begins to move along the sideline while the defender adjusts his position to follow closely.
+
+14
+00:00:36,309 --> 00:00:39,637
+This shows a direct interaction between their movements.
+
+15
+00:00:40,087 --> 00:00:43,269
+A duel is a contest between an attacker and a defender.
+
+16
+00:00:43,269 --> 00:00:48,012
+How does the defender's position change as the attacker moves along the sideline?
+
+17
+00:00:48,462 --> 00:00:52,269
+Move to the receiving touch, and the discussion changes with it.
+
+18
+00:00:52,269 --> 00:00:57,920
+Vector keeps the numbers honest: one completed pass does not establish a team's accuracy rate.
+
+19
+00:00:57,920 --> 00:01:02,262
+Check asks whether the camera can actually show a broken defensive line.
+
+20
+00:01:02,729 --> 00:01:06,848
+The scene, the explanation, and the evidence share a playhead.
+
+21
+00:01:06,848 --> 00:01:09,971
+In this recorded round, Host did not complete.
+
+22
+00:01:09,971 --> 00:01:14,091
+BTR keeps that failure visible and labels its reference note.
+
+23
+00:01:14,091 --> 00:01:17,879
+Saved notes are never passed off as fresh model results.
+
+24
+00:01:18,329 --> 00:01:21,104
+Understand turns the same moment into a lesson.
+
+25
+00:01:21,104 --> 00:01:21,990
+What happened?
+
+26
+00:01:21,990 --> 00:01:23,230
+Why might it matter?
+
+27
+00:01:23,230 --> 00:01:24,883
+What should you watch next?
+
+28
+00:01:24,883 --> 00:01:27,304
+The beginner view explains the football.
+
+29
+00:01:27,304 --> 00:01:31,379
+The tactical view focuses on positioning and the limits of the shot.
+
+30
+00:01:31,829 --> 00:01:36,051
+Measure lets you analyze the included fictional sample or bring a compatible clip.
+
+31
+00:01:36,051 --> 00:01:39,964
+The compatibility gate checks whether the footage can support the detector.
+
+32
+00:01:39,964 --> 00:01:43,929
+Controlled synthetic measurements are kept separate from the cinematic film.
+
+33
+00:01:44,379 --> 00:01:48,366
+For the measured match, a synthetic event starts a new investigation.
+
+34
+00:01:48,366 --> 00:01:49,291
+Scout observes.
+
+35
+00:01:49,291 --> 00:01:50,216
+Guide explains.
+
+36
+00:01:50,216 --> 00:01:54,550
+Vector calculates twenty-three point seven metres of forward passing gain.
+
+37
+00:01:54,550 --> 00:01:57,729
+Check challenges the conclusion before Host publishes.
+
+38
+00:01:58,179 --> 00:02:00,381
+Open the AI desk to see the handoffs.
+
+39
+00:02:00,381 --> 00:02:05,738
+Model execution, deterministic calculation, replay, and recovery have different receipts.
+
+40
+00:02:05,738 --> 00:02:10,679
+You can inspect which source supported an answer and which specialist produced it.
+
+41
+00:02:11,145 --> 00:02:12,828
+Now test the story in Truth Lab.
+
+42
+00:02:12,828 --> 00:02:16,350
+Change the defender's recorded shift from thirteen metres to zero.
+
+43
+00:02:16,350 --> 00:02:20,082
+The passing calculation survives, but the movement claim is withdrawn.
+
+44
+00:02:20,082 --> 00:02:24,445
+The revised narrative tells the audience exactly what the evidence still supports.
+
+45
+00:02:24,912 --> 00:02:27,898
+Pocket Director carries that correction to the phone.
+
+46
+00:02:27,898 --> 00:02:32,348
+Choose the beginner explanation, the math, a tactical view, or a player focus.
+
+47
+00:02:32,348 --> 00:02:37,812
+Perspective Director builds a recap around the viewpoint you care about, with evidence attached.
+
+48
+00:02:38,279 --> 00:02:41,409
+Accessibility changes how the match reaches you.
+
+49
+00:02:41,409 --> 00:02:43,105
+Captions and visual cues.
+
+50
+00:02:43,105 --> 00:02:44,605
+Descriptive narration.
+
+51
+00:02:44,605 --> 00:02:46,887
+Clear language and reduced motion.
+
+52
+00:02:46,887 --> 00:02:48,844
+Optional sound and vibration.
+
+53
+00:02:48,844 --> 00:02:53,279
+The presentation adapts while the underlying facts stay consistent.
+
+54
+00:02:53,745 --> 00:02:56,282
+Publish brings the story together for delivery.
+
+55
+00:02:56,282 --> 00:03:00,654
+Inspect the narrative, its evidence, and its correction status before exporting.
+
+56
+00:03:00,654 --> 00:03:06,645
+The broadcast output is timed and machine-readable, so another screen can render the same checked explanation.
+
+57
+00:03:07,112 --> 00:03:09,145
+The evaluation stays visible too.
+
+58
+00:03:09,145 --> 00:03:11,547
+Foundry helps review the public trace.
+
+59
+00:03:11,547 --> 00:03:17,398
+Our early crew comparison is narrow; it does not establish superior commentary across matches.
+
+60
+00:03:17,398 --> 00:03:19,862
+BTR shows that limit beside the result.
+
+61
+00:03:20,312 --> 00:03:22,535
+Here is the system behind the screen.
+
+62
+00:03:22,535 --> 00:03:25,239
+Synthetic events enter Azure Container Apps.
+
+63
+00:03:25,239 --> 00:03:28,724
+Microsoft Entra managed identity controls service access.
+
+64
+00:03:28,724 --> 00:03:34,612
+Azure OpenAI powers the specialists, while deterministic code checks the calculations and claims.
+
+65
+00:03:35,079 --> 00:03:37,785
+Microsoft Foundry provides an advisory review.
+
+66
+00:03:37,785 --> 00:03:40,786
+Azure Blob Storage keeps checkpoints and evidence.
+
+67
+00:03:40,786 --> 00:03:44,963
+Checked output reaches Watch, Pocket Director, and broadcast overlays.
+
+68
+00:03:44,963 --> 00:03:49,729
+The diagram also separates deployed capabilities from future production options.
+
+69
+00:03:50,179 --> 00:03:50,932
+One match.
+
+70
+00:03:50,932 --> 00:03:53,492
+A different way to understand it.
+
+71
+00:03:53,492 --> 00:03:54,772
+Before the Roar.
+
+72
+00:03:54,772 --> 00:03:56,429
+Every play has a why.
