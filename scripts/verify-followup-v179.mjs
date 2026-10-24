@@ -19,7 +19,8 @@ for(const c of cases){
  const opening=await run({time:c.time,question:c.opening});
  if(!opening.conversation?.id)throw Error('No conversation receipt; refusing disconnected follow-up.');
  const followup=await run({time:c.time,question:c.followup,parentKey:opening.conversation.id});
- report.cases.push({...c,opening,followup});
+ report.cases.push({id:c.id,time:c.time,opening_question:c.opening,followup_question:c.followup,opening,followup});
  await writeFile('tmp/followup-v179-live.json',JSON.stringify(report,null,2));
  console.log(JSON.stringify({case:c.id,openingCalls:opening.complete?.model_calls,followupCalls:followup.complete?.model_calls,cached:followup.complete?.cached,posts:followup.posts.map(({role,engine,summary,replay_cue,evidence_ids})=>({role,engine,summary,replay_cue,evidence_ids})),rejections:followup.events.filter(e=>e.type==='trace'&&/fallback|revision/.test(e.data.action))},null,2));
+ if(c!==cases.at(-1))await new Promise(resolve=>setTimeout(resolve,45000));
 }
