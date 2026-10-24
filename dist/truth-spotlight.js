@@ -14,7 +14,7 @@ export function createTruthSpotlight({seek,toggleCorrection,pause}){
  for(const c of EVIDENCE_CASES){const b=make('button','outline-button',c.name);b.dataset.case=c.id;b.onclick=()=>{pause();matchSession.set({source:'match',scenario:c.id,corrected:false,section:'truth'},'evidence-case');matchSession.set({time:c.before},'evidence-case');};cases.append(b);}
  const eyebrow=make('p','eyebrow','THE CLAIM. THE CHANGE. THE CORRECTION.');
  const title=make('h2','','Change one record. See what changes.');
- const scope=make('p','truth-demo-scope','Controlled synthetic demonstration · no AI request. This changes an authored tracking record, not the real world.');
+ const scope=make('p','truth-demo-scope','Controlled synthetic demonstration · no AI request. This tests dependence on an authored record. It does not establish why a defender moved.');
  const grid=make('div','truth-change-grid');
  const cards=['01 / ORIGINAL STATEMENT','02 / CHANGED EVIDENCE','03 / CURRENT EXPLANATION'].map(label=>{
   const card=make('article','truth-change-card'),heading=make('h3','',label),body=make('p','truth-change-copy');card.append(heading,body);grid.append(card);return {card,body};
@@ -42,7 +42,7 @@ export function createTruthSpotlight({seek,toggleCorrection,pause}){
    change.textContent=e.arrived?'Restore the earlier cutoff ↺':'Release the next evidence →';status.textContent=e.arrived?'New outcome supported. Earlier records preserved.':'The outcome is pending. No prediction is presented as fact.';
    survives.textContent=e.preserved;originalReplay.textContent='Replay before · '+e.beforeClock+' ↗';currentReplay.textContent='Replay current · '+e.clock+' ↗';return;
   }
-  title.textContent='Change one record. See what changes.';scope.textContent='Controlled synthetic demonstration · no AI request. This changes an authored tracking record, not the real world.';
+  title.textContent='Change one record. See what changes.';scope.textContent='Controlled synthetic demonstration · no AI request. This tests dependence on an authored record. It does not establish why a defender moved.';
   root.dataset.changed=String(n.changed);
   cards[0].body.textContent=n.originalLine;
   cards[2].body.textContent=n.currentLine;

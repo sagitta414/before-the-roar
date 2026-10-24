@@ -709,8 +709,7 @@ try {
   dismissed = sessionStorage.getItem("btr-guided-dismissed") === "1";
 } catch {}
 if (
-  new URLSearchParams(location.search).has("tour") || new URLSearchParams(location.search).get('judge')==='1' ||
-  (!dismissed && (!location.hash || location.hash === "#watch"))
+  new URLSearchParams(location.search).has("tour") || new URLSearchParams(location.search).get('judge')==='1'
 )
   enter();
 fetch("media-availability.json")

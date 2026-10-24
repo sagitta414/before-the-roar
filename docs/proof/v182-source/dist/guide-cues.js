@@ -1,0 +1,8 @@
+// The teaching role gives a definition and a viewing question, never a second play-by-play.
+export function guideCue(packet){
+ if(packet.football?.question)return packet.guideDefinition+' '+packet.football.question;
+ const l=['en','es','pt'].indexOf(packet.language),last=packet.evidence.filter(e=>e.record_type==='event'||e.record_type==='reviewed_frame').at(-1),kind=last?.type||last?.shot_id||'';
+ if(packet.synthetic){const questions=kind==='shot'?['How close to goal was the shooter when the attempt began?','¿Qué tan cerca de la portería estaba quien disparó al iniciar el intento?','Quão perto do gol estava quem chutou no início da tentativa?']:kind==='pass'?['Is the receiver ahead of the passer or beside them?','¿El receptor está por delante del pasador o a su lado?','Quem recebe está à frente de quem passa ou ao lado?']:['Where is the next teammate available after the recovery?','¿Dónde está el siguiente compañero disponible tras recuperar?','Onde está o próximo companheiro disponível após a recuperação?'];return packet.guideDefinition+' '+questions[l];}
+ const questions=/shot|keeper/.test(kind)?['Can you follow the ball all the way to the goalkeeper?','¿Puedes seguir el balón hasta el portero?','Você consegue acompanhar a bola até o goleiro?']:/pass|blue/.test(kind)?['Which foot does the receiver use to control the ball?','¿Con qué pie controla el balón quien recibe?','Com qual pé o jogador que recebe controla a bola?']:['Where is the defender looking as the ball moves?','¿Adónde mira el defensor cuando se mueve el balón?','Para onde o defensor olha quando a bola se move?'];
+ return packet.guideDefinition+' '+questions[l];
+}

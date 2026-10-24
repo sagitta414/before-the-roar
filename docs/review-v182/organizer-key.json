@@ -1,0 +1,109 @@
+{
+  "hash": "c2d4d1ee822d7a35a4301a46e65fa2b74ed320006a0e3868005152205609b310",
+  "key": [
+    {
+      "id": "intent-1",
+      "crew": "B",
+      "crewCalls": 5,
+      "crewMs": 7264,
+      "baselineMs": 2006,
+      "engines": [
+        "azure_openai",
+        "azure_openai",
+        "azure_openai"
+      ]
+    },
+    {
+      "id": "intent-2",
+      "crew": "B",
+      "crewCalls": 5,
+      "crewMs": 5477,
+      "baselineMs": 1791,
+      "engines": [
+        "reviewed_fallback",
+        "azure_openai",
+        "reviewed_fallback"
+      ]
+    },
+    {
+      "id": "outlet-1",
+      "crew": "A",
+      "crewCalls": 4,
+      "crewMs": 5383,
+      "baselineMs": 1680,
+      "engines": [
+        "azure_openai",
+        "azure_openai",
+        "azure_openai"
+      ]
+    },
+    {
+      "id": "outlet-2",
+      "crew": "A",
+      "crewCalls": 4,
+      "crewMs": 4622,
+      "baselineMs": 1512,
+      "engines": [
+        "azure_openai",
+        "azure_openai",
+        "reviewed_fallback"
+      ]
+    },
+    {
+      "id": "escape-1",
+      "crew": "A",
+      "crewCalls": 4,
+      "crewMs": 5956,
+      "baselineMs": 1796,
+      "engines": [
+        "azure_openai",
+        "azure_openai",
+        "reviewed_fallback"
+      ]
+    },
+    {
+      "id": "escape-2",
+      "crew": "B",
+      "crewCalls": 4,
+      "crewMs": 5365,
+      "baselineMs": 3951,
+      "engines": [
+        "azure_openai",
+        "azure_openai",
+        "reviewed_fallback"
+      ]
+    },
+    {
+      "id": "keeper-1",
+      "crew": "B",
+      "crewCalls": 3,
+      "crewMs": 3540,
+      "baselineMs": 3102,
+      "engines": [
+        "azure_openai",
+        "azure_openai",
+        "azure_openai"
+      ]
+    },
+    {
+      "id": "keeper-2",
+      "crew": "A",
+      "crewCalls": 4,
+      "crewMs": 5327,
+      "baselineMs": 1719,
+      "engines": [
+        "azure_openai",
+        "azure_openai",
+        "reviewed_fallback"
+      ]
+    }
+  ],
+  "ratings": null,
+  "limitations": [
+    "Builder-created cases; three used in development.",
+    "Crew can repair; baseline uses one call.",
+    "Crew runs first; timing may reflect server load.",
+    "Reviewed fallbacks remain in the audience output.",
+    "Independent human reviewers have not returned ratings."
+  ]
+}

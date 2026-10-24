@@ -85,3 +85,6 @@ body[data-section="security"] .ai-availability{display:none!important}
   #truth .truth-verdict-impact:not(.is-corrected) .truth-verdict-impact__compare>i,
   #truth .truth-verdict-impact:not(.is-corrected) .truth-verdict-impact__outcomes{display:block!important}
 }
+
+/* Qualification text remains readable at laptop scaling. */
+.understand-boundary,.understand-story>span,.publish-proofline,.publish-lock small,.truth-verdict-impact p{font-size:12px;line-height:1.5}

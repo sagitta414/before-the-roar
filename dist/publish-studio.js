@@ -7,11 +7,11 @@ if(root){
  const heading=$(':scope > .extension-heading',root);
  heading.querySelector('.eyebrow').textContent='BTR / PUBLISH STUDIO';
  heading.querySelector('h1').innerHTML='PUBLISH <em>WITH PROOF.</em>';
- heading.querySelector('p').innerHTML='Turn one verified moment into a story for every screen.<br><strong>Review it. Shape it. Release it.</strong>';
- const studio=document.createElement('section');studio.className='publish-studio';studio.setAttribute('aria-label','Publish a verified match story');
+ heading.querySelector('p').innerHTML='Turn one reviewed moment into a story for every screen.<br><strong>Review it. Shape it. Release it.</strong>';
+ const studio=document.createElement('section');studio.className='publish-studio';studio.setAttribute('aria-label','Prepare a reviewed match story');
  studio.innerHTML=`
   <header class="publish-head">
-   <div class="publish-head-copy"><span>THE TRANSMISSION SUITE / FINAL STAGE</span><h2>One verified story. <em>Every screen.</em></h2><p>Approve the line once, tailor its voice, then send the same evidence-backed moment everywhere.</p></div>
+   <div class="publish-head-copy"><span>THE TRANSMISSION SUITE / FINAL STAGE</span><h2>One reviewed story. <em>Every screen.</em></h2><p>Review the observation and its limits, choose an audience, then prepare the same source revision for each output.</p></div>
    <output class="publish-state" data-publish-state><i></i><b>READY FOR REVIEW</b><small>Nothing is sent outside this BTR demonstration.</small></output>
   </header>
   <div class="publish-layout">
@@ -20,19 +20,19 @@ if(root){
     <div class="publish-frame">
      <img src="assets/pitchside-minute-poster.jpg" alt="Synthetic football match used to preview the approved broadcast story">
      <div class="publish-scorebug"><b>BTR</b><span>HBR</span><strong>0–0</strong><span>NBR</span><time data-publish-clock></time></div>
-     <div class="publish-live-rail"><span>THE MOMENT</span><b>VERIFIED STORY PREVIEW</b></div>
+     <div class="publish-live-rail"><span>THE MOMENT</span><b>REVIEWED STORY PREVIEW</b></div>
      <div class="publish-caption"><small data-publish-mode></small><h3 data-publish-title></h3><p data-publish-copy></p></div>
      <div class="publish-proof-seal"><span>✓</span><b>PROOF<br>LOCKED</b><small data-publish-count></small></div>
      <div class="publish-proofline"><span>✓ EVIDENCE CHECKED</span><span data-publish-revision></span><span>CLAIM GATE PASSED</span></div>
     </div>
-    <div class="publish-signal"><span>VERIFIED MOMENT</span><i></i><b>ONE SOURCE OF TRUTH</b><i></i><span>3 LIVE OUTPUTS</span></div>
+    <div class="publish-signal"><span>REVIEWED MOMENT</span><i></i><b>ONE SOURCE REVISION</b><i></i><span>3 LIVE OUTPUTS</span></div>
    </article>
    <aside class="publish-control">
     <div class="publish-control-head"><span class="publish-kicker">RELEASE DIRECTOR</span><strong>01 / 03</strong></div><h3>Three decisions. One release.</h3>
     <ol class="publish-flightplan"><li class="is-complete"><i>✓</i><div><b>VERIFY THE CLAIM</b><span data-publish-verify></span></div></li><li class="is-active"><i>2</i><div><b>TAILOR THE VOICE</b><span>Change the explanation for the viewer while the evidence stays fixed.</span></div></li><li><i>3</i><div><b>SYNDICATE</b><span>Send one approved revision to every audience surface.</span></div></li></ol>
     <div class="publish-selects"><label>AUDIENCE<select data-publish-mode-select><option value="beginner">New to football</option><option value="math">Show the math</option><option value="analyst">Tactical view</option></select></label><label>LANGUAGE<select data-publish-language><option value="en">English</option><option value="es">Español</option><option value="pt">Português</option></select></label></div>
     <div class="publish-lock"><span>FACT LOCK</span><b data-publish-revision></b><small>Numbers, sources and limitations travel with the story.</small></div>
-    <button type="button" class="red-button publish-release"><span>RELEASE THE VERIFIED MOMENT</span><b>→</b></button><button type="button" class="outline-button publish-truth">Inspect evidence before release</button>
+    <button type="button" class="red-button publish-release"><span>PREPARE THIS REVIEWED STORY</span><b>→</b></button><button type="button" class="outline-button publish-truth">Inspect evidence before release</button>
    </aside>
   </div>
   <section class="publish-output-stage" aria-label="Synchronized audience outputs"><header><div><span>ONE SIGNAL / THREE EXPERIENCES</span><h3>See what ships together.</h3></div><p>Facts do not change between screens.</p></header><div class="publish-destinations">
@@ -53,7 +53,7 @@ if(root){
   publishState(published?'STORY PREPARED':'READY FOR REVIEW',ready?'Review the current source and audience.':'Advance the film to a reviewed observation before release.');
   studio.querySelector('.publish-proof-seal b').textContent=ready?'SOURCE REVIEW':'AWAITING EVIDENCE';
   studio.querySelector('.publish-scorebug strong').textContent=input.source==='pitchside'?'—':'0–0';
-  studio.querySelectorAll('.publish-scorebug > span').forEach((node,index)=>node.textContent=input.source==='pitchside'?['FILM','UNVERIFIED'][index]:['HBR','NBR'][index]);
+  studio.querySelectorAll('.publish-scorebug > span').forEach((node,index)=>node.textContent=input.source==='pitchside'?['FILM','REVIEWED'][index]:['HBR','NBR'][index]);
   studio.querySelector('.publish-preview-top strong').textContent=input.source==='pitchside'?'—':'0–0';
   studio.querySelectorAll('.publish-preview-top div > b').forEach((node,index)=>node.textContent=input.source==='pitchside'?['REVIEWED','FILM'][index]:['HARBOR','NORTHBRIDGE'][index]);
   studio.querySelector('.publish-preview-top > span').textContent=input.source==='pitchside'?'PROGRAM / REVIEWED FICTIONAL FILM':'PROGRAM / HARBOR v NORTHBRIDGE';
@@ -78,7 +78,7 @@ if(root){
  }
  mode.onchange=()=>{published=false;matchSession.set({mode:mode.value},'publish-audience');publishState('READY FOR REVIEW','Audience changed. Review the updated line before release.');};
  language.onchange=()=>{published=false;matchSession.set({language:language.value},'publish-language');publishState('READY FOR REVIEW','Language changed. The source revision remains the same.');};
- release.onclick=()=>{const current=matchSession.get();if(!publishPacket(current).ready)return;published=true;document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'publish',revision:current.corrected?2:1}}));publishState('STORY PREPARED','The verified story is ready in Watch and the companion delivery views.');render(current);};
+ release.onclick=()=>{const current=matchSession.get();if(!publishPacket(current).ready)return;published=true;document.dispatchEvent(new CustomEvent('btr-judge-publish',{detail:{stage:'publish',revision:current.corrected?2:1}}));publishState('STORY PREPARED','The reviewed story is ready in Watch and the companion delivery views.');render(current);};
  $('.publish-truth',studio).onclick=()=>document.getElementById('truth-nav').click();
  $('[data-publish-watch]',studio).onclick=()=>document.getElementById('watch-nav').click();
  $('[data-publish-overlay]',studio).onclick=()=>{document.getElementById('watch-nav').click();setTimeout(()=>document.getElementById('overlay-export')?.click(),0);};

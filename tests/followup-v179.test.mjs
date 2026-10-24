@@ -15,7 +15,7 @@ test('unchanged evidence creates three distinct follow-up jobs without invented 
  const briefs=['analyst','guide','presenter'].map(role=>followupBrief(packet,conversation,'Can the evidence establish intent?',role));
  assert.equal(new Set(briefs.map(b=>b.task)).size,3);
  for(const b of briefs){assert.deepEqual(b.new_evidence_ids,[]);assert.match(b.evidence_change,/unchanged/);}
- assert.match(briefs[0].task,/Retract/);assert.match(briefs[1].task,/comparison/);assert.match(briefs[2].task,/corrected audience line/);
+ assert.match(briefs[0].task,/Retract/);assert.match(briefs[1].task,/comparison/);assert.match(briefs[2].task,/publication decision/);
 });
 test('new evidence is bounded by the earlier and current cutoff',()=>{
  const packet=pitchsideStory({time:26,language:'en'}),b=followupBrief(packet,{previous:[{cutoff:24} ]},'What changed?','analyst');
@@ -60,7 +60,8 @@ test('film editorial repair retains the saved round, distinct task and current-s
   return body.stream?new Response('data: '+JSON.stringify(result)+'\n\ndata: [DONE]\n\n'):Response.json(result);
  };
  try{
-  const desk=new MatchDesk({busy:0,store:{reserve:async()=>true}},{clip:true,state});await desk.discuss({...input,parentKey:parent,question:'Can the evidence establish intent?'},()=>{});
+  const events=[];const desk=new MatchDesk({busy:0,store:{reserve:async()=>true}},{clip:true,state});await desk.discuss({...input,parentKey:parent,question:'Can the evidence establish intent?'},(type)=>events.push(type));
+  assert.ok(events.includes('speaker'));assert.ok(events.includes('post'));assert.ok(!events.includes('draft'),'unvalidated film prose must not reach the audience');
   assert.ok(captured.length>=4,'a rejected citation must trigger a repair');
   for(const data of captured){assert.equal(data.conversation.round,2);assert.equal(data.prior_round.length,3);assert.ok(data.followup_brief.task);assert.equal(data.guide_definition,undefined);assert.ok(data.evidence.every(e=>e.second>=24&&e.second<=25));assert.deepEqual(data.followup_brief.new_evidence_ids,[]);}
  }finally{global.fetch=oldFetch;for(const[k,v]of [['AZURE_OPENAI_ENDPOINT',oldEndpoint],['AZURE_ACCESS_TOKEN',oldToken]])if(v===undefined)delete process.env[k];else process.env[k]=v;}

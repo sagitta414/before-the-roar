@@ -1,0 +1,2106 @@
+{
+  "plan": {
+    "schema": "btr.frozen-film-regression.v1",
+    "kind": "developer regression; not unseen or independent",
+    "created_at": "2026-10-24T22:25:18.724Z",
+    "sources": {
+      "api/agent-state.mjs": "b439aee221bb7a363449507b58c7ae844ce0eec7ea7d0777468a6d4a58bdd2c1",
+      "api/agent-tools.mjs": "a996081c5cbf6053872b40f39976504e18d5bde98b85c0ec66ed7ec4b8259287",
+      "api/azure.mjs": "9b3ae37690750d8e6266d70d0b7c53643b2fce0f0b04d231bf328af694729fa9",
+      "api/claim-boundary.mjs": "6b2ac33700ac7685d97093b671c5f777398e7efd6b86dbdab6c22f16003a8924",
+      "api/conversation.mjs": "66632f405915a979f639a2e262b9e355188bb081982225172e4e9e10f3eb0a6d",
+      "api/editorial-policy.mjs": "f51decfd6f92ef667aaa3625e3d22ce626a55a507010c719bd2da12659499929",
+      "api/film-editorial-contract.mjs": "72bf83ffd0504ce92be35fc423385b3ccd99b9474de070154786e69cff50a5b5",
+      "api/film-followup.mjs": "285d2e44c7b0f0a2542c65c9bd29d9eb5073265eea69a01a63300bcbab69e379",
+      "api/grounded-desk.mjs": "2fd6754a9576be4344bc3e241480b1ade49ee1b92accf625889ee3aaf1d144ba",
+      "api/match-desk.mjs": "cbb4911c63a07f39aa8d00d1d61d09bbb89b4485d0a5a48c414e067132ad1381",
+      "api/request-guard.mjs": "009235059bc2b90e965e37e45be6168e647aaa76a2fda621ab7cff8b54031067",
+      "api/streaming.mjs": "9c4a1ada4ee30c922bb7727337d5f934dd182a540632f788f591ea797a22e41c",
+      "dist/analysis-model.js": "05f901fdd3bff97dea23f2b78fe089060672310a22d31ba483605a5ee63333a5",
+      "dist/editorial-quality.js": "4de0dc0e8ed10a04647d0b118a5f43290b7f2e4570c43ea6d409fb6ff3c715b8",
+      "dist/editorial-roles.js": "2feb7916b69fcf709129af7c58ef1510fc97ea89bee5f399ed6f1d371b463937",
+      "dist/engine.js": "7f255f3e76e792a0892c638f06e444c24d5f1473abfd5a5bd7df9e32dba6a78e",
+      "dist/film-editorial.js": "14675557348054cc1bc7b8a4dc3c12eecd8bf639252294168f83946ad625e1a1",
+      "dist/film-math.js": "a606e0df4804690123ffdf2cf0f46f5d42d74fa2f27d7e235781f39e7fa24167",
+      "dist/football-context.js": "d2284ffff849f09e6b907586ace005843fed78a65eedd0f598acdf974395176d",
+      "dist/guide-cues.js": "e21a0641f649af78f761d7ec9d1c8f98a38532b36512492fdf8014acc7fcc0b1",
+      "dist/learning.js": "5b4419ad779bd38813c11b43c1fee4cff3f98a116dec7535ce8e1e262dc75c21",
+      "dist/match-story.js": "ce845dadc6b33f94560ce1f7a7e4e334004f4b02c26c2c38c2926adff3b7be65",
+      "dist/pitchside-minute.js": "621aea489a9a67db9c0c571371898c2f56235143c43b2a798d68efc5bee6e812",
+      "dist/pitchside-story.js": "55a754322c0eb142312a044c9af7f3207722910cd553c0dadb83e64a066d9f46",
+      "dist/play-analysis.js": "5bdbd6152850bfe4523e488da83343a79b539af32f0b8ba8aaab511dcf216623",
+      "dist/studio-lab-model.js": "71b9b337354f811ff9dc98aafe5c3899f9bbf6c6a88820c6142223ce6e8f5a4b",
+      "dist/truth-language.js": "9b4f052e7cdeaf314fd412dff5d15f92d31ab7612cd647d2a4035da417253559",
+      "dist/truth-story-model.js": "5ec51db486f66edc7d220ada21447fb157196dd8d39b42689d34c4a8898ba292",
+      "scripts/source-manifest.mjs": "33ea977d111ab3aae248787969a47984a6dc69d3db2220e153c33854c29d250b",
+      "scripts/verify-frozen-film.mjs": "5a153f86a48998ae38fc7fb6b48ea3aebf8fda6e85de18c06956a061292144bb"
+    },
+    "cases": [
+      {
+        "id": "intent",
+        "time": 25,
+        "opening": "Describe the visible duel and distinguish observation from interpretation.",
+        "followup": "Can the evidence establish the defender’s intent? Correct any intent inference."
+      },
+      {
+        "id": "outlet",
+        "time": 12,
+        "opening": "What does this received pass establish?",
+        "followup": "What specific evidence would change that reading? Do not invent new action."
+      },
+      {
+        "id": "escape",
+        "time": 22,
+        "opening": "Explain this close-control moment using only this shot.",
+        "followup": "Does the defender following prove the attacker beat him? What conclusion survives?"
+      }
+    ],
+    "max_requests": 36,
+    "quality_verdict": null
+  },
+  "complete": true,
+  "requests": 22,
+  "cases": [
+    {
+      "id": "intent",
+      "rounds": [
+        {
+          "events": [
+            {
+              "type": "conversation",
+              "data": {
+                "id": "081ebc91fd0db551047772becaf022466fdd49b02353385f284a1cd04600242e",
+                "round": 1,
+                "parent": null,
+                "max_rounds": 3
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792880718847,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 25,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+                "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+                "metric_value": "1 v 1",
+                "metric_title": "The numbers around the ball",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "engine": "calculated",
+                "title": "Stay on your feet",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 25,
+                "revision": 4,
+                "turn_id": "081ebc91fd0db551047772becaf022466fdd49b02353385f284a1cd04600242e:math",
+                "round": 1,
+                "sequence": 1,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792880718917,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ]
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792880722190,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "duration_ms": 3269
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792880724494,
+                "role": "analyst",
+                "action": "editorial_revision_requested",
+                "reason": "The reviewed film does not establish player readiness or advantage"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "A blue defender is positioned closely in front of a lime-shirted attacker, both facing the ball. This proximity suggests a potential challenge, but the shot does not confirm any tackle or successful defensive action.",
+                "title": "Close-range duel observed",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 25,
+                "revision": 4,
+                "latency_ms": 6861,
+                "first_text_ms": null,
+                "turn_id": "081ebc91fd0db551047772becaf022466fdd49b02353385f284a1cd04600242e:analyst",
+                "round": 1,
+                "sequence": 2,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792880725783,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "latency_ms": 6861,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792880725786,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Marking means staying close enough to challenge an opponent. How does the defender's position change after the next touch?",
+                "title": "Close-range duel observed",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 25,
+                "revision": 4,
+                "latency_ms": 1187,
+                "first_text_ms": null,
+                "turn_id": "081ebc91fd0db551047772becaf022466fdd49b02353385f284a1cd04600242e:guide",
+                "round": 1,
+                "sequence": 3,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792880726974,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "latency_ms": 1187,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction.",
+                "decision": "qualify",
+                "target_claim": "The defender won a tackle.",
+                "engine": "evidence_rules",
+                "title": "Stay on your feet",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 25,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "A blue defender is positioned closely in front of a lime-shirted attacker, both facing the ball. This proximity suggests a potential challenge, but the shot does not confirm any tackle or successful defensive action.",
+                "turn_id": "081ebc91fd0db551047772becaf022466fdd49b02353385f284a1cd04600242e:reviewer",
+                "round": 1,
+                "sequence": 4,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792880726978,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 25,
+                  "status": "bounded",
+                  "claim": "The defender won a tackle.",
+                  "explanation": "The defender mirrors the attacker at close range. This could restrict a route, but the shot does not establish a successful tackle.",
+                  "evidence_ids": [
+                    "pitchside-stance"
+                  ],
+                  "check": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792880726981,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792880728212,
+                "role": "presenter",
+                "action": "editorial_revision_requested",
+                "reason": "The reviewed film does not establish player readiness or advantage"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The defender's close positioning indicates a potential challenge, but the shot does not confirm any defensive action or tackle. The next touch will clarify the defender's response.",
+                "title": "Close-range duel observed",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "replay_cue": "Replay the opening positions in this scene.",
+                "role": "presenter",
+                "engine": "azure_openai",
+                "cutoff": 25,
+                "revision": 4,
+                "latency_ms": 2432,
+                "first_text_ms": null,
+                "turn_id": "081ebc91fd0db551047772becaf022466fdd49b02353385f284a1cd04600242e:presenter",
+                "round": 1,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 11,
+                "at": 1792880729414,
+                "role": "presenter",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "latency_ms": 2432,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 12,
+                "at": 1792880729421,
+                "role": "director",
+                "action": "broadcast_ready",
+                "revision": 4
+              }
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 5,
+                "prompt_tokens": 11809,
+                "completion_tokens": 452,
+                "usage_missing": 0,
+                "elapsed_ms": 10572,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 25,
+                  "status": "bounded",
+                  "claim": "The defender won a tackle.",
+                  "explanation": "The defender mirrors the attacker at close range. This could restrict a route, but the shot does not establish a successful tackle.",
+                  "evidence_ids": [
+                    "pitchside-stance"
+                  ],
+                  "check": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "complete"
+              }
+            }
+          ],
+          "elapsed_ms": 10586
+        },
+        {
+          "events": [
+            {
+              "type": "conversation",
+              "data": {
+                "id": "ec219d70c1c92ca52e040df43c69cdf2250eb460311483d8bb35a33beec3a230",
+                "round": 2,
+                "parent": "081ebc91fd0db551047772becaf022466fdd49b02353385f284a1cd04600242e",
+                "max_rounds": 3
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792880729431,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 25,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+                "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+                "metric_value": "1 v 1",
+                "metric_title": "The numbers around the ball",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "engine": "calculated",
+                "title": "Stay on your feet",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 25,
+                "revision": 4,
+                "turn_id": "ec219d70c1c92ca52e040df43c69cdf2250eb460311483d8bb35a33beec3a230:math",
+                "round": 2,
+                "sequence": 1,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792880729434,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ]
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792880729480,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "duration_ms": 3
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The shot shows a blue defender facing a lime-shirted attacker and the ball at close range. This does not establish any intent to challenge or tackle, as visible movement is not recorded.",
+                "title": "Defender's intent not established",
+                "caution": "Reviewed annotations, not automatic tracking.",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 25,
+                "revision": 4,
+                "latency_ms": 987,
+                "first_text_ms": null,
+                "turn_id": "ec219d70c1c92ca52e040df43c69cdf2250eb460311483d8bb35a33beec3a230:analyst",
+                "round": 2,
+                "sequence": 2,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792880730466,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "latency_ms": 987,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792880730468,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Is the ball within the reach of the attacker or the defender?",
+                "title": "Ball Position Comparison",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 25,
+                "revision": 4,
+                "latency_ms": 1302,
+                "first_text_ms": null,
+                "turn_id": "ec219d70c1c92ca52e040df43c69cdf2250eb460311483d8bb35a33beec3a230:guide",
+                "round": 2,
+                "sequence": 3,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792880731772,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "latency_ms": 1302,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction.",
+                "decision": "qualify",
+                "target_claim": "The defender won a tackle.",
+                "engine": "evidence_rules",
+                "title": "Stay on your feet",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 25,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "The shot shows a blue defender facing a lime-shirted attacker and the ball at close range. This does not establish any intent to challenge or tackle, as visible movement is not recorded.",
+                "turn_id": "ec219d70c1c92ca52e040df43c69cdf2250eb460311483d8bb35a33beec3a230:reviewer",
+                "round": 2,
+                "sequence": 4,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792880731774,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 25,
+                  "status": "bounded",
+                  "claim": "The defender won a tackle.",
+                  "explanation": "The defender mirrors the attacker at close range. This could restrict a route, but the shot does not establish a successful tackle.",
+                  "evidence_ids": [
+                    "pitchside-stance"
+                  ],
+                  "check": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792880731776,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792880733146,
+                "role": "presenter",
+                "action": "editorial_revision_requested",
+                "reason": "Host must make a publication decision or explain a distinct football contrast, not repeat Scout's evidence limitation"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "presenter",
+                "summary": "Correction: withdraw the inference about intent. The current shot supports visible movement only; the next touch remains the test.",
+                "engine": "reviewed_fallback",
+                "replay_cue": "Replay the opening positions in this scene.",
+                "title": "Stay on your feet",
+                "evidence_ids": [
+                  "pitchside-stance"
+                ],
+                "caution": "AI wording did not pass the editorial check. This is a reviewed evidence note.",
+                "cutoff": 25,
+                "revision": 4,
+                "turn_id": "ec219d70c1c92ca52e040df43c69cdf2250eb460311483d8bb35a33beec3a230:presenter",
+                "round": 2,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792880734657,
+                "role": "presenter",
+                "action": "fallback_published",
+                "reason": "Repeated contribution; using the reviewed closing cue"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 11,
+                "at": 1792880734663,
+                "role": "director",
+                "action": "reviewed_notes_ready",
+                "revision": 4
+              }
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 4,
+                "prompt_tokens": 9007,
+                "completion_tokens": 340,
+                "usage_missing": 0,
+                "elapsed_ms": 5233,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 25,
+                  "status": "bounded",
+                  "claim": "The defender won a tackle.",
+                  "explanation": "The defender mirrors the attacker at close range. This could restrict a route, but the shot does not establish a successful tackle.",
+                  "evidence_ids": [
+                    "pitchside-stance"
+                  ],
+                  "check": "The opening position is recorded. Wait for the next action before claiming a tackle, a foul or a tactical instruction.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "degraded"
+              }
+            }
+          ],
+          "elapsed_ms": 5238
+        }
+      ]
+    },
+    {
+      "id": "outlet",
+      "rounds": [
+        {
+          "events": [
+            {
+              "type": "conversation",
+              "data": {
+                "id": "8f9c832f6243537b9e8e97899eb07a401f0d79cd946dc978ef4c0b1ac9699664",
+                "round": 1,
+                "parent": null,
+                "max_rounds": 3
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792880809699,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 12,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "One reviewed pass reaches a teammate in this scene. A single completion cannot establish a team pass-accuracy rate.",
+                "working": "attacking players − nearby defenders: 2 − 1 = +1.\nCompleted receptions in this scene = 1. Total pass attempts are not annotated → pass accuracy unavailable.",
+                "metric_value": "2 v 1",
+                "metric_title": "A pass reaches its receiver",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "engine": "calculated",
+                "title": "The receiving touch",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 12,
+                "revision": 4,
+                "turn_id": "8f9c832f6243537b9e8e97899eb07a401f0d79cd946dc978ef4c0b1ac9699664:math",
+                "round": 1,
+                "sequence": 1,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792880809702,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ]
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792880809704,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "duration_ms": 1
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The pass reaches a lime-shirted teammate, who receives it at his feet. This indicates a successful connection between players in close proximity, with one defender present.",
+                "title": "Pass reaches a teammate",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-reception",
+                  "pitchside-outlet"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 12,
+                "revision": 4,
+                "latency_ms": 1929,
+                "first_text_ms": null,
+                "turn_id": "8f9c832f6243537b9e8e97899eb07a401f0d79cd946dc978ef4c0b1ac9699664:analyst",
+                "round": 1,
+                "sequence": 2,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792880811633,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-reception",
+                  "pitchside-outlet"
+                ],
+                "latency_ms": 1929,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792880811635,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "A pass sends the ball to a teammate. Where could the receiver move next to evade the defender?",
+                "title": "The pass connects, but influence remains unclear.",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 12,
+                "revision": 4,
+                "latency_ms": 1188,
+                "first_text_ms": null,
+                "turn_id": "8f9c832f6243537b9e8e97899eb07a401f0d79cd946dc978ef4c0b1ac9699664:guide",
+                "round": 1,
+                "sequence": 3,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792880812825,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "latency_ms": 1188,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+                "decision": "qualify",
+                "target_claim": "A completed pass proves the defence was broken.",
+                "engine": "evidence_rules",
+                "title": "The receiving touch",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 12,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "The pass reaches a lime-shirted teammate, who receives it at his feet. This indicates a successful connection between players in close proximity, with one defender present.",
+                "turn_id": "8f9c832f6243537b9e8e97899eb07a401f0d79cd946dc978ef4c0b1ac9699664:reviewer",
+                "round": 1,
+                "sequence": 4,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792880812829,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 12,
+                  "status": "bounded",
+                  "claim": "A completed pass proves the defence was broken.",
+                  "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+                  "evidence_ids": [
+                    "pitchside-outlet",
+                    "pitchside-reception"
+                  ],
+                  "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792880812831,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "This moment confirms a successful pass between teammates, but the impact on the defensive line remains unverified. The next touch will be crucial for progression.",
+                "title": "Successful pass connection noted",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "replay_cue": "Replay the receiver’s first touch.",
+                "role": "presenter",
+                "engine": "azure_openai",
+                "cutoff": 12,
+                "revision": 4,
+                "latency_ms": 1410,
+                "first_text_ms": null,
+                "turn_id": "8f9c832f6243537b9e8e97899eb07a401f0d79cd946dc978ef4c0b1ac9699664:presenter",
+                "round": 1,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792880814242,
+                "role": "presenter",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "latency_ms": 1410,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792880814247,
+                "role": "director",
+                "action": "broadcast_ready",
+                "revision": 4
+              }
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 3,
+                "prompt_tokens": 7661,
+                "completion_tokens": 265,
+                "usage_missing": 0,
+                "elapsed_ms": 4546,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 12,
+                  "status": "bounded",
+                  "claim": "A completed pass proves the defence was broken.",
+                  "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+                  "evidence_ids": [
+                    "pitchside-outlet",
+                    "pitchside-reception"
+                  ],
+                  "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "complete"
+              }
+            }
+          ],
+          "elapsed_ms": 4579
+        },
+        {
+          "events": [
+            {
+              "type": "conversation",
+              "data": {
+                "id": "8580fb621a7c7331b1d101cbda2dc7433c732d3f1fc38b6ea66893f8059799b1",
+                "round": 2,
+                "parent": "8f9c832f6243537b9e8e97899eb07a401f0d79cd946dc978ef4c0b1ac9699664",
+                "max_rounds": 3
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792880814316,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 12,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "One reviewed pass reaches a teammate in this scene. A single completion cannot establish a team pass-accuracy rate.",
+                "working": "attacking players − nearby defenders: 2 − 1 = +1.\nCompleted receptions in this scene = 1. Total pass attempts are not annotated → pass accuracy unavailable.",
+                "metric_value": "2 v 1",
+                "metric_title": "A pass reaches its receiver",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "engine": "calculated",
+                "title": "The receiving touch",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 12,
+                "revision": 4,
+                "turn_id": "8580fb621a7c7331b1d101cbda2dc7433c732d3f1fc38b6ea66893f8059799b1:math",
+                "round": 2,
+                "sequence": 1,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792880814319,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ]
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792880814321,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "duration_ms": 2
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The current evidence shows a completed pass between teammates, but it does not indicate the receiver's position relative to the entire defensive line. A wider shot would clarify the defensive structure and potential passing options.",
+                "title": "Evidence lacks defensive context",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-reception",
+                  "pitchside-outlet"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 12,
+                "revision": 4,
+                "latency_ms": 1469,
+                "first_text_ms": null,
+                "turn_id": "8580fb621a7c7331b1d101cbda2dc7433c732d3f1fc38b6ea66893f8059799b1:analyst",
+                "round": 2,
+                "sequence": 2,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792880815790,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-reception",
+                  "pitchside-outlet"
+                ],
+                "latency_ms": 1469,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792880815792,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Is the ball within the reach of the attacker or the defender?",
+                "title": "Comparing Ball Reach",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 12,
+                "revision": 4,
+                "latency_ms": 1290,
+                "first_text_ms": null,
+                "turn_id": "8580fb621a7c7331b1d101cbda2dc7433c732d3f1fc38b6ea66893f8059799b1:guide",
+                "round": 2,
+                "sequence": 3,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792880817084,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "latency_ms": 1290,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+                "decision": "qualify",
+                "target_claim": "A completed pass proves the defence was broken.",
+                "engine": "evidence_rules",
+                "title": "The receiving touch",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 12,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "The current evidence shows a completed pass between teammates, but it does not indicate the receiver's position relative to the entire defensive line. A wider shot would clarify the defensive structure and potential passing options.",
+                "turn_id": "8580fb621a7c7331b1d101cbda2dc7433c732d3f1fc38b6ea66893f8059799b1:reviewer",
+                "round": 2,
+                "sequence": 4,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792880817087,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 12,
+                  "status": "bounded",
+                  "claim": "A completed pass proves the defence was broken.",
+                  "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+                  "evidence_ids": [
+                    "pitchside-outlet",
+                    "pitchside-reception"
+                  ],
+                  "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792880817089,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-outlet",
+                  "pitchside-reception"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792880818869,
+                "role": "presenter",
+                "action": "editorial_revision_requested",
+                "reason": "Host must make a publication decision or explain a distinct football contrast, not repeat Scout's evidence limitation"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Completing a pass and bypassing a defensive line are different claims. The evidence confirms a pass but does not establish a defensive line break.",
+                "title": "Clarifying the Connection",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-outlet"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "replay_cue": "Replay the receiver's next touch to assess options.",
+                "role": "presenter",
+                "engine": "azure_openai",
+                "cutoff": 12,
+                "revision": 4,
+                "latency_ms": 3300,
+                "first_text_ms": null,
+                "turn_id": "8580fb621a7c7331b1d101cbda2dc7433c732d3f1fc38b6ea66893f8059799b1:presenter",
+                "round": 2,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792880820391,
+                "role": "presenter",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-outlet"
+                ],
+                "latency_ms": 3300,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 11,
+                "at": 1792880820396,
+                "role": "director",
+                "action": "broadcast_ready",
+                "revision": 4
+              }
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 4,
+                "prompt_tokens": 10044,
+                "completion_tokens": 369,
+                "usage_missing": 0,
+                "elapsed_ms": 6112,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 12,
+                  "status": "bounded",
+                  "claim": "A completed pass proves the defence was broken.",
+                  "explanation": "A nearby teammate offers a short outlet. The close camera supports a local reading, not a claim about the whole team’s shape.",
+                  "evidence_ids": [
+                    "pitchside-outlet",
+                    "pitchside-reception"
+                  ],
+                  "check": "A reception verifies this connection. The wider defensive line is outside the shot, so a line break remains unverified.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "complete"
+              }
+            }
+          ],
+          "elapsed_ms": 6119
+        }
+      ]
+    },
+    {
+      "id": "escape",
+      "rounds": [
+        {
+          "events": [
+            {
+              "type": "conversation",
+              "data": {
+                "id": "898962e0ec9bf6cd00adc0f6ab5a3dd6aa75687ab3bf04ca310262965fb4c085",
+                "round": 1,
+                "parent": null,
+                "max_rounds": 3
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792880895442,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 22,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+                "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+                "metric_value": "1 v 1",
+                "metric_title": "The numbers around the ball",
+                "evidence_ids": [
+                  "pitchside-control"
+                ],
+                "engine": "calculated",
+                "title": "Into the next stride",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 22,
+                "revision": 4,
+                "turn_id": "898962e0ec9bf6cd00adc0f6ab5a3dd6aa75687ab3bf04ca310262965fb4c085:math",
+                "round": 1,
+                "sequence": 1,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792880895448,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-control"
+                ]
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792880895457,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "duration_ms": 2
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The lime-shirted attacker makes a close touch in front of the blue defender, then advances with the ball while the defender adjusts his position to follow. This shows a direct engagement between the two players.",
+                "title": "Attacker's close control observed",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 22,
+                "revision": 4,
+                "latency_ms": 1435,
+                "first_text_ms": null,
+                "turn_id": "898962e0ec9bf6cd00adc0f6ab5a3dd6aa75687ab3bf04ca310262965fb4c085:analyst",
+                "round": 1,
+                "sequence": 2,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792880896891,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "latency_ms": 1435,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792880896894,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Dribbling means moving with the ball using repeated touches. How does the attacker’s next touch affect the defender’s positioning?",
+                "title": "Defender's position adjusts after the close touch",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 22,
+                "revision": 4,
+                "latency_ms": 1356,
+                "first_text_ms": null,
+                "turn_id": "898962e0ec9bf6cd00adc0f6ab5a3dd6aa75687ab3bf04ca310262965fb4c085:guide",
+                "round": 1,
+                "sequence": 3,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792880898251,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "latency_ms": 1356,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                "decision": "qualify",
+                "target_claim": "The attacker has escaped the defender.",
+                "engine": "evidence_rules",
+                "title": "Into the next stride",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 22,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "The lime-shirted attacker makes a close touch in front of the blue defender, then advances with the ball while the defender adjusts his position to follow. This shows a direct engagement between the two players.",
+                "turn_id": "898962e0ec9bf6cd00adc0f6ab5a3dd6aa75687ab3bf04ca310262965fb4c085:reviewer",
+                "round": 1,
+                "sequence": 4,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792880898255,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 22,
+                  "status": "bounded",
+                  "claim": "The attacker has escaped the defender.",
+                  "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                  "evidence_ids": [
+                    "pitchside-control",
+                    "pitchside-carry"
+                  ],
+                  "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792880898256,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The attacker’s close control maintains pressure on the defender, preventing an immediate escape. The defender’s adjustment indicates ongoing engagement in the duel.",
+                "title": "Engagement in close control",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "replay_cue": "Replay the space between the touch and the defender.",
+                "role": "presenter",
+                "engine": "azure_openai",
+                "cutoff": 22,
+                "revision": 4,
+                "latency_ms": 1150,
+                "first_text_ms": null,
+                "turn_id": "898962e0ec9bf6cd00adc0f6ab5a3dd6aa75687ab3bf04ca310262965fb4c085:presenter",
+                "round": 1,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792880899410,
+                "role": "presenter",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "latency_ms": 1150,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792880899414,
+                "role": "director",
+                "action": "broadcast_ready",
+                "revision": 4
+              }
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 3,
+                "prompt_tokens": 7535,
+                "completion_tokens": 277,
+                "usage_missing": 0,
+                "elapsed_ms": 3970,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 22,
+                  "status": "bounded",
+                  "claim": "The attacker has escaped the defender.",
+                  "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                  "evidence_ids": [
+                    "pitchside-control",
+                    "pitchside-carry"
+                  ],
+                  "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "complete"
+              }
+            }
+          ],
+          "elapsed_ms": 3974
+        },
+        {
+          "events": [
+            {
+              "type": "conversation",
+              "data": {
+                "id": "403c190b51053078a5484d87b97109b7395609229f8604cce8905d409ae221fd",
+                "round": 2,
+                "parent": "898962e0ec9bf6cd00adc0f6ab5a3dd6aa75687ab3bf04ca310262965fb4c085",
+                "max_rounds": 3
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792880899418,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 22,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+                "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+                "metric_value": "1 v 1",
+                "metric_title": "The numbers around the ball",
+                "evidence_ids": [
+                  "pitchside-control"
+                ],
+                "engine": "calculated",
+                "title": "Into the next stride",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 22,
+                "revision": 4,
+                "turn_id": "403c190b51053078a5484d87b97109b7395609229f8604cce8905d409ae221fd:math",
+                "round": 2,
+                "sequence": 1,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792880899421,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-control"
+                ]
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792880899423,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "duration_ms": 2
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The evidence does not establish that the attacker has definitively beaten the defender. The attacker maintains close control, but the defender's response shows ongoing engagement. The distinction lies in the attacker merely touching the ball versus a confirmed escape.",
+                "title": "Engagement persists despite touch",
+                "caution": "Reviewed annotations, not automatic tracking.",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 22,
+                "revision": 4,
+                "latency_ms": 1192,
+                "first_text_ms": null,
+                "turn_id": "403c190b51053078a5484d87b97109b7395609229f8604cce8905d409ae221fd:analyst",
+                "round": 2,
+                "sequence": 2,
+                "reply_to": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792880900616,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "latency_ms": 1192,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792880900617,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Is the ball within the reach of the attacker or the defender?",
+                "title": "Ball Reach Comparison",
+                "caution": "Reviewed annotations, not automatic tracking.",
+                "evidence_ids": [
+                  "pitchside-control"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 22,
+                "revision": 4,
+                "latency_ms": 1010,
+                "first_text_ms": null,
+                "turn_id": "403c190b51053078a5484d87b97109b7395609229f8604cce8905d409ae221fd:guide",
+                "round": 2,
+                "sequence": 3,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792880901629,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-control"
+                ],
+                "latency_ms": 1010,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                "decision": "qualify",
+                "target_claim": "The attacker has escaped the defender.",
+                "engine": "evidence_rules",
+                "title": "Into the next stride",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 22,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "The evidence does not establish that the attacker has definitively beaten the defender. The attacker maintains close control, but the defender's response shows ongoing engagement. The distinction lies in the attacker merely touching the ball versus a confirmed escape.",
+                "turn_id": "403c190b51053078a5484d87b97109b7395609229f8604cce8905d409ae221fd:reviewer",
+                "round": 2,
+                "sequence": 4,
+                "reply_to": "analyst"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792880901633,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 22,
+                  "status": "bounded",
+                  "claim": "The attacker has escaped the defender.",
+                  "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                  "evidence_ids": [
+                    "pitchside-control",
+                    "pitchside-carry"
+                  ],
+                  "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              }
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792880901635,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-control",
+                  "pitchside-carry"
+                ],
+                "model_tool_selection": false
+              }
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Controlling the ball and getting past an opponent are different achievements. The attacker maintains close control, but the defender's presence indicates ongoing engagement.",
+                "title": "Close control, not escape",
+                "caution": "Reviewed annotations, not automatic tracking.",
+                "evidence_ids": [
+                  "pitchside-control"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "replay_cue": "Replay the close control and follow-up movement.",
+                "role": "presenter",
+                "engine": "azure_openai",
+                "cutoff": 22,
+                "revision": 4,
+                "latency_ms": 1348,
+                "first_text_ms": null,
+                "turn_id": "403c190b51053078a5484d87b97109b7395609229f8604cce8905d409ae221fd:presenter",
+                "round": 2,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792880902986,
+                "role": "presenter",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-control"
+                ],
+                "latency_ms": 1348,
+                "first_text_ms": null
+              }
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792880902993,
+                "role": "director",
+                "action": "broadcast_ready",
+                "revision": 4
+              }
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 3,
+                "prompt_tokens": 7291,
+                "completion_tokens": 220,
+                "usage_missing": 0,
+                "elapsed_ms": 3571,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 22,
+                  "status": "bounded",
+                  "claim": "The attacker has escaped the defender.",
+                  "explanation": "The close touches and the defender’s adjustment are visible. Whether this breaks a team’s defensive structure is outside the frame.",
+                  "evidence_ids": [
+                    "pitchside-control",
+                    "pitchside-carry"
+                  ],
+                  "check": "The defender is still following. This shot does not establish a completed escape or the next possession.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "complete"
+              }
+            }
+          ],
+          "elapsed_ms": 3580
+        }
+      ]
+    }
+  ],
+  "human_ratings": null,
+  "source_unchanged": true
+}

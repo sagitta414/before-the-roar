@@ -16,7 +16,7 @@ test('Truth Lab presents one primary three-step correction path',async()=>{
   assert.match(source,/time:16,corrected/);
   assert.match(source,/More evidence tools/);
   assert.match(source,/WITHDRAWN IF APPLIED/);
-  assert.match(source,/Preview the complete consequence/);
+  assert.match(source,/Test whether the movement statement survives/);
   assert.match(source,/data-impact-calculation/);
 });
 

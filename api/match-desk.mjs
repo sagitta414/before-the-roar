@@ -19,6 +19,12 @@ import { claimBoundaryIssues } from "./claim-boundary.mjs";
 import { groundedRound, reconcileCachedNextEventMath } from "./grounded-desk.mjs";
 import { filmEvidence, followupBrief, changesGuideComparison } from "./film-followup.mjs";
 import { combinedSignal } from "./request-guard.mjs";
+import {
+  unsupportedFilmIntent,
+  filmHostContributionIssue,
+  filmHostPolicy,
+  filmHostRemit,
+} from "./film-editorial-contract.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
 export function repeatsContribution(summary, previous = []) {
@@ -149,6 +155,15 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     throw Error("Citation outside the evidence cutoff");
   if (
     packet.review?.scope === "manually-reviewed-ai-video" &&
+    [p.interpretation, p.headline, p.caution, p.replay_cue].some((value) =>
+      unsupportedFilmIntent(value),
+    )
+  )
+    throw Error(
+      "Unsupported player intent: a hedge or an unrelated outcome disclaimer cannot establish a mental state. Describe visible positioning only.",
+    );
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
     /\b(?:attempt(?:s|ing)? to|trying to|intends? to|aims? to|wants? to|in order to)\b/i.test(
       p.interpretation,
     )
@@ -167,7 +182,7 @@ export function validateMatchPost(raw, packet, role, context = {}) {
   if (
     packet.review?.scope === "manually-reviewed-ai-video" &&
     role !== "guide" &&
-    /(?:limits?|restricts?|reduces?) (?:immediate |the receiver.s |the attacker.s )?(?:passing |movement )?options|(?:provides?|creates?) (?:alternative )?passing lanes|prevents? the defender from|(?:touch|control).{0,30}(?:influences?|forces?) the defender/i.test(
+    /(?:limits?|restricts?|reduces?) (?:immediate |the receiver.s |the attacker.s )?(?:passing |movement )?options|(?:provides?|creates?) (?:alternative )?passing lanes|prevents? the defender from|(?:maintains?|creates?) pressure on the defender|prevent(?:s|ing)? (?:an? |the )?(?:immediate )?escape|(?:touch|control).{0,30}(?:influences?|forces?) the defender/i.test(
       p.interpretation,
     )
   )
@@ -176,7 +191,7 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     );
   if (
     packet.review?.scope === "manually-reviewed-ai-video" &&
-    /\b(?:has|have|had)(?: not|n't) (?:escaped|beaten|won|lost)|\b(?:did|does)(?: not|n't) (?:escape|beat|win|lose)/i.test(
+    /\b(?:has|have|had)(?: not|n't) (?:escaped|beaten|won|lost)|\b(?:did|does)(?: not|n't) (?:escape|beat|win|lose)|not leading to (?:an? )?escape|indicat(?:es?|ing) ongoing pressure/i.test(
       p.interpretation,
     )
   )
@@ -215,6 +230,15 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     p.replay_cue,
     p.viewing_question,
   ].join(" ");
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
+    /forc(?:e[sd]?|ing).{0,30}defender|in response to (?:the )?attacker(?:'s|’s)? (?:touch|run|movement)/i.test(
+      prose,
+    )
+  )
+    throw Error(
+      "Simultaneous movement does not establish that the attacker caused the defender to react; describe the two observations without a causal link",
+    );
   if (
     packet.review?.scope === "manually-reviewed-ai-video" &&
     /\b(?:does not|doesn't|did not|didn't|never)\s+(?:change|move|shift)|\b(?:remains|stays)\s+(?:still|stationary|in place|at (?:the|his|its) (?:same|starting) position)|\b(?:no|without)\s+(?:significant\s+)?(?:movement|change in position)/i.test(
@@ -380,7 +404,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v179e:" +
+            ? "pitchside-tools-v182c:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")
@@ -677,6 +701,7 @@ export class MatchDesk {
           clip: this.clip,
           round: conversation.round,
         });
+        if (this.clip && role === "presenter") editorialPrompt = filmHostPolicy(packet);
         if (role === "guide") {
           delete schema.properties.post.properties.interpretation;
           schema.properties.post.required = schema.properties.post.required.filter(
@@ -802,6 +827,9 @@ export class MatchDesk {
                   followup_brief: followup,
                   clock: packet.clock,
                   revision: packet.revision,
+                  ...(this.clip && role === "presenter"
+                    ? { editorial_assignment: filmHostRemit(packet) }
+                    : {}),
                   calculated: packet.stats,
                   local_calculation: notes.find((p) => p.role === "math"),
                   football_context: packet.football
@@ -826,11 +854,11 @@ export class MatchDesk {
                   evidence,
                   review: packet.review,
                   intent_boundary:
-                    "Describe visible movement only. A stance does not establish trying, attempting, wanting or intending. If challenged about intent, explicitly retract the inference. If no new evidence has arrived, say so instead of inventing an observation.",
+                    "Describe visible movement only. A stance does not establish trying, attempting, wanting or intending. If challenged, retract intent only if the published prior dialogue actually asserted it; otherwise state that intent is not established. If no new evidence has arrived, say so instead of inventing an observation.",
                   previous_public_contributions: previous,
                   conversation: { round: conversation.round, max_rounds: 3 },
                   prior_round: conversation.previous,
-                  ...(role === "presenter"
+                  ...(role === "presenter" && !this.clip
                     ? {
                         editorial_closing_reference: notes.find(
                           (p) => p.role === "presenter",
@@ -854,7 +882,7 @@ export class MatchDesk {
                   ]
                 : []),
             ],
-            temperature: 0.45,
+            temperature: this.clip && role === "presenter" ? 0.2 : 0.45,
             max_tokens: 450,
             stream: true,
             stream_options: { include_usage: true },
@@ -882,7 +910,9 @@ export class MatchDesk {
                 ? packet.guideDefinition + " " + fragment
                 : fragment
               : null;
-          if (draft && draft !== prior) {
+          // Film drafts have not passed the evidence/intent contract. Keep the
+          // speaker status live, then publish the validated role as it finishes.
+          if (draft && draft !== prior && !this.clip) {
             prior = draft;
             first ??= Math.round(performance.now() - start);
             emit("draft", {
@@ -924,6 +954,14 @@ export class MatchDesk {
             throw Error("Follow-up repeats the previous contribution");
           const filmPass =
             this.clip && ["01-pass", "07-blue"].includes(packet.evidence.at(-1)?.shot_id);
+          if (this.clip && role === "presenter") {
+            const issue = filmHostContributionIssue(
+              validated.summary,
+              previous,
+              filmHostRemit(packet),
+            );
+            if (issue) throw Error(issue);
+          }
           if (
             role === "presenter" &&
             (repeatsContribution(validated.summary, previous) ||
@@ -936,9 +974,7 @@ export class MatchDesk {
               (this.clip &&
                 (repeatsFilmUncertainty(validated.summary, previous) ||
                   filmHostSkipsCheck(
-                    conversation.round > 1
-                      ? validated.summary + " " + (validated.replay_cue || "")
-                      : validated.summary,
+                    validated.summary + " " + (validated.replay_cue || ""),
                     packet,
                   ))) ||
               editorialIssues(role, validated.summary, previous).length)
@@ -974,8 +1010,8 @@ export class MatchDesk {
                   : role === "guide"
                     ? "Guide: ask one short, concrete comparison question that teaches the football concept and follows Scout's observation. Avoid generic openings such as what do you notice or what happens next. For an intent challenge, compare visible position before and after the next touch without claiming purpose. The application supplies the definition. Do not claim what a defender did between cuts or what the receiver accomplished after the touch."
                     : ["01-pass", "07-blue"].includes(packet.evidence.at(-1)?.shot_id)
-                      ? "Host: synthesize Check's limit and offer a concrete replay test, without a quality rating or a claim about defender influence. A supported example is: A local outlet is confirmed, but the wider defensive line remains outside this shot; the receiver's first touch can test the exit. Keep the observation, boundary and test in separate clauses. Do not repeat Scout's account of the reception."
-                      : "Host: state a specific new football implication or the precise next-touch replay test. Do not repeat Scout, give an unmeasured quality rating or claim an unseen outcome.";
+                      ? "Host: distinguish a completed connection from bypassing a defensive line and offer a concrete replay test, without a quality rating or a claim about defender influence. A supported example is: A local outlet is confirmed, but the wider defensive line remains outside this shot; the receiver's first touch can test the exit. Keep the observation, boundary and test in separate clauses. Do not repeat Scout's account of the reception."
+                      : "Host: make a publication decision or explain a distinct football contrast. For a face-to-face duel, distinguish marking from a completed tackle. For close control, distinguish controlling the ball from getting past an opponent. Put the next-touch instruction only in replay_cue. Do not repeat Scout, infer pressure or player intent, or claim an unseen outcome.";
           const repairedResponse = await fetch(url, {
             method: "POST",
             headers,
@@ -1076,9 +1112,9 @@ export class MatchDesk {
                       ? "Watch the visible movement separately from its purpose: can the next touch show what actually happens?"
                       : role === "analyst"
                         ? "The reached notes establish visible movement only. They do not establish the player's purpose, and no new observation has arrived at this cutoff."
-                        : "Correction: withdraw the inference about intent. The current shot supports visible movement only; the next touch remains the test.",
-                  es: "Corrección: la toma revisada muestra movimiento visible, no la intención del jugador. No ha llegado una nueva observación en este punto.",
-                  pt: "Correção: a tomada revisada mostra movimento visível, não a intenção do jogador. Nenhuma nova observação chegou neste ponto.",
+                        : "The broadcast can describe a marking position. Marking and a completed tackle are different claims; this shot does not establish a tackle or the player’s intent.",
+                  es: "La toma muestra una posición de marcaje; no establece la intención del jugador ni una entrada completada.",
+                  pt: "A tomada mostra uma posição de marcação; não estabelece a intenção do jogador nem um desarme concluído.",
                 }[packet.language],
               }
             : {}),

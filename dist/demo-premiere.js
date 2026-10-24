@@ -8,7 +8,7 @@ const cuts = {
   "showcase": {
     "src": "assets/before-the-roar-showcase-v177.mp4",
     "poster": "assets/demo-v175-poster.jpg",
-    "label": "3:53 · FULL PRODUCT TOUR · CAPTIONED",
+    "label": "3:53 · RECORDED v177 TOUR · CAPTIONED",
     "chapters": [
       [
         4,
@@ -47,7 +47,7 @@ const cuts = {
   "short": {
     "src": "assets/before-the-roar-judge-v175.mp4",
     "poster": "assets/demo-v175-poster.jpg",
-    "label": "1:54 · JUDGE CUT · CAPTIONED",
+    "label": "1:54 · RECORDED v175 JUDGE CUT · CAPTIONED",
     "chapters": [
       [
         4,

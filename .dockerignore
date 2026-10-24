@@ -7,3 +7,8 @@
 !scripts/
 !scripts/evaluate-agents.mjs
 !scripts/quality-benchmark.mjs
+!scripts/verify-frozen-film.mjs
+!scripts/source-manifest.mjs
+
+!scripts/verify-release-v182.mjs
+!scripts/verify-release-v182b.mjs
