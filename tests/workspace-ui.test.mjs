@@ -9,7 +9,7 @@ test('all seven application routes and the guided story initialize together with
   for(const key of ['addEventListener','removeEventListener','getComputedStyle','matchMedia'])set(key,w[key].bind(w));
   set('requestAnimationFrame',()=>0);set('cancelAnimationFrame',()=>{});set('ResizeObserver',class{observe(){}disconnect(){}});set('BroadcastChannel',class{postMessage(){}close(){}addEventListener(){}});set('setInterval',(fn,ms)=>{const id=setTimeout(()=>{},ms);id.unref();intervals.push(id);return id;});
   set('fetch',async url=>{requests.push(String(url));if(String(url).includes('/api/health'))return Response.json({ai_configured:false,usage:{day:new Date().toISOString().slice(0,10),used:120,limit:120}});if(String(url)==='api-config.json')return Response.json({baseUrl:''});try{return new Response(await readFile(new URL('../dist/'+url,import.meta.url)));}catch{return new Response('{}',{status:404});}});
-  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','understand.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js','security-architecture.js','publish-studio.js'])await import('../dist/'+file);
+  for(const file of ['match-watch.js','analysis-sections.js','studio-lab.js','film-workspace.js','understand.js','play-journey.js','production-desk.js','reliability.js','guided-tour.js','play-studio.js','truth-quality.js','security-architecture.js','publish-studio.js','cohesion.js'])await import('../dist/'+file);
   await new Promise(r=>setTimeout(r,50));
   assert.equal(document.getElementById('receipt-run').textContent,'SOURCE PREVIEW · ASK AI TO RUN');
   assert.doesNotMatch(document.getElementById('desk-panel').textContent,/NO MODEL REQUEST/);
@@ -17,6 +17,9 @@ test('all seven application routes and the guided story initialize together with
   for(const id of ['centre','lab','truth','presenters','security','inside','watch']){document.getElementById(id+'-nav').click();assert.equal(document.getElementById(id).hidden,false,id);assert.equal(document.body.dataset.section,id);}
   const architecture=document.querySelector('.security-architecture');assert.ok(architecture);assert.equal(architecture.querySelectorAll('[data-trace]').length,4);assert.equal(architecture.querySelectorAll('.security-trace-timeline li').length,10);architecture.querySelector('[data-trace="blocked"]').click();assert.equal(architecture.querySelectorAll('.security-trace-timeline li').length,2);assert.equal(architecture.querySelectorAll('.security-arch-lane article.is-path').length,2);architecture.querySelector('[data-node="microsoft-foundry"]').click();assert.match(architecture.querySelector('.security-arch-inspector').textContent,/independent advisory referee/i);assert.equal(architecture.querySelectorAll('.security-node-product').length,13);assert.match(architecture.querySelector('.security-arch-inspector').textContent,/Microsoft Foundry/i);assert.equal(architecture.querySelectorAll('.security-trace-product').length,2);
   const {matchSession}=await import('../dist/match-session.js');
+  matchSession.set({source:'pitchside'});assert.match(document.querySelector('[data-execution-proof] strong').textContent,/3 MODEL ROLES/);assert.match(document.querySelector('.execution-legend [data-execution="model"] strong').textContent,/Scout · Guide · Host/);
+  matchSession.set({source:'match'});assert.match(document.querySelector('[data-execution-proof] strong').textContent,/4 MODEL ROLES/);
+
   matchSession.set({source:'match',section:'truth',time:16,corrected:true});
   const ledger=document.querySelector('.truth-quality');assert.ok(ledger);assert.equal(ledger.closest('details'),null,'claim audit must not be buried in an evidence drawer');assert.match(ledger.textContent,/Withdraw the original claim/);const audience=ledger.querySelector('details');audience.open=true;matchSession.set({time:17});assert.equal(ledger.querySelector('details').open,true,'open audience comparison survives a replay tick');
   matchSession.set({source:'pitchside',section:'centre',clipTime:0});
@@ -43,7 +46,7 @@ test('all seven application routes and the guided story initialize together with
   findButton('Resume saved replay').click();await new Promise(r=>setTimeout(r,50));
   assert.equal(document.querySelectorAll('.proof-contributions article').length,5);
   assert.match(document.querySelector('.proof-caption').textContent,/Saved handoff complete/);
-  assert.equal(document.querySelectorAll('.execution-key>div').length,4);
+  assert.equal(document.querySelectorAll('div.execution-key>div').length,4);
   assert.equal(document.querySelector('.host-final-receipt').hidden,false);
   assert.match(document.querySelector('.host-final-receipt').textContent,/Host · final publish receipt/i);
   assert.ok(findButton('Correct the tracking').disabled);

@@ -462,11 +462,13 @@ function renderReceipts(thread, list, evidence) {
       ? "SOURCE PREVIEW · ASK AI TO RUN"
       : thread.pending
         ? "LIVE · AZURE EXECUTING"
-        : thread.fallback
-          ? "FAILED · REVIEWED FALLBACK"
+        : thread.cached
+          ? "REPLAY · SAVED RESULTS · 0 NEW CALLS"
+          : thread.fallback
+          ? `PARTIAL · ${list.filter(p=>p.engine === "azure_openai").length} AI · ${list.filter(p=>p.engine === "reviewed_fallback").length} REVIEWED FALLBACK`
           : thread.cached
             ? "REPLAY · SAVED RESULTS · 0 NEW CALLS"
-            : `LIVE · ${completedRequests.length || (isClip() ? 3 : 4)} AZURE REQUESTS COMPLETED`;
+            : `LIVE · ${thread.modelCalls ?? "UNKNOWN"} MODEL CALLS · ${list.filter(p=>p.engine === "azure_openai").length} AI CONTRIBUTIONS`;
   run.textContent = executionState;
   run.dataset.state = !thread ? "preview" : thread.fallback ? "failed" : thread.cached ? "replay" : thread.pending ? "live" : "complete";
   box.replaceChildren();
@@ -503,7 +505,7 @@ function renderReceipts(thread, list, evidence) {
   }
   const summary = el("div", "receipt-summary"),
     delivery = thread?.cached ? "CACHED" : thread?.total != null ? `${(thread.total / 1000).toFixed(1)}s` : thread?.pending ? "STREAMING" : "INSTANT",
-    request = !thread ? "NOT STARTED" : thread.cached ? "REPLAY · 0 NEW" : thread.fallback ? "FAILED / FALLBACK" : thread.pending ? "LIVE" : `${completedRequests.length || (isClip() ? 3 : 4)} COMPLETED`;
+    request = !thread ? "NOT STARTED" : thread.cached ? "REPLAY · 0 NEW" : thread.fallback ? `PARTIAL · ${thread.modelCalls ?? "UNKNOWN"} CALLS` : thread.pending ? "LIVE" : `${thread.modelCalls ?? "UNKNOWN"} CALLS`;
   for (const [label, value] of [["EVIDENCE", `${evidenceCount} RECORDS`], ["DELIVERY", delivery], ["MODEL EXECUTION", request]]) {
     const item = el("span", "", label); item.append(el("b", "", value)); summary.append(item);
   }
@@ -735,7 +737,7 @@ function renderPanel() {
         follow.prepend(button);
       }
     }
-    follow.append(el('small','',isClip()?'Continue this conversation · up to 4 AI requests':'Continue this conversation · 4 AI requests'));box.append(follow);
+    follow.append(el('small','',isClip()?'Continue this conversation · 3–6 AI requests':'Continue this conversation · 4 AI requests'));box.append(follow);
   } else if (thread?.complete && thread.round >= 3) box.append(el('p','conversation-progress','Three rounds complete. Choose another moment or start a fresh discussion.'));
   for (const b of document.querySelectorAll("[data-agent]")) {
     b.setAttribute("aria-pressed", String(selected === b.dataset.agent));
@@ -903,6 +905,7 @@ async function requestPanel(
           thread.noEvents = !!data.no_events;
           thread.cached = data.cached;
           thread.total = data.elapsed_ms;
+          thread.modelCalls = Number.isInteger(data.model_calls) ? data.model_calls : null;
         }
         thread.serial++;
         renderPanel();

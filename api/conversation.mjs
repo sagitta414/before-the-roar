@@ -67,6 +67,7 @@ export async function conversationContext(state, input, clip = false) {
   return {
     round,
     parent: input.parentKey,
+    previousCutoff: Number(saved.input.time),
     previous: [...(saved.conversation?.previous || []), ...Object.values(saved.posts)]
       .map((p) => ({
         role: p.role,

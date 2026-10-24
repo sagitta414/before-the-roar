@@ -1,5 +1,6 @@
 // Role-specific model instructions and evidence boundaries used by the live desk and evaluation.
 // One consistent writing contract for the live workflow and its comparison harness.
+import { filmFollowupPolicy } from "./film-followup.mjs";
 import { VOICES } from "./conversation.mjs";
 export const ROLE_TASKS = {
   analyst:
@@ -10,6 +11,7 @@ export const ROLE_TASKS = {
     "Host: SYNTHESIZE. Read the four preceding contributions. State a concrete football implication supported by this moment, then provide a separate replay cue. Respect the source check. Do not repeat the observation, calculation, generic praise or a withdrawn claim.",
 };
 export function editorialPolicy(packet, role, { clip = false, round = 1 } = {}) {
+  if (clip && round > 1) return filmFollowupPolicy(packet, role, VOICES[role]);
   const language = { en: "English", es: "Spanish", pt: "Brazilian Portuguese" }[
     packet.language
   ];

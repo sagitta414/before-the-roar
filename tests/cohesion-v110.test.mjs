@@ -25,11 +25,11 @@ test('proof layer states the vision and model-comparison limits',async()=>{
   assert.match(source,/human preference remains open/i);
   assert.match(source,/6 CASES · 24 ORDER-REVERSED PAIRS · MODEL-SCORED/);
   assert.match(source,/does not claim better writing/);
-  assert.match(source,/4 AZURE REQUESTS \+ 1 CALCULATION/);
+  assert.match(source,/SOURCE-SPECIFIC EXECUTION/);
   assert.match(source,/MICROSOFT FOUNDRY/);
   const index=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
   assert.match(index,/cohesion\.css\?v=169/);
-  assert.match(index,/cohesion\.js\?v=169/);
+  assert.match(index,/cohesion\.js\?v=179/);
   assert.match(index,/Broadcast view · cinematic minute/);
   assert.match(index,/Evidence view · measured replay/);
 });

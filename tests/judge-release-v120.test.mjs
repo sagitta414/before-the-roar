@@ -25,7 +25,7 @@ test('the desktop journey uses the same language at the route and destination',a
   assert.match(index,/03 \/ MEASURE · LIVE ANALYTICS/);
   assert.match(index,/MEASURE <em>THE MATCH\.<\/em>/);
   assert.match(index,/cohesion\.css\?v=169/);
-  assert.match(index,/cohesion\.js\?v=169/);
+  assert.match(index,/cohesion\.js\?v=179/);
   assert.match(index,/universal-shell\.css\?v=166/);
 });
 

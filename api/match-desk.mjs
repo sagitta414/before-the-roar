@@ -17,6 +17,7 @@ import { ROLE_TASKS, editorialPolicy } from "./editorial-policy.mjs";
 import { conversationContext, followUpMetric } from "./conversation.mjs";
 import { claimBoundaryIssues } from "./claim-boundary.mjs";
 import { groundedRound, reconcileCachedNextEventMath } from "./grounded-desk.mjs";
+import { filmEvidence, followupBrief } from "./film-followup.mjs";
 import { combinedSignal } from "./request-guard.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
@@ -327,7 +328,11 @@ export function validateMatchPost(raw, packet, role, context = {}) {
   }
   return {
     summary:
-      role === "guide" ? packet.guideDefinition + " " + guideQuestion : p.interpretation,
+      role === "guide"
+        ? context.round > 1
+          ? guideQuestion
+          : packet.guideDefinition + " " + guideQuestion
+        : p.interpretation,
     title: p.headline,
     caution: p.caution,
     evidence_ids,
@@ -356,7 +361,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v178:" +
+            ? "pitchside-tools-v179:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")
@@ -610,12 +615,11 @@ export class MatchDesk {
         let evidence = packet.evidence.filter(
           (e) => e.record_type !== "tracking" || packet.brief.evidenceIds.includes(e.id),
         );
-        // Automatic discussions stay with the latest shot. Questions can use all
-        // earlier evidence; the deterministic end recap covers the whole film.
-        if (this.clip && !input.question) {
-          const latestShot = evidence.at(-1)?.shot_id;
-          if (latestShot) evidence = evidence.filter((e) => e.shot_id === latestShot);
-        }
+        if (this.clip) evidence = filmEvidence(packet, input.question);
+        const followup =
+          this.clip && conversation.round > 1
+            ? followupBrief(packet, conversation, input.question, role)
+            : null;
         const ids = evidence.map((e) => e.id),
           schema = {
             type: "object",
@@ -776,6 +780,7 @@ export class MatchDesk {
                 role: "user",
                 content: JSON.stringify({
                   question: input.question || null,
+                  followup_brief: followup,
                   clock: packet.clock,
                   revision: packet.revision,
                   calculated: packet.stats,
@@ -791,13 +796,14 @@ export class MatchDesk {
                   guide_definition:
                     conversation.round === 1 ? packet.guideDefinition : undefined,
                   role_brief:
-                    conversation.round > 1 && role === "guide"
+                    followup ||
+                    (conversation.round > 1 && role === "guide"
                       ? {
                           task: packet.football?.record?.width
                             ? "Ask a new viewing question about the order of the defender's movement and the pass release; do not reuse the opening question."
                             : "Ask a new viewing question that addresses this follow-up using only the supplied source; do not reuse the opening question.",
                         }
-                      : notes.find((p) => p.role === role),
+                      : notes.find((p) => p.role === role)),
                   evidence,
                   review: packet.review,
                   intent_boundary:
@@ -872,12 +878,11 @@ export class MatchDesk {
         await usage(result.usage);
         let raw = JSON.parse(result.content);
         const accept = (candidate) => {
-          const validated = validateMatchPost(candidate, packet, role, {
+          const validated = validateMatchPost(candidate, { ...packet, evidence }, role, {
             round: conversation.round,
             question: input.question,
           });
-          if (role === "guide" && conversation.round > 1)
-            validated.summary = candidate.post.viewing_question;
+
           if (
             conversation.round > 1 &&
             (repeatsContribution(
@@ -902,7 +907,12 @@ export class MatchDesk {
                 )) ||
               (this.clip &&
                 (repeatsFilmUncertainty(validated.summary, previous) ||
-                  filmHostSkipsCheck(validated.summary, packet))) ||
+                  filmHostSkipsCheck(
+                    conversation.round > 1
+                      ? validated.summary + " " + (validated.replay_cue || "")
+                      : validated.summary,
+                    packet,
+                  ))) ||
               editorialIssues(role, validated.summary, previous).length)
           )
             throw Error("Repeated contribution; using the reviewed closing cue");
@@ -949,20 +959,26 @@ export class MatchDesk {
                   content:
                     editorialPrompt +
                     " This is a revision after an editorial rejection. " +
-                    repairTask +
+                    (followup
+                      ? followup.task +
+                        " Fix the specific editorial_rejection without reverting to an opening summary."
+                      : repairTask) +
                     " Avoid generic praise. Keep the same evidence cutoff, language and citations.",
                 },
                 {
                   role: "user",
                   content: JSON.stringify({
                     question: input.question,
+                    followup_brief: followup,
+                    conversation: { round: conversation.round, max_rounds: 3 },
                     clock: packet.clock,
                     revision: packet.revision,
                     evidence,
                     review: packet.review,
                     football_context: packet.football,
-                    guide_definition: packet.guideDefinition,
-                    role_brief: notes.find((p) => p.role === role),
+                    guide_definition:
+                      conversation.round === 1 ? packet.guideDefinition : undefined,
+                    role_brief: followup || notes.find((p) => p.role === role),
                     calculated: packet.stats,
                     previous_public_contributions: previous,
                     prior_round: conversation.previous,
