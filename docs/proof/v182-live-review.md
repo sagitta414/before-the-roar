@@ -16,4 +16,12 @@ Manual inspection found an unsupported Scout inference in the escape follow-up: 
 
 The final candidate explicitly supplies the required localized replay prefix, chooses Guide comparisons for the current scene (pass/frame coverage, control/separation, goalkeeper/ball origin), and rejects the reproduced unsupported pressure/failed-escape paraphrase. The earlier record is preserved rather than overwritten. These checks remain bounded editorial rules, not a semantic accuracy proof.
 
-A targeted final-candidate escape regression is planned under a seven-request ceiling. It will be recorded separately. It must not be described as a fresh full-grid evaluation. The next quality gate is a complete final-revision comparison and independent ratings, not an arbitrary numerical score.
+A targeted final-candidate escape regression used seven additional requests on revision `before-the-roar--0000167`, with matching local/runtime hashes. Its separate record is `v182c-final-verification.json`. The follow-up withheld an escape outcome and Guide switched to visible separation. Both rounds delivered reviewed Host fallback: the opening hit an editorial rejection and the follow-up Host was stopped by the verification ceiling. The record's `complete` flag means both rounds delivered a result, not that every role succeeded with a model call. Total verification use across the two runs was 48 requests; the app's daily allowance was not increased.
+
+This targeted rerun is not a fresh full-grid evaluation. Host delivery reliability remains open, as do independent ratings. A complete final-revision comparison remains required before any 90+ or superior-commentary claim.
+
+## Final application release
+
+Application source commit: `2c0c369`. Image: `before-the-roar:v182c-review`, digest `sha256:a150b41b0246cd1c64fe2acfb196ca91779e61c32706064104342f2704f764d3`. A metadata-only revision updates the health endpoint to identify this image and source commit. Follow-up documentation commits do not change the image's application code.
+
+Local checks: 345 passing tests, no failures/skips; syntax and API formatting pass. Public health, HTML, updated CSS and the frozen review page returned HTTP 200. Browser checks covered cinematic startup, source continuity through Understand/Publish, publication labels, and accessibility availability at desktop and 390-pixel phone width. This does not replace a physical-phone accessibility audit.

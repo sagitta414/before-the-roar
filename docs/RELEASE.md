@@ -25,6 +25,7 @@ The v182 live protocol freezes the runtime dependency graph, records four two-ro
 | Controlled marker-based auto-eventing | Frozen synthetic study available |
 | Unfamiliar broadcast detection | Not validated |
 | Crew produces better writing than one model | Independent ratings pending |
+| Host consistently delivers a fresh model answer | Not established; final targeted run retained fallback and a verification-cap stop |
 | Physical-phone accessibility across devices | Requires real-device checks |
 | Demo records the newest model behavior | Existing v175/v177 recordings are archival; fresh release capture pending |
 
