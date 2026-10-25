@@ -45,18 +45,19 @@ const cuts = {
     ]
   },
   "short": {
-    "src": "assets/before-the-roar-judge-v186.mp4",
-    "poster": "assets/demo-v186-poster.jpg",
-    "label": "1:55 · LIVE-RECEIPT JUDGE CUT · CAPTIONED",
+    "src": "assets/before-the-roar-judge-v187.mp4",
+    "poster": "assets/demo-v187-poster.jpg",
+    "label": "1:39 · LIVE-APP JUDGE CUT · CAPTIONED",
     "chapters": [
       [4, "The cinematic film"],
-      [18, "Live specialist round"],
-      [33, "Viewer challenge"],
-      [53, "Evidence correction"],
-      [69, "Corrected AI round"],
-      [81, "Pocket Director"],
-      [91, "Publish"],
-      [100, "Architecture"]
+      [17, "Opening specialist round"],
+      [28, "Viewer challenge in Watch"],
+      [40, "Truth Lab correction"],
+      [47, "Corrected AI round"],
+      [58, "AI desk receipts"],
+      [66, "Pocket Director"],
+      [76, "Publish"],
+      [85, "Architecture"]
     ]
   }
 };
@@ -79,7 +80,7 @@ function renderChapters() {
     chapters.append(button);
   }
 }
-let selectedCut = new URLSearchParams(location.search).get("cut") === "short" ? "short" : "showcase";
+let selectedCut = new URLSearchParams(location.search).get("cut") === "showcase" ? "showcase" : "short";
 function selectCut(name) {
   if (!cuts[name] || !video) return;
   selectedCut = name;

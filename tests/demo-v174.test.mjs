@@ -28,8 +28,8 @@ test('chapter navigation seeks within the selected cut without forcing autoplay'
  w.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
  w.eval((await readFile('dist/demo-premiere.js','utf8')).replaceAll('export function','function'));
  w.document.getElementById('open-final-demo').click();
- w.document.querySelector('[aria-label="Jump to Evidence correction"]').click();
- assert.equal(w.document.getElementById('final-demo-video').currentTime,53.25);
+ w.document.querySelector('[aria-label="Jump to Truth Lab correction"]').click();
+ assert.equal(w.document.getElementById('final-demo-video').currentTime,40.25);
  assert.equal(plays,0);
  w.document.querySelector('[data-demo-cut="showcase"]').click();
  assert.ok(w.document.querySelectorAll('.demo-chapters button').length>=4);

@@ -33,8 +33,4 @@ test('the judge cut uses the retained three-round public trace and stays below t
   assert.match(captions, /separate synthetic replay/i);
   assert.match(captions, /not football causality/i);
   assert.match(receipt.visual_sources, /visualize exact public SSE posts/);
-  const html = await readFile('dist/index.html', 'utf8');
-  const player = await readFile('dist/demo-premiere.js', 'utf8');
-  assert.match(html, /three fresh public Azure rounds/i);
-  assert.match(player, /before-the-roar-judge-v186\.mp4/);
 });

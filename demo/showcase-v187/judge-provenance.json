@@ -1,0 +1,90 @@
+{
+  "version": 187,
+  "file": "dist/assets/before-the-roar-judge-v187.mp4",
+  "duration_seconds": 99.086667,
+  "sha256": "09235c3165631017b60af37d1b07d3ababdd4d813ac051a76b292ac4289ee00d",
+  "bytes": 17462407,
+  "opening_receipts": "demo/showcase-v186/live-sequence.json",
+  "opening_receipts_sha256": "6b0738f15d2ef6b020d7475c182fba99f1c47d2b7b181ac0e35916e196b3a070",
+  "fresh_browser_capture": "demo/showcase-v187/live-ui-uncut.webm",
+  "fresh_browser_capture_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+  "capture_metadata_sha256": "f72e33d3064355b864c7229b3ea575226aaffd61b442c1e2ae0bc307750be878",
+  "release": {
+    "capture_app_revision": "before-the-roar--0000177",
+    "capture_image_tag": "v186-judge",
+    "opening_receipt_release": {
+      "version": "3.29.2",
+      "git_revision": "7efc931",
+      "image_tag": "v183d-host"
+    }
+  },
+  "opening_round_model_requests": 4,
+  "browser_round_model_requests": 8,
+  "model_roles_per_round": [
+    "Scout",
+    "Guide",
+    "Check",
+    "Host"
+  ],
+  "deterministic_role": "Vector",
+  "timings": [
+    {
+      "id": "opening",
+      "start": 0,
+      "duration": 4
+    },
+    {
+      "id": "watch",
+      "start": 4,
+      "duration": 13
+    },
+    {
+      "id": "opening-round",
+      "start": 17,
+      "duration": 11
+    },
+    {
+      "id": "ui-challenge",
+      "start": 28,
+      "duration": 12
+    },
+    {
+      "id": "ui-correction",
+      "start": 40,
+      "duration": 7
+    },
+    {
+      "id": "ui-r2",
+      "start": 47,
+      "duration": 11
+    },
+    {
+      "id": "r2-receipts",
+      "start": 58,
+      "duration": 8
+    },
+    {
+      "id": "phone",
+      "start": 66,
+      "duration": 10
+    },
+    {
+      "id": "publish",
+      "start": 76,
+      "duration": 9
+    },
+    {
+      "id": "architecture",
+      "start": 85,
+      "duration": 9
+    },
+    {
+      "id": "closing",
+      "start": 94,
+      "duration": 5
+    }
+  ],
+  "visual_sources": "Opening and Watch use fictional AI film and recorded app playback. The first receipt card visualizes a separate public SSE round captured in v186. The 30-second middle sequence uses consecutive excerpts from one continuous public browser screen recording of two fresh four-model rounds with a deterministic Truth Lab correction between them, slowed to fit narration. The R2 receipt frame is from that run. Phone is a paired R2 reference capture after reconnect. Architecture is earlier app footage. Publish is a receipt-derived editorial visualization.",
+  "voice": "Azure AI Speech HD narration added in editing, not live agent speech.",
+  "evidence_scope": "The AI film and measured synthetic match are separate sources. The correction tests evidence dependence, not football causality. No independent commentary preference or unfamiliar broadcast-video accuracy is claimed."
+}

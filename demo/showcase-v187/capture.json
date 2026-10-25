@@ -1,0 +1,88 @@
+{
+  "origin": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io",
+  "created_at": "2026-10-25T14:13:00.905Z",
+  "duration_seconds": 22.643,
+  "marks": [
+    {
+      "step": "watch-r1",
+      "at": 4.275,
+      "detail": ""
+    },
+    {
+      "step": "challenge-entered",
+      "at": 4.429,
+      "detail": ""
+    },
+    {
+      "step": "challenge-sent",
+      "at": 5.375,
+      "detail": ""
+    },
+    {
+      "step": "challenge-complete",
+      "at": 8.46,
+      "detail": "AI discussion ready"
+    },
+    {
+      "step": "challenge-last-posts",
+      "at": 11.726,
+      "detail": ""
+    },
+    {
+      "step": "truth-r1",
+      "at": 11.81,
+      "detail": ""
+    },
+    {
+      "step": "correction-applied",
+      "at": 13,
+      "detail": ""
+    },
+    {
+      "step": "watch-r2",
+      "at": 15.894,
+      "detail": ""
+    },
+    {
+      "step": "r2-question-sent",
+      "at": 15.933,
+      "detail": ""
+    },
+    {
+      "step": "r2-complete",
+      "at": 18.762,
+      "detail": "AI discussion ready"
+    },
+    {
+      "step": "ai-desk",
+      "at": 20.266,
+      "detail": ""
+    }
+  ],
+  "requests": [
+    {
+      "at": 5.373,
+      "question": "Can we credit the runner for the defender shifting in this wide-run play, or is that beyond the tracking? What should I check at pass release?",
+      "corrected": false,
+      "scenario": "wide"
+    },
+    {
+      "at": 15.932,
+      "question": "Corrected tracking says Laurent moved zero metres laterally. Which earlier movement claim is invalid, and which passing calculation survives?",
+      "corrected": true,
+      "scenario": "wide"
+    }
+  ],
+  "allowance_before": {
+    "day": "2026-10-25",
+    "limit": 300,
+    "used": 249
+  },
+  "allowance_after": {
+    "day": "2026-10-25",
+    "limit": 300,
+    "used": 257
+  },
+  "model_requests_used": 8,
+  "scope": "Real public UI recording, with health-counted model requests. It is an edited judge demo, not an uncut continuous match broadcast. Film footage remains a separate source."
+}

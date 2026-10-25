@@ -1,0 +1,7 @@
+# Before the Roar — 1:39 judge video
+
+The current short demo is [the 1:39 judge cut](../dist/assets/before-the-roar-judge-v187.mp4). It is available from **Watch Demo** in the public app. The longer v185 product tour remains an earlier edit.
+
+The video opens on the fictional cinematic match, then moves to the measured synthetic replay. Its opening specialist card is a visualization of a retained public round from v186. The central sequence is a continuous public-app browser recording: a viewer challenges the movement explanation, Truth Lab changes one defender observation from 13 metres to zero, and a new question asks the crew which claim must be withdrawn. Those two discussions used eight new Azure model requests, visible in the AI desk receipts; Vector's calculation is deterministic. The browser footage is slowed in the edit to leave room for narration. The paired-phone view is an earlier reference capture after reconnection, and the Publish image is an editorial visualization of the prepared output. The architecture footage is an earlier app recording.
+
+The [capture record](../demo/showcase-v187/capture.json) lists the exact questions, timing, and before/after model allowance. The [video provenance](../demo/showcase-v187/judge-provenance.json) retains source hashes and editorial scope. Azure AI Speech HD narration was added in editing. The cinematic film is not the measured replay, the Truth Lab correction tests evidence dependence rather than causality, and this demonstration is not an independent commentary-quality evaluation.
