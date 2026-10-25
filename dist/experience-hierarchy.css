@@ -88,3 +88,11 @@ body[data-section="security"] .ai-availability{display:none!important}
 
 /* Qualification text remains readable at laptop scaling. */
 .understand-boundary,.understand-story>span,.publish-proofline,.publish-lock small,.truth-verdict-impact p{font-size:12px;line-height:1.5}
+
+/* Measure has one first action; the internal controls become relevant after a custom upload. */
+#lab .video-tracking:not(.vt-has-custom-upload) [data-action="start"],
+#lab .video-tracking .vt-ready .red-button{display:none!important}
+#lab .video-tracking .vt-ready{padding:16px;margin-top:9px}
+#lab .video-tracking .vt-ready-flow{margin-top:12px}
+#lab .video-tracking .vt-ready h3{margin:7px 0;font-size:21px}
+@media(min-width:1000px){body[data-section="watch"] .ai-availability{display:none!important}}

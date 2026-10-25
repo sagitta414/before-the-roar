@@ -3,7 +3,7 @@ import {videoStory} from './video-story.js';
 import {createPixelDetector,VideoTracker,worldToPixel} from './tracking-model.js?v=145';
 import {IdentityLedger,eventAssurance,summarizeHoldout} from './measurement-assurance.js?v=147';
 import {matchSession} from './match-session.js';
-import {createVideoUpload} from './video-upload.js?v=162';
+import {createVideoUpload} from './video-upload.js?v=189';
 import {assessVideoCompatibility} from './video-compatibility.js?v=161';
 const lab=document.getElementById('lab');lab.classList.add('video-mode');lab.setAttribute('aria-label','Match Lab');
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
@@ -68,6 +68,10 @@ async function checkUploadCompatibility(url,metadata){
  return assessVideoCompatibility(frames,metadata);
 }
 createVideoUpload({panel,lab,video,checkCompatibility:checkUploadCompatibility,onPrepare:({url,measured,metadata,sourceOrigin})=>{video.pause();clear();uploadObjectUrl=url;uploadReviewOnly=!measured;panel.classList.toggle('vt-review-mode',!measured);video.src=url;video.controls=!measured;video.load();const start=panel.querySelector('[data-action="start"]'),source=panel.querySelector('.vt-source');source.textContent=measured?'COMPATIBLE SYNTHETIC VIDEO · FRAME-SUPPORTED EVENTS':'LOCAL VIDEO · REVIEWED CUES ONLY';start.disabled=false;if(measured){start.textContent='▶ Analyze uploaded video';start.onclick=startAnalysis;panel.querySelector('.vt-status').textContent=`Compatibility passed for ${metadata.duration.toFixed(1)} seconds. Event claims still require observed frames.`;if(sourceOrigin==='bundled-fictional-evaluation')video.addEventListener('loadedmetadata',()=>startAnalysis(),{once:true});}else{start.textContent='▶ Play for human review';start.onclick=()=>video.paused?video.play():video.pause();panel.querySelector('.vt-status').textContent='Review mode ready · automatic identity, distance, speed and event claims are withheld.';}},onRestore:()=>{video.pause();clear();uploadReviewOnly=false;uploadObjectUrl='';panel.classList.remove('vt-review-mode');video.removeAttribute('src');video.controls=false;video.load();const start=panel.querySelector('[data-action="start"]');start.disabled=false;start.textContent='▶ Analyze the full minute';start.onclick=startAnalysis;panel.querySelector('.vt-source').textContent='CALIBRATED BROADCAST CAMERA';panel.querySelector('.vt-status').textContent='Training film restored · ready for a new measured run';}});
+// The included sample is the single primary entry; custom uploads retain their own restart control.
+panel.classList.remove('vt-has-custom-upload');
+document.addEventListener('btr-upload-source',event=>panel.classList.toggle('vt-has-custom-upload',event.detail.sourceOrigin!=='bundled-fictional-evaluation'));
+document.addEventListener('btr-upload-clear',()=>panel.classList.remove('vt-has-custom-upload'));
 
 // Keep one unmistakable first action. The other workspaces remain available,
 // but they no longer compete with the included evaluation clip.
@@ -90,9 +94,7 @@ if(sampleAction){
  modes.replaceChildren(primary,secondary);
 }
 
-// Opening Match Lab is itself the viewer's playback gesture. Start the measured
-// minute immediately so the evidence desk never looks like a broken empty panel.
-document.addEventListener('click',event=>{const trigger=event.target.closest?.('#lab-nav,[data-jump="lab"],.btr-enter');if(trigger&&!analysisStarted&&!hasRun)setTimeout(()=>{if(!lab.hidden)startAnalysis();},0);});
+// Entering Measure presents one clear sample action; analysis starts after source preflight.
 
 for(const button of panel.querySelectorAll('[data-evidence]'))button.onclick=()=>{if(!current?.events.length)return;video.pause();openVideoEvidence({snapshot:current,frame:pixels.toDataURL('image/png'),posts:videoStory(current,cal.roster,{challenge:challenged}).map(p=>aiPosts.find(a=>a.role===p.role)||p)},button.dataset.evidence);};
 

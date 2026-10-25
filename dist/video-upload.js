@@ -125,6 +125,8 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
   };
 
   const loadSample = async () => {
+    sampleButton.disabled = true;
+    sampleButton.textContent = "Checking the fictional sample…";
     status.textContent = "Loading BTR's fictional evaluation minute…";
     ingest.querySelector(".vt-upload-progress").hidden = false;
     try {
@@ -140,6 +142,10 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
     } catch (error) {
       status.textContent = error.message;
       ingest.querySelector(".vt-upload-progress").hidden = true;
+      open();
+    } finally {
+      sampleButton.disabled = false;
+      sampleButton.textContent = "▶ Analyze the included fictional sample";
     }
   };
 
@@ -250,7 +256,7 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
   sampleButton.className = "vt-sample-open";
   sampleButton.textContent = "Try fictional sample ▶";
   sampleButton.setAttribute("aria-label", "Load the fictional BTR evaluation video and run its compatibility gate");
-  sampleButton.onclick = () => { open(); loadSample(); };
+  sampleButton.onclick = loadSample;
   lab.querySelector(".vt-modes")?.prepend(uploadButton, sampleButton);
   const watchUpload = document.getElementById("open-video-upload");
   const watchSampleButton = document.createElement("button");
@@ -259,7 +265,7 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
   watchSampleButton.textContent = "Try fictional sample ▶";
   watchSampleButton.onclick = () => {
     document.getElementById("lab-nav")?.click();
-    setTimeout(() => { open(); loadSample(); }, 50);
+    setTimeout(loadSample, 50);
   };
   watchUpload?.insertAdjacentElement("afterend", watchSampleButton);
   document.getElementById("open-video-upload")?.addEventListener("click", () => {

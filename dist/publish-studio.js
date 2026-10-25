@@ -18,7 +18,9 @@ if(root){
    <article class="publish-preview publish-transmission">
     <div class="publish-preview-top"><span>PROGRAM / HARBOR v NORTHBRIDGE</span><div><span class="publish-on-air">PREVIEW</span><b>HARBOR</b><strong>0–0</strong><b>NORTHBRIDGE</b><time data-publish-clock></time></div></div>
     <div class="publish-frame">
-     <img src="assets/pitchside-minute-poster.jpg" alt="Synthetic football match used to preview the approved broadcast story">
+     <img class="publish-film-image" src="assets/pitchside-minute-poster.jpg" alt="Frame from the separately edited fictional cinematic film">
+     <div class="publish-match-image" hidden role="img" aria-label="Illustrative pitch for the synthetic Harbor and Northbridge story; player dots are schematic, not measured positions or video footage"><div class="publish-match-pitch"><i class="publish-midline"></i><i class="publish-circle"></i><i class="publish-box publish-box-left"></i><i class="publish-box publish-box-right"></i><i class="publish-player harbor p1"></i><i class="publish-player harbor p2"></i><i class="publish-player harbor p3"></i><i class="publish-player north p4"></i><i class="publish-player north p5"></i><i class="publish-player north p6"></i><i class="publish-ball"></i><i class="publish-pass"></i></div><span>SYNTHETIC MATCH · ILLUSTRATIVE POSITIONS</span></div>
+     <div class="publish-source-badge" data-publish-source></div>
      <div class="publish-scorebug"><b>BTR</b><span>HBR</span><strong>0–0</strong><span>NBR</span><time data-publish-clock></time></div>
      <div class="publish-live-rail"><span>THE MOMENT</span><b>REVIEWED STORY PREVIEW</b></div>
      <div class="publish-caption"><small data-publish-mode></small><h3 data-publish-title></h3><p data-publish-copy></p></div>
@@ -48,6 +50,12 @@ if(root){
  function publishState(text,detail){stateOut.querySelector('b').textContent=text;stateOut.querySelector('small').textContent=detail;stateOut.dataset.released=String(published);studio.dataset.released=String(published);for(const [index,label] of ['PREPARED FOR WATCH',Date.now()-relayAt<6000?'SENT TO PHONE RELAY':'PHONE NOT CONNECTED','READY TO EXPORT'].entries()){const target=studio.querySelectorAll('[data-channel-state]')[index];if(target)target.textContent=published?label:['REVIEW REQUIRED','NOT SENT','NOT EXPORTED'][index];}}
  function render(state){
   const {input,story,evidence,ready,key}=publishPacket(state);
+  const film=input.source==='pitchside';
+  studio.querySelector('.publish-film-image').hidden=!film;
+  studio.querySelector('.publish-match-image').hidden=film;
+  studio.querySelector('[data-publish-source]').textContent=film?'FICTIONAL CINEMATIC FILM · REVIEWED CUES':'SYNTHETIC EVENT RECORD · SCHEMATIC, NOT VIDEO';
+  studio.querySelector('.publish-frame').dataset.source=film?'film':'match';
+  studio.dataset.source=film?'film':'match';
   if(lastKey!==key){published=false;lastKey=key;}
   release.disabled=!ready;
   publishState(published?'STORY PREPARED':'READY FOR REVIEW',ready?'Review the current source and audience.':'Advance the film to a reviewed observation before release.');
