@@ -25,6 +25,8 @@ import {
   filmHostPolicy,
   filmHostRemit,
   filmHostTurn,
+  filmHostFollowupCondition,
+  removeCopiedHostSentences,
 } from "./film-editorial-contract.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
@@ -937,25 +939,35 @@ export class MatchDesk {
         await usage(result.usage);
         let raw = JSON.parse(result.content);
         const accept = (candidate) => {
-          const hostTakeaway = candidate?.post?.takeaway;
+          const hostTakeaway = hostTurn
+            ? removeCopiedHostSentences(candidate?.post?.takeaway, [
+                ...previous,
+                ...conversation.previous.filter((p) => p.role === "presenter"),
+              ])
+            : candidate?.post?.takeaway;
           const unchanged =
             hostTurn?.kind === "unchanged_evidence" &&
             typeof hostTakeaway === "string" &&
             !/evidence (?:has not|hasn't|did not|didn't) chang|same evidence|same shot|no new evidence|la evidencia no ha cambiado|a evidência não mudou/i.test(
               hostTakeaway,
             );
+          const condition =
+            hostTurn?.kind === "unchanged_evidence"
+              ? filmHostFollowupCondition(packet)
+              : null;
           const reviewed = hostTurn
             ? {
                 ...candidate,
                 post: {
                   ...candidate?.post,
-                  takeaway: unchanged
-                    ? {
-                        en: "The evidence has not changed. ",
-                        es: "La evidencia no ha cambiado. ",
-                        pt: "A evidência não mudou. ",
-                      }[packet.language] + hostTakeaway
-                    : hostTakeaway,
+                  takeaway:
+                    (unchanged
+                      ? {
+                          en: "The evidence has not changed. ",
+                          es: "La evidencia no ha cambiado. ",
+                          pt: "A evidência não mudou. ",
+                        }[packet.language] + hostTakeaway
+                      : hostTakeaway) + (condition ? " " + condition : ""),
                   headline: notes.find((p) => p.role === "presenter").title,
                   caution: packet.copy.limit,
                   replay_cue: notes.find((p) => p.role === "presenter").replay_cue,

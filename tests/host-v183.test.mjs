@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {filmHostTurn} from '../api/film-editorial-contract.mjs';
+import {filmHostTurn,filmHostFollowupCondition,removeCopiedHostSentences} from '../api/film-editorial-contract.mjs';
 import {MatchDesk, validateMatchPost} from '../api/match-desk.mjs';
 import {pitchsideStory} from '../dist/pitchside-story.js';
 import {testState} from './agent-fixture.mjs';
@@ -16,6 +16,8 @@ test('Host knows whether a follow-up has new evidence without reading untrusted 
  const changed=filmHostTurn(pitchsideStory({time:12,language:'en'}),{round:2,previous:[{...previous[0],evidence_ids:['pitchside-outlet']}]});
  assert.equal(changed.kind,'new_evidence');
  assert.ok(changed.new_evidence_ids.includes('pitchside-reception'));
+ assert.match(filmHostFollowupCondition(packet),/receiver beyond the defensive line/);
+ assert.equal(removeCopiedHostSentences('The defender stands very close to the attacker. A completed tackle is not recorded.',[{summary:'The defender stands very close to the attacker.'}]),'A completed tackle is not recorded.');
 });
 
 test('a challenged Host answer changes the takeaway while keeping reviewed copy and the evidence gate',async()=>{
@@ -45,6 +47,7 @@ test('a challenged Host answer changes the takeaway while keeping reviewed copy 
   assert.equal(second.at(-1).editorial_envelope,'reviewed_source');
   assert.match(second.at(-1).summary,/evidence has not changed/i);
   assert.match(second.at(-1).summary,/continuous wider view/i);
+  assert.match(second.at(-1).summary,/receiver beyond the defensive line/i);
   assert.notEqual(first.at(-1).summary,second.at(-1).summary);
   const unsupported={post:{takeaway:'The defender intended to intercept the pass, proving a broken defensive line.',headline:'Line broken',caution:'Unverified.',replay_cue:'Replay the receiver’s first touch.',evidence_ids:{primary:'pitchside-reception'}}};
   assert.throws(()=>validateMatchPost(unsupported,pitchsideStory({time:12,language:'en'}),'presenter',{round:2}),/intent/i);
