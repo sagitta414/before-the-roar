@@ -98,6 +98,47 @@ export function filmHostFollowupCondition(packet) {
   return conditions[shot]?.[l] || null;
 }
 
+// A reviewed sentence for bounded repair in scenes where purpose language has
+// repeatedly escaped the first draft. The model still selects evidence and
+// returns a revised post; this sentence is identified as source-supplied.
+export function filmScoutRepairSentence(packet, question = "") {
+  const shot = packet.evidence.at(-1)?.shot_id;
+  const intent =
+    /intent|trying|attempt|plan|purpose|infer|intenci[oó]n|inten[cç][aã]o/i.test(
+      question,
+    );
+  const l = Math.max(0, ["en", "es", "pt"].indexOf(packet.language));
+  if (shot === "03-defend")
+    return (
+      intent
+        ? [
+            "The visible stance establishes position, not a plan to tackle; no new observation has arrived.",
+            "La postura visible muestra posición, no un plan de entrada; no hay una nueva observación.",
+            "A postura visível mostra posição, não um plano de desarme; não chegou nova observação.",
+          ]
+        : [
+            "The defender stands close to the attacker in this shot; no tackle or change of possession is recorded.",
+            "El defensor está cerca del atacante en esta toma; no se registra una entrada ni un cambio de posesión.",
+            "O defensor está perto do atacante nesta tomada; não há desarme nem mudança de posse registrada.",
+          ]
+    )[l];
+  if (shot === "06-talk")
+    return (
+      intent
+        ? [
+            "The pointing gesture is visible, but no speech or tactical instruction is recorded to establish its purpose.",
+            "El gesto de señalar es visible, pero no se registra voz ni instrucción táctica que establezca su propósito.",
+            "O gesto de apontar é visível, mas não há fala nem instrução tática registrada que estabeleça sua finalidade.",
+          ]
+        : [
+            "A player points beside a teammate in this shot; no spoken instruction is recorded.",
+            "Un jugador señala junto a un compañero en esta toma; no se registra ninguna instrucción hablada.",
+            "Um jogador aponta ao lado de um colega nesta tomada; nenhuma instrução falada foi registrada.",
+          ]
+    )[l];
+  return null;
+}
+
 export function filmHostContributionIssue(text, previous = [], remit = null) {
   if (copiedEditorialSentence(text, previous))
     return "Host copies a sentence from another specialist; replace it with a publication decision or a distinct football contrast";
