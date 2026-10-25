@@ -3,7 +3,7 @@ import {SCENARIOS,PLAYERS,position,clock as matchClock} from './engine.js';
 import {matchStory} from './match-story.js';
 import {PITCHSIDE,pitchsideStory} from './pitchside-story.js';
 import {buildPerspectiveRecap,detectMatchSignals,signalDefinition,spatialDescription} from './pocket-accessibility.js';
-import {ACCESSIBILITY_MOMENTS,defaultAccessibilitySettings,descriptiveLine,momentAt,settingsForProfile} from './accessibility-core.js';
+import {ACCESSIBILITY_MOMENTS,COLOR_VISION_MODES,defaultAccessibilitySettings,descriptiveLine,momentAt,normalizeColorVision,settingsForProfile} from './accessibility-core.js';
 
 const $=id=>document.getElementById(id),svgNS='http://www.w3.org/2000/svg';
 const params=new URLSearchParams(location.hash.slice(1));
@@ -25,7 +25,7 @@ function renderPitch(){const svg=$('pitch');svg.replaceChildren();svg.append(nod
  const focus=selectedFocus||Number(cue.experience?.focus)||scenario.focus,start=position(scenario,focus,0,corrected),current=position(scenario,focus,t,corrected),placed=PLAYERS.map(p=>({p,xy:position(scenario,p.id,t,corrected)})),distance=({xy})=>Math.hypot(xy[0]-current[0],xy[1]-current[1]);
  const visible=cue.source==='pitchside'?placed.filter(({p})=>[focus,102].includes(p.id)):placed.filter(({p})=>p.id===focus).concat(placed.filter(({p})=>p.id!==focus).sort((a,b)=>distance(a)-distance(b)).slice(0,mode==='analyst'?7:5));
  svg.append(node('path',{class:'trail',d:`M ${start[0]} ${start[1]} L ${current[0]} ${current[1]}`}));if(cue.source==='pitchside')svg.append(node('circle',{class:'ball',cx:current[0]+2.2,cy:current[1]+1.2,r:.85}));
- for(const {p,xy:[x,y]} of visible){const g=node('g',{class:`player${p.id===focus?' focus':''}`});g.append(node('circle',{cx:x,cy:y,r:p.id===focus?2.65:2.1,fill:p.team==='harbor'?'#ff365d':'#37a4ff'}));const label=node('text',{x,y:y+1.05});label.textContent=String(p.id>100?p.id-100:p.id);g.append(label);svg.append(g);}
+ for(const {p,xy:[x,y]} of visible){const g=node('g',{class:`player ${p.team==='harbor'?'home':'away'}${p.id===focus?' focus':''}`});if(p.team==='harbor')g.append(node('circle',{cx:x,cy:y,r:p.id===focus?2.65:2.1}));else g.append(node('rect',{x:x-(p.id===focus?2.55:2.05),y:y-(p.id===focus?2.55:2.05),width:p.id===focus?5.1:4.1,height:p.id===focus?5.1:4.1,rx:.3}));const label=node('text',{x,y:y+1.05});label.textContent=String(p.id>100?p.id-100:p.id);g.append(label);svg.append(g);}
  $('focus-toggle').textContent='FOLLOW '+(focus>100?focus-100:focus);$('pitch-caption').textContent=cue.source==='pitchside'?'Two-player companion view. Reviewed film notes—not tracking—support the story.':'Nearest players, movement trail and sources share the current synthetic cutoff.';
 }
 function renderSources(story){const records=cue.evidence?.length?cue.evidence:(story.evidence||[]).slice(-6).map(e=>({id:e.id,type:e.record_type||e.type||'event',description:e.description||e.detail||e.observation||'Recorded source'}));$('source-list').replaceChildren(...records.map(r=>{const d=document.createElement('div');d.className='source-row';d.innerHTML=`<b>${escapeText(r.id)} · ${escapeText(String(r.type).toUpperCase())}</b><p>${escapeText(r.description)}</p>`;return d;}));$('evidence-count').textContent=records.length?`${records.length} SOURCE${records.length===1?'':'S'}`:'AWAITING FIRST NOTE';
@@ -65,6 +65,7 @@ function loadAccessSettings(){try{return {...defaultAccessibilitySettings(),...J
 function saveAccessSettings(){try{localStorage.setItem('btr-accessibility-v1',JSON.stringify(accessSettings));}catch{}}
 function applyAccessSettings(){
  document.body.classList.toggle('access-plain',Boolean(accessSettings.plainLanguage));document.body.classList.toggle('access-large',Boolean(accessSettings.largeText));document.body.classList.toggle('access-contrast',Boolean(accessSettings.highContrast));document.body.classList.toggle('access-quiet',Boolean(accessSettings.quiet));document.body.classList.toggle('access-reduced',Boolean(accessSettings.reducedMotion));
+ accessSettings.colorVision=normalizeColorVision(accessSettings.colorVision);document.documentElement.dataset.colorVision=accessSettings.colorVision;const colorSelect=$('pocket-color-vision');if(colorSelect)colorSelect.value=accessSettings.colorVision;
  document.querySelectorAll('[data-access-profile]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.accessProfile===accessSettings.profile)));
  const film=$('hero-film');if(film)film.volume=accessSettings.lowAudio?.25:1;
  feelEnabled=Boolean(accessSettings.narration||accessSettings.visualSignals||feelEnabled);$('feel-toggle').setAttribute('aria-pressed',String(feelEnabled));$('feel-toggle').textContent=feelEnabled?'ON':'TURN ON';$('feel-match').classList.toggle('enabled',feelEnabled);$('feel-summary').textContent=feelEnabled?'On · personalized verified cues':'Off · no sound or vibration';
@@ -106,6 +107,8 @@ $('feel-toggle').onclick=()=>setFeelEnabled(!feelEnabled);
 $('feel-details-toggle').onclick=()=>{const expanded=$('feel-details-toggle').getAttribute('aria-expanded')!=='true';$('feel-details-toggle').setAttribute('aria-expanded',String(expanded));$('feel-details-toggle').lastElementChild.textContent=expanded?'−':'＋';$('feel-details').hidden=!expanded;};
 document.querySelectorAll('[data-cue-preview]').forEach(button=>button.onclick=async()=>{if(!feelEnabled)await setFeelEnabled(true);emitSignal({kind:button.dataset.cuePreview,team:'harbor'},{preview:true});});
 document.querySelectorAll('[data-access-profile]').forEach(button=>button.onclick=()=>{accessSettings=settingsForProfile(button.dataset.accessProfile,accessSettings);applyAccessSettings();if(accessSettings.narration)setFeelEnabled(true,{announce:true});toast(`${button.querySelector('span').childNodes[0].textContent.trim()} accessibility profile is active.`);});
+$('pocket-color-vision').onchange=event=>{accessSettings.colorVision=normalizeColorVision(event.target.value);applyAccessSettings();toast(`${COLOR_VISION_MODES[accessSettings.colorVision].label} selected.`);};
+addEventListener('storage',event=>{if(event.key==='btr-accessibility-v1'){accessSettings=loadAccessSettings();applyAccessSettings();}});
 $('access-speak').onclick=()=>speak(descriptiveLine(sourceDescription(cueInput()),{plainLanguage:accessSettings.plainLanguage}));
 $('hero-film')?.addEventListener('timeupdate',()=>updateAccessMoment());
 document.querySelectorAll('[data-recap-preset]').forEach(button=>button.onclick=()=>renderRecap(button.dataset.recapPreset));

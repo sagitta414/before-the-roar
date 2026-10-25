@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {ACCESSIBILITY_MOMENTS,ACCESSIBILITY_PROFILES,accessibleStatus,defaultAccessibilitySettings,descriptiveLine,momentAt,settingsForProfile} from '../dist/accessibility-core.js';
+import {ACCESSIBILITY_MOMENTS,ACCESSIBILITY_PROFILES,COLOR_VISION_MODES,accessibleStatus,colorVisionPalette,defaultAccessibilitySettings,descriptiveLine,momentAt,normalizeColorVision,settingsForProfile} from '../dist/accessibility-core.js';
 
 test('accessibility profiles provide distinct multimodal experiences',()=>{
  assert.equal(ACCESSIBILITY_PROFILES.vision.settings.narration,true);
@@ -20,6 +20,19 @@ test('profile settings retain explicit user choices while adding the preset',()=
  assert.match(accessibleStatus(settings),/tools active/);
 });
 
+test('color vision settings persist through other profiles and keep routes distinguishable',()=>{
+ const choice={...defaultAccessibilitySettings(),colorVision:'redGreen'};
+ assert.equal(settingsForProfile('hearing',choice).colorVision,'redGreen');
+ assert.equal(normalizeColorVision('unexpected'),'standard');
+ assert.equal(Object.keys(COLOR_VISION_MODES).length,4);
+ for(const mode of Object.keys(COLOR_VISION_MODES)){
+  const palette=colorVisionPalette(mode);
+  assert.notEqual(palette.home,palette.away);
+  assert.notEqual(palette.actual,palette.alternative);
+ }
+ assert.equal(accessibleStatus(choice),'1 accessibility tools active');
+});
+
 test('descriptive transcript follows the current play and exposes a correction',()=>{
  assert.equal(momentAt(0).clock,'67:00');
  assert.equal(momentAt(17).clock,'67:16');
@@ -35,8 +48,11 @@ test('desktop and pocket surfaces load the shared accessibility system',async()=
   readFile(new URL('../dist/pocket-director.html',import.meta.url),'utf8'),
   readFile(new URL('../dist/pocket-director.js',import.meta.url),'utf8')
  ]);
- assert.match(desktop,/accessibility-director\.js\?v=170/);
+ assert.match(desktop,/accessibility-director\.js\?v=194/);
  assert.match(desktop,/accessibility-director\.css\?v=170/);
+ assert.match(desktop,/color-vision\.css\?v=194/);
+ assert.match(pocket,/id="pocket-color-vision"/);
+ assert.match(pocket,/pocket-director\.js\?v=194/);
  assert.match(pocket,/data-access-profile="vision"/);
  assert.match(pocket,/DESCRIPTIVE MATCH TRANSCRIPT/);
  assert.match(script,/ACCESSIBILITY_MOMENTS/);

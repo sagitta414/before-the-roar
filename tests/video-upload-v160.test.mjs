@@ -8,7 +8,7 @@ test('video ingest is discoverable from Watch and loaded by Match Lab',async()=>
   const [html,tracking]=await Promise.all([read('dist/index.html'),read('dist/video-tracking.js')]);
   assert.match(html,/id="open-video-upload"[^>]*>Upload video \+/);
   assert.match(html,/video-upload\.css\?v=162/);
-  assert.match(html,/video-tracking\.js\?v=193/);
+  assert.match(html,/video-tracking\.js\?v=194/);
   assert.match(tracking,/createVideoUpload/);
   assert.match(await read('dist/video-upload.js'),/Try fictional sample/);
   assert.match(await read('dist/video-upload.js'),/id = "try-video-sample"/);

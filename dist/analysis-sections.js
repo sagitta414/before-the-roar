@@ -1,7 +1,7 @@
 import {createTruthLab} from './truth-lab.js?v=192';
 import {matchSession} from './match-session.js';
 import {matchStory} from './match-story.js';
-import {createMatchPitch} from './match-pitch.js?v=22';
+import {createMatchPitch} from './match-pitch.js?v=194';
 import {SCENARIOS,PLAYERS,position,clock,story} from './engine.js';
 import {matchCenterSnapshot} from './analysis-model.js';
 import {PRESENTER_PROFILES as profiles} from './presenter-profiles.js?v=103';

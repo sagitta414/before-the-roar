@@ -2,7 +2,7 @@ import {PLAYERS,position,ball,clock} from './engine.js';
 
 const NS='http://www.w3.org/2000/svg';
 function node(tag,attrs={},text){const n=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;}
-const palette={harbor:'#d6eb54',north:'#83c5ef'};
+const palette={harbor:'var(--btr-home)',north:'var(--btr-away)'};
 
 // Artwork is decorative. Every ground anchor and trail comes from the existing
 // scenario coordinates; neither the artwork nor the view changes the evidence.
@@ -26,7 +26,7 @@ export function createMatchPitch(container,onSelect){
  stage.append(passLine,trail);
  const players=node('g',{class:'pitch-players'}),actors=new Map();
  for(const p of PLAYERS){
-  const number=p.number||p.id,keeper=number===1,color=palette[p.team],actor=node('g',{class:'pitch-player','data-player':p.id});
+  const number=p.number||p.id,keeper=number===1,color=palette[p.team],actor=node('g',{class:'pitch-player','data-player':p.id,'data-team':p.team});
   const title=node('title',{},`${p.name} · ${p.team==='harbor'?'Harbor FC':'Northbridge'}`);
   const focus=node('ellipse',{class:'player-focus-ring',cx:0,cy:0,rx:3.3,ry:1.4,fill:color,'fill-opacity':'.12',stroke:color,'stroke-width':'.3'});
   const shade=node('ellipse',{cx:.65,cy:.25,rx:1.9,ry:.65,fill:'#000','fill-opacity':'.48',filter:'url(#pitch-shadow)'});

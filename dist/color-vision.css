@@ -1,0 +1,25 @@
+:root{--btr-home:#d6eb54;--btr-away:#83c5ef;--btr-actual:#ff5574;--btr-alternative:#d8f35d}
+html[data-color-vision="redGreen"]{--btr-home:#ffb454;--btr-away:#65d7ff;--btr-actual:#ffb454;--btr-alternative:#65d7ff;--lime:#ffb454;--blue:#65d7ff}
+html[data-color-vision="blueYellow"]{--btr-home:#ff8b91;--btr-away:#69e3c1;--btr-actual:#ff8b91;--btr-alternative:#69e3c1;--lime:#ff8b91;--blue:#69e3c1}
+html[data-color-vision="monochrome"]{--btr-home:#fff;--btr-away:#aebbc9;--btr-actual:#fff;--btr-alternative:#aebbc9;--lime:#fff;--blue:#aebbc9}
+.a11y-color-control{display:grid;gap:9px;margin-top:18px;padding:16px;border:1px solid #4c6179;background:#101d2b}
+.a11y-color-control label,.pocket-color-control{font:800 11px Barlow,Arial,sans-serif;letter-spacing:.06em;color:#eef6ff}
+.a11y-color-control select,.pocket-color-control select{width:100%;min-height:44px;padding:10px 12px;border:1px solid #7890a8;background:#08111b;color:#fff;font:700 13px Arial,sans-serif}
+.a11y-color-control select:focus-visible,.pocket-color-control select:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.a11y-color-control p,.pocket-color-control small{margin:0;color:#b7c7d7;font:11px/1.5 Arial,sans-serif;letter-spacing:0}
+.a11y-color-preview{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.a11y-color-preview span{padding:8px;border:1px solid #52657a;background:#08141f;font:800 10px Barlow,Arial,sans-serif;letter-spacing:.03em}
+.a11y-color-preview .home{color:var(--btr-home)}.a11y-color-preview .away{color:var(--btr-away)}.a11y-color-preview .actual{color:var(--btr-actual)}.a11y-color-preview .alternative{color:var(--btr-alternative)}
+.pocket-color-control{display:grid;gap:8px;margin:12px 0;padding:12px;border:1px solid #4c6179;background:#0e1b29}
+.pitch-shell .player.home circle{fill:var(--btr-home)}.pitch-shell .player.away rect{fill:var(--btr-away)}
+.pitch-shell .player.focus circle,.pitch-shell .player.focus rect{stroke:#fff;stroke-width:1.15;filter:drop-shadow(0 0 2px #fff)}
+.pitch-legend .home{background:var(--btr-home)}.pitch-legend .away{background:var(--btr-away);border-radius:0}
+.pitch-shell .trail{stroke:var(--btr-home);filter:none}
+.pitch-player[data-team="harbor"] .player-kit path{fill:var(--btr-home)}.pitch-player[data-team="north"] .player-kit path{fill:var(--btr-away)}
+.pitch-player[data-team="harbor"] .player-focus-ring{fill:var(--btr-home);stroke:var(--btr-home)}.pitch-player[data-team="north"] .player-focus-ring{fill:var(--btr-away);stroke:var(--btr-away)}
+.pitch-player[data-team="harbor"] .player-number rect{stroke:var(--btr-home)}.pitch-player[data-team="north"] .player-number rect{stroke:var(--btr-away);stroke-dasharray:.35 .2}
+.vt-options-pitch{border-color:#8097a7}.vt-option-card[data-selected="true"]{border-width:2px}
+.vt-option-card small{color:#e6f0ff}
+html[data-color-vision="redGreen"] .vt-options-toggle,html[data-color-vision="blueYellow"] .vt-options-toggle,html[data-color-vision="monochrome"] .vt-options-toggle{border-color:var(--btr-actual)!important;color:#fff!important}
+html[data-color-vision="monochrome"] .vt-options-pitch{filter:grayscale(1)}
+@media(max-width:800px){.a11y-color-control{margin-top:14px}.a11y-color-preview{grid-template-columns:1fr 1fr}}

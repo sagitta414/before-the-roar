@@ -12,7 +12,7 @@
   <link rel="manifest" href="pocket-manifest.webmanifest">
   <link rel="icon" href="assets/pocket-icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/pocket-icon.svg">
-  <link rel="stylesheet" href="pocket-director.css?v=142&r=176"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144"><link rel="stylesheet" href="pocket-next.css?v=159"><link rel="stylesheet" href="pocket-accessibility.css?v=163"><link rel="stylesheet" href="pocket-flow.css?v=164">
+  <link rel="stylesheet" href="pocket-director.css?v=142&r=176"><link rel="stylesheet" href="pocket-data.css?v=143"><link rel="stylesheet" href="pocket-polish.css?v=144"><link rel="stylesheet" href="pocket-next.css?v=159"><link rel="stylesheet" href="pocket-accessibility.css?v=163"><link rel="stylesheet" href="pocket-flow.css?v=164"><link rel="stylesheet" href="color-vision.css?v=194">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -49,6 +49,7 @@
       <section class="feel-match" id="feel-match" aria-labelledby="feel-title">
         <div class="feel-head"><div><small>ACCESSIBILITY DIRECTOR</small><h2 id="feel-title">Experience the match your way.</h2><p id="feel-summary">Profiles, description, sound and vibration</p></div><button class="feel-toggle" id="feel-toggle" type="button" aria-pressed="false">TURN ON</button></div>
         <button class="feel-details-toggle" id="feel-details-toggle" type="button" aria-expanded="false">CUSTOMIZE YOUR EXPERIENCE <span>＋</span></button>
+        <label class="pocket-color-control" for="pocket-color-vision">TEAM COLORS & MARKERS<select id="pocket-color-vision" aria-describedby="pocket-color-note"><option value="standard">Broadcast colors</option><option value="redGreen">Red / green distinction</option><option value="blueYellow">Blue / yellow distinction</option><option value="monochrome">Monochrome markers</option></select><small id="pocket-color-note">● Harbor · ■ Northbridge. Shapes and labels stay distinct; film footage is unchanged.</small></label>
         <div class="feel-details" id="feel-details" hidden>
           <div class="feel-status" aria-live="polite"><i></i><div><b id="feel-status-title">READY TO PREVIEW</b><span id="feel-status-copy">Off until you choose to enable sound and vibration.</span></div></div>
           <div class="access-profile-head"><span>CHOOSE HOW YOU FOLLOW THE MATCH</span><small>Same evidence · different delivery</small></div>
@@ -138,6 +139,6 @@
   </main>
   <nav class="dock" aria-label="Pocket Director navigation"><button class="active" data-screen-target="live"><i><svg viewBox="0 0 24 24"><path d="M4 13h3l2-6 4 11 2-5h5"/></svg></i>LIVE</button><button data-screen-target="perspectives"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></i>VIEWS</button><button data-screen-target="players"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20c.6-4 2.6-6 6-6s5.4 2 6 6"/></svg></i>PLAYER</button><button data-screen-target="more"><i><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg></i>LAB</button></nav>
   <div id="toast" role="status" hidden></div>
-  <script type="module" src="pocket-director.js?v=184&r=184"></script>
+  <script type="module" src="pocket-director.js?v=194"></script>
 </body>
 </html>

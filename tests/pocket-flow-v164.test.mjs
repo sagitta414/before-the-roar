@@ -28,7 +28,7 @@ test('v164 flow CSS makes recaps primary and turns secondary choices into compac
  assert.match(css,/\.feel-details-toggle/);
  assert.match(css,/\.player-hero\{height:360px/);
  const worker=await readFile(new URL('../dist/pocket-sw.js',import.meta.url),'utf8');
- assert.match(worker,/btr-pocket-v184/);
+ assert.match(worker,/btr-pocket-v194/);
  assert.match(worker,/pocket-flow\.css/);
  assert.match(worker,/accessibility-core\.js/);
 });

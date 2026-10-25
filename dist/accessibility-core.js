@@ -7,6 +7,22 @@ export const ACCESSIBILITY_PROFILES = Object.freeze({
   sensory:{label:'Sensory safe',description:'No flashes, reduced motion, quieter sound and fewer interruptions.',settings:{quiet:true,reducedMotion:true,lowAudio:true}}
 });
 
+export const COLOR_VISION_MODES = Object.freeze({
+  standard:{label:'Broadcast colors',description:'Original BTR palette.'},
+  redGreen:{label:'Red / green distinction',description:'Amber and cyan teams with different marker shapes.'},
+  blueYellow:{label:'Blue / yellow distinction',description:'Coral and mint teams with different marker shapes.'},
+  monochrome:{label:'Monochrome markers',description:'White and gray teams, outlined shapes and route patterns.'}
+});
+export const normalizeColorVision=value=>Object.hasOwn(COLOR_VISION_MODES,value)?value:'standard';
+export function colorVisionPalette(value){
+  switch(normalizeColorVision(value)){
+    case 'redGreen':return {home:'#ffb454',away:'#65d7ff',actual:'#ffb454',alternative:'#65d7ff',focus:'#ffffff'};
+    case 'blueYellow':return {home:'#ff8b91',away:'#69e3c1',actual:'#ff8b91',alternative:'#69e3c1',focus:'#ffffff'};
+    case 'monochrome':return {home:'#ffffff',away:'#aebbc9',actual:'#ffffff',alternative:'#aebbc9',focus:'#ffffff'};
+    default:return {home:'#d6eb54',away:'#83c5ef',actual:'#ff5574',alternative:'#d8f35d',focus:'#ffffff'};
+  }
+}
+
 export const ACCESSIBILITY_MOMENTS = Object.freeze([
   {at:0,clock:'67:00',kind:'scene',title:'The duel begins',plain:'A Harbor attacker controls the ball near the right touchline while a Northbridge defender closes the space.',detail:'Wide stadium view. Harbor attacks from left to right. The ball is near the right touchline and the nearest defender is goal-side.'},
   {at:8,clock:'67:08',kind:'movement',title:'The runner starts',plain:'A teammate runs inside without the ball, giving the defender another movement to watch.',detail:'An off-ball Harbor runner accelerates through the inside channel. The on-ball attacker continues along the touchline.'},
@@ -18,7 +34,7 @@ export const ACCESSIBILITY_MOMENTS = Object.freeze([
   {at:52,clock:'67:52',kind:'correction',title:'A narrower story is published',plain:'The attack progressed. BTR removes the claim that the run caused the defender to move.',detail:'Truth Lab can hold the defender in place. The pass calculation survives; the movement claim is withdrawn and the broadcast line changes.'}
 ]);
 
-export const defaultAccessibilitySettings=()=>({profile:'standard',captions:false,narration:false,transcript:false,visualSignals:false,plainLanguage:false,quiet:false,reducedMotion:false,largeText:false,highContrast:false,largeTargets:false,voice:false,lowAudio:false});
+export const defaultAccessibilitySettings=()=>({profile:'standard',colorVision:'standard',captions:false,narration:false,transcript:false,visualSignals:false,plainLanguage:false,quiet:false,reducedMotion:false,largeText:false,highContrast:false,largeTargets:false,voice:false,lowAudio:false});
 
 export function settingsForProfile(profile,previous={}){
   const base=defaultAccessibilitySettings(),preset=ACCESSIBILITY_PROFILES[profile]||ACCESSIBILITY_PROFILES.standard;
@@ -33,4 +49,4 @@ export function descriptiveLine(moment,{plainLanguage=false,correction=false}={}
   return `${current.clock}. ${plainLanguage?current.plain:current.detail}`;
 }
 
-export function accessibleStatus(settings){const active=Object.entries(settings||{}).filter(([key,value])=>key!=='profile'&&value).map(([key])=>key);return active.length?`${active.length} accessibility tools active`:'Standard broadcast presentation';}
+export function accessibleStatus(settings){const active=Object.entries(settings||{}).filter(([key,value])=>key!=='profile'&&key!=='colorVision'&&value).map(([key])=>key);if(normalizeColorVision(settings?.colorVision)!=='standard')active.push('colorVision');return active.length?`${active.length} accessibility tools active`:'Standard broadcast presentation';}
