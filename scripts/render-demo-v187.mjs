@@ -158,7 +158,7 @@ await writeFile(`${archive}/judge-provenance.json`, JSON.stringify({
   version: 187, file: output, duration_seconds: seconds(output), sha256: hash(bytes), bytes: (await stat(output)).size,
   opening_receipts: 'demo/showcase-v186/live-sequence.json', opening_receipts_sha256: hash(raw),
   fresh_browser_capture: `${archive}/live-ui-uncut.webm`, fresh_browser_capture_sha256: hash(await readFile(`${archive}/live-ui-uncut.webm`)), capture_metadata_sha256: hash(captureRaw),
-  release: { capture_app_revision: 'before-the-roar--0000177', capture_image_tag: 'v186-judge', opening_receipt_release: proof.release }, opening_round_model_requests: 4, browser_round_model_requests: capture.model_requests_used, model_roles_per_round: ['Scout', 'Guide', 'Check', 'Host'], deterministic_role: 'Vector',
+  release: { capture_image_tag: 'v186-judge', opening_receipt_release: proof.release }, opening_round_model_requests: 4, browser_round_model_requests: capture.model_requests_used, model_roles_per_round: ['Scout', 'Guide', 'Check', 'Host'], deterministic_role: 'Vector',
   timings,
   visual_sources: 'Opening and Watch use fictional AI film and recorded app playback. The first receipt card visualizes a separate public SSE round captured in v186. The 30-second middle sequence uses consecutive excerpts from one continuous public browser screen recording of two fresh four-model rounds with a deterministic Truth Lab correction between them, slowed to fit narration. The R2 receipt frame is from that run. Phone is a paired R2 reference capture after reconnect. Architecture is earlier app footage. Publish is a receipt-derived editorial visualization.',
   voice: 'Azure AI Speech HD narration added in editing, not live agent speech.',

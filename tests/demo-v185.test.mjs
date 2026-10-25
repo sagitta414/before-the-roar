@@ -21,6 +21,7 @@ test('the refreshed demo is versioned, captioned, and its media matches the publ
     assert.ok(Math.abs(end - receipt.duration_seconds) < .2);
   }
   const html = await readFile('dist/index.html', 'utf8');
-  assert.match(html, /before-the-roar-showcase-v185\.mp4/);
+  const player = await readFile('dist/demo-premiere.js', 'utf8');
+  assert.match(player, /before-the-roar-showcase-v185\.mp4/);
   assert.match(html, /expanded product tour is an earlier edit/);
 });

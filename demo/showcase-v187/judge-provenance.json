@@ -10,7 +10,6 @@
   "fresh_browser_capture_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
   "capture_metadata_sha256": "f72e33d3064355b864c7229b3ea575226aaffd61b442c1e2ae0bc307750be878",
   "release": {
-    "capture_app_revision": "before-the-roar--0000177",
     "capture_image_tag": "v186-judge",
     "opening_receipt_release": {
       "version": "3.29.2",
