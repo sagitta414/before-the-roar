@@ -26,7 +26,6 @@ import {
   filmHostRemit,
   filmHostTurn,
   filmHostFollowupCondition,
-  filmScoutRepairSentence,
   removeCopiedHostSentences,
 } from "./film-editorial-contract.mjs";
 export const roleTasks = ROLE_TASKS;
@@ -416,7 +415,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v183d:" +
+            ? "pitchside-tools-v183c:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")
@@ -1044,7 +1043,6 @@ export class MatchDesk {
           return validated;
         };
         let validated;
-        let sourceCuedRepair = false;
         try {
           validated = accept(raw);
         } catch (firstError) {
@@ -1062,19 +1060,13 @@ export class MatchDesk {
             /what evidence would change|what would change this explanation|qué evidencia cambiar|que evidência mudaria/i.test(
               input.question || "",
             );
-          const scoutRepair =
-            this.clip && role === "analyst"
-              ? filmScoutRepairSentence(packet, input.question)
-              : null;
           const repairTask =
             challengeRepair && role === "guide"
               ? "Guide: the answer MUST be a question naming a continuous camera angle or unbroken view, the defender's route during the pass, and the receiver's next touch. Example of the required comparison: Which continuous angle would show the defender's route through the pass and the receiver's first touch? Do not ask only about the defender's position."
               : challengeRepair && role === "presenter"
                 ? "Host: answer what evidence could change the reading, not another summary of Scout. State that an unbroken view from pass release through the receiver's first touch could test the defender's route. State that this shot confirms a local outlet, not a break in the wider defensive line. Put the replay instruction only in replay_cue."
                 : role === "analyst"
-                  ? scoutRepair
-                    ? `Scout: use this reviewed current-shot sentence exactly as interpretation: ${JSON.stringify(scoutRepair)} Do not add a purpose, advantage, inferred effect or unseen outcome.`
-                    : "Scout: describe only the reached observation. Answer the viewer's question by naming the visible touch or pass and the specific missing view. Do not infer defender movement between cuts, player readiness, an advantage, or a wider tactical outcome."
+                  ? "Scout: describe only the reached observation. Answer the viewer's question by naming the visible touch or pass and the specific missing view. Do not infer defender movement between cuts, player readiness, an advantage, or a wider tactical outcome."
                   : role === "guide"
                     ? "Guide: ask one short, concrete comparison question that teaches the football concept and follows Scout's observation. Avoid generic openings such as what do you notice or what happens next. For an intent challenge, compare visible position before and after the next touch without claiming purpose. The application supplies the definition. Do not claim what a defender did between cuts or what the receiver accomplished after the touch."
                     : ["01-pass", "07-blue"].includes(packet.evidence.at(-1)?.shot_id)
@@ -1096,12 +1088,10 @@ export class MatchDesk {
                     (hostTurn
                       ? hostTurn.task +
                         " Correct the rejected takeaway while keeping the same reached evidence."
-                      : scoutRepair
-                        ? repairTask
-                        : followup
-                          ? followup.task +
-                            " Fix the specific editorial_rejection without reverting to an opening summary."
-                          : repairTask) +
+                      : followup
+                        ? followup.task +
+                          " Fix the specific editorial_rejection without reverting to an opening summary."
+                        : repairTask) +
                     " Avoid generic praise. Keep the same evidence cutoff, language and citations.",
                 },
                 {
@@ -1141,7 +1131,6 @@ export class MatchDesk {
           await usage(repaired.usage);
           raw = JSON.parse(repaired.choices?.[0]?.message?.content || "null");
           validated = accept(raw);
-          sourceCuedRepair = !!scoutRepair;
         }
         await journal.change((v) => {
           v.raw_outputs ??= {};
@@ -1152,7 +1141,6 @@ export class MatchDesk {
           role,
           engine: "azure_openai",
           ...(hostTurn ? { editorial_envelope: "reviewed_source" } : {}),
-          ...(sourceCuedRepair ? { editorial_envelope: "reviewed_source_repair" } : {}),
           cutoff: packet.cutoff,
           revision: packet.revision,
           latency_ms: Math.round(performance.now() - began),

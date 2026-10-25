@@ -52,7 +52,7 @@ test('film editorial repair retains the saved round, distinct task and current-s
  process.env.AZURE_OPENAI_ENDPOINT='https://example.test';process.env.AZURE_ACCESS_TOKEN='test';
  const state=testState({}),parent='b'.repeat(64),input={time:25,language:'en',mode:'analyst',clip_id:'pitchside-minute-veo-quality-v1'};
  await state.write(parent,{source:'pitchside',input,status:'complete',conversation:{round:1},posts:{analyst:{role:'analyst',summary:'The defender bends low and adjusts sideways.'},guide:{role:'guide',summary:'What happens next?'},presenter:{role:'presenter',summary:'Follow the next touch.'}}});
- const captured=[],prompts=[];global.fetch=async(url,options)=>{const body=JSON.parse(options.body),data=JSON.parse(body.messages[1].content);captured.push(data);prompts.push(body.messages[0].content);
+ const captured=[];global.fetch=async(url,options)=>{const body=JSON.parse(options.body),data=JSON.parse(body.messages[1].content);captured.push(data);
   const role=body.messages[0].content.includes('Guide:')?'guide':body.messages[0].content.includes('Host:')?'presenter':'analyst';
   const post={headline:'Read the duel',caution:'The purpose is not established.',evidence_ids:{primary:data.evidence[0].id,secondary:null},...(role==='guide'?{viewing_question:'Where is the ball relative to the defender before and after the next touch?'}:role==='presenter'?{takeaway:'Describe the duel without assigning a purpose: intent is not established by the visible stance.',replay_cue:'Replay the ball position before and after the next touch.'}:{interpretation:'Intent is not established by the visible posture; an action and its purpose are different claims.'})};
   if(captured.length===1)post.evidence_ids.primary='not-in-this-shot';
@@ -63,7 +63,6 @@ test('film editorial repair retains the saved round, distinct task and current-s
   const events=[];const desk=new MatchDesk({busy:0,store:{reserve:async()=>true}},{clip:true,state});await desk.discuss({...input,parentKey:parent,question:'Can the evidence establish intent?'},(type)=>events.push(type));
   assert.ok(events.includes('speaker'));assert.ok(events.includes('post'));assert.ok(!events.includes('draft'),'unvalidated film prose must not reach the audience');
   assert.ok(captured.length>=4,'a rejected citation must trigger a repair');
-  assert.ok(prompts.some(prompt=>prompt.includes('use this reviewed current-shot sentence exactly')),'Scout repair must override the opening follow-up task');
   for(const data of captured){assert.equal(data.conversation.round,2);assert.equal(data.prior_round.length,3);assert.ok(data.followup_brief?.task||data.editorial_assignment?.task||data.role_brief?.task);assert.equal(data.guide_definition,undefined);assert.ok(data.evidence.every(e=>e.second>=24&&e.second<=25));assert.deepEqual((data.followup_brief||data.editorial_assignment||data.role_brief).new_evidence_ids,[]);}
  }finally{global.fetch=oldFetch;for(const[k,v]of [['AZURE_OPENAI_ENDPOINT',oldEndpoint],['AZURE_ACCESS_TOKEN',oldToken]])if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {filmHostTurn,filmHostFollowupCondition,filmScoutRepairSentence,removeCopiedHostSentences} from '../api/film-editorial-contract.mjs';
+import {filmHostTurn,filmHostFollowupCondition,removeCopiedHostSentences} from '../api/film-editorial-contract.mjs';
 import {MatchDesk, validateMatchPost} from '../api/match-desk.mjs';
 import {pitchsideStory} from '../dist/pitchside-story.js';
 import {testState} from './agent-fixture.mjs';
@@ -19,8 +19,6 @@ test('Host knows whether a follow-up has new evidence without reading untrusted 
  assert.match(filmHostFollowupCondition(packet),/receiver beyond the defensive line/);
  assert.equal(filmHostTurn(pitchsideStory({time:36,language:'en'}),{round:1,previous:[]}).remit.kind,'foul');
  assert.equal(filmHostTurn(pitchsideStory({time:50,language:'en'}),{round:1,previous:[]}).remit.kind,'gesture');
- assert.match(filmScoutRepairSentence(pitchsideStory({time:25,language:'en'}),'Does that stance establish a plan to tackle?'),/not a plan to tackle/);
- assert.match(filmScoutRepairSentence(pitchsideStory({time:50,language:'en'}),'Can we infer an instruction?'),/no speech or tactical instruction/);
  assert.equal(removeCopiedHostSentences('The defender stands very close to the attacker. A completed tackle is not recorded.',[{summary:'The defender stands very close to the attacker.'}]),'A completed tackle is not recorded.');
 });
 

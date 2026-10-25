@@ -20,7 +20,7 @@ const all=[
 const count=Math.min(10,Math.max(1,Number(process.argv[3]||10)));
 const cases=all.slice(0,count),path='docs/proof/v183-public-'+count+'-case.json';
 const health=async()=>fetch(origin+'/api/health?probe='+crypto.randomUUID(),{signal:AbortSignal.timeout(30000)}).then(r=>r.json());
-const before=await health();if(before.version!=='3.29.3'||before.git_revision!==expectedSha)throw Error('Unexpected release '+before.version+' '+before.git_revision);
+const before=await health();if(before.version!=='3.29.2'||before.git_revision!==expectedSha)throw Error('Unexpected release '+before.version+' '+before.git_revision);
 if(before.usage.limit-before.usage.used<count*9)throw Error('Insufficient existing allowance');
 const report={schema:'btr.host-public-reliability.v1',recorded_at:new Date().toISOString(),origin,release:{version:before.version,git_revision:before.git_revision,image_tag:before.image_tag},allowance_before:before.usage,cases,results:[],complete:false,passing:false,limitations:'Development reliability check on reviewed film. No human preference score.'};
 await mkdir('docs/proof',{recursive:true});const save=()=>writeFile(path,JSON.stringify(report,null,2)+'\n');await save();
