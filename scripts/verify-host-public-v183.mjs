@@ -4,6 +4,7 @@ import {PITCHSIDE} from '../dist/pitchside-story.js';
 
 const origin=process.argv[2];
 if(!origin?.startsWith('https://'))throw Error('Pass the public HTTPS origin');
+const expectedSha=process.argv[4];if(!/^[a-f0-9]{7,40}$/.test(expectedSha||''))throw Error('Pass the deployed source revision as the fourth argument');
 const all=[
  {id:'duel',time:2,opening:'What should a viewer take from the opening duel?',followup:'Is marking the same as winning a tackle here?'},
  {id:'outlet',time:12,opening:'What can the viewer actually conclude from this reception?',followup:'Would a wider unbroken angle change the line-break verdict?'},
@@ -19,7 +20,7 @@ const all=[
 const count=Math.min(10,Math.max(1,Number(process.argv[3]||10)));
 const cases=all.slice(0,count),path='docs/proof/v183-public-'+count+'-case.json';
 const health=async()=>fetch(origin+'/api/health?probe='+crypto.randomUUID(),{signal:AbortSignal.timeout(30000)}).then(r=>r.json());
-const before=await health();if(before.version!=='3.29.0')throw Error('Unexpected release '+before.version);
+const before=await health();if(before.version!=='3.29.1'||before.git_revision!==expectedSha)throw Error('Unexpected release '+before.version+' '+before.git_revision);
 if(before.usage.limit-before.usage.used<count*9)throw Error('Insufficient existing allowance');
 const report={schema:'btr.host-public-reliability.v1',recorded_at:new Date().toISOString(),origin,release:{version:before.version,git_revision:before.git_revision,image_tag:before.image_tag},allowance_before:before.usage,cases,results:[],complete:false,passing:false,limitations:'Development reliability check on reviewed film. No human preference score.'};
 await mkdir('docs/proof',{recursive:true});const save=()=>writeFile(path,JSON.stringify(report,null,2)+'\n');await save();
@@ -43,7 +44,7 @@ for(const item of cases){
  const posts=row.rounds.map(round=>round.events.filter(event=>event.type==='post').map(event=>event.data));
  row.fallbacks=posts.flat().filter(post=>post.engine==='reviewed_fallback').map(post=>post.role);
  row.followup_changed=!!(posts[0]&&posts[1]&&posts[0].find(post=>post.role==='presenter')?.summary!==posts[1].find(post=>post.role==='presenter')?.summary);
- row.passing=row.rounds.length===2&&row.rounds.every(round=>round.complete&&!round.error&&round.events.every(event=>event.type!=='draft'))&&posts.every(round=>['analyst','guide','presenter'].every(role=>round.find(post=>post.role===role)?.engine==='azure_openai'))&&row.followup_changed;
+ row.passing=row.rounds.length===2&&row.rounds.every(round=>round.complete&&!round.error&&round.events.every(event=>event.type!=='draft'&&event.data?.replayed!==true))&&posts.every(round=>['analyst','guide','presenter'].every(role=>round.find(post=>post.role===role)?.engine==='azure_openai'))&&row.followup_changed;
  await save();console.log(JSON.stringify({id:row.id,passing:row.passing,fallbacks:row.fallbacks}));
 }
 const after=await health();report.allowance_after=after.usage;report.complete=report.results.length===count&&report.results.every(row=>row.rounds.length===2&&row.rounds.every(round=>round.complete));report.passing=report.complete&&report.results.every(row=>row.passing);await save();
