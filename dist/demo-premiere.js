@@ -45,38 +45,18 @@ const cuts = {
     ]
   },
   "short": {
-    "src": "assets/before-the-roar-judge-v185.mp4",
-    "poster": "assets/demo-v185-poster.jpg",
-    "label": "1:56 · UPDATED JUDGE CUT · CAPTIONED",
+    "src": "assets/before-the-roar-judge-v186.mp4",
+    "poster": "assets/demo-v186-poster.jpg",
+    "label": "1:55 · LIVE-RECEIPT JUDGE CUT · CAPTIONED",
     "chapters": [
-      [
-        4,
-        "Watch Party"
-      ],
-      [
-        26,
-        "Understand"
-      ],
-      [
-        38,
-        "Measure"
-      ],
-      [
-        53,
-        "The correction"
-      ],
-      [
-        69,
-        "Your phone"
-      ],
-      [
-        82,
-        "Publish"
-      ],
-      [
-        94,
-        "Architecture"
-      ]
+      [4, "The cinematic film"],
+      [18, "Live specialist round"],
+      [33, "Viewer challenge"],
+      [53, "Evidence correction"],
+      [69, "Corrected AI round"],
+      [81, "Pocket Director"],
+      [91, "Publish"],
+      [100, "Architecture"]
     ]
   }
 };

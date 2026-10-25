@@ -1,0 +1,12 @@
+[
+  {"id":"opening","duration":4,"text":"Before the Roar. Every play has a why."},
+  {"id":"watch","duration":14,"text":"The cinematic minute draws you into a fictional match. It is AI-generated companion coverage. The measured evidence begins in a separate synthetic replay. We keep those sources distinct."},
+  {"id":"opening-round","duration":15,"text":"At the wide-run moment, four Azure specialist requests complete. Scout sees the winger and defender moving together. Vector calculates two completed passes and twenty-three point seven metres of forward gain. Check withholds cause."},
+  {"id":"challenge-round","duration":20,"text":"A viewer asks whether the run made the defender move. The second live round says the evidence has not changed. A thirteen-metre shift is measured, but intention and cause are not. Host explains what a comparable play would have to show."},
+  {"id":"correction","duration":16,"text":"Now change the synthetic defender observation from thirteen metres to zero. Original and corrected records appear side by side. The movement claim is withdrawn; the two completed passes remain. This tests evidence dependence, not football causality."},
+  {"id":"corrected-round","duration":12,"text":"The third fresh round reads revision two. Scout sees the defender stay put. Check withdraws the movement claim. Host publishes the narrower line and preserves the passing calculation."},
+  {"id":"phone","duration":10,"text":"Pocket Director shows the corrected revision for a new fan. The explanation changes, while the facts and source stay aligned."},
+  {"id":"publish","duration":9,"text":"The revised line is ready for timed output. Preparation is distinct from a confirmed phone receipt or exported overlay."},
+  {"id":"architecture","duration":10,"text":"Container Apps coordinates the workflow. Entra identity protects Azure OpenAI. Foundry provides advisory review; Blob checkpoints support replay and recovery."},
+  {"id":"closing","duration":5,"text":"One match. Every perspective. Before the Roar."}
+]

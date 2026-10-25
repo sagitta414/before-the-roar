@@ -49,7 +49,7 @@ Pocket Director shares source revision and reached evidence. Local-upload pairin
 
 ## Video package
 
-The in-app **Watch Demo** button offers an updated under-two-minute judge cut and an expanded product tour (v185). Both retain the same play → five perspectives → evidence challenge → correction → delivery story. Understand, Publish and the unpaired Pocket Director beginner view were freshly captured from the current application. Moving Watch, Truth Lab and architecture footage, plus the expanded tour's agent exchanges and paired phone correction, remain earlier recordings. The film is an edited demonstration, not a fresh v185 model run. Azure AI Speech narration was added in editing; consult the [current Host run](docs/proof/v183-host-followups.md) for newer execution evidence.
+The in-app **Watch Demo** button offers a 1:55 judge cut (v186) and the earlier expanded product tour (v185). The judge cut starts with the cinematic film, then visualizes [three fresh public Azure rounds](demo/showcase-v186/live-sequence.json) on the separate measured synthetic match: an opening, a viewer's challenge on unchanged R1 evidence, and a new R2 round after the defender-tracking correction. All 12 specialist model requests completed without fallback. Vector remained deterministic. The film, retained uncut correction recording, paired-phone reference capture and architecture footage are labelled by source and recording status in the [video provenance](demo/showcase-v186/judge-provenance.json). Azure AI Speech narration was added in editing, not generated live by the agents. The expanded tour remains an older edit. These executions are a development demonstration, not independent evidence that the crew outperforms one model.
 
 ## Run and verify
 

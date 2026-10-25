@@ -1,0 +1,794 @@
+{
+  "schema": "btr.host-public-reliability.v1",
+  "recorded_at": "2026-10-25T13:15:05.588Z",
+  "origin": "https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io",
+  "release": {
+    "version": "3.29.2",
+    "git_revision": "7efc931",
+    "image_tag": "v183d-host"
+  },
+  "allowance_before": {
+    "day": "2026-10-25",
+    "limit": 240,
+    "used": 227
+  },
+  "cases": [
+    {
+      "id": "duel",
+      "time": 2,
+      "opening": "What should a viewer take from the opening duel?",
+      "followup": "Is marking the same as winning a tackle here?"
+    }
+  ],
+  "results": [
+    {
+      "id": "duel",
+      "rounds": [
+        {
+          "input": {
+            "clip_id": "pitchside-minute-veo-quality-v1",
+            "time": 2,
+            "language": "en",
+            "mode": "fan",
+            "question": "What should a viewer take from the opening duel?"
+          },
+          "events": [
+            {
+              "type": "connected",
+              "data": {
+                "source": "reviewed-ai-video",
+                "discussion_scope": "evidence-cutoff",
+                "clip_id": "pitchside-minute-veo-quality-v1",
+                "cutoff": 2,
+                "language": "en",
+                "mode": "fan"
+              },
+              "at": "2026-10-25T13:15:05.647Z"
+            },
+            {
+              "type": "conversation",
+              "data": {
+                "id": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc",
+                "round": 1,
+                "parent": null,
+                "max_rounds": 3
+              },
+              "at": "2026-10-25T13:15:05.648Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792934107670,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 2,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              },
+              "at": "2026-10-25T13:15:05.712Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+                "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+                "metric_value": "1 v 1",
+                "metric_title": "The numbers around the ball",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "engine": "calculated",
+                "title": "Watch the feet",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 2,
+                "revision": 4,
+                "turn_id": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc:math",
+                "round": 1,
+                "sequence": 1,
+                "reply_to": null
+              },
+              "at": "2026-10-25T13:15:05.723Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792934107699,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ]
+              },
+              "at": "2026-10-25T13:15:05.735Z"
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              },
+              "at": "2026-10-25T13:15:05.735Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792934107891,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "duration_ms": 181
+              },
+              "at": "2026-10-25T13:15:05.925Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The attacker touches the ball, prompting the defender to adjust his position. This change may affect the space available for the attacker, but the exact impact is not measurable from this frame.",
+                "title": "Defender adjusts to attacker’s touch",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 2,
+                "revision": 4,
+                "latency_ms": 2823,
+                "first_text_ms": null,
+                "turn_id": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc:analyst",
+                "round": 1,
+                "sequence": 2,
+                "reply_to": null
+              },
+              "at": "2026-10-25T13:15:08.564Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792934110541,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "latency_ms": 2823,
+                "first_text_ms": null
+              },
+              "at": "2026-10-25T13:15:08.574Z"
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              },
+              "at": "2026-10-25T13:15:08.575Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792934110551,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "model_tool_selection": false
+              },
+              "at": "2026-10-25T13:15:08.583Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "A duel is a contest between an attacker and a defender. How does the defender's adjustment change the space for the attacker?",
+                "title": "Defender adjusts to attacker’s touch",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 2,
+                "revision": 4,
+                "latency_ms": 1482,
+                "first_text_ms": null,
+                "turn_id": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc:guide",
+                "round": 1,
+                "sequence": 3,
+                "reply_to": "analyst"
+              },
+              "at": "2026-10-25T13:15:10.068Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792934112045,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "latency_ms": 1482,
+                "first_text_ms": null
+              },
+              "at": "2026-10-25T13:15:10.077Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "Position alone does not settle possession. Check the next visible touch before awarding a won duel.",
+                "decision": "qualify",
+                "target_claim": "Running ahead proves the duel was won.",
+                "engine": "evidence_rules",
+                "title": "Watch the feet",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 2,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "The attacker touches the ball, prompting the defender to adjust his position. This change may affect the space available for the attacker, but the exact impact is not measurable from this frame.",
+                "turn_id": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc:reviewer",
+                "round": 1,
+                "sequence": 4,
+                "reply_to": "analyst"
+              },
+              "at": "2026-10-25T13:15:10.086Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792934112063,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 2,
+                  "status": "bounded",
+                  "claim": "Running ahead proves the duel was won.",
+                  "explanation": "The attacker touches the ball while the nearby defender adjusts his position.",
+                  "evidence_ids": [
+                    "pitchside-duel",
+                    "pitchside-touch"
+                  ],
+                  "check": "Position alone does not settle possession. Check the next visible touch before awarding a won duel.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              },
+              "at": "2026-10-25T13:15:10.096Z"
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              },
+              "at": "2026-10-25T13:15:10.096Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792934112073,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "model_tool_selection": false
+              },
+              "at": "2026-10-25T13:15:10.104Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Marking involves standing close to an attacker without completing a tackle. The defender's proximity does not equate to possession or a successful defensive action, as shown in evidence ID pitchside-duel.",
+                "title": "Watch the feet",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "replay_cue": "Replay the ball beside the attacker’s feet.",
+                "role": "presenter",
+                "engine": "azure_openai",
+                "editorial_envelope": "reviewed_source",
+                "cutoff": 2,
+                "revision": 4,
+                "latency_ms": 1303,
+                "first_text_ms": null,
+                "turn_id": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc:presenter",
+                "round": 1,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              },
+              "at": "2026-10-25T13:15:11.407Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792934113384,
+                "role": "presenter",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "latency_ms": 1303,
+                "first_text_ms": null
+              },
+              "at": "2026-10-25T13:15:11.415Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792934113401,
+                "role": "director",
+                "action": "broadcast_ready",
+                "revision": 4
+              },
+              "at": "2026-10-25T13:15:11.435Z"
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 3,
+                "prompt_tokens": 6410,
+                "completion_tokens": 235,
+                "usage_missing": 0,
+                "elapsed_ms": 5770,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 2,
+                  "status": "bounded",
+                  "claim": "Running ahead proves the duel was won.",
+                  "explanation": "The attacker touches the ball while the nearby defender adjusts his position.",
+                  "evidence_ids": [
+                    "pitchside-duel",
+                    "pitchside-touch"
+                  ],
+                  "check": "Position alone does not settle possession. Check the next visible touch before awarding a won duel.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "complete"
+              },
+              "at": "2026-10-25T13:15:11.436Z"
+            }
+          ],
+          "started_at": "2026-10-25T13:15:05.590Z",
+          "complete": true,
+          "finished_at": "2026-10-25T13:15:11.437Z"
+        },
+        {
+          "input": {
+            "clip_id": "pitchside-minute-veo-quality-v1",
+            "time": 2,
+            "language": "en",
+            "mode": "fan",
+            "question": "Is marking the same as winning a tackle here?",
+            "parentKey": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc"
+          },
+          "events": [
+            {
+              "type": "connected",
+              "data": {
+                "source": "reviewed-ai-video",
+                "discussion_scope": "evidence-cutoff",
+                "clip_id": "pitchside-minute-veo-quality-v1",
+                "cutoff": 2,
+                "language": "en",
+                "mode": "fan"
+              },
+              "at": "2026-10-25T13:15:11.486Z"
+            },
+            {
+              "type": "conversation",
+              "data": {
+                "id": "3897dd67fab3d73a5b31303713773df77c770c53fb814e4abecc1205eaaff045",
+                "round": 2,
+                "parent": "f74ff30cb8a39365276a8ee768b0cd4ae7b78a7590ec7a27a56331a4fae889bc",
+                "max_rounds": 3
+              },
+              "at": "2026-10-25T13:15:11.494Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 1,
+                "at": 1792934113488,
+                "role": "director",
+                "action": "run_started",
+                "cutoff": 2,
+                "revision": 4,
+                "storage": "azure_blob",
+                "execution_state": "deterministic"
+              },
+              "at": "2026-10-25T13:15:11.520Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "math",
+                "summary": "The reviewed duel contains one attacker and one defender. Watch how the next touch changes the defender’s position.",
+                "working": "attacking players − nearby defenders: 1 − 1 = 0.",
+                "metric_value": "1 v 1",
+                "metric_title": "The numbers around the ball",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "engine": "calculated",
+                "title": "Watch the feet",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 2,
+                "revision": 4,
+                "turn_id": "3897dd67fab3d73a5b31303713773df77c770c53fb814e4abecc1205eaaff045:math",
+                "round": 2,
+                "sequence": 1,
+                "reply_to": null
+              },
+              "at": "2026-10-25T13:15:11.529Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 2,
+                "at": 1792934113506,
+                "role": "math",
+                "action": "calculation_saved",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ]
+              },
+              "at": "2026-10-25T13:15:11.539Z"
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "analyst"
+              },
+              "at": "2026-10-25T13:15:11.539Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 3,
+                "at": 1792934113524,
+                "role": "analyst",
+                "action": "tool_completed",
+                "tool": "read_evidence",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "duration_ms": 9
+              },
+              "at": "2026-10-25T13:15:11.555Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The evidence does not establish that the defender has won a tackle, as marking does not equate to possession or a successful defensive action. The attacker is still in control of the ball during the adjustment.",
+                "title": "Marking versus winning a tackle",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "analyst",
+                "engine": "azure_openai",
+                "cutoff": 2,
+                "revision": 4,
+                "latency_ms": 1972,
+                "first_text_ms": null,
+                "turn_id": "3897dd67fab3d73a5b31303713773df77c770c53fb814e4abecc1205eaaff045:analyst",
+                "round": 2,
+                "sequence": 2,
+                "reply_to": null
+              },
+              "at": "2026-10-25T13:15:13.518Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 4,
+                "at": 1792934115495,
+                "role": "analyst",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "latency_ms": 1972,
+                "first_text_ms": null
+              },
+              "at": "2026-10-25T13:15:13.528Z"
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "guide"
+              },
+              "at": "2026-10-25T13:15:13.529Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 5,
+                "at": 1792934115505,
+                "role": "guide",
+                "action": "context_prepared",
+                "source": "verified_glossary_and_evidence",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "model_tool_selection": false
+              },
+              "at": "2026-10-25T13:15:13.538Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "Is the ball within the attacker's reach or the defender's reach?",
+                "title": "Ball reach comparison",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "evidence_contract": {
+                  "kind": "viewing_question",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "role": "guide",
+                "engine": "azure_openai",
+                "cutoff": 2,
+                "revision": 4,
+                "latency_ms": 1424,
+                "first_text_ms": null,
+                "turn_id": "3897dd67fab3d73a5b31303713773df77c770c53fb814e4abecc1205eaaff045:guide",
+                "round": 2,
+                "sequence": 3,
+                "reply_to": "analyst"
+              },
+              "at": "2026-10-25T13:15:14.959Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 6,
+                "at": 1792934116936,
+                "role": "guide",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "latency_ms": 1424,
+                "first_text_ms": null
+              },
+              "at": "2026-10-25T13:15:14.968Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "role": "reviewer",
+                "summary": "Position alone does not settle possession. Check the next visible touch before awarding a won duel.",
+                "decision": "qualify",
+                "target_claim": "Running ahead proves the duel was won.",
+                "engine": "evidence_rules",
+                "title": "Watch the feet",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "cutoff": 2,
+                "revision": 4,
+                "target_role": "analyst",
+                "reviewed_contribution": "The evidence does not establish that the defender has won a tackle, as marking does not equate to possession or a successful defensive action. The attacker is still in control of the ball during the adjustment.",
+                "turn_id": "3897dd67fab3d73a5b31303713773df77c770c53fb814e4abecc1205eaaff045:reviewer",
+                "round": 2,
+                "sequence": 4,
+                "reply_to": "analyst"
+              },
+              "at": "2026-10-25T13:15:14.977Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 7,
+                "at": 1792934116954,
+                "role": "reviewer",
+                "action": "claim_checked",
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 2,
+                  "status": "bounded",
+                  "claim": "Running ahead proves the duel was won.",
+                  "explanation": "The attacker touches the ball while the nearby defender adjusts his position.",
+                  "evidence_ids": [
+                    "pitchside-duel",
+                    "pitchside-touch"
+                  ],
+                  "check": "Position alone does not settle possession. Check the next visible touch before awarding a won duel.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                }
+              },
+              "at": "2026-10-25T13:15:14.985Z"
+            },
+            {
+              "type": "speaker",
+              "data": {
+                "role": "presenter"
+              },
+              "at": "2026-10-25T13:15:14.986Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 8,
+                "at": 1792934116962,
+                "role": "presenter",
+                "action": "context_prepared",
+                "source": "saved_public_contributions",
+                "evidence_ids": [
+                  "pitchside-duel",
+                  "pitchside-touch"
+                ],
+                "model_tool_selection": false
+              },
+              "at": "2026-10-25T13:15:14.994Z"
+            },
+            {
+              "type": "post",
+              "data": {
+                "summary": "The evidence has not changed. Marking is the act of standing close to an attacker, while a completed tackle involves winning the ball. The evidence shows the defender is marking, not tackling, as the attacker retains control of the ball (ID: pitchside-duel). A visible ball-winning touch would support a tackle claim.",
+                "title": "Watch the feet",
+                "caution": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "evidence_contract": {
+                  "kind": "interpretation",
+                  "observation": null,
+                  "limitation": "Reviewed annotations, not automatic tracking. Player identity, match score, physical speed and the final outcome are unverified.",
+                  "validation": "Citation and editorial checks only; not semantic proof"
+                },
+                "replay_cue": "Replay the ball beside the attacker’s feet.",
+                "role": "presenter",
+                "engine": "azure_openai",
+                "editorial_envelope": "reviewed_source",
+                "cutoff": 2,
+                "revision": 4,
+                "latency_ms": 1416,
+                "first_text_ms": null,
+                "turn_id": "3897dd67fab3d73a5b31303713773df77c770c53fb814e4abecc1205eaaff045:presenter",
+                "round": 2,
+                "sequence": 5,
+                "reply_to": "reviewer"
+              },
+              "at": "2026-10-25T13:15:16.412Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 9,
+                "at": 1792934118389,
+                "role": "presenter",
+                "action": "contribution_saved",
+                "evidence_ids": [
+                  "pitchside-duel"
+                ],
+                "latency_ms": 1416,
+                "first_text_ms": null
+              },
+              "at": "2026-10-25T13:15:16.422Z"
+            },
+            {
+              "type": "trace",
+              "data": {
+                "seq": 10,
+                "at": 1792934118409,
+                "role": "director",
+                "action": "broadcast_ready",
+                "revision": 4
+              },
+              "at": "2026-10-25T13:15:16.442Z"
+            },
+            {
+              "type": "complete",
+              "data": {
+                "cached": false,
+                "model_calls": 3,
+                "prompt_tokens": 6711,
+                "completion_tokens": 236,
+                "usage_missing": 0,
+                "elapsed_ms": 4936,
+                "claim": {
+                  "id": "editorial-reading",
+                  "revision": 4,
+                  "cutoff": 2,
+                  "status": "bounded",
+                  "claim": "Running ahead proves the duel was won.",
+                  "explanation": "The attacker touches the ball while the nearby defender adjusts his position.",
+                  "evidence_ids": [
+                    "pitchside-duel",
+                    "pitchside-touch"
+                  ],
+                  "check": "Position alone does not settle possession. Check the next visible touch before awarding a won duel.",
+                  "method": "Deterministic source and revision rules; not a semantic proof of model prose"
+                },
+                "status": "complete"
+              },
+              "at": "2026-10-25T13:15:16.443Z"
+            }
+          ],
+          "started_at": "2026-10-25T13:15:11.437Z",
+          "complete": true,
+          "finished_at": "2026-10-25T13:15:16.444Z"
+        }
+      ],
+      "fallbacks": [],
+      "followup_changed": true,
+      "passing": true
+    }
+  ],
+  "complete": true,
+  "passing": true,
+  "limitations": "Development reliability check on reviewed film. No human preference score.",
+  "allowance_after": {
+    "day": "2026-10-25",
+    "limit": 240,
+    "used": 233
+  }
+}

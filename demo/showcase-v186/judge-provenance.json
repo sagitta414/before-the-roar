@@ -1,0 +1,79 @@
+{
+  "version": 186,
+  "file": "dist/assets/before-the-roar-judge-v186.mp4",
+  "duration_seconds": 115.057333,
+  "sha256": "4defb6ad3a8e8117205c0451162a36fc803446a0899e0e2bae10ea99b01955b8",
+  "bytes": 17425135,
+  "live_receipts": "demo/showcase-v186/live-sequence.json",
+  "live_receipts_sha256": "6b0738f15d2ef6b020d7475c182fba99f1c47d2b7b181ac0e35916e196b3a070",
+  "release": {
+    "version": "3.29.2",
+    "git_revision": "7efc931",
+    "image_tag": "v183d-host"
+  },
+  "model_requests": 12,
+  "rounds": 3,
+  "model_roles_per_round": [
+    "Scout",
+    "Guide",
+    "Check",
+    "Host"
+  ],
+  "deterministic_role": "Vector",
+  "no_fallback": true,
+  "timings": [
+    {
+      "id": "opening",
+      "start": 0,
+      "duration": 4
+    },
+    {
+      "id": "watch",
+      "start": 4,
+      "duration": 14
+    },
+    {
+      "id": "opening-round",
+      "start": 18,
+      "duration": 15
+    },
+    {
+      "id": "challenge-round",
+      "start": 33,
+      "duration": 20
+    },
+    {
+      "id": "correction",
+      "start": 53,
+      "duration": 16
+    },
+    {
+      "id": "corrected-round",
+      "start": 69,
+      "duration": 12
+    },
+    {
+      "id": "phone",
+      "start": 81,
+      "duration": 10
+    },
+    {
+      "id": "publish",
+      "start": 91,
+      "duration": 9
+    },
+    {
+      "id": "architecture",
+      "start": 100,
+      "duration": 10
+    },
+    {
+      "id": "closing",
+      "start": 110,
+      "duration": 5
+    }
+  ],
+  "visual_sources": "Opening and Watch use fictional AI film and recorded app playback. Live-round cards visualize exact public SSE posts from the recorded run; they are not claimed as screen captures. Correction is the earlier uncut deterministic R1-to-R2 screen recording on the same synthetic scenario. Phone is a paired R2 reference capture after reconnect. Architecture is earlier app footage.",
+  "voice": "Azure AI Speech HD narration added in editing, not live agent speech.",
+  "evidence_scope": "The AI film and measured synthetic match are separate sources. The correction tests evidence dependence, not football causality. No independent commentary preference or unfamiliar broadcast-video accuracy is claimed."
+}

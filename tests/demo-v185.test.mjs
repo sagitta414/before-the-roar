@@ -22,5 +22,5 @@ test('the refreshed demo is versioned, captioned, and its media matches the publ
   }
   const html = await readFile('dist/index.html', 'utf8');
   assert.match(html, /before-the-roar-showcase-v185\.mp4/);
-  assert.match(html, /Moving Watch, correction, and architecture scenes are retained recordings/);
+  assert.match(html, /expanded product tour is an earlier edit/);
 });

@@ -1,6 +1,6 @@
 # Release evidence index
 
-The public application currently includes the v183d Host policy and the v184 Pocket Director beginner default. The v185 demo update refreshes the Understand, Publish and unpaired phone captures while preserving the existing play-to-proof story. Its older moving scenes and saved agent exchanges remain clearly labelled recordings. See [v183 Host verification](proof/v183-host-followups.md) and [the v185 demo receipts](../demo/showcase-v185/judge-provenance.json). No independent commentary-quality or unfamiliar broadcast-video claim is added by the video.
+The public application includes the v183d Host policy and v184 Pocket Director beginner default. The v186 1:55 judge cut adds a fresh three-round public execution: R1 opening, a viewer challenge on unchanged evidence, and a new R2 discussion after the tracking correction. Its 12 model calls and exact posts are retained in [live receipts](../demo/showcase-v186/live-sequence.json); the [video provenance](../demo/showcase-v186/judge-provenance.json) identifies earlier app recordings and edited Azure Speech narration. This run demonstrates purposeful handoffs and a corrected output, not independent commentary superiority or general broadcast-video detection. The v185 expanded product tour remains available as an older edit.
 
 ## Earlier v182 release record
 

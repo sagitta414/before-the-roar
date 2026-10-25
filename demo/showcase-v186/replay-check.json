@@ -1,0 +1,25 @@
+{
+  "schema": "btr.judge-replay-check.v1",
+  "at": "2026-10-25T13:32:23.545Z",
+  "release": {
+    "version": "3.29.2",
+    "git_revision": "7efc931",
+    "image_tag": "v183d-host"
+  },
+  "status": 200,
+  "complete": true,
+  "posts": 5,
+  "replayed": true,
+  "allowance_before": {
+    "day": "2026-10-25",
+    "limit": 300,
+    "used": 245
+  },
+  "allowance_after": {
+    "day": "2026-10-25",
+    "limit": 300,
+    "used": 245
+  },
+  "no_new_model_requests": true,
+  "purpose": "Confirm the saved discussion can be restored without consuming the public AI allowance."
+}
