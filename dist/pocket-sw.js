@@ -1,4 +1,4 @@
-const CACHE='btr-pocket-v178';
+const CACHE='btr-pocket-v184';
 const SHELL=['pocket-director.html','pocket-director.css','pocket-data.css','pocket-polish.css','pocket-next.css','pocket-accessibility.css','pocket-flow.css','pocket-director.js','source-description.js','pocket-accessibility.js','accessibility-core.js','engine.js','match-story.js','pitchside-story.js','assets/pocket-icon.svg','assets/pitchside-poster.jpg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('btr-pocket-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

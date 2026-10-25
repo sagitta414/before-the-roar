@@ -6,6 +6,8 @@ test('Pocket initializes accessibility before receiving a cue and recovers to ex
  try{for(const k of ['window','document','navigator','location','localStorage','CustomEvent'])set(k,k==='window'?w:w[k]);set('addEventListener',w.addEventListener.bind(w));set('fetch',async()=>{throw Error('offline test');});
   await import('../dist/pocket-director.js');await new Promise(r=>setTimeout(r,30));
   assert.match(document.getElementById('connection-pill').textContent,/DEMO MODE/);assert.match(document.getElementById('moment-title').textContent,/unseen run/i);assert.match(document.querySelector('.hero-tag').textContent,/NOT MEASURED FOOTAGE/);
+  assert.match(document.getElementById('moment-kicker').textContent,/NEW TO FOOTBALL/);
+  assert.equal(document.querySelector('.mode-rack .selected')?.dataset.mode,'beginner');
   document.getElementById('data-expand').click();assert.equal(document.getElementById('data-expand').getAttribute('aria-expanded'),'true');
  }finally{for(const[k,d]of saved){if(d)Object.defineProperty(globalThis,k,d);else delete globalThis[k];}w.close();}
 });
