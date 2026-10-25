@@ -1,5 +1,7 @@
 # Release evidence index
 
+The v193 measured replay adds **What were the options?** after a completed pass. It compares the observed recipient with up to two teammates visible in the release snapshot, showing route distance, forward progress, passing-lane clearance and synthetic-model difficulty. The actual pass and unplayed routes use different visual treatments; the latter are explicitly hypothetical and carry no completion or intent claim. The comparison and its source frames are included in the local evidence export. This presentation uses the existing frozen detector and does not change its published validation results. Local verification: 354 tests passed, syntax and formatting checks passed, and the fictional evaluation clip produced a selectable three-route comparison in the browser.
+
 The v192 presentation pass makes the Watch crew handoff readable at a glance, gives Understand's beginner, tactical and math modes distinct on-play cues, and places Truth Lab's original observation, changed record, claim check and revised broadcast line together in the first viewport of the measured example. It changes presentation, not the underlying detector or AI model. The independent commentary and unfamiliar broadcast-video evidence gates below remain open. The v188 judge video predates this presentation pass.
 
 The [v190 journey review](proof/v190-journey-review.md) records the Measure-to-Challenge handoff, publication-status clarification, Watch readability changes, verification, and evidence gates that remain open.
