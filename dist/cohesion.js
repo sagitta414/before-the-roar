@@ -9,7 +9,7 @@ const stages=[
   {section:'centre',number:'02',verb:'UNDERSTAND',detail:'Read the play'},
   {section:'lab',number:'03',verb:'MEASURE',detail:'Test the pattern'},
   {section:'truth',number:'04',verb:'CHALLENGE',detail:'Change the evidence'},
-  {section:'inside',number:'05',verb:'PUBLISH',detail:'Release the story'},
+  {section:'inside',number:'05',verb:'PUBLISH',detail:'Prepare the outputs'},
 ];
 const proofDestinations=[
   {section:'presenters',verb:'ENGINEERS',detail:'Meet the team'},

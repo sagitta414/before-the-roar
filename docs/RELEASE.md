@@ -1,5 +1,7 @@
 # Release evidence index
 
+The [v190 journey review](proof/v190-journey-review.md) records the Measure-to-Challenge handoff, publication-status clarification, Watch readability changes, verification, and evidence gates that remain open.
+
 The public application includes the v183d Host policy and v184 Pocket Director beginner default. The current [v188 1:39 judge cut](../dist/assets/before-the-roar-judge-v188.mp4) uses moving product footage throughout: fictional film, separate measured replay, saved R1 discussion, a [public-app capture](../demo/showcase-v187/capture.json) of a viewer challenge and Truth Lab correction, plus earlier recorded phone, Publish, and architecture views. The challenge and corrected discussions used eight new Azure model requests. The [video provenance](../demo/showcase-v188/judge-provenance.json) identifies source hashes, time-stretching and edited Azure Speech narration. This demonstrates actual app behavior, not independent commentary superiority or general broadcast-video detection. The v185 expanded product tour remains an older edit.
 
 ## Earlier v182 release record

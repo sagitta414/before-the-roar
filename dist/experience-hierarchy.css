@@ -96,3 +96,5 @@ body[data-section="security"] .ai-availability{display:none!important}
 #lab .video-tracking .vt-ready-flow{margin-top:12px}
 #lab .video-tracking .vt-ready h3{margin:7px 0;font-size:21px}
 @media(min-width:1000px){body[data-section="watch"] .ai-availability{display:none!important}}
+body[data-section="lab"] .ai-availability[data-state="available"],
+body[data-section="lab"] .ai-availability[data-state="refreshing"]{display:none!important}

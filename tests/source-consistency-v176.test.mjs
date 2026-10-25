@@ -27,9 +27,10 @@ test('measured evidence withdrawal reaches Publish without replacing the local p
   await import('../dist/uploaded-journey.js');const {openVideoEvidence}=await import('../dist/video-evidence.js');
   document.dispatchEvent(new CustomEvent('btr-upload-source',{detail:{hash:'a'.repeat(64),url:'blob:local-test',name:'Fictional sample',synthetic:true,measured:true,metadata:{duration:60,width:640,height:360}}}));
   const player=document.querySelector('#watch video');
-  assert.match(document.querySelector('#truth .uploaded-correct').textContent,/Return to analysis/);
-  assert.match(document.querySelector('#inside .uploaded-publish p').textContent,/no play has been observed/i);
-  assert.match(document.querySelector('#inside .uploaded-publish button').textContent,/Analyze the clip/);
+  assert.match(document.querySelector('#truth .uploaded-correct').textContent,/Continue live analysis/);
+  assert.match(document.querySelector('#truth .uploaded-example').textContent,/ready-to-test synthetic correction/);
+  assert.match(document.querySelector('#inside .uploaded-publish p').textContent,/no football event has been observed/i);
+  assert.match(document.querySelector('#inside .uploaded-publish button').textContent,/Continue live analysis/);
   assert.equal(JSON.parse(document.querySelector('#inside pre').textContent).cue,null);
   let returnedToAnalysis=0;document.querySelector('#lab-nav').addEventListener('click',()=>returnedToAnalysis++);
   document.querySelector('#inside .uploaded-publish button').click();assert.equal(returnedToAnalysis,1);
@@ -40,6 +41,11 @@ test('measured evidence withdrawal reaches Publish without replacing the local p
   let packet=JSON.parse(document.querySelector('#inside pre').textContent);assert.equal(packet.corrected,true);assert.equal(packet.cue,null);assert.deepEqual(packet.withdrawn_event_ids,['pass-1']);
   document.dispatchEvent(new CustomEvent('btr-upload-detection',{detail:{events:[event]}}));packet=JSON.parse(document.querySelector('#inside pre').textContent);assert.equal(packet.cue,null);
   document.dispatchEvent(new CustomEvent('btr-upload-clear'));assert.equal(document.body.classList.contains('has-upload-dossier'),false);
+  document.dispatchEvent(new CustomEvent('btr-upload-source',{detail:{hash:'b'.repeat(64),url:'blob:local-example',name:'Fictional sample',synthetic:true,measured:true,metadata:{duration:60,width:640,height:360}}}));
+  let openedTruth=0;document.querySelector('#truth-nav').addEventListener('click',()=>openedTruth++);
+  document.querySelector('#truth .uploaded-example').click();
+  const {matchSession}=await import('../dist/match-session.js');
+  assert.equal(workspace.source,null);assert.equal(matchSession.get().source,'match');assert.equal(openedTruth,1);
  }finally{setWorkspaceSource(null);for(const [key,descriptor]of saved){if(descriptor)Object.defineProperty(globalThis,key,descriptor);else delete globalThis[key];}dom.window.close();}
 });
 test('follow-up novelty check detects paraphrased viewing advice',()=>{

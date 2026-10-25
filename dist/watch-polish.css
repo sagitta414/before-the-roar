@@ -615,3 +615,17 @@
   body.party-expanded[data-section="watch"] .conversation { padding: 5px 13px 14px; }
   body.party-expanded[data-section="watch"] .message { margin: 7px 0; padding: 11px 12px; }
 }
+
+/* Give the conversation a readable column while the moving match remains dominant. */
+@media (min-width: 1101px) {
+  body[data-section="watch"] .broadcast-room {
+    grid-template-columns: minmax(0, 1.48fr) minmax(390px, .86fr);
+  }
+}
+@media (min-width: 761px) {
+  body[data-section="watch"] .message > p { font-size: 13px; line-height: 1.47; }
+  body[data-section="watch"] .message-name { font-size: 13px; }
+  body[data-section="watch"] .message-specialty,
+  body[data-section="watch"] .message-badge { font-size: 9px; }
+  body[data-section="watch"] .conversation { padding-left: 14px; padding-right: 14px; }
+}

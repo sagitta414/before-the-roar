@@ -1,5 +1,6 @@
 const $ = (id) => document.getElementById(id);
 import {workspace as state,setWorkspaceSource,updateWorkspace,withdrawWorkspaceEvent,subscribeWorkspace} from './source-workspace.js';
+import {matchSession} from './match-session.js';
 const panels = {};
 const cueNames = { pass: "possible pass", shot: "shot candidate", duel: "duel" };
 
@@ -54,6 +55,11 @@ function packet() {
   };
 }
 function go(section) { $(`${section}-nav`)?.click(); }
+function openReadyExample() {
+  document.dispatchEvent(new CustomEvent('btr-upload-clear'));
+  matchSession.set({source:'match',scenario:'wide',time:16},'uploaded-ready-example');
+  go('truth');
+}
 function savePacket() {
   if (!latest()) return;
   const url = URL.createObjectURL(new Blob([JSON.stringify(packet(), null, 2)], { type: "application/json" }));
@@ -93,11 +99,14 @@ function render() {
   centre.querySelector("h3").textContent = item ? `${item.second.toFixed(1)}s / ${cueNames[item.type] || item.type}` : "Waiting for a reviewed moment"; centre.querySelector("p").textContent = story;
   centre.querySelectorAll("[data-mode]").forEach((button) => { button.setAttribute("aria-pressed", String(mode() === button.dataset.mode)); button.onclick = () => { $("session-mode").value = button.dataset.mode; $("session-mode").dispatchEvent(new Event("change", { bubbles: true })); render(); }; }); centre.querySelector(".uploaded-next").textContent = item ? "Challenge this claim →" : "Analyze the clip to find a moment →"; centre.querySelector(".uploaded-next").onclick = () => go(item ? "truth" : "lab");
   const truth = panels.truth.querySelector("[data-upload-body]"); truth.innerHTML = '<div class="uploaded-truth"><article><small>ORIGINAL EVIDENCE</small><strong></strong><p></p></article><i>→</i><article><small>CURRENT REVISION</small><strong></strong><p></p></article></div><button class="uploaded-correct"></button>';
-  truth.querySelector("article:first-child strong").textContent = item ? "ACTIVE CUE" : "AWAITING AN OBSERVATION"; truth.querySelector("article:first-child p").textContent = item ? claim : "Compatibility checks the source, not the play. Analyze the video until an event is observed before testing a claim."; truth.querySelector("article:last-of-type strong").textContent = !item ? "NO CLAIM TO TEST" : state.corrected ? "CLAIM WITHDRAWN" : "CLAIM RETAINED"; truth.querySelector("article:last-of-type p").textContent = !item ? "The current revision contains no timed event or broadcast cue." : state.corrected ? "The current publish packet contains no overlay cue. The source receipt and revision remain available." : story;
-  const correct = truth.querySelector(".uploaded-correct"); correct.textContent = !item ? "Return to analysis →" : state.corrected ? "Restore original evidence ↺" : "Withdraw this observation →"; correct.onclick = () => { if (!item) go("lab"); else withdrawWorkspaceEvent(item.id,!state.corrected); };
+  panels.truth.querySelector('header h2').textContent=item?'Change the cue. Test the story.':'Challenge starts with an observed play.';
+  panels.truth.querySelector('header p').textContent=item?'Withdraw the active observation and see the explanation and publish packet change together.':'The source is compatible. Keep analyzing until a football event has been observed, or open the ready-to-test synthetic example.';
+  truth.querySelector("article:first-child strong").textContent = item ? "ACTIVE CUE" : "SOURCE CHECK COMPLETE"; truth.querySelector("article:first-child p").textContent = item ? claim : "This clip passed source preflight. That checks whether BTR can attempt measurement; it has not yet established a football event."; truth.querySelector("article:last-of-type strong").textContent = !item ? "WAITING FOR THE FIRST EVENT" : state.corrected ? "CLAIM WITHDRAWN" : "CLAIM RETAINED"; truth.querySelector("article:last-of-type p").textContent = !item ? "Let the minute play in Measure until a pass or shot candidate has observed frames. Challenge will then test that exact event." : state.corrected ? "The current publish packet contains no overlay cue. The source receipt and revision remain available." : story;
+  const correct = truth.querySelector(".uploaded-correct"); correct.textContent = !item ? "Continue live analysis →" : state.corrected ? "Restore original evidence ↺" : "Withdraw this observation →"; correct.onclick = () => { if (!item) go("lab"); else withdrawWorkspaceEvent(item.id,!state.corrected); };
+  if (!item) { const ready = document.createElement('button'); ready.type='button'; ready.className='uploaded-example'; ready.textContent='Try a ready-to-test synthetic correction ↗'; ready.onclick=openReadyExample; correct.after(ready); }
   const publish = panels.inside.querySelector("[data-upload-body]"); publish.innerHTML = '<div class="uploaded-publish"><div><small>PUBLIC OUTPUT</small><h3></h3><p></p><button>Download overlay + evidence ↓</button></div><div class="uploaded-output-preview"><small>ON-SCREEN PREVIEW</small><h3 data-cue-title></h3><p data-cue-copy></p><details><summary>Inspect packet + evidence</summary><pre></pre></details></div></div>';
   publish.querySelector('[data-cue-title]').textContent=state.corrected?'Claim withdrawn':item?'The observed play':'Awaiting evidence';publish.querySelector('[data-cue-copy]').textContent=story;
-  publish.querySelector("h3").textContent = !item ? "No story to release yet" : state.corrected ? "No cue released" : "Timed cue ready"; publish.querySelector("p").textContent = !item ? "The source passed preflight, but no play has been observed. Analyze the clip first; no overlay can be exported yet." : state.corrected ? "The corrected revision prevents the withdrawn explanation from reaching the audience. Export the correction receipt if needed." : "The observed event is packaged with its source receipt and limits. Pair Phone shares evidence and corrections; the video stays on this device."; publish.querySelector("pre").textContent = JSON.stringify(packet(), null, 2); const outputAction=publish.querySelector("button"); outputAction.textContent=item?"Download overlay + evidence ↓":"Analyze the clip →"; outputAction.onclick=item?savePacket:()=>go("lab");
+  publish.querySelector("h3").textContent = !item ? "Waiting for an observed play" : state.corrected ? "No cue released" : "Timed cue ready"; publish.querySelector("p").textContent = !item ? "The source passed preflight, but no football event has been observed. Continue analysis before preparing an overlay." : state.corrected ? "The corrected revision prevents the withdrawn explanation from reaching the audience. Export the correction receipt if needed." : "The observed event is packaged with its source receipt and limits. Pair Phone can share evidence and corrections; the video stays on this device."; publish.querySelector("pre").textContent = JSON.stringify(packet(), null, 2); const outputAction=publish.querySelector("button"); outputAction.textContent=item?"Download overlay + evidence ↓":"Continue live analysis →"; outputAction.onclick=item?savePacket:()=>go("lab");
 }
 
 mount();

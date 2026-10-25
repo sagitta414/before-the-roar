@@ -4,5 +4,6 @@
 .has-upload-dossier #watch>:not(.uploaded-dossier),.has-upload-dossier #centre>:not(.uploaded-dossier):not(.measured-evidence),.has-upload-dossier #truth>:not(.uploaded-dossier):not(.measured-evidence),.has-upload-dossier #inside>:not(.uploaded-dossier){display:none!important}
 .has-upload-dossier [data-measured-video=true]>.uploaded-dossier{display:none!important}
 .uploaded-exit{background:transparent;border:0;color:#becbdd;padding:14px 24px;text-decoration:underline;cursor:pointer}.uploaded-output-preview{border:1px solid #40556b;padding:22px;background:linear-gradient(135deg,#172b40,#101622)}.uploaded-output-preview summary{cursor:pointer;padding:14px 0}.uploaded-dossier small,.uploaded-dossier>header span{font-size:11px}.uploaded-dossier>header h2{font-size:clamp(24px,2.4vw,34px)}
+.uploaded-example{margin:14px 0 0 10px;min-height:44px;padding:10px 14px;border:1px solid #7291aa;background:#15283a;color:#edf5ff;font-weight:750;cursor:pointer}.uploaded-example:hover,.uploaded-example:focus-visible{border-color:#d9ef63;color:#d9ef63}.uploaded-dossier button:focus-visible{outline:2px solid #d9ef63;outline-offset:3px}
 
 .uploaded-dossier>nav{display:none}.uploaded-dossier>header b{font-size:10px}.uploaded-video span{font-size:10px}
