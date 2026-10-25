@@ -6,9 +6,9 @@ const closeButton = document.getElementById("close-final-demo");
 const copyButton = document.getElementById("copy-final-demo-link");
 const cuts = {
   "showcase": {
-    "src": "assets/before-the-roar-showcase-v177.mp4",
-    "poster": "assets/demo-v175-poster.jpg",
-    "label": "3:53 · RECORDED v177 TOUR · CAPTIONED",
+    "src": "assets/before-the-roar-showcase-v185.mp4",
+    "poster": "assets/demo-v185-poster.jpg",
+    "label": "3:55 · UPDATED PRODUCT TOUR · CAPTIONED",
     "chapters": [
       [
         4,
@@ -31,23 +31,23 @@ const cuts = {
         "Your phone"
       ],
       [
-        171.612001,
+        173.612001,
         "Publish"
       ],
       [
-        196.812001,
-        "Local clip sync"
+        198.812001,
+        "Paired phone correction"
       ],
       [
-        210.812001,
+        212.812001,
         "Architecture"
       ]
     ]
   },
   "short": {
-    "src": "assets/before-the-roar-judge-v175.mp4",
-    "poster": "assets/demo-v175-poster.jpg",
-    "label": "1:54 · RECORDED v175 JUDGE CUT · CAPTIONED",
+    "src": "assets/before-the-roar-judge-v185.mp4",
+    "poster": "assets/demo-v185-poster.jpg",
+    "label": "1:56 · UPDATED JUDGE CUT · CAPTIONED",
     "chapters": [
       [
         4,
@@ -70,11 +70,11 @@ const cuts = {
         "Your phone"
       ],
       [
-        80,
+        82,
         "Publish"
       ],
       [
-        92,
+        94,
         "Architecture"
       ]
     ]

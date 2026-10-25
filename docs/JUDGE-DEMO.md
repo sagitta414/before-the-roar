@@ -11,7 +11,7 @@ Use the live Azure application linked in README. Open the cinematic Watch experi
 
 ## Video and evidence
 
-The 1:54 v175 judge cut and 3:53 v177 full tour remain historical recordings. Their narration is added in editing. Refer to docs/RELEASE.md for the newest behavior and actual run evidence. Do not cite a recorded voice as a fresh specialist response.
+The v185 judge cut and full tour show the current Understand, Publish and unpaired beginner phone screens while retaining earlier moving Watch, correction and architecture recordings. The full tour also retains earlier model exchanges and an actual paired phone correction capture. Narration is added in editing. The current [v183 Host reliability run](proof/v183-host-followups.md) is separate evidence; do not cite a recorded voice as a fresh specialist response. The unpaired phone screen is labelled interactive demo, not a received correction.
 
 ## What to claim
 

@@ -49,7 +49,7 @@ Pocket Director shares source revision and reached evidence. Local-upload pairin
 
 ## Video package
 
-The in-app **Watch Demo** button offers a 1:54 judge cut (v175) and a 3:53 product tour (v177). These are versioned recordings, not fresh v182 model execution. The full tour includes actual earlier responses, visible failure handling and a local-upload phone correction recording. Narration is Azure AI Speech added in editing. Consult the current release evidence alongside the video.
+The in-app **Watch Demo** button offers an updated under-two-minute judge cut and an expanded product tour (v185). Both retain the same play → five perspectives → evidence challenge → correction → delivery story. Understand, Publish and the unpaired Pocket Director beginner view were freshly captured from the current application. Moving Watch, Truth Lab and architecture footage, plus the expanded tour's agent exchanges and paired phone correction, remain earlier recordings. The film is an edited demonstration, not a fresh v185 model run. Azure AI Speech narration was added in editing; consult the [current Host run](docs/proof/v183-host-followups.md) for newer execution evidence.
 
 ## Run and verify
 

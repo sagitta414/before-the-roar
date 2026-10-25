@@ -1,0 +1,62 @@
+{
+  "version": 185,
+  "file": "dist/assets/before-the-roar-judge-v185.mp4",
+  "duration_seconds": 116.057333,
+  "sha256": "538b40e143697f7c4d3c86b7de9bb9d75f3d0a4fd5a4abb0aef5880aaf7c6b7c",
+  "bytes": 21487014,
+  "timings": [
+    {
+      "id": "opening",
+      "start": 0,
+      "duration": 4
+    },
+    {
+      "id": "watch",
+      "start": 4,
+      "duration": 22
+    },
+    {
+      "id": "understand",
+      "start": 26,
+      "duration": 12
+    },
+    {
+      "id": "measure",
+      "start": 38,
+      "duration": 15
+    },
+    {
+      "id": "correction",
+      "start": 53,
+      "duration": 16
+    },
+    {
+      "id": "phone",
+      "start": 69,
+      "duration": 13
+    },
+    {
+      "id": "publish",
+      "start": 82,
+      "duration": 12
+    },
+    {
+      "id": "architecture",
+      "start": 94,
+      "duration": 15
+    },
+    {
+      "id": "closing",
+      "start": 109,
+      "duration": 7
+    }
+  ],
+  "refreshed_captures": [
+    "Understand",
+    "Publish",
+    "Pocket Director beginner mode"
+  ],
+  "previous_recordings": "Moving Watch, Truth Lab correction, architecture, and extended model exchanges are retained from v175/v174/v173 recordings. The expanded cut retains the v177 paired phone correction. They are edited demonstrations, not a fresh live run on v185.",
+  "narration": "Azure AI Speech HD narration from the prior production, plus one newly recorded Pocket Director line; narration is not live agent speech.",
+  "evidence_scope": "The cinematic film and controlled measured clip are separate sources. Truth Lab correction is deterministic. Independent commentary superiority and unfamiliar broadcast-video accuracy remain unproven."
+}

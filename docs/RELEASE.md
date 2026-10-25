@@ -1,4 +1,8 @@
-# v182 release evidence
+# Release evidence index
+
+The public application currently includes the v183d Host policy and the v184 Pocket Director beginner default. The v185 demo update refreshes the Understand, Publish and unpaired phone captures while preserving the existing play-to-proof story. Its older moving scenes and saved agent exchanges remain clearly labelled recordings. See [v183 Host verification](proof/v183-host-followups.md) and [the v185 demo receipts](../demo/showcase-v185/judge-provenance.json). No independent commentary-quality or unfamiliar broadcast-video claim is added by the video.
+
+## Earlier v182 release record
 
 This is the current index for the review-fix release. It separates implemented changes, recorded execution and claims still awaiting external evidence.
 
@@ -27,6 +31,6 @@ The v182 live protocol freezes the runtime dependency graph, records four two-ro
 | Crew produces better writing than one model | Independent ratings pending |
 | Host consistently delivers a fresh model answer | Not established; final targeted run retained fallback and a verification-cap stop |
 | Physical-phone accessibility across devices | Requires real-device checks |
-| Demo records the newest model behavior | Existing v175/v177 recordings are archival; fresh release capture pending |
+| Demo records the newest model behavior | v185 refreshes current screens, but retains earlier agent recordings; fresh end-to-end live capture remains pending |
 
 The judge cut and full tour are clearly versioned. Independent results and unseen-video accuracy are not invented to fill these gaps. No numerical judge score is an acceptance test.

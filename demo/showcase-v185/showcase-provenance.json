@@ -1,0 +1,107 @@
+{
+  "version": 185,
+  "file": "dist/assets/before-the-roar-showcase-v185.mp4",
+  "duration_seconds": 234.841333,
+  "sha256": "2cce5f15357a598e9e8ed79d561ff88842f1f12c93117c64d5ae813ae0c3f623",
+  "bytes": 34664185,
+  "timings": [
+    {
+      "id": "opening",
+      "start": 0,
+      "duration": 4
+    },
+    {
+      "id": "watch",
+      "start": 4,
+      "duration": 22
+    },
+    {
+      "id": "live-3",
+      "start": 26,
+      "duration": 11.137
+    },
+    {
+      "id": "live-4",
+      "start": 37.137,
+      "duration": 8.375
+    },
+    {
+      "id": "live-5",
+      "start": 45.512,
+      "duration": 14.266667
+    },
+    {
+      "id": "live-6",
+      "start": 59.778667,
+      "duration": 15.6
+    },
+    {
+      "id": "understand",
+      "start": 75.378667,
+      "duration": 12
+    },
+    {
+      "id": "measure",
+      "start": 87.378667,
+      "duration": 15
+    },
+    {
+      "id": "live-9",
+      "start": 102.378667,
+      "duration": 13.8
+    },
+    {
+      "id": "live-10",
+      "start": 116.17866699999999,
+      "duration": 12.966667
+    },
+    {
+      "id": "correction",
+      "start": 129.145334,
+      "duration": 16
+    },
+    {
+      "id": "phone",
+      "start": 145.145334,
+      "duration": 13
+    },
+    {
+      "id": "live-13",
+      "start": 158.145334,
+      "duration": 15.466667
+    },
+    {
+      "id": "publish",
+      "start": 173.612001,
+      "duration": 12
+    },
+    {
+      "id": "live-15",
+      "start": 185.612001,
+      "duration": 13.2
+    },
+    {
+      "id": "paired-phone",
+      "start": 198.81200099999998,
+      "duration": 14
+    },
+    {
+      "id": "architecture",
+      "start": 212.81200099999998,
+      "duration": 15
+    },
+    {
+      "id": "closing",
+      "start": 227.81200099999998,
+      "duration": 7
+    }
+  ],
+  "refreshed_captures": [
+    "Understand",
+    "Publish",
+    "Pocket Director beginner mode"
+  ],
+  "previous_recordings": "Moving Watch, Truth Lab correction, architecture, and extended model exchanges are retained from v175/v174/v173 recordings. The expanded cut retains the v177 paired phone correction. They are edited demonstrations, not a fresh live run on v185.",
+  "narration": "Azure AI Speech HD narration from the prior production, plus one newly recorded Pocket Director line; narration is not live agent speech.",
+  "evidence_scope": "The cinematic film and controlled measured clip are separate sources. Truth Lab correction is deterministic. Independent commentary superiority and unfamiliar broadcast-video accuracy remain unproven."
+}
