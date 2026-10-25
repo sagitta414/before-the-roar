@@ -1,0 +1,11 @@
+# v183 Host synthesis and challenged follow-ups
+
+The public release uses application source `7efc931`, Azure image `before-the-roar:v183d-host` (`sha256:71c624e6b291abecfb431c6dfce5fa08068afe634d77aada69725e3ebfdb2360`), and the original scale-to-zero setting. The later v183e experiment was rolled back after it introduced new fallbacks; its full result remains in `v183e-host-reliability.json`.
+
+Host's model task is now one substantive conclusion: what the combined, reached evidence changes about the viewer's reading. The application supplies the manually reviewed headline, caution and replay cue, removing format work that conflicted with the prompt. A follow-up on unchanged evidence says so explicitly and adds a scene-specific, reviewed condition that would change the verdict. Current-shot citation, unsupported-intent, unrecorded-outcome, source-remit and copied-sentence checks remain active. A first rejected Host draft receives one bounded repair; a still-invalid draft stays a labelled reviewed fallback.
+
+The frozen v183d development run completed ten consecutive two-round sessions against one immutable source graph. It made 66 Azure model requests. All 20 Host posts were Azure-delivered; no Host post fell back. Every second-round Host post differed from its opening and included the unchanged-evidence status and a concrete condition. The raw report, including source hashes, role posts and failure labels, is `v183d-host-reliability.json`. The target concerns Host delivery, not a proven editorial advantage over a single model or human-preferred writing.
+
+The whole crew did **not** meet a zero-fallback standard: Scout fell back twice in the marking case and once in the gesture case. A subsequent v183e run used 71 requests and completed all ten sessions, but it produced two new Host and two Scout fallbacks. That result is preserved separately and is why v183e was not left public. The earlier interrupted in-container run and aborted cache-replay run are also preserved as development evidence. Replayed saved Azure posts are excluded from fresh-execution claims.
+
+Local verification for the deployed v183d source: 347 tests passed; syntax and API formatting checks passed. These tests verify contracts and software behavior, not independent commentary quality. No independent human preference ratings are claimed.
