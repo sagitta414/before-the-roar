@@ -63,7 +63,7 @@ test('film editorial repair retains the saved round, distinct task and current-s
   const events=[];const desk=new MatchDesk({busy:0,store:{reserve:async()=>true}},{clip:true,state});await desk.discuss({...input,parentKey:parent,question:'Can the evidence establish intent?'},(type)=>events.push(type));
   assert.ok(events.includes('speaker'));assert.ok(events.includes('post'));assert.ok(!events.includes('draft'),'unvalidated film prose must not reach the audience');
   assert.ok(captured.length>=4,'a rejected citation must trigger a repair');
-  for(const data of captured){assert.equal(data.conversation.round,2);assert.equal(data.prior_round.length,3);assert.ok(data.followup_brief.task);assert.equal(data.guide_definition,undefined);assert.ok(data.evidence.every(e=>e.second>=24&&e.second<=25));assert.deepEqual(data.followup_brief.new_evidence_ids,[]);}
+  for(const data of captured){assert.equal(data.conversation.round,2);assert.equal(data.prior_round.length,3);assert.ok(data.followup_brief?.task||data.editorial_assignment?.task||data.role_brief?.task);assert.equal(data.guide_definition,undefined);assert.ok(data.evidence.every(e=>e.second>=24&&e.second<=25));assert.deepEqual((data.followup_brief||data.editorial_assignment||data.role_brief).new_evidence_ids,[]);}
  }finally{global.fetch=oldFetch;for(const[k,v]of [['AZURE_OPENAI_ENDPOINT',oldEndpoint],['AZURE_ACCESS_TOKEN',oldToken]])if(v===undefined)delete process.env[k];else process.env[k]=v;}
 });
 import {changesGuideComparison} from '../api/film-followup.mjs';

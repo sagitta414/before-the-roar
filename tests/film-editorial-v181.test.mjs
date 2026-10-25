@@ -40,7 +40,7 @@ test('source remit requires both football concepts, not a magic publication word
  assert.ok(filmHostContributionIssue('The broadcast shows a pass.',[],remit));
  assert.equal(filmHostContributionIssue('A completed pass is not proof of breaking the defensive line.',[],remit),null);
  assert.match(filmHostPolicy(packet),/NOT continuous match play/);
- for(const [language,prefix] of [['en','Replay '],['es','Repite '],['pt','Reveja ']])assert.ok(filmHostPolicy(pitchsideStory({time:12,language})).includes(JSON.stringify(prefix)));
+ for(const language of ['en','es','pt'])assert.match(filmHostPolicy(pitchsideStory({time:12,language})),/application supplies the reviewed headline, caution and replay cue/);
  assert.equal(filmHostRemit(pitchsideStory({time:22})).kind,'control');
  assert.equal(filmHostRemit(pitchsideStory({time:25})).kind,'marking');
 });

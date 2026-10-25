@@ -16,3 +16,4 @@ COPY --chown=node:node scripts/heldout-commentary.mjs ./scripts/heldout-commenta
 
 COPY --chown=node:node scripts/verify-release-v182.mjs ./scripts/verify-release-v182.mjs
 COPY --chown=node:node scripts/verify-release-v182b.mjs ./scripts/verify-release-v182b.mjs
+COPY --chown=node:node scripts/verify-host-v183.mjs ./scripts/verify-host-v183.mjs

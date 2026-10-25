@@ -106,7 +106,7 @@ test('a pass-scene Host revision adds the wider-line limit and next-touch test',
  try{
   global.fetch=async(_url,options)=>{
    calls++;const body=JSON.parse(options.body),prompt=body.messages[0].content,repair=body.stream===false,guide=prompt.includes('Guide:'),host=prompt.includes('Host:');
-   if(repair){assert.ok(host);assert.match(prompt,/wider defensive line/);assert.equal(body.temperature,0);}
+   if(repair){assert.ok(host);assert.match(prompt,/defensive line/);assert.equal(body.temperature,0);}
    const text=guide?'Where could the receiver turn after the first touch?':host?(repair?'The broadcast can call this a local outlet; the wider defensive line remains outside this shot, and the first touch can test the exit.':'The importance of the pass is clear.'):'The pass reaches a nearby teammate with a defender in view.';
    const post={...(guide?{viewing_question:text}:host?{takeaway:text,replay_cue:'Replay the receiver’s first touch.'}:{interpretation:text}),headline:'The local outlet',caution:'The wider line is outside this shot.',evidence_ids:{primary:'pitchside-reception',secondary:null}};
    const content=JSON.stringify({post});

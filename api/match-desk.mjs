@@ -24,6 +24,7 @@ import {
   filmHostContributionIssue,
   filmHostPolicy,
   filmHostRemit,
+  filmHostTurn,
 } from "./film-editorial-contract.mjs";
 export const roleTasks = ROLE_TASKS;
 // Catch obvious repeated copy without an extra model call or claiming semantic verification.
@@ -164,7 +165,7 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     );
   if (
     packet.review?.scope === "manually-reviewed-ai-video" &&
-    /\b(?:attempt(?:s|ing)? to|trying to|intends? to|aims? to|wants? to|in order to)\b/i.test(
+    /\b(?:attempt(?:s|ing)? to|trying to|intend(?:s|ed|ing)? to|aims? to|wants? to|in order to)\b/i.test(
       p.interpretation,
     )
   )
@@ -404,7 +405,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v182c:" +
+            ? "pitchside-tools-v183:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")
@@ -663,6 +664,8 @@ export class MatchDesk {
           this.clip && conversation.round > 1
             ? followupBrief(packet, conversation, input.question, role)
             : null;
+        const hostTurn =
+          this.clip && role === "presenter" ? filmHostTurn(packet, conversation) : null;
         const ids = evidence.map((e) => e.id),
           schema = {
             type: "object",
@@ -719,8 +722,16 @@ export class MatchDesk {
           );
           schema.properties.post.properties.takeaway = { type: "string" };
           schema.properties.post.required.push("takeaway");
-          schema.properties.post.properties.replay_cue = { type: "string" };
-          schema.properties.post.required.push("replay_cue");
+          if (this.clip) {
+            for (const field of ["headline", "caution"])
+              delete schema.properties.post.properties[field];
+            schema.properties.post.required = schema.properties.post.required.filter(
+              (field) => !["headline", "caution"].includes(field),
+            );
+          } else {
+            schema.properties.post.properties.replay_cue = { type: "string" };
+            schema.properties.post.required.push("replay_cue");
+          }
         }
         const url = new URL(
           `openai/deployments/${encodeURIComponent(process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4o-mini")}/chat/completions?api-version=2024-10-21`,
@@ -824,12 +835,10 @@ export class MatchDesk {
                 role: "user",
                 content: JSON.stringify({
                   question: input.question || null,
-                  followup_brief: followup,
+                  followup_brief: hostTurn ? null : followup,
                   clock: packet.clock,
                   revision: packet.revision,
-                  ...(this.clip && role === "presenter"
-                    ? { editorial_assignment: filmHostRemit(packet) }
-                    : {}),
+                  ...(hostTurn ? { editorial_assignment: hostTurn } : {}),
                   calculated: packet.stats,
                   local_calculation: notes.find((p) => p.role === "math"),
                   football_context: packet.football
@@ -843,6 +852,7 @@ export class MatchDesk {
                   guide_definition:
                     conversation.round === 1 ? packet.guideDefinition : undefined,
                   role_brief:
+                    hostTurn ||
                     followup ||
                     (conversation.round > 1 && role === "guide"
                       ? {
@@ -927,13 +937,39 @@ export class MatchDesk {
         await usage(result.usage);
         let raw = JSON.parse(result.content);
         const accept = (candidate) => {
-          const validated = validateMatchPost(candidate, { ...packet, evidence }, role, {
+          const hostTakeaway = candidate?.post?.takeaway;
+          const unchanged =
+            hostTurn?.kind === "unchanged_evidence" &&
+            typeof hostTakeaway === "string" &&
+            !/evidence (?:has not|hasn't|did not|didn't) chang|same evidence|same shot|no new evidence|la evidencia no ha cambiado|a evidência não mudou/i.test(
+              hostTakeaway,
+            );
+          const reviewed = hostTurn
+            ? {
+                ...candidate,
+                post: {
+                  ...candidate?.post,
+                  takeaway: unchanged
+                    ? {
+                        en: "The evidence has not changed. ",
+                        es: "La evidencia no ha cambiado. ",
+                        pt: "A evidência não mudou. ",
+                      }[packet.language] + hostTakeaway
+                    : hostTakeaway,
+                  headline: notes.find((p) => p.role === "presenter").title,
+                  caution: packet.copy.limit,
+                  replay_cue: notes.find((p) => p.role === "presenter").replay_cue,
+                },
+              }
+            : candidate;
+          const validated = validateMatchPost(reviewed, { ...packet, evidence }, role, {
             round: conversation.round,
             question: input.question,
           });
 
           if (
             conversation.round > 1 &&
+            !hostTurn &&
             (repeatsContribution(
               validated.summary,
               conversation.previous.filter((p) => p.role === role),
@@ -957,7 +993,10 @@ export class MatchDesk {
           if (this.clip && role === "presenter") {
             const issue = filmHostContributionIssue(
               validated.summary,
-              previous,
+              [
+                ...previous,
+                ...conversation.previous.filter((p) => p.role === "presenter"),
+              ],
               filmHostRemit(packet),
             );
             if (issue) throw Error(issue);
@@ -966,6 +1005,7 @@ export class MatchDesk {
             role === "presenter" &&
             (repeatsContribution(validated.summary, previous) ||
               (!filmPass &&
+                !hostTurn &&
                 conversation.round === 1 &&
                 repeatsInsight(
                   validated.summary,
@@ -1023,17 +1063,20 @@ export class MatchDesk {
                   content:
                     editorialPrompt +
                     " This is a revision after an editorial rejection. " +
-                    (followup
-                      ? followup.task +
-                        " Fix the specific editorial_rejection without reverting to an opening summary."
-                      : repairTask) +
+                    (hostTurn
+                      ? hostTurn.task +
+                        " Correct the rejected takeaway while keeping the same reached evidence."
+                      : followup
+                        ? followup.task +
+                          " Fix the specific editorial_rejection without reverting to an opening summary."
+                        : repairTask) +
                     " Avoid generic praise. Keep the same evidence cutoff, language and citations.",
                 },
                 {
                   role: "user",
                   content: JSON.stringify({
                     question: input.question,
-                    followup_brief: followup,
+                    followup_brief: hostTurn ? null : followup,
                     conversation: { round: conversation.round, max_rounds: 3 },
                     clock: packet.clock,
                     revision: packet.revision,
@@ -1042,7 +1085,8 @@ export class MatchDesk {
                     football_context: packet.football,
                     guide_definition:
                       conversation.round === 1 ? packet.guideDefinition : undefined,
-                    role_brief: followup || notes.find((p) => p.role === role),
+                    role_brief:
+                      hostTurn || followup || notes.find((p) => p.role === role),
                     calculated: packet.stats,
                     previous_public_contributions: previous,
                     prior_round: conversation.previous,
@@ -1074,6 +1118,7 @@ export class MatchDesk {
           ...validated,
           role,
           engine: "azure_openai",
+          ...(hostTurn ? { editorial_envelope: "reviewed_source" } : {}),
           cutoff: packet.cutoff,
           revision: packet.revision,
           latency_ms: Math.round(performance.now() - began),
