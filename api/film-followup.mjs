@@ -16,7 +16,7 @@ export function followupBrief(packet, conversation, question, role) {
   );
   const current = packet.brief.state.seen;
   const added = current.filter((record) => record.second > priorCutoff);
-  const intent = /intent|trying|attempt|purpose|intenci[oó]n|inten[cç][aã]o/i.test(
+  const intent = /intent|trying|attempt|plan|purpose|intenci[oó]n|inten[cç][aã]o/i.test(
     question || "",
   );
   const priorGuide = conversation.previous

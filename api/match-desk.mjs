@@ -176,6 +176,14 @@ export function validateMatchPost(raw, packet, role, context = {}) {
     );
   if (
     packet.review?.scope === "manually-reviewed-ai-video" &&
+    role === "analyst" &&
+    /(?:stance|position|marking|standing|adjust(?:s|ed|ing)?).{0,45}\bto (?:challenge|contest|intercept|tackle|win)\b/i.test(
+      p.interpretation,
+    )
+  )
+    throw Error("Visible positioning does not establish a player's purpose");
+  if (
+    packet.review?.scope === "manually-reviewed-ai-video" &&
     /\bintent\b/i.test(p.interpretation) &&
     !/\b(?:cannot|can't|does not|doesn't|not established|unverified|unknown)\b/i.test(
       p.interpretation,
@@ -407,7 +415,7 @@ export class MatchDesk {
       createHash("sha256")
         .update(
           this.clip
-            ? "pitchside-tools-v183b:" +
+            ? "pitchside-tools-v183c:" +
                 pitchsideKey(input) +
                 ":" +
                 (input.parentKey || "")
@@ -1074,7 +1082,9 @@ export class MatchDesk {
                   role: "system",
                   content:
                     editorialPrompt +
-                    " This is a revision after an editorial rejection. " +
+                    " This is a revision after an editorial rejection. The prior answer failed this check: " +
+                    firstError.message.slice(0, 160) +
+                    ". " +
                     (hostTurn
                       ? hostTurn.task +
                         " Correct the rejected takeaway while keeping the same reached evidence."
@@ -1161,7 +1171,8 @@ export class MatchDesk {
           )
             ? { summary: reviewedClipChallenge(packet, role) }
             : {}),
-          ...(this.clip && /intent|trying|attempt/i.test(input.question || "")
+          ...(this.clip &&
+          /intent|trying|attempt|plan|purpose/i.test(input.question || "")
             ? {
                 summary: {
                   en:

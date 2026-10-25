@@ -17,6 +17,8 @@ test('Host knows whether a follow-up has new evidence without reading untrusted 
  assert.equal(changed.kind,'new_evidence');
  assert.ok(changed.new_evidence_ids.includes('pitchside-reception'));
  assert.match(filmHostFollowupCondition(packet),/receiver beyond the defensive line/);
+ assert.equal(filmHostTurn(pitchsideStory({time:36,language:'en'}),{round:1,previous:[]}).remit.kind,'foul');
+ assert.equal(filmHostTurn(pitchsideStory({time:50,language:'en'}),{round:1,previous:[]}).remit.kind,'gesture');
  assert.equal(removeCopiedHostSentences('The defender stands very close to the attacker. A completed tackle is not recorded.',[{summary:'The defender stands very close to the attacker.'}]),'A completed tackle is not recorded.');
 });
 
@@ -51,5 +53,6 @@ test('a challenged Host answer changes the takeaway while keeping reviewed copy 
   assert.notEqual(first.at(-1).summary,second.at(-1).summary);
   const unsupported={post:{takeaway:'The defender intended to intercept the pass, proving a broken defensive line.',headline:'Line broken',caution:'Unverified.',replay_cue:'Replay the receiver’s first touch.',evidence_ids:{primary:'pitchside-reception'}}};
   assert.throws(()=>validateMatchPost(unsupported,pitchsideStory({time:12,language:'en'}),'presenter',{round:2}),/intent/i);
+  assert.throws(()=>validateMatchPost({post:{interpretation:'The defender adjusts his position to challenge for the ball.',headline:'Close stance',caution:'The result is unverified.',evidence_ids:{primary:'pitchside-stance'}}},pitchsideStory({time:25,language:'en'}),'analyst',{round:1}),/purpose/);
  }finally{global.fetch=savedFetch;for(const[key,value]of [['AZURE_OPENAI_ENDPOINT',endpoint],['AZURE_ACCESS_TOKEN',token]])if(value===undefined)delete process.env[key];else process.env[key]=value;}
 });
