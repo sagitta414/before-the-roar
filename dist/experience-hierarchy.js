@@ -1,6 +1,8 @@
 // Late composition pass. Film workspaces intentionally collect legacy nodes;
 // this keeps the defining Truth Lab correction in the audience-facing layer.
+import {matchSession} from './match-session.js';
 const truth=document.getElementById('truth');
+matchSession.subscribe(state=>{if(truth)truth.dataset.matchCorrection=String(state.source==='match');});
 function placeCorrectionFirst(){
   if(!truth)return;
   const path=truth.querySelector('.truth-primary-path'),impact=truth.querySelector('.truth-verdict-impact');

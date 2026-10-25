@@ -13,10 +13,14 @@ test('comparison shows the withdrawn statement, unchanged passes, and replay for
   const view=createTruthSpotlight({seek:(t,r)=>calls.push([t,r]),toggleCorrection:()=>calls.push('toggle'),pause:()=>{}});
   const render=(time,revised)=>view.render(truthStory(SCENARIOS[0],time,revised),truthStoryPacket(SCENARIOS[0],time,revised));
   render(16,false);const root=document.querySelector('.truth-spotlight');
+  assert.equal(root.querySelectorAll('.truth-change-card').length,4);
+  assert.match(root.querySelectorAll('.truth-change-card')[2].textContent,/cause remains unproven/);
   assert.match(root.textContent,/13.0 m → 13.0 m/);
   const preserved=root.querySelector('.truth-change-survives').textContent;
   root.querySelector('.red-button').click();assert.equal(calls.at(-1),'toggle');
   render(16,true);assert.match(root.textContent,/13.0 m → 0.0 m/);assert.match(root.textContent,/no lateral movement/);
+  assert.match(root.querySelectorAll('.truth-change-card')[2].textContent,/Withdraw the defender-movement claim/);
+  assert.equal(root.querySelectorAll('.truth-change-card')[3].querySelector('.truth-change-copy').textContent,truthStory(SCENARIOS[0],16,true).currentLine);
   assert.equal(root.querySelector('.truth-change-survives').textContent,preserved);
   root.querySelectorAll('.truth-change-card .outline-button')[1].click();assert.deepEqual(calls.at(-1),[16,true]);assert.equal(opened,true);
   root.querySelectorAll('.truth-change-card .outline-button')[0].click();assert.deepEqual(calls.at(-1),[16,false]);

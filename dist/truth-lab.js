@@ -1,7 +1,7 @@
 import {matchSession} from './match-session.js';
 import {position} from './engine.js';
 import {truthStory,truthStoryPacket} from './truth-story-model.js';
-import {createTruthSpotlight} from './truth-spotlight.js?v=55';
+import {createTruthSpotlight} from './truth-spotlight.js?v=192';
 const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const svg=(tag,attrs,text)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
 function text(id,value){if($(id).textContent!==value)$(id).textContent=value;}

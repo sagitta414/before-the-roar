@@ -606,6 +606,24 @@ function renderPanel() {
     welcome.append(agenda);
     box.append(welcome);
   }
+  if (!waiting && !selected && !narrativeOnly && (list.length || thread?.drafts.size)) {
+    const handoff = el('section','crew-handoff');
+    handoff.setAttribute('aria-label','How the crew reached its conclusion');
+    handoff.append(el('strong','crew-handoff-title',thread?.pending?'THE CREW IS WORKING THROUGH THE PLAY':'ONE PLAY · FIVE DISTINCT JOBS'));
+    const steps = el('ol','crew-handoff-steps');
+    const jobs = {analyst:'OBSERVE',guide:'EXPLAIN',math:'CALCULATE',reviewer:'CHALLENGE',presenter:'SYNTHESIZE'};
+    for (const profile of profiles) {
+      const post=list.find(item=>item.role===profile.id),draft=thread?.drafts.get(profile.id);
+      const step=el('li',post?'is-complete':draft?'is-writing':'is-next');
+      step.append(el('b','',profile.name),el('small','',jobs[profile.id]));
+      const line=post?.summary||draft?.summary||'Waiting for the previous handoff.';
+      step.append(el('p','',line));
+      if(post?.decision)step.dataset.decision=post.decision;
+      steps.append(step);
+    }
+    handoff.append(steps);
+    box.append(handoff);
+  }
   const mobileFocus=window.matchMedia('(max-width:760px)').matches&&!mobileAll&&!selected&&!narrativeOnly&&!waiting;
   const unchanged = post => post?.unchanged || (thread?.round > 1 && thread.history.some(h=>h.posts.get(post?.role)?.summary===post?.summary));
   const availableRoles=profiles.filter(p=>list.some(n=>n.role===p.id)||thread?.drafts.has(p.id));

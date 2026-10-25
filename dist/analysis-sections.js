@@ -1,4 +1,4 @@
-import {createTruthLab} from './truth-lab.js?v=55';
+import {createTruthLab} from './truth-lab.js?v=192';
 import {matchSession} from './match-session.js';
 import {matchStory} from './match-story.js';
 import {createMatchPitch} from './match-pitch.js?v=22';

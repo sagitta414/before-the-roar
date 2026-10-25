@@ -98,3 +98,4 @@ body[data-section="security"] .ai-availability{display:none!important}
 @media(min-width:1000px){body[data-section="watch"] .ai-availability{display:none!important}}
 body[data-section="lab"] .ai-availability[data-state="available"],
 body[data-section="lab"] .ai-availability[data-state="refreshing"]{display:none!important}
+#truth[data-match-correction="true"] > .truth-primary-path,#truth[data-match-correction="true"] > .truth-verdict-impact{display:none!important}#truth[data-match-correction="true"] .truth-spotlight{margin-top:8px}#truth[data-match-correction="true"] .truth-intro{margin-bottom:8px}
