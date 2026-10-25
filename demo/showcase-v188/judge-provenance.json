@@ -1,0 +1,115 @@
+{
+  "version": 188,
+  "file": "dist/assets/before-the-roar-judge-v188.mp4",
+  "duration_seconds": 99.030667,
+  "sha256": "19a3973de6a5d7d9e230f19a8862b623d249b5bbf319e20de6aa8a440683c450",
+  "bytes": 13818950,
+  "moving_footage_only": true,
+  "scenes": [
+    {
+      "id": "opening",
+      "seconds": 4,
+      "file": "dist/assets/pitchside-minute.mp4",
+      "source_sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25",
+      "cut_start_seconds": 2,
+      "cut_span_seconds": 4,
+      "voice_sha256": "c6e4a14b819b6a88f7b30b9ffa902d4970c4da4d4e43ecd15e636a78b13cf33c"
+    },
+    {
+      "id": "watch",
+      "seconds": 13,
+      "file": "demo/showcase-v175/watch-recording.mp4",
+      "source_sha256": "04250147befe3f4615cecf084b7973c07a614460c27d92ad5fb1b727dfe7865c",
+      "cut_start_seconds": 0,
+      "cut_span_seconds": 6,
+      "voice_sha256": "f315bc522d46ff719d23eafb2893f17a3eb30c8219b608731f746b620aac2e2f"
+    },
+    {
+      "id": "opening-round",
+      "seconds": 11,
+      "file": "demo/showcase-v188/opening-crew-ui.webm",
+      "source_sha256": "00669525dd0b9a15c85a6edda8a8e9da6e1a5ed4e9d401342957d91270c44843",
+      "cut_start_seconds": 33,
+      "cut_span_seconds": 10.8,
+      "voice_sha256": "77a80f0f0d774a831e84e8e1fdca060bc1705f5bbf5e68ce8083c24158c381f4"
+    },
+    {
+      "id": "ui-challenge",
+      "seconds": 12,
+      "file": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "cut_start_seconds": 5.4,
+      "cut_span_seconds": 6.4,
+      "voice_sha256": "cce84d093955fead279182cda303e9fe917eb4edcbb39c9576e664bdb19a7af8"
+    },
+    {
+      "id": "ui-correction",
+      "seconds": 7,
+      "file": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "cut_start_seconds": 11.8,
+      "cut_span_seconds": 4.1,
+      "voice_sha256": "cb2c21de85ad5a7ed47cc62bf2a4c00ed2cf91d13707e445086b6594ca65f057"
+    },
+    {
+      "id": "ui-r2",
+      "seconds": 11,
+      "file": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "cut_start_seconds": 15.9,
+      "cut_span_seconds": 4.1,
+      "voice_sha256": "782a68b3afbcb158cd7ba7acef8aa7438b89ebc1b2a4c3c84fee225667315766"
+    },
+    {
+      "id": "r2-receipts",
+      "seconds": 8,
+      "file": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "cut_start_seconds": 20,
+      "cut_span_seconds": 1.88,
+      "voice_sha256": "e1e40d0190bebe7ff001956fa658e8ff21b00c324945700c893d26ac67e6781f"
+    },
+    {
+      "id": "phone",
+      "seconds": 10,
+      "file": "demo/showcase-v188/sources/phone.mp4",
+      "source_sha256": "42169022f8ce31ef3f99770bd21a0cb43c6faee582c968349068dd3d68262496",
+      "cut_start_seconds": 0,
+      "cut_span_seconds": 10,
+      "voice_sha256": "44b186a8d50a899f5e6f02c9d77f8da343b7cfa056bc15b7b3d260adf80dcf7d"
+    },
+    {
+      "id": "publish",
+      "seconds": 9,
+      "file": "demo/showcase-v188/sources/publish.mp4",
+      "source_sha256": "5525f8e7d01e3169eaa673bfa46a1608652fa5e060565e0780b0a9bdba362e42",
+      "cut_start_seconds": 0,
+      "cut_span_seconds": 9,
+      "voice_sha256": "9a7854af3e3076e1d4893ca0fcbcc20914601506fc9f25da853ae1d40ae18416"
+    },
+    {
+      "id": "architecture",
+      "seconds": 9,
+      "file": "demo/showcase-v174/architecture-uncut.mp4",
+      "source_sha256": "bb3e5c43ee90114788267b6c01cc550b93eadea9cbce9bb05d396d92a1fea43f",
+      "cut_start_seconds": 0,
+      "cut_span_seconds": 9,
+      "voice_sha256": "1d4f904da29fb76796bacd589286a6398775f5033d9eb2d092f068f069a2d362"
+    },
+    {
+      "id": "closing",
+      "seconds": 5,
+      "file": "dist/assets/pitchside-minute.mp4",
+      "source_sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25",
+      "cut_start_seconds": 34,
+      "cut_span_seconds": 5,
+      "voice_sha256": "680407bd0d94b0ceb150b3a935267dd99957beee2d25b4ea6c8cf43c269901c7"
+    }
+  ],
+  "measured_replay": "demo/showcase-v188/sources/measure.mp4",
+  "measured_replay_sha256": "c89b6d7ba635d860dcc9abe4cec8c44470447282ca73ccd6d3a99c1132aa061d",
+  "live_capture": "demo/showcase-v187/live-ui-uncut.webm",
+  "live_capture_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+  "model_requests_in_capture": 8,
+  "boundaries": "The AI film, synthetic measured replay and specialist discussion have separate sources. Browser footage is time-stretched and edited. The opening R1 is a saved public-app discussion with zero new requests in its recording; the later R1 challenge and R2 correction are from a separate capture with eight new model requests. The phone and Publish views are older recorded product footage; phone receipt is shown after reconnection. No static cards are used. Azure AI Speech narration is added in editing, not live agent speech. Evidence correction shows source dependence, not causal football proof. This is not independent commentary evaluation or general broadcast detection validation."
+}

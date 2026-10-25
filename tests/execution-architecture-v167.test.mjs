@@ -16,7 +16,7 @@ test('crew profiles disclose model, deterministic and independent execution',asy
 
 test('security hero exposes a compact status-labelled event-to-output path',async()=>{
   const [html,css]=await Promise.all([read('index.html'),read('execution-architecture.css')]);
-  for(const node of ['Synthetic event','Container Apps','Foundry specialists','Evidence ledger','Verified outputs'])assert.match(html,new RegExp(node));
+  for(const node of ['Synthetic event','Container Apps','Azure OpenAI specialists','Evidence ledger','Verified outputs'])assert.match(html,new RegExp(node));
   assert.equal((html.match(/<li data-status="(?:running|implemented|roadmap)">/g)||[]).length,5);
   assert.match(html,/security-compact-architecture/);
   assert.match(css,/grid-template-columns:repeat\(5/);

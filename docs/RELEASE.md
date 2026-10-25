@@ -1,10 +1,10 @@
 # Release evidence index
 
-The public application includes the v183d Host policy and v184 Pocket Director beginner default. The v187 1:39 judge cut replaces the v186 static middle with a [continuous public-app screen capture](../demo/showcase-v187/capture.json) of a viewer challenge, a deterministic Truth Lab correction, and a fresh corrected round. The two discussions used eight new Azure model requests; the opening receipt visualization comes from [an earlier public round](../demo/showcase-v186/live-sequence.json). The [video provenance](../demo/showcase-v187/judge-provenance.json) labels slowed screen footage, older reference captures, and edited Azure Speech narration. This demonstrates actual app behavior, not independent commentary superiority or general broadcast-video detection. The v185 expanded product tour remains available as an older edit.
+The public application includes the v183d Host policy and v184 Pocket Director beginner default. The current [v188 1:39 judge cut](../dist/assets/before-the-roar-judge-v188.mp4) uses moving product footage throughout: fictional film, separate measured replay, saved R1 discussion, a [public-app capture](../demo/showcase-v187/capture.json) of a viewer challenge and Truth Lab correction, plus earlier recorded phone, Publish, and architecture views. The challenge and corrected discussions used eight new Azure model requests. The [video provenance](../demo/showcase-v188/judge-provenance.json) identifies source hashes, time-stretching and edited Azure Speech narration. This demonstrates actual app behavior, not independent commentary superiority or general broadcast-video detection. The v185 expanded product tour remains an older edit.
 
 ## Earlier v182 release record
 
-This is the current index for the review-fix release. It separates implemented changes, recorded execution and claims still awaiting external evidence.
+This historical v182 record separates changes made at that revision from claims still awaiting external evidence. Current video and release information appears above.
 
 ## Implemented
 
@@ -17,7 +17,7 @@ This is the current index for the review-fix release. It separates implemented c
 
 ## Verification
 
-Current local results: 345 tests, zero failures/skips. Browser inspection confirmed ordinary cinematic playback, consistent source and publication labels, and a reachable accessibility control at desktop and 390-pixel phone width. See [the live review](proof/v182-live-review.md) for the complete run, its retained failures and subsequent corrections. This is not a finished independent quality verdict.
+At v182, 345 tests passed with zero failures/skips. Browser inspection then confirmed ordinary cinematic playback, source and publication labels, and an accessibility control at desktop and 390-pixel phone width. See [the live review](proof/v182-live-review.md) for that run, its retained failures and subsequent corrections. This is not a current independent quality verdict.
 
 The v182 live protocol freezes the runtime dependency graph, records four two-round film scenarios and a one-call baseline for each round. Three cases are known development cases; the goalkeeper case was added before this run. Crew repairs are retained and counted; baseline has no repairs. This is an exploratory operational comparison with unequal retry policies, not an independent or statistically conclusive quality study.
 
@@ -29,8 +29,8 @@ The v182 live protocol freezes the runtime dependency graph, records four two-ro
 | Controlled marker-based auto-eventing | Frozen synthetic study available |
 | Unfamiliar broadcast detection | Not validated |
 | Crew produces better writing than one model | Independent ratings pending |
-| Host consistently delivers a fresh model answer | Not established; final targeted run retained fallback and a verification-cap stop |
+| Host consistently delivers a fresh model answer | Not established at v182; see the later [v183 ten-session reliability run](proof/v183-host-followups.md) |
 | Physical-phone accessibility across devices | Requires real-device checks |
-| Demo records the newest model behavior | v185 refreshes current screens, but retains earlier agent recordings; fresh end-to-end live capture remains pending |
+| Demo records the newest model behavior | Not established at v182; see the later [v187 public browser capture](../demo/showcase-v187/capture.json) and v188 cut above |
 
 The judge cut and full tour are clearly versioned. Independent results and unseen-video accuracy are not invented to fill these gaps. No numerical judge score is an acceptance test.

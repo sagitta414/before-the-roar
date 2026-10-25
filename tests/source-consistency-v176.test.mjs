@@ -27,6 +27,12 @@ test('measured evidence withdrawal reaches Publish without replacing the local p
   await import('../dist/uploaded-journey.js');const {openVideoEvidence}=await import('../dist/video-evidence.js');
   document.dispatchEvent(new CustomEvent('btr-upload-source',{detail:{hash:'a'.repeat(64),url:'blob:local-test',name:'Fictional sample',synthetic:true,measured:true,metadata:{duration:60,width:640,height:360}}}));
   const player=document.querySelector('#watch video');
+  assert.match(document.querySelector('#truth .uploaded-correct').textContent,/Return to analysis/);
+  assert.match(document.querySelector('#inside .uploaded-publish p').textContent,/no play has been observed/i);
+  assert.match(document.querySelector('#inside .uploaded-publish button').textContent,/Analyze the clip/);
+  assert.equal(JSON.parse(document.querySelector('#inside pre').textContent).cue,null);
+  let returnedToAnalysis=0;document.querySelector('#lab-nav').addEventListener('click',()=>returnedToAnalysis++);
+  document.querySelector('#inside .uploaded-publish button').click();assert.equal(returnedToAnalysis,1);
   const event={id:'pass-1',type:'pass',start:1,end:2,distance:12,speed:43.2,evidence:{firstFrame:24,lastFrame:48}};
   document.dispatchEvent(new CustomEvent('btr-upload-detection',{detail:{events:[event]}}));assert.equal(document.querySelector('#watch video'),player,'new evidence must not remount playback');
   openVideoEvidence({snapshot:{t:2,events:[event]},frame:'data:image/png;base64,',posts:[]},'truth');

@@ -45,9 +45,9 @@ const cuts = {
     ]
   },
   "short": {
-    "src": "assets/before-the-roar-judge-v187.mp4",
-    "poster": "assets/demo-v187-poster.jpg",
-    "label": "1:39 · LIVE-APP JUDGE CUT · CAPTIONED",
+    "src": "assets/before-the-roar-judge-v188.mp4",
+    "poster": "assets/demo-v188-poster.jpg",
+    "label": "1:39 · MOVING PRODUCT DEMO · CAPTIONED",
     "chapters": [
       [4, "The cinematic film"],
       [17, "Opening specialist round"],

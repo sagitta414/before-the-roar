@@ -5,15 +5,13 @@ import { createHash } from 'node:crypto';
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 
-test('the current judge cut shows the captured two-round correction and stays under two minutes', async () => {
+test('the archived v187 judge cut retains its captured two-round correction', async () => {
   const provenance = JSON.parse(await readFile('demo/showcase-v187/judge-provenance.json', 'utf8'));
   const captureBytes = await readFile(provenance.fresh_browser_capture);
   const metadataBytes = await readFile('demo/showcase-v187/capture.json');
   const capture = JSON.parse(metadataBytes);
   const video = await readFile(provenance.file);
   const captions = await readFile('demo/showcase-v187/judge.srt', 'utf8');
-  const html = await readFile('dist/index.html', 'utf8');
-  const player = await readFile('dist/demo-premiere.js', 'utf8');
 
   assert.equal(sha(video), provenance.sha256);
   assert.equal(video.length, provenance.bytes);
@@ -29,8 +27,5 @@ test('the current judge cut shows the captured two-round correction and stays un
   assert.match(captions, /movement claim loses support/i);
   assert.match(provenance.visual_sources, /continuous public browser screen recording/i);
   assert.match(provenance.evidence_scope, /separate sources/i);
-  assert.match(html, /1:39 judge cut/);
-  assert.match(html, /data-demo-cut="short" aria-pressed="true"/);
-  assert.match(html, /<source src="assets\/before-the-roar-judge-v187\.mp4"/);
-  assert.match(player, /before-the-roar-judge-v187\.mp4/);
+  assert.match(provenance.visual_sources, /Publish is a receipt-derived editorial visualization/i);
 });

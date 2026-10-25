@@ -188,7 +188,7 @@ export function createVideoUpload({ panel, lab, video, onPrepare, onRestore, che
     review.hidden = measured;
     text(dock, '[data-dock="name"]', source.name);
     text(dock, '[data-dock="scope"]', measured ? "COMPATIBILITY PASSED · EXPERIMENTAL MEASUREMENT" : kind === "marked-rejected" ? "COMPATIBILITY FAILED · REVIEWED CUES ONLY" : "REVIEWED CUES · IDENTITY, DISTANCE + SPEED WITHHELD");
-    onPrepare({ file: source, url: sourceUrl, kind, declaredKind, measured, metadata, hash: sourceHash, compatibility });
+    onPrepare({ file: source, url: sourceUrl, kind, declaredKind, measured, metadata, hash: sourceHash, compatibility, sourceOrigin });
     document.dispatchEvent(new CustomEvent("btr-upload-source", { detail: { name: source.name, url: sourceUrl, kind, declaredKind, measured, metadata, hash: sourceHash, compatibility, sourceOrigin, synthetic: sourceOrigin === "bundled-fictional-evaluation" } }));
     close();
     panel.querySelector(".vt-screen").scrollIntoView({ behavior: "smooth", block: "center" });

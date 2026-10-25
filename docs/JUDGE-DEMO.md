@@ -11,7 +11,7 @@ Use the live Azure application linked in README. Open the cinematic Watch experi
 
 ## Video and evidence
 
-The v185 judge cut and full tour show the current Understand, Publish and unpaired beginner phone screens while retaining earlier moving Watch, correction and architecture recordings. The full tour also retains earlier model exchanges and an actual paired phone correction capture. Narration is added in editing. The current [v183 Host reliability run](proof/v183-host-followups.md) is separate evidence; do not cite a recorded voice as a fresh specialist response. The unpaired phone screen is labelled interactive demo, not a received correction.
+The current [v188 judge cut](https://youtu.be/aj7AkCHKnrc) is 1:39 and uses moving footage throughout. It opens with the fictional film and separate measured replay, shows a saved R1 discussion, then a public-app capture of a viewer challenge, Truth Lab correction and fresh R2 discussion. Its phone and Publish segments are earlier product recordings; the paired phone receipt appears after reconnection. The [scene-level provenance](../demo/showcase-v188/judge-provenance.json) identifies sources and timing. The v185 expanded tour is historical. Narration is added in editing. The [v183 Host reliability run](proof/v183-host-followups.md) is separate evidence; do not cite a recorded voice as a fresh specialist response.
 
 ## What to claim
 
