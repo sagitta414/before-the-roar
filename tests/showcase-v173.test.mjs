@@ -13,7 +13,7 @@ test('the demo preserves the chosen cut in its player, download and share URL', 
   w.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
   w.eval(script.replaceAll('export function','function')+'\nwindow.demoUrl=finalDemoShareUrl;');
   w.document.getElementById('open-final-demo').click();
-  assert.match(w.document.getElementById('final-demo-video').src,/judge-v201/);
+  assert.match(w.document.getElementById('final-demo-video').src,/judge-v202/);
   assert.equal(new URL(w.demoUrl()).searchParams.get('cut'),'short');
   w.document.querySelector('[data-demo-cut="showcase"]').click();
   assert.match(w.document.getElementById('final-demo-video').src,/showcase-v185/);

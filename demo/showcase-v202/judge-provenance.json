@@ -1,0 +1,27 @@
+{
+  "version": 202,
+  "file": "dist/assets/before-the-roar-judge-v202.mp4",
+  "sha256": "df8f1fda5cce2cd35fe948d696409ce7acc34f698a1c2273f00cba00235da753",
+  "bytes": 16571257,
+  "source_file": "dist/assets/before-the-roar-judge-v201.mp4",
+  "source_sha256": "6ff3b66ae0b520692aed8e47be5639a7975ac3d577e805cf0e61bca5510ae64f",
+  "edit": "Two timed, legible evidence callouts at 54.25–60.38 and 60.38–66.42 seconds. Full-frame app capture, original audio and burned-in captions are preserved. The callouts explain an authored Truth Lab counterfactual; they do not assert football causality or independent validation.",
+  "overlays": [
+    {
+      "id": "record",
+      "file": "tmp/submission-demo-v202/record.png",
+      "sha256": "08aaaa9ae236ffd0f74c7905f43151215a1d220351abd714b32f9f7810cb811f",
+      "start_seconds": 54.25,
+      "end_seconds": 60.38
+    },
+    {
+      "id": "claim",
+      "file": "tmp/submission-demo-v202/claim.png",
+      "sha256": "955b740d2540a368f8c843d0104f04e4361ddce4aaf98517650c93db2eb13e3f",
+      "start_seconds": 60.38,
+      "end_seconds": 66.42
+    }
+  ],
+  "source_provenance": "demo/showcase-v201/judge-provenance.json",
+  "source_capture_model_requests": 8
+}
