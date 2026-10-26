@@ -1,0 +1,131 @@
+1
+00:00:00,080 --> 00:00:01,220
+The defender moves.
+
+2
+00:00:01,981 --> 00:00:03,152
+The pass arrives.
+
+3
+00:00:03,883 --> 00:00:05,664
+Did that run create the space?
+
+4
+00:00:06,080 --> 00:00:10,086
+Before the Roar starts with a fictional football film.
+
+5
+00:00:10,523 --> 00:00:13,880
+Watch the play, then watch the AI crew question what it can actually prove.
+
+6
+00:00:14,080 --> 00:00:18,108
+For a new fan, the question is simple: who controls the next touch?
+
+7
+00:00:18,969 --> 00:00:22,280
+BTR shows what to watch, and where the evidence stops.
+
+8
+00:00:22,480 --> 00:00:26,546
+The controlled synthetic replay measures players and passes from video.
+
+9
+00:00:26,923 --> 00:00:29,280
+It is a different source from the cinematic film.
+
+10
+00:00:29,480 --> 00:00:30,932
+Scout sees the shift.
+
+11
+00:00:31,351 --> 00:00:32,628
+Guide frames the question.
+
+12
+00:00:33,178 --> 00:00:36,137
+Vector measures twenty-three point seven metres of passing gain.
+
+13
+00:00:36,710 --> 00:00:39,280
+The record still cannot say why the defender moved.
+
+14
+00:00:39,480 --> 00:00:40,573
+The viewer pushes back: can we credit the runner?
+
+15
+00:00:41,122 --> 00:00:44,610
+The crew has to answer from the record.
+
+16
+00:00:44,980 --> 00:00:47,511
+Truth Lab changes one defender observation.
+
+17
+00:00:48,112 --> 00:00:49,780
+Thirteen metres becomes zero.
+
+18
+00:00:49,980 --> 00:00:51,487
+The movement claim falls.
+
+19
+00:00:52,020 --> 00:00:54,428
+The two completed passes still stand.
+
+20
+00:00:54,980 --> 00:00:56,600
+Four live model receipts.
+
+21
+00:00:57,152 --> 00:00:59,380
+Vector's calculation is deterministic.
+
+22
+00:00:59,580 --> 00:01:02,750
+On the phone, the corrected story follows the fan.
+
+23
+00:01:03,514 --> 00:01:06,130
+Same evidence, a simpler explanation.
+
+24
+00:01:06,780 --> 00:01:13,500
+Captions, voice, color-safe shapes, and a transcript make that story easier to follow.
+
+25
+00:01:13,780 --> 00:01:16,776
+Publish prepares one checked source for different screens.
+
+26
+00:01:17,336 --> 00:01:20,160
+Preparation and confirmed delivery remain distinct.
+
+27
+00:01:20,780 --> 00:01:22,526
+Container Apps runs the service.
+
+28
+00:01:22,796 --> 00:01:24,270
+Entra protects access.
+
+29
+00:01:24,709 --> 00:01:25,527
+Foundry reviews.
+
+30
+00:01:26,105 --> 00:01:28,082
+Blob checkpoints preserve corrections.
+
+31
+00:01:28,613 --> 00:01:30,580
+Every stage leaves a trace.
+
+32
+00:01:30,780 --> 00:01:31,757
+Before the Roar.
+
+33
+00:01:32,498 --> 00:01:33,694
+Every claim earned.

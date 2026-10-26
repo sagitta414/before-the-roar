@@ -45,23 +45,23 @@ const cuts = {
     ]
   },
   "short": {
-    "src": "assets/before-the-roar-judge-v197.mp4",
-    "poster": "assets/demo-v197-poster.jpg",
-    "label": "1:32 · FULL-SCREEN PRODUCT DEMO · CAPTIONED",
+    "src": "assets/before-the-roar-judge-v198.mp4",
+    "poster": "assets/demo-v198-poster.jpg",
+    "label": "1:35 · SYNCED FULL-SCREEN DEMO · CAPTIONED",
     "chapters": [
       [0, "The football moment"],
       [6, "Watch Party"],
       [14, "Understand the play"],
-      [21, "Measure the source"],
-      [28, "The specialists disagree"],
-      [36, "The viewer challenges"],
-      [43, "Truth Lab correction"],
-      [48, "Corrected AI round"],
-      [53, "AI desk receipts"],
-      [55, "Pocket Director"],
-      [64, "Accessibility Director"],
-      [71, "Publish"],
-      [78, "Architecture"]
+      [22.4, "Measure the source"],
+      [29.4, "The specialists investigate"],
+      [39.4, "The viewer challenges"],
+      [44.9, "Truth Lab correction"],
+      [49.9, "Corrected AI round"],
+      [54.9, "AI desk receipts"],
+      [59.5, "Pocket Director"],
+      [66.7, "Accessibility Director"],
+      [73.7, "Publish"],
+      [80.7, "Architecture"]
     ]
   }
 };

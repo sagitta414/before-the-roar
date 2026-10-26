@@ -29,7 +29,7 @@ test('chapter navigation seeks within the selected cut without forcing autoplay'
  w.eval((await readFile('dist/demo-premiere.js','utf8')).replaceAll('export function','function'));
  w.document.getElementById('open-final-demo').click();
  w.document.querySelector('[aria-label="Jump to Truth Lab correction"]').click();
- assert.equal(w.document.getElementById('final-demo-video').currentTime,43.25);
+ assert.equal(w.document.getElementById('final-demo-video').currentTime,44.9+.25);
  assert.equal(plays,0);
  w.document.querySelector('[data-demo-cut="showcase"]').click();
  assert.ok(w.document.querySelectorAll('.demo-chapters button').length>=4);
