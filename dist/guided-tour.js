@@ -275,6 +275,11 @@ for (const [href, label] of [
 }
 proof.append(links);
 document.querySelector("#inside .extension-heading").after(proof);
+const currentDemo = el("a", "proof-output", "Watch the current 1:53 judge demo ↗");
+currentDemo.href = "assets/before-the-roar-judge-v206.mp4";
+currentDemo.target = "_blank";
+currentDemo.rel = "noopener";
+proof.append(currentDemo);
 const walkthrough = el(
   "a",
   "proof-output",
