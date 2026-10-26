@@ -1,0 +1,586 @@
+{
+  "version": 199,
+  "file": "dist/assets/before-the-roar-judge-v199.mp4",
+  "duration_seconds": 94.733008,
+  "sha256": "c6fcbde7cf5904ba24ebe5bc75e9944120a253217381653b25abe91198e41d8c",
+  "bytes": 14746174,
+  "scenes": [
+    {
+      "id": "cold-open",
+      "seconds": 6,
+      "source": "dist/assets/pitchside-minute.mp4",
+      "source_sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25",
+      "from": 3,
+      "span": 6,
+      "voice": "demo/showcase-v199/voice/voice-0.wav",
+      "voice_sha256": "d6ebc04fd401e61f68ec6a176b95a827e5481599da2c6898d9668389ee165971",
+      "voice_text": "The defender moves. The pass arrives. Did that run create the space?",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-0-0-000.png",
+          "start": 0.15,
+          "end": 1.95,
+          "sha256": "4231dd78c603e739b6d2a4dc4383087a716783c29b6e7e90b01348de24e32a5a",
+          "track": [
+            {
+              "time": 0,
+              "x": 850,
+              "y": 708
+            },
+            {
+              "time": 0.5,
+              "x": 826,
+              "y": 738
+            },
+            {
+              "time": 1,
+              "x": 705,
+              "y": 766
+            },
+            {
+              "time": 1.5,
+              "x": 586,
+              "y": 820
+            },
+            {
+              "time": 1.95,
+              "x": 560,
+              "y": 865
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "watch",
+      "seconds": 8,
+      "source": "demo/showcase-v196/sources/01-watch.mp4",
+      "source_sha256": "f490dc6071428054cbb35dd6b589ed1d0b8134e1e124e4c17b16efe4a2787ad4",
+      "from": 0,
+      "span": 6.4,
+      "voice": "demo/showcase-v199/voice/voice-1.wav",
+      "voice_sha256": "9a66411dc2c8b29f51f8c3da47d885004c23e5e47c349adf90c8a285766ede51",
+      "voice_text": "Before the Roar starts with a fictional football film. Watch the play, then watch the AI crew question what it can actually prove.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-1-0.png",
+          "start": 0.5,
+          "end": 3.2,
+          "sha256": "e3ff924efb1814c655f9b4634f16b1870d1bf773c541f366d1c1690a530ab58b"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-1-1.png",
+          "start": 3.3,
+          "end": 7.7,
+          "sha256": "165f2822207438c11cd4af9b2409eb82077c020a523aae6c71c64a420c4ba21b"
+        }
+      ]
+    },
+    {
+      "id": "understand",
+      "seconds": 8.4,
+      "source": "demo/showcase-v199/understand-clean.mp4",
+      "source_sha256": "fce91c0ef18ba877baef1cb255b46fb10c2c32c23a06a1d04558d1d2de4eab3e",
+      "from": 0,
+      "span": 8.4,
+      "voice": "demo/showcase-v199/voice/voice-2.wav",
+      "voice_sha256": "fe1dd83095d5024d3f536ae419d04d595c72c21f9151e886c83d44c5f95410fc",
+      "voice_text": "For a new fan, the question is simple: who controls the next touch? BTR shows what to watch, and where the evidence stops.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-2-0.png",
+          "start": 0.4,
+          "end": 4.5,
+          "sha256": "1568a852b94def7bc06bb0bfeb4e783f0c69b38904b5bc4130729eaebdfe10ee"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-2-1.png",
+          "start": 4.6,
+          "end": 8.2,
+          "sha256": "65ffcd126e243cde77fb7c765b42eab47801a16ac01cbc4eb59e8230a96c2ea8"
+        }
+      ]
+    },
+    {
+      "id": "measure",
+      "seconds": 7,
+      "source": "demo/showcase-v188/sources/measure.mp4",
+      "source_sha256": "c89b6d7ba635d860dcc9abe4cec8c44470447282ca73ccd6d3a99c1132aa061d",
+      "from": 1,
+      "span": 7,
+      "voice": "demo/showcase-v199/voice/voice-3.wav",
+      "voice_sha256": "2261738a8fa571b0977b8d2427d40d4b2236f625a500e430616c37efff5db978",
+      "voice_text": "The controlled synthetic replay measures players and passes from video. It is a different source from the cinematic film.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-3-0.png",
+          "start": 0.7,
+          "end": 4.4,
+          "sha256": "3b342befc3b92d82f3dd22ff6181f9cdd1c186f3e85f61a7fb5bab32c7e17fcf"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-3-1.png",
+          "start": 4.5,
+          "end": 6.8,
+          "sha256": "08ec7e643206e500e8493596c94ba4ba0e7635a3086b207126c4ef9333133893"
+        }
+      ]
+    },
+    {
+      "id": "first-round",
+      "seconds": 10,
+      "source": "demo/showcase-v188/opening-crew-ui.webm",
+      "source_sha256": "00669525dd0b9a15c85a6edda8a8e9da6e1a5ed4e9d401342957d91270c44843",
+      "from": 32,
+      "span": 6.9,
+      "voice": "demo/showcase-v199/voice/voice-4.wav",
+      "voice_sha256": "258e6a172b1e2452b823ee69162af28710723e8ed8523be7ab10c1542ad74a80",
+      "voice_text": "Scout sees the shift. Guide frames the question. Vector measures twenty-three point seven metres of passing gain. The record still cannot say why the defender moved.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-4-0.png",
+          "start": 0.2,
+          "end": 1.8,
+          "sha256": "7d73218bfe15b39750fb29e01afe5524f13541cfc1b67d33556dd4563de18040"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-4-1.png",
+          "start": 1.9,
+          "end": 3.2,
+          "sha256": "9288c5ff905a5cb992093ea7956d6ee994a37ded62d74fef8b875b96ff011240"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-4-2.png",
+          "start": 3.3,
+          "end": 6.9,
+          "sha256": "9f735773e76d7065b9bc867bd9c1fefa475359cf3e6cd4107733f7a3e0d46338"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-4-3.png",
+          "start": 7,
+          "end": 9.7,
+          "sha256": "ebbfcae71c1743ab5b114e2b7d348847ddb383c72d9f7125e7c7afc7022a33c2"
+        }
+      ]
+    },
+    {
+      "id": "viewer-challenge",
+      "seconds": 5.5,
+      "source": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "from": 5.2,
+      "span": 5.5,
+      "voice": "demo/showcase-v199/voice/voice-5.wav",
+      "voice_sha256": "b7982bff403f8e9d4cc4face6414b6d1ad45f60b54ca33a06047dc46397a10ee",
+      "voice_text": "The viewer pushes back: can we credit the runner? The crew has to answer from the record.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-5-0.png",
+          "start": 0.4,
+          "end": 2.6,
+          "sha256": "24e16cabf99899e847276e0e1b03a3147e548d8fa6e4f750c0161a64cd5fec67"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-5-1.png",
+          "start": 2.7,
+          "end": 5.3,
+          "sha256": "fbdcaab33c34a595d5cda885f5f9254e9cfb5df34484267a12afa2c4ffde0991"
+        }
+      ]
+    },
+    {
+      "id": "truth-lab",
+      "seconds": 5,
+      "source": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "from": 11.8,
+      "span": 4.2,
+      "voice": "demo/showcase-v199/voice/voice-6.wav",
+      "voice_sha256": "b23adf4e5c6ff83427f3804d8c94093441ba554dd9784f86fa99d04d5b475c01",
+      "voice_text": "Truth Lab changes one defender observation. Thirteen metres becomes zero.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-6-0.png",
+          "start": 0.6,
+          "end": 2.6,
+          "sha256": "22a68a005496326d3d7ac7ce94091b56675058840d671fd0dca95145b5805d5a"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-6-1.png",
+          "start": 2.7,
+          "end": 4.8,
+          "sha256": "9d35e70a4e198e72089577e51d781b0dc83b693a1a77357cfe3f16a50ca084a1"
+        }
+      ]
+    },
+    {
+      "id": "corrected-round",
+      "seconds": 5,
+      "source": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "from": 15.9,
+      "span": 4.3,
+      "voice": "demo/showcase-v199/voice/voice-7.wav",
+      "voice_sha256": "a36d8c2e5571038fb2e9b74269643eca297f2b936ca929a8c6987b9bb1d0b226",
+      "voice_text": "The movement claim falls. The two completed passes still stand.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-7-0.png",
+          "start": 0.7,
+          "end": 4.7,
+          "sha256": "443b87ab1e85c71c9b853e2b2af931de3bb92e27cadee3b88aef05203ef4f441"
+        }
+      ]
+    },
+    {
+      "id": "receipts",
+      "seconds": 4.6,
+      "source": "demo/showcase-v187/live-ui-uncut.webm",
+      "source_sha256": "f2332fadea3c5a3d62772d170d1c7756dba6ec12740e15a0c467113eea6b5288",
+      "from": 20.1,
+      "span": 1.75,
+      "voice": "demo/showcase-v199/voice/voice-8.wav",
+      "voice_sha256": "fbba03a8a4563f343a5d0596b2c82de47ef8b56f25e3e2782265d777701be4bb",
+      "voice_text": "Four live model receipts. Vector's calculation is deterministic.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-8-0.png",
+          "start": 0.3,
+          "end": 4.3,
+          "sha256": "896026638eefbe488b2ad537e4b4622f4b2d8a34858e6f3b5f2c2b858abb3f87"
+        }
+      ]
+    },
+    {
+      "id": "phone",
+      "seconds": 7.2,
+      "source": "demo/showcase-v188/sources/phone.mp4",
+      "source_sha256": "42169022f8ce31ef3f99770bd21a0cb43c6faee582c968349068dd3d68262496",
+      "from": 0,
+      "span": 7.2,
+      "voice": "demo/showcase-v199/voice/voice-9.wav",
+      "voice_sha256": "90ea58ee0af50c2d52b94f464097a6f7c2e05c30f0f9f29d5608c7413da5adb7",
+      "voice_text": "On the phone, the corrected story follows the fan. Same evidence, a simpler explanation.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-9-0.png",
+          "start": 0.6,
+          "end": 6.9,
+          "sha256": "0027fa5b9adeda21e2e05e20db977374a8c762c35e0329d43e9d4b53ca7f394a"
+        }
+      ]
+    },
+    {
+      "id": "accessibility",
+      "seconds": 7,
+      "source": "demo/showcase-v196/current-ui.webm",
+      "source_sha256": "ca7c07a27dabe5f6f4abb1d83a3d74a09213b875236bb8317c771821422b0e62",
+      "from": 18.1,
+      "span": 6.7,
+      "voice": "demo/showcase-v199/voice/voice-10.wav",
+      "voice_sha256": "9829768e3e8c574c0133a02e3583fa30c0a27c7e36133817906afb335f68dad3",
+      "voice_text": "Captions, voice, color-safe shapes, and a transcript make that story easier to follow.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-10-0.png",
+          "start": 0.8,
+          "end": 3.6,
+          "sha256": "0c30ef90989ff9e75305fc876222a638c0aecf5c4df09fcc5fd5bbceea7c81d7"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-10-1.png",
+          "start": 3.7,
+          "end": 6.7,
+          "sha256": "572e9aa838fac47d2abe241193267273988f10969d978a0120392fa31906b4f4"
+        }
+      ]
+    },
+    {
+      "id": "publish",
+      "seconds": 7,
+      "source": "demo/showcase-v196/current-ui.webm",
+      "source_sha256": "ca7c07a27dabe5f6f4abb1d83a3d74a09213b875236bb8317c771821422b0e62",
+      "from": 10,
+      "span": 4,
+      "voice": "demo/showcase-v199/voice/voice-11.wav",
+      "voice_sha256": "59535ed3ea3ab2b0a58eed233c5f77a792c4d90ba347428f534c6b026152ac82",
+      "voice_text": "Publish prepares one checked source for different screens. Preparation and confirmed delivery remain distinct.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-11-0.png",
+          "start": 0.4,
+          "end": 3,
+          "sha256": "fd0c3aafc8f71bc2bc0a58378946096b8083a218310227139966ab3620e40ebd"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-11-1.png",
+          "start": 3.1,
+          "end": 6.7,
+          "sha256": "2a9d8f2f2f7d01f2dff4e7c94a11a19cd2f86df518792cc1dee4e63e9e75aa30"
+        }
+      ]
+    },
+    {
+      "id": "architecture",
+      "seconds": 10,
+      "source": "demo/showcase-v196/sources/09-architecture.mp4",
+      "source_sha256": "275a7b4b2f03b1043c1754f35fb2291f9b4cd115601cf05edb576c2e19b0fc02",
+      "from": 0,
+      "span": 9,
+      "voice": "demo/showcase-v199/voice/voice-12.wav",
+      "voice_sha256": "d1de9ef1c741eabd15b084afad1c9ad3ee3883af4818941f3c6ec926a7f41129",
+      "voice_text": "Container Apps runs the service. Entra protects access. Foundry reviews. Blob checkpoints preserve corrections. Every stage leaves a trace.",
+      "overlays": [
+        {
+          "png": "tmp/submission-demo-v199/focus-12-0.png",
+          "start": 0.3,
+          "end": 1.9,
+          "sha256": "7690f7dda367017b3e18a535800541d312fb630a8443216dd61695ae572564c9"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-12-1.png",
+          "start": 2,
+          "end": 3.8,
+          "sha256": "f372e5b065eb9e815f8695f6deb3457209328df1f230bd114632132345a28875"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-12-2.png",
+          "start": 3.9,
+          "end": 5.3,
+          "sha256": "d0b3fc8e7060f3f2956685cd4d8da7c1891994c52ebae07e0c7f401c00402831"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-12-3.png",
+          "start": 5.4,
+          "end": 7.8,
+          "sha256": "20fb6554f3bf825ec4a2d06b98382a3016173ec9a6f54700aefee586d306f953"
+        },
+        {
+          "png": "tmp/submission-demo-v199/focus-12-4.png",
+          "start": 7.9,
+          "end": 9.7,
+          "sha256": "2eb857ea879a487f7101da5e5d97f73bf4d3850b6c65b14398eec6e271aa25fb"
+        }
+      ]
+    },
+    {
+      "id": "closing",
+      "seconds": 4,
+      "source": "dist/assets/pitchside-minute.mp4",
+      "source_sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25",
+      "from": 40,
+      "span": 4,
+      "voice": "demo/showcase-v199/voice/voice-13.wav",
+      "voice_sha256": "3a4f97ce96831d81f5d67b71f23c6bc850029a69edcd0c18222342ad4b151d1a",
+      "voice_text": "Before the Roar. Every claim earned.",
+      "overlays": []
+    }
+  ],
+  "caption_alignment": [
+    {
+      "scene": "cold-open",
+      "start": 0.08,
+      "end": 1.2201988636363637,
+      "text": "The defender moves."
+    },
+    {
+      "scene": "cold-open",
+      "start": 1.9809704545454547,
+      "end": 3.152253409090909,
+      "text": "The pass arrives."
+    },
+    {
+      "scene": "cold-open",
+      "start": 3.8832909090909093,
+      "end": 5.664090909090909,
+      "text": "Did that run create the space?"
+    },
+    {
+      "scene": "watch",
+      "start": 6.08,
+      "end": 10.085829735483872,
+      "text": "Before the Roar starts with a fictional football film."
+    },
+    {
+      "scene": "watch",
+      "start": 10.522973387096775,
+      "end": 13.88,
+      "text": "Watch the play, then watch the AI crew question what it can actually prove."
+    },
+    {
+      "scene": "understand",
+      "start": 14.08,
+      "end": 18.107701071428572,
+      "text": "For a new fan, the question is simple: who controls the next touch?"
+    },
+    {
+      "scene": "understand",
+      "start": 18.96868321428571,
+      "end": 22.279999999999998,
+      "text": "BTR shows what to watch, and where the evidence stops."
+    },
+    {
+      "scene": "measure",
+      "start": 22.479999999999997,
+      "end": 26.54649076229508,
+      "text": "The controlled synthetic replay measures players and passes from video."
+    },
+    {
+      "scene": "measure",
+      "start": 26.922884172131145,
+      "end": 29.279999999999998,
+      "text": "It is a different source from the cinematic film."
+    },
+    {
+      "scene": "first-round",
+      "start": 29.479999999999997,
+      "end": 30.932345559139783,
+      "text": "Scout sees the shift."
+    },
+    {
+      "scene": "first-round",
+      "start": 31.351080580645156,
+      "end": 32.628226413978496,
+      "text": "Guide frames the question."
+    },
+    {
+      "scene": "first-round",
+      "start": 33.17809670967742,
+      "end": 36.13731115591398,
+      "text": "Vector measures twenty-three point seven metres of passing gain."
+    },
+    {
+      "scene": "first-round",
+      "start": 36.70955577956989,
+      "end": 39.28,
+      "text": "The record still cannot say why the defender moved."
+    },
+    {
+      "scene": "viewer-challenge",
+      "start": 39.48,
+      "end": 40.57332386363637,
+      "text": "The viewer pushes back: can we credit the runner?"
+    },
+    {
+      "scene": "viewer-challenge",
+      "start": 41.12168977272727,
+      "end": 44.609545454545454,
+      "text": "The crew has to answer from the record."
+    },
+    {
+      "scene": "truth-lab",
+      "start": 44.98,
+      "end": 47.51103875280899,
+      "text": "Truth Lab changes one defender observation."
+    },
+    {
+      "scene": "truth-lab",
+      "start": 48.11238285393258,
+      "end": 49.78,
+      "text": "Thirteen metres becomes zero."
+    },
+    {
+      "scene": "corrected-round",
+      "start": 49.98,
+      "end": 51.486960227272725,
+      "text": "The movement claim falls."
+    },
+    {
+      "scene": "corrected-round",
+      "start": 52.020340909090905,
+      "end": 54.427727272727275,
+      "text": "The two completed passes still stand."
+    },
+    {
+      "scene": "receipts",
+      "start": 54.98,
+      "end": 56.59961777380953,
+      "text": "Four live model receipts."
+    },
+    {
+      "scene": "receipts",
+      "start": 57.152376630952375,
+      "end": 59.38,
+      "text": "Vector's calculation is deterministic."
+    },
+    {
+      "scene": "phone",
+      "start": 59.58,
+      "end": 62.75012272727273,
+      "text": "On the phone, the corrected story follows the fan."
+    },
+    {
+      "scene": "phone",
+      "start": 63.513617045454545,
+      "end": 66.13,
+      "text": "Same evidence, a simpler explanation."
+    },
+    {
+      "scene": "accessibility",
+      "start": 66.78,
+      "end": 73.50045454545455,
+      "text": "Captions, voice, color-safe shapes, and a transcript make that story easier to follow."
+    },
+    {
+      "scene": "publish",
+      "start": 73.78,
+      "end": 76.77633068181818,
+      "text": "Publish prepares one checked source for different screens."
+    },
+    {
+      "scene": "publish",
+      "start": 77.33615568181818,
+      "end": 80.15954545454545,
+      "text": "Preparation and confirmed delivery remain distinct."
+    },
+    {
+      "scene": "architecture",
+      "start": 80.78,
+      "end": 82.52564935714285,
+      "text": "Container Apps runs the service."
+    },
+    {
+      "scene": "architecture",
+      "start": 82.79554418877551,
+      "end": 84.26956371428571,
+      "text": "Entra protects access."
+    },
+    {
+      "scene": "architecture",
+      "start": 84.70923736734694,
+      "end": 85.52740770918368,
+      "text": "Foundry reviews."
+    },
+    {
+      "scene": "architecture",
+      "start": 86.10486276020409,
+      "end": 88.0821047142857,
+      "text": "Blob checkpoints preserve corrections."
+    },
+    {
+      "scene": "architecture",
+      "start": 88.61299037244898,
+      "end": 90.58,
+      "text": "Every stage leaves a trace."
+    },
+    {
+      "scene": "closing",
+      "start": 90.78,
+      "end": 91.75682272727272,
+      "text": "Before the Roar."
+    },
+    {
+      "scene": "closing",
+      "start": 92.4983,
+      "end": 93.69363636363636,
+      "text": "Every claim earned."
+    }
+  ],
+  "voice_master": "demo/showcase-v199/voice-master.wav",
+  "voice_master_sha256": "62447c3cddc29898dfdbc1519db59a584492981f68aa0c43738794cc048abdba",
+  "ambient_source": "dist/assets/pitchside-minute.mp4",
+  "ambient_source_sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25",
+  "live_model_requests_in_v187_capture": 8,
+  "model_requests_in_current_screen_capture": 0,
+  "boundaries": "Full-frame moving source recordings and two real Understand screenshots joined by a dissolve with post-produced focus graphics, a ball-tracking circle, Azure Speech narration mixed from one PCM master and verbatim sentence captions aligned to pauses in each voice WAV. Cinematic film, controlled synthetic video, synthetic match discussions and current product screen capture are distinct sources. The recorded challenge and correction come from an older continuous public-app capture. Truth Lab tests evidence dependence, not football causation. This edit is not independent commentary evaluation or unfamiliar broadcast-video validation."
+}

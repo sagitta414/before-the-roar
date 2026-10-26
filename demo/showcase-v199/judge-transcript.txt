@@ -1,0 +1,14 @@
+COLD-OPEN: The defender moves. The pass arrives. Did that run create the space?
+WATCH: Before the Roar starts with a fictional football film. Watch the play, then watch the AI crew question what it can actually prove.
+UNDERSTAND: For a new fan, the question is simple: who controls the next touch? BTR shows what to watch, and where the evidence stops.
+MEASURE: The controlled synthetic replay measures players and passes from video. It is a different source from the cinematic film.
+FIRST-ROUND: Scout sees the shift. Guide frames the question. Vector measures twenty-three point seven metres of passing gain. The record still cannot say why the defender moved.
+VIEWER-CHALLENGE: The viewer pushes back: can we credit the runner? The crew has to answer from the record.
+TRUTH-LAB: Truth Lab changes one defender observation. Thirteen metres becomes zero.
+CORRECTED-ROUND: The movement claim falls. The two completed passes still stand.
+RECEIPTS: Four live model receipts. Vector's calculation is deterministic.
+PHONE: On the phone, the corrected story follows the fan. Same evidence, a simpler explanation.
+ACCESSIBILITY: Captions, voice, color-safe shapes, and a transcript make that story easier to follow.
+PUBLISH: Publish prepares one checked source for different screens. Preparation and confirmed delivery remain distinct.
+ARCHITECTURE: Container Apps runs the service. Entra protects access. Foundry reviews. Blob checkpoints preserve corrections. Every stage leaves a trace.
+CLOSING: Before the Roar. Every claim earned.
