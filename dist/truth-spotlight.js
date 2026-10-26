@@ -1,5 +1,6 @@
 import {matchSession} from './match-session.js';
 import {EVIDENCE_CASES,eventComparison} from './evidence-cases.js';
+import {createNextAngle} from './next-angle.js?v=203';
 
 const copy={
  en:{cards:['01 / ORIGINAL OBSERVATION','02 / CHANGED EVIDENCE','03 / CLAIM CHECK','04 / BROADCAST LINE'],title:'Change one record. See what changes.',scope:'Controlled synthetic demonstration · no AI request. This tests dependence on an authored record. It does not establish why a defender moved.',changed:'Laurent is held at his starting position. Moreau’s run and every recorded pass stay in the dataset.',proposed:'Test an alternate record in which Laurent stays at his starting position.',withdrawn:'Withdraw the defender-movement claim. The alternate record shows no lateral movement.',supported:'Movement agrees with the original record; cause remains unproven.',pending:'Movement claim pending until the evidence moment.',change:'Change the defender’s tracking →',restore:'Restore original evidence ↺',advance:'Go to the evidence moment →',changeStatus:'1 movement claim withdrawn. The other checks remain intact.',originalStatus:'Original record active. Apply the change to compare the statements.',pendingStatus:'Advance the replay before judging the movement claim.',preserved:'Still supported: ',metric:'Lateral displacement · original → ',original:'Replay original',current:'Replay current',corrected:'Replay corrected'},
@@ -29,7 +30,8 @@ export function createTruthSpotlight({seek,toggleCorrection,pause}){
  const originalReplay=make('button','outline-button','Replay original record ↗'),currentReplay=make('button','outline-button','Replay current record ↗');
  cards[0].card.append(originalReplay);cards[3].card.append(currentReplay);
  const actions=make('div','truth-change-actions'),change=make('button','red-button'),status=make('p','truth-change-status');status.setAttribute('role','status');
- const survives=make('p','truth-change-survives');actions.append(change,status);
+ const nextAngle=createNextAngle({toggleCorrection,pause,seek});
+ const survives=make('p','truth-change-survives');actions.append(change,nextAngle.button,status);
  const proof=make('a','truth-proof-link','See the live AI evidence checks ↗');proof.href='evidence-proof.html';
  const otherCases=make('details','truth-other-cases'),caseSummary=make('summary','','Explore another evidence test');otherCases.append(caseSummary,cases);
  root.append(eyebrow,title,scope,actions,grid,survives,otherCases,proof);
@@ -43,7 +45,7 @@ export function createTruthSpotlight({seek,toggleCorrection,pause}){
   eyebrow.textContent=matchSession.get().language==='es'?'LA AFIRMACIÓN. EL CAMBIO. LA CORRECCIÓN.':matchSession.get().language==='pt'?'A AFIRMAÇÃO. A MUDANÇA. A CORREÇÃO.':'THE CLAIM. THE CHANGE. THE CORRECTION.';
   caseSummary.textContent=matchSession.get().language==='es'?'Explorar otra prueba':matchSession.get().language==='pt'?'Explorar outro teste':'Explore another evidence test';
   cards.forEach((card,index)=>card.heading.textContent=c.cards[index]);
-  current=n;root.hidden=false;eventCase=eventComparison(packet.scenario,n.time);root.dataset.kind=eventCase?"arrival":"correction";
+  current=n;root.hidden=false;eventCase=eventComparison(packet.scenario,n.time);root.dataset.kind=eventCase?"arrival":"correction";nextAngle.render(packet);
   for(const b of cases.children)b.setAttribute('aria-pressed',String(b.dataset.case===packet.scenario));
   if(eventCase){
    const e=eventCase;root.dataset.changed=String(e.arrived);title.textContent='New evidence. A more precise story.';

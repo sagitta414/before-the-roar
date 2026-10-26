@@ -38,6 +38,8 @@ Film prose is withheld until validation. Host has a source-specific editorial as
 
 Truth Lab changes one synthetic observation, recalculates the affected value, withdraws the unsupported movement claim and revises the audience story while preserving unaffected pass records. It tests dependence on evidence. It does **not** establish why a footballer moved.
 
+**Next Angle** extends that case with a production request from Check: ask whether a continuous alternate tracking view shows Laurent shifting or holding position. The viewer can receive the authored synthetic alternative or mark the view unavailable. The side-by-side R1/R2 cue shows 13.0 m → 0.0 m lateral movement, one of four checked claims changed, and two of two recorded passes completed (100%). These are descriptive values at the reached cutoff, not a probability of cause or a forecast of a match result. The cue exports as JSON with source IDs and an explicit zero-model-request label; this interaction does not invoke a new camera or Azure model.
+
 Pocket Director shares source revision and reached evidence. Local-upload pairing sends bounded evidence, not video bytes; it does not provide remote uploaded-video playback. Accessibility includes descriptive narration, captions/transcripts, reduced motion, visual signals and optional supported-device haptics.
 
 ## Evidence and current limits

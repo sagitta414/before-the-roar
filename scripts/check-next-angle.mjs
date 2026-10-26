@@ -1,0 +1,31 @@
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
+const {chromium}=require('C:/Users/Jeffl/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const origin=process.argv[2]||'http://127.0.0.1:4396';
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+for(const width of [1365,390]){
+ const page=await browser.newPage({viewport:{width,height:850},deviceScaleFactor:1});
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto(`${origin}/#truth`,{waitUntil:'domcontentloaded'});
+ await page.waitForTimeout(1100);
+ if(await page.locator('.btr-enter').isVisible().catch(()=>false))await page.locator('.btr-enter').click();
+ await page.evaluate(async()=>{const {matchSession}=await import('/match-session.js');matchSession.set({source:'match',scenario:'wide',time:0,corrected:false,section:'truth'},'next-angle-check');document.getElementById('truth-nav').click();});
+ await page.locator('.next-angle-launch').waitFor({state:'visible',timeout:10000});
+ await page.locator('.next-angle-launch').click();
+ await page.locator('.next-angle-request').click();
+ await page.screenshot({path:`tmp/next-angle-${width}-request.png`,animations:'disabled'});
+ await page.locator('.next-angle-unavailable').click();
+ if(await page.locator('.next-angle-dialog').getAttribute('data-state')!=='unavailable')throw Error('Unavailable branch did not preserve uncertainty.');
+ await page.locator('.next-angle-reset').click();
+ await page.locator('.next-angle-request').click();
+ await page.locator('.next-angle-receive').click();
+ await page.screenshot({path:`tmp/next-angle-${width}-result.png`,animations:'disabled'});
+ const state=await page.locator('.next-angle-dialog').getAttribute('data-state');
+ const readout=await page.locator('.next-angle-shift').textContent();
+ if(state!=='received'||!readout.includes('13.0 → 0.0')||errors.length)throw Error(JSON.stringify({width,state,readout,errors}));
+ await page.locator('.next-angle-reset').click();
+ if(await page.locator('.next-angle-dialog').getAttribute('data-state')!=='idle')throw Error('Reset did not restore the original record.');
+ await page.close();
+}
+await browser.close();
+console.log('Next Angle desktop and mobile interaction passed.');
