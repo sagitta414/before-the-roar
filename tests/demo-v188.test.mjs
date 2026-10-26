@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-test('the current judge cut uses recorded moving footage only and keeps its source boundaries',async()=>{
+test('the historical v188 judge cut retains its source boundaries',async()=>{
  const proof=JSON.parse(await readFile('demo/showcase-v188/judge-provenance.json','utf8'));
  const video=await readFile(proof.file);
  const html=await readFile('dist/index.html','utf8');
@@ -22,7 +22,7 @@ test('the current judge cut uses recorded moving footage only and keeps its sour
  assert.equal(sha(await readFile(proof.measured_replay)),proof.measured_replay_sha256);
  assert.match(proof.boundaries,/separate sources/);
  assert.match(proof.boundaries,/zero new requests/);
- assert.match(html,/before-the-roar-judge-v188\.mp4/);
- assert.match(player,/before-the-roar-judge-v188\.mp4/);
- assert.match(html,/youtu\.be\/aj7AkCHKnrc/);
+ assert.match(html,/before-the-roar-judge-v196\.mp4/);
+ assert.match(player,/before-the-roar-judge-v196\.mp4/);
+ assert.match(html,/youtu\.be\/FdRgFbkYKDs/);
 });

@@ -45,19 +45,21 @@ const cuts = {
     ]
   },
   "short": {
-    "src": "assets/before-the-roar-judge-v188.mp4",
-    "poster": "assets/demo-v188-poster.jpg",
-    "label": "1:39 · MOVING PRODUCT DEMO · CAPTIONED",
+    "src": "assets/before-the-roar-judge-v196.mp4",
+    "poster": "assets/demo-v196-poster.jpg",
+    "label": "1:57 · MOVING PRODUCT DEMO · CAPTIONED",
     "chapters": [
       [4, "The cinematic film"],
-      [17, "Opening specialist round"],
-      [28, "Viewer challenge in Watch"],
-      [40, "Truth Lab correction"],
-      [47, "Corrected AI round"],
-      [58, "AI desk receipts"],
-      [66, "Pocket Director"],
-      [76, "Publish"],
-      [85, "Architecture"]
+      [17, "Understand the play"],
+      [27, "Opening specialist round"],
+      [38, "Viewer challenge in Watch"],
+      [50, "Truth Lab correction"],
+      [57, "Corrected AI round"],
+      [68, "AI desk receipts"],
+      [76, "Pocket Director"],
+      [86, "Accessibility Director"],
+      [94, "Publish"],
+      [103, "Architecture"]
     ]
   }
 };

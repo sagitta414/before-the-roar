@@ -1,4 +1,6 @@
-# Before the Roar — current 1:39 judge video
+# Before the Roar — archived 1:39 judge video
+
+> This is a historical edit. Use the [current v196 video and submission draft](HACKATHON-SUBMISSION.md) for the hackathon submission.
 
 The current [v188 judge cut](../dist/assets/before-the-roar-judge-v188.mp4) is available from **Watch Demo** in the public app. Every scene uses moving fictional football or recorded product UI; there are no static proof cards. The expanded v185 tour remains an earlier edit.
 

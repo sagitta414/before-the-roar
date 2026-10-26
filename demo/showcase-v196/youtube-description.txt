@@ -1,0 +1,8 @@
+Before the Roar — a synthetic football moment, explained and corrected.
+
+Watch a fictional match moment move through BTR's five-stage workflow. A viewer challenges the crew, Truth Lab changes a synthetic defender record, and the revised explanation preserves the passing facts that still hold. Current Understand, Publish and Accessibility Director views are included.
+
+The cinematic minute and measured synthetic replay are separate sources. The film is not calibrated tracking footage. This edited demo uses recorded public-app sessions; voice and captions were added in post. The correction tests evidence dependence, not football causation. It does not claim general broadcast-video recognition or independently proven commentary superiority.
+
+App: https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/
+Source: https://github.com/sagitta414/before-the-roar

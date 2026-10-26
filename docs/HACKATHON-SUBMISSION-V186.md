@@ -1,5 +1,7 @@
 # Before the Roar — judge-facing submission draft
 
+> **ARCHIVED — DO NOT COPY INTO DEVPOST.** This v186 draft contains an older demo URL and predates the current product. Use [the current submission draft](HACKATHON-SUBMISSION.md) instead. The four Azure model specialists named below describe the synthetic-match discussion, not the separate film desk.
+
 **Status:** Draft for review. This file does not enter the hackathon or accept its terms.
 
 ## One-line pitch

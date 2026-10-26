@@ -10,6 +10,7 @@ BTR is an explainable football studio built around fictional football. It connec
 - [Pocket Director](https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/pocket-director.html)
 - [Release evidence and limitations](docs/RELEASE.md)
 - [Judge walkthrough](docs/JUDGE-DEMO.md)
+- [Current submission draft](docs/HACKATHON-SUBMISSION.md)
 - [Independent viewer review](https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/review-v182.html)
 
 Open Watch for the cinematic film and its Watch Party. The separate 60-second defining-moment demonstration is opt-in. The five main stages are **Watch → Understand → Measure → Challenge → Publish**. Engineers and Secure are supporting proof destinations.
@@ -49,7 +50,7 @@ Pocket Director shares source revision and reached evidence. Local-upload pairin
 
 ## Video package
 
-The in-app **Watch Demo** button offers the [public 1:39 moving-footage judge cut](https://youtu.be/aj7AkCHKnrc) and the earlier expanded product tour (v185). The cut shows the cinematic film, separate measured replay, a saved public-app opening discussion, then [one public browser capture](demo/showcase-v187/capture.json) of a viewer challenge, Truth Lab tracking correction, and fresh corrected round. Those two captured discussions used eight new Azure model requests; Vector remained deterministic. Earlier recorded phone, Publish, and architecture footage completes the tour. Every scene is moving footage; no static proof cards are used. The [v188 provenance](demo/showcase-v188/judge-provenance.json) identifies each source and edit. Azure AI Speech narration was added in editing, not generated live by the agents. This is a development demonstration, not independent evidence that the crew outperforms one model.
+The in-app **Watch Demo** button offers the [public 1:57 moving-footage judge cut](https://youtu.be/FdRgFbkYKDs) and the earlier expanded product tour (v185). The cut shows the cinematic film, separate measured replay, current Understand view, a saved public-app opening discussion, then [one public browser capture](demo/showcase-v187/capture.json) of a viewer challenge, Truth Lab tracking correction, and fresh corrected round. Those two captured discussions used eight Azure model requests; Vector remained deterministic. Enlarged receipts, Pocket Director, current Accessibility Director and Publish views, and the architecture complete the tour. Every scene is moving footage; no static proof cards are used. The [v196 provenance](demo/showcase-v196/judge-provenance.json) identifies each source and edit. Azure AI Speech narration was added in editing, not generated live by the agents. This is a development demonstration, not independent evidence that the crew outperforms one model.
 
 ## Run and verify
 
