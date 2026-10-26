@@ -30,6 +30,7 @@ A scoreline cannot tell a new fan what to watch next or a producer which sentenc
 - **Public GitHub repository:** https://github.com/sagitta414/before-the-roar
 - **Current judge video (public YouTube):** https://youtu.be/SKLyG0z_bEc (higher-bitrate 1080p 1:53 cut; changed record → withdrawn claim → updated studio and phone, with burned-in captions and added Azure AI Speech narration)
 - **Direct MP4 backup:** https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/before-the-roar-judge-v206.mp4
+- **Download the 1080p MP4:** https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/before-the-roar-judge-v206.mp4?download=1
 - **Video provenance:** [v206 edit](../demo/showcase-v206/judge-provenance.json), [v206 callouts](../demo/showcase-v206/proof/judge-provenance.json), [v206 source edit](../demo/showcase-v206/base/judge-provenance.json)
 
 To evaluate, start in Watch and play the film. Switch to the synthetic match and inspect one specialist discussion and its AI desk receipts. In Measure, load the included fictional evaluation clip; the marker-based detector is for controlled fixed-camera footage. In Truth Lab, change the defender record and compare R1 with R2. Then inspect the revised audience line and delivery states in Publish. On a phone, open Pocket Director for the beginner and accessibility views.

@@ -868,6 +868,13 @@ export function createApp({
         "Cache-Control": extname(path) === ".mp4" ? "public,max-age=86400" : "no-cache",
         "Accept-Ranges": "bytes",
       };
+      if (
+        route === "/assets/before-the-roar-judge-v206.mp4" &&
+        new URL(req.url, "http://local").searchParams.get("download") === "1"
+      ) {
+        headers["Content-Disposition"] =
+          'attachment; filename="before-the-roar-judge-v206.mp4"';
+      }
       const range = req.headers.range?.match(/^bytes=(\d+)-(\d*)$/);
       let start = 0,
         end = info.size - 1,

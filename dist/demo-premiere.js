@@ -94,7 +94,11 @@ function selectCut(name) {
   video.load();
   video.setAttribute("aria-label", name === "short" ? "Before the Roar hackathon demo" : "Before the Roar expanded product showcase");
   const link = dialog.querySelector(".final-demo-actions a");
-  if (link) link.href = cuts[name].src;
+  if (link) {
+    link.href = `${cuts[name].src}?download=1`;
+    link.download = cuts[name].src.split("/").pop();
+    link.textContent = name === "short" ? "Download HD video ↓" : "Download full tour ↓";
+  }
   const label = dialog.querySelector(".final-demo-player > span");
   if (label) label.textContent = cuts[name].label;
   document.querySelectorAll("[data-demo-cut]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.demoCut === name)));
