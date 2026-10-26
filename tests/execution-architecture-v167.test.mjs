@@ -22,5 +22,5 @@ test('security hero exposes a compact status-labelled event-to-output path',asyn
   assert.match(css,/grid-template-columns:repeat\(5/);
   assert.match(css,/data-status=roadmap/);
   assert.match(html,/execution-architecture\.css\?v=167/);
-  assert.match(html,/analysis-sections\.js\?v=194/);
+  assert.match(html,/analysis-sections\.js\?v=204/);
 });

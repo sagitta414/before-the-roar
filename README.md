@@ -15,6 +15,8 @@ BTR is an explainable football studio built around fictional football. It connec
 
 Open Watch for the cinematic film and its Watch Party. The separate 60-second defining-moment demonstration is opt-in. The five main stages are **Watch → Understand → Measure → Challenge → Publish**. Engineers and Secure are supporting proof destinations.
 
+Understand now shows plain-language **Kick outcomes** at the current synthetic playhead: passes reaching teammates, shots on target, and goals from shots for the selected team. Each percentage includes its count, waits until a completed attempt exists, and marks tiny samples as descriptive rather than predictive. The separate Match Lab retains its explicitly labelled next-pass baseline.
+
 ## What the sources mean
 
 | Source | Supported use | Not established |
