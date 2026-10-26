@@ -22,7 +22,6 @@ test('the historical v188 judge cut retains its source boundaries',async()=>{
  assert.equal(sha(await readFile(proof.measured_replay)),proof.measured_replay_sha256);
  assert.match(proof.boundaries,/separate sources/);
  assert.match(proof.boundaries,/zero new requests/);
- assert.match(html,/before-the-roar-judge-v196\.mp4/);
- assert.match(player,/before-the-roar-judge-v196\.mp4/);
- assert.match(html,/youtu\.be\/FdRgFbkYKDs/);
+ assert.match(html,/before-the-roar-judge-v197\.mp4/);
+ assert.match(player,/before-the-roar-judge-v197\.mp4/);
 });

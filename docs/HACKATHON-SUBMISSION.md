@@ -28,13 +28,13 @@ A scoreline cannot tell a new fan what to watch next or a producer which sentenc
 
 - **Public app:** https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/
 - **Public GitHub repository:** https://github.com/sagitta414/before-the-roar
-- **Current public judge video:** https://youtu.be/FdRgFbkYKDs (1:57; edited moving footage with burned-in captions and added Azure AI Speech narration)
-- **Video provenance:** [scene sources, hashes, and edit boundaries](../demo/showcase-v196/judge-provenance.json)
+- **Current judge video:** https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/before-the-roar-judge-v197.mp4 (full-frame 1:32 MP4 with moving product footage, timed circles and highlights, burned-in captions, and added Azure AI Speech narration)
+- **Video provenance:** [scene sources, hashes, and edit boundaries](../demo/showcase-v197/judge-provenance.json)
 
 To evaluate, start in Watch and play the film. Switch to the synthetic match and inspect one specialist discussion and its AI desk receipts. In Measure, load the included fictional evaluation clip; the marker-based detector is for controlled fixed-camera footage. In Truth Lab, change the defender record and compare R1 with R2. Then inspect the revised audience line and delivery states in Publish. On a phone, open Pocket Director for the beginner and accessibility views.
 
 ## Evidence limits
 
-The current edited video demonstrates the workflow, including the updated Understand, Publish and color-vision controls and more readable discussion and receipt captures. Accessible Replay remains best inspected in the live app. The filmed 8-request two-round capture is a development demonstration, not independent evidence that the crew beats one model. The controlled synthetic detector is not validated for arbitrary unfamiliar broadcast video. The cinematic film and measured source are separate. No real Premier League match data is supplied by the app.
+The current edited video demonstrates the workflow, including the updated Understand, Publish and color-vision controls, with full-screen discussion and receipt captures. Accessible Replay remains best inspected in the live app. The filmed 8-request two-round capture is a development demonstration, not independent evidence that the crew beats one model. The controlled synthetic detector is not validated for arbitrary unfamiliar broadcast video. The cinematic film and measured source are separate. No real Premier League match data is supplied by the app.
 
 Verify the final public links and actual hackathon form before **October 27, 2026 at 11:59 p.m. Pacific**. This repository draft is not evidence of submission. [Official rules](https://github.com/microsoft/insidethegamehackathon/blob/main/OFFICIAL%20RULES.md).
