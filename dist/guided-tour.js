@@ -142,7 +142,7 @@ score.append(clock);
 screen.append(score);
 const pitchNode = el("div", "guided-pitch");
 const visual=el('div','guided-visual'),actionFilm=el('video','guided-action-film');
-actionFilm.src='assets/pitchside-minute.mp4';actionFilm.poster='assets/pitchside-minute-poster.jpg';actionFilm.muted=true;actionFilm.loop=true;actionFilm.playsInline=true;actionFilm.preload='metadata';actionFilm.setAttribute('aria-label','AI-generated fictional football companion film');
+actionFilm.src='assets/pitchside-minute-clean.mp4';actionFilm.poster='assets/pitchside-minute-clean-poster.jpg';actionFilm.muted=true;actionFilm.loop=true;actionFilm.playsInline=true;actionFilm.preload='metadata';actionFilm.setAttribute('aria-label','AI-generated fictional football companion film');
 const filmScope=el('span','guided-visual-scope','FICTIONAL COMPANION FILM · OBSERVATIONS ONLY');
 visual.append(actionFilm,pitchNode,filmScope);screen.append(visual);
 const pitch = createMatchPitch(pitchNode, () => {});

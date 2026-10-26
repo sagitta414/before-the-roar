@@ -10,8 +10,6 @@ test('naturally paced judge cut keeps voice, captions, and full-screen footage a
   const record = JSON.parse(await readFile('demo/showcase-v200/judge-provenance.json', 'utf8'));
   const script = JSON.parse(await readFile('scripts/demo-v199-voice.json', 'utf8'));
   const video = await readFile(record.file);
-  const html = await readFile('dist/index.html', 'utf8');
-  const player = await readFile('dist/demo-premiere.js', 'utf8');
   const renderer = await readFile('scripts/render-demo-v200.mjs', 'utf8');
   const srt = await readFile('demo/showcase-v200/judge.srt', 'utf8');
   assert.equal(record.version, 200);
@@ -43,8 +41,6 @@ test('naturally paced judge cut keeps voice, captions, and full-screen footage a
   const voiceLength = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', record.voice_master], { encoding: 'utf8' });
   assert.equal(voiceLength.status, 0);
   assert.ok(Math.abs(Number(voiceLength.stdout) - record.scenes.reduce((sum, scene) => sum + scene.seconds, 0)) < 0.005);
-  assert.match(html, /before-the-roar-judge-v200\.mp4/);
-  assert.match(player, /before-the-roar-judge-v200\.mp4/);
   const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'stream=codec_type,start_time', '-of', 'json', record.file], { encoding: 'utf8' });
   assert.equal(probe.status, 0, probe.stderr);
   const streams = JSON.parse(probe.stdout).streams;

@@ -28,8 +28,8 @@ test('a media error resolves pending play and can recover without resetting the 
 test('scene-local files preserve the global evidence clock at every cut and in full-reel mode',()=>{
  for(const time of [0,.25,7.958333,8,16,23.958333,24,32,40,48,51.958333,52,59.958333,60]){
   const p=mediaPlan({clipTime:time,studyScene:true});assert.equal(globalMediaTime(p,localMediaTime(p,time)),time);
-  assert.ok(p.src.startsWith('assets/pitchside-scene-'));if(optionalMedia){assert.ok(fs.existsSync('dist/'+p.src));assert.ok(fs.existsSync('dist/'+p.poster));}
-  const reel=mediaPlan({clipTime:time,studyScene:false});assert.equal(reel.offset,0);assert.equal(reel.duration,60);assert.equal(reel.src,'assets/pitchside-minute.mp4');
+  assert.ok(p.src.startsWith('assets/pitchside-clean-scene-'));if(optionalMedia){assert.ok(fs.existsSync('dist/'+p.src));assert.ok(fs.existsSync('dist/'+p.poster));}
+  const reel=mediaPlan({clipTime:time,studyScene:false});assert.equal(reel.offset,0);assert.equal(reel.duration,60);assert.equal(reel.src,'assets/pitchside-minute-clean.mp4');
  }
  const p=mediaPlan({source:'match',scenario:'press',time:29});assert.equal(p.src,'assets/press-film.mp4');assert.equal(localMediaTime(p,29),29);
 });
@@ -52,7 +52,7 @@ test('a seek can become playable through canplay without a second loadeddata eve
 });
 
 test('a fresh session plays the full minute across every cut and reaches the complete recap',()=>{
- const session=createSession({source:'pitchside'}),initial=mediaPlan(session.get());assert.equal(initial.src,'assets/pitchside-minute.mp4');assert.equal(initial.duration,60);
+ const session=createSession({source:'pitchside'}),initial=mediaPlan(session.get());assert.equal(initial.src,'assets/pitchside-minute-clean.mp4');assert.equal(initial.duration,60);
  for(const scene of FILM_SCENES){
   const state=session.get(),next=scenePlayback(scene.end-.1,Math.min(60,scene.end+.1),state.studyScene);
   assert.equal(next.stop,false);session.set({clipTime:next.time},'film');

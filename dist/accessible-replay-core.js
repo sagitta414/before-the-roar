@@ -44,7 +44,7 @@ export function buildAccessibleReplay(session){
  const scenario=SCENARIOS.find(item=>item.id===session.scenario)||SCENARIOS[0];
  const cues=source==='match'?matchCues(session,start,end,language):filmCues(session,start,end,language);
  const final=source==='match'?matchStory({...session,time:end,mode:'beginner'}):pitchsideStory({time:end,language,mode:'beginner',clipChallenge:session.clipChallenge});
- return {source,scenario:scenario.id,language,start,end,duration,revision:final.revision,video:source==='match'?`assets/${scenario.id}-film.mp4`:'assets/pitchside-minute.mp4',poster:source==='match'?`assets/${scenario.id}-poster.jpg`:'assets/pitchside-minute-poster.jpg',cues,summary:final.body,limit:source==='match'?phrase[language].matchLimit:phrase[language].filmLimit,labels:phrase[language],evidenceIds:[...new Set(cues.flatMap(cue=>cue.evidenceIds||[]))]};
+ return {source,scenario:scenario.id,language,start,end,duration,revision:final.revision,video:source==='match'?`assets/${scenario.id}-film.mp4`:'assets/pitchside-minute-clean.mp4',poster:source==='match'?`assets/${scenario.id}-poster.jpg`:'assets/pitchside-minute-clean-poster.jpg',cues,summary:final.body,limit:source==='match'?phrase[language].matchLimit:phrase[language].filmLimit,labels:phrase[language],evidenceIds:[...new Set(cues.flatMap(cue=>cue.evidenceIds||[]))]};
 }
 
 export function replayCueAt(plan,time){return [...plan.cues].reverse().find(cue=>cue.at<=time+.05)||plan.cues[0];}

@@ -205,7 +205,7 @@ recoveryFilm.controls = true;
 recoveryFilm.muted = true;
 recoveryFilm.playsInline = true;
 recoveryFilm.preload = "none";
-recoveryFilm.src = "assets/pitchside-minute.mp4";
+recoveryFilm.src = "assets/pitchside-minute-clean.mp4";
 recoveryFilm.setAttribute(
   "aria-label",
   "Independent full-minute playback during worker recovery",

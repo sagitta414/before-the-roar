@@ -45,8 +45,8 @@ const cuts = {
     ]
   },
   "short": {
-    "src": "assets/before-the-roar-judge-v200.mp4",
-    "poster": "assets/demo-v200-poster.jpg",
+    "src": "assets/before-the-roar-judge-v201.mp4",
+    "poster": "assets/demo-v201-poster.jpg",
     "label": "1:55 · NATURAL PACE · FULL SCREEN · CAPTIONED",
     "chapters": [
       [0, "The football moment"],

@@ -6,7 +6,7 @@ import {buildAccessibleReplay,replayCueAt} from '../dist/accessible-replay-core.
 
 test('accessible film replay stops at the reached cutoff and uses only reviewed beats',()=>{
  const plan=buildAccessibleReplay({...DEFAULT_SESSION,source:'pitchside',clipTime:6,language:'en'});
- assert.equal(plan.start,0);assert.equal(plan.end,6);assert.match(plan.video,/pitchside-minute\.mp4$/);
+ assert.equal(plan.start,0);assert.equal(plan.end,6);assert.match(plan.video,/pitchside-minute-clean\.mp4$/);
  assert.ok(plan.cues.every(cue=>cue.at<=6));
  assert.ok(plan.cues.every(cue=>typeof cue.detail==='string'));
  assert.ok(plan.evidenceIds.every(id=>!id.includes('reception')));

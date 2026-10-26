@@ -10,7 +10,7 @@ test('Pocket Director presents one mobile task per tab and preserves the evidenc
  assert.equal(doc.querySelectorAll('.app-screen').length,4);
  assert.equal(doc.querySelectorAll('.mode-rack [data-mode]').length,5);
  assert.ok(doc.querySelector('[data-screen="live"] .hero-image'));
- assert.equal(doc.querySelector('#hero-film source')?.getAttribute('src'),'assets/pitchside-minute.mp4');
+ assert.equal(doc.querySelector('#hero-film source')?.getAttribute('src'),'assets/pitchside-minute-clean.mp4');
  assert.equal(doc.querySelectorAll('.club-crest').length,3);
  assert.ok(doc.querySelector('[data-screen="live"] .match-dashboard'));
  assert.equal(doc.querySelectorAll('.metric-grid article').length,4);

@@ -1,0 +1,10 @@
+{
+  "schema": "btr.fictional-film-presentation-edit.v1",
+  "source": "dist/assets/pitchside-minute.mp4",
+  "source_sha256": "b9f752270a60bc2805e74f6300e8deba3f078ea4138906da9296884d0b27ed25",
+  "presentation": "dist/assets/pitchside-minute-clean.mp4",
+  "presentation_sha256": "fcd5292a8f73ece44317734efab6b8845a1212c784e7c6c5606ddc532643fa83",
+  "method": "Tracked jersey-surface inpainting of visible generated shirt marks; no ball, motion, timing, or match-event data changed. Original generated master retained for provenance.",
+  "measurement_source": false,
+  "shot_continuity_claim": false
+}

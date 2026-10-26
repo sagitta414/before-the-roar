@@ -5,7 +5,7 @@ import {FILM_SCENES} from './film-math.js';
 export function mediaPlan({source='pitchside',scenario='wide',clipTime=0,time=0,studyScene=false}={}){
  if(source==='match')return {src:`assets/${scenario}-film.mp4`,poster:`assets/${scenario}-poster.jpg`,offset:0,duration:36,time};
  const i=Math.max(0,FILM_SCENES.findLastIndex(s=>s.start<=Math.max(0,Math.min(60,clipTime)))),scene=FILM_SCENES[i];
- return {src:studyScene?`assets/pitchside-scene-${i}.mp4`:'assets/pitchside-minute.mp4',poster:`assets/vision/frame-${String(Math.floor(scene.start)).padStart(2,'0')}.jpg`,offset:studyScene?scene.start:0,duration:studyScene?scene.end-scene.start:60,time:clipTime};
+ return {src:studyScene?`assets/pitchside-clean-scene-${i}.mp4`:'assets/pitchside-minute-clean.mp4',poster:`assets/pitchside-clean-scene-${i}.jpg`,offset:studyScene?scene.start:0,duration:studyScene?scene.end-scene.start:60,time:clipTime};
 }
 export const localMediaTime=(plan,time)=>Math.max(0,Math.min(plan.duration,time-plan.offset));
 export const globalMediaTime=(plan,time)=>plan.offset+Math.max(0,Math.min(plan.duration,time));

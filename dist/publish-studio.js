@@ -18,7 +18,7 @@ if(root){
    <article class="publish-preview publish-transmission">
     <div class="publish-preview-top"><span>PROGRAM / HARBOR v NORTHBRIDGE</span><div><span class="publish-on-air">PREVIEW</span><b>HARBOR</b><strong>0–0</strong><b>NORTHBRIDGE</b><time data-publish-clock></time></div></div>
     <div class="publish-frame">
-     <img class="publish-film-image" src="assets/pitchside-minute-poster.jpg" alt="Frame from the separately edited fictional cinematic film">
+     <img class="publish-film-image" src="assets/pitchside-minute-clean-poster.jpg" alt="Frame from the separately edited fictional cinematic film">
      <div class="publish-match-image" hidden role="img" aria-label="Illustrative pitch for the synthetic Harbor and Northbridge story; player dots are schematic, not measured positions or video footage"><div class="publish-match-pitch"><i class="publish-midline"></i><i class="publish-circle"></i><i class="publish-box publish-box-left"></i><i class="publish-box publish-box-right"></i><i class="publish-player harbor p1"></i><i class="publish-player harbor p2"></i><i class="publish-player harbor p3"></i><i class="publish-player north p4"></i><i class="publish-player north p5"></i><i class="publish-player north p6"></i><i class="publish-ball"></i><i class="publish-pass"></i></div><span>SYNTHETIC MATCH · ILLUSTRATIVE POSITIONS</span></div>
      <div class="publish-source-badge" data-publish-source></div>
      <div class="publish-scorebug"><b>BTR</b><span>HBR</span><strong>0–0</strong><span>NBR</span><time data-publish-clock></time></div>
