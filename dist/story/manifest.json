@@ -1,0 +1,107 @@
+[
+  {
+    "number": 1,
+    "title": "THE SCORELINE ISN'T THE STORY.",
+    "description": "Football's decisive movements often happen before a shot. Many viewers never see why a moment matters.",
+    "image": "story/01-the-problem.png",
+    "source": "AI-GENERATED FICTIONAL FILM"
+  },
+  {
+    "number": 2,
+    "title": "DID THE RUN CAUSE IT?",
+    "description": "A defender shifts. A pass arrives. Did the runner cause it—or are we seeing two movements at once?",
+    "image": "story/02-the-question.png",
+    "source": "AI-GENERATED FICTIONAL FILM"
+  },
+  {
+    "number": 3,
+    "title": "START WITH THE PLAY.",
+    "description": "A cinematic minute draws fans in. The Watch Party keeps the film separate from measured evidence.",
+    "image": "story/03-watch-the-play.png",
+    "source": "REAL BTR INTERFACE / REVIEWED FILM"
+  },
+  {
+    "number": 4,
+    "title": "FIVE ROLES. ONE STANDARD.",
+    "description": "Scout observes. Guide teaches. Vector calculates. Check challenges. Host brings the answer together.",
+    "image": "story/04-meet-the-crew.png",
+    "source": "AI-GENERATED FICTIONAL PRESENTER PORTRAITS"
+  },
+  {
+    "number": 5,
+    "title": "MAKE FOOTBALL MAKE SENSE.",
+    "description": "A new fan learns what an off-ball run is and what to watch on the very next touch.",
+    "image": "story/05-understand.png",
+    "source": "REAL BTR INTERFACE / BEGINNER VIEW"
+  },
+  {
+    "number": 6,
+    "title": "MEASURE THE EVIDENCE.",
+    "description": "A calibrated synthetic replay reports identity, passes, distance, difficulty and speeds where the pixels support them.",
+    "image": "story/06-measure.png",
+    "source": "REAL BTR INTERFACE / CONTROLLED MEASUREMENT"
+  },
+  {
+    "number": 7,
+    "title": "FROM VIDEO TO EVENTS.",
+    "description": "The fixed-camera training clip tracks marked fictional players and a visible ball. Broadcast footage remains unvalidated.",
+    "image": "story/07-automatic-events.png",
+    "source": "CONTROLLED SYNTHETIC TRAINING VIDEO"
+  },
+  {
+    "number": 8,
+    "title": "WHAT CAN WE PROVE?",
+    "description": "A fan challenges the claim: did the run cause the defender to move? The crew must separate observation from inference.",
+    "image": "story/08-viewer-challenge.png",
+    "source": "REAL BTR INTERFACE / RECORDED CHALLENGE"
+  },
+  {
+    "number": 9,
+    "title": "CHANGE ONE RECORD.",
+    "description": "Truth Lab changes the defender's recorded displacement from 13.0 m to 0.0 m.",
+    "image": "story/09-change-the-record.png",
+    "source": "REAL BTR INTERFACE / SYNTHETIC WHAT-IF"
+  },
+  {
+    "number": 10,
+    "title": "WITHDRAW THE CLAIM.",
+    "description": "The movement explanation comes off air. Two completed passes remain supported by their own records.",
+    "image": "story/10-withdraw-the-claim.png",
+    "source": "REAL BTR INTERFACE / CORRECTED ROUND"
+  },
+  {
+    "number": 11,
+    "title": "BOTH SCREENS UPDATE.",
+    "description": "The same correction reaches the studio and Pocket Director. Fans receive a revised story, not a silent rewrite.",
+    "image": "story/11-both-screens-update.png",
+    "source": "REAL BTR INTERFACE / PAIRED PHONE CAPTURE"
+  },
+  {
+    "number": 12,
+    "title": "FEEL EVERY MOMENT.",
+    "description": "Captions, spoken descriptions, simpler language and color-safe markers offer different ways into the same play.",
+    "image": "story/12-accessibility.png",
+    "source": "REAL BTR INTERFACE / ACCESSIBILITY DIRECTOR"
+  },
+  {
+    "number": 13,
+    "title": "ONE STORY. THREE OUTPUTS.",
+    "description": "Prepare studio, streaming and phone views from one checked source revision, with delivery state shown separately.",
+    "image": "story/13-publish.png",
+    "source": "REAL BTR INTERFACE / OUTPUT DIRECTOR"
+  },
+  {
+    "number": 14,
+    "title": "SHOW THE RECEIPTS.",
+    "description": "Execution IDs distinguish Azure model requests, deterministic calculation, saved replay and recovery.",
+    "image": "story/14-tool-receipts.png",
+    "source": "REAL BTR INTERFACE / LIVE RECEIPTS"
+  },
+  {
+    "number": 15,
+    "title": "FROM PLAY TO PROOF.",
+    "description": "Container Apps, Azure OpenAI, Foundry and Blob Storage connect the event, specialist review, ledger and outputs.",
+    "image": "story/15-azure-architecture.png",
+    "source": "REAL BTR INTERFACE / AZURE ARCHITECTURE"
+  }
+]

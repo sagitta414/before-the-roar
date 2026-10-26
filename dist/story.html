@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#080d16" />
+    <meta name="description" content="Fifteen images tell the Before the Roar story: the football problem, the AI investigation, evidence correction, and the fan experience." />
+    <meta property="og:title" content="Before the Roar — The 15-image story" />
+    <meta property="og:description" content="One football moment. Five specialist roles. A correctable story for every fan." />
+    <meta property="og:image" content="https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/story/01-the-problem.png" />
+    <title>BTR — The visual story</title>
+    <style>
+      :root { color-scheme: dark; font-family: Arial, Helvetica, sans-serif; background: #080d16; color: #f5f8fc; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: radial-gradient(circle at 80% 0%, #17283c 0, #080d16 38%); }
+      a { color: inherit; }
+      button { font: inherit; cursor: pointer; }
+      .topline { height: 5px; background: #fd305d; }
+      .shell { width: min(100% - 42px, 1550px); margin: auto; }
+      header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 0; border-bottom: 1px solid #29384a; }
+      .brand { font-family: Impact, Arial Black, sans-serif; font-size: 31px; font-style: italic; text-decoration: none; letter-spacing: .02em; }
+      .brand span { color: #fd305d; }
+      header nav { display: flex; gap: 24px; flex-wrap: wrap; font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+      header nav a { text-decoration: none; color: #c1d0e1; }
+      header nav a:hover, header nav a:focus-visible { color: #e7ff3f; }
+      .hero { padding: 32px 0 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(270px, 420px); gap: 35px; align-items: end; }
+      .eyebrow { color: #e7ff3f; font-size: 13px; font-weight: 900; letter-spacing: .17em; text-transform: uppercase; }
+      h1, h2 { font-family: Impact, Arial Black, sans-serif; font-weight: 400; text-transform: uppercase; }
+      h1 { font-size: clamp(48px, 6.5vw, 96px); line-height: .95; letter-spacing: .005em; margin: 14px 0 17px; }
+      h1 em { font-style: normal; color: #fd305d; }
+      .lede { font-size: clamp(18px, 2vw, 25px); line-height: 1.42; color: #d9e4ee; max-width: 780px; margin: 0; }
+      .hero-note { border-left: 3px solid #fd305d; padding: 18px 0 18px 23px; background: linear-gradient(90deg,#17233988,transparent); }
+      .hero-note strong { display: block; font-size: 14px; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 12px; }
+      .hero-note p { margin: 0; color: #b7c9d8; line-height: 1.48; font-size: 15px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 24px; }
+      .action { border: 1px solid #53708c; color: #f5f8fc; background: #162438; padding: 14px 19px; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .07em; }
+      .action.primary { background: #fd305d; border-color: #fd305d; color: #080d16; }
+      .action:hover, .action:focus-visible { border-color: #e7ff3f; outline: none; }
+      .viewer { border: 1px solid #34495f; background: #0c1420; box-shadow: 0 24px 70px #0008; }
+      .viewer-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #26374a; }
+      .viewer-top strong { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
+      .viewer-top span { color: #e7ff3f; font-weight: 800; font-size: 14px; white-space: nowrap; }
+      .stage { display: block; width: 100%; }
+      .stage img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; }
+      .stage:focus-visible { outline: 3px solid #e7ff3f; outline-offset: -3px; }
+      .viewer-bottom { padding: 20px 25px 24px; display: flex; justify-content: space-between; gap: 20px; align-items: end; }
+      .viewer-bottom h2 { font-size: clamp(28px, 4vw, 52px); margin: 7px 0 9px; }
+      .viewer-bottom p { margin: 0; max-width: 790px; color: #bfd0df; line-height: 1.48; }
+      .source { font-size: 11px; color: #9fb8c9; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+      .pager { display: flex; gap: 8px; }
+      .pager button { border: 1px solid #4f6b84; background: #162438; color: white; padding: 12px 15px; min-width: 48px; }
+      .pager button:hover, .pager button:focus-visible { background: #fd305d; border-color: #fd305d; color: #080d16; }
+      .grid-title { margin: 52px 0 18px; display: flex; align-items: baseline; justify-content: space-between; gap: 15px; }
+      .grid-title h2 { font-size: 39px; margin: 0; }
+      .grid-title p { margin: 0; color: #a8bfd0; }
+      .grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; padding-bottom: 56px; }
+      .card { border: 1px solid #30445b; background: #111d2e; color: inherit; padding: 0; text-align: left; }
+      .card:hover, .card:focus-visible, .card[aria-current="true"] { border-color: #e7ff3f; outline: none; }
+      .card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+      .card div { padding: 15px 17px 18px; }
+      .card small { color: #e7ff3f; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+      .card strong { display: block; font-size: 18px; margin: 7px 0 0; }
+      footer { border-top: 1px solid #30445b; padding: 26px 0 40px; color: #9bb2c3; font-size: 14px; line-height: 1.5; }
+      @media (max-width: 800px) { .hero { display: block; padding-top: 38px; } .hero-note { margin-top: 25px; } .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .viewer-bottom { display: block; } .pager { margin-top: 18px; } }
+      @media (max-width: 500px) { .shell { width: min(100% - 24px, 1550px); } header { align-items: flex-start; } header nav { gap: 10px; font-size: 11px; } .grid { grid-template-columns: 1fr; } .grid-title { display: block; } .actions .action { flex: 1 1 100%; text-align: center; } }
+    </style>
+  </head>
+  <body>
+    <div class="topline"></div>
+    <div class="shell">
+      <header>
+        <a class="brand" href="./" aria-label="Before the Roar home">BTR<span>›</span></a>
+        <nav aria-label="Story links"><a href="./">Explore the app</a><a href="evidence-room.html">Inspect the evidence</a><a href="https://youtu.be/SKLyG0z_bEc">Watch the demo</a></nav>
+      </header>
+      <main>
+        <section class="hero">
+          <div>
+            <p class="eyebrow">The BTR visual story / 15 images</p>
+            <h1>THE GAME HAS<br /><em>MORE TO SAY.</em></h1>
+            <p class="lede">A score tells you what happened. Before the Roar asks why a moment matters, checks what the evidence can support, and tells that story differently for every fan.</p>
+          </div>
+          <div class="hero-note">
+            <strong>What you are seeing</strong>
+            <p>These images combine the app’s real interface, frames from its AI-generated fictional football film, controlled synthetic tracking footage, and fictional AI presenter portraits. Each image names its source. The cinematic film is not presented as measured match footage.</p>
+          </div>
+        </section>
+        <div class="actions">
+          <a class="action primary" href="assets/btr-visual-story-15.zip" download>Download all 15 images ↓</a>
+          <a class="action" href="./">Open the live app ↗</a>
+          <a class="action" href="assets/before-the-roar-judge-v206.mp4?download=1" download>Download the 1:53 demo ↓</a>
+        </div>
+        <section class="viewer" aria-label="Visual story viewer">
+          <div class="viewer-top"><strong>From play to proof</strong><span id="position">01 / 15</span></div>
+          <a id="full-image" class="stage" href="story/01-the-problem.png" target="_blank" rel="noopener" aria-label="Open current image at full resolution"><img id="stage-image" src="story/01-the-problem.png" alt="The scoreline is not the story" /></a>
+          <div class="viewer-bottom">
+            <div><span id="source" class="source">AI-generated fictional film</span><h2 id="title">The scoreline isn't the story.</h2><p id="description">Football's decisive movements often happen before a shot.</p></div>
+            <div class="pager"><button id="previous" type="button" aria-label="Previous image">←</button><button id="next" type="button" aria-label="Next image">→</button></div>
+          </div>
+        </section>
+        <section aria-label="All 15 images">
+          <div class="grid-title"><h2>THE FULL STORY.</h2><p>Choose an image to see it above. Open any image for its 1920 × 1080 original.</p></div>
+          <div id="grid" class="grid"></div>
+        </section>
+      </main>
+      <footer>Before the Roar uses synthetic football events and fictional players. Its controlled video benchmark and cinematic film have separate provenance. Independent commentary ratings and broadcast-video validation remain open work.</footer>
+    </div>
+    <script>
+      const state = { items: [], index: 0 };
+      const byId = (id) => document.getElementById(id);
+      function show(index, updateHash = true) {
+        if (!state.items.length) return;
+        state.index = (index + state.items.length) % state.items.length;
+        const item = state.items[state.index];
+        byId("position").textContent = String(item.number).padStart(2, "0") + " / 15";
+        byId("stage-image").src = item.image;
+        byId("stage-image").alt = item.title + ". " + item.description;
+        byId("full-image").href = item.image;
+        byId("source").textContent = item.source;
+        byId("title").textContent = item.title;
+        byId("description").textContent = item.description;
+        document.querySelectorAll(".card").forEach((card, n) => card.setAttribute("aria-current", n === state.index ? "true" : "false"));
+        if (updateHash) history.replaceState(null, "", "#" + String(item.number).padStart(2, "0"));
+      }
+      byId("previous").addEventListener("click", () => show(state.index - 1));
+      byId("next").addEventListener("click", () => show(state.index + 1));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") show(state.index + 1);
+        if (event.key === "ArrowLeft") show(state.index - 1);
+      });
+      fetch("story/manifest.json").then((response) => {
+        if (!response.ok) throw new Error("Story manifest unavailable");
+        return response.json();
+      }).then((items) => {
+        state.items = items;
+        const grid = byId("grid");
+        for (const [index, item] of items.entries()) {
+          const card = document.createElement("button");
+          card.className = "card";
+          card.type = "button";
+          card.innerHTML = '<img loading="lazy" alt="" src="' + item.image + '"><div><small>' + String(item.number).padStart(2,"0") + ' / 15</small><strong></strong></div>';
+          card.querySelector("strong").textContent = item.title;
+          card.addEventListener("click", () => { show(index); window.scrollTo({ top: 0, behavior: "smooth" }); });
+          grid.append(card);
+        }
+        const hash = Number(location.hash.slice(1));
+        show(hash >= 1 && hash <= 15 ? hash - 1 : 0, false);
+      }).catch(() => { byId("description").textContent = "The images could not load. Please refresh this page."; });
+    </script>
+  </body>
+</html>
