@@ -3,6 +3,8 @@
 !api/**
 !dist/
 !dist/**
+dist/assets/before-the-roar-judge-v206-base.mp4
+dist/assets/before-the-roar-judge-v206-proof.mp4
 !Dockerfile
 !scripts/
 !scripts/evaluate-agents.mjs

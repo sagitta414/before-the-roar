@@ -35,8 +35,8 @@ test('synced judge cut has exact spoken captions and matching full-screen footag
   assert.match(renderer, /force_original_aspect_ratio=decrease,pad=1600:900/);
   assert.doesNotMatch(renderer, /\bcrop=/);
   assert.match(renderer, /id:'publish', seconds:7, file:understand, from:10, span:4/);
-  assert.match(html, /before-the-roar-judge-v205\.mp4/);
-  assert.match(player, /before-the-roar-judge-v205\.mp4/);
+  assert.match(html, /before-the-roar-judge-v206\.mp4/);
+  assert.match(player, /before-the-roar-judge-v206\.mp4/);
   const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'stream=codec_type,start_time', '-of', 'json', record.file], { encoding: 'utf8' });
   assert.equal(probe.status, 0, probe.stderr);
   const streams = JSON.parse(probe.stdout).streams;
