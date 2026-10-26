@@ -28,8 +28,8 @@ A scoreline cannot tell a new fan what to watch next or a producer which sentenc
 
 - **Public app:** https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/
 - **Public GitHub repository:** https://github.com/sagitta414/before-the-roar
-- **Current judge video:** https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/before-the-roar-judge-v202.mp4 (full-frame 1:55 MP4 with readable timed evidence-correction callouts, complete product footage, burned-in captions, and added Azure AI Speech narration)
-- **Video provenance:** [v202 edit and source links](../demo/showcase-v202/judge-provenance.json), [v201 scene sources and boundaries](../demo/showcase-v201/judge-provenance.json)
+- **Current judge video:** https://before-the-roar.icypebble-9d6c9f05.eastus2.azurecontainerapps.io/assets/before-the-roar-judge-v205.mp4 (full-frame 1:53 MP4; changed record → withdrawn claim → updated studio and phone, with burned-in captions and added Azure AI Speech narration)
+- **Video provenance:** [v205 edit](../demo/showcase-v205/judge-provenance.json), [v202 callouts](../demo/showcase-v202/judge-provenance.json), [v201 scene sources and boundaries](../demo/showcase-v201/judge-provenance.json)
 
 To evaluate, start in Watch and play the film. Switch to the synthetic match and inspect one specialist discussion and its AI desk receipts. In Measure, load the included fictional evaluation clip; the marker-based detector is for controlled fixed-camera footage. In Truth Lab, change the defender record and compare R1 with R2. Then inspect the revised audience line and delivery states in Publish. On a phone, open Pocket Director for the beginner and accessibility views.
 

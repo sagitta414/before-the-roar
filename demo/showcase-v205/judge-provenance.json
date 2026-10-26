@@ -1,0 +1,45 @@
+{
+  "version": 205,
+  "file": "dist/assets/before-the-roar-judge-v205.mp4",
+  "duration_seconds": 112.666667,
+  "sha256": "9fb59e92cbda414d1d2b30a45b4158b9dfe6625c28899e30f7a10486a732385c",
+  "bytes": 16739697,
+  "source_file": "dist/assets/before-the-roar-judge-v202.mp4",
+  "source_sha256": "df8f1fda5cce2cd35fe948d696409ce7acc34f698a1c2273f00cba00235da753",
+  "edit": "A redundant two-second agent view is removed at a sentence boundary. The phone segment and its original audio/captions move immediately after the corrected round; receipts follow. A third full-frame label states that both screens updated. The v202 record and claim callouts remain in the source. No new model request or independent evaluation is implied.",
+  "segments": [
+    {
+      "from": 0,
+      "to": 37.5,
+      "label": "opening"
+    },
+    {
+      "from": 39.5,
+      "to": 66.43,
+      "label": "challenge-and-correction"
+    },
+    {
+      "from": 72,
+      "to": 80.71,
+      "label": "phone-update"
+    },
+    {
+      "from": 66.43,
+      "to": 72,
+      "label": "receipts"
+    },
+    {
+      "from": 80.71,
+      "to": 114.666341,
+      "label": "finish"
+    }
+  ],
+  "added_overlay": {
+    "file": "tmp/submission-demo-v205/both-screens.png",
+    "sha256": "3f775af9ef85237d1d5d8c1a4a08356a734caa5cf4143cffdbb77f00f79639dc",
+    "start_seconds": 64.43,
+    "end_seconds": 73.14
+  },
+  "source_provenance": "demo/showcase-v202/judge-provenance.json",
+  "source_capture_model_requests": 8
+}
