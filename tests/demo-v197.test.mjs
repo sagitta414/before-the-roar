@@ -28,6 +28,6 @@ test('current full-frame judge cut matches its source record and app player', as
   assert.match(record.boundaries, /distinct sources/);
   assert.match(renderer, /force_original_aspect_ratio=decrease,pad=1600:900/);
   assert.doesNotMatch(renderer, /\bcrop=/);
-  assert.match(html, /before-the-roar-judge-v199\.mp4/);
-  assert.match(player, /before-the-roar-judge-v199\.mp4/);
+  assert.match(html, /before-the-roar-judge-v200\.mp4/);
+  assert.match(player, /before-the-roar-judge-v200\.mp4/);
 });
